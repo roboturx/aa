@@ -1,0 +1,37 @@
+[VERSION]
+APIVERSION=(100)
+VERSION=(2,3,2,1)
+[FRAME]
+PLACEMENT=(44,0,1,-1,-1,286,48,359,48,1439,904)
+FRAME DATA=(1,1,0,0)
+[FRAME DATA]
+1=(44,0,1,-1,-1,-4,-23,132,132,787,483)
+2=(44,0,3,-1,-1,-4,-23,154,154,813,509)
+3=(44,0,1,-1,-1,-1,-1,0,21,255,306)
+4=(44,0,1,-1,-1,-1,-1,0,21,255,240)
+5=(44,0,1,-1,-1,-1,-1,0,21,240,566)
+6=(44,0,1,-1,-1,-1,-1,0,21,255,232)
+[FRAME TYPES]
+1=20
+2=3
+3=14
+4=21
+5=25
+6=22
+[Ladder Views]
+F2V1=(95,1,0,6,11,3,2,1,6,1,1)
+[Ladder Frame 2]
+Ladder View 1z=(0,0,545,536)
+ModuleSegment=6
+[TAB INFO]
+Tab0=20,Start Page
+Tab1=3,$Main
+[DOCKPANE TO FRAME XREF]
+Project Browser`6852=3
+Launchpad`6855=4
+Instruction Toolbox`4381=5
+I/O System`7191=6
+[DISPLAY MODE]
+DoMDIRestore=0
+[SYSTEM NAME]
+System Name=mrComp

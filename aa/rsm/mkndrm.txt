@@ -1,0 +1,5 @@
+Arıza Tespiti Yapılıyor
+Parça Bekliyor
+Usta Bekliyor
+Dış Serviste Yapılıyor
+Tamamlandı

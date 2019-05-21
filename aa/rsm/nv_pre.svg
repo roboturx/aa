@@ -1,0 +1,9 @@
+<?xml version="1.0" ?><svg id="icons" style="enable-background:new 0 0 96 96;" version="1.1" viewBox="0 0 96 96" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style type="text/css">
+	.st0{fill:#E6E6E7;}
+	.st1{opacity:0.2;fill:#21264C;}
+	.st2{opacity:0.15;fill:#21264C;}
+	.st3{fill:#21264C;}
+	.st4{fill:#F1D73D;}
+	.st5{fill:#CF4239;}
+	.st6{opacity:0.3;fill:#FFFFFF;}
+</style><g id="grey"/><g id="colored"><g id="RR"><path class="st4" d="M0,48l48,48V48V0L0,48z M48,48l48,48V0L48,48z" id="bck_8_"/><path class="st1" d="M36,48H0l48,48V48V0L36,48z M84,48H48l36,36l12,12V0L84,48z" id="shadow_12_"/></g></g></svg>

@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/">
+        <file>rsm/valilik.jpeg</file>
+        <file>rsm/trb3.gif</file>
+        <file>rsm/trb2.gif</file>
+        <file>rsm/trb.gif</file>
+        <file>rsm/tb.jpg</file>
+        <file>rsm/logo.png</file>
+        <file>rsm/tkt.png</file>
+        <file>rsm/wrk.png</file>
+        <file>rsm/wrk.ico</file>
+        <file>rsm/v2.jpeg</file>
+        <file>rsm/tools.svg</file>
+        <file>rsm/tools.png</file>
+        <file>rsm/home.svg</file>
+        <file>rsm/home.png</file>
+        <file>rsm/ex.png</file>
+        <file>rsm/ex.ico</file>
+        <file>rsm/worker.jpeg</file>
+        <file>rsm/plt.png</file>
+        <file>rsm/images.jpeg</file>
+        <file>rsm/right.png</file>
+        <file>rsm/left.png</file>
+        <file>rsm/db.png</file>
+        <file>rsm/lock.png</file>
+        <file>rsm/Erase.ico</file>
+        <file>rsm/out.ico</file>
+        <file>rsm/nv_ekle.svg</file>
+        <file>rsm/nv_first.svg</file>
+        <file>rsm/nv_last.svg</file>
+        <file>rsm/nv_next.svg</file>
+        <file>rsm/nv_pre.svg</file>
+        <file>rsm/nv_sil.svg</file>
+        <file>rsm/nv_v_last.svg</file>
+        <file>rsm/nv_v_next.svg</file>
+        <file>rsm/nv_v_pre.svg</file>
+        <file>rsm/nv_v_first.svg</file>
+        <file>rsm/nv_eklersm.svg</file>
+        <file>rsm/nv_eklesil.svg</file>
+        <file>rsm/nv_eklesil2.svg</file>
+        <file>rsm/rsm_yok.svg</file>
+        <file>rsm/mkndrm.txt</file>
+    </qresource>
+</RCC>
