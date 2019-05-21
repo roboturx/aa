@@ -52,8 +52,9 @@ public:
 
 
 public:
-
+    void mwmain();  // constructor
     QSqlRelationalTableModel *modelFatura();
+    QSqlRelationalTableModel *mdlFtr;
 
 private:
     void cr_MainWindow();
@@ -71,7 +72,7 @@ private:
      bool VTd_MSLK();
      bool VTd_FRMA();
      bool VTd_FTRA();
-     QSqlRelationalTableModel *mdlFtr;
+
 
      bool VTd_FTDT();
 

@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
   //  QSize size = qApp->screens()[0]->size();
     MW_main w ;
    // w->resize(size*.3);
-
+    w.mwmain();
     qDebug ()<<"main";
     w.show ();
     //w.hide ();

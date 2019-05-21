@@ -16,6 +16,11 @@
 MW_main::MW_main( )
 {
 
+}
+
+void MW_main::mwmain()
+{
+
     MW_main::showMaximized ();
     //    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint );
 
@@ -826,7 +831,7 @@ bool MW_main::VTd_FTRA ()
         mdlFtr = new QSqlRelationalTableModel;
         mdlFtr = modelFatura();
 
-        durum->append("FATURA dosyası var        ------------- - ");
+        //durum->append("FATURA dosyası var        ------------- - ");
     }
     return true;
 }

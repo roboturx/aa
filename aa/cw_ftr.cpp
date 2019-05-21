@@ -1,4 +1,4 @@
-#include "cw_ftr.h"
+﻿#include "cw_ftr.h"
 #include "globals.h"
 #include "hc_tableview.h"
 #include "mw_main.h"
@@ -198,9 +198,9 @@ void Cw_ftr::wd_FTR()
 void Cw_ftr::setup_modelFtr()
 {
     MW_main *mwmain = new MW_main;
-    FTRmodel = new QSqlRelationalTableModel ;
-    FTRmodel = mwmain->modelFatura ();
-
+    //FTRmodel = new QSqlRelationalTableModel ;
+    //FTRmodel = mwmain->modelFatura ();
+    FTRmodel = mwmain->mdlFtr ;
 
     /*
     FTRmodel = new QSqlTableModel();
@@ -241,7 +241,7 @@ void Cw_ftr::setup_viewFtr()
     FTRtview->table->setModel(FTRmodel);
     FTRtview->table->resizeColumnsToContents();
     FTRtview->table->resizeRowsToContents ();
-
+qDebug() << "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
     /// tV için selection model  oluştur
     /// bu view de seçileni belirlemede kullanılır
     /// selection ve current index ayrı şeyler
