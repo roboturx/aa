@@ -10,16 +10,16 @@ Cw_ftr::Cw_ftr(QWidget *parent) :  QWidget(parent)
     qDebug() << "FATURA";
 
     lB_FTR     = new QLabel ("Fatura");
-    tableName  = "ftr__dbtb" ;
-    indexField = "ftr_tarih";
+    /*tableName  = new QString("ftr__dbtb");
+    indexField = new QString("ftr_tarih");
 
-    //fieldList = new QStringList;
-    //fieldList.append("Fatura Kod");
-    fieldList.append("Fatura No");
-    fieldList.append("Firma Unvanı");
-    fieldList.append("Fatura Tarihi");
-    //fieldList.append("Resim");
-
+    fieldList = new QStringList;
+    fieldList->append("Fatura Kod");
+    fieldList->append("Fatura No");
+    fieldList->append("Firma Unvanı");
+    fieldList->append("Fatura Tarihi");
+    fieldList->append("Resim");
+*/
 
 
 
@@ -197,20 +197,31 @@ void Cw_ftr::wd_FTR()
 
 void Cw_ftr::setup_modelFtr()
 {
-    qDebug() << "  setup_modelFtr";
+    MW_main *mwmain = new MW_main;
+    FTRmodel = new QSqlRelationalTableModel ;
+    FTRmodel = mwmain->modelFatura ();
 
+
+    /*
     FTRmodel = new QSqlTableModel();
-    FTRmodel->setTable( tableName);
-    qDebug() << "  setup_modelFtr";
+    FTRmodel->setTable( *tableName);
+    qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
     FTRmodel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    FTRmodel->setSort(FTRmodel->fieldIndex (indexField),Qt::AscendingOrder );
+    FTRmodel->setSort(FTRmodel->fieldIndex (*indexField),Qt::AscendingOrder );
 
-    qDebug() << "  setup_modelFtr"<< FTRmodel->columnCount();
-    for(int i = 1, j = 0; i <= fieldList.size (); i++, j++)
+    qDebug() << " view column count = i "<< FTRmodel->columnCount();
+    for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
     {
-            qDebug() << "  setup_modelFtr"<< i;
-        FTRmodel->setHeaderData(i,Qt::Horizontal,fieldList[j]);
-            qDebug() << "  setup_modelFtr"<< j;
+
+        qDebug() << "  header data i önce = "<< i << "," <<
+                    FTRmodel->headerData (i,Qt::Horizontal);
+
+        FTRmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
+
+        qDebug() << "  header data i = "<< i << "," <<
+                    FTRmodel->headerData (i,Qt::Horizontal);
+        qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
+        qDebug() << "  field list j "<< fieldList->value (j);
     }
 
     // Populate the model_mkstok
@@ -219,7 +230,7 @@ void Cw_ftr::setup_modelFtr()
         qDebug () <<  " HATA - Model fatura select "
                    <<FTRmodel->lastError();
     }
-
+*/
 }
 
 void Cw_ftr::setup_viewFtr()

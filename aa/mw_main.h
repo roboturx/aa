@@ -51,10 +51,9 @@ public:
     Login *logger;
 
 
-private:
-   // WD_login *m_cw_login;
-   // void mySleep(int sleepMs);
+public:
 
+    QSqlRelationalTableModel *modelFatura();
 
 private:
     void cr_MainWindow();
@@ -72,6 +71,8 @@ private:
      bool VTd_MSLK();
      bool VTd_FRMA();
      bool VTd_FTRA();
+     QSqlRelationalTableModel *mdlFtr;
+
      bool VTd_FTDT();
 
 

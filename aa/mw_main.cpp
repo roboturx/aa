@@ -11,6 +11,8 @@
 #include "form.h"
 
 
+
+
 MW_main::MW_main( )
 {
 
@@ -29,7 +31,7 @@ MW_main::MW_main( )
 
     /// ana ekran
     /////////////////////////////////////////////////////
-   // qDebug() << "main log";
+    // qDebug() << "main log";
     wd_log = new QWidget(this);
     this->setCentralWidget (wd_log);
     durum = new QTextEdit;
@@ -67,7 +69,7 @@ MW_main::MW_main( )
 
     cr_Actions ();
 
- /*   connect(logger, &Login::logok, this, &MW_main::yetkiler);
+    /*   connect(logger, &Login::logok, this, &MW_main::yetkiler);
     connect(this, &MW_main::cikis, logger, &Login::logex );
 
     //qDebug() << "main keys set ESC";
@@ -82,7 +84,7 @@ MW_main::MW_main( )
 
 void MW_main::yetkiler(QString yetki, QString user)
 {
-//    this->setFocus ();
+    //    this->setFocus ();
     qDebug() << "yetkiler ="<<yetki;
     QString x =" --- Kullanıcı ( "+user +" ) - ( "+ yetki +" ) yetkileri ile bağlandı";
     yaz(QDateTime::currentDateTime ().toString(),x);
@@ -819,8 +821,67 @@ bool MW_main::VTd_FTRA ()
             } // foreach
         }
     }
+    else
+    {
+        mdlFtr = new QSqlRelationalTableModel;
+        mdlFtr = modelFatura();
+
+        durum->append("FATURA dosyası var        ------------- - ");
+    }
     return true;
+}
+
+QSqlRelationalTableModel* MW_main::modelFatura()
+{
+
+    QString *tableName  = new QString("ftr__dbtb");
+    QString *indexField = new QString("ftr_tarih");
+
+    QStringList *fieldList = new QStringList;
+    fieldList->append("Fatura Kod");
+    fieldList->append("Fatura No");
+    fieldList->append("Firma Unvanı");
+    fieldList->append("Fatura Tarihi");
+    fieldList->append("Resim");
+
+
+    QSqlRelationalTableModel *FTRmodel = new QSqlRelationalTableModel;
+    FTRmodel->setTable( *tableName);
+    qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
+    FTRmodel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    FTRmodel->setSort(FTRmodel->fieldIndex (*indexField),Qt::AscendingOrder );
+
+    qDebug() << " view column count = i "<< FTRmodel->columnCount();
+    for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
+    {
+
+        qDebug() << "  header data i önce = "<< i << "," <<
+                    FTRmodel->headerData (i,Qt::Horizontal);
+
+        FTRmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
+
+        qDebug() << "  header data i = "<< i << "," <<
+                    FTRmodel->headerData (i,Qt::Horizontal);
+        qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
+        qDebug() << "  field list j "<< fieldList->value (j);
+    }
+
+    // Populate the model_mkstok
+    if (!FTRmodel->select())
+    {
+        qDebug () <<  " HATA - Model fatura select "
+                   <<FTRmodel->lastError();
+
+    }
+    return FTRmodel ;
 }///FATURA
+
+
+
+
+
+
+
 
 
 

@@ -14,13 +14,13 @@ class Cw_ftr : public QWidget
     Q_OBJECT
 
 public:
-    QString     tableName ;
-    QString     indexField ;
-    QStringList fieldList;
+    QString     *tableName ;
+    QString     *indexField ;
+    QStringList *fieldList;
 
 
     HC_TableView      *FTRtview;
-    QSqlTableModel    *FTRmodel;
+    QSqlRelationalTableModel    *FTRmodel;
     QDataWidgetMapper *FTRmapper;
 
     QWidget     *wdgt_mapFTR    ;
