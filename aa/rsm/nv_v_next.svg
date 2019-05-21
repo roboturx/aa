@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="icons"
+   style="enable-background:new 0 0 96 96;"
+   version="1.1"
+   viewBox="0 0 96 96"
+   xml:space="preserve"
+   sodipodi:docname="nv_v_next.svg"
+   inkscape:version="0.92.1 r15371"><metadata
+     id="metadata14"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+     id="defs12" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="743"
+     inkscape:window-height="480"
+     id="namedview10"
+     showgrid="false"
+     inkscape:zoom="2.4583333"
+     inkscape:cx="48"
+     inkscape:cy="48"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="icons" /><style
+     type="text/css"
+     id="style2">
+	.st0{fill:#E6E6E7;}
+	.st1{opacity:0.2;fill:#21264C;}
+	.st2{opacity:0.15;fill:#21264C;}
+	.st3{fill:#21264C;}
+	.st4{fill:#F1D73D;}
+	.st5{fill:#CF4239;}
+	.st6{opacity:0.3;fill:#FFFFFF;}
+</style><g
+     id="grey" /><g
+     id="colored"
+     transform="rotate(90,48,48)"><g
+       id="FF"><path
+         class="st4"
+         d="M 0,96 48,48 0,0 Z M 96,48 48,0 v 48 48 z"
+         id="bck_6_"
+         inkscape:connector-curvature="0"
+         style="fill:#f1d73d" /><path
+         class="st1"
+         d="M 12,48 0,96 48,48 Z M 60,48 48,96 96,48 Z"
+         id="shadow_10_"
+         inkscape:connector-curvature="0"
+         style="opacity:0.2;fill:#21264c" /></g></g></svg>

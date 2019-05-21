@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WW_Makina</class>
+ <widget class="QWidget" name="WW_Makina">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1146</width>
+    <height>759</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_6">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Makina Stok</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QTableView" name="Table_DBTB_MKSTOK">
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::DragDrop</enum>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::NoSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectColumns</enum>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>10</width>
+            <height>10</height>
+           </size>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Detaylar</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_4">
+               <item row="0" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <item>
+                  <widget class="QLabel" name="lbl_kurumno">
+                   <property name="text">
+                    <string>&lt;b&gt;KURUM NO :&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_ioi</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="ledit_ioi">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="0" column="1">
+                <layout class="QGridLayout" name="gridLayout_3">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="lbl_cins">
+                   <property name="text">
+                    <string>&lt;b&gt;CİNSİ :&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_cins</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QToolButton" name="tbtn_cins">
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QComboBox" name="ledit_cins">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="0" column="2" colspan="2">
+                <layout class="QGridLayout" name="gridLayout_2">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="lbl_marka">
+                   <property name="text">
+                    <string>&lt;b&gt;MARKA : &lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_marka</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QToolButton" name="tbtn_mark">
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QComboBox" name="ledit_marka">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <item>
+                  <widget class="QLabel" name="lbl_plaka">
+                   <property name="text">
+                    <string>&lt;b&gt;PLAKA :&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_plaka</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="ledit_plaka">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="1">
+                <layout class="QGridLayout" name="gridLayout">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="lbl_model">
+                   <property name="text">
+                    <string>&lt;b&gt;MODELİ : &lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_model</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QToolButton" name="tbtn_modl">
+                   <property name="autoFillBackground">
+                    <bool>true</bool>
+                   </property>
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QComboBox" name="ledit_model">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="2">
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>48</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="3">
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QLabel" name="lbl_yil">
+                   <property name="text">
+                    <string>&lt;b&gt;YILI:&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_yil</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="ledit_yil">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="prefix">
+                    <string/>
+                   </property>
+                   <property name="minimum">
+                    <number>-1000</number>
+                   </property>
+                   <property name="maximum">
+                    <number>2100</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="2" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="lbl_sase">
+                   <property name="text">
+                    <string>&lt;b&gt;ŞASE NO :&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_sase</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="ledit_sase">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="2" column="1" colspan="3">
+                <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <item>
+                  <widget class="QLabel" name="lbl_byer">
+                   <property name="text">
+                    <string>&lt;b&gt;BULUNDUĞU YER :&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_byer</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="ledit_byer">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="3" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="lbl_motor">
+                   <property name="text">
+                    <string>&lt;b&gt;MOTOR NO :&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_motor</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="ledit_motor">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="3" column="1" colspan="2">
+                <layout class="QVBoxLayout" name="verticalLayout_10">
+                 <item>
+                  <widget class="QSpinBox" name="ledit_rating">
+                   <property name="maximum">
+                    <number>5</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="4" column="0" colspan="4">
+                <layout class="QVBoxLayout" name="verticalLayout_11">
+                 <item>
+                  <widget class="QLabel" name="lbl_motor_2">
+                   <property name="text">
+                    <string>&lt;b&gt;AÇIKLAMA :&lt;/b&gt;</string>
+                   </property>
+                   <property name="buddy">
+                    <cstring>ledit_motor</cstring>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QTextEdit" name="textEdit"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="lbl_foto">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>200</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>lbl_foto</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="title">
+              <string>GroupBox</string>
+             </property>
+             <widget class="QPushButton" name="pushButton">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>40</y>
+                <width>93</width>
+                <height>27</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Ekle</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>80</y>
+                <width>93</width>
+                <height>27</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Sil</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_3">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>120</y>
+                <width>93</width>
+                <height>27</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Resim</string>
+              </property>
+             </widget>
+             <widget class="QTableView" name="Table_DBTB_MKMODL">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>180</y>
+                <width>256</width>
+                <height>137</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QTableView" name="Table_DBTB_MKMARK">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>320</y>
+                <width>256</width>
+                <height>137</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

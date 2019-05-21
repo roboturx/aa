@@ -1,0 +1,57 @@
+#ifndef Bkm_H
+#define Bkm_H
+
+#include <QWidget>
+#include "globals.h"
+namespace Ui {
+class _Bkm;
+}
+
+class _Bkm : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit _Bkm();
+    ~Bkm();
+
+private:
+
+};
+
+
+class  Bkm_sgrt : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit  Bkm_sgrt();
+    ~Bkm_sgrt();
+
+private:
+    void cr_Bkm_sgrt_ui();
+    void cr_Bkm_sgrt_model();
+    void cr_Bkm_sgrt_view();
+    void cr_Bkm_sgrt_kontrol();
+
+private slots:
+    void ontV_Bkm_sgrt_row_changed(QModelIndex);
+    void onpb_Bkm_sgrtSil();
+    void onpb_Bkm_sgrtYaz();
+    void onpb_Bkm_sgrtEkleDDD();
+    void onpb_Bkm_sgrtEkle();
+
+public:
+    QSqlRelationalTableModel *mdl_bkmsgrt;
+    QTableView *tV_bkmsgrt ;
+
+    QPushButton *pb_ekle ;
+     QPushButton *pb_ekleDDD ;
+    QPushButton *pb_sil ;
+    QPushButton *pb_yaz ;
+    QPushButton *pb_DDD ;
+
+    QLabel *lbl_sg;
+};
+
+#endif // Bkm_H

@@ -1,0 +1,36 @@
+//////////////////
+QColumnView *cview = new QColumnView;
+
+/// modeli oluşturalım
+QStandardItemModel *model = new QStandardItemModel;
+// 1. grup
+QStandardItem *gr1 = new QStandardItem(QString("Yeni KAyıt Ekle"));
+// 1. grup elemanları
+QStandardItem *c11 = new QStandardItem(QString("Makina"));
+QStandardItem *c12 = new QStandardItem(QString("Sipariş Emri"));
+QStandardItem *c13 = new QStandardItem(QString("İş Emri"));
+QStandardItem *c14 = new QStandardItem(QString("Görev Emri"));
+// her eleman bir satır
+gr1->appendRow(c11);
+gr1->appendRow(c12);
+gr1->appendRow(c13);
+gr1->appendRow(c14);
+// her grup bir satır
+model->appendRow(gr1);
+// 2. grup
+QStandardItem *gr2 = new QStandardItem(QString("Sil"));
+// 2. grup elemanları
+QStandardItem *c21 = new QStandardItem(QString("Makina"));
+QStandardItem *c22 = new QStandardItem(QString("Sipariş Emri"));
+QStandardItem *c23 = new QStandardItem(QString("İş Emri"));
+QStandardItem *c24 = new QStandardItem(QString("Görev Emri"));
+// her eleman bir satır
+gr2->appendRow(c21);
+gr2->appendRow(c22);
+gr2->appendRow(c23);
+gr2->appendRow(c24);
+// her grup bir satır
+model->appendRow(gr2);
+
+cview->setModel( model);
+

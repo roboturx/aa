@@ -1,0 +1,1588 @@
+#include "cw_depo.h"
+#include "globals.h"
+#include "hc_tableview.h"
+#include "mw_main.h"
+
+Cw_depo::Cw_depo(QWidget *parent) :
+    QWidget(parent)
+{
+    setup_VTdDepo(); // veritabaný kontrolu
+
+    /// makina ikmal
+    cw_mkn = new Cw_mkn ();
+    cw_mkn->setWindowTitle ("MAKÝNA");
+    cw_mkn->setGeometry (0,0,600,600);
+    cw_mkn ->show ();
+
+    setup_depo();    // depo
+}
+
+//************************************************************
+//*****************  D  E  P  O  *****************************
+
+
+void Cw_depo::setup_depo()
+{
+
+
+
+    setup_uiDepo();
+
+    setup_modelDepo();
+    setup_modelDepodet();
+    setup_viewDepo();
+    setup_viewDepodet();
+    setup_mapDepo();
+    setup_mapDepodet();
+
+    /// depo map nav tuslari kontrol
+    Q_ASSERT( connect(map_depo, &QDataWidgetMapper::currentIndexChanged,
+                      this, &Cw_depo::slt_dp_updButtons));
+    /// depo da kolon deðiþtiðinde indexte deðiþsin
+    Q_ASSERT( connect(  tV_depo->table->selectionModel(),
+                        SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
+                        map_depo, SLOT(setCurrentModelIndex(QModelIndex))));
+    /// depo da row deðiþtiðinde indexte deðiþsin
+    Q_ASSERT( connect(  tV_depo->table->selectionModel(),
+                        SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+                        map_depo, SLOT(setCurrentModelIndex(QModelIndex))));
+    /// row deðiþtiðnde resmide deðiþtirelim
+    Q_ASSERT(connect( tV_depo->table->selectionModel (), &QItemSelectionModel::currentRowChanged,
+                      this, &Cw_depo::slt_dp_resimGoster ));
+    /// depodet miktar deðiþtiðinde depo envanter hesabý
+    Q_ASSERT(connect (lE_d_miktar, &QLineEdit::editingFinished, this,
+                      &Cw_depo::slt_dp_hesap));
+    /// depodet grs_cks deðiþtiðinde depo envanter hesabý
+    Q_ASSERT(connect (lE_d_grs_cks, &QLineEdit::editingFinished, this,
+                      &Cw_depo::slt_dp_hesap));
+    /// depodan makina ikmale malzeme transferi
+    Q_ASSERT(connect ( cX_mkn, &QCheckBox::pressed, this,
+                       &Cw_depo::slt_dp_cX_mkn));
+    /// depo ilk kayýda
+    Cw_depo::slt_dp_toFirst();
+
+    /// depoda row deðiþtiðinde
+    Cw_depo::slt_dp_tV_rowchanged (mdl_depo->index (0,0));
+
+
+    /// depodet map deðiþtiðinde nav tuþalrý ayarlansýn
+    Q_ASSERT( connect(map_depodet, &QDataWidgetMapper::currentIndexChanged,
+                      this, &Cw_depo::slt_dpd_updButtons));
+    /// depodet table da koon deðiþtiðnde index deðiþsin
+    Q_ASSERT( connect(  tV_depodet->table->selectionModel(),
+                        SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
+                        map_depodet, SLOT(setCurrentModelIndex(QModelIndex))));
+    /// depodet table da row deðiþtiðnde index deðiþsin
+    Q_ASSERT( connect(  tV_depodet->table->selectionModel(),
+                        SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+                        map_depodet, SLOT(setCurrentModelIndex(QModelIndex))));
+    ///depoda row deðiþtiðinde
+    Q_ASSERT(connect (tV_depo->table->selectionModel (), &QItemSelectionModel::currentRowChanged,
+                      this, &Cw_depo::slt_dp_tV_rowchanged));
+
+    /// depodetay varsa ilk kayda
+    Cw_depo::slt_dpd_toFirst(); // detay ilk kayýda
+}
+
+
+
+
+void Cw_depo::setup_uiDepo()
+{
+    /////////////////////////////////////////////// buttonz
+    lB_depo = new QLabel("Depo");
+    lB_brkd = new QLabel();
+    lB_brkd->setFont (QFont ("code128",30));
+
+
+    ////////////////////////////////////////// widgets
+    wd_depo();
+    wd_depodet();
+
+    QWidget *wdgt_rsm = new QWidget();
+    lB_rsm = new QLabel(wdgt_rsm);
+    lB_rsm->setMinimumSize (180,120);
+    /*
+    QMovie *movie = new QMovie("animations/fire.gif");
+
+    lB_rsm->setMovie(movie);
+    movie->start();
+    */
+
+
+    //////////////////////////////////// depo tableview
+    int i=1;
+    tV_depo = new HC_TableView(i);
+
+    ////////////////////////////////////////////// layout
+    QGridLayout *LyG_depo = new QGridLayout(this);
+    LyG_depo->addWidget (tV_depo         , 0, 0, 1, 2);
+    LyG_depo->addWidget (wdgt_mapdepo    , 0, 2, 1, 1);
+    LyG_depo->addWidget (tV_depodet      , 1, 0, 1, 1);
+    LyG_depo->addWidget (wdgt_mapdepo_dty, 1, 1, 1, 1);
+    LyG_depo->addWidget (wdgt_rsm        , 1, 2, 1, 1);
+}
+
+void Cw_depo::wd_depo()
+{
+    QLabel *lB_barkod = new QLabel(tr("&Barkod"));
+    lE_barkod = new QLineEdit();
+    lB_barkod->setBuddy(lE_barkod);
+    lB_brkd->setText (lB_barkod->text ());
+
+    QLabel *lB_malzeme = new QLabel(tr("&Malzeme"));
+    lE_malzeme = new QLineEdit();
+    lB_malzeme->setBuddy(lE_malzeme);
+
+    QLabel *lB_aciklama = new QLabel(tr("&Açýklama"));
+    lE_aciklama = new QLineEdit();
+    lB_aciklama->setBuddy(lE_aciklama);
+
+
+    QLabel *lB_marka = new QLabel(tr("Ma&rka"));
+    lE_marka = new QLineEdit();
+    lB_marka->setBuddy(lE_marka);
+
+    QLabel *lB_model = new QLabel(tr("Mo&del"));
+    lE_model = new QLineEdit();
+    lB_model->setBuddy(lE_model);
+
+    QLabel *lB_cins = new QLabel(tr("&Cins"));
+    lE_cins = new QLineEdit();
+    lB_cins->setBuddy(lE_cins);
+
+    QLabel *lB_birim = new QLabel(tr("&Birim"));
+    lE_birim = new QLineEdit();
+    lB_birim->setBuddy(lE_birim);
+
+    QLabel *lB_giris = new QLabel(tr("Toplam Giriþ Miktarý"));
+    lE_giris = new QLineEdit();
+    lE_giris->setReadOnly (1);
+    QLabel *lB_cikis = new QLabel(tr("Toplam Çýkýþ Miktarý"));
+    lE_cikis = new QLineEdit();
+    lE_cikis->setReadOnly (1);
+    QLabel *lB_mevcut = new QLabel(tr("Mevcut"));
+    lE_mevcut = new QLineEdit();
+    lE_mevcut->setReadOnly (1);
+
+    cX_mkn = new QCheckBox("Bu Malzeme Makina Ýkmalde Takip Edilsin.");
+
+    ///////////////////////////////////////  mapper buttonz
+    lB_rsm = new QLabel;
+
+
+    LyG_depo = new QGridLayout();
+
+    LyG_depo ->addWidget(lB_barkod  , 0, 0, 1, 1);
+    LyG_depo ->addWidget(lE_barkod  , 0, 1, 1, 1);
+    LyG_depo ->addWidget(lB_brkd    , 1, 1, 1, 1);
+    LyG_depo ->addWidget(lB_malzeme , 2, 0, 1, 1);
+    LyG_depo ->addWidget(lE_malzeme , 2, 1, 1, 1);
+
+    LyG_depo ->addWidget(lB_marka   , 3, 0, 1, 1);
+    LyG_depo ->addWidget(lE_marka   , 3, 1, 1, 1);
+
+    LyG_depo ->addWidget(lB_aciklama, 4, 0, 1, 1);
+    LyG_depo ->addWidget(lE_aciklama, 4, 1, 1, 1);
+    LyG_depo ->addWidget(lB_model   , 5, 0, 1, 1);
+    LyG_depo ->addWidget(lE_model   , 5, 1, 1, 1);
+
+    LyG_depo ->addWidget (lB_cins    , 6, 0, 1, 1);
+    LyG_depo ->addWidget (lE_cins    , 6, 1, 1, 1);
+    LyG_depo ->addWidget (lB_birim   , 7, 0, 1, 1);
+    LyG_depo ->addWidget (lE_birim   , 7, 1, 1, 1);
+    LyG_depo ->addWidget (lB_giris   , 8, 0, 1, 1);
+    LyG_depo ->addWidget (lE_giris   , 8, 1, 1, 1);
+    LyG_depo ->addWidget (lB_cikis   , 9, 0, 1, 1);
+    LyG_depo ->addWidget (lE_cikis   , 9, 1, 1, 1);
+    LyG_depo ->addWidget (lB_mevcut  , 10, 0, 1, 1);
+    LyG_depo ->addWidget (lE_mevcut  , 10, 1, 1, 1);
+    LyG_depo ->addWidget (cX_mkn     , 11, 1, 1, 1);
+
+    wdgt_mapdepo = new QWidget;
+    wdgt_mapdepo->setLayout(LyG_depo);
+}
+
+
+
+void Cw_depo::setup_modelDepo()
+{
+    QString tableName = "dbtb_depo";
+    QStringList fieldList;
+
+    fieldList.append("Barkod");
+    fieldList.append("Malzeme");
+    fieldList.append("Açýklama");
+    fieldList.append("Marka");
+    fieldList.append("Model");
+    fieldList.append("Cins");
+    fieldList.append("Birim");
+    fieldList.append("Toplam Giriþ");
+    fieldList.append("Toplam Çýkýþ");
+    fieldList.append("Malzeme Mevcudu");
+
+
+    mdl_depo = new QSqlTableModel();
+    mdl_depo->setTable(tableName);
+
+    mdl_depo->setEditStrategy(QSqlTableModel::OnFieldChange);
+    mdl_depo->setSort(1,Qt::DescendingOrder);
+
+    for(int i = 1, j = 0; i < mdl_depo->columnCount()-2; i++, j++)
+    {
+        mdl_depo->setHeaderData(i,Qt::Horizontal,fieldList[j]);
+    }
+
+    // Populate the model_mkstok
+    if (!mdl_depo->select())
+    {
+        qDebug () <<  " HATA - Model depo select "
+                   <<mdl_depo->lastError();
+    }
+
+}
+
+void Cw_depo::setup_viewDepo()
+{
+
+
+
+    tV_depo->table->setModel(mdl_depo);
+    tV_depo->table->resizeColumnsToContents();
+    tV_depo->table->resizeRowsToContents ();
+
+    /// tV için selection model  oluþtur
+    /// bu view de seçileni belirlemede kullanýlýr
+    /// selection ve current index ayrý þeyler
+    ///
+    tV_dp_selectionMdl = new QItemSelectionModel(mdl_depo);
+    tV_depo->table->setSelectionModel (tV_dp_selectionMdl);
+
+    tV_depo->table->setSelectionMode(QAbstractItemView::SingleSelection);
+    tV_depo->table->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+
+
+    //// kullanýcý bu alanlarý görmesin
+    tV_depo->table->setColumnHidden(mdl_depo->fieldIndex("id_dp"), true);
+    tV_depo->table->setColumnHidden(mdl_depo->fieldIndex("resim"), true);
+
+    tV_depo->table->setEditTriggers
+            (QAbstractItemView::DoubleClicked |
+             QAbstractItemView::SelectedClicked |
+             QAbstractItemView::EditKeyPressed);
+
+    tV_depo->table->horizontalHeader()->
+            setStretchLastSection(true);
+    tV_depo->table->horizontalHeader()->
+            resizeContentsPrecision();
+
+
+    Q_ASSERT(connect(tV_depo->pB_ekle, &QPushButton::clicked ,this ,
+                     &Cw_depo::slt_dp_pB_EKLE_clicked  )) ;
+    Q_ASSERT(connect(tV_depo->pB_eklersm, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dp_pB_Eklersm_clicked  )) ;
+
+    Q_ASSERT(connect(tV_depo->pB_sil, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dp_pB_SIL_clicked )) ;
+    Q_ASSERT(connect(tV_depo->pB_ilk, &QPushButton::clicked ,this ,
+                     &Cw_depo::slt_dp_toFirst )) ;
+    Q_ASSERT(connect(tV_depo->pB_ncki, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dp_toPrevious )) ;
+    Q_ASSERT(connect(tV_depo->pB_snrki, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dp_toNext )) ;
+    Q_ASSERT(connect(tV_depo->pB_son, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dp_toLast )) ;
+
+    tV_depo->pB_grscks->setVisible (false);
+    Q_ASSERT(connect(tV_depo->pB_grscks, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dp_cX_grs_clicked  )) ;
+
+
+}
+
+void Cw_depo::setup_mapDepo()
+{
+    map_depo = new QDataWidgetMapper(this);
+    map_depo->setModel(mdl_depo);
+
+    map_depo->addMapping(lE_barkod , mdl_depo->fieldIndex("barkod"));
+    map_depo->addMapping(lE_malzeme, mdl_depo->fieldIndex("malzeme"));
+    map_depo->addMapping(lE_aciklama, mdl_depo->fieldIndex("aciklama"));
+    map_depo->addMapping(lE_marka, mdl_depo->fieldIndex("marka"));
+    map_depo->addMapping(lE_model, mdl_depo->fieldIndex("model"));
+    map_depo->addMapping(lE_cins, mdl_depo->fieldIndex("cins"));
+    map_depo->addMapping(lE_birim, mdl_depo->fieldIndex("birim"));
+    map_depo->addMapping( lE_giris, mdl_depo->fieldIndex("giris"));
+    map_depo->addMapping( lE_cikis, mdl_depo->fieldIndex("cikis"));
+    map_depo->addMapping( lE_mevcut, mdl_depo->fieldIndex("mevcut"));
+    map_depo->addMapping( cX_mkn, mdl_depo->fieldIndex("makina"));
+
+}
+
+///************************************************************
+///****************  D  E  P  O     S  L  O  T  S  ************
+
+
+
+
+void Cw_depo::slt_dp_tV_rowchanged(const QModelIndex &index )
+{
+    if (index.isValid())
+    {
+        QSqlRecord record = mdl_depo->record(index.row());
+        int dp_no = record.value("id_dp").toInt();
+
+        /// giris cikisa filtre koyalým
+        QString flt = QString("dp_no = %1").arg(dp_no);
+        qDebug()<<"setup depo 4444";
+        mdl_depodet->setFilter (QString("dp_no = %1").arg(dp_no) );
+        qDebug()<<"setup depo 42";
+        /// makina stok a filtre koyalým
+        cw_mkn->mdl_mkn->setFilter ( flt );
+        qDebug()<<"setup depo 43";
+    }
+    else
+    {
+        mdl_depodet->setFilter("dp_no=-1");
+    }
+    mdl_depodet->select();
+    tV_depodet->table->setFocus();
+    tV_depo->table->setFocus();
+}
+
+
+void Cw_depo::slt_dp_resimGoster(QModelIndex)
+{
+    // makina stok tablosundan resim gösterme
+    // view row unu tespit et
+    int rowidx = tV_depo->table->selectionModel()->currentIndex().row();
+
+    // row, xolumn daki veriyi bytearray a at
+    QByteArray outByteArray = tV_depo->table->
+            model()->index( rowidx, mdl_depo->fieldIndex ("resim") ).data().toByteArray();
+
+    QPixmap outPixmap = QPixmap();
+    outPixmap.loadFromData( outByteArray  );
+    if ( ! outByteArray.isNull ())
+    {
+        lB_rsm->setPixmap( outPixmap );
+    }
+    else
+    {
+        lB_rsm->setPixmap (QPixmap (":/rsm/rsm_yok.svg"));
+    }
+
+    lB_rsm->setScaledContents( true );
+    lB_rsm->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+    lB_rsm->show();
+}       ///     ontV_per_resimGosterSLOT
+
+void Cw_depo::slt_dp_pB_Eklersm_clicked()
+{
+    // depo resim ekle
+    QString myfile = QFileDialog::
+            getOpenFileName(this,
+                            tr("Resim Aç"), "/home/mr/Resimler",
+                            tr("Resim Dosyalarý (*.png *.jpg *.bmp *.jpeg)"
+                               " ;; Tüm Dosyalar (*,*)"));
+
+    if (myfile == "")
+        return;
+
+    QImage image(myfile);
+    lB_rsm->setPixmap(QPixmap::fromImage(image));
+    QByteArray inByteArray;
+    QFile file(  myfile ); //dosyayý açmak için al
+
+    if ( file.open(QIODevice::ReadOnly))
+    {
+        //qDebug ()<<"file read";
+        inByteArray = file.readAll();
+
+        // table view de hangi rowdayýz ?
+        QModelIndex index = tV_depo->table->currentIndex();
+        int row = index.row() ;
+
+        /// resmi deðiþtirelim
+        mdl_depo->setData(mdl_depo->
+                          index(row, mdl_depo->
+                                fieldIndex ("resim")),inByteArray);
+        /// yeni eklenenleri kaydedelim
+        mdl_depo->submitAll();
+
+        QByteArray outByteArray = tV_depo->table->
+                model()->index( row, mdl_depo->fieldIndex ("resim") ).data().toByteArray();
+        /// makina ikmalde resmi deðiþtirelim
+        cw_mkn->mdl_mkn->setData (
+                    cw_mkn->mdl_mkn-> index (
+                        0 ,cw_mkn->mdl_mkn-> fieldIndex ("resim")),outByteArray );
+
+        cw_mkn->mdl_mkn-> submitAll ();
+        QModelIndex xx = cw_mkn->tV_mkn->currentIndex ();
+        cw_mkn->ontV_mkn_resimGosterSLOT (xx);
+
+    }
+}       ///     onpb_resimEkleSLOT
+
+
+
+
+
+/*
+void Cw_depo::on_tv_depo_rowchanged (const QModelIndex &index)
+{
+    if (index.isValid())
+    {
+        QSqlRecord record = mdl_depo->record(index.row());
+        QString barkid = record.value("barkod").toString ();
+        lB_brkd->setText (barkid);
+
+    } else
+    {
+        lB_brkd->setText ("Barkod Yok");
+        qDebug() << "Barkod okunamadý" ;
+    }
+
+}
+
+*/
+void Cw_depo::slt_dp_updButtons(int row)
+{
+    tV_depo->pB_ilk->setEnabled (row>0);
+    tV_depo->pB_ncki->setEnabled(row > 0);
+    tV_depo->pB_snrki->setEnabled(row < mdl_depo->rowCount() - 1);
+    tV_depo->pB_son->setEnabled(row < mdl_depo->rowCount() - 1);
+}
+
+void Cw_depo::slt_dp_toFirst()
+{
+    map_depo->toFirst ();
+    int map_row = map_depo->currentIndex ();
+    tV_depo->pB_ilk->setEnabled (map_row>0);
+    tV_depo->table->setCurrentIndex(mdl_depo->index( 0  ,0));
+}
+
+void Cw_depo::slt_dp_toPrevious()
+{
+    map_depo->toPrevious ();
+    int map_row = map_depo->currentIndex ();
+    tV_depo->pB_ncki->setEnabled(map_row > 0);
+    tV_depo->table->setCurrentIndex(mdl_depo->index( map_row  ,0));
+}
+
+void Cw_depo::slt_dp_toNext()
+{
+
+    map_depo->toNext ();
+    int map_row = map_depo->currentIndex ();
+    tV_depo->pB_snrki->setEnabled(map_row < mdl_depo->rowCount() - 1);
+    tV_depo->table->setCurrentIndex(mdl_depo->index( map_row  ,0));
+
+}
+
+void Cw_depo::slt_dp_toLast()
+{
+    map_depo->toLast ();
+    int map_row = map_depo->currentIndex ();
+    tV_depo->pB_son->setEnabled(map_row < mdl_depo->rowCount() - 1);
+    tV_depo->table->setCurrentIndex(mdl_depo->index( mdl_depo->rowCount() - 1  ,0));
+}
+
+void Cw_depo::slt_dp_hesap()
+{
+
+    // QModelIndex indx_dpdet = tV_depodet->currentIndex ();
+
+    //int tpl_grs=0, tpl_cks=0;
+    //int id_dp ;
+
+    QModelIndex dp_indx = tV_depo->table->currentIndex ();
+    if ( dp_indx.row () >= 0 )
+    {
+        int dp_row = dp_indx.row ();
+        int id = mdl_depo->
+                data ( mdl_depo->
+                       index(dp_row,mdl_depo->
+                             fieldIndex("id_dp"))).toInt () ;
+
+        QSqlQuery q_qry;
+        QString s_qry;
+        s_qry = QString ("SELECT TOTAL(miktar) "
+                         "FROM dbtb_dpdet "
+                         "WHERE dp_no= %1 AND grs_cks=1").arg(id);
+        q_qry.exec (s_qry);
+
+        QSqlRecord dp_rec = mdl_depo->record ();
+        double grs=0,cks=0;
+        if (q_qry.isActive ())
+        {
+            q_qry.next ();
+            grs = q_qry.value(0).toDouble ();
+            mdl_depo->setData(mdl_depo->
+                              index(dp_row, mdl_depo->
+                                    fieldIndex ("giris")),
+                              grs);
+
+
+
+            //dp_rec.setValue ("giris", q_qry.value(0).toDouble ());
+            qDebug()<<"data    "<<q_qry.value(0);
+
+        }
+        s_qry = QString ("SELECT TOTAL(miktar) "
+                         "FROM dbtb_dpdet "
+                         "WHERE dp_no= %1 AND grs_cks=0").arg(id);
+        q_qry.exec (s_qry);
+        if (q_qry.isActive ())
+        {
+
+            q_qry.next ();
+            cks = q_qry.value(0).toDouble ();
+            mdl_depo->setData(mdl_depo->
+                              index(dp_row, mdl_depo->
+                                    fieldIndex ("cikis")),
+                              cks);
+
+
+            //dp_rec.setValue ("cikis", q_qry.value(0).toDouble ());
+        }
+
+        mdl_depo->setData(mdl_depo->
+                          index(dp_row, mdl_depo->
+                                fieldIndex ("mevcut")),
+                          grs-cks);
+        mdl_depo->submitAll ();
+    }
+}
+
+void Cw_depo::slt_dp_pB_EKLE_clicked ()
+{
+    QModelIndex dp_ndx0=tV_depo->table->currentIndex ();
+    qDebug() << "4.index set edildi dp_ndx 0 - "<<dp_ndx0;
+
+
+    QSqlRecord rec = mdl_depo->record();
+    rec.setValue ("barkod","123");
+    // insert a new record (-1)
+
+    if ( ! mdl_depo->insertRecord(mdl_depo->rowCount (),rec))
+    {
+        qDebug() << " HATA - DEPO ya kayýt eklenemedi ";
+    }
+    else
+    {
+        qDebug() << " - Kayýt DEPO ya eklendi ";
+        mdl_depo->submitAll ();
+        mdl_depo->select ();
+        QModelIndex dp_ndx= mdl_depo->index (mdl_depo->rowCount ()-1,0);
+        tV_depo->table->selectRow (dp_ndx.row ());
+        //        tV_depo->table->selectionModel ()
+        //                ->setCurrentIndex(dp_ndx,
+        //                QItemSelectionModel::ClearAndSelect );
+    }
+}
+
+void Cw_depo::slt_dp_pB_SIL_clicked ()
+{
+    QSqlQuery q_qry;
+    QString s_qry;
+    QModelIndex sample =   tV_depo->table->currentIndex();
+    if( sample.row() >= 0 )
+    {
+        QSqlRecord rec = mdl_depo->record(sample.row ());
+        int dp_no = rec.value ("id_dp").toInt();
+        QString val = rec.value("barkod").toString();
+        QString val2= rec.value("malzeme").toString() ;
+
+
+        /// depo detay kayýtlarýný silelim
+        /*      QSqlQuery q_qry;
+        QString s_qry;
+        /// silinecek kayýt sayýsý
+        s_qry = QString("SELECT count() FROM dbtb_dpdet where dp_no = %1").arg (dp_no);
+        q_qry.exec(s_qry);
+        int xx = 0 ;
+
+        if ( q_qry.isActive ())
+        {
+            xx = s_qry.size () ;
+            qDebug()<< xx <<" adet kayýt silinecek ";
+        }
+*/
+
+        QString mess="\n";
+        mess +=val + "\n" +
+                val2 +
+                "\n\n  silinsin mi ?\n"+
+                "Ýþlemi onaylarsanýz bu depo kaydýna ait\n " ;
+
+        int dpdet_count = mdl_depodet->rowCount () ;
+        if ( dpdet_count > 0 )
+        {
+            mess +="\n"+ QString::number (dpdet_count) + " adet DEPO GÝRÝÞ - ÇIKIÞ kaydý";
+        }
+
+        int mkn_count = cw_mkn->mdl_mkn->rowCount () ;
+        if ( mkn_count > 0 )
+        {
+            mess +="\n"+ QString::number (mkn_count) + " adet MAKÝNA ÝKMAL kaydý";
+        }
+
+        mess +="\n1 adet DEPO kaydý silinecektir .! \n\n"
+               "ÝÞLEMÝ ONAYLIYORMUSUNUZ ?";
+
+
+        /// model makina kaydý var
+        QMessageBox::StandardButton dlg;
+        dlg = QMessageBox
+                ::question(this,
+                           "KAYIT SÝL", mess,
+                           QMessageBox::Yes | QMessageBox::No);
+
+        if(dlg == QMessageBox::Yes)
+        {
+            /// depoya ait depodet giriþ kayýtlarýný sil
+            s_qry = QString("DELETE FROM dbtb_dpdet where dp_no = %1").arg (dp_no);
+            q_qry.exec(s_qry);
+            if (q_qry.isActive ())
+            {
+                qDebug()<<" - "<< dpdet_count << " - adet Depo Giriþ_Çýkýþ Kaydý Silindi";
+            }
+            else
+            {
+                qDebug()<< "HATA - Depo Giriþ Kayýtlarý Silinemedi"
+                        << q_qry.lastError() ;
+            }
+
+            /// depo ya ait makina ikmal kayýtlarýný silelim
+            ///
+            /// burada makina ikmal kaydý varsa
+            /// makina ikmale baðlý sgrt, muayene vb
+            /// tüm kayýtlarýda silmek gerekir
+            int silmakinakayitlerini;
+
+
+            /// depo kayýtlarýný silelim
+            s_qry = QString("DELETE FROM dbtb_depo where id_dp = %1").arg (dp_no);
+            q_qry.exec(s_qry);
+            if (q_qry.isActive ())
+            {
+                qDebug()<< "1 adet Depo Kaydý Silindi";
+                tV_depo->setFocus ();
+                mdl_depo->select ();
+
+
+
+                if (mdl_depo->rowCount () == 1)
+                {
+                    tV_depo->table->selectRow (0);
+                    tV_depo->setCurrentIndex (mdl_depo->index(0,0));
+                }
+                if (mdl_depo->rowCount () > 1)
+                {
+                    if (sample.row () == 0)
+                    {
+                        tV_depo->table->selectRow (0);
+                        tV_depo->setCurrentIndex (mdl_depo->index(0,0));
+                    }
+                    else if (sample.row () > 0)
+                    {
+                        tV_depo->table->selectRow (sample.row()-1);
+                        tV_depo->setCurrentIndex (mdl_depo->index(sample.row ()-1,0));
+                    }
+
+
+                }
+                else
+                {
+                    qDebug()<< "HATA - Depo Kaydý Silinemedi"
+                            << q_qry.lastError() ;
+                }
+            }
+            else
+            {
+                /// SÝLME
+                /// depoya ait depodet giriþ kayýtlarýný SÝLME
+            }
+        }
+    }
+}
+
+
+
+void Cw_depo::slt_dp_cX_mkn()
+{
+    QMessageBox msgBox;
+    QPushButton *pb_tmm = msgBox.addButton(tr("MAKÝNA ÝKMALE AKTAR"), QMessageBox::ActionRole);
+    QPushButton *pb_vzg = msgBox.addButton(tr("VAZGEÇ"),QMessageBox::ActionRole);
+
+    /// depo id si nedir
+    QModelIndex dp_ndx=tV_depo->table->currentIndex ();
+    int dp_row = dp_ndx.row ();
+    QSqlRecord dp_rec = mdl_depo->record (dp_row);
+    int dp_no = dp_rec.value ("id_dp").toInt ();
+    QString brkd = dp_rec.value ("barkod").toString ();
+    QString mlzm = dp_rec.value ("malzeme").toString ();
+    QString acklm = dp_rec.value ("aciklama").toString ();
+    QString mrk = dp_rec.value ("marka").toString ();
+    QString mdl = dp_rec.value ("modeli").toString ();
+    QString cins = dp_rec.value ("cinsi").toString ();
+    QString brm = dp_rec.value ("birim").toString ();
+
+
+
+    /*int dp_no = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("id_dp"))).toInt ();
+
+    QString brkd = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("barkod"))).toString ();
+    QString mlzm = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("malzeme"))).toString ();
+    QString acklm = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("aciklama"))).toString ();
+
+    QString mrk = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("marka"))).toString ();
+    QString mdl = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("model"))).toString ();
+    QString cins = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("cins"))).toString ();
+    QString brm = mdl_depo
+            ->data ( mdl_depo
+                     ->index(dp_ndx.row (),
+                             mdl_depo->fieldIndex("birim"))).toString ();
+    */
+
+
+
+
+    if ( cX_mkn->isChecked ())
+    {
+        /// ischecked = false
+        /// makina ikmale daha önce atýlmamýþ
+        /// check et
+        /// makina ikmale aktar
+        ///
+        pb_tmm->setText ("TÜM MAKÝNA ÝKMAL KAYITLARINI SÝL");
+        msgBox.setText("    !! DÝKKAT SÝLME ONAYI !!\n"
+                       "Bu iþareti kaldýrýrsanýz, bu malzeme ile\n"
+                       "MAKÝNA ÝKMAL bölümünde bu malzeme ile ilgili"
+                       "tüm kayýtlar SÝLÝNECEK.!\n"
+                       "\n  "
+                       "\n"+brkd+"\n"+mlzm+"\n\n"
+                                           "SÝLMEK ÝSTEDÝÐÝNÝZDEN EMÝNMÝSÝNÝZ ?!");
+        msgBox.exec();
+        if (msgBox.clickedButton() == pb_tmm)
+        {
+            cX_mkn->setChecked (false);
+            dp_rec.setValue ("makina","0");
+            mdl_depo->submitAll ();
+            qDebug()<<"Makina ikmal kayýtlarý siliiiiiiii n ecek";
+            int tum_makina_ikmal_kayitlarini_sil;
+        }
+        else if (msgBox.clickedButton() == pb_vzg)
+        {
+
+            return;
+        }
+
+
+
+    }
+
+
+    else if ( ! cX_mkn->isChecked ())
+    {
+        /// ischecked  = false
+        /// makina ikmale ATILACAK
+        /// check
+        /// makina ikmale akta
+
+
+        /// check edildi
+        /// makina ikmalde ayný kayýt var mý
+        ///
+        if ( cw_mkn->mdl_mkn->rowCount () > 0)
+        {
+            pb_tmm->setText ("Tamam");
+            pb_vzg->setVisible (false);
+            msgBox.setText("    !! DÝKKAT !!\n"
+                           "Aktarmak istediðiniz malzeme ile\n"
+                           "MAKÝNA ÝKMAL bölümünde ayný barkoda"
+                           "sahip baþka bir kayýt var.!\n"
+                           "\n  "
+                           "\n"+brkd+
+                           "\n"+mlzm+
+                           "\n\n"
+                           "Ayný barkodla iki malzemeye izin "
+                           "verilmememktedir !");
+            msgBox.exec();
+            if (msgBox.clickedButton() == pb_tmm)
+            {
+                cX_mkn->setChecked (true);
+                dp_rec.setValue ("makina","1");
+                mdl_depo->submitAll ();
+                qDebug()<<"Makina Ýkmalde ayný kayýt var";
+                return;
+            }
+        }
+        else if ( cw_mkn->mdl_mkn->rowCount () <= 0)
+        {
+            /// makina ikmalde kayýt yok aktarmayý
+            /// soralým
+            ///
+            pb_vzg->setVisible (true);
+            msgBox.setWindowTitle("!! DÝKKAT !!");
+            msgBox.setText("    \n"
+                           "  Ýþleme devam ederseniz \n"
+                           "  bu malzeme MAKÝNA ÝKMAL\n"
+                           "  bölümüne aktarýlacak \n"
+                           "  ve  o  bölümde  takibe \n"
+                           "  hazýr hale getirelecek \n "
+                           "   \n"
+                           "  Aktarmak istediðinizden\n "
+                           "      eminmisiniz ?");
+            msgBox.exec();
+            if (msgBox.clickedButton() == pb_tmm)
+            {
+                /// makina ikmale aktarma isteniyor
+
+                /// önce depo bilgilerini deðiþkenlere atalým
+
+                /// makina ikmalde yeni bir kayýt oluþturalým
+                ///
+                ///
+                ///
+                ///
+                QSqlQuery q_qry;
+                q_qry.prepare ("INSERT INTO dbtb_mkstok "
+                               "( dp_no,barkod,malzeme,aciklama,marka,modeli,cinsi,birim,resim )"
+                               " values ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+
+                q_qry.addBindValue (dp_no);
+                q_qry.addBindValue (brkd);
+                q_qry.addBindValue (mlzm);
+                q_qry.addBindValue (acklm);
+                q_qry.addBindValue (mrk);
+                q_qry.addBindValue (mdl);
+                q_qry.addBindValue (cins);
+                q_qry.addBindValue (brm);
+                QByteArray rsm = mdl_depo
+                        ->data ( mdl_depo
+                                 ->index(dp_ndx.row (),
+                                         mdl_depo->fieldIndex("resim"))).toByteArray ();
+                q_qry.addBindValue (rsm );
+
+
+                // insert a new record (-1) with new data
+                q_qry.exec ();
+
+                if ( ! q_qry.isActive ())
+                {
+                    qDebug() << "HATA - kayýt MAKÝNA ÝKMAL e eklenemedi "
+                             << q_qry.lastError ().text () ;
+                }
+                else /// mkn ikmale eklendi
+                {
+                    cX_mkn->setChecked (true);
+                    dp_rec.setValue ("makina","1");
+                    mdl_depo->submitAll ();
+                    cw_mkn->mdl_mkn->select ();
+                    qDebug() << "Kayýt MAKÝNA ÝKMAL e eklendi ";
+                }
+            }
+
+            else
+            {
+                /// makina ikmale aktarma istenmiyor
+                ///
+                cX_mkn->setChecked (false);
+                dp_rec.setValue ("makina","0");
+                mdl_depo->submitAll ();
+                qDebug()<<"Makina Ýkmale aktarma vazgeçildi";
+
+
+                // abort
+            }
+        }
+    }
+}
+
+
+
+void Cw_depo::slt_dp_cX_grs_clicked()
+{
+    QIcon icon;
+    if ( ! tV_depo->pB_grscks->isFlat ())
+    {
+
+        QModelIndex dp_indx = tV_depo->table->currentIndex ();
+        slt_dp_tV_rowchanged (dp_indx);
+        tV_depo->pB_grscks->setFlat (true);
+        icon.addPixmap(QPixmap (":/rsm/nv_eklesil.svg") ,
+                       QIcon::Normal, QIcon::On);
+        tV_depo->pB_grscks->setIcon (icon);
+        wdgt_mapdepo_dty->show ();
+    }
+    else
+    {
+        tV_depo->pB_grscks->setFlat (false);
+        icon.addPixmap(QPixmap (":/rsm/nv_eklesil2.svg") ,
+                       QIcon::Normal, QIcon::On);
+        tV_depo->pB_grscks->setIcon (icon);
+        wdgt_mapdepo_dty->hide ();
+    }
+}
+
+
+
+
+
+
+
+///************************************************************
+///****************  D  E  P  O     D  E  T  A  Y  ************
+///
+///
+///
+
+void Cw_depo::wd_depodet()
+{
+    lB_depodet = new QLabel("Malzeme Depo Giriþ - Çýkýþ Ýþlemleri");
+
+    /*lE_d_barkod = new QLineEdit();
+    lE_d_barkod->setReadOnly (1);
+
+
+    lE_d_malzeme = new QLineEdit();
+    lE_d_malzeme->setReadOnly (1);
+*/
+    QLabel *lB_d_tarih = new QLabel(tr("&Tarih"));
+    lE_d_tarih = new QLineEdit();
+    lB_d_tarih->setBuddy(lE_d_tarih);
+
+    QLabel *lB_d_grs_cks = new QLabel(tr("Grþ_Çkþ"));
+    lE_d_grs_cks = new QLineEdit();
+    lB_d_grs_cks->setBuddy(lE_d_grs_cks);
+
+    QLabel *lB_d_miktar = new QLabel(tr("&Miktar"));
+    lE_d_miktar = new QLineEdit();
+    lB_d_miktar->setBuddy(lE_d_miktar);
+
+    QLabel *lB_d_fiyat = new QLabel(tr("&Fiyat"));
+    lE_d_fiyat = new QLineEdit();
+    lB_d_fiyat->setBuddy(lE_d_fiyat);
+
+    QLabel *lB_d_aciklama = new QLabel(tr("&Açýklama"));
+    lE_d_aciklama = new QLineEdit();
+    lB_d_aciklama->setBuddy(lE_d_aciklama);
+
+    //////////////////////////////////// depodet tableview
+    int i= 1;
+    tV_depodet = new HC_TableView(i);
+    Q_ASSERT(connect(tV_depodet->pB_ekle, &QPushButton::clicked ,this ,
+                     &Cw_depo::slt_dpd_pB_EKLE_clicked  )) ;
+
+    Q_ASSERT(connect(tV_depodet->pB_sil, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dpd_pB_SIL_clicked )) ;
+    Q_ASSERT(connect(tV_depodet->pB_ilk, &QPushButton::clicked ,this ,
+                     &Cw_depo::slt_dpd_toFirst )) ;
+    Q_ASSERT(connect(tV_depodet->pB_ncki, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dpd_toPrevious )) ;
+    Q_ASSERT(connect(tV_depodet->pB_snrki, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dpd_toNext )) ;
+    Q_ASSERT(connect(tV_depodet->pB_son, &QPushButton::clicked,this ,
+                     &Cw_depo::slt_dpd_toLast )) ;
+    tV_depodet->pB_grscks->setVisible (false);
+
+
+
+
+    QGridLayout *lYG_d_map = new QGridLayout();
+
+
+    lYG_d_map->addWidget(lB_d_tarih   , 0, 0, 1, 1);
+    lYG_d_map->addWidget(lE_d_tarih   , 0, 1, 1, 1);
+    lYG_d_map->addWidget(lB_d_grs_cks , 1, 0, 1, 1);
+    lYG_d_map->addWidget(lE_d_grs_cks , 1, 1, 1, 1);
+    lYG_d_map->addWidget(lB_d_miktar  , 2, 0, 1, 1);
+    lYG_d_map->addWidget(lE_d_miktar  , 2, 1, 1, 1);
+    lYG_d_map->addWidget(lB_d_fiyat   , 3, 0, 1, 1);
+    lYG_d_map->addWidget(lE_d_fiyat   , 3, 1, 1, 1);
+    lYG_d_map->addWidget(lB_d_aciklama, 4, 0, 1, 1);
+    lYG_d_map->addWidget(lE_d_aciklama, 4, 1, 1, 1);
+
+
+
+    LyG_depo_dty = new QGridLayout( );
+
+    LyG_depo_dty->addWidget (lB_depodet  , 0, 0, 1, 1);
+    LyG_depo_dty->addLayout (lYG_d_map   , 2, 0, 1, 1);
+
+    wdgt_mapdepo_dty = new QWidget;
+    wdgt_mapdepo_dty->setLayout(LyG_depo_dty);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////  end setup view
+
+void Cw_depo::setup_modelDepodet()
+{
+    QString tableName = "dbtb_dpdet";
+    QStringList fieldList;
+
+    fieldList.append("Tarih");
+    fieldList.append("G-Ç");
+    fieldList.append("Miktar");
+    fieldList.append("Fiyat");
+    fieldList.append("Açýklama");
+
+    mdl_depodet = new QSqlTableModel() ;
+    mdl_depodet->setTable(tableName);
+    mdl_depodet->setEditStrategy(QSqlTableModel::OnFieldChange);
+    mdl_depodet->setSort(2,Qt::AscendingOrder);
+
+    for(int i = 4, j = 0; i < mdl_depodet->columnCount()-4; i++, j++)
+    {
+        mdl_depodet->setHeaderData(i,Qt::Horizontal,fieldList[j]);
+    }
+
+    // Populate the model
+    if (!mdl_depodet->select())
+    {
+        qDebug () << " HATA - Model depodet select "
+                  << mdl_depodet->lastError();
+    }
+}
+
+void Cw_depo::setup_viewDepodet()
+{
+
+    tV_depodet->table->setModel(mdl_depodet);
+    // Hide the column id Records
+    //// kullanýcý bu alanlarý görmesin
+    tV_depodet->table->setColumnHidden(mdl_depodet->fieldIndex("id_dpdet"), true);
+    tV_depodet->table->setColumnHidden(mdl_depodet->fieldIndex("dp_no"), true);
+    tV_depodet->table->setColumnHidden(mdl_depodet->fieldIndex("barkod"), true);
+    tV_depodet->table->setColumnHidden(mdl_depodet->fieldIndex("malzeme"), true);
+
+    // Allow the selection of lines
+    tV_depodet->table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    // Set selection mode, only one row in table
+    tV_depodet->table->setSelectionMode(QAbstractItemView::SingleSelection);
+    // Set the size of the columns by content
+    tV_depodet->table->resizeRowsToContents ();
+    tV_depodet->table->resizeColumnsToContents();
+    // tV_depodet->table->setStyleSheet ("background-color: darkgreen;"
+    //                         "color : yellow;");
+    tV_depodet->table->setEditTriggers
+            (QAbstractItemView::DoubleClicked |
+             QAbstractItemView::SelectedClicked |
+             QAbstractItemView::EditKeyPressed);
+
+    tV_depodet->table->horizontalHeader()->
+            setStretchLastSection(true);
+    tV_depodet->table->horizontalHeader()->
+            resizeContentsPrecision();
+
+    // tV_depodet->table->setCurrentIndex (mdl_depodet->index (0,0));
+    // mdl_depodet->select ();
+}
+
+void Cw_depo::setup_mapDepodet()
+{
+    map_depodet = new QDataWidgetMapper(this);
+    map_depodet->setModel(mdl_depodet);
+
+    //map_depodet->addMapping(lE_d_barkod , mdl_depodet->fieldIndex("barkod"));
+    //map_depodet->addMapping(lE_d_malzeme, mdl_depodet->fieldIndex("malzeme"));
+    map_depodet->addMapping(lE_d_tarih, mdl_depodet->fieldIndex("tarih"));
+    map_depodet->addMapping(lE_d_grs_cks, mdl_depodet->fieldIndex("grs_cks"));
+    map_depodet->addMapping(lE_d_miktar, mdl_depodet->fieldIndex("miktar"));
+    map_depodet->addMapping(lE_d_fiyat, mdl_depodet->fieldIndex("fiyat"));
+    map_depodet->addMapping(lE_d_aciklama, mdl_depodet->fieldIndex("aciklama"));
+
+}
+
+
+///************************************************************
+///****************  D  E  P  O     D  E  T  A  Y  ************
+///*******                 S  L  O  T  S           ************
+///
+///
+
+
+
+
+
+
+
+void Cw_depo::slt_dpd_updButtons(int row)
+{
+    tV_depodet->pB_ilk->setEnabled (row>0);
+    tV_depodet->pB_ncki->setEnabled(row > 0);
+    tV_depodet->pB_snrki->setEnabled(row < mdl_depodet->rowCount() - 1);
+    tV_depodet->pB_son->setEnabled(row < mdl_depodet->rowCount() - 1);
+}
+
+
+void Cw_depo::slt_dpd_toFirst()
+{
+    QDataWidgetMapper *x=map_depodet;
+    x->toFirst ();
+
+    int map_row = map_depodet->currentIndex ();
+    tV_depodet->pB_ilk->setEnabled (map_row>0);
+    tV_depodet->table->setCurrentIndex(mdl_depodet->index( 0  ,0));
+}
+
+void Cw_depo::slt_dpd_toPrevious()
+{
+    map_depodet->toPrevious ();
+    int map_row = map_depodet->currentIndex ();
+    tV_depodet->pB_ncki->setEnabled(map_row > 0);
+    tV_depodet->table->setCurrentIndex(mdl_depodet->index( map_row  ,0));
+}
+
+void Cw_depo::slt_dpd_toNext()
+{
+    map_depodet->toNext ();
+    int map_row = map_depodet->currentIndex ();
+    tV_depodet->pB_snrki->setEnabled(map_row < mdl_depodet->rowCount() - 1);
+    tV_depodet->table->setCurrentIndex(mdl_depodet->index( map_row  ,0));
+}
+
+void Cw_depo::slt_dpd_toLast()
+{
+    map_depodet->toLast ();
+    int map_row = map_depodet->currentIndex ();
+    tV_depodet->pB_son->setEnabled(map_row < mdl_depodet->rowCount() - 1);
+    tV_depodet->table->setCurrentIndex(mdl_depodet->index( mdl_depodet->rowCount() - 1  ,0));
+}
+
+
+
+
+
+
+void Cw_depo::slt_dpd_pB_EKLE_clicked ()
+{
+}
+/*
+    //tV_depo->table->setFocus ();
+    tV_depodet->table->setFocus ();
+
+    QModelIndex dp_indx = tV_depo->table->currentIndex () ;
+    if ( dp_indx.row () >= 0 )
+    {
+        /// depo kaydý var -
+        ///
+        /// yeni eklenecek kayýda -
+        /// depodan
+        /// malzeme - barkod - dp_id
+        /// ekle
+        ///
+        ///
+        /// depo modelden kaydý al
+
+        // QSqlRecord dp_rec = mdl_depo->record (dp_indx.row ());
+        int dp_row = dp_indx.row ();
+
+        /// kayýt içerisinde belirli bir
+        /// field in içeriðini deðiþkene at
+
+        QString brkd = mdl_depo->
+                data ( mdl_depo->
+                       index(dp_row,mdl_depo->
+                             fieldIndex("barkod"))).toString() ;
+        QString mlzm = mdl_depo->
+                data ( mdl_depo->
+                       index(dp_row,mdl_depo->
+                             fieldIndex("malzeme"))).toString() ;
+        int dp_no = mdl_depo->
+                data ( mdl_depo->
+                       index(dp_row,mdl_depo->
+                             fieldIndex("id_dp"))).toInt ();
+
+        /// depodet den yeni boþ bir record al = dp_rec
+        QSqlRecord dpdet_rec = mdl_depodet->record ();
+        /// rec in içerisinde istediðin fieldleri doldur
+        dpdet_rec.setValue ("barkod",brkd);
+        dpdet_rec.setValue ("malzeme",mlzm);
+        dpdet_rec.setValue ("dp_no", dp_no);
+
+        // insert a new record (-1) with new data
+        if ( ! mdl_depodet->insertRecord(-1,dpdet_rec))
+        {
+            qDebug() << "HATA - kayýt DEPO DETAY a eklenemedi ";
+        }
+        else /// dpdet_rec detaya eklendi
+        {
+            mdl_depodet->submitAll ();
+            mdl_depodet->select();
+        }
+    }
+    else /// tVdepo row yok - dp_indx.row () < 0
+    {
+        qDebug()<<"HATA - Depo Ekleme .row yokk ";
+    }
+}
+
+*/
+
+void Cw_depo::slt_dpd_pB_SIL_clicked ()
+{
+    QModelIndex sample =   tV_depodet->table->currentIndex();
+    if( sample.row() >= 0 )
+    {
+        QSqlRecord rec = mdl_depodet->record();
+
+        QString val = rec.value(1).toString();// +" "+
+        QMessageBox::StandardButton dlg;
+
+        dlg = QMessageBox::question(this,
+                                    "KAYIT SÝL",  val ,// + "\n barkodli personelin kaydý silinsin mi? ?" ,
+                                    QMessageBox::Yes | QMessageBox::No);
+
+        if(dlg == QMessageBox::Yes)
+        {
+            // remove the current index
+            // pmodel->beginRemoveColumn();
+            mdl_depodet->removeRow(sample.row());
+            //pmodel->endRemoveColumns();
+            mdl_depodet->select ();
+        }
+    }
+}
+
+
+
+
+///************************************************************
+///****************            D  E  P  O          ************
+///*******                   D  B  A  S  E         ************
+///
+///
+
+
+
+
+
+
+
+
+
+/// DBASE ///
+
+void Cw_depo::setup_VTdDepo ()
+{
+
+    //// Veritabanýnda dosya varmý yoksa oluþtur
+    if(VTKontrolEt::instance()->Connect())
+    {
+        VTd_DEPO ();
+        VTd_DEPODETAY ();
+        VTd_CINS ();
+        VTd_MARKA ();
+        VTd_MODEL ();
+    }
+    else
+    {
+        qDebug() <<"VTD_depo VT NOT Connected" ;
+    }
+}
+
+
+
+
+
+
+
+//////////////////////////////////////
+///
+/// DEPO
+///
+/// veritabaný
+
+
+void Cw_depo::VTd_DEPO()
+{
+    /// depo create
+    ///
+
+    QString ct;
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_depo"))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS dbtb_depo "
+             "("
+             "id_dp integer primary key, "
+             "barkod	TEXT, "
+             "malzeme TEXT,"
+             "aciklama TEXT,"
+             "marka	TEXT, "
+             "model	TEXT, "
+             "cins	TEXT,"
+             "birim	TEXT,"
+             "giris	REAL, "
+             "cikis	REAL, "
+             "mevcut REAL,"
+             "makina TEXT,"
+             "resim	BLOB) "    ;
+
+        if (!q.exec( ct ))
+        {
+            qDebug() << "DEPO Dosyasý Oluþturulamadý - "
+                     << q.lastError() ;
+        }
+        else
+        {
+            qDebug() << "DEPO Dosyasý YENÝ Oluþturuldu - ";
+            q.exec("INSERT INTO dbtb_depo ( barkod,malzeme )"
+                   " values( '0123456','Deneme Malzeme' )"  );
+
+        }
+    }
+}
+
+/////DEPO DETAY
+///
+///
+void Cw_depo::VTd_DEPODETAY()
+{
+    QString ct;
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_dpdet"))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS dbtb_dpdet "
+             "("
+             "id_dpdet integer primary key, "
+             "dp_no	     INTEGER, "
+             "barkod	 TEXT   , "
+             "malzeme	 TEXT   , "
+             "tarih	     TEXT   , "
+             "grs_cks    TEXT   , "
+             "miktar     REAL, "
+             "fiyat      REAL, "
+             "aciklama   TEXT     "
+             ")";
+
+        if (!q.exec( ct ))
+        {
+            qDebug() << "DEPO-DETAY Dosyasý Oluþturulamadý - "
+                     << q.lastError() ;
+        }
+        else
+        {
+            qDebug() << "DEPO-DETAY Dosyasý YENÝ Oluþturuldu - ";
+            q.exec("INSERT INTO dbtb_dpdet ( dp_no,barkod,malzeme )"
+                   " values( 1,'0123456','Deneme Malzeme' )"  );
+
+        }
+    }
+    qDebug() << "DEPO-DETAY Dosyasý OK - "
+             << q.lastError() ;
+}
+
+///// CINS
+///
+///
+void Cw_depo::VTd_CINS()
+{
+    QString ct;
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_mkcins"))
+    {
+        ct = "CREATE TABLE dbtb_mkcins "
+             "("
+             "cinsi TEXT, "
+             "id_mkcins INTEGER PRIMARY key "
+             ") " ;
+
+
+        if (!q.exec( ct ))
+        {
+            qDebug() << "MAKÝNA CÝNSÝ Dosyasý Oluþturulamadý - "
+                     << q.lastError() ;
+        }
+        else
+        {
+            qDebug() << "MAKÝNA CÝNSÝ Dosyasý YENÝ Oluþturuldu - ";
+            QStringList inserts;
+            inserts << "INSERT INTO dbtb_mkcins ( cinsi ) values(' - ')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Otomobil')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Arazi Aracý')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Pickup')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Kamyon')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Çekici 2x2')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Çekici 4x2')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Çekici 4x4')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Forklift')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Loader')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Backhoe')"
+                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Excavator')" ;
+
+            foreach (QString qry , inserts)
+            {
+                if ( !q.exec(qry) )
+                    qDebug()  << " HATA - CÝNS Kaydý Eklenemedi - "
+                              << q.lastError() ;
+                else
+                    qDebug()  << " CÝNS Kaydý Eklendi - ";
+
+            }
+        }
+    }
+}
+
+///// MARKA
+///
+///
+void Cw_depo::VTd_MARKA()
+{
+    QString ct;
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_mkmark"))
+    {
+        ct = "CREATE TABLE dbtb_mkmark "
+             "("
+             "marka TEXT, "
+             "mkcins_no INTEGER,"
+             "id_mkmark INTEGER PRIMARY key, "
+             "FOREIGN KEY (id_mkmark) "
+             "REFERENCES dbtb_mkcins(id_mkcins) )"  ;
+
+        if (!q.exec( ct ))
+        {
+            qDebug() << "MARKA Dosyasý Oluþturulamadý - "
+                     << q.lastError() ;
+        }
+        else
+        {
+            qDebug() << "MARKA Dosyasý YENÝ Oluþturuldu - ";
+            QStringList inserts;
+            inserts << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' -,',1)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' FORD '  ,2)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' RENAULT',2)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' OPEL '  ,2)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' VW'     ,2)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' JEEP '  ,3)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' TOYOTA' ,3)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' NISSAN ',4)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' ISUZU'  ,4)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',5)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',6)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',7)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',8)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' BAOLI'        ,9)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' ÇUKUROVA'     ,9)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' CATERPILLAR'  ,10)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' JVC'          ,11)"
+                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' HITACHI'      ,12)";
+
+            foreach (QString qry , inserts)
+            {
+                if ( !q.exec(qry) )
+                    qDebug()  << " HATA - MARKA Kaydý Eklenemedi - "
+                              << q.lastError() ;
+                else
+                    qDebug()  << " MARKA Kaydý Eklendi - ";
+
+            }
+        }
+    }
+}
+
+///// MODEL
+///
+///
+void Cw_depo::VTd_MODEL()
+{
+    QString ct;
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_mkmodl"))
+    {
+        ct =  "CREATE TABLE IF NOT EXISTS dbtb_mkmodl "
+              "("
+              "modeli TEXT, "
+              "mkmark_no INTEGER,"
+              "id_mkmodl INTEGER PRIMARY key, "
+              "FOREIGN KEY (id_mkmodl) "
+              "REFERENCES dbtb_mkmark(id_mkmark) )"  ;
+
+        if (!q.exec( ct ))
+        {
+            qDebug() << "MODEL Dosyasý Oluþturulamadý - "
+                     << q.lastError() ;
+        }
+        else
+        {
+            qDebug() << "MODEL Dosyasý YENÝ Oluþturuldu - ";
+
+            QStringList inserts;
+            inserts << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values(' - '       ,1)"
+                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Fiesta 1.4',2)"
+                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Focus 1.6' ,2)"
+                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Mondeo 2.0',2)"
+                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Clio'      ,3)"
+                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Laguna'    ,3)" ;
+
+            foreach (QString qry , inserts)
+            {
+                if ( !q.exec(qry) )
+                    qDebug()  << " HATA - MODEL Kaydý Eklenemedi - "
+                              << q.lastError() ;
+                else
+                    qDebug()  << " MODEL Kaydý Eklendi - ";
+
+            }
+        }
+    }
+}
+
+
+
+Cw_depo::~Cw_depo()
+{
+
+}
+
+void Cw_depo::showEvent(QShowEvent *)
+{
+
+    qDebug() << "Depo dosyasý açýlýyor";
+}
+
+
+
+
+
+
+
+
+

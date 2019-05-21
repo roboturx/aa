@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CW_hkk</class>
+ <widget class="QDialog" name="CW_hkk">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>779</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>About</string>
+  </property>
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>611</width>
+     <height>671</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="page">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>611</width>
+      <height>589</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Ürün Hakkında</string>
+    </attribute>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="btnOK_2">
+         <property name="text">
+          <string>OK</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <family>DejaVu Sans</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ef2929;&quot;&gt;Makina İkmal Uygulaması &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#ef2929;&quot;&gt;&lt;br/&gt;&lt;br/&gt;ver. 1.0.0&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-size:12pt; font-weight:600; color:#ef2929;&quot;&gt;Murat BALCI (+90 505 320 22 40) &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-weight:600; color:#ef2929;&quot;&gt;tarafından hazırlanmıştır.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-weight:600; color:#ef2929;&quot;&gt;Tüm işletim sistemlerinde&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-weight:600; color:#ef2929;&quot;&gt;(Linux, Windows, MacOS, Android;. FreeBSD vs.)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-weight:600; color:#ef2929;&quot;&gt;çalıştırılabilir.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ef2929;&quot;&gt;&lt;br/&gt;Tüm uygulama talepleriniz için lütfen irtibata geçiniz&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ef2929;&quot;&gt;roboturx@gmail.com&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="page_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>611</width>
+      <height>589</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Lisans Koşulları</string>
+    </attribute>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <family>DejaVu Sans</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#d3d7cf;&quot;&gt;Makina İkmal Uygulaması &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#d3d7cf;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#d3d7cf;&quot;&gt;Bu ürün GNU 3.0 Lisanslıdır.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-weight:600; color:#d3d7cf;&quot;&gt;Serbestçe&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-weight:600; color:#d3d7cf;&quot;&gt;kopyalanabilir, dağıtılabilir, çoğaltılabilir.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#d3d7cf;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#d3d7cf;&quot;&gt;code developed by &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-size:12pt; font-weight:600; color:#d3d7cf;&quot;&gt;Murat BALCI &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-family:'arial,sans-serif'; font-size:12pt; font-weight:600; color:#d3d7cf;&quot;&gt;+90 505 320 22 40&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#d3d7cf;&quot;&gt;2018-19&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#0a4c24;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnOK">
+         <property name="text">
+          <string>OK</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

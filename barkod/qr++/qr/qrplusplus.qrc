@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/QRplusplus"/>
+    <qresource prefix="/">
+        <file>QRplusplus_icon.ico</file>
+    </qresource>
+</RCC>

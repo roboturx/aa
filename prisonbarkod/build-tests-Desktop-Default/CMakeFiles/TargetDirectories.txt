@@ -1,0 +1,3 @@
+/home/mr/depolnx/prisonbarkod/build-tests-Desktop-Default/CMakeFiles/rebuild_cache.dir
+/home/mr/depolnx/prisonbarkod/build-tests-Desktop-Default/CMakeFiles/edit_cache.dir
+/home/mr/depolnx/prisonbarkod/build-tests-Desktop-Default/CMakeFiles/test-prison.dir
