@@ -3,3 +3,5 @@ console-setup yüklü olmalı
 2018$ sudo dpkg-reconfigure -plow console-setup 
 ------------------------------------------------
 
+21
+21 Mayıs
