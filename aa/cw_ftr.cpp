@@ -3,29 +3,8 @@
 #include "hc_tableview.h"
 #include "mw_main.h"
 
-
 Cw_ftr::Cw_ftr(QWidget *parent) :  QWidget(parent)
 {
-
-    qDebug() << "FATURA";
-
-    lB_FTR     = new QLabel ("Fatura");
-    /*tableName  = new QString("ftr__dbtb");
-    indexField = new QString("ftr_tarih");
-
-    fieldList = new QStringList;
-    fieldList->append("Fatura Kod");
-    fieldList->append("Fatura No");
-    fieldList->append("Firma Unvanı");
-    fieldList->append("Fatura Tarihi");
-    fieldList->append("Resim");
-*/
-
-
-
-
-
-    setup_fatura();    // depo
 }
 
 //************************************************************
@@ -34,9 +13,8 @@ Cw_ftr::Cw_ftr(QWidget *parent) :  QWidget(parent)
 
 void Cw_ftr::setup_fatura()
 {
-    qDebug() << "  setup_fatura";
-
-
+    qDebug() << "FATURA";
+    lB_FTR     = new QLabel ("Fatura");
 
     setup_uiFtr();
     setup_modelFtr();
@@ -145,14 +123,15 @@ void Cw_ftr::setup_uiFtr()
     //////////////////////////////////// depo tableview
     int i=1;
     FTRtview = new HC_TableView(i);
+    FTRtview->setMinimumSize (400,300);
 
     ////////////////////////////////////////////// layout
     QGridLayout *LyG_FTR = new QGridLayout(this);
-    LyG_FTR->addWidget (FTRtview      , 0, 0, 3, 2);
-    LyG_FTR->addWidget (wdgt_mapFTR       , 0, 3, 3, 2);
-    LyG_FTR->addWidget (wdgt_rsm    , 0, 6, 3, 2);
-    LyG_FTR->addWidget (FTRDETtview    , 6, 0, 3, 8);
-    LyG_FTR->addWidget (wdgt_mapFTR_dty, 6, 8, 1, 1);
+    LyG_FTR->addWidget (FTRtview       , 0, 0, 1, 1);
+    LyG_FTR->addWidget (wdgt_mapFTR    , 0, 1, 1, 1);
+    LyG_FTR->addWidget (wdgt_rsm       , 0, 2, 1, 1);
+    LyG_FTR->addWidget (FTRDETtview    , 1, 0, 1, 1);
+    LyG_FTR->addWidget (wdgt_mapFTR_dty, 1, 1, 1, 2);
 
 }
 
@@ -538,7 +517,7 @@ void Cw_ftr::slt_ftr_pB_EKLE_clicked ()
 
     QSqlRecord rec = FTRmodel->record();
 
-    rec.setValue ("ftr_tarih",QDate::currentDate ().toString ());
+    rec.setValue ("ftr_tarih",QDate::currentDate ().toString ("dd.MM.yyyy"));
 
     // insert a new record (-1)
 

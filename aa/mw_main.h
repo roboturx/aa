@@ -49,6 +49,7 @@ public:
     void cik();
     void yaz(QString x, QString y);
     Login *logger;
+    void login();
 
 
 public:

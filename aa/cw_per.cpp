@@ -112,7 +112,10 @@ void Cw_per::setup_ui()
 */
     QGroupBox *gR_lBs = new QGroupBox ("ÇALIŞAN",this);
 
-    QLabel *lB_isim  = new QLabel(tr("İ&sim"        ),gR_lBs); lE_isim = new QLineEdit(gR_lBs) ; lB_isim->setBuddy(lE_isim);
+    QLabel *lB_isim  = new QLabel(tr("İ&sim"        ),gR_lBs);
+    lE_isim = new QLineEdit(gR_lBs) ;
+    lE_isim->setPlaceholderText ("Personel Adı");
+    lB_isim->setBuddy(lE_isim);
     QLabel *lB_soyad = new QLabel(tr("S&oyad"       ),gR_lBs); lE_soyad = new QLineEdit(gR_lBs);lB_soyad->setBuddy(lE_soyad);
     QLabel *lB_bolum = new QLabel(tr("Bölü&m"       ),gR_lBs); lE_bolum = new QLineEdit(gR_lBs);lB_bolum->setBuddy(lE_bolum);
     QLabel *lB_tc    = new QLabel(tr("TC Kimlik No" ),gR_lBs); lE_tc = new QLineEdit(gR_lBs);lB_tc->setBuddy(lE_tc);
@@ -128,7 +131,9 @@ void Cw_per::setup_ui()
     dT_dotar->setCalendarPopup (true);
     lB_dotar->setBuddy(dT_dotar);
 
-    QLabel *lB_baba  = new QLabel(tr("Baba Adı "  ),gR_lBs); lE_baba = new QLineEdit(gR_lBs);lB_baba->setBuddy(lE_baba);
+    QLabel *lB_baba  = new QLabel(tr("Baba Adı "  ),gR_lBs);
+    lE_baba = new QLineEdit(gR_lBs);
+    lB_baba->setBuddy(lE_baba);
     QLabel *lB_meslek   = new QLabel(tr("M&eslek" ),gR_lBs); QComboBox *cb_meslek = new QComboBox(gR_lBs); lB_meslek->setBuddy(cb_meslek);
     QLabel *lB_gorev    = new QLabel(tr("Gö&rev"  ),gR_lBs); lE_gorev = new QLineEdit(gR_lBs); lB_gorev->setBuddy(lE_gorev);
     QLabel *lB_adres    = new QLabel(tr("Adre&s"  ),gR_lBs); lE_adres = new QLineEdit(gR_lBs); lB_adres->setBuddy(lE_adres);

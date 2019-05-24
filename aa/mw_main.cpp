@@ -16,6 +16,10 @@
 MW_main::MW_main( )
 {
 
+}
+
+void MW_main::login()
+{
     MW_main::showMaximized ();
     //    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint );
 
@@ -51,7 +55,7 @@ MW_main::MW_main( )
     {
         /// hata ne /// baglanti yok
         yaz("HATA -","Veri Tabanı Bağlantısı Yapılamadı");
-
+return;
     }
     else
     {
@@ -291,6 +295,7 @@ void MW_main::cw_ftr()               // fatura
     statusBar()->showMessage(tr("Ambar Faturalı Mal Girişi"));
     mw_ftr->setWindowTitle ("FATURA");
     mw_ftr->resize(qApp->screens()[0]->size()*.8);
+    mw_ftr->setup_fatura ();
     mw_ftr->show ();
 }
 
