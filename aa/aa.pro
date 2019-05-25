@@ -39,11 +39,11 @@ SOURCES += main.cpp\
     wd_dptlp.cpp \
     cw_fr.cpp \
     tamamla.cpp \
-    cw_ambar.cpp \
     mknnn.cpp \
     form.cpp \
     cw_ftr.cpp \
-    login.cpp
+    login.cpp \
+    cw_mlzm.cpp
 
 HEADERS  += \
     globals.h \
@@ -65,11 +65,11 @@ HEADERS  += \
     wd_dptlp.h \
     cw_fr.h \
     tamamla.h \
-    cw_ambar.h \
     mknnn.h \
     form.h \
     cw_ftr.h \
-    login.h
+    login.h \
+    cw_mlzm.h
 
 FORMS    += \
     wd_login.ui \

@@ -15,7 +15,7 @@
 #include "cw_ftr.h"
 #include "cw_grs.h"
 #include "cw_mkn.h"
-#include "cw_ambar.h"
+#include "cw_mlzm.h"
 #include "login.h"
 #include "form.h"
 namespace Ui {
@@ -34,9 +34,10 @@ public:
     Cw_per *mw_per;
     Cw_fr *mw_fr;
     Cw_ftr *mw_ftr;
+
     Form *mw_mkk;
     Cw_mkn *mw_mkn;
-    Cw_Ambar *mw_depo;
+    Cw_Mlzm *mwMLZM;
 
 
     QTextEdit *durum;
@@ -55,7 +56,7 @@ public:
 public:
 
     QSqlRelationalTableModel *modelFatura();
-
+    QSqlRelationalTableModel *modelMalzeme();
 private:
     void cr_MainWindow();
     void cr_DockWindows();

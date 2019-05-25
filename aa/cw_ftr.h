@@ -40,6 +40,7 @@ public:
     QLineEdit   *lE_faturano  ;
     QLineEdit   *lE_firma ;
     QLineEdit   *lE_tarih;
+    QLineEdit   *lE_aciklama;
 
 
     // depo detay

@@ -3,7 +3,7 @@
 #include "cw_fr.h"   // stack fr
 #include "cw_mkn.h"  // stack mkn
 #include "cw_grs.h"  // stack giris
-#include "cw_ambar.h"// stack ambar
+#include "cw_mlzm.h"// stack ambar
 #include "cw_hkk.h"  // hakk1nda
 #include "login.h"
 
@@ -290,11 +290,9 @@ void MW_main::cw_fr()               // firma
 
 void MW_main::cw_ftr()               // fatura
 {
+    statusBar()->showMessage(
+                tr("Ambar Faturalı Mal Girişi"));
     mw_ftr = new Cw_ftr();
-
-    statusBar()->showMessage(tr("Ambar Faturalı Mal Girişi"));
-    mw_ftr->setWindowTitle ("FATURA");
-    mw_ftr->resize(qApp->screens()[0]->size()*.8);
     mw_ftr->setup_fatura ();
     mw_ftr->show ();
 }
@@ -307,12 +305,9 @@ void MW_main::quitApp()
 void MW_main::cw_dpo()   //new stokekle
 {
     statusBar()->showMessage(tr("Ambar "));
-    Cw_Ambar *mw_ambar = new Cw_Ambar();
-    //mw_ambar ->setWindowFlags ( Qt:: Dialog );
-    //anbar ->setWindowModality(Qt::WindowModal);
-    mw_ambar->setWindowTitle ("AMBAR");
-    mw_ambar->resize(qApp->screens()[0]->size()*.8);
-    mw_ambar ->show ();
+    mwMLZM = new Cw_Mlzm();
+    mwMLZM->setup_mlzm ();
+    mwMLZM->show ();
 
 }
 void MW_main::cw_mkn()   // makina centralwidget
@@ -787,6 +782,7 @@ bool MW_main::VTd_FTRA ()
              "  ftr_no  	TEXT ,"
              "  ftr_firma	TEXT ,"
              "  ftr_tarih	TEXT ,"
+             "  ftr_aciklama TEXT ,"
              "  ftr_resim    BLOB  )" ;
 
         if (!q.exec( ct ))
@@ -847,28 +843,30 @@ QSqlRelationalTableModel* MW_main::modelFatura()
     fieldList->append("Fatura No");
     fieldList->append("Firma Unvanı");
     fieldList->append("Fatura Tarihi");
+    fieldList->append("Açıklama");
     fieldList->append("Resim");
 
 
     QSqlRelationalTableModel *FTRmodel = new QSqlRelationalTableModel;
     FTRmodel->setTable( *tableName);
-    qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
+    //qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
     FTRmodel->setEditStrategy(QSqlTableModel::OnFieldChange);
     FTRmodel->setSort(FTRmodel->fieldIndex (*indexField),Qt::AscendingOrder );
 
-    qDebug() << " view column count = i "<< FTRmodel->columnCount();
+   // qDebug() << " view column count = i "<< FTRmodel->columnCount();
     for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
     {
 
-        qDebug() << "  header data i önce = "<< i << "," <<
-                    FTRmodel->headerData (i,Qt::Horizontal);
+     //   qDebug() << "  header data i önce = "<< i << "," <<
+                    //FTRmodel->headerData (i,Qt::Horizontal);
 
         FTRmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
 
-        qDebug() << "  header data i = "<< i << "," <<
+    /*    qDebug() << "  header data i = "<< i << "," <<
                     FTRmodel->headerData (i,Qt::Horizontal);
         qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
         qDebug() << "  field list j "<< fieldList->value (j);
+*/
     }
 
     // Populate the model_mkstok
@@ -1748,7 +1746,8 @@ void MW_main::VTd_Ambar()
 
     QString ct;
     QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "mlzm__dbtb"))
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( "mlzm__dbtb"))
     {
         ct = "CREATE TABLE IF NOT EXISTS mlzm__dbtb "
              "("
@@ -1768,18 +1767,79 @@ void MW_main::VTd_Ambar()
 
         if (!q.exec( ct ))
         {
-            qDebug() << "DEPO Dosyası Oluşturulamadı - "
+            qDebug() << "Malzeme Dosyası Oluşturulamadı - "
                      << q.lastError() ;
         }
         else
         {
-            qDebug() << "DEPO Dosyası YENİ Oluşturuldu - ";
+            qDebug() << "Malzeme Dosyası YENİ Oluşturuldu - ";
             q.exec("INSERT INTO dbtb_Ambar ( barkod,malzeme )"
                    " values( '-','-' )"  );
 
         }
     }
 }
+
+
+
+QSqlRelationalTableModel* MW_main::modelMalzeme()
+{
+
+    QString *tableName  = new QString("mlzm__dbtb");
+    QString *indexField = new QString("mlzm_malzeme");
+
+    QStringList *fieldList = new QStringList;
+    fieldList->append("Kod");
+    fieldList->append("Barkod");
+    fieldList->append("Malzeme");
+    fieldList->append("Açıklama");
+    fieldList->append("Marka");
+    fieldList->append("Model");
+    fieldList->append("Cins");
+    fieldList->append("Birim");
+    fieldList->append("Giriş");
+    fieldList->append("Çıkış");
+    fieldList->append("Mevcut");
+    fieldList->append("Makina");
+    fieldList->append("Resim");
+
+    QSqlRelationalTableModel *MLZMmodel = new QSqlRelationalTableModel;
+    MLZMmodel->setTable( *tableName);
+    //qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
+    MLZMmodel->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    MLZMmodel->setSort(MLZMmodel->fieldIndex (*indexField),Qt::AscendingOrder );
+
+   // qDebug() << " view column count = i "<< MLZMmodel->columnCount();
+    for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
+    {
+
+     //   qDebug() << "  header data i önce = "<< i << "," <<
+                    //MLZMmodel->headerData (i,Qt::Horizontal);
+
+        MLZMmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
+
+    /*    qDebug() << "  header data i = "<< i << "," <<
+                    MLZMmodel->headerData (i,Qt::Horizontal);
+        qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
+        qDebug() << "  field list j "<< fieldList->value (j);
+*/
+    }
+
+    // Populate the model_mkstok
+    if (!MLZMmodel->select())
+    {
+        qDebug () <<  " HATA - Model fatura select "
+                   <<MLZMmodel->lastError();
+
+    }
+    return MLZMmodel ;
+}///FATURA
+
+
+
+
+
+
 
 /////DEPO DETAY
 ///
@@ -1797,8 +1857,8 @@ void MW_main::VTd_AmbarDETAY()
              "mlzmDet_barkod	TEXT , "
              "mlzmDet_malzeme	TEXT , "
              "mlzmDet_tarih	    TEXT , "
-             "mlzmDet_gc        TEXT , "
-             "mlzmDet_gcno      TEXT , "
+             "mlzmDet_gc        TEXT , "    // faturalı giriş vs.
+             "mlzmDet_gcno      TEXT , "    // fatura no  vs.
              "mlzmDet_miktar    TEXT , "
              "mlzmDet_birim     TEXT , "
              "mlzmDet_fiyat     TEXT , "
