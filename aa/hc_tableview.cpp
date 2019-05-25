@@ -117,17 +117,19 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
                   "selection-background-color: rgba(155,255,155,255);"
                   "selection-color: rgba(25,25,25,255);" ;
 
-    this->table->setStyleSheet (str);
+    //this->table->setStyleSheet (str);
     QString str2 = "color: rgba(155,255,155,255);"
                   " background-color : qlineargradient(spread:pad, "
                   "x1:0, y1:0, x2:0, y2:5, stop:0 "
-                  "rgba(26, 84, 43, 200), stop:1 "
-                  "rgba(24, 176, 148, 225));"
+                  "rgba(12, 41, 62, 10), stop:1 "
+                  "rgba(22, 249, 172, 225));"
                   "selection-background-color: rgba(155,255,155,255);"
                   "selection-color: rgba(25,25,25,255);" ;
     if (renk==1)
-    this->setStyleSheet (str2);
+    //this->setStyleSheet (str2);
 
+
+this->setAlternatingRowColors (true);
     LYg_nv->addWidget (table   ,1,0,1,1 );
     LYg_nv->addLayout (LYv_nv  ,0,0,1,1 );
 }

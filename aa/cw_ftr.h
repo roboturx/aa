@@ -14,6 +14,9 @@ class Cw_ftr : public QWidget
     Q_OBJECT
 
 public:
+
+    void setup_fatura() ;
+
     QString     *tableName ;
     QString     *indexField ;
     QStringList *fieldList;
@@ -37,6 +40,7 @@ public:
     QLineEdit   *lE_faturano  ;
     QLineEdit   *lE_firma ;
     QLineEdit   *lE_tarih;
+    QLineEdit   *lE_aciklama;
 
 
     // depo detay
@@ -67,7 +71,7 @@ private:
     // depo veritabanı
 
     //depo
-    void setup_fatura() ;
+
 
     void setup_uiFtr() ;
     void wd_FTR()      ; //depo ui devamı
