@@ -3,7 +3,7 @@
 #include "cw_fr.h"   // stack fr
 #include "cw_mkn.h"  // stack mkn
 #include "cw_grs.h"  // stack giris
-#include "cw_mlzm.h"// stack ambar
+#include "cw_mlzm.h"// stack Mlzm
 #include "cw_hkk.h"  // hakk1nda
 #include "login.h"
 
@@ -16,71 +16,82 @@
 MW_main::MW_main( )
 {
 
-
+}
 void MW_main::login()
 {
-    MW_main::showMaximized ();
-    //    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint );
-
-    //    setStyleSheet("background:transparent;");
-    //  this->setStyleSheet("background-color: rgba(0, 0, 0, 192)");
-    //this->setAttribute(Qt::WA_TranslucentBackground);
-    /*  QPalette pal = palette();
-    pal.setBrush(QPalette::Window, QColor(0, 0, 0, 128) );
-    setPalette(pal);*/
-    //setAutoFillBackground(true);
-
-
+cr_Actions ();
+    //    this->setWindowFlags(Qt::Window |
+    //                         Qt::FramelessWindowHint );
 
     /// ana ekran
     /////////////////////////////////////////////////////
     // qDebug() << "main log";
+    MW_main::showMaximized ();
     wd_log = new QWidget(this);
     this->setCentralWidget (wd_log);
-    durum = new QTextEdit;
-    durum->setReadOnly (true);
-    yaz("---", QDate::currentDate ().toString());
 
     QGridLayout *lg = new QGridLayout(wd_log);
+    wd_log->setLayout(lg);
+
+    durum = new QTextEdit(wd_log);
+    durum->setReadOnly (true);
+
     lg->addWidget(durum  ,1,0,1,6);
 
 
 
-    fade(true);
+
+
+
+    yaz(QDate::currentDate ().toString());
+
+
+
+
+
+
+
+   // fade(true);
+
 
     /// veritabanı kontrol
     qDebug() << "db control";
     if (! dbcontrol ())
     {
         /// hata ne /// baglanti yok
-        yaz("HATA -","Veri Tabanı Bağlantısı Yapılamadı");
-return;
+        yaz("----------------------------------------");
+        yaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
+        return;
     }
     else
     {
         /// baglanti var /// uygulama yoluna devam etsin
 
-        yaz("OK","Veri Tabanı Bağlantısı Yapıldı");
+        yaz("----------------------------------------");
+        yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
         qDebug() << "Connected ...";
 
     }
 
+
+
     /// login için esc-enter kullanımı
     /////////////////////////////////////
 
-    // logger= new Login;
+     logger= new Login;
 
-    cr_Actions ();
 
-    /*   connect(logger, &Login::logok, this, &MW_main::yetkiler);
+
+       connect(logger, &Login::logok, this, &MW_main::yetkiler);
     connect(this, &MW_main::cikis, logger, &Login::logex );
+    //connect(this, &MW_main::cikis, qApp , &QApplication::quit );
 
     //qDebug() << "main keys set ESC";
     QShortcut * sc_ESC = new QShortcut(
                 QKeySequence(Qt::Key_Escape),this,
                 SLOT(logouted() ));
     sc_ESC->setAutoRepeat(false);
-*/
+
     /// all things okey
     /// wait for a key for connect
 }
@@ -89,8 +100,9 @@ void MW_main::yetkiler(QString yetki, QString user)
 {
     //    this->setFocus ();
     qDebug() << "yetkiler ="<<yetki;
-    QString x =" --- Kullanıcı ( "+user +" ) - ( "+ yetki +" ) yetkileri ile bağlandı";
-    yaz(QDateTime::currentDateTime ().toString(),x);
+    QString x ="++++ Kullanıcı ( "+user +" ) - ( "+ yetki +
+            " ) yetkileri ile bağlandı";
+    yaz(QDateTime::currentDateTime ().toString() + x);
 
 }
 
@@ -99,8 +111,9 @@ void MW_main::yetkiler(QString yetki, QString user)
 void MW_main::logouted()
 {
     GLB_yetki = "İlk";
-    QString x =" --- ( "+logger->lE_user->text ()+" ) kullanıcısı ile yapılan bağlantı sona erdi...";
-    yaz(QDateTime::currentDateTime ().toString(),x);
+    QString x =" +++ ( "+logger->lE_user->text ()+
+            " ) kullanıcısı ile yapılan bağlantı sona erdi...";
+    yaz(QDateTime::currentDateTime ().toString() + x);
     logger->lE_user->setFocus ();
     logger->lE_user->setText ("");
     logger->lE_pass->setText ("");
@@ -149,7 +162,7 @@ void MW_main::cr_Actions()
     /// mkn
     QAction *act_mkn = new QAction(QIcon(":/rsm/ex.png"),
                                    tr("&Makina..."), this);
-    act_mkn->setStatusTip(tr("Demirbaş Ambar"));
+    act_mkn->setStatusTip(tr("Demirbaş Mlzm"));
     act_mkn->setShortcut(QKeySequence(tr("Ctrl+M")));
     mn_main->addAction(act_mkn);
     tb_main->addAction(act_mkn);
@@ -170,12 +183,12 @@ void MW_main::cr_Actions()
     menuBar()->addSeparator();
     tb_main->addSeparator ();
 
-    /// dpo    ambar kontrol
+    /// dpo    Mlzm kontrol
     QAction *act_dpo = new QAction(QIcon(":/rsm/plt.png"),
-                                   tr("&Ambar..."), this);
+                                   tr("&Mlzm..."), this);
     act_dpo->setShortcut(QKeySequence(tr("Ctrl+S")));
     act_dpo->setShortcutContext(Qt::ApplicationShortcut);
-    act_dpo->setStatusTip(tr("Ambar Kontrol "));
+    act_dpo->setStatusTip(tr("Mlzm Kontrol "));
     mn_main->addAction(act_dpo);
     tb_main->addAction(act_dpo);
     connect( act_dpo , &QAction::triggered,
@@ -290,7 +303,7 @@ void MW_main::cw_fr()               // firma
 void MW_main::cw_ftr()               // fatura
 {
     statusBar()->showMessage(
-                tr("Ambar Faturalı Mal Girişi"));
+                tr("Mlzm Faturalı Mal Girişi"));
     mw_ftr = new Cw_ftr();
     mw_ftr->setup_fatura ();
     mw_ftr->show ();
@@ -303,7 +316,7 @@ void MW_main::quitApp()
 
 void MW_main::cw_dpo()   //new stokekle
 {
-    statusBar()->showMessage(tr("Ambar "));
+    statusBar()->showMessage(tr("Mlzm "));
     mwMLZM = new Cw_Mlzm();
     mwMLZM->setup_mlzm ();
     mwMLZM->show ();
@@ -311,11 +324,11 @@ void MW_main::cw_dpo()   //new stokekle
 }
 void MW_main::cw_mkn()   // makina centralwidget
 {
-    statusBar()->showMessage(tr("Demirbaş Ambar"));
+    statusBar()->showMessage(tr("Demirbaş Mlzm"));
 
     Cw_mkn *mw_mkn = new Cw_mkn ();
     //mw_mkn ->setWindowFlags ( Qt:: Dialog );
-    //ambar ->setWindowModality(Qt::WindowModal);
+    //Mlzm ->setWindowModality(Qt::WindowModal);
     mw_mkn->setWindowTitle ("MAKİNA");
     //    mw_mkn->resize(qApp->screens()[0]->size()*.7);
     mw_mkn ->showMaximized();
@@ -350,7 +363,7 @@ void MW_main::closeEvent (QCloseEvent *event)
     QPushButton *bt_hyr  = msgBox.addButton(tr("&Vazgeç"), QMessageBox::NoRole);
 
     msgBox.setWindowTitle ("GİRİŞ KONTROL");
-    msgBox.setText(tr("\n    Uygulama sona erdirilsin mi ?    \n"));
+    msgBox.setText(tr("<br>    Uygulama sona erdirilsin mi ?    <br>"));
     msgBox.exec();
 
     if (msgBox.clickedButton() == bt_hyr)
@@ -374,7 +387,7 @@ MW_main::~MW_main()
     delete mw_per;
     delete mw_mkk;
     delete mw_mkn;
-    //  delete mw_Ambar;
+    //  delete mw_Mlzm;
 }
 
 
@@ -449,9 +462,9 @@ bool MW_main::dbcontrol()
     else
     {
         /// hata ne /// baglanti yok
-        QString x = "Hata 002 - Code::Database NOT Connected !!! \n"+
+        QString x = "Hata 002 - Code::Database NOT Connected !!! <br>"+
                 VTKontrolEt::instance ()->GetError ()   ;
-        yaz("- ? - ",x);
+        yaz("/// ? - "+x);
 
 
         return false;
@@ -468,30 +481,15 @@ bool MW_main::dbcontrol()
 void MW_main::VTDosyaKontrol()
 {
 
-    if (!MW_main::VTd_CLSN ())
-        yaz( "HATA - ","Çalışan ");
-    else yaz( "OK - ","Çalışan ");
-
-    if (!MW_main::VTd_MSLK ())
-        yaz( "HATA - ","Meslekler ");
-    else yaz( "OK - ","Meslekler ");
-
-    if (!MW_main::VTd_FRMA ())
-        yaz( "HATA - ","Firma ");
-    else yaz( "OK - ","Firma ");
-
-    if (!MW_main::VTd_FTRA ())
-        yaz( "HATA - ","Fatura ");
-    else yaz( "OK - ","Fatura ");
-
-    if (!MW_main::VTd_FTDT ())
-        yaz( "HATA - ","Fatura Detay ");
-    else yaz( "OK - ","Fatura Detay ");
+    yaz(MW_main::VTd_CLSN ());
+    yaz(MW_main::VTd_MSLK ());
+    yaz(MW_main::VTd_FRMA ());
+    yaz(MW_main::VTd_FTRA ());
+    yaz(MW_main::VTd_Mlzm ());
+    yaz(MW_main::VTd_MlzmDETAY ());
 
 
     MW_main::VTd_mkn ();
-    MW_main::VTd_Ambar ();
-    MW_main::VTd_AmbarDETAY ();
     MW_main::VTd_CINS ();
     MW_main::VTd_MARKA ();
     MW_main::VTd_MODEL ();
@@ -516,23 +514,15 @@ void MW_main::VTDosyaKontrol()
 }
 
 
-bool MW_main::VTd_CLSN ()
+QString MW_main::VTd_CLSN()
 {
     QSqlQuery   q;
-    QString     ct;
+    QString     ct, mesaj = "OK - Çalışan";
     QStringList inserts;
-
-
-    //// Veritabanında dosya varmý yoksa oluþtur ve ilk kaydÄ± ekle
-
 
     if ( ! VTKontrolEt::instance()->
          GetDB().tables().contains( "dbtb_clsn"))
     {
-        /// calişan create
-        ///
-        ///
-        ///
 
         ct = "CREATE TABLE IF NOT EXISTS dbtb_clsn"
              "("
@@ -558,13 +548,14 @@ bool MW_main::VTd_CLSN ()
 
         if (!q.exec( ct ))
         {
-            qDebug() << "Çalışan Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-            return false;
+            mesaj = "<br>HATA - Çalışan Dosyası Oluşturulamadı  "
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text() +
+                    "<br>------------------------------------<br>";
         }
         else
         {
-            yaz("+++", "Çalışan Dosyası YENİ Oluşturuldu - ");
+            mesaj = "OK - Çalışan Dosyası YENİ Oluşturuldu ";
             inserts << "INSERT INTO dbtb_clsn "
                        "( "
                        "isim, soyad, "
@@ -603,24 +594,20 @@ bool MW_main::VTd_CLSN ()
             {
                 if ( !q.exec(qry) )
                 {
-
-                    durum->append(QString(" HATA - İlk ÇALIŞAN Eklenemedi - "
-                                          + q.lastError().text ()));
-                    qDebug()  << " HATA - ÇALIŞAN Eklenemedi - "
-                              << q.lastError() ;
-                    return false;
+                    mesaj = mesaj + "<br>İLK Çalışan Eklenemdi"+
+                            "<br>------------------------------------<br>"+
+                            q.lastError().text ()+
+                            "<br>------------------------------------<br>";
                 }
-                else{
-                    yaz("+++", " İlk ÇALIŞAN Eklendi - ");
-                    qDebug()  << "ÇALIŞAN Eklendi - ";
-
+                else
+                {
+                    mesaj = mesaj + "<br>İLK Çalışan eklendi.";
                 }
             } // foreach
-
-
         }
     }
-    return true;
+    qDebug ()<< mesaj;
+    return mesaj ;
 
 
 }
@@ -630,69 +617,53 @@ bool MW_main::VTd_CLSN ()
 /// \brief MW_main::VTd_MSLK
 /// \return
 ///
-///
-///
-///
-bool MW_main::VTd_MSLK ()
+QString MW_main::VTd_MSLK ()
 {
-    /// meslekler dosyası
-    ///
-    ///
+    QString mesaj = "OK - Meslek";
+    QSqlQuery query;
+
     if ( ! VTKontrolEt::instance()->
          GetDB().tables().contains( "dbtb_mslk"))
     {
-        QSqlQuery query;
         if (! query.exec("create table if not exists "
                          "dbtb_mslk (id int, meslek TEXT)"))
         {
-            durum->append (QString("MESLEK Dosyası Oluşturulamadı - "
-                                   + query.lastError().text ()));
-            qDebug() << "MESLEK Dosyası Oluşturulamadı - "
-                     << query.lastError() ;
-            return false;
+            mesaj = "<br>HATA - Meslek Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    query.lastError().text ()+
+                    "<br>------------------------------------<br>";
         }
         else
         {
-            yaz("+++", "MESLEK Dosyası YENİ Oluşturuldu - ");
-            qDebug() << "MESLEK Çalışan Dosyası YENİ Oluşturuldu - ";
+            mesaj = "OK - Meslek Dosyası YENİ Oluşturuldu - ";
             if ( !query.exec("insert into dbtb_mslk values(101, 'Makina Mühendisi')"))
             {
-                durum->append (QString("MESLEK Dosyasına İLK kayıt eklenemedi "
-                                       + query.lastError().text() ));
-                qDebug() << "MESLEK Dosyasına İLK kayıt eklenemedi "
-                         << query.lastError() ;
-
-                return false;
+                mesaj = mesaj + "<br>İLK meslek kaydı eklenemedi "
+                                "<br>------------------------------------<br>"+
+                        query.lastError().text() +
+                        "<br>------------------------------------<br>";
             }
             else
             {
-                return true;
+                mesaj = mesaj + "<br>İLK Meslek kaydı eklendi.";
             }
         }
     }
-    return true;
+    qDebug()<< mesaj ;
+    return mesaj ;
 }
 
 
 
-bool MW_main::VTd_FRMA ()
+QString MW_main::VTd_FRMA()
 {
     QSqlQuery   q;
-    QString     ct;
+    QString     ct, mesaj ="OK - Firma";
     QStringList inserts;
-
-
-    //// Veritabanında dosya varmý yoksa oluþtur ve ilk kaydÄ± ekle
-
 
     if ( ! VTKontrolEt::instance()->
          GetDB().tables().contains( "frm__dbtb"))
     {
-        /// calişan create
-        ///
-        ///
-        ///
-
         ct = "CREATE TABLE IF NOT EXISTS frm__dbtb"
              "("
              "  frm_kod    INTEGER PRIMARY KEY  , "
@@ -710,13 +681,14 @@ bool MW_main::VTd_FRMA ()
 
         if (!q.exec( ct ))
         {
-            qDebug() << "FİRMA Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-            return false;
+            mesaj = "<br>HATA - Firma Dosyası Oluşturulamadı - "
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
         }
         else
         {
-            yaz("+++", "FİRMA Dosyası YENİ Oluşturuldu - ");
+            mesaj = "OK - FİRMA Dosyası YENİ Oluşturuldu ";
             inserts << "INSERT INTO frm__dbtb "
                        "( "
                        "frm_unvan , frm_adres, frm_sehir , "
@@ -737,44 +709,32 @@ bool MW_main::VTd_FRMA ()
             {
                 if ( !q.exec(qry) )
                 {
-
-                    durum->append(QString(" HATA - FİRMA Eklenemedi - "
-                                          + q.lastError().text ()));
-                    qDebug()  << " HATA - FİRMA Eklenemedi - "
-                              << q.lastError() ;
-                    return false;
+                    mesaj = mesaj + "<br>İLK Firma Kaydı Eklenemedi "
+                                    "<br>------------------------------------<br>"+
+                            q.lastError().text ()+
+                            "<br>------------------------------------<br>";
                 }
                 else{
-                    durum->append("FİRMA Eklendi - ");
-                    qDebug()  << "FIRMA Eklendi - ";
-
+                    mesaj = mesaj + "<br>İLK Firma Eklendi ";
                 }
             } // foreach
         }
     }
-    return true;
-}    ///FİRMA
+    qDebug()  << mesaj ;
+    return mesaj ;
+}   /// FİRMA
 
 
 
-bool MW_main::VTd_FTRA ()
+QString MW_main::VTd_FTRA ()
 {
     QSqlQuery   q;
-    QString     ct;
+    QString     ct, mesaj = "OK - Fatura" ;
     QStringList inserts;
-
-
-    //// Veritabanında dosya varmý yoksa oluþtur ve ilk kaydÄ± ekle
-
 
     if ( ! VTKontrolEt::instance()->
          GetDB().tables().contains( "ftr__dbtb"))
     {
-        /// calişan create
-        ///
-        ///
-        ///
-
         ct = "CREATE TABLE IF NOT EXISTS ftr__dbtb"
              "("
              "  ftr_kod    INTEGER PRIMARY KEY  , "
@@ -786,49 +746,47 @@ bool MW_main::VTd_FTRA ()
 
         if (!q.exec( ct ))
         {
-            qDebug() << "FATURA Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-            return false;
+            mesaj = "<br>HATA - FATURA Dosyası Oluşturulamadı - "
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text() +
+                    "<br>------------------------------------<br>";
         }
         else
         {
-            yaz("+++", "FATURA Dosyası YENİ Oluşturuldu - ");
+            mesaj = (" OK - Fatuura Dosyası YENİ Oluşturuldu - ");
             inserts << "INSERT INTO ftr__dbtb "
                        "( "
                        "ftr_no , ftr_firma "
                        ") "
                        "VALUES "
                        "("
-                       "'-', '-' "
+                       "'1', 'İlk Firma -' "
                        " )" ;
 
             foreach (QString qry , inserts)
             {
                 if ( !q.exec(qry) )
                 {
-
-                    durum->append(QString(" HATA - FATURA Eklenemedi - "
-                                          + q.lastError().text ()));
-                    qDebug()  << " HATA - FATURA Eklenemedi - "
-                              << q.lastError() ;
-                    return false;
+                    mesaj = "<br>İLK Fatura Eklenemedi"
+                            "<br>------------------------------------<br>"+
+                            q.lastError().text ()+
+                            "<br>------------------------------------<br>";
                 }
-                else{
-                    durum->append("FATURA Eklendi - ");
-                    qDebug()  << "FATURA Eklendi - ";
-
+                else
+                {
+                    mesaj = mesaj + "<br>İLK Fatura Eklendi";
                 }
             } // foreach
         }
     }
-    else
+    else /// dosya var
     {
         mdlFtr = new QSqlRelationalTableModel;
         mdlFtr = modelFatura();
-
-        //durum->append("FATURA dosyası var        ------------- - ");
     }
-    return true;
+
+    qDebug()<< mesaj ;
+    return mesaj;
 }
 
 QSqlRelationalTableModel* MW_main::modelFatura()
@@ -852,16 +810,16 @@ QSqlRelationalTableModel* MW_main::modelFatura()
     FTRmodel->setEditStrategy(QSqlTableModel::OnFieldChange);
     FTRmodel->setSort(FTRmodel->fieldIndex (*indexField),Qt::AscendingOrder );
 
-   // qDebug() << " view column count = i "<< FTRmodel->columnCount();
+    // qDebug() << " view column count = i "<< FTRmodel->columnCount();
     for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
     {
 
-     //   qDebug() << "  header data i önce = "<< i << "," <<
-                    //FTRmodel->headerData (i,Qt::Horizontal);
+        //   qDebug() << "  header data i önce = "<< i << "," <<
+        //FTRmodel->headerData (i,Qt::Horizontal);
 
         FTRmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
 
-    /*    qDebug() << "  header data i = "<< i << "," <<
+        /*    qDebug() << "  header data i = "<< i << "," <<
                     FTRmodel->headerData (i,Qt::Horizontal);
         qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
         qDebug() << "  field list j "<< fieldList->value (j);
@@ -880,98 +838,183 @@ QSqlRelationalTableModel* MW_main::modelFatura()
 
 
 
-
-
-
-
-
-
-
-
-bool MW_main::VTd_FTDT ()
+///
+/// \brief MW_main::VTd_Mlzm
+/// \return
+///
+QString MW_main::VTd_Mlzm()
 {
-    QSqlQuery   q;
-    QString     ct;
-    QStringList inserts;
+    /// Malzeme create
+    ///
 
-
-    //// Veritabanında dosya varmý yoksa oluþtur ve ilk kaydÄ± ekle
-
-
-    if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( "ftd__dbtb"))
+    QString ct, mesaj ="OK - Malzeme";
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( "mlzm__dbtb"))
     {
-        /// calişan create
-        ///
-        ///
-        ///
-
-        ct = "CREATE TABLE IF NOT EXISTS ftd__dbtb"
+        ct = "CREATE TABLE IF NOT EXISTS mlzm__dbtb "
              "("
-             "  ftd_kod    INTEGER PRIMARY KEY  , "
-             "  ftd_ftno  	TEXT ,"
-             "  ftd_malzeme	TEXT ,"
-             "  ftd_aciklama TEXT ,"
-             "  ftd_grs_cks	TEXT ,"
-             "  ftd_miktar	TEXT ,"
-             "  ftd_birim	TEXT ,"
-             "  ftd_brfiyat	TEXT ,"
-             "  ftd_kdv     TEXT ,"
-             "  ftd_resim    BLOB  )" ;
+             "mlzm_kod integer primary key, "
+             "mlzm_barkod	TEXT, "
+             "mlzm_malzeme  TEXT,"
+             "mlzm_aciklama TEXT,"
+             "mlzm_marka	TEXT, "
+             "mlzm_model	TEXT, "
+             "mlzm_cins	    TEXT,"
+             "mlzm_birim	TEXT,"
+             "mlzm_giris	TEXT, "
+             "mlzm_cikis	TEXT, "
+             "mlzm_mevcut   TEXT,"
+             "mlzm_makina   TEXT,"
+             "mlzm_resim	BLOB) "    ;
 
         if (!q.exec( ct ))
         {
-            qDebug() << "FATURA DETAY Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-            return false;
+            mesaj="<br>HATA - Malzeme Dosyası Oluşturulamadı"
+                  "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
+        }
+        else /// dosya oluşturuldu
+        {
+            mesaj= "OK - Malzeme Dosyası YENİ Oluşturuldu ";
+            if (
+                    q.exec("INSERT INTO mlzm__dbtb "
+                           "( mlzm_barkod,mlzm_malzeme )"
+                           " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
+            {
+                mesaj= mesaj+"<br>İLK kayıt Eklendi";
+            }
+            else
+            {
+                mesaj= mesaj+"<br>İLK Malzeme kaydı eklenemdi "
+                             "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
+
+        }
+    }
+    else /// dosya var
+    {
+        mdlMlzm = new QSqlRelationalTableModel;
+        mdlMlzm = modelMalzeme();
+    }
+    qDebug() << mesaj;
+    return mesaj;
+}
+
+
+
+QSqlRelationalTableModel* MW_main::modelMalzeme()
+{
+
+    QString *tableName  = new QString("mlzm__dbtb");
+    QString *indexField = new QString("mlzm_malzeme");
+
+    QStringList *fieldList = new QStringList;
+    fieldList->append("Kod");
+    fieldList->append("Barkod");
+    fieldList->append("Malzeme");
+    fieldList->append("Açıklama");
+    fieldList->append("Marka");
+    fieldList->append("Model");
+    fieldList->append("Cins");
+    fieldList->append("Birim");
+    fieldList->append("Giriş");
+    fieldList->append("Çıkış");
+    fieldList->append("Mevcut");
+    fieldList->append("Makina");
+    fieldList->append("Resim");
+
+    QSqlRelationalTableModel *MLZMmodel = new QSqlRelationalTableModel;
+    MLZMmodel->setTable( *tableName);
+    MLZMmodel->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    MLZMmodel->setSort(MLZMmodel->fieldIndex (*indexField),Qt::AscendingOrder );
+
+    for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
+    {
+        MLZMmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
+    }
+
+    // Populate the model_mkstok
+    if (!MLZMmodel->select())
+    {
+        qDebug () <<  " HATA - Model fatura select "
+                   <<MLZMmodel->lastError();
+
+    }
+    qDebug () <<  " MŞZMmodel orj mw main"<<MLZMmodel;
+    return MLZMmodel ;
+}///Malzeme Model
+
+
+
+
+
+
+///
+/// \brief MW_main::VTd_MlzmDETAY
+/// \return
+///
+QString MW_main::VTd_MlzmDETAY()
+{
+    QString ct, mesaj = "OK - Malzeme Detay";
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().
+         tables().contains( "mlzmdet__dbtb"))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS mlzmdet__dbtb "
+             "("
+             "mlzmDet_kod integer primary key, "
+             "mlzmDet_mlzm_kod	INTEGER, "
+             "mlzmDet_barkod	TEXT , "
+             "mlzmDet_malzeme	TEXT , "
+             "mlzmDet_tarih	    TEXT , "
+             "mlzmDet_gc        TEXT , "    // faturalı giriş vs.
+                "mlzmDet_gcno      TEXT , "    // fatura no  vs.
+                "mlzmDet_miktar    TEXT , "
+                "mlzmDet_birim     TEXT , "
+                "mlzmDet_fiyat     TEXT , "
+                "mlzmDet_kdv       TEXT , "
+                "mlzmDet_aciklama  TEXT ,  "
+                "mlzmDet_resim  BLOB  "
+                ")";
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Malzeme Detay Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
         }
         else
         {
-            yaz("+++", "FATURA DETAY Dosyası YENİ Oluşturuldu - ");
-            inserts << "INSERT INTO ftd__dbtb "
-                       "( "
-                       "ftd_ftno , ftd_malzeme, ftd_miktar,  "
-                       "ftd_birim, ftd_brfiyat, ftd_kdv"
-                       ") "
-                       "VALUES "
-                       "("
-                       "'-', '-', '', '', '', '' "
-                       " )" ;
+            mesaj= "OK - Malzeme Detay Dosyası YENİ Oluşturuldu";
 
-            foreach (QString qry , inserts)
+            if (q.exec("INSERT INTO mlzmdet__dbtb "
+                       "( mlzmdet_malzeme, mlzmDet_gc, mlzmDet_gcno )"
+                       " values( '1 nolu ürüne ait detay','Faturalı Giriş','1' )"  ))
             {
-                if ( !q.exec(qry) )
-                {
-
-                    durum->append(QString(" HATA - FATURA DETAY Eklenemedi - "
-                                          + q.lastError().text ()));
-                    qDebug()  << " HATA - FATURA DETAY Eklenemedi - "
-                              << q.lastError() ;
-                    return false;
-                }
-                else{
-                    durum->append("FATURA DETAY Eklendi - ");
-                    qDebug()  << "FATURA DETAY Eklendi - ";
-
-                }
-            } // foreach
+                mesaj = mesaj + "<br>İLK kayıt eklendi";
+            }
+            else
+            {
+                mesaj = mesaj +"<br>İLK Kayıt EKLENEMEDİ "
+                               "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
         }
     }
-    return true;
-}///FATURA DETAY
+    qDebug()<< mesaj ;
+    return mesaj ;
+}   /// malzeme detay
 
 
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////// DBASE
-
+///
+/// \brief MW_main::VTd_mkn
+///
 void MW_main::VTd_mkn()
 {
 
@@ -1007,12 +1050,12 @@ void MW_main::VTd_mkn()
 
         if (!q.exec( ct ))
         {
-            qDebug() << "DEMİRBAŞ AMBAR Dosyası Oluşturulamadı - "
+            qDebug() << "DEMİRBAŞ Makina Dosyası Oluşturulamadı - "
                      << q.lastError() ;
         }
         else
         {
-            qDebug() << "DEMİRBAŞ AMBAR Dosyası YENİ Oluşturuldu - ";
+            qDebug() << "DEMİRBAŞ Makina Dosyası YENİ Oluşturuldu - ";
             q.exec("INSERT INTO dbtb_mkn ( mkn_kurumNo,mkn_cinsi,"
                    "mkn_marka, mkn_modeli, mkn_surucu )"
                    " values( '100001', 1 , 1 , 1 , 1 )"  );
@@ -1021,7 +1064,7 @@ void MW_main::VTd_mkn()
     }
     else
     {
-        qDebug() << "1- DEMİRBAŞ AMBAR Dosyası - OK ";
+        qDebug() << "1- DEMİRBAŞ Makina Dosyası - OK ";
     }
 }       /// VTdMKSTOK
 
@@ -1034,7 +1077,7 @@ void MW_main::VTd_ISEMRI ()
     QSqlQuery q;
     if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_IE"))
     {
-        /// mkstok_no joins ambar with işemri
+        /// mkstok_no joins Mlzm with işemri
         /// db_mkn <- dbtb_IE
         ///
         /// ie_no = mknstk_n0 + id_IE
@@ -1671,7 +1714,7 @@ void MW_main::VTd_MKHGS ()
 /*
 void MW_main::VTd_DPTLP()
 {
-    /// depo talep create
+    /// Malzeme talep create
     /// tasinir istek
 
     QString ct;
@@ -1696,12 +1739,12 @@ void MW_main::VTd_DPTLP()
 
         if (!q.exec( ct ))
         {
-            qDebug() << "DEPO TALEP Dosyası Oluşturulamadı - "
+            qDebug() << "Malzeme TALEP Dosyası Oluşturulamadı - "
                      << q.lastError() ;
         }
         else
         {
-            qDebug() << "DEPO TALEP Dosyası YENİ Oluşturuldu - ";
+            qDebug() << "Malzeme TALEP Dosyası YENİ Oluşturuldu - ";
             q.exec("INSERT INTO dbtb_dptlp ( barkod,malzeme )"
                    " values( '','' )"  );
 
@@ -1730,157 +1773,6 @@ void MW_main::VTd_DPTLP()
 
 
 
-
-//////////////////////////////////////
-///
-/// DEPO
-///
-/// veritabanı
-
-
-void MW_main::VTd_Ambar()
-{
-    /// depo create
-    ///
-
-    QString ct;
-    QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().
-         contains( "mlzm__dbtb"))
-    {
-        ct = "CREATE TABLE IF NOT EXISTS mlzm__dbtb "
-             "("
-             "mlzm_kod integer primary key, "
-             "mlzm_barkod	TEXT, "
-             "mlzm_malzeme  TEXT,"
-             "mlzm_aciklama TEXT,"
-             "mlzm_marka	TEXT, "
-             "mlzm_model	TEXT, "
-             "mlzm_cins	    TEXT,"
-             "mlzm_birim	TEXT,"
-             "mlzm_giris	TEXT, "
-             "mlzm_cikis	TEXT, "
-             "mlzm_mevcut   TEXT,"
-             "mlzm_makina   TEXT,"
-             "mlzm_resim	BLOB) "    ;
-
-        if (!q.exec( ct ))
-        {
-            qDebug() << "Malzeme Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-        }
-        else
-        {
-            qDebug() << "Malzeme Dosyası YENİ Oluşturuldu - ";
-            q.exec("INSERT INTO dbtb_Ambar ( barkod,malzeme )"
-                   " values( '-','-' )"  );
-
-        }
-    }
-}
-
-
-
-QSqlRelationalTableModel* MW_main::modelMalzeme()
-{
-
-    QString *tableName  = new QString("mlzm__dbtb");
-    QString *indexField = new QString("mlzm_malzeme");
-
-    QStringList *fieldList = new QStringList;
-    fieldList->append("Kod");
-    fieldList->append("Barkod");
-    fieldList->append("Malzeme");
-    fieldList->append("Açıklama");
-    fieldList->append("Marka");
-    fieldList->append("Model");
-    fieldList->append("Cins");
-    fieldList->append("Birim");
-    fieldList->append("Giriş");
-    fieldList->append("Çıkış");
-    fieldList->append("Mevcut");
-    fieldList->append("Makina");
-    fieldList->append("Resim");
-
-    QSqlRelationalTableModel *MLZMmodel = new QSqlRelationalTableModel;
-    MLZMmodel->setTable( *tableName);
-    //qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
-    MLZMmodel->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
-    MLZMmodel->setSort(MLZMmodel->fieldIndex (*indexField),Qt::AscendingOrder );
-
-   // qDebug() << " view column count = i "<< MLZMmodel->columnCount();
-    for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
-    {
-
-     //   qDebug() << "  header data i önce = "<< i << "," <<
-                    //MLZMmodel->headerData (i,Qt::Horizontal);
-
-        MLZMmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
-
-    /*    qDebug() << "  header data i = "<< i << "," <<
-                    MLZMmodel->headerData (i,Qt::Horizontal);
-        qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
-        qDebug() << "  field list j "<< fieldList->value (j);
-*/
-    }
-
-    // Populate the model_mkstok
-    if (!MLZMmodel->select())
-    {
-        qDebug () <<  " HATA - Model fatura select "
-                   <<MLZMmodel->lastError();
-
-    }
-    return MLZMmodel ;
-}///FATURA
-
-
-
-
-
-
-
-/////DEPO DETAY
-///
-///
-void MW_main::VTd_AmbarDETAY()
-{
-    QString ct;
-    QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "ambardet__dbtb"))
-    {
-        ct = "CREATE TABLE IF NOT EXISTS mlzmDet__dbtb "
-             "("
-             "mlzmDet_kod integer primary key, "
-             "mlzmDet_mlzm_kod	INTEGER, "
-             "mlzmDet_barkod	TEXT , "
-             "mlzmDet_malzeme	TEXT , "
-             "mlzmDet_tarih	    TEXT , "
-             "mlzmDet_gc        TEXT , "    // faturalı giriş vs.
-             "mlzmDet_gcno      TEXT , "    // fatura no  vs.
-             "mlzmDet_miktar    TEXT , "
-             "mlzmDet_birim     TEXT , "
-             "mlzmDet_fiyat     TEXT , "
-             "mlzmDet_kdv       TEXT , "
-             "mlzmDet_aciklama  TEXT   "
-             ")";
-
-        if (!q.exec( ct ))
-        {
-            qDebug() << "MALZEME - DETAY Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-        }
-        else
-        {
-            qDebug() << "MALZEME - DETAY Dosyası YENİ Oluşturuldu - ";
-            q.exec("INSERT INTO mlzmdet__dbtb ( mlzmdet_mlzm_kod )"
-                   " values( 1 )"  );
-
-        }
-    }
-    qDebug() << "DEPO-DETAY Dosyası OK - "
-             << q.lastError() ;
-}
 
 ///// CINS
 ///
@@ -2048,20 +1940,30 @@ void MW_main::VTd_MODEL()
 
 
 
-void MW_main::yaz(QString x, QString y)
+void MW_main::yaz(QString z)
 {
-    if (x=="OK")
+    QString x,y;
+    x = z.left(z.indexOf("-"));
+    y = z.right(z.length() - z.indexOf("-"));
+    qDebug()<<"x= "<< x <<"   y= "<<y;
+    if (x.contains("OK"))
     {
-        durum->append("<span style='color:green;font-size:15px' > "+ x +" < /span> "
-                                                                        "<span style='color:lightblue;font-size:15px' > "+ y +" < /span> ");
+        durum->append("<span style='color:green;font-size:15px' > "
+                      + x +" < /span> "
+                           "<span style='color:darkblue;font-size:15px' > "
+                      + y +" < /span> ");
     }
-    else if  (x=="HATA")
+    else if  (x.contains("HATA"))
     {
-        durum->append("<span style='color:red;font-size:15px' > "+ x +" < /span> "
-                                                                      "<span style='color:lightblue;font-size:15px' > "+ y +" < /span> ");
+        durum->append("<span style='color:red;font-size:15px' > "
+                      + x +" < /span> "
+                           "<span style='color:darkblue;font-size:15px' > "
+                      + y +" < /span> ");
     }
     else
-        durum->append("<span style='color:yellow;font-size:15px' > "+ x +" < /span> "
-                                                                         "<span style='color:yellow;font-size:15px' > "+ y +" < /span> ");
+        durum->append("<span style='color:darkyellow;font-size:15px' > "
+                      + x +" < /span> "
+                           "<span style='color:darkyellow;font-size:15px' > "
+                      + y +" < /span> ");
 
 }

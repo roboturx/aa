@@ -241,6 +241,7 @@ Colors of the Year 2000-2019
     QString Eclipse      ("#343148");
     QString EveningBlue  ("#2A293E");
     QString LushMeadow   ("#006E51");
+    QString NavyPeony ("#223A5E");
 
 
 
@@ -254,31 +255,74 @@ Colors of the Year 2000-2019
      */
 
 
+//    QPalette dP;
+//    dP.setColor(QPalette::Window,
+//                QColor(EveningBlue));
+
+//    dP.setColor(QPalette::WindowText,
+//                QColor(AspenGold)); // label fg
+//    dP.setColor(QPalette::Base,
+//                QColor(LushMeadow)); // text arkaplan 25,25,25));
+//    dP.setColor(QPalette::AlternateBase,
+//                QColor(ChiliPepper));//53,53,53));
+//    dP.setColor(QPalette::ToolTipBase,
+//                QColor(ChiliPepper));
+//    dP.setColor(QPalette::ToolTipText,
+//                QColor(CeruleanBlue));
+
+//    dP.setColor(QPalette::PlaceholderText,
+//                QColor(LushMeadow));
+//    dP.setColor(QPalette::Text, QColor(LivingCoral));
+
+//    dP.setColor(QPalette::Button, QColor(EveningBlue));
+////    dP.setColor(QPalette::Mid, QColor(EveningBlue));
+//    dP.setColor(QPalette::ButtonText, QColor(LivingCoral));
+//    dP.setColor(QPalette::BrightText, Qt::red);
+
+//    dP.setColor(QPalette::Link, QColor(42, 130, 218));
+//    dP.setColor(QPalette::LinkVisited , QColor(42, 130, 218));
+
+//    dP.setColor(QPalette::Highlight, QColor(UltraViolet));
+//    dP.setColor(QPalette::HighlightedText, QColor(LivingCoral) );
+
+//    qApp->setPalette(dP);
+//   // qApp->setStyleSheet("QToolTip { color: #ffffff;
+//    //background-color: #2a82da; border: 1px solid white; }");
+
+
     QPalette dP;
-    dP.setColor(QPalette::Window, QColor(EveningBlue));
+    dP.setColor(QPalette::Window,
+                QColor(LushMeadow));
 
-    dP.setColor(QPalette::WindowText, QColor(AspenGold)); // label fg
-    dP.setColor(QPalette::Base, QColor(Eclipse)); // text arkaplan 25,25,25));
-    dP.setColor(QPalette::AlternateBase, QColor(ChiliPepper));//53,53,53));
-    dP.setColor(QPalette::ToolTipBase, QColor(ChiliPepper));
-    dP.setColor(QPalette::ToolTipText, QColor(CeruleanBlue));
+    dP.setColor(QPalette::WindowText,
+                QColor(AspenGold)); // label fg
+    dP.setColor(QPalette::Base,
+                QColor(LushMeadow)); // text arkaplan 25,25,25));
+    dP.setColor(QPalette::AlternateBase,
+                QColor(ChiliPepper));//53,53,53));
+    dP.setColor(QPalette::ToolTipBase,
+                QColor(LushMeadow));
+    dP.setColor(QPalette::ToolTipText,
+                QColor(LushMeadow));
 
-    dP.setColor(QPalette::PlaceholderText, QColor(LushMeadow));
-    dP.setColor(QPalette::Text, QColor(Turquoise));
+    dP.setColor(QPalette::PlaceholderText,
+                QColor(LushMeadow));
+    dP.setColor(QPalette::Text, QColor(LushMeadow));
 
-    dP.setColor(QPalette::Button, QColor(EveningBlue));
+    dP.setColor(QPalette::Button, QColor(LushMeadow));
 //    dP.setColor(QPalette::Mid, QColor(EveningBlue));
-    dP.setColor(QPalette::ButtonText, QColor(Serenity));
+    dP.setColor(QPalette::ButtonText, QColor(LushMeadow));
     dP.setColor(QPalette::BrightText, Qt::red);
 
-    dP.setColor(QPalette::Link, QColor(42, 130, 218));
-    dP.setColor(QPalette::LinkVisited , QColor(42, 130, 218));
+    dP.setColor(QPalette::Link, QColor(LushMeadow));
+    dP.setColor(QPalette::LinkVisited , QColor(LushMeadow));
 
-    dP.setColor(QPalette::Highlight, QColor(UltraViolet));
-    dP.setColor(QPalette::HighlightedText, QColor(LivingCoral) );
+    dP.setColor(QPalette::Highlight, QColor(LushMeadow));
+    dP.setColor(QPalette::HighlightedText, QColor(LushMeadow) );
 
-    qApp->setPalette(dP);
-    qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+  //  qApp->setPalette(dP);
+   // qApp->setStyleSheet("QToolTip { color: #ffffff;
+    //background-color: #2a82da; border: 1px solid white; }");
 
 
 

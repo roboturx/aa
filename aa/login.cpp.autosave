@@ -101,36 +101,40 @@ qDebug()<<"logexited başı";
 
 void Login::logex(QString nereden)
 {
-    if(VTKontrolEt::instance()->IsOpen())
+    try
     {
-        VTKontrolEt::instance()->Disconnect();
-        if( ! VTKontrolEt::instance()->IsOpen())
+        if(VTKontrolEt::instance()->IsOpen())
         {
-            qDebug() << "Disconnected from " << nereden;
+            VTKontrolEt::instance()->Disconnect();
+            if( ! VTKontrolEt::instance()->IsOpen())
+            {
+                qDebug() << "Disconnected from " << nereden;
 
 
-            this->destroy (true,true);
+                this->destroy (true,true);
 
-            qDebug() << "Destroyed";
-            this->close ();
-            qDebug() << "Closed";
-            qApp->quit ();
-            qDebug() << "Quited";
-            QApplication::exit(0);
-            qDebug() << "Exited";
-            qDebug() << "All windows Closing";
-            QApplication::setQuitOnLastWindowClosed(true);
-            QApplication::closeAllWindows();
-            qDebug() << "All windows Closed";
+                 qDebug() << "Destroyed";
+                this->close ();
+                  qDebug() << "Closed";
+                qApp->quit ();
+                 qDebug() << "Quited";
+                 QApplication::exit(0);
+                 qDebug() << "Exited";
+                 qDebug() << "All windows Closing";
+                 QApplication::setQuitOnLastWindowClosed(true);
+                 QApplication::closeAllWindows();
+                 qDebug() << "All windows Closed";
+            }
         }
+
+        //fade(false);
+
     }
-
-    //fade(false);
-
-
-    qDebug() << "Hata wd_logg" << nereden;
-    QApplication::exit(1);
-
+    catch (...)
+    {
+        qDebug() << "Hata wd_logg" << nereden;
+        QApplication::exit(1);
+    }
 
 }
 

@@ -191,7 +191,7 @@ void Cw_ftr::setup_modelFtr()
     MW_main *mwmain = new MW_main;
     //FTRmodel = new QSqlRelationalTableModel ;
     //FTRmodel = mwmain->modelFatura ();
-    FTRmodel = mwmain->mdlFtr ;
+    FTRmodel = mwmain->modelFatura() ;
 
     /*
     FTRmodel = new QSqlTableModel();
