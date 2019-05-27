@@ -1,4 +1,4 @@
-#include "login.h"
+﻿#include "login.h"
 
 Login::Login(QWidget *parent) : QWidget(parent)
 
@@ -109,10 +109,23 @@ void Login::logex(QString nereden)
             if( ! VTKontrolEt::instance()->IsOpen())
             {
                 qDebug() << "Disconnected from " << nereden;
-                qApp->quit ();
+                QApplication::setQuitOnLastWindowClosed(true);
+
 
                 this->destroy (true,true);
+
+                 qDebug() << "Destroyed";
                 this->close ();
+                  qDebug() << "Closed";
+                qApp->quit ();
+                 qDebug() << "Quited";
+                 QApplication::exit(0);
+                 qDebug() << "Exited";
+                 qDebug() << "All windows Closing";
+
+                 QApplication::closeAllWindows();
+
+                 qDebug() << "All windows Closed";
             }
         }
 

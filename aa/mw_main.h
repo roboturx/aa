@@ -48,14 +48,16 @@ public:
     QToolBar *toolBar;
 
     void cik();
-    void yaz(QString x, QString y);
+    void yaz(QString z);
     Login *logger;
     void login();
 
 
 public:
-
+    void mwmain();  // constructor
+    QSqlRelationalTableModel *mdlFtr;
     QSqlRelationalTableModel *modelFatura();
+    QSqlRelationalTableModel *mdlMlzm;
     QSqlRelationalTableModel *modelMalzeme();
 private:
     void cr_MainWindow();
@@ -69,18 +71,17 @@ private:
     bool dbcontrol();      // veritabanı yoksa oluştur, bağlan
     void VTDosyaKontrol();
 
-     bool VTd_CLSN();
-     bool VTd_MSLK();
-     bool VTd_FRMA();
-     bool VTd_FTRA();
-     QSqlRelationalTableModel *mdlFtr;
+     QString VTd_CLSN();
+     QString VTd_MSLK();
+     QString VTd_FRMA();
+     QString VTd_FTRA();
+     QString VTd_Mlzm ();
+     QString VTd_MlzmDETAY();
 
-     bool VTd_FTDT();
+
 
 
     void VTd_mkn ();
-    void VTd_Ambar ();
-    void VTd_AmbarDETAY ();
     void VTd_CINS ();
     void VTd_MARKA ();
     void VTd_MODEL ();
