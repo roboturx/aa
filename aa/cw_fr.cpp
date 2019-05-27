@@ -89,7 +89,7 @@ void Cw_fr::setup_ui()
     pB_kpt     = new QPushButton(tr("Kapat"   ),gR_pBs);
     pB_rsm     = new QPushButton(tr("Resim"    ),gR_pBs);
 
-    QGridLayout *LG_pBs = new QGridLayout();
+    auto *LG_pBs = new QGridLayout();
     gR_pBs->setLayout (LG_pBs);
 
     LG_pBs->addWidget( lB_rsm    ,  1, 0,11, 4);
@@ -146,7 +146,7 @@ void Cw_fr::setup_ui()
     lE_ytel = new QLineEdit();
     lB_ytel->setBuddy(lE_ytel);
 
-    QGridLayout *lYG_map = new QGridLayout();
+    auto *lYG_map = new QGridLayout();
     gR_lBs->setLayout (lYG_map);
 
     lYG_map->addWidget(lB_unvan   , 0, 0, 1, 1);
@@ -171,7 +171,7 @@ void Cw_fr::setup_ui()
     lYG_map->addWidget(lB_ytel    , 9, 0, 1, 1);
     lYG_map->addWidget(lE_ytel    , 9, 1, 1, 2);
 
-    QGridLayout *lYG_per = new QGridLayout(this);
+    auto *lYG_per = new QGridLayout(this);
 
     lYG_per->addWidget (tV_fr     , 0, 0, 1, 2);
     lYG_per->addWidget (gR_lBs     , 1, 0, 1, 1);

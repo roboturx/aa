@@ -12,23 +12,23 @@ class Cw_per : public QWidget
 {   Q_OBJECT
 
 public:
-    QModelIndex *whichRow;
-    QDataWidgetMapper *map_per;
-    QSqlTableModel *mdl_per ;
+    QModelIndex *whichRow=nullptr ;
+    QDataWidgetMapper *map_per=nullptr;
+    QSqlTableModel *mdl_per=nullptr ;
 
-    int         meslekIndex ;
+    int         meslekIndex=0 ;
 
-    QComboBox   *cb_meslek  ;
+    QComboBox   *cb_meslek=nullptr  ;
 
-    QGroupBox   *gB_map     ;
+    QGroupBox   *gB_map=nullptr     ;
 
-    QLabel      *lB_per    ;
-    QLabel      *lB_rsm    ;
-      ;
+    QLabel      *lB_per=nullptr    ;
+    QLabel      *lB_rsm=nullptr    ;
+      
 
-    QLineEdit   *lE_isim    ;
-    QLineEdit   *lE_soyad   ;
-    QLineEdit   *lE_tc;
+    QLineEdit   *lE_isim=nullptr    ;
+    QLineEdit   *lE_soyad=nullptr   ;
+    QLineEdit   *lE_tc=nullptr;
     QLineEdit   *lE_doyer;
     QDateEdit *dT_dotar;
     QLineEdit   *lE_baba;

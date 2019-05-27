@@ -496,7 +496,7 @@ void Cw_IsEmri::view_ISCILIK()
 void Cw_IsEmri::setup_ui()
 {
 
-        QGridLayout *gLl = new QGridLayout(this);
+        auto *gLl = new QGridLayout(this);
 
     lbl_mkn = new QLabel("İş Emri ");
     lbl_IE = new QLabel("İş Emri Detay");
@@ -659,7 +659,7 @@ void Cw_IsEmri::rightMenu_IE(QPoint pos)
 
 {
     //qDebug ()  <<"  cw işemri view sağ tuş 001";
-    QMenu *menuie = new QMenu(this);
+    auto *menuie = new QMenu(this);
 
     // yeni iş emri detay kaydı ekle
     const QIcon ekleIc_IEdet = QIcon(":/rsm/Add.ico");

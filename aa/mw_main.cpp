@@ -77,10 +77,10 @@ cr_Actions ();
 
     /// login için esc-enter kullanımı
     /////////////////////////////////////
-
+/*
      logger= new Login;
 
-
+WARNING  şifre için burayı kullan
 
        connect(logger, &Login::logok, this, &MW_main::yetkiler);
     connect(this, &MW_main::cikis, logger, &Login::logex );
@@ -91,7 +91,7 @@ cr_Actions ();
                 QKeySequence(Qt::Key_Escape),this,
                 SLOT(logouted() ));
     sc_ESC->setAutoRepeat(false);
-
+*/
     /// all things okey
     /// wait for a key for connect
 }
@@ -813,17 +813,7 @@ QSqlRelationalTableModel* MW_main::modelFatura()
     // qDebug() << " view column count = i "<< FTRmodel->columnCount();
     for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
     {
-
-        //   qDebug() << "  header data i önce = "<< i << "," <<
-        //FTRmodel->headerData (i,Qt::Horizontal);
-
         FTRmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
-
-        /*    qDebug() << "  header data i = "<< i << "," <<
-                    FTRmodel->headerData (i,Qt::Horizontal);
-        qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
-        qDebug() << "  field list j "<< fieldList->value (j);
-*/
     }
 
     // Populate the model_mkstok
@@ -831,7 +821,6 @@ QSqlRelationalTableModel* MW_main::modelFatura()
     {
         qDebug () <<  " HATA - Model fatura select "
                    <<FTRmodel->lastError();
-
     }
     return FTRmodel ;
 }///FATURA
@@ -1010,6 +999,58 @@ QString MW_main::VTd_MlzmDETAY()
     qDebug()<< mesaj ;
     return mesaj ;
 }   /// malzeme detay
+
+
+QSqlRelationalTableModel* MW_main::modelFaturaDetay()
+{
+    /// NOTE Model 1 mw_main de modeli oluştur
+    /// fatura detayında
+    /// malzeme detay dosyası oluşturuluyor
+    QString *tableName  = new QString("mlzmdet__dbtb");
+    QString *indexField = new QString("mlzmdet_gcno");
+
+    QStringList *fieldList = new QStringList;
+    fieldList->append("Kod");
+    fieldList->append("Malzeme Kod");
+    fieldList->append("Barkod");
+    fieldList->append("Malzeme");
+    fieldList->append("Tarih");
+    fieldList->append("İşlem Türü");
+    fieldList->append("İşlem No");
+    fieldList->append("Miktar");
+    fieldList->append("Birim");
+    fieldList->append("Fiyat");
+    fieldList->append("KDV");
+    fieldList->append("Açıklama");
+    fieldList->append("Resim");
+
+    QSqlRelationalTableModel *MLZMDetmodel = new QSqlRelationalTableModel;
+    MLZMDetmodel->setTable( *tableName);
+    MLZMDetmodel->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    MLZMDetmodel->setSort(MLZMDetmodel->fieldIndex (*indexField),Qt::AscendingOrder );
+
+    for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
+    {
+        MLZMDetmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
+    }
+
+    // Populate the model_mkstok
+    if (!MLZMDetmodel->select())
+    {
+        qDebug () <<  " HATA - Model fatura select "
+                   <<MLZMDetmodel->lastError();
+
+    }
+
+    return MLZMDetmodel ;
+}///fsturs detsy Model
+
+
+
+
+
+
+
 
 
 ///

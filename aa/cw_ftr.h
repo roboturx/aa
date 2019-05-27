@@ -1,9 +1,12 @@
 #ifndef CW_FTR_H
 #define CW_FTR_H
 
+
 #include "globals.h"
 #include "hc_tableview.h"
 #include "cw_mkn.h"
+
+
 
 namespace Ui {
 class Cw_ftr;
@@ -16,6 +19,7 @@ class Cw_ftr : public QWidget
 public:
 
     void setup_fatura() ;
+
 
     QString     *tableName ;
     QString     *indexField ;
@@ -46,8 +50,8 @@ public:
     // depo detay
     QWidget     *wdgt_mapFTR_dty;
     HC_TableView      *FTRDETtview;
-    QItemSelectionModel *tV_dp_selectionMdl ;
-    QSqlTableModel    *mlzDETmodel ;
+    QItemSelectionModel *tV_ftr_selectionMdl ;
+    QSqlRelationalTableModel    *FTRDETmodel ;
     QDataWidgetMapper *FTRDETmapper ;
 
 
@@ -92,33 +96,25 @@ private:
 private slots:
     //depo
 
-    void slt_dp_toFirst();
-    void slt_dp_toPrevious();
-    void slt_dp_toNext();
-    void slt_dp_toLast();
-
     void slt_ftr_hesap();
     void slt_mlz_ara();
 
     void slt_ftr_pB_EKLE_clicked();
-    void slt_dp_pB_Eklersm_clicked();
-   // void slt_dp_cX_grs_clicked();
+    void slt_ftr_pB_Eklersm_clicked();
+   // void slt_ftr_cX_grs_clicked();
     void slt_ftr_pB_SIL_clicked();
- //   void slt_dp_cX_mkn();
+ //   void slt_ftr_cX_mkn();
 
-    void slt_dp_updButtons(int row);
+
     void slt_ftr_tV_rowchanged(const QModelIndex &index );
-    void slt_dp_resimGoster(QModelIndex);
+    void slt_ftr_resimGoster(QModelIndex);
 
     // depo detay
     void slt_mlz_pB_EKLE_clicked();
-    void slt_dpd_pB_SIL_clicked();
+    void slt_ftrd_pB_SIL_clicked();
 
-    void slt_dpd_updButtons(int row);
-    void slt_dpd_toFirst();
-    void slt_dpd_toPrevious();
-    void slt_dpd_toNext();
-    void slt_dpd_toLast();
+    void slt_ftr_updButtons(int row);
+    void slt_ftrd_updButtons(int row);
 
 protected:
     void showEvent(QShowEvent *);

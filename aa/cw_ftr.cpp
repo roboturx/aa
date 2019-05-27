@@ -30,7 +30,7 @@ void Cw_ftr::setup_fatura()
 
     /// depo map nav tuslari kontrol
     ( connect(FTRmapper, &QDataWidgetMapper::currentIndexChanged,
-              this, &Cw_ftr::slt_dp_updButtons));
+              this, &Cw_ftr::slt_ftr_updButtons));
     /// depo da kolon değiştiğinde indexte değişsin
     ( connect(  FTRtview->table->selectionModel(),
                 SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
@@ -44,7 +44,7 @@ void Cw_ftr::setup_fatura()
                 FTRmapper, SLOT(setCurrentModelIndex(QModelIndex))));
     /// row değiştiğnde resmide değiştirelim
     (connect( FTRtview->table->selectionModel (), &QItemSelectionModel::currentRowChanged,
-              this, &Cw_ftr::slt_dp_resimGoster ));
+              this, &Cw_ftr::slt_ftr_resimGoster ));
     /// depodet miktar değiştiğinde depo envanter hesabı
     connect (lE_mlzdetmiktar, &QLineEdit::editingFinished, this,
              &Cw_ftr::slt_ftr_hesap);
@@ -65,9 +65,9 @@ void Cw_ftr::setup_fatura()
     //                   &Cw_ftr::slt_ftr_hesap));
     /// depodan makina ikmale firma transferi
     //   (connect ( cX_mkn, &QCheckBox::pressed, this,
-    //                    &Cw_ftr::slt_dp_cX_mkn));
+    //                    &Cw_ftr::slt_ftr_cX_mkn));
     /// depo ilk kayıda
-    Cw_ftr::slt_dp_toFirst();
+   Cw_ftr::FTRmapper->toFirst ();
 
     /// depoda row değiştiğinde
     Cw_ftr::slt_ftr_tV_rowchanged (FTRmodel->index (0,0));
@@ -75,7 +75,7 @@ void Cw_ftr::setup_fatura()
 
     /// depodet map değiştiğinde nav tuşalrı ayarlansın
     ( connect(FTRDETmapper, &QDataWidgetMapper::currentIndexChanged,
-              this, &Cw_ftr::slt_dpd_updButtons));
+              this, &Cw_ftr::slt_ftrd_updButtons));
     /// depodet table da koon değiştiğnde index değişsin
     ( connect(  FTRDETtview->table->selectionModel(),
                 SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
@@ -95,19 +95,14 @@ void Cw_ftr::setup_fatura()
     //                       &QItemSelectionModel::currentRowChanged ));
 
     /// depodetay varsa ilk kayda
-    Cw_ftr::slt_dpd_toFirst(); // detay ilk kayıda
-//    FTRtview->table->setFocus ();
+    Cw_ftr::FTRDETmapper->toFirst ();
+    //    FTRtview->table->setFocus ();
 }
 
 
 void Cw_ftr::setup_uiFtr()
 {
     qDebug() << "  setup_uiFtr";
-    /////////////////////////////////////////////// buttonz
-
-    //lB_brkd = new QLabel();
-    //lB_brkd->setFont (QFont ("code128",30));
-
 
     ////////////////////////////////////////// widgets
     wd_FTR();
@@ -123,19 +118,24 @@ void Cw_ftr::setup_uiFtr()
     movie->start();
     */
 
+    QFrame frame1(this);
+    QGridLayout grid1;
+    frame1.setLayout (&grid1);
+    grid1.addWidget (FTRtview    , 0, 0 );
+    grid1.addWidget (wdgt_mapFTR , 0, 1 );
+    grid1.addWidget (wdgt_rsm    , 0, 2 );
 
-    //////////////////////////////////// depo tableview
-    int i=1;
-    FTRtview = new HC_TableView(i);
-    FTRtview->setMinimumSize (400,300);
+    QFrame frame2(this);
+    auto *grid2 = new QGridLayout;
+    frame2.setLayout (grid2);
+    grid2->addWidget (FTRDETtview    , 0, 0 );
+    grid2->addWidget (wdgt_mapFTR_dty, 0, 1 );
 
     ////////////////////////////////////////////// layout
-    QGridLayout *LyG_FTR = new QGridLayout(this);
-    LyG_FTR->addWidget (FTRtview       , 0, 0, 1, 1);
-    LyG_FTR->addWidget (wdgt_mapFTR    , 0, 1, 1, 1);
-    LyG_FTR->addWidget (wdgt_rsm       , 0, 2, 1, 1);
-    LyG_FTR->addWidget (FTRDETtview    , 1, 0, 1, 1);
-    LyG_FTR->addWidget (wdgt_mapFTR_dty, 1, 1, 1, 2);
+    auto *LyG_FTR = new QGridLayout();
+    LyG_FTR->addWidget (&frame1 , 0, 0, 1, 1);
+    LyG_FTR->addWidget (&frame2 , 1, 0, 1, 1);
+
 
 }
 
@@ -163,12 +163,13 @@ void Cw_ftr::wd_FTR()
     lB_ack->setBuddy(lE_aciklama);
 
 
-    //   cX_mkn = new QCheckBox("Bu Malzeme Makina İkmalde Takip Edilsin.");
+    //////////////////////////////////// depo tableview
+    int i=1;
+    FTRtview = new HC_TableView(i);
+    FTRtview->setMinimumSize (180,120);
 
     ///////////////////////////////////////  mapper buttonz
     lB_rsm = new QLabel;
-
-
     LyG_FTR = new QGridLayout();
 
     LyG_FTR ->addWidget(lB_faturano  , 0, 0, 1, 1);
@@ -188,61 +189,31 @@ void Cw_ftr::wd_FTR()
 
 void Cw_ftr::setup_modelFtr()
 {
-    MW_main *mwmain = new MW_main;
-    //FTRmodel = new QSqlRelationalTableModel ;
-    //FTRmodel = mwmain->modelFatura ();
+    qDebug() << "  setupmodelfatura";
+    auto *mwmain = new MW_main;;
     FTRmodel = mwmain->modelFatura() ;
 
-    /*
-    FTRmodel = new QSqlTableModel();
-    FTRmodel->setTable( *tableName);
-    qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
-    FTRmodel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    FTRmodel->setSort(FTRmodel->fieldIndex (*indexField),Qt::AscendingOrder );
-
-    qDebug() << " view column count = i "<< FTRmodel->columnCount();
-    for(int i = 0, j = 0; i < fieldList->size (); i++, j++)
-    {
-
-        qDebug() << "  header data i önce = "<< i << "," <<
-                    FTRmodel->headerData (i,Qt::Horizontal);
-
-        FTRmodel->setHeaderData(i,Qt::Horizontal,fieldList->value (j));
-
-        qDebug() << "  header data i = "<< i << "," <<
-                    FTRmodel->headerData (i,Qt::Horizontal);
-        qDebug() << "  setup_modelFtr i,j = "<< i << "," << j;
-        qDebug() << "  field list j "<< fieldList->value (j);
-    }
-
-    // Populate the model_mkstok
-    if (!FTRmodel->select())
-    {
-        qDebug () <<  " HATA - Model fatura select "
-                   <<FTRmodel->lastError();
-    }
-*/
 }
 
 void Cw_ftr::setup_viewFtr()
 {
 
     qDebug() << "  setup_viewFtr";
-
+qDebug()<<"ekle 2" << FTRmodel;
     FTRtview->table->setModel(FTRmodel);
+
     FTRtview->table->resizeColumnsToContents();
     FTRtview->table->resizeRowsToContents ();
-qDebug() << "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
     /// tV için selection model  oluştur
     /// bu view de seçileni belirlemede kullanılır
     /// selection ve current index ayrı şeyler
     ///
-    tV_dp_selectionMdl = new QItemSelectionModel(FTRmodel);
-    FTRtview->table->setSelectionModel (tV_dp_selectionMdl);
+    tV_ftr_selectionMdl = new QItemSelectionModel(FTRmodel);
+    FTRtview->table->setSelectionModel (tV_ftr_selectionMdl);
 
     FTRtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
     FTRtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-
     //// kullanıcı bu alanları görmesin
     FTRtview->table->setColumnHidden(FTRmodel->fieldIndex("ftr_kod"), true);
     FTRtview->table->setColumnHidden(FTRmodel->fieldIndex("ftr_resim"), true);
@@ -259,26 +230,54 @@ qDebug() << "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
     ///// tableview kontrol connectleri
     ///
     ///
-    ///
-    (connect(FTRtview->pB_ekle, &QPushButton::clicked ,this ,
-             &Cw_ftr::slt_ftr_pB_EKLE_clicked  )) ;
-    (connect(FTRtview->pB_eklersm, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dp_pB_Eklersm_clicked  )) ;
 
-    (connect(FTRtview->pB_sil, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_ftr_pB_SIL_clicked )) ;
-    (connect(FTRtview->pB_ilk, &QPushButton::clicked ,this ,
-             &Cw_ftr::slt_dp_toFirst )) ;
-    (connect(FTRtview->pB_ncki, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dp_toPrevious )) ;
-    (connect(FTRtview->pB_snrki, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dp_toNext )) ;
-    (connect(FTRtview->pB_son, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dp_toLast )) ;
+    connect(FTRtview->pB_ekle, &QPushButton::clicked ,this ,
+             &Cw_ftr::slt_ftr_pB_EKLE_clicked  ) ;
+    connect(FTRtview->pB_eklersm, &QPushButton::clicked,this ,
+             &Cw_ftr::slt_ftr_pB_Eklersm_clicked  ) ;
+
+    connect(FTRtview->pB_sil, &QPushButton::clicked,this ,
+             &Cw_ftr::slt_ftr_pB_SIL_clicked ) ;
+    connect(FTRtview->pB_ilk, &QPushButton::clicked ,
+            [this]()
+    {
+            FTRmapper->toFirst ();
+            int map_row = FTRmapper->currentIndex ();
+            FTRtview->pB_ilk->setEnabled (map_row>0);
+            FTRtview->table->setCurrentIndex(FTRmodel->index( 0  ,0));
+    });
+
+    connect(FTRtview->pB_ncki, &QPushButton::clicked,
+            [this]()
+    {
+        FTRmapper->toPrevious ();
+        int map_row = FTRmapper->currentIndex ();
+        FTRtview->pB_ncki->setEnabled(map_row > 0);
+        FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
+    });
+
+    connect(FTRtview->pB_snrki, &QPushButton::clicked,
+            [this]()
+    {
+        FTRmapper->toNext ();
+        int map_row = FTRmapper->currentIndex ();
+        FTRtview->pB_snrki->setEnabled(map_row < FTRmodel->rowCount() - 1);
+        FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
+    });
+
+    connect(FTRtview->pB_son, &QPushButton::clicked,
+            [this]()
+    {
+        FTRmapper->toLast ();
+        int map_row = FTRmapper->currentIndex ();
+        FTRtview->pB_son->setEnabled(map_row < FTRmodel->rowCount() - 1);
+        FTRtview->table->setCurrentIndex(FTRmodel->index( FTRmodel->rowCount() - 1  ,0));
+    });
+
 
     FTRtview->pB_grscks->setVisible (false);
     //  (connect(FTRtview->pB_grscks, &QPushButton::clicked,this ,
-    //                 &Cw_ftr::slt_dp_cX_grs_clicked  )) ;
+    //                 &Cw_ftr::slt_ftr_cX_grs_clicked  )) ;
 
 
 }
@@ -307,28 +306,28 @@ void Cw_ftr::slt_ftr_tV_rowchanged(const QModelIndex &index )
     if (index.isValid())
     {
         QSqlRecord record = FTRmodel->record(index.row());
-        int fatura_no = record.value("ftr_no").toInt();
+        QString fatura_no = record.value("ftr_no").toString ();
 
         //QString barkid = record.value("ftr_ftno").toString ();
         //lB_brkd->setText (barkid);
 
         /// giris cikisa filtre koyalım
         //QString flt = QString("fatura_no = %1").arg(fatura_no);
-        mlzDETmodel->setFilter (QString("mlzmdet_gcno = %1").arg(fatura_no) );
+        FTRDETmodel->setFilter (QString("mlzmdet_gcno = %1").arg(fatura_no) );
 
     }
     else
     {
-        mlzDETmodel->setFilter("mlzdet_gcno=-1");
+        FTRDETmodel->setFilter("mlzdet_gcno=-1");
     }
-    mlzDETmodel->select();
+    FTRDETmodel->select();
 
 }
 
 
-void Cw_ftr::slt_dp_resimGoster(QModelIndex)
+void Cw_ftr::slt_ftr_resimGoster(QModelIndex)
 {
-    qDebug() << "  slt_dp_resimGoster";
+    qDebug() << "  slt_ftr_resimGoster";
     // makina stok tablosundan resim gösterme
     // view row unu tespit et
     int rowidx = FTRtview->table->selectionModel()->currentIndex().row();
@@ -353,9 +352,9 @@ void Cw_ftr::slt_dp_resimGoster(QModelIndex)
     lB_rsm->show();
 }       ///     ontV_per_resimGosterSLOT
 
-void Cw_ftr::slt_dp_pB_Eklersm_clicked()
+void Cw_ftr::slt_ftr_pB_Eklersm_clicked()
 {
-    qDebug() << "  slt_dp_pB_Eklersm_clicked";
+    qDebug() << "  slt_ftr_pB_Eklersm_clicked";
     // depo resim ekle
     QString myfile = QFileDialog::
             getOpenFileName(this,
@@ -387,8 +386,8 @@ void Cw_ftr::slt_dp_pB_Eklersm_clicked()
         /// yeni eklenenleri kaydedelim
         FTRmodel->submitAll();
 
-        QByteArray outByteArray = FTRtview->table->
-                model()->index( row, FTRmodel->fieldIndex ("resim") ).data().toByteArray();
+        //QByteArray outByteArray = FTRtview->table->
+          //      model()->index( row, FTRmodel->fieldIndex ("resim") ).data().toByteArray();
         /// makina ikmalde resmi değiştirelim
         /*        cw_mkn->MKNmodel->setData (
                     cw_mkn->MKNmodel-> index (
@@ -403,59 +402,23 @@ void Cw_ftr::slt_dp_pB_Eklersm_clicked()
 
 
 
-void Cw_ftr::slt_dp_updButtons(int row)
+void Cw_ftr::slt_ftr_updButtons(int row)
 {
-    qDebug() << "  slt_dp_updButtons";
+    qDebug() << "  slt_ftr_updButtons";
     FTRtview->pB_ilk->setEnabled (row>0);
     FTRtview->pB_ncki->setEnabled(row > 0);
     FTRtview->pB_snrki->setEnabled(row < FTRmodel->rowCount() - 1);
     FTRtview->pB_son->setEnabled(row < FTRmodel->rowCount() - 1);
 }
 
-void Cw_ftr::slt_dp_toFirst()
-{
-    qDebug() << "  slt_dp_toFirst";
-    FTRmapper->toFirst ();
-    int map_row = FTRmapper->currentIndex ();
-    FTRtview->pB_ilk->setEnabled (map_row>0);
-    FTRtview->table->setCurrentIndex(FTRmodel->index( 0  ,0));
-}
-
-void Cw_ftr::slt_dp_toPrevious()
-{
-    qDebug() << " slt_dp_toPrevious";
-    FTRmapper->toPrevious ();
-    int map_row = FTRmapper->currentIndex ();
-    FTRtview->pB_ncki->setEnabled(map_row > 0);
-    FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
-}
-
-void Cw_ftr::slt_dp_toNext()
-{
-    qDebug() << "  slt_dp_toNext";
-    FTRmapper->toNext ();
-    int map_row = FTRmapper->currentIndex ();
-    FTRtview->pB_snrki->setEnabled(map_row < FTRmodel->rowCount() - 1);
-    FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
-
-}
-
-void Cw_ftr::slt_dp_toLast()
-{
-    qDebug() << "  slt_dp_toLast";
-    FTRmapper->toLast ();
-    int map_row = FTRmapper->currentIndex ();
-    FTRtview->pB_son->setEnabled(map_row < FTRmodel->rowCount() - 1);
-    FTRtview->table->setCurrentIndex(FTRmodel->index( FTRmodel->rowCount() - 1  ,0));
-}
 
 void Cw_ftr::slt_ftr_hesap()
 {
     qDebug() << "ftr_hesappppppppppppppppppp";
-    // QModelIndex indx_dpdet = FTRDETtview->currentIndex ();
+    // QModelIndex indx_ftrdet = FTRDETtview->currentIndex ();
 
     //int tpl_grs=0, tpl_cks=0;
-    //int id_dp ;
+    //int id_ftr ;
 
     QModelIndex ftr_indx = FTRtview->table->currentIndex ();
     if ( ftr_indx.row () >= 0 )
@@ -474,7 +437,7 @@ void Cw_ftr::slt_ftr_hesap()
                          "mlzdet_gc='Faturalı Giriş'").arg(id);
         q_qry.exec (s_qry);
 
-        QSqlRecord fatura_rec = FTRmodel->record ();
+        ///QSqlRecord fatura_rec = FTRmodel->record ();
         double grs=0,cks=0;
         if (q_qry.isActive ())
         {
@@ -490,7 +453,7 @@ void Cw_ftr::slt_ftr_hesap()
 
         }
         s_qry = QString ("SELECT TOTAL(miktar) "
-                         "FROM dbtb_dpdet "
+                         "FROM dbtb_ftrdet "
                          "WHERE mlzdet_gcno= %1 AND "
                          "mlzdet_gc='Malzeme Teslim Fişi'").arg(id);
         q_qry.exec (s_qry);
@@ -503,7 +466,7 @@ void Cw_ftr::slt_ftr_hesap()
                                     fieldIndex ("mlzdet_cikis")), cks);
 
             qDebug()<<"toplam çıkış data    "<<q_qry.value(0);
-            //dp_rec.setValue ("cikis", q_qry.value(0).toDouble ());
+            //ftr_rec.setValue ("cikis", q_qry.value(0).toDouble ());
         }
 
         FTRmodel->setData(FTRmodel->
@@ -524,17 +487,17 @@ void Cw_ftr::slt_ftr_pB_EKLE_clicked ()
     qDebug() << "  slt_ftr_pB_EKLE_clicked";
 
     QDialog *dia_ekle = new QDialog;
-    QGridLayout *lay_dia = new QGridLayout(dia_ekle);
+    auto *lay_dia = new QGridLayout(dia_ekle);
     QLabel *lft_no = new QLabel("Fatura No");
     QLabel *lft_fr = new QLabel("Firma");
     QLabel *lft_tr = new QLabel("Tarih");
     QLabel *lft_ac = new QLabel("Açıklama");
 
-    QLineEdit *eft_no = new QLineEdit;
-    QLineEdit *eft_fr = new QLineEdit;
-    QLineEdit *eft_tr = new QLineEdit;
+    auto *eft_no = new QLineEdit;
+    auto *eft_fr = new QLineEdit;
+    auto *eft_tr = new QLineEdit;
     eft_tr->setText (QDate::currentDate ().toString ("dd.MM.yyyy"));
-    QLineEdit *eft_ac = new QLineEdit;
+    auto *eft_ac = new QLineEdit;
     lay_dia->addWidget (lft_no,0,0,1,1);
     lay_dia->addWidget (eft_no,0,1,1,2);
     lay_dia->addWidget (lft_fr,1,0,1,1);
@@ -599,8 +562,8 @@ void Cw_ftr::slt_ftr_pB_EKLE_clicked ()
 void Cw_ftr::slt_ftr_pB_SIL_clicked ()
 {
     qDebug() << "  slt_ftr_pB_SIL_clicked";
-    QSqlQuery q_qry;
-    QString s_qry;
+    //QSqlQuery q_qry;
+    //QString s_qry;
     QModelIndex ftrindex = FTRtview->table->currentIndex();
     if( ftrindex.row() >= 0 )
     {
@@ -630,7 +593,7 @@ void Cw_ftr::slt_ftr_pB_SIL_clicked ()
                         "\n  silinsin mi ?\n"+
                 "İşlemi onaylarsanız bu fatura kaydına ait\n " ;
 
-        int mlzdet_count = mlzDETmodel->rowCount () ;
+        int mlzdet_count = FTRDETmodel->rowCount () ;
         if ( mlzdet_count > 0 )
         {
             mess +=QString::number (mlzdet_count) +
@@ -706,15 +669,15 @@ void Cw_ftr::slt_ftr_pB_SIL_clicked ()
 }
 
 /*
-void Cw_ftr::slt_dp_cX_grs_clicked()
+void Cw_ftr::slt_ftr_cX_grs_clicked()
 {
-        qDebug() << "  slt_dp_cX_grs_clicked";
+        qDebug() << "  slt_ftr_cX_grs_clicked";
     QIcon icon;
     if ( ! FTRtview->pB_grscks->isFlat ())
     {
 
-        QModelIndex dp_indx = FTRtview->table->currentIndex ();
-        slt_ftr_tV_rowchanged (dp_indx);
+        QModelIndex ftr_indx = FTRtview->table->currentIndex ();
+        slt_ftr_tV_rowchanged (ftr_indx);
         FTRtview->pB_grscks->setFlat (true);
         icon.addPixmap(QPixmap (":/rsm/nv_eklesil.svg") ,
                        QIcon::Normal, QIcon::On);
@@ -803,25 +766,11 @@ void Cw_ftr::wd_FTRdet()
     //////////////////////////////////// depodet tableview
     int i= 1;
     FTRDETtview = new HC_TableView(i);
-    (connect(FTRDETtview->pB_ekle, &QPushButton::clicked ,this ,
-             &Cw_ftr::slt_mlz_pB_EKLE_clicked  )) ;
-
-    (connect(FTRDETtview->pB_sil, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dpd_pB_SIL_clicked )) ;
-    (connect(FTRDETtview->pB_ilk, &QPushButton::clicked ,this ,
-             &Cw_ftr::slt_dpd_toFirst )) ;
-    (connect(FTRDETtview->pB_ncki, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dpd_toPrevious )) ;
-    (connect(FTRDETtview->pB_snrki, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dpd_toNext )) ;
-    (connect(FTRDETtview->pB_son, &QPushButton::clicked,this ,
-             &Cw_ftr::slt_dpd_toLast )) ;
-    FTRDETtview->pB_grscks->setVisible (false);
+    FTRDETtview->setMinimumSize (180,120);
 
 
 
-
-    QGridLayout *lYG_d_map = new QGridLayout();
+    auto *lYG_d_map = new QGridLayout();
 
 
     lYG_d_map->addWidget(lB_mlzdetbarkod  , 0, 0, 1, 1);
@@ -869,60 +818,22 @@ void Cw_ftr::wd_FTRdet()
 
 void Cw_ftr::setup_modelFtrDet()
 {
-    qDebug() << "  setup_modelFtrDet";
-    QString tableName = "mlzmdet__dbtb";
-    QStringList fieldList;
-
-    fieldList.append("FTD Kod");
-    fieldList.append("Malzeme Kod");
-    fieldList.append("Barkod");
-    fieldList.append("Malzeme Adı");
-    fieldList.append("Tarih");
-    fieldList.append("GC");
-    fieldList.append("GCNo");
-    fieldList.append("Miktar");
-    fieldList.append("Birim");
-    fieldList.append("Fiyat");
-    fieldList.append("KDV %");
-    fieldList.append("Açıklama");
-
-    mlzDETmodel = new QSqlTableModel() ;
-
-
-    mlzDETmodel->setTable(tableName);
-    mlzDETmodel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    mlzDETmodel->setSort(2,Qt::AscendingOrder);
-
-    //  qDebug () << tableName << "dosya adıııııııııııııııı "
-    //          << mlzDETmodel->columnCount()<<" - fld size "<<fieldList.size ();
-    //  for(int i = 1, j = 0; i < mlzDETmodel->columnCount()-1; i++, j++)
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
-    {
-        mlzDETmodel->setHeaderData(i,Qt::Horizontal,
-                                   fieldList[j]);
-        qDebug () << fieldList[j];
-    }
-
-    // Populate the model
-    if (!mlzDETmodel->select())
-    {
-        qDebug () << " HATA - Model faturadet select "
-                  << mlzDETmodel->lastError();
-    }
+    auto *mwmain = new MW_main;
+    FTRDETmodel = mwmain->modelFaturaDetay ();
 }
 
 void Cw_ftr::setup_viewFtrDet()
 {
     qDebug() << "  setup_viewFtrDet";
 
-    FTRDETtview->table->setModel(mlzDETmodel);
+    FTRDETtview->table->setModel(FTRDETmodel);
     // Hide the column id Records
     //// kullanıcı bu alanları görmesin
-    FTRDETtview->table->setColumnHidden(mlzDETmodel->fieldIndex("mlzmdet_kod"), true);
-    FTRDETtview->table->setColumnHidden(mlzDETmodel->fieldIndex("mlzmdet_mlzm_kod"), true);
-    FTRDETtview->table->setColumnHidden(mlzDETmodel->fieldIndex("mlzmdet_tarih"), true);
-    FTRDETtview->table->setColumnHidden(mlzDETmodel->fieldIndex("mlzmdet_gc"), true);
-    FTRDETtview->table->setColumnHidden(mlzDETmodel->fieldIndex("mlzmdet_gcno"), true);
+    FTRDETtview->table->setColumnHidden(FTRDETmodel->fieldIndex("mlzmdet_kod"), true);
+    FTRDETtview->table->setColumnHidden(FTRDETmodel->fieldIndex("mlzmdet_mlzm_kod"), true);
+    FTRDETtview->table->setColumnHidden(FTRDETmodel->fieldIndex("mlzmdet_tarih"), true);
+    FTRDETtview->table->setColumnHidden(FTRDETmodel->fieldIndex("mlzmdet_gc"), true);
+    FTRDETtview->table->setColumnHidden(FTRDETmodel->fieldIndex("mlzmdet_gcno"), true);
 
     // Allow the selection of lines
     FTRDETtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -943,25 +854,66 @@ void Cw_ftr::setup_viewFtrDet()
     FTRDETtview->table->horizontalHeader()->
             resizeContentsPrecision();
 
-    // FTRDETtview->table->setCurrentIndex (mlzDETmodel->index (0,0));
-    // mlzDETmodel->select ();
+    // FTRDETtview->table->setCurrentIndex (FTRDETmodel->index (0,0));
+    // FTRDETmodel->select ();
+
+    (connect(FTRDETtview->pB_ekle, &QPushButton::clicked ,this ,
+             &Cw_ftr::slt_mlz_pB_EKLE_clicked  )) ;
+
+    (connect(FTRDETtview->pB_sil, &QPushButton::clicked,this ,
+             &Cw_ftr::slt_ftrd_pB_SIL_clicked )) ;
+    connect(FTRDETtview->pB_ilk, &QPushButton::clicked ,
+            [this]()
+    {
+        FTRDETmapper->toFirst ();
+        FTRDETtview->pB_ilk->setEnabled (FTRDETmapper->currentIndex ()>0);
+        FTRDETtview->table->setCurrentIndex(FTRDETmodel->index( 0  ,0));
+    });
+
+
+    connect(FTRDETtview->pB_ncki, &QPushButton::clicked,
+             [this]()
+    {
+             FTRDETmapper->toPrevious ();
+             FTRDETtview->pB_ncki->setEnabled(FTRDETmapper->currentIndex () > 0);
+             FTRDETtview->table->setCurrentIndex(FTRDETmodel->index( FTRDETmapper->currentIndex () ,0));
+    });
+    connect(FTRDETtview->pB_snrki, &QPushButton::clicked,
+             [this]()
+    {
+            FTRDETmapper->toNext ();
+            int map_row = FTRDETmapper->currentIndex ();
+            FTRDETtview->pB_snrki->setEnabled(map_row < FTRDETmodel->rowCount() - 1);
+            FTRDETtview->table->setCurrentIndex(FTRDETmodel->index( map_row  ,0));
+     });
+
+    connect(FTRDETtview->pB_son, &QPushButton::clicked,
+            [this]()
+    {
+            FTRDETmapper->toNext ();
+            int map_row = FTRDETmapper->currentIndex ();
+            FTRDETtview->pB_snrki->setEnabled(map_row < FTRDETmodel->rowCount() - 1);
+            FTRDETtview->table->setCurrentIndex(FTRDETmodel->index( map_row  ,0));
+    });
+    //FTRDETtview->pB_grscks->setVisible (false);
+
 }
 
 void Cw_ftr::setup_mapFtrDet()
 {
     qDebug() << "  setup_mapFtrDet";
     FTRDETmapper = new QDataWidgetMapper(this);
-    FTRDETmapper->setModel(mlzDETmodel);
+    FTRDETmapper->setModel(FTRDETmodel);
 
-    //FTRDETmapper->addMapping(lE_d_faturano , mlzDETmodel->fieldIndex("faturano"));
-    //FTRDETmapper->addMapping(lE_d_firma, mlzDETmodel->fieldIndex("firma"));
-    FTRDETmapper->addMapping(lE_mlzdetbarkod, mlzDETmodel->fieldIndex("mlzmdet_barkod"));
-    FTRDETmapper->addMapping(lE_mlzdetmlzm, mlzDETmodel->fieldIndex("mlzmdet_malzeme"));
-    FTRDETmapper->addMapping(lE_mlzdetmiktar, mlzDETmodel->fieldIndex("mlzmdet_miktar"));
-    FTRDETmapper->addMapping(lE_mlzdetbirim, mlzDETmodel->fieldIndex("mlzmdet_birim"));
-    FTRDETmapper->addMapping(lE_mlzdetfiyat, mlzDETmodel->fieldIndex("mlzmdet_fiyat"));
-    FTRDETmapper->addMapping(lE_mlzdetkdv, mlzDETmodel->fieldIndex("mlzmdet_kdv"));
-    FTRDETmapper->addMapping(lE_mlzdetaciklama, mlzDETmodel->fieldIndex("mlzmdet_aciklama"));
+    //FTRDETmapper->addMapping(lE_d_faturano , FTRDETmodel->fieldIndex("faturano"));
+    //FTRDETmapper->addMapping(lE_d_firma, FTRDETmodel->fieldIndex("firma"));
+    FTRDETmapper->addMapping(lE_mlzdetbarkod, FTRDETmodel->fieldIndex("mlzmdet_barkod"));
+    FTRDETmapper->addMapping(lE_mlzdetmlzm, FTRDETmodel->fieldIndex("mlzmdet_malzeme"));
+    FTRDETmapper->addMapping(lE_mlzdetmiktar, FTRDETmodel->fieldIndex("mlzmdet_miktar"));
+    FTRDETmapper->addMapping(lE_mlzdetbirim, FTRDETmodel->fieldIndex("mlzmdet_birim"));
+    FTRDETmapper->addMapping(lE_mlzdetfiyat, FTRDETmodel->fieldIndex("mlzmdet_fiyat"));
+    FTRDETmapper->addMapping(lE_mlzdetkdv, FTRDETmodel->fieldIndex("mlzmdet_kdv"));
+    FTRDETmapper->addMapping(lE_mlzdetaciklama, FTRDETmodel->fieldIndex("mlzmdet_aciklama"));
 }
 
 
@@ -974,59 +926,21 @@ void Cw_ftr::setup_mapFtrDet()
 
 
 
-void Cw_ftr::slt_dpd_updButtons(int row)
+void Cw_ftr::slt_ftrd_updButtons(int row)
 {
-    qDebug() << "  slt_dpd_updButtons";
+    qDebug() << "  slt_ftrd_updButtons";
     FTRDETtview->pB_ilk->setEnabled (row>0);
     FTRDETtview->pB_ncki->setEnabled(row > 0);
-    FTRDETtview->pB_snrki->setEnabled(row < mlzDETmodel->rowCount() - 1);
-    FTRDETtview->pB_son->setEnabled(row < mlzDETmodel->rowCount() - 1);
+    FTRDETtview->pB_snrki->setEnabled(row < FTRDETmodel->rowCount() - 1);
+    FTRDETtview->pB_son->setEnabled(row < FTRDETmodel->rowCount() - 1);
 }
-
-
-void Cw_ftr::slt_dpd_toFirst()
-{
-    qDebug() << "  slt_dpd_toFirst";
-    QDataWidgetMapper *x=FTRDETmapper;
-    x->toFirst ();
-
-    int map_row = FTRDETmapper->currentIndex ();
-    FTRDETtview->pB_ilk->setEnabled (map_row>0);
-    FTRDETtview->table->setCurrentIndex(mlzDETmodel->index( 0  ,0));
-}
-
-void Cw_ftr::slt_dpd_toPrevious()
-{
-    qDebug() << "  slt_dpd_toPrevious";
-    FTRDETmapper->toPrevious ();
-    int map_row = FTRDETmapper->currentIndex ();
-    FTRDETtview->pB_ncki->setEnabled(map_row > 0);
-    FTRDETtview->table->setCurrentIndex(mlzDETmodel->index( map_row  ,0));
-}
-
-void Cw_ftr::slt_dpd_toNext()
-{
-    qDebug() << "  slt_dpd_toNext";
-    FTRDETmapper->toNext ();
-    int map_row = FTRDETmapper->currentIndex ();
-    FTRDETtview->pB_snrki->setEnabled(map_row < mlzDETmodel->rowCount() - 1);
-    FTRDETtview->table->setCurrentIndex(mlzDETmodel->index( map_row  ,0));
-}
-
-void Cw_ftr::slt_dpd_toLast()
-{
-    qDebug() << "  slt_dpd_toLast";
-    FTRDETmapper->toLast ();
-    int map_row = FTRDETmapper->currentIndex ();
-    FTRDETtview->pB_son->setEnabled(map_row < mlzDETmodel->rowCount() - 1);
-    FTRDETtview->table->setCurrentIndex(mlzDETmodel->index( mlzDETmodel->rowCount() - 1  ,0));
-}
-
-
-
 
 
 /// Fatura detayına malzeme ekle
+
+///
+/// \brief Cw_ftr::slt_mlz_pB_EKLE_clicked
+///
 void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
 {
 
@@ -1034,53 +948,95 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
 
 
     QDialog *dia_ekle = new QDialog;
-    QGridLayout *lay_dia = new QGridLayout(dia_ekle);
+    auto *lay_dia = new QGridLayout(dia_ekle);
 
-    QSqlTableModel *model = new QSqlTableModel();
-    model->setTable ("mlzm__dbtb");
-    QComboBox *cview = new QComboBox;
-    cview->setModel(model);
-    QTableView *tview = new QTableView;
-    tview->setModel (model);
+    QSqlTableModel *mlz_model = new QSqlTableModel();
+    mlz_model->setTable ("mlzm__dbtb");
+    mlz_model->select ();
+    auto *mlz_view = new QTableView(this);
+    mlz_view->setModel (mlz_model);
+
+    QModelIndex ftr_indx = FTRtview->table->currentIndex () ;
+    int ftr_row = ftr_indx.row ();
+    QString ftrno = FTRmodel->
+            data ( FTRmodel->
+                   index(ftr_row,FTRmodel->
+                         fieldIndex("ftr_no"))).toString() ;
+
+    qDebug ()<<"ftrno " << ftrno;
+    QString ftrtarih = FTRmodel->
+            data ( FTRmodel->
+                   index(ftr_row,FTRmodel->
+                         fieldIndex("ftr_tarih"))).toString() ;
+    QLineEdit fno;
+    fno.insert (ftrno);
+    fno.setReadOnly (true);
+    QLineEdit ftr;
+    ftr.setText (ftrtarih);
+    ftr.setReadOnly (true);
 
 
-
-    lay_dia->addWidget (cview,0,0,1,1);
-    lay_dia->addWidget (tview,1,0,1,1);
     // lay_dia->addWidget (eml_br,1,0,1,1);
 
-    QPushButton *pB_ftrekle = new QPushButton("Malzeme Ekle");
-    QPushButton *pB_vzgc = new QPushButton("Vazgeç");
-    lay_dia->addWidget (pB_ftrekle,4,1);
-    lay_dia->addWidget (pB_vzgc,4,0);
+    QPushButton *pB_ftrekle = new QPushButton("Faturaya Malzeme Ekle");
+    QPushButton *pB_kpt = new QPushButton("Kapat");
 
-    connect (pB_vzgc, &QPushButton::clicked,dia_ekle, &QDialog::close );
+    lay_dia->addWidget (mlz_view  ,0,0,6,2);
+    lay_dia->addWidget (new QLabel("Fatura No   :" + ftrno)      ,0,2,1,1);
+    //  lay_dia->addWidget (&fno                          ,0,3,1,1);
+    lay_dia->addWidget (new QLabel("Fatura Tarih:" + ftrtarih)    ,1,2,1,1);
+    // lay_dia->addWidget (&ftr                          ,1,3,1,1);
+    lay_dia->addWidget (pB_kpt    ,7,0,1,1);
+    lay_dia->addWidget (pB_ftrekle,7,1,1,2);
+
+
+    connect (pB_kpt, &QPushButton::clicked,dia_ekle, &QDialog::close );
     connect (pB_ftrekle, &QPushButton::clicked,
-             [this,dia_ekle]()
-    {
+             [ftr_indx,ftrno,ftrtarih,this,mlz_model,mlz_view]()
+    {  /// lambda
 
-        QModelIndex ftr_indx = FTRtview->table->currentIndex () ;
+
+        QModelIndex mlz_indx = mlz_view->currentIndex () ;
         if ( ftr_indx.row () >= 0 )
         {
-            int ftr_row = ftr_indx.row ();
+
+            int mlzm_row = mlz_indx.row ();
 
             /// kayıt içerisinde belirli bir
             /// field in içeriğini değişkene at
 
-            QString gcno = FTRmodel->
-                    data ( FTRmodel->
-                           index(ftr_row,FTRmodel->
-                                 fieldIndex("ftr_no"))).toString() ;
+            QString mlzkod = mlz_model->data ( mlz_model->
+                                               index(mlzm_row,mlz_model->
+                                                     fieldIndex("mlzm_kod"))).toString() ;
+            QString mlzbrkod = mlz_model->
+                    data ( mlz_model->
+                           index(mlzm_row,mlz_model->
+                                 fieldIndex("mlzm_barkod"))).toString() ;
+            QString mlzmMlzm = mlz_model->
+                    data ( mlz_model->
+                           index(mlzm_row,mlz_model->
+                                 fieldIndex("mlzm_malzeme"))).toString() ;
+            QString mlzmbirim = mlz_model->
+                    data ( mlz_model->
+                           index(mlzm_row,mlz_model->
+                                 fieldIndex("mlzm_birim"))).toString() ;
 
             QSqlQuery q;
             QString s_q;
             s_q ="INSERT INTO mlzmdet__dbtb "
-                 "( mlzmdet_gc, mlzmdet_gcno )"
-                 " values( ?,?)"  ;
+                 "( mlzmdet_mlzm_kod, mlzmdet_barkod, mlzmdet_malzeme,"
+                 "  mlzmdet_tarih   , mlzmdet_gc    , mlzmdet_gcno,"
+                 "  mlzmdet_birim     )"
+                 " values( ?,?,?,?,?,?,?)"  ;
             q.prepare(s_q);
 
-            q.bindValue(0, "Faturalı Giriş" );
-            q.bindValue(1, gcno );
+            q.bindValue(0, mlzkod  );
+            q.bindValue(1, mlzbrkod );
+            q.bindValue(2, mlzmMlzm );
+            q.bindValue(3, ftrtarih );
+            q.bindValue(4, "Faturalı Giriş" );
+            q.bindValue(5, ftrno );
+            q.bindValue(6, mlzmbirim);
             q.exec();
             //qDebug () << q.lastError();
             if (q.isActive())
@@ -1089,11 +1045,11 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
                 //           Hata hata("İş Emri Yeni Kayıt",
                 //                   "Yeni İş Emri Kaydı Eklendi","" );
 
-                qDebug () <<"Fatura Detay Yeni Kayıt Eklendi - "<< gcno << " -   Eklendi";
+                qDebug () <<"Fatura Detay Yeni Kayıt Eklendi - "<< ftrno << " -   Eklendi";
                 //mppMKN->toLast;
 
                 FTRDETtview->table->setFocus ();
-                mlzDETmodel->select ();
+                FTRDETmodel->select ();
 
             }
             else
@@ -1101,16 +1057,13 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
                 qDebug () << "Fatura Detay Yeni Kayıt Eklenemedi - " << q.lastError() ;
             }
         }
-        else /// tVdepo row yok - dp_indx.row () < 0
+        else /// tVdepo row yok - ftr_indx.row () < 0
         {
             qDebug()<<"HATA - Ftr Ekleme .row yokk ";
         }
 
 
-
-        dia_ekle->close ();
-
-    });
+    }); /// lambda
 
     dia_ekle->show ();
 
@@ -1120,13 +1073,13 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
 
 
 
-void Cw_ftr::slt_dpd_pB_SIL_clicked ()
+void Cw_ftr::slt_ftrd_pB_SIL_clicked ()
 {
-    qDebug() << "  slt_dpd_pB_SIL_clicked";
+    qDebug() << "  slt_ftrd_pB_SIL_clicked";
     QModelIndex sample =   FTRDETtview->table->currentIndex();
     if( sample.row() >= 0 )
     {
-        QSqlRecord rec = mlzDETmodel->record();
+        QSqlRecord rec = FTRDETmodel->record();
 
         QString val = rec.value(1).toString();// +" "+
         QMessageBox::StandardButton dlg;
@@ -1139,10 +1092,10 @@ void Cw_ftr::slt_dpd_pB_SIL_clicked ()
         {
             // remove the current index
             // pmodel->beginRemoveColumn();
-            mlzDETmodel->removeRow(sample.row());
-            mlzDETmodel->submitAll ();
+            FTRDETmodel->removeRow(sample.row());
+            FTRDETmodel->submitAll ();
             //pmodel->endRemoveColumns();
-            mlzDETmodel->select ();
+            FTRDETmodel->select ();
         }
     }
 }

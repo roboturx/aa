@@ -16,7 +16,6 @@ class Cw_Mlzm : public QWidget
 public:
 
     HC_TableView      *MLZMtview;
-    //QSqlTableModel    *MLZMmodel;
     QDataWidgetMapper *MLZMmapper;
     QSqlRelationalTableModel    *MLZMmodel;
     void setup_mlzm();
@@ -91,8 +90,8 @@ private slots:
 
     //Mlzm
 
-    void slt_pB_ambar_grs_clicked();
-    void slt_pB_ambar_cks_clicked();
+  //  void slt_pB_ambar_grs_clicked();
+  //  void slt_pB_ambar_cks_clicked();
   //  void cbx_grstipi_changed();
 
 
@@ -106,7 +105,7 @@ private slots:
     //void slt_Mlzm_hesap2();
     void slt_Mlzm_pB_EKLE_clicked();
     void slt_Mlzm_pB_Eklersm_clicked();
-    void slt_Mlzm_cX_grs_clicked();
+//    void slt_Mlzm_cX_grs_clicked();
     void slt_Mlzm_pB_SIL_clicked();
  //   void slt_Mlzm_cX_mkn();
 

@@ -7,25 +7,26 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
 
 
     QIcon icon;
-    int x=50,y=30;
+    int x=20,y=20;
 
 
     pB_ekle = new QPushButton;
-    pB_ekle->setGeometry (0,0,x,y );
+    //pB_ekle->setGeometry (0,0,x,y );
+    pB_ekle->setMaximumSize (x,y);
     icon.addPixmap(QPixmap (":/rsm/nv_ekle.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_ekle->setIcon(icon);
     pB_ekle->setIconSize(QSize(x,y));
 
     pB_eklersm = new QPushButton;
-    pB_eklersm->setGeometry (0,0,x,y );
+    pB_eklersm->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_eklersm.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_eklersm->setIcon(icon);
     pB_eklersm->setIconSize(QSize(x,y));
 
     pB_grscks = new QPushButton;
-    pB_grscks->setGeometry (0,0,x,y );
+    pB_grscks->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_eklesil2.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_grscks->setIcon(icon);
@@ -33,7 +34,7 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
     pB_grscks->setAutoFillBackground (true);
 
     pB_sil= new QPushButton();
-    pB_sil->setGeometry (0,0,x,y );
+    pB_sil->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_sil.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_sil->setIcon(icon);
@@ -41,7 +42,7 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
 
 
     pB_ilk= new QPushButton();
-    pB_ilk->setGeometry (0,0,x,y );
+    pB_ilk->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_v_first.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_ilk->setIcon(icon);
@@ -49,27 +50,27 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
 
 
     pB_ncki= new QPushButton();
-    pB_ncki->setGeometry (0,0,x,y );
+    pB_ncki->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_v_pre.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_ncki->setIcon(icon);
     pB_ncki->setIconSize(QSize(x,y));
 
     pB_snrki= new QPushButton();
-    pB_snrki->setGeometry (0,0,x,y );
+    pB_snrki->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_v_next.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_snrki->setIcon(icon);
     pB_snrki->setIconSize(QSize(x,y));
 
     pB_son= new QPushButton();
-    pB_son->setGeometry (0,0,x,y );
+    pB_son->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_v_last.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_son->setIcon(icon);
     pB_son->setIconSize(QSize(x,y));
 
-    QFrame * fR_mn = new QFrame() ;
+   QFrame * fR_mn = new QFrame() ;
     fR_mn->setStyleSheet ("background-color:green");
     fR_mn->setFrameStyle (QFrame::Panel | QFrame::Raised);
     fR_mn->setLineWidth (3);
@@ -77,7 +78,7 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
     fR_mn->setGeometry (0,0,40,300);
 
 
-    QHBoxLayout *LYv_nv = new QHBoxLayout;
+    QVBoxLayout *LYv_nv = new QVBoxLayout;
 
     LYv_nv->addWidget (pB_ekle );
     LYv_nv->addWidget (pB_eklersm );
@@ -130,8 +131,9 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
 
 
 this->setAlternatingRowColors (true);
-    LYg_nv->addWidget (table   ,1,0,1,1 );
+
     LYg_nv->addLayout (LYv_nv  ,0,0,1,1 );
+    LYg_nv->addWidget (table   ,0,1,1,1 );
 }
 HC_TableView::~HC_TableView()
 {

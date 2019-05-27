@@ -9,9 +9,11 @@ Cw_Mlzm::Cw_Mlzm(QWidget *parent) :
 {
 }
 
-mlzm girişteki menuyu malzeme det ekle ye aktar
-mlzmdet modeli mw maine aktar
-mlzm ui yi düzenle
+//TODO mlzm girişteki menuyu malzeme det ekle ye aktar
+// TODO mlzmdet modeli mw maine aktar
+// TODO mlzm ui yi düzenle
+// WARNING app quit crashh
+// WARNING başlangıçta dosya oluşumları gözükmüyor
 
 void Cw_Mlzm::setup_mlzm()
 {
@@ -21,7 +23,6 @@ void Cw_Mlzm::setup_mlzm()
 
     //*****************************************************
     //*****************  A M B A R ************************
-
     setup_uiMlzm();
 
     setup_modelMlzm();
@@ -31,6 +32,8 @@ void Cw_Mlzm::setup_mlzm()
     setup_modelMlzmdet();
     setup_viewMlzmdet();
     setup_mapMlzmdet();
+
+
 
     /// Mlzm map nav tuslari kontrol
     //   connect(MLZMmapper, &QDataWidgetMapper::currentIndexChanged,
@@ -96,14 +99,37 @@ void Cw_Mlzm::setup_mlzm()
 
 
 
-void Cw_Mlzm::slt_pB_ambar_grs_clicked()
+
+void Cw_Mlzm::setup_uiMlzm()
 {
-    /// ambar girişi tıklandı
-    ///
-    ///
+    wd_Mlzm ();
+    wd_Mlzmdet();
+
+    qDebug() << "  setup_uiMlzm";
+    /////////////////////////////////////////////// buttonz
+
+    //////////////////////////////////// Mlzm tableview
+    int i=1;
+    MLZMtview = new HC_TableView(i);
+    MLZMtview->setMinimumSize (400,300);
+    MLZMDETtview = new HC_TableView(i);
+    MLZMDETtview->setMinimumSize (400,300);
+    ////////////////////////////////////////////// layout
+    QGridLayout *LyG_Mlzm = new QGridLayout(this);
+    LyG_Mlzm->addWidget (MLZMtview  , 0, 0);
+    LyG_Mlzm->addWidget (wdgt_mapMlzm  , 0, 1);
+    LyG_Mlzm->addWidget (MLZMDETtview  , 1, 0);
+    LyG_Mlzm->addWidget (wdgt_mapMlzm_dty  , 1, 1);
+
+}
+
+
+///
+/// \brief Cw_Mlzm::wd_Mlzm
+///
+void Cw_Mlzm::wd_Mlzm()
+{
     qDebug () << "Mlzm Giriş";
-
-
 
     wdgt_mapMlzm = new QWidget;
     wdgt_mapMlzm->setGeometry (0,0,100,300);
@@ -128,7 +154,6 @@ void Cw_Mlzm::slt_pB_ambar_grs_clicked()
     lE_aciklama = new QLineEdit();
     lB_aciklama->setBuddy(lE_aciklama);
 
-
     QLabel *lB_marka = new QLabel(tr("Ma&rka"));
     lE_marka = new QLineEdit();
     lB_marka->setBuddy(lE_marka);
@@ -148,51 +173,11 @@ void Cw_Mlzm::slt_pB_ambar_grs_clicked()
     lB_birim->setBuddy(cbx_birim);
 
 
-  /*  QLabel *lB_gt = new QLabel(tr("Malzeme Giriş Tipi"));
-    QComboBox *cbx_grs_tipi =new QComboBox;
-    cbx_grs_tipi->addItems ({"Faturalı Giriş",
-                             "Envanter Giriş",
-                             "Hibe Giriş"});
-    QLabel *lB_1 = new QLabel("Fatura No");
-    QLabel *lB_2 = new QLabel("Firma");
-    connect( cbx_grs_tipi, QOverload<int>::of(
-                 &QComboBox::currentIndexChanged),
-             [=](int index){
-        if ( index == 0 )
-        {
-            lB_1->setText ("Fatura No:");
-            lB_2->setText ("Firma");
-        }
-
-        if ( index  == 1 )
-        {
-
-            lB_1->setText ("Envanter Belge No");
-            lB_2->setText ("Depo");
-        }
-
-        if ( index  == 2 )
-        {
-            lB_1->setText ("Hibe Belge No");
-            lB_2->setText ("Kurum");
-        }
-    });
-
-*/
     ///////////////////////////////////////  mapper buttonz
     lB_mlzrsm = new QLabel(wdgt_mapMlzm);
     lB_mlzrsm->setFixedSize (200,150);
 
     int str = 0;
-
- //   LyG_Mlzm ->addWidget(lB_gt       , str, 0, 1, 1);
-  //  LyG_Mlzm ->addWidget(cbx_grs_tipi, str, 1, 1, 1);
-
-    //QLabel *lB_gt2 = new QLabel(tr("fatura"));
-
- //   LyG_Mlzm ->addWidget(lB_1   , ++str, 0, 1, 1);
-
- //   LyG_Mlzm ->addWidget(lB_2   , ++str, 1, 1, 1);
 
     ++str;
     LyG_Mlzm ->addWidget(lB_barkod   , ++str, 0, 1, 1);
@@ -214,108 +199,20 @@ void Cw_Mlzm::slt_pB_ambar_grs_clicked()
     LyG_Mlzm ->addWidget (lB_birim   , ++str, 0, 1, 1);
     LyG_Mlzm ->addWidget (cbx_birim   , str, 1, 1, 1);
     LyG_Mlzm ->addWidget (lB_mlzrsm  , ++str, 1, 5, 1);
-  //  wdgt_mapMlzm->show ();
-
-
-
 
 }
-
-
-
-
-
-
-void Cw_Mlzm::slt_pB_ambar_cks_clicked()
-{
-    /// ambar çıkışı tıklandı
-    ///
-    ///
-    qDebug () << "Mlzm Çıkışı";
-
-
-
-
-}
-
-
-
-
-
-
-
-void Cw_Mlzm::setup_uiMlzm()
-{
-slt_pB_ambar_grs_clicked();
-    wd_Mlzmdet();
-
-    qDebug() << "  setup_uiMlzm";
-    /////////////////////////////////////////////// buttonz
-    QHBoxLayout *LyG_Mlzmgc = new QHBoxLayout();
-    QPushButton *pB_ambar_grs = new QPushButton("Mlzm &Giriş");
-    connect(pB_ambar_grs, &QPushButton::clicked, this,
-            &Cw_Mlzm::slt_pB_ambar_grs_clicked );
-
-    QPushButton *pB_ambar_cks = new QPushButton("Mlzm &Çıkış");
-    LyG_Mlzmgc->addWidget (pB_ambar_grs);
-    LyG_Mlzmgc->addWidget (pB_ambar_cks);
-
-
-    //////////////////////////////////// Mlzm tableview
-    int i=1;
-    MLZMtview = new HC_TableView(i);
-    MLZMtview->setMinimumSize (400,300);
-    MLZMDETtview = new HC_TableView(i);
-    MLZMDETtview->setMinimumSize (400,300);
-    ////////////////////////////////////////////// layout
-    QGridLayout *LyG_Mlzm = new QGridLayout(this);
-    LyG_Mlzm->addWidget (MLZMtview  , 0, 0);
-    LyG_Mlzm->addWidget (wdgt_mapMlzm  , 0, 1);
-    LyG_Mlzm->addWidget (MLZMDETtview  , 1, 0);
-    LyG_Mlzm->addWidget (wdgt_mapMlzm_dty  , 1, 1);
-    LyG_Mlzm->addLayout ( LyG_Mlzmgc, 2, 0);
-
-    ////////////////////////////////////////// widgets
-     //  wd_Mlzm();
-
-
-
-
-}
-
 
 
 void Cw_Mlzm::setup_modelMlzm()
 {
     qDebug() << "  setup_modelMalzeme";
-
     MW_main *mwmain = new MW_main;
-   // MLZMmodel = new QSqlRelationalTableModel ;
     MLZMmodel = mwmain->modelMalzeme ();
-
-
-    /*
-    MLZMmodel = new QSqlTableModel();
-    MLZMmodel->setTable(tableName);
-    MLZMmodel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    MLZMmodel->setSort(MLZMmodel->fieldIndex ("mlzm_malzeme"),Qt::AscendingOrder );
-    for(int i = 1, j = 0; i < MLZMmodel->columnCount()-5; i++, j++)
-    {
-        MLZMmodel->setHeaderData(i,Qt::Horizontal,fieldList[j]);
-    }
-    // Populate the model_mkstok
-    if (!MLZMmodel->select())
-    {
-        qDebug () <<  " HATA - Model Mlzm select "
-                   <<MLZMmodel->lastError();
-    }
-*/
 }
 
 
 void Cw_Mlzm::setup_viewMlzm()
 {
-
     qDebug() << "  setup_viewMlzm";
 
     MLZMtview->table->setModel(MLZMmodel);
@@ -368,11 +265,6 @@ void Cw_Mlzm::setup_viewMlzm()
     (connect(MLZMtview->pB_son, &QPushButton::clicked,this ,
              &Cw_Mlzm::slt_Mlzm_toLast )) ;
 
-    // MLZMtview->pB_grscks->setVisible (false);
-    // (connect(MLZMtview->pB_grscks, &QPushButton::clicked,this ,
-    //                &Cw_Mlzm::slt_Mlzm_cX_grs_clicked  )) ;
-
-
 }
 
 void Cw_Mlzm::setup_mapMlzm()
@@ -392,13 +284,10 @@ void Cw_Mlzm::setup_mapMlzm()
     //MLZMmapper->addMapping( lE_cikis, MLZMmodel->fieldIndex("cikis"));
     //MLZMmapper->addMapping( lE_mevcut, MLZMmodel->fieldIndex("mevcut"));
     //MLZMmapper->addMapping( cX_mkn, MLZMmodel->fieldIndex("makina"));
- qDebug() << "  setup_mapMlzm 2";
 }
 
 ///************************************************************
 ///****************  D  E  P  O     S  L  O  T  S  ************
-
-
 
 
 void Cw_Mlzm::slt_Mlzm_tV_rowchanged(const QModelIndex &index )
@@ -409,14 +298,14 @@ void Cw_Mlzm::slt_Mlzm_tV_rowchanged(const QModelIndex &index )
         QSqlRecord record = MLZMmodel->record(index.row());
         int MlzmKod = record.value("mlzm_kod").toInt();
 
-        QString barkid = record.value("mlzm_barkod").toString ();
-        lB_brkd->setText (barkid);
+  //      QString barkid = record.value("mlzm_barkod").toString ();
+    //    lB_brkd->setText (barkid);
 
         /// giris cikisa filtre koyalım
         /// mlzm_kod mlzm dosyasında ürün kodu,
         /// mlzmdet_mlzm_kod mlzmdet dosyasında ürüne
         /// ait giriş çıkış işlemleri için bağlantı
-        QString flt = QString("mlzmdet_mlzm_kod = %1").arg(MlzmKod);
+//        QString flt = QString("mlzmdet_mlzm_kod = %1").arg(MlzmKod);
         MLZMDETmodel->setFilter (QString("mlzmdet_mlzm_kod = %1").arg(MlzmKod) );
 
     }
@@ -607,65 +496,23 @@ void Cw_Mlzm::slt_Mlzm_hesap()
 
 void Cw_Mlzm::slt_Mlzm_pB_EKLE_clicked ()
 {
-
-    QWidget *dia = new QWidget();
-    QGridLayout *gg = new QGridLayout;
-    dia->setLayout (gg);
-
-    dia->setWindowTitle ("Giriş Tipi");
-    dia->setMinimumSize (250,200);
-
-    QPushButton* fat = new QPushButton("Faturalı Malzeme Girişi",dia);
-    QPushButton* fat1 = new QPushButton("Hibe Giriş",dia);
-    QPushButton* fat2 = new QPushButton("Envanter Giriş",dia);
-    fat->setDefault (true) ;
-
-    QGroupBox *ft = new QGroupBox("Mlzm Malzeme Giriş Tipi",dia);
-    QVBoxLayout *ff = new QVBoxLayout();
-    ff->addWidget (fat);
-    ff->addWidget (fat1);
-    ff->addWidget (fat2);
-    ft->setLayout (ff);
-
-    gg->addWidget (ft);
-
-    connect(fat, &QPushButton::clicked,
-                [dia]()
-        {
-            qDebug()<<"clicked";
-            Cw_ftr *ftr = new Cw_ftr;
-            ftr->show ();
-            ftr->setup_fatura ();
-            dia->close ();
-        });
-    dia->show ();
-}
-
-    /*    ambarda tek kayıt ekleme
-
-    QModelIndex Mlzm_ndx0=MLZMtview->table->currentIndex ();
-    qDebug() << "4.index set edildi Mlzm_ndx 0 - "<<Mlzm_ndx0;
-
     QSqlRecord rec = MLZMmodel->record();
     rec.setValue ("mlzm_makina","0");
     rec.setValue ("mlzm_barkod","123");
     // insert a new record (-1)
-
     if ( ! MLZMmodel->insertRecord(MLZMmodel->rowCount (),rec))
     {
-        qDebug() << " HATA - DEPO ya kayıt eklenemedi ";
+        qDebug() << " HATA - Malzeme eklenemedi ";
     }
     else
     {
-        qDebug() << " - Kayıt DEPO ya eklendi ";
+        qDebug() << " - Malzeme eklendi ";
         MLZMmodel->submitAll ();
         MLZMmodel->select ();
         QModelIndex Mlzm_ndx= MLZMmodel->index (MLZMmodel->rowCount ()-1,0);
         MLZMtview->table->selectRow (Mlzm_ndx.row ());
-
-        //wdgt_mapMlzm->show ();
     }
-    */
+}
 
 
 void Cw_Mlzm::slt_Mlzm_pB_SIL_clicked ()
@@ -787,31 +634,6 @@ void Cw_Mlzm::slt_Mlzm_pB_SIL_clicked ()
 }
 
 
-void Cw_Mlzm::slt_Mlzm_cX_grs_clicked()
-{
-    qDebug() << "  slt_Mlzm_cX_grs_clicked";
-    QIcon icon;
-    if ( ! MLZMtview->pB_grscks->isFlat ())
-    {
-
-        QModelIndex Mlzm_indx = MLZMtview->table->currentIndex ();
-        slt_Mlzm_tV_rowchanged (Mlzm_indx);
-        MLZMtview->pB_grscks->setFlat (true);
-        icon.addPixmap(QPixmap (":/rsm/nv_eklesil.svg") ,
-                       QIcon::Normal, QIcon::On);
-        MLZMtview->pB_grscks->setIcon (icon);
-        wdgt_mapMlzm_dty->show ();
-    }
-    else
-    {
-        MLZMtview->pB_grscks->setFlat (false);
-        icon.addPixmap(QPixmap (":/rsm/nv_eklesil2.svg") ,
-                       QIcon::Normal, QIcon::On);
-        MLZMtview->pB_grscks->setIcon (icon);
-        wdgt_mapMlzm_dty->hide ();
-    }
-}
-
 
 
 
@@ -876,12 +698,7 @@ void Cw_Mlzm::wd_Mlzmdet()
              &Cw_Mlzm::slt_Mlzmd_toLast )) ;
     MLZMDETtview->pB_grscks->setVisible (false);
 
-
-
-
     QGridLayout *lYG_d_map = new QGridLayout();
-
-
     lYG_d_map->addWidget(lB_d_tarih   , 0, 0, 1, 1);
     lYG_d_map->addWidget(lE_d_tarih   , 0, 1, 1, 1);
     lYG_d_map->addWidget(lB_d_grs_cks , 1, 0, 1, 1);
@@ -893,30 +710,18 @@ void Cw_Mlzm::wd_Mlzmdet()
     lYG_d_map->addWidget(lB_d_aciklama, 4, 0, 1, 1);
     lYG_d_map->addWidget(lE_d_aciklama, 4, 1, 1, 1);
 
-
-
     LyG_Mlzm_dty = new QGridLayout( );
-
     LyG_Mlzm_dty->addWidget (lB_Mlzmdet  , 0, 0, 1, 1);
     LyG_Mlzm_dty->addLayout (lYG_d_map   , 2, 0, 1, 1);
 
     wdgt_mapMlzm_dty = new QWidget;
     wdgt_mapMlzm_dty->setLayout(LyG_Mlzm_dty);
 
-
 }
 
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////  end setup view
-
+///
+/// \brief Cw_Mlzm::setup_modelMlzmdet
+///
 void Cw_Mlzm::setup_modelMlzmdet()
 {
     qDebug() << "  setup_modelmlzmDet";
@@ -1073,8 +878,40 @@ void Cw_Mlzm::slt_Mlzmd_toLast()
 void Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked ()
 {
 
+    QWidget *dia = new QWidget();
+    QGridLayout *gg = new QGridLayout;
+    dia->setLayout (gg);
+
+    dia->setWindowTitle ("Giriş Tipi");
+    dia->setMinimumSize (250,200);
+
+    QPushButton* fat = new QPushButton("Faturalı Malzeme Girişi",dia);
+    QPushButton* fat1 = new QPushButton("Hibe Giriş",dia);
+    QPushButton* fat2 = new QPushButton("Envanter Giriş",dia);
+    fat->setDefault (true) ;
+
+    QGroupBox *ft = new QGroupBox("Mlzm Malzeme Giriş Tipi",dia);
+    QVBoxLayout *ff = new QVBoxLayout();
+    ff->addWidget (fat);
+    ff->addWidget (fat1);
+    ff->addWidget (fat2);
+    ft->setLayout (ff);
+
+    gg->addWidget (ft);
+
+    connect(fat, &QPushButton::clicked,
+                [dia]()
+        {
+            qDebug()<<"clicked";
+            Cw_ftr *ftr = new Cw_ftr;
+            ftr->show ();
+            ftr->setup_fatura ();
+            dia->close ();
+        });
+    dia->show ();
+
     qDebug() << "  slt_Mlzmd_pB_EKLE_clicked";
-    //MLZMtview->table->setFocus ();
+    /*MLZMtview->table->setFocus ();
     MLZMDETtview->table->setFocus ();
 
     QModelIndex Mlzm_indx = MLZMtview->table->currentIndex () ;
@@ -1131,6 +968,7 @@ void Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked ()
     {
         qDebug()<<"HATA - Mlzm Ekleme .row yokk ";
     }
+    */
 }
 
 

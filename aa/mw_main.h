@@ -59,6 +59,10 @@ public:
     QSqlRelationalTableModel *modelFatura();
     QSqlRelationalTableModel *mdlMlzm;
     QSqlRelationalTableModel *modelMalzeme();
+    QSqlRelationalTableModel *modelFtrDty;
+    QSqlRelationalTableModel *modelFaturaDetay();
+
+
 private:
     void cr_MainWindow();
     void cr_DockWindows();

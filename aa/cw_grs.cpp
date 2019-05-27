@@ -160,7 +160,7 @@ void Cw_Grs::cr_spre_ui()
     pb_sedet_ = new QPushButton("...");
 
 //qDebug () << "hl1  ";
-    QHBoxLayout *hL1 = new QHBoxLayout();
+    auto *hL1 = new QHBoxLayout();
     hL1->addWidget(lbl_mkn);
     hL1->addStretch(2);
     hL1->addWidget(pb_ieo);
@@ -172,7 +172,7 @@ void Cw_Grs::cr_spre_ui()
     hL1->addWidget(pb_se_yaz);
 
 //qDebug () << "hl2  ";
-    QHBoxLayout *hL2 = new QHBoxLayout();
+    auto *hL2 = new QHBoxLayout();
     hL2->addWidget(lbl_spre);
     hL2->addStretch(2);
     hL2->addWidget(pb_sedet_ekle);
@@ -184,7 +184,7 @@ void Cw_Grs::cr_spre_ui()
     tV_spre = new QTableView();
     tV_spredet = new QTableView();
 //qDebug () << "grid  ";
-    QGridLayout *gL = new QGridLayout();
+    auto *gL = new QGridLayout();
     gL->addLayout(hL1,        0, 0, 1, 1);
     gL->addWidget(tV_spre,    1, 0, 1, 1);
     gL->addLayout(hL2,        2, 0, 1, 1);
