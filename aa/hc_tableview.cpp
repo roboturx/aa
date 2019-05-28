@@ -5,7 +5,7 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
     QTableView (parent)
 {
 
-
+    qDebug()<<"-hc-";
     QIcon icon;
     int x=20,y=20;
 

@@ -48,19 +48,13 @@ public:
     QToolBar *toolBar;
 
     void cik();
-    void yaz(QString z);
+    void mwyaz ( QString z );
     Login *logger;
     void login();
 
 
 public:
-    void mwmain();  // constructor
-    QSqlRelationalTableModel *mdlFtr;
-    QSqlRelationalTableModel *modelFatura();
-    QSqlRelationalTableModel *mdlMlzm;
-    QSqlRelationalTableModel *modelMalzeme();
-    QSqlRelationalTableModel *modelFtrDty;
-    QSqlRelationalTableModel *modelFaturaDetay();
+    //void mwmain();  // constructor
 
 
 private:
@@ -71,58 +65,12 @@ private:
 
     void fade(bool ne);
 
-//    void dbcontrol();
-    bool dbcontrol();      // veritabanı yoksa oluştur, bağlan
-    void VTDosyaKontrol();
-
-     QString VTd_CLSN();
-     QString VTd_MSLK();
-     QString VTd_FRMA();
-     QString VTd_FTRA();
-     QString VTd_Mlzm ();
-     QString VTd_MlzmDETAY();
-
-
-
-
-    void VTd_mkn ();
-    void VTd_CINS ();
-    void VTd_MARKA ();
-    void VTd_MODEL ();
-
-
-    void VTd_ISEMRI ();
-    void VTd_ISEMRIDETAY ();
-    void VTd_IEDTAMIRYERI ();
-    void VTd_IEDTYDETAY ();
-    void VTd_ISCILIK ();
-    void VTd_TASINIR () ;
-
-    void VTd_MKYAG ();
-    void VTd_MKFILTRE ();
-    void VTd_MKAKU ();
-    void VTd_MKLASTIK ();
-    void VTd_MKMUAYENE ();
-    void VTd_MKSIGORTA ();
-    void VTd_MKYAKIT ();
-    void VTd_MKANTIFIRIZ ();
-    void VTd_MKZINCIR ();
-    void VTd_MKHGS ();
-
     void closeEvent (QCloseEvent *event);
     void cr_about();
 
 public slots:
     void logouted();
     void yetkiler(QString yetki, QString user);
-    void cw_main ();
-    void cw_mkn ();    /// mkn central widget
-    void cw_dpo ();    /// depo central widget
-    void cw_per ();    /// personel central widget
-    void cw_fr ();     /// firma central widget
-    void cw_ftr ();     /// fatura central widget
-    void quitApp();
-    void hkk();
 
 signals:
     void cikis(QString);
