@@ -1,4 +1,4 @@
-#ifndef MN_NAVI_H
+﻿#ifndef MN_NAVI_H
 #define MN_NAVI_H
 
 #include "globals.h"
@@ -12,7 +12,7 @@ class HC_TableView : public QTableView
 {    Q_OBJECT
 
 public:
-    explicit HC_TableView(int &renk, QTableView *parent = 0);
+    explicit HC_TableView(int renk=1, QTableView *parent = nullptr);
     ~HC_TableView();
 
     QTableView  *table;

@@ -1,4 +1,4 @@
-#ifndef CW_FTR_H
+﻿#ifndef CW_FTR_H
 #define CW_FTR_H
 
 
@@ -18,7 +18,7 @@ class Cw_ftr : public QWidget
 
 public:
 
-    DBase *dbase;
+    DBase *dbase{};
     void setup_fatura() ;
 
 
@@ -28,49 +28,49 @@ public:
 
 
    // QTableView      *FTRtview;
-    HC_TableView      *FTRtview;
-    QSqlRelationalTableModel    *FTRmodel;
-    QSqlRelationalTableModel    *mdlFtr;
-    QDataWidgetMapper *FTRmapper;
+    HC_TableView      *FTRtview{};
+    QSqlRelationalTableModel    *FTRmodel{};
+    QSqlRelationalTableModel    *mdlFtr{};
+    QDataWidgetMapper *FTRmapper{};
 
-    QWidget     *wdgt_mapFTR    ;
+    QWidget     *wdgt_mapFTR{}    ;
 
-    QGridLayout *LyG_FTR    ;
-    QGridLayout *LyG_FTR_dty;
+    QGridLayout *LyG_FTR{}    ;
+    QGridLayout *LyG_FTR_dty{};
 
-    QGroupBox   *gB_map  ;
+    QGroupBox   *gB_map{}  ;
    // QCheckBox   *cX_mkn;
-    QLabel      *lB_brkd ;
-    QLabel      *lB_FTR ;
-    QLabel      *lB_rsm  ;
+    QLabel      *lB_brkd{} ;
+    QLabel      *lB_FTR{} ;
+    QLabel      *lB_rsm{}  ;
 
-    QLineEdit   *lE_faturano  ;
-    QLineEdit   *lE_firma ;
-    QLineEdit   *lE_tarih;
-    QLineEdit   *lE_aciklama;
+    QLineEdit   *lE_faturano{}  ;
+    QLineEdit   *lE_firma{} ;
+    QLineEdit   *lE_tarih{};
+    QLineEdit   *lE_aciklama{};
 
 
     // depo detay
-    QWidget     *wdgt_mapFTR_dty;
-    HC_TableView      *FTRDETtview;
-    QItemSelectionModel *tV_ftr_selectionMdl ;
-    QSqlRelationalTableModel    *FTRDETmodel ;
-    QDataWidgetMapper *FTRDETmapper ;
+    QWidget     *wdgt_mapFTR_dty{};
+    HC_TableView      *FTRDETtview{};
+    QItemSelectionModel *tV_ftr_selectionMdl{} ;
+    QSqlRelationalTableModel    *FTRDETmodel{} ;
+    QDataWidgetMapper *FTRDETmapper{} ;
 
 
-    QLabel      *lB_FTRdet  ;
+    QLabel      *lB_FTRdet{}  ;
 
-    QLineEdit   *lE_mlzdetbarkod  ;
-    QLineEdit   *lE_mlzdetmlzm ;
+    QLineEdit   *lE_mlzdetbarkod{}  ;
+    QLineEdit   *lE_mlzdetmlzm{} ;
 
-    QLineEdit   *lE_mlzdetaciklama  ;
-    QLineEdit   *lE_mlzdettarih ;
-    QLineEdit   *lE_mlzdetgc ;
-    QLineEdit   *lE_mlzdetgcno ;
-    QLineEdit   *lE_mlzdetmiktar  ;
-    QLineEdit   *lE_mlzdetbirim  ;
-    QLineEdit   *lE_mlzdetfiyat   ;
-    QLineEdit   *lE_mlzdetkdv  ;
+    QLineEdit   *lE_mlzdetaciklama{}  ;
+    QLineEdit   *lE_mlzdettarih{} ;
+    QLineEdit   *lE_mlzdetgc{} ;
+    QLineEdit   *lE_mlzdetgcno{} ;
+    QLineEdit   *lE_mlzdetmiktar{}  ;
+    QLineEdit   *lE_mlzdetbirim{}  ;
+    QLineEdit   *lE_mlzdetfiyat{}   ;
+    QLineEdit   *lE_mlzdetkdv{}  ;
 
 
 private:
@@ -124,7 +124,7 @@ protected:
 
 public:
     explicit Cw_ftr(QWidget *parent = nullptr);
-    ~Cw_ftr();
+    ~Cw_ftr() = default;
 
 private:
 

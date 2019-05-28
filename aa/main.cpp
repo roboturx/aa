@@ -277,50 +277,50 @@ Colors of the Year 2000-2019
 //   // qApp->setStyleSheet("QToolTip { color: #ffffff;
 //    //background-color: #2a82da; border: 1px solid white; }");
 
-    QString ChiliPepper  ("#9B2335");
-    QString CeruleanBlue ("#98B4D4");
-    QString Turquoise    ("#45B8AC");
-    QString Serenity     ("#92A8D1");
-    QString AspenGold    ("#FFD662");
-    QString LivingCoral  ("#FF6F61");
-    QString UltraViolet  ("#6B5B95");
-    QString BrownGranite ("#615550");
-    QString Eclipse      ("#343148");
-    QString EveningBlue  ("#2A293E");
+
+    QString CeruleanBlue ("#98B4D4");  // fg
+    QString Turquoise    ("#45B8AC");  // fg
+    QString Serenity     ("#92A8D1");  // fg
+    QString AspenGold    ("#FFD662");  // fg
+    QString LivingCoral  ("#FF6F61");  // fg
+    QString UltraViolet  ("#6B5B95"); // bg
+    QString BrownGranite ("#615550"); // bg
+    QString Eclipse      ("#343148"); // bg
+    QString EveningBlue  ("#2A293E"); // bg
+    QString NavyPeony    ("#223A5E"); // bg
+
     QString LushMeadow   ("#006E51");
-    QString NavyPeony ("#223A5E");
+    QString ChiliPepper  ("#9B2335");
 
     QPalette dP;
-    dP.setColor(QPalette::Window,
-                QColor(EveningBlue));
+    dP.setColor(QPalette::Window       , QColor(EveningBlue));// window
 
-    dP.setColor(QPalette::WindowText,
-                QColor(AspenGold)); // label fg
-    dP.setColor(QPalette::Base,
-                QColor(Eclipse)); // text arkaplan 25,25,25));
-    dP.setColor(QPalette::AlternateBase,
-                QColor("#0066ff"));//53,53,53));
-    dP.setColor(QPalette::ToolTipBase,
-                QColor(ChiliPepper));
-    dP.setColor(QPalette::ToolTipText,
-                QColor(LivingCoral));
+    dP.setColor(QPalette::WindowText   , QColor(AspenGold));// label fg
+    dP.setColor(QPalette::Base         , QColor(Eclipse));// text arkaplan 25,25,25));
+    dP.setColor(QPalette::AlternateBase, QColor(ChiliPepper));//
+    dP.setColor(QPalette::ToolTipBase  , QColor(LushMeadow));//
+    dP.setColor(QPalette::ToolTipText  , QColor(LivingCoral));//
 
-    dP.setColor(QPalette::PlaceholderText,
-                QColor(NavyPeony));
-    dP.setColor(QPalette::Text, QColor(Turquoise));
+    dP.setColor(QPalette::PlaceholderText, QColor(NavyPeony));  //
+    dP.setColor(QPalette::Text           , QColor(LivingCoral));//
 
-    dP.setColor(QPalette::Button, QColor(EveningBlue));
+    dP.setColor(QPalette::Button         , QColor(Eclipse)); //
 //    dP.setColor(QPalette::Mid, QColor(EveningBlue));
-    dP.setColor(QPalette::ButtonText, QColor(CeruleanBlue));
-    dP.setColor(QPalette::BrightText, Qt::red);
+    dP.setColor(QPalette::ButtonText     , QColor(Turquoise)); //
+    dP.setColor(QPalette::BrightText     , QColor(Serenity) );           //
 
     dP.setColor(QPalette::Link, QColor(LushMeadow));
     dP.setColor(QPalette::LinkVisited , QColor(LushMeadow));
 
-    dP.setColor(QPalette::Highlight, QColor("#0066ff"));
-    dP.setColor(QPalette::HighlightedText, QColor(LushMeadow) );
+    dP.setColor(QPalette::Highlight, QColor(NavyPeony));
+    dP.setColor(QPalette::HighlightedText, QColor(CeruleanBlue) );
 
+
+#ifdef LINUX
     qApp->setPalette(dP);
+#endif
+
+
    // qApp->setStyleSheet("QToolTip { color: #ffffff;
     //background-color: #2a82da; border: 1px solid white; }");
 
@@ -348,6 +348,6 @@ Colors of the Year 2000-2019
     w.login ();
     //w.hide ();
     //splash.finish(w);
-    return a.exec();
+    return QApplication::exec();
 }
 

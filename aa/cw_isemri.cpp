@@ -1,4 +1,4 @@
-#include "cw_isemri.h"
+﻿#include "cw_isemri.h"
 #include "globals.h"
 
 /////////////////////////////////////////////////
@@ -688,7 +688,7 @@ void Cw_IsEmri::rightMenu_IEDET(QPoint pos)
 
 {
     //qDebug ()  <<"  cw işemri view sağ tuş 001";
-    QMenu *menuiedet = new QMenu(this);
+    auto *menuiedet = new QMenu(this);
 
     // taşınır kaydı ekle
     const QIcon ekleIc_IEdet = QIcon(":/rsm/Add.ico");
@@ -727,7 +727,7 @@ void Cw_IsEmri::rightMenu_TASINIR(QPoint pos)
 
 {
     //qDebug ()  <<"  cw tasinir view sağ tuş 001";
-    QMenu *menuts = new QMenu(this);
+    auto *menuts = new QMenu(this);
 
     // tasinir kaydı ekle
     const QIcon ekleIc_ts = QIcon(":/rsm/Add.ico");
@@ -753,7 +753,7 @@ void Cw_IsEmri::rightMenu_TASINIR(QPoint pos)
 void Cw_IsEmri::rightMenu_ISCILIK(QPoint pos)
 {
     //qDebug ()  <<"  cw iscilik view sağ tuş 001";
-    QMenu *menuis = new QMenu(this);
+    auto *menuis = new QMenu(this);
 
     // iscilik ayar ekle
     const QIcon ekleIc_is = QIcon(":/rsm/Add.ico");
@@ -821,8 +821,8 @@ void Cw_IsEmri::onmnIE_IEDETekle()
 {
     IEno = new QString;
     IE_idno = new QString;
-    QSqlQuery q;
-    QVariant ino = " " ;
+    //QSqlQuery q;
+    //QVariant ino = " " ;
     QModelIndex index = IEtview->currentIndex();
     if (index.isValid())
     {
@@ -887,7 +887,7 @@ void Cw_IsEmri::onmnIE_IEDETekle()
     wdgt_TSekle->setVisible(false);
     wdgt_TSekle->show();
 
-    QGridLayout *TsL = new QGridLayout;
+    auto *TsL = new QGridLayout;
     wdgt_TSekle->setLayout(TsL);
 
 
@@ -1118,8 +1118,8 @@ void Cw_IsEmri::onmnIEDET_TSekle()
     TSno = new QString;
     TSdet_idno = new QString;
     *TSdet_idno="-1";
-    QSqlQuery q;
-    QVariant ino = " " ;
+    //QSqlQuery q;
+    //QVariant ino = " " ;
     QModelIndex index = IEDETtview->currentIndex();
     if (index.isValid())
     {
@@ -1185,7 +1185,7 @@ qDebug ()<<"ts 12 ---- tsdfetidno --- "<< * TSdet_idno;
     wdgt_TSekle->setVisible(false);
     wdgt_TSekle->show();
 
-    QGridLayout *TsL = new QGridLayout;
+    auto *TsL = new QGridLayout;
     wdgt_TSekle->setLayout(TsL);
 
 
@@ -1435,8 +1435,8 @@ void Cw_IsEmri::onmnIEDET_SCekle()
     SCno = new QString;
     SCdet_idno = new QString;
     *SCdet_idno="-1";
-    QSqlQuery q;
-    QVariant ino = " " ;
+    //QSqlQuery q;
+    //QVariant ino = " " ;
     QModelIndex index = IEDETtview->currentIndex();
     if (index.isValid())
     {
@@ -1502,7 +1502,7 @@ qDebug ()<<"SC 12 ---- SCdfetidno --- "<< * SCdet_idno;
     wdgt_SCekle->setVisible(false);
     wdgt_SCekle->show();
 
-    QGridLayout *SCL = new QGridLayout;
+    auto *SCL = new QGridLayout;
     wdgt_SCekle->setLayout(SCL);
 
 
@@ -1721,8 +1721,7 @@ qDebug ()<<"SC 19";
 
 
 Cw_IsEmri::~Cw_IsEmri()
-{
-}
+= default;
 
 /*
 

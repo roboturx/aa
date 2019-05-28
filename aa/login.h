@@ -29,7 +29,7 @@ private slots:
 
 public slots:
     void logout();
-    void logex(QString nereden);
+    void logex(const QString& nereden);
 signals:
     void logok(QString, QString);
 

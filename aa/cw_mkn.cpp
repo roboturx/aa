@@ -63,12 +63,12 @@ void Cw_mkn::mkn_ui_pbs()
     pb_rsm = new QPushButton("...");
     pb_rsm->setFixedSize(42,30);
 
-    QHBoxLayout *pbL =new QHBoxLayout;
+    auto *pbL =new QHBoxLayout;
     pbL->addStretch(2);
     pbL->addWidget(pb_rsm);
 
     wdgt_tv = new QWidget();
-    QGridLayout *tV_l = new QGridLayout(wdgt_tv);
+    auto *tV_l = new QGridLayout(wdgt_tv);
 
     tV_l->addLayout(pbL   , 0,0,1,0,nullptr);
     tV_l->addWidget(MKNtview, 1,0,1,2,nullptr);   //////// makina view
@@ -85,7 +85,7 @@ void Cw_mkn::mkn_ui_rsm()
 
 
     wdgt_rsm = new QWidget;
-    QGridLayout *rsm_l = new QGridLayout(wdgt_rsm);
+    auto *rsm_l = new QGridLayout(wdgt_rsm);
     rsm_l->setColumnStretch(1,100);
     wdgt_rsm->setFixedSize(385,240);
 
@@ -99,7 +99,7 @@ void Cw_mkn::mkn_ui_tabw()
     /// SOL - üst - orta - alt
     // SOL çerçeve içine alalım
     wdgt_sol = new QWidget;
-    QGridLayout *mkn_l = new QGridLayout(wdgt_sol);
+    auto *mkn_l = new QGridLayout(wdgt_sol);
     mkn_l->addWidget(wdgt_rsm  ,0,0,1,1,nullptr);     // foto     sol üst
     mkn_l->addWidget(wdgt_tv   ,1,0,1,1,nullptr);     // tv       sol alt
     // mkn_l->addWidget(wdgt_mppr ,0,1,1,1,nullptr);     //    sağ üst
@@ -121,7 +121,7 @@ void Cw_mkn::mkn_ui_tabw()
     // qs->setStretchFactor(0,0);
     qs->setStretchFactor(1,10);
 
-    QGridLayout *mkn_layg = new QGridLayout(this);
+    auto *mkn_layg = new QGridLayout(this);
     mkn_layg->addWidget(qs  ,0,0,1,1,nullptr);
 
 
@@ -144,7 +144,7 @@ void Cw_mkn::mkn_ui_tabw()
 
     // ıedet
     wdgt_IEdet = new QWidget;
-    QGridLayout *layout_IEdet = new QGridLayout(wdgt_IEdet);
+    auto *layout_IEdet = new QGridLayout(wdgt_IEdet);
     qDebug()<<"cw ie  01";
     Cwv_IsEmri = new Cw_IsEmri;
     qDebug()<<"cw ie  02";
@@ -161,7 +161,7 @@ void Cw_mkn::mkn_ui_tabw()
     // EVRAK
 
     wdgt_evrk = new QWidget;
-    QGridLayout *evrk_layg = new QGridLayout(wdgt_evrk);
+    auto *evrk_layg = new QGridLayout(wdgt_evrk);
 
     evrk_sgrt = new Evr_Sgrt;
     evrk_mua = new Evr_Mua;
@@ -180,7 +180,7 @@ void Cw_mkn::mkn_ui_tabw()
 
     void ss();
     wdgt_bkm = new QWidget;
-    QGridLayout *bkm_layg = new QGridLayout(wdgt_bkm);
+    auto *bkm_layg = new QGridLayout(wdgt_bkm);
 
     tbx_bkm = new QToolBox( wdgt_bkm ) ; //= new QToolBox;
     tbx_bkm->addItem(new QLabel(),"Yakıt");
@@ -577,7 +577,7 @@ void Cw_mkn::mkn_kontrol()
 void Cw_mkn::onMKNtview_sagmenuSLOT(QPoint pos)
 {
     //qDebug ()  <<"  cw mkn view sağ tuş 001";
-    QMenu *menu = new QMenu(this);
+    auto *menu = new QMenu(this);
 
     // sigorta kaydı ekle
     const QIcon ekleIc_sgrt = QIcon(":/rsm/Add.ico");
@@ -1232,7 +1232,7 @@ void Cw_mkn::onpb_resimPencereSLOT()
     x->setWindowTitle("Makina Resmi");
 
     QLabel *imageLabel = new QLabel(x);
-    QGridLayout *xL = new QGridLayout;
+    auto *xL = new QGridLayout;
     //    QScrollArea *scrollArea = new QScrollArea(x);
     xL->addWidget(imageLabel ,0,0,1,1,nullptr);
     x->setLayout(xL);
@@ -1375,7 +1375,7 @@ void Cw_mkn::ykt()
 ////////////////////////////////////////////////////////////  others
 void Cw_mkn::ww_mkcins()
 {
-    WW_Mkcins *w = new WW_Mkcins;
+    auto *w = new WW_Mkcins;
     //w->setModal(true);
     w->show();
     MKNmodel->select();
@@ -1385,8 +1385,7 @@ void Cw_mkn::ww_mkcins()
 
 
 Cw_mkn::~Cw_mkn()
-{
-}       ///      ~Cw_mkn
+= default;       ///      ~Cw_mkn
 
 
 
@@ -1512,7 +1511,7 @@ void Cw_mkn::onmnMKN_MKNekle()
 
     //    mppMKN->setCurrentIndex (MKNtview->currentIndex ().row ()) ;
 
-    QGridLayout *mapperL = new QGridLayout;
+    auto *mapperL = new QGridLayout;
     wdgt_mppr->setLayout(mapperL);
     int satr=0;
 
@@ -1909,7 +1908,7 @@ void Cw_mkn::onmnMKN_IEekle()
     wdgt_IEekle->setVisible(false);
     wdgt_IEekle->show();
 
-    QGridLayout *IEL = new QGridLayout;
+    auto *IEL = new QGridLayout;
     wdgt_IEekle->setLayout(IEL);
 
     int satr = 0;
@@ -2143,7 +2142,7 @@ void Cw_mkn::clk_boshIE()
 
     MKNid = new QString;
     *MKNid = -1;
-    QSqlQuery q;
+    //QSqlQuery q;
     QVariant ino = " " ;
     QModelIndex index = Cw_mkn::MKNtview->currentIndex();
 
@@ -2185,7 +2184,7 @@ void Cw_mkn::clk_boshIE()
     // mkn_kurumNo + hangi yıl + yılın kaçıncı günündeyiz
     QString IE = ino.toString();
     IE.append(":");
-    IE.append(QString::number( x.year()).right(2));
+    IE.append(QString::number( x.year()).rightRef(2));
     IE.append("~");
     IE.append(QString::number( x.dayOfYear())) ;
     IE.append("~");
@@ -2257,8 +2256,7 @@ SKGComboBox::SKGComboBox(QWidget *parent) : QComboBox (parent)
 }
 
 SKGComboBox::~SKGComboBox()
-{
-}
+= default;
 
 QString SKGComboBox::text() const
 {

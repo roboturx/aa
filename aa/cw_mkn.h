@@ -104,73 +104,73 @@ private slots:
 public:
 
     // ui
-    QTableView *MKNtview;
-    QTableView *tV_mkcins;
-    QTableView *tV_mkmark;
-    QTableView *tV_mkmodl;
+    QTableView *MKNtview{};
+    QTableView *tV_mkcins{};
+    QTableView *tV_mkmark{};
+    QTableView *tV_mkmodl{};
 
     //QAction *act_to_ileri;
     //QAction *act_to_geri;
 
-    QPushButton *pb_mkn;
-    QPushButton *pb_tab;
+    QPushButton *pb_mkn{};
+    QPushButton *pb_tab{};
 
     /// mkn variables
     // QString *processMKN;
-    QString *MKNid;
-    QLineEdit *led_barkod;
-    QLineEdit *led_malzeme;
-    QLineEdit *led_mknKurumno;
-    QLineEdit *led_mknPlaka;
+    QString *MKNid{};
+    QLineEdit *led_barkod{};
+    QLineEdit *led_malzeme{};
+    QLineEdit *led_mknKurumno{};
+    QLineEdit *led_mknPlaka{};
 
-    QComboBox *cbx_mknCins;
-    QSqlTableModel *cbxCinsiModel;// dbtb_cins
-    QPushButton *pb_mknCins;
+    QComboBox *cbx_mknCins{};
+    QSqlTableModel *cbxCinsiModel{};// dbtb_cins
+    QPushButton *pb_mknCins{};
 
 
-    QComboBox *cbx_mknMark;
-    QSqlTableModel *cbxMarkaModel;// dbtb_mknMarka
-    QPushButton *pb_mknMark;
+    QComboBox *cbx_mknMark{};
+    QSqlTableModel *cbxMarkaModel{};// dbtb_mknMarka
+    QPushButton *pb_mknMark{};
     //void oncbx_mknMarkclickedSLOT();
 
 
-    QComboBox *cbx_mknModl;
-    QSqlTableModel *cbxModeliModel;// dbtb_model
-    QPushButton *pb_mknModl;
+    QComboBox *cbx_mknModl{};
+    QSqlTableModel *cbxModeliModel{};// dbtb_model
+    QPushButton *pb_mknModl{};
 
 
-    QSpinBox *spn_mknYil;
+    QSpinBox *spn_mknYil{};
 
-    QLineEdit *led_mknSase;
-    QLineEdit *led_mknMotor;
-    QLineEdit *led_mknMtip;
+    QLineEdit *led_mknSase{};
+    QLineEdit *led_mknMotor{};
+    QLineEdit *led_mknMtip{};
 
-    QPushButton *pb_mknYkt;
-    QComboBox *cbx_mknYkt;       // dbtb_mknYkt
+    QPushButton *pb_mknYkt{};
+    QComboBox *cbx_mknYkt{};       // dbtb_mknYkt
     void ykt();
 
-    QPushButton *pb_mknSurucu;
-    QComboBox *cbx_mknSurucu;       // dbtb_clsn
-    QSqlTableModel *cbxClsnModel;
+    QPushButton *pb_mknSurucu{};
+    QComboBox *cbx_mknSurucu{};       // dbtb_clsn
+    QSqlTableModel *cbxClsnModel{};
     void src();
 
-    QDateTimeEdit *clndr_mknSurucutar ;
+    QDateTimeEdit *clndr_mknSurucutar{} ;
 
-    QPushButton *pb_mknBirim;
-    QComboBox *cbx_mknBirim;
+    QPushButton *pb_mknBirim{};
+    QComboBox *cbx_mknBirim{};
     void birim();              // dbtb_mknBirim
 
-    QTextEdit *ted_mknAcklm;
+    QTextEdit *ted_mknAcklm{};
 
-    QPushButton *pb_mknByer;
+    QPushButton *pb_mknByer{};
     void byer();
-    QComboBox *cbx_mknByer;      // dbtb_mknByer
+    QComboBox *cbx_mknByer{};      // dbtb_mknByer
 
-    QLineEdit *led_dp_no;
+    QLineEdit *led_dp_no{};
 
-    QLabel *lB_resim;
+    QLabel *lB_resim{};
 
-    QByteArray *rsm_ByteArray ;
+    QByteArray *rsm_ByteArray{} ;
 
     // resim
     // rating
@@ -184,92 +184,92 @@ public:
 
     /// ie variables
 
-    QWidget *wdgt_IEekle;
-    QString *IEno;
-    QLineEdit *lE_IEno ;
+    QWidget *wdgt_IEekle{};
+    QString *IEno{};
+    QLineEdit *lE_IEno{} ;
 
-    QDateTimeEdit *lE_IEtarih ;
+    QDateTimeEdit *lE_IEtarih{} ;
 
-    QComboBox *cbx_IEbolum ;    // dbtb_IEbolum
-    QPushButton *pb_IEbolum;
+    QComboBox *cbx_IEbolum{} ;    // dbtb_IEbolum
+    QPushButton *pb_IEbolum{};
 
-    QComboBox *cbx_IEusta ;      // dbtb_clsn
+    QComboBox *cbx_IEusta{} ;      // dbtb_clsn
 
-    QComboBox *cbx_IEdurum ;
+    QComboBox *cbx_IEdurum{} ;
     void clk_IEdurum();
 
-    QComboBox *cbx_IEyetkili1 ;
+    QComboBox *cbx_IEyetkili1{} ;
     void clk_IEclsn();
-    QComboBox *cbx_IEyetkili2 ;
+    QComboBox *cbx_IEyetkili2{} ;
 
-    QDateTimeEdit *dE_IEgirtarihi ;
-    QDateTimeEdit *dE_IEciktarihi ;
+    QDateTimeEdit *dE_IEgirtarihi{} ;
+    QDateTimeEdit *dE_IEciktarihi{} ;
 
-    QComboBox *cbx_IEyapyer ;
+    QComboBox *cbx_IEyapyer{} ;
     void clk_IEyyer();
-    QDateTimeEdit *dE_IEtarih;
+    QDateTimeEdit *dE_IEtarih{};
 
     //void IEekle();
 
 
-    QDataWidgetMapper *mppMKN;
+    QDataWidgetMapper *mppMKN{};
 
 
-    QWidget *wdgt_mppr;
-    QWidget *wdgt_sol;
-    QWidget *wdgt_tv;
-    QWidget *wdgt_rsm;
+    QWidget *wdgt_mppr{};
+    QWidget *wdgt_sol{};
+    QWidget *wdgt_tv{};
+    QWidget *wdgt_rsm{};
 
-    QLabel *lB_foto;
+    QLabel *lB_foto{};
 
-    QPushButton *pb_rsmEkle;
-    QPushButton *pb_rsm;
-
-
+    QPushButton *pb_rsmEkle{};
+    QPushButton *pb_rsm{};
 
 
 
-    QTabWidget *wtab;
+
+
+    QTabWidget *wtab{};
 
     QString SS01;
     QString SS02;
 
     //layouts
-    QSplitter *qs;
+    QSplitter *qs{};
     //  QHBoxLayout *pbL;       // pushbuttons
     //   QGridLayout *tV_l;      // pbs , tv mkn
     //  QGridLayout *mapperL;   // mapper
 
-    QWidget *wdgt_IE;
-    QWidget *wdgt_IEdet;
-    QWidget *wdgt_evrk;
-    QWidget *wdgt_bkm ;
-    QWidget *wdgt_arz;
+    QWidget *wdgt_IE{};
+    QWidget *wdgt_IEdet{};
+    QWidget *wdgt_evrk{};
+    QWidget *wdgt_bkm{} ;
+    QWidget *wdgt_arz{};
 
-    QToolBox *tbx_arac;
-    QToolBox *tbx_evrk;
-    QToolBox *tbx_bkm;
-    QToolBox *tbx_clsm;
-    QToolBox *tbx_arz;
+    QToolBox *tbx_arac{};
+    QToolBox *tbx_evrk{};
+    QToolBox *tbx_bkm{};
+    QToolBox *tbx_clsm{};
+    QToolBox *tbx_arz{};
 
-    Cw_Grs *Cwv_Grs ;
-    Cw_IsEmri *Cwv_IsEmri ;
+    Cw_Grs *Cwv_Grs{} ;
+    Cw_IsEmri *Cwv_IsEmri{} ;
     //Cw_IEdet *Cwv_IEdet ;
     //Cw_tasinir *Cwv_Tasinir;
 
-    Evr_Sgrt *evrk_sgrt;
-    Evr_Mua *evrk_mua;
+    Evr_Sgrt *evrk_sgrt{};
+    Evr_Mua *evrk_mua{};
 
-    int idx_mkcins;	//
-    int idx_mkmark;	//
-    int idx_mkmdl;	//
+    int idx_mkcins{};	//
+    int idx_mkmark{};	//
+    int idx_mkmdl{};	//
 
     // models
-    QSqlRelationalTableModel *MKNmodel;
-    QSqlRelationalTableModel *CLSNmodel;
-    QSqlRelationalTableModel *mdl_mkcins;
-    QSqlRelationalTableModel *mdl_mkmark;
-    QSqlRelationalTableModel *mdl_mkmodl;
+    QSqlRelationalTableModel *MKNmodel{};
+    QSqlRelationalTableModel *CLSNmodel{};
+    QSqlRelationalTableModel *mdl_mkcins{};
+    QSqlRelationalTableModel *mdl_mkmark{};
+    QSqlRelationalTableModel *mdl_mkmodl{};
 
     //    QPushButton *getPb_mknByer() const;
     //  void setPb_mknByer(QPushButton *value);

@@ -261,12 +261,9 @@ void Cw_ftr::setup_modelFtr()
 
 void Cw_ftr::setup_viewFtr()
 {
-
     qDebug() << "  setup_viewFtr";
-    qDebug()<<"ekle 2" << FTRmodel;
 
     FTRtview->table->setModel ( FTRmodel );
-    qDebug()<<"ekle 3" << FTRmodel;
     FTRtview->table->resizeColumnsToContents();
     FTRtview->table->resizeRowsToContents ();
 
@@ -295,55 +292,49 @@ void Cw_ftr::setup_viewFtr()
     ///// tableview kontrol connectleri
     ///
     ///
-/*
-    connect(FTRtview->table->pB_ekle, &QPushButton::clicked ,this ,
+
+    connect(FTRtview->pB_ekle, &QPushButton::clicked ,this ,
              &Cw_ftr::slt_ftr_pB_EKLE_clicked  ) ;
-    connect(FTRtview->table->pB_eklersm, &QPushButton::clicked,this ,
+    connect(FTRtview->pB_eklersm, &QPushButton::clicked,this ,
              &Cw_ftr::slt_ftr_pB_Eklersm_clicked  ) ;
 
-    connect(FTRtview->table->pB_sil, &QPushButton::clicked,this ,
+    connect(FTRtview->pB_sil, &QPushButton::clicked,this ,
              &Cw_ftr::slt_ftr_pB_SIL_clicked ) ;
-    connect(FTRtview->table->pB_ilk, &QPushButton::clicked ,
+    connect(FTRtview->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
             FTRmapper->toFirst ();
             int map_row = FTRmapper->currentIndex ();
-            FTRtview->table->pB_ilk->setEnabled (map_row>0);
-            FTRtview->table->setCurrentIndex(FTRmodel->index( 0  ,0));
+            FTRtview->pB_ilk->setEnabled (map_row>0);
+            FTRtview->setCurrentIndex(FTRmodel->index( 0  ,0));
     });
 
-    connect(FTRtview->table->pB_ncki, &QPushButton::clicked,
+    connect(FTRtview->pB_ncki, &QPushButton::clicked,
             [this]()
     {
         FTRmapper->toPrevious ();
         int map_row = FTRmapper->currentIndex ();
-        FTRtview->table->pB_ncki->setEnabled(map_row > 0);
-        FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
+        FTRtview->pB_ncki->setEnabled(map_row > 0);
+        FTRtview->setCurrentIndex(FTRmodel->index( map_row  ,0));
     });
 
-    connect(FTRtview->table->pB_snrki, &QPushButton::clicked,
+    connect(FTRtview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
         FTRmapper->toNext ();
         int map_row = FTRmapper->currentIndex ();
-        FTRtview->table->pB_snrki->setEnabled(map_row < FTRmodel->rowCount() - 1);
-        FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
+        FTRtview->pB_snrki->setEnabled(map_row < FTRmodel->rowCount() - 1);
+        FTRtview->setCurrentIndex(FTRmodel->index( map_row  ,0));
     });
 
-    connect(FTRtview->table->pB_son, &QPushButton::clicked,
+    connect(FTRtview->pB_son, &QPushButton::clicked,
             [this]()
     {
         FTRmapper->toLast ();
         int map_row = FTRmapper->currentIndex ();
-        FTRtview->table->pB_son->setEnabled(map_row < FTRmodel->rowCount() - 1);
-        FTRtview->table->setCurrentIndex(FTRmodel->index( FTRmodel->rowCount() - 1  ,0));
+        FTRtview->pB_son->setEnabled(map_row < FTRmodel->rowCount() - 1);
+        FTRtview->setCurrentIndex(FTRmodel->index( FTRmodel->rowCount() - 1  ,0));
     });
-
-
-    FTRtview->table->pB_grscks->setVisible (false);
-    //  (connect(FTRtview->table->pB_grscks, &QPushButton::clicked,this ,
-    //                 &Cw_ftr::slt_ftr_cX_grs_clicked  )) ;
-*/
 
 }
 
@@ -470,17 +461,17 @@ void Cw_ftr::slt_ftr_pB_Eklersm_clicked()
 void Cw_ftr::slt_ftr_updButtons(int row)
 {
     qDebug() << "  slt_ftr_updButtons";
- /*   FTRtview->table->pB_ilk->setEnabled (row>0);
-    FTRtview->table->pB_ncki->setEnabled(row > 0);
-    FTRtview->table->pB_snrki->setEnabled(row < FTRmodel->rowCount() - 1);
-    FTRtview->table->pB_son->setEnabled(row < FTRmodel->rowCount() - 1);
-*/
+    FTRtview->pB_ilk->setEnabled (row>0);
+    FTRtview->pB_ncki->setEnabled(row > 0);
+    FTRtview->pB_snrki->setEnabled(row < FTRmodel->rowCount() - 1);
+    FTRtview->pB_son->setEnabled(row < FTRmodel->rowCount() - 1);
+
 }
 
 
 void Cw_ftr::slt_ftr_hesap()
 {
-    qDebug() << "ftr_hesappppppppppppppppppp";
+    qDebug() << "ftr_hesapp";
     // QModelIndex indx_ftrdet = FTRDETtview->currentIndex ();
 
     //int tpl_grs=0, tpl_cks=0;
@@ -734,36 +725,6 @@ void Cw_ftr::slt_ftr_pB_SIL_clicked ()
     }
 }
 
-/*
-void Cw_ftr::slt_ftr_cX_grs_clicked()
-{
-        qDebug() << "  slt_ftr_cX_grs_clicked";
-    QIcon icon;
-    if ( ! FTRtview->table->pB_grscks->isFlat ())
-    {
-
-        QModelIndex ftr_indx = FTRtview->table->currentIndex ();
-        slt_ftr_tV_rowchanged (ftr_indx);
-        FTRtview->table->pB_grscks->setFlat (true);
-        icon.addPixmap(QPixmap (":/rsm/nv_eklesil.svg") ,
-                       QIcon::Normal, QIcon::On);
-        FTRtview->table->pB_grscks->setIcon (icon);
-        wdgt_mapFTR_dty->show ();
-    }
-    else
-    {
-        FTRtview->table->pB_grscks->setFlat (false);
-        icon.addPixmap(QPixmap (":/rsm/nv_eklesil2.svg") ,
-                       QIcon::Normal, QIcon::On);
-        FTRtview->table->pB_grscks->setIcon (icon);
-        wdgt_mapFTR_dty->hide ();
-    }
-}
-
-
-*/
-
-
 
 
 ///************************************************************
@@ -957,10 +918,10 @@ void Cw_ftr::setup_viewFtrDet()
             FTRDETtview->pB_snrki->setEnabled(map_row < FTRDETmodel->rowCount() - 1);
             FTRDETtview->table->setCurrentIndex(FTRDETmodel->index( map_row  ,0));
     });
-    //FTRDETtview->pB_grscks->setVisible (false);
-
 }
-
+///
+/// \brief Cw_ftr::setup_mapFtrDet
+///
 void Cw_ftr::setup_mapFtrDet()
 {
     qDebug() << "  setup_mapFtrDet";
@@ -1020,6 +981,7 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
 
     QModelIndex ftr_indx = FTRtview->table->currentIndex () ;
     int ftr_row = ftr_indx.row ();
+
     QString ftrno = FTRmodel->
             data ( FTRmodel->
                    index(ftr_row,FTRmodel->
@@ -1030,6 +992,7 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
             data ( FTRmodel->
                    index(ftr_row,FTRmodel->
                          fieldIndex("ftr_tarih"))).toString() ;
+     qDebug ()<<"ftrno " << ftrtarih;
     QLineEdit fno;
     fno.insert (ftrno);
     fno.setReadOnly (true);
@@ -1037,8 +1000,6 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
     ftr.setText (ftrtarih);
     ftr.setReadOnly (true);
 
-
-    // lay_dia->addWidget (eml_br,1,0,1,1);
 
     QPushButton *pB_ftrekle = new QPushButton("Faturaya Malzeme Ekle");
     QPushButton *pB_kpt = new QPushButton("Kapat");
@@ -1051,10 +1012,11 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
     lay_dia->addWidget (pB_kpt    ,7,0,1,1);
     lay_dia->addWidget (pB_ftrekle,7,1,1,2);
 
-
+ qDebug ()<<"ftrrrrrrr " ;
     connect (pB_kpt, &QPushButton::clicked,dia_ekle, &QDialog::close );
     connect (pB_ftrekle, &QPushButton::clicked,
-             [ftr_indx,ftrno,ftrtarih,this,mlz_model,mlz_view]()
+            // [ftr_indx,ftrno,ftrtarih,this,mlz_model,mlz_view]()
+              [this,ftr_indx,mlz_view,mlz_model,ftrtarih,ftrno]()
     {  /// lambda
 
 
@@ -1063,7 +1025,7 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
         {
 
             int mlzm_row = mlz_indx.row ();
-
+ qDebug ()<<"ftrrrrrrr 2 " ;
             /// kayıt içerisinde belirli bir
             /// field in içeriğini değişkene at
 
@@ -1091,7 +1053,7 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
                  "  mlzmdet_birim     )"
                  " values( ?,?,?,?,?,?,?)"  ;
             q.prepare(s_q);
-
+ qDebug ()<<"ftrrrrrrr 3" ;
             q.bindValue(0, mlzkod  );
             q.bindValue(1, mlzbrkod );
             q.bindValue(2, mlzmMlzm );
@@ -1112,7 +1074,7 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
 
                 FTRDETtview->table->setFocus ();
                 FTRDETmodel->select ();
-
+ qDebug ()<<"ftrrrrrrr 4 " ;
             }
             else
             {
@@ -1129,7 +1091,7 @@ void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
 
     dia_ekle->show ();
 
-
+ qDebug ()<<"ftrrrrrrr 5 " ;
 
 }
 

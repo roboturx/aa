@@ -4,14 +4,10 @@
 
 _Evr::_Evr()
 
-{
-
-}
+= default;
 
 _Evr::~_Evr()
-{
-
-}
+= default;
 /////////////////////////////////////////////////////////////
 /// \brief Evr_Sgrt::Evr_Sgrt
 ///
@@ -68,7 +64,7 @@ void Evr_Sgrt::cr_Evr_Sgrt_ui()
     pb_sgrt_ekleDDD = new QPushButton("...");
 
 
-    QHBoxLayout *hL1 = new QHBoxLayout();
+    auto *hL1 = new QHBoxLayout();
 
     hL1->addWidget(pb_sgrt_ekle);
     hL1->addWidget(pb_sgrt_ekleDDD);
@@ -79,7 +75,7 @@ void Evr_Sgrt::cr_Evr_Sgrt_ui()
 
     tV_evr_sgrt = new QTableView();
 
-    QGridLayout *gL = new QGridLayout(this);
+    auto *gL = new QGridLayout(this);
     gL->addLayout(hL1,        0, 0, 1, 1);
     gL->addWidget(tV_evr_sgrt,    1, 0, 1, 1);
 
@@ -153,9 +149,7 @@ void Evr_Sgrt::onpb_Evr_Sgrt_EkleDDD()
 
 
  Evr_Sgrt::~Evr_Sgrt()
-{
-
-}
+= default;
  //////////////////////////////////////////////////////
  /// \brief Evr_Mua::Evr_Mua
  ///
@@ -213,7 +207,7 @@ void Evr_Mua::cr_Evr_Mua_ui()
     pb_mua_ekleDDD = new QPushButton("...");
 
 
-    QHBoxLayout *hL1 = new QHBoxLayout();
+    auto *hL1 = new QHBoxLayout();
 
     hL1->addWidget(pb_mua_ekle);
     hL1->addWidget(pb_mua_ekleDDD);
@@ -224,7 +218,7 @@ void Evr_Mua::cr_Evr_Mua_ui()
 
     tV_evrk_mua = new QTableView();
 
-    QGridLayout *gL = new QGridLayout(this);
+    auto *gL = new QGridLayout(this);
     gL->addLayout(hL1,        0, 0, 1, 1);
     gL->addWidget(tV_evrk_mua,    1, 0, 1, 1);
 
@@ -298,9 +292,7 @@ void Evr_Mua::onpb_Evr_Mua_EkleDDD()
 
 
  Evr_Mua::~Evr_Mua()
-{
-
-}
+= default;
 
 
 

@@ -16,8 +16,7 @@ VTKontrolEt* VTKontrolEt::createInstance()
 }
 
 VTKontrolEt::~VTKontrolEt()
-{
-}
+= default;
 
 VTKontrolEt* VTKontrolEt::instance()
 {

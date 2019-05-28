@@ -44,10 +44,10 @@ private:
     QPushButton *nextButton;
     QPushButton *previousButton;
 
-    QSqlRelationalTableModel *model;
-    QItemSelectionModel *selectionModel;
+    QSqlRelationalTableModel *model{};
+    QItemSelectionModel *selectionModel{};
     QDataWidgetMapper *mapper;
-    int typeIndex;
+    int typeIndex{};
 };
 //! [Window definition]
 

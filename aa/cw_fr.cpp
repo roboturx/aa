@@ -497,8 +497,6 @@ void Cw_fr::resim(QModelIndex)
 
 
 Cw_fr::~Cw_fr()
-{
-
-}
+= default;
 
 

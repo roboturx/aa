@@ -15,9 +15,7 @@
 
 
 MW_main::MW_main( )
-{
-
-}
+= default;
 void MW_main::login()
 {
     cr_Actions ();
@@ -31,7 +29,7 @@ void MW_main::login()
     wd_log = new QWidget(this);
     this->setCentralWidget (wd_log);
 
-    QGridLayout *lg = new QGridLayout(wd_log);
+    auto *lg = new QGridLayout(wd_log);
     wd_log->setLayout(lg);
 
     durum = new QTextEdit(wd_log);
@@ -66,15 +64,15 @@ void MW_main::login()
         mwyaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
         return;
     }
-    else
-    {
+    
+    
         /// baglanti var /// uygulama yoluna devam etsin
 
         mwyaz("----------------------------------------");
         mwyaz("OK - Veri Tabanı Bağlantısı Yapıldı");
         qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
 
-    }
+    
 
 
 
@@ -99,7 +97,7 @@ WARNING  şifre için burayı kullan
     /// wait for a key for connect
 }
 
-void MW_main::yetkiler(QString yetki, QString user)
+void MW_main::yetkiler(const QString& yetki, const QString& user)
 {
     //    this->setFocus ();
     qDebug() << "yetkiler ="<<yetki;
@@ -346,7 +344,7 @@ MW_main::~MW_main()
 void MW_main::fade(bool ne)
 {
 
-    if (ne == false)
+    if (!ne)
     {
         for (double i=1;i>0;i=i-0.001)
         {
@@ -384,7 +382,7 @@ void MW_main::fade(bool ne)
 
 
 
-void MW_main::mwyaz(QString z)
+void MW_main::mwyaz(const QString& z)
 {
     QString x,y;
     x = z.left(z.indexOf("-"));

@@ -1,4 +1,4 @@
-#ifndef CW_GRS_H
+﻿#ifndef CW_GRS_H
 #define CW_GRS_H
 
 
@@ -15,7 +15,7 @@ class Cw_Grs : public QWidget
 
 public:
     explicit Cw_Grs(QWidget *parent = 0);
-    ~Cw_Grs();
+    ~Cw_Grs() = default;
 
     //bool setData(const QModelIndex & index,
     //             const QVariant & value,
@@ -23,21 +23,21 @@ public:
 
 public:
 
-    QSqlRelationalTableModel *model_spre;
-    QSqlTableModel *model_spreDet;
-    QTableView *tV_spre ;
-    QTableView *tV_spredet ;
+    QSqlRelationalTableModel *model_spre{};
+    QSqlTableModel *model_spreDet{};
+    QTableView *tV_spre{} ;
+    QTableView *tV_spredet{} ;
 
-    QPushButton *pb_ieo ;
-    QPushButton *pb_se_sil ;
-    QPushButton *pb_se_yaz ;
-    QPushButton *pb_se_ ;
-    QPushButton *pb_sedet_ekle ;
-    QPushButton *pb_sedet_sil ;
-    QPushButton *pb_sedet_ ;
+    QPushButton *pb_ieo{} ;
+    QPushButton *pb_se_sil{} ;
+    QPushButton *pb_se_yaz{} ;
+    QPushButton *pb_se_{} ;
+    QPushButton *pb_sedet_ekle{} ;
+    QPushButton *pb_sedet_sil{} ;
+    QPushButton *pb_sedet_{} ;
 
-    QLabel *lbl_mkn;
-    QLabel *lbl_spre;
+    QLabel *lbl_mkn{};
+    QLabel *lbl_spre{};
 
 
 

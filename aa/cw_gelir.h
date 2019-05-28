@@ -19,9 +19,9 @@ private:
     void setupModel();
     void createUI();
 
-    QDataWidgetMapper *map_gelir;
-    QSqlTableModel    *model;
-    QTableView     *tV_gelir;
+    QDataWidgetMapper *map_gelir{};
+    QSqlTableModel    *model{};
+    QTableView     *tV_gelir{};
 
 
 

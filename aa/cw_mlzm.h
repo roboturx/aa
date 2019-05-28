@@ -16,58 +16,58 @@ class Cw_Mlzm : public QWidget
 
 public:
 
-    DBase *dbase ;
+    DBase *dbase{} ;
 
-    HC_TableView      *MLZMtview;
-    QDataWidgetMapper *MLZMmapper;
-    QSqlRelationalTableModel    *MLZMmodel;
+    HC_TableView      *MLZMtview{};
+    QDataWidgetMapper *MLZMmapper{};
+    QSqlRelationalTableModel    *MLZMmodel{};
     void setup_mlzm();
 
 
-    QWidget     *wdgt_mapMlzm    ;
-    QLabel      *lB_gt2;
-    QComboBox   *cbx_grs_tipi;
+    QWidget     *wdgt_mapMlzm{}    ;
+    QLabel      *lB_gt2{};
+    QComboBox   *cbx_grs_tipi{};
 
-    QGridLayout *LyG_Mlzm    ;
-    QGridLayout *LyG_Mlzm_dty;
+    QGridLayout *LyG_Mlzm{}    ;
+    QGridLayout *LyG_Mlzm_dty{};
 
-    QGroupBox   *gB_map  ;
-    QLabel      *lB_brkd ;
-    QLabel      *lB_Mlzm ;
-    QLabel      *lB_mlzrsm  ;
+    QGroupBox   *gB_map{}  ;
+    QLabel      *lB_brkd{} ;
+    QLabel      *lB_Mlzm{} ;
+    QLabel      *lB_mlzrsm{}  ;
 
-    QLineEdit   *lE_barkod  ;
-    QLineEdit   *lE_malzeme ;
-    QLineEdit   *lE_aciklama;
-    QLineEdit   *lE_marka   ;
-    QLineEdit   *lE_model   ;
-    QLineEdit   *lE_cins    ;
-    QComboBox   *cbx_birim   ;
-    QLineEdit   *lE_giris   ;
-    QLineEdit   *lE_cikis   ;
-    QLineEdit   *lE_mevcut  ;
+    QLineEdit   *lE_barkod{}  ;
+    QLineEdit   *lE_malzeme{} ;
+    QLineEdit   *lE_aciklama{};
+    QLineEdit   *lE_marka{}   ;
+    QLineEdit   *lE_model{}   ;
+    QLineEdit   *lE_cins{}    ;
+    QComboBox   *cbx_birim{}   ;
+    QLineEdit   *lE_giris{}   ;
+    QLineEdit   *lE_cikis{}   ;
+    QLineEdit   *lE_mevcut{}  ;
 
 
 
 
     // Mlzm detay
-    QWidget     *wdgt_mapMlzm_dty;
-    HC_TableView      *MLZMDETtview;
-    QItemSelectionModel *tV_Mlzm_selectionMdl ;
-    QSqlTableModel    *MLZMDETmodel ;
-    QDataWidgetMapper *MLZMDETmapper ;
+    QWidget     *wdgt_mapMlzm_dty{};
+    HC_TableView      *MLZMDETtview{};
+    QItemSelectionModel *tV_Mlzm_selectionMdl{} ;
+    QSqlTableModel    *MLZMDETmodel{} ;
+    QDataWidgetMapper *MLZMDETmapper{} ;
 
 
-    QLabel      *lB_Mlzmdet  ;
+    QLabel      *lB_Mlzmdet{}  ;
 
-    QLineEdit   *lE_d_barkod  ;
-    QLineEdit   *lE_d_malzeme ;
+    QLineEdit   *lE_d_barkod{}  ;
+    QLineEdit   *lE_d_malzeme{} ;
 
-    QLineEdit   *lE_d_tarih  ;
-    QComboBox   *cbx_d_grs_cks ;
-    QLineEdit   *lE_d_miktar  ;
-    QLineEdit   *lE_d_fiyat   ;
-    QLineEdit   *lE_d_aciklama;
+    QLineEdit   *lE_d_tarih{}  ;
+    QComboBox   *cbx_d_grs_cks{} ;
+    QLineEdit   *lE_d_miktar{}  ;
+    QLineEdit   *lE_d_fiyat{}   ;
+    QLineEdit   *lE_d_aciklama{};
 
 
 

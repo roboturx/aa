@@ -1,4 +1,4 @@
-﻿#include "login.h"
+#include "login.h"
 
 Login::Login(QWidget *parent) : QWidget(parent)
 
@@ -13,7 +13,7 @@ Login::Login(QWidget *parent) : QWidget(parent)
     lE_pass = new QLineEdit ;
     QTimer::singleShot(0, lE_user, SLOT(setFocus()));
 
-    QGridLayout *lg2 = new QGridLayout(this);
+    auto *lg2 = new QGridLayout(this);
     lg2->addWidget(lB_user,0,0,1,1);
     lg2->addWidget(lE_user,0,1,1,2);
     lg2->addWidget(lB_pass,0,3,1,1);
@@ -65,9 +65,7 @@ void Login::logout()
 
 
 Login::~Login()
-{
-
-}
+= default;
 
 /*
 void Login::quitApp(QString nereden)
@@ -99,7 +97,7 @@ qDebug()<<"logexited başı";
 */
 
 
-void Login::logex(QString nereden)
+void Login::logex(const QString& nereden)
 {
     try
     {

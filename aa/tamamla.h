@@ -7,7 +7,7 @@
 class Tamamla
 {
 public:
-    Tamamla(QString dosya);
+    Tamamla(const QString& dosya);
     QAbstractItemModel *modelFromFile(const QString& fileName);
     QCompleter *completer;
 };
@@ -20,7 +20,7 @@ public:
     explicit Hata(QDialog *parent = nullptr);
     Hata(QString Baslik);
     Hata(QString Baslik, QString Mesaj );
-    Hata(QString Baslik, QString Mesaj, QString Aciklama);
+    Hata(const QString& Baslik, const QString& Mesaj, const QString& Aciklama);
 
 };
 

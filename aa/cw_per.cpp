@@ -87,7 +87,7 @@ void Cw_per::setup_ui()
     pB_kpt     = new QPushButton(tr("Kapat"   ),gR_pBs);
     pB_rsm     = new QPushButton(tr("Resim"    ),gR_pBs);
 
-    QGridLayout *LG_pBs = new QGridLayout();
+    auto *LG_pBs = new QGridLayout();
     gR_pBs->setLayout (LG_pBs);
 
     LG_pBs->addWidget( lB_rsm    ,  1, 0,11, 4);
@@ -134,7 +134,7 @@ void Cw_per::setup_ui()
     QLabel *lB_baba  = new QLabel(tr("Baba Adı "  ),gR_lBs);
     lE_baba = new QLineEdit(gR_lBs);
     lB_baba->setBuddy(lE_baba);
-    QLabel *lB_meslek   = new QLabel(tr("M&eslek" ),gR_lBs); QComboBox *cb_meslek = new QComboBox(gR_lBs); lB_meslek->setBuddy(cb_meslek);
+    QLabel *lB_meslek   = new QLabel(tr("M&eslek" ),gR_lBs); auto *cb_meslek = new QComboBox(gR_lBs); lB_meslek->setBuddy(cb_meslek);
     QLabel *lB_gorev    = new QLabel(tr("Gö&rev"  ),gR_lBs); lE_gorev = new QLineEdit(gR_lBs); lB_gorev->setBuddy(lE_gorev);
     QLabel *lB_adres    = new QLabel(tr("Adre&s"  ),gR_lBs); lE_adres = new QLineEdit(gR_lBs); lB_adres->setBuddy(lE_adres);
     QLabel *lB_sehir    = new QLabel(tr("Şe&hir"  ),gR_lBs); lE_sehir = new QLineEdit(gR_lBs); lB_sehir->setBuddy(lE_sehir);
@@ -145,7 +145,7 @@ void Cw_per::setup_ui()
     QLabel *lB_password = new QLabel(tr("Şi&fre"  ),gR_lBs); lE_password = new QLineEdit(gR_lBs); lB_password->setBuddy(lE_password);
     QLabel *lB_yetki    = new QLabel(tr("&Yetki"  ),gR_lBs); lE_yetki = new QLineEdit(gR_lBs); lB_yetki->setBuddy(lE_yetki);
 
-    QGridLayout *lYG_map = new QGridLayout();
+    auto *lYG_map = new QGridLayout();
     gR_lBs->setLayout (lYG_map);
 
     lYG_map->addWidget(lB_isim      , 0, 0, 1, 1);
@@ -183,7 +183,7 @@ void Cw_per::setup_ui()
     lYG_map->addWidget(lB_yetki     , 6, 3, 1, 1);
     lYG_map->addWidget(lE_yetki     , 6, 4, 1, 2);
 
-    QGridLayout *lYG_per = new QGridLayout(this);
+    auto *lYG_per = new QGridLayout(this);
 
     lYG_per->addWidget (tV_per     , 0, 0, 1, 2);
     lYG_per->addWidget (gR_lBs     , 1, 0, 1, 1);
@@ -529,9 +529,7 @@ void Cw_per::resim(QModelIndex)
 }
 */
 Cw_per::~Cw_per()
-{
-
-}
+= default;
 
 
 

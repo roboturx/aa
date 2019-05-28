@@ -1,4 +1,4 @@
-﻿#ifndef CW_ISEMRI_H
+#ifndef CW_ISEMRI_H
 #define CW_ISEMRI_H
 
 #include <globals.h>
@@ -31,81 +31,81 @@ public:
     // TS    -  Taşınır
     // SC    -  İşçilik
 
-    QLabel *lbl_mkn;
-    QLabel *lbl_IE;
+    QLabel *lbl_mkn{};
+    QLabel *lbl_IE{};
 
-    QSqlRelationalTableModel *IEmodel;
-    QSqlRelationalTableModel *IEDETmodel;
-    QSqlRelationalTableModel *TSmodel;
-    QSqlRelationalTableModel *SCmodel;
-    QItemSelectionModel *IEtV_selectionMdl ;
+    QSqlRelationalTableModel *IEmodel{};
+    QSqlRelationalTableModel *IEDETmodel{};
+    QSqlRelationalTableModel *TSmodel{};
+    QSqlRelationalTableModel *SCmodel{};
+    QItemSelectionModel *IEtV_selectionMdl{} ;
 
-    QTableView *IEtview ;
-    QTableView *IEDETtview ;
-    QTableView *TStview;
-    QTableView *SCtview;
+    QTableView *IEtview{} ;
+    QTableView *IEDETtview{} ;
+    QTableView *TStview{};
+    QTableView *SCtview{};
 
-        QDataWidgetMapper *IEmapper;
-        QDataWidgetMapper *IEDETmapper;
-        QDataWidgetMapper *TSmapper;
-        QDataWidgetMapper *SCmapper;
+        QDataWidgetMapper *IEmapper{};
+        QDataWidgetMapper *IEDETmapper{};
+        QDataWidgetMapper *TSmapper{};
+        QDataWidgetMapper *SCmapper{};
     /// iedet variables
 
-    QWidget *wdgt_IEdetekle;
-    QWidget *wdgt_TSekle;
-    QWidget *wdgt_SCekle;
+    QWidget *wdgt_IEdetekle{};
+    QWidget *wdgt_TSekle{};
+    QWidget *wdgt_SCekle{};
 
-    QString *IEno;
-    QString *IE_idno;
-    QString *IEdetno;
-    QLineEdit *lE_IEdetno ;
-    QLineEdit *lE_IEdetaciklama ;
+    QString *IEno{};
+    QString *IE_idno{};
+    QString *IEdetno{};
+    QLineEdit *lE_IEdetno{} ;
+    QLineEdit *lE_IEdetaciklama{} ;
 
-    QComboBox *cbx_IEdettamiryeri ;
-    QComboBox *cbx_IEdetkurumicdis ;      // dbtb_clsn
+    QComboBox *cbx_IEdettamiryeri{} ;
+    QComboBox *cbx_IEdetkurumicdis{} ;      // dbtb_clsn
 
-    QComboBox *cbx_IEdetdurum ;
+    QComboBox *cbx_IEdetdurum{} ;
     void clk_IEdetdurum();
     void clk_IEdetclsn();
 
-    QDateTimeEdit *dE_IEdetgirtarihi ;
-    QDateTimeEdit *dE_IEdetciktarihi ;
+    QDateTimeEdit *dE_IEdetgirtarihi{} ;
+    QDateTimeEdit *dE_IEdetciktarihi{} ;
 
-    QComboBox *cbx_IEdetyapyer ;
+    QComboBox *cbx_IEdetyapyer{} ;
     void clk_IEdetyyer();
-    QDateTimeEdit *dE_IEdettarih;
+    QDateTimeEdit *dE_IEdettarih{};
 
     void clk_IEdetkaydet();
 
     // TS variable
-    QComboBox *cbx_TSmlzm;
-    QSqlTableModel *cbxTSmlzmModel ;
+    QComboBox *cbx_TSmlzm{};
+    QSqlTableModel *cbxTSmlzmModel{} ;
 
-    QLineEdit *lE_TSno;
-    QDateTimeEdit *dE_TStarih;
-    QComboBox *cbx_TSmalzeme;
-    QLineEdit *lE_TSmiktar;
-    QComboBox *cbx_TSbirim;
-    QLineEdit *lE_TSbfiyat;
-    QComboBox *cbx_TSdurum;
-    QLineEdit *lE_TSaciklama;
-    QString *TSdet_idno;
-    QString *TSdetno;
-    QString *TSno;
+    QLineEdit *lE_TSno{};
+    QDateTimeEdit *dE_TStarih{};
+    QComboBox *cbx_TSmalzeme{};
+    QLineEdit *lE_TSmiktar{};
+    QComboBox *cbx_TSbirim{};
+    QLineEdit *lE_TSbfiyat{};
+    QComboBox *cbx_TSdurum{};
+    QLineEdit *lE_TSaciklama{};
+    QString *TSdet_idno{};
+    QString *TSdetno{};
+    QString *TSno{};
 
 
     // SC variable
-    QLineEdit *lE_SCno;
-    QDateTimeEdit *dE_SCtarih;
-    QComboBox *cbx_SCbirim;
-    QComboBox *cbx_SCusta;
-    QLineEdit *lE_SCsaat;
-    QLineEdit *lE_SCucret;
-    QComboBox *cbx_SCucrettip;
-    QLineEdit *lE_SCaciklama;
-    QString *SCdet_idno;
-    QString *SCdetno;
-    QString *SCno;
+    QLineEdit *lE_SCno{};
+    QDateTimeEdit *dE_SCtarih{};
+    QComboBox *cbx_SCbirim{};
+    QComboBox *cbx_SCusta{};
+    QLineEdit *lE_SCsaat{};
+    QLineEdit *lE_SCucret{};
+    QComboBox *cbx_SCucrettip{};
+    QLineEdit *lE_SCaciklama{};
+    QString *SCdet_idno{};
+    QString *SCdetno{};
+    QString *SCno{};
 
 private:
     void setup_ui();
@@ -124,17 +124,17 @@ private:
     void kontrolIE();
 
 
-    QGridLayout *gL;
-    QGridLayout *gLdet;
-    QHBoxLayout *hL1 ;
-    QHBoxLayout *hL2 ;
-    QPushButton *pB1 ;
-    QPushButton *pB2 ;
-    QPushButton *pB3 ;
-    QPushButton *pB4 ;
-    QPushButton *pB5 ;
-    QPushButton *pB6 ;
-    QPushButton *pB7 ;
+    QGridLayout *gL{};
+    QGridLayout *gLdet{};
+    QHBoxLayout *hL1{} ;
+    QHBoxLayout *hL2{} ;
+    QPushButton *pB1{} ;
+    QPushButton *pB2{} ;
+    QPushButton *pB3{} ;
+    QPushButton *pB4{} ;
+    QPushButton *pB5{} ;
+    QPushButton *pB6{} ;
+    QPushButton *pB7{} ;
 
 
 public slots:

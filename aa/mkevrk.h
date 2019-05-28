@@ -42,15 +42,15 @@ private:
     void onpb_Evr_Sgrt_Ekle();
 
 public:
-    QSqlRelationalTableModel *mdl_evr_sgrt;
+    QSqlRelationalTableModel *mdl_evr_sgrt{};
 
-    QTableView *tV_evr_sgrt ;
+    QTableView *tV_evr_sgrt{} ;
 
-    QPushButton *pb_sgrt_ekle ;
-    QPushButton *pb_sgrt_ekleDDD ;
-    QPushButton *pb_sgrt_sil ;
-    QPushButton *pb_sgrt_yaz ;
-    QPushButton *pb_sgrt_DDD ;
+    QPushButton *pb_sgrt_ekle{} ;
+    QPushButton *pb_sgrt_ekleDDD{} ;
+    QPushButton *pb_sgrt_sil{} ;
+    QPushButton *pb_sgrt_yaz{} ;
+    QPushButton *pb_sgrt_DDD{} ;
 
 };
 
@@ -77,14 +77,14 @@ private slots:
     void onpb_Evr_Mua_Ekle();
 
 public:
-    QSqlRelationalTableModel *mdl_evrk_mua;
-    QTableView *tV_evrk_mua ;
+    QSqlRelationalTableModel *mdl_evrk_mua{};
+    QTableView *tV_evrk_mua{} ;
 
-    QPushButton *pb_mua_ekle ;
-    QPushButton *pb_mua_ekleDDD ;
-    QPushButton *pb_mua_sil ;
-    QPushButton *pb_mua_yaz ;
-    QPushButton *pb_mua_DDD ;
+    QPushButton *pb_mua_ekle{} ;
+    QPushButton *pb_mua_ekleDDD{} ;
+    QPushButton *pb_mua_sil{} ;
+    QPushButton *pb_mua_yaz{} ;
+    QPushButton *pb_mua_DDD{} ;
 };
 
 #endif // mkevrk_H

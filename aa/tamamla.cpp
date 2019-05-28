@@ -1,4 +1,4 @@
-﻿#include "tamamla.h"
+#include "tamamla.h"
 #include "globals.h"
 #include <QMessageBox>
 #include <QPushButton>
@@ -15,7 +15,7 @@
 
 
 
-Tamamla::Tamamla(QString dosya)
+Tamamla::Tamamla(const QString& dosya)
 {
     qDebug()<<"Tamamla class";
     completer = new QCompleter() ;
@@ -67,7 +67,7 @@ QAbstractItemModel *Tamamla::modelFromFile(const QString& fileName)
 ///
 /// Boş gelirse sadece hata yazar
 ///
-Hata::Hata(QString Baslik, QString Mesaj, QString Aciklama="")
+Hata::Hata(const QString& Baslik, const QString& Mesaj, const QString& Aciklama="")
 {
     QMessageBox msgBox ;
     QPushButton *pb_tmm = msgBox.addButton ("Tamam", QMessageBox::ActionRole);

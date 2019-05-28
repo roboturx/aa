@@ -16,23 +16,23 @@ class WW_Mkcins : public QWidget
     explicit WW_Mkcins(QWidget *parent = 0);
 	~WW_Mkcins();
 
-    QTableView *tv_mkcins;
-    QTableView *tv_mkmark;
-    QTableView *tv_mkmodl;
+    QTableView *tv_mkcins{};
+    QTableView *tv_mkmark{};
+    QTableView *tv_mkmodl{};
 
-    QPushButton *pb_eklE_cns ;
-    QPushButton *pb_sil_cns ;
-    QPushButton *pb_eklE_mrk ;
-    QPushButton *pb_sil_mrk ;
-    QPushButton *pb_eklE_mdl ;
-    QPushButton *pb_sil_mdl ;
-    QPushButton *pb_tmm ;
+    QPushButton *pb_eklE_cns{} ;
+    QPushButton *pb_sil_cns{} ;
+    QPushButton *pb_eklE_mrk{} ;
+    QPushButton *pb_sil_mrk{} ;
+    QPushButton *pb_eklE_mdl{} ;
+    QPushButton *pb_sil_mdl{} ;
+    QPushButton *pb_tmm{} ;
 
-    QSqlRelationalTableModel *mdl_mkcins ;
-    QSqlRelationalTableModel *mdl_mkmark ;
-    QSqlTableModel *mdl_mkmodl ;
+    QSqlRelationalTableModel *mdl_mkcins{} ;
+    QSqlRelationalTableModel *mdl_mkmark{} ;
+    QSqlTableModel *mdl_mkmodl{} ;
 
-    QWidget *pnc;
+    QWidget *pnc{};
 
 
     private slots:

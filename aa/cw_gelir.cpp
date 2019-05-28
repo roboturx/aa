@@ -10,9 +10,7 @@ CW_gelir::CW_gelir(QWidget *parent) : QWidget(parent)
 }
 
 CW_gelir::~CW_gelir()
-{
-
-}
+= default;
 
 
 

@@ -15,14 +15,14 @@ public:
     explicit DBase(QWidget *parent = nullptr);
     ~DBase();
 
-    QSqlRelationalTableModel *mdlFtr;
+    QSqlRelationalTableModel *mdlFtr{};
     QSqlRelationalTableModel *modelFatura();
-    QSqlRelationalTableModel *mdlMlzm;
+    QSqlRelationalTableModel *mdlMlzm{};
     QSqlRelationalTableModel *modelMalzeme();
-    QSqlRelationalTableModel *mdlMlzmDty;
+    QSqlRelationalTableModel *mdlMlzmDty{};
     QSqlRelationalTableModel *modelMalzemeDetay();
     bool setupDBase();
-    void yaz(QString z);
+    void yaz(const QString& z);
 //    QTextEdit *durum;
 private:
     Ui::DBase *ui;

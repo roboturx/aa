@@ -15,9 +15,7 @@ WW_Mkcins::WW_Mkcins(QWidget *parent) : QWidget(parent)
 }
 
 WW_Mkcins::~WW_Mkcins()
-{
-
-}
+= default;
 
 void WW_Mkcins::cr_mdl_mkcins()
 {

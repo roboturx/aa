@@ -1,13 +1,13 @@
 ﻿#include "hc_tableview.h"
 #include "globals.h"
 
-HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
+HC_TableView::HC_TableView (int renk, QTableView *parent ) :
     QTableView (parent)
 {
 
     qDebug()<<"-hc-";
     QIcon icon;
-    int x=20,y=20;
+    int x=30*renk,y=30;
 
 
     pB_ekle = new QPushButton;
@@ -70,15 +70,15 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
     pB_son->setIcon(icon);
     pB_son->setIconSize(QSize(x,y));
 
-   QFrame * fR_mn = new QFrame() ;
-    fR_mn->setStyleSheet ("background-color:green");
+   auto * fR_mn = new QFrame() ;
+    //fR_mn->setStyleSheet ("background-color:green");
     fR_mn->setFrameStyle (QFrame::Panel | QFrame::Raised);
     fR_mn->setLineWidth (3);
     fR_mn->setMidLineWidth (2);
     fR_mn->setGeometry (0,0,40,300);
 
 
-    QVBoxLayout *LYv_nv = new QVBoxLayout;
+    auto *LYv_nv = new QVBoxLayout;
 
     LYv_nv->addWidget (pB_ekle );
     LYv_nv->addWidget (pB_eklersm );
@@ -93,7 +93,7 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
     LYv_nv->addStretch (4);
     table = new QTableView;
 
-    QGridLayout *LYg_nv = new QGridLayout();
+    auto *LYg_nv = new QGridLayout();
     this->setLayout (LYg_nv);
 /*
     QPainter pntr();
@@ -109,36 +109,11 @@ HC_TableView::HC_TableView (int &renk, QTableView *parent ) :
 
 
 
-
-    QString str = "color: rgba(155,255,155,255);"
-                  " background-color : qlineargradient(spread:pad, "
-                  "x1:0, y1:0, x2:1, y2:0, stop:0 "
-                  "rgba(26, 84, 43, 200), stop:1 "
-                  "rgba(24, 276, 148, 225));"
-                  "selection-background-color: rgba(155,255,155,255);"
-                  "selection-color: rgba(25,25,25,255);" ;
-
-    //this->table->setStyleSheet (str);
-    QString str2 = "color: rgba(155,255,155,255);"
-                  " background-color : qlineargradient(spread:pad, "
-                  "x1:0, y1:0, x2:0, y2:5, stop:0 "
-                  "rgba(12, 41, 62, 10), stop:1 "
-                  "rgba(22, 249, 172, 225));"
-                  "selection-background-color: rgba(155,255,155,255);"
-                  "selection-color: rgba(25,25,25,255);" ;
-    if (renk==1)
-    //this->setStyleSheet (str2);
-
-
-this->setAlternatingRowColors (true);
-
     LYg_nv->addLayout (LYv_nv  ,0,0,1,1 );
     LYg_nv->addWidget (table   ,0,1,1,1 );
 }
 HC_TableView::~HC_TableView()
-{
-
-}
+= default;
 
 
 

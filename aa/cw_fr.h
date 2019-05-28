@@ -15,46 +15,46 @@ public:
     explicit Cw_fr(QWidget *parent = nullptr);
     ~Cw_fr();
 
-    QModelIndex *whichRow;
-    QDataWidgetMapper *map_fr;
-    QSqlTableModel *mdl_fr ;
+    QModelIndex *whichRow{};
+    QDataWidgetMapper *map_fr{};
+    QSqlTableModel *mdl_fr{} ;
 
-    int         meslekIndex ;
+    int         meslekIndex{} ;
 
-    QComboBox   *cb_meslek  ;
+    QComboBox   *cb_meslek{}  ;
 
-    QGroupBox   *gB_map     ;
+    QGroupBox   *gB_map{}     ;
 
-    QLabel      *lB_fr    ;
-    QLabel      *lB_rsm    ;
+    QLabel      *lB_fr{}    ;
+    QLabel      *lB_rsm{}    ;
 
 
-    QLineEdit   *lE_unvan    ;
-    QLineEdit   *lE_adres   ;
-    QLineEdit   *lE_sehir;
-    QLineEdit   *lE_vd;
+    QLineEdit   *lE_unvan{}    ;
+    QLineEdit   *lE_adres{}   ;
+    QLineEdit   *lE_sehir{};
+    QLineEdit   *lE_vd{};
 
-    QLineEdit   *lE_vdno;
-    QLineEdit   *lE_tel ;
-    QLineEdit   *lE_eposta ;
-    QLineEdit   *lE_yisim ;
-    QLineEdit   *lE_ysoyad   ;
-    QLineEdit   *lE_ytel ;
+    QLineEdit   *lE_vdno{};
+    QLineEdit   *lE_tel{} ;
+    QLineEdit   *lE_eposta{} ;
+    QLineEdit   *lE_yisim{} ;
+    QLineEdit   *lE_ysoyad{}   ;
+    QLineEdit   *lE_ytel{} ;
 
-    QPushButton *pB_rsm     ;
-    QPushButton *pB_ilk     ;
-    QPushButton *pB_snrki   ;
-    QPushButton *pB_oncki   ;
-    QPushButton *pB_son     ;
-    QPushButton *pB_ekle    ;
-    QPushButton *pB_sil     ;
+    QPushButton *pB_rsm{}     ;
+    QPushButton *pB_ilk{}     ;
+    QPushButton *pB_snrki{}   ;
+    QPushButton *pB_oncki{}   ;
+    QPushButton *pB_son{}     ;
+    QPushButton *pB_ekle{}    ;
+    QPushButton *pB_sil{}     ;
 
-    QPushButton *pB_ara     ;
-    QPushButton *pB_yaz     ;
-    QPushButton *pB_kpt     ;
+    QPushButton *pB_ara{}     ;
+    QPushButton *pB_yaz{}     ;
+    QPushButton *pB_kpt{}     ;
 
 private:
-    QTableView  *tV_fr     ;
+    QTableView  *tV_fr{}     ;
 
     void setup_ui()        ;
     void setup_modelfr()  ;

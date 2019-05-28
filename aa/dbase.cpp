@@ -1,4 +1,4 @@
-#include "dbase.h"
+﻿#include "dbase.h"
 #include "ui_dbase.h"
 
 DBase::DBase(QWidget *parent) :
@@ -33,8 +33,8 @@ bool DBase::setupDBase()
         DBase::VTDosyaKontrol ();
         return true;
     }
-    else
-    {
+    
+    
         /// hata ne /// baglanti yok
         QString x = "Hata 002 - Code::Database NOT Connected !!! <br>"+
                 VTKontrolEt::instance ()->GetError ()   ;
@@ -42,7 +42,7 @@ bool DBase::setupDBase()
 
 
         return false;
-    }
+    
 }
 
 
@@ -327,7 +327,7 @@ QString DBase::VTd_FTRA ()
         }
         else
         {
-            mesaj = (" OK - Fatuura Dosyası YENİ Oluşturuldu - ");
+            mesaj = " OK - Fatuura Dosyası YENİ Oluşturuldu - ";
             inserts << "INSERT INTO ftr__dbtb "
                        "( "
                        "ftr_no , ftr_firma "
@@ -1556,7 +1556,7 @@ void DBase::VTd_MODEL()
 
 
 
-void DBase::yaz(QString z)
+void DBase::yaz(const QString& z)
 {
     QString x,y;
     x = z.left(z.indexOf("-"));

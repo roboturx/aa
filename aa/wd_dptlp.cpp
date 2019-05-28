@@ -3,11 +3,7 @@
 
 wd_dptlp::wd_dptlp()
 
-{
-
-}
+= default;
 
 wd_dptlp::~wd_dptlp()
-{
-
-}
+= default;

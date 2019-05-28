@@ -65,7 +65,7 @@ bool MakinaDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
     if (index.column() == 11)
 	{
 	    if (event->type() == QEvent::MouseButtonPress) {
-		    QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+		    auto *mouseEvent = dynamic_cast<QMouseEvent*>(event);
 		    int stars = qBound(0, int(0.7 + qreal(mouseEvent->pos().x()
 							  - option.rect.x()) / star.width()), 5);
 		    model->setData(index, QVariant(stars));
@@ -74,7 +74,7 @@ bool MakinaDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
 
 	    return true;
 	}
-    else
+    
 	return QSqlRelationalDelegate::editorEvent(event, model, option, index);
 
 }
@@ -86,7 +86,7 @@ QWidget *MakinaDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
     if (index.column() == 7)   // field yil spinnbox
 	{
 	    // for editing the year, return a spinbox with a range from -1000 to 2100.
-	    QSpinBox *sb = new QSpinBox(parent);
+	    auto *sb = new QSpinBox(parent);
 	    sb->setFrame(false);
         sb->setMaximum(2025);
 	    sb->setMinimum(1950);
@@ -94,7 +94,7 @@ QWidget *MakinaDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 	    return sb;
 	}
 
-    else
+    
 	return QSqlRelationalDelegate::createEditor(parent, option, index);
 
 

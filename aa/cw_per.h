@@ -1,4 +1,4 @@
-#ifndef CW_PER_H
+﻿#ifndef CW_PER_H
 #define CW_PER_H
 
 //#include <QPushButton>
@@ -29,37 +29,37 @@ public:
     QLineEdit   *lE_isim=nullptr    ;
     QLineEdit   *lE_soyad=nullptr   ;
     QLineEdit   *lE_tc=nullptr;
-    QLineEdit   *lE_doyer;
-    QDateEdit *dT_dotar;
-    QLineEdit   *lE_baba;
-    QLineEdit   *lE_bolum   ;
-    QLineEdit   *lE_gorev   ;
-    QLineEdit   *lE_adres   ;
-    QLineEdit   *lE_sehir   ;
-    QLineEdit   *lE_tel_cep ;
-    QLineEdit   *lE_tel_ev  ;
-    QLineEdit   *lE_eposta  ;
-    QLineEdit   *lE_username;
-    QLineEdit   *lE_password;
-    QLineEdit   *lE_yetki   ;
+    QLineEdit   *lE_doyer{};
+    QDateEdit *dT_dotar{};
+    QLineEdit   *lE_baba{};
+    QLineEdit   *lE_bolum{}   ;
+    QLineEdit   *lE_gorev{}   ;
+    QLineEdit   *lE_adres{}   ;
+    QLineEdit   *lE_sehir{}   ;
+    QLineEdit   *lE_tel_cep{} ;
+    QLineEdit   *lE_tel_ev{}  ;
+    QLineEdit   *lE_eposta{}  ;
+    QLineEdit   *lE_username{};
+    QLineEdit   *lE_password{};
+    QLineEdit   *lE_yetki{}   ;
 
-    QPushButton *pB_rsm     ;
-    QPushButton *pB_ilk     ;
-    QPushButton *pB_snrki   ;
-    QPushButton *pB_oncki   ;
-    QPushButton *pB_son     ;
-    QPushButton *pB_ekle    ;
-    QPushButton *pB_sil     ;
+    QPushButton *pB_rsm{}     ;
+    QPushButton *pB_ilk{}     ;
+    QPushButton *pB_snrki{}   ;
+    QPushButton *pB_oncki{}   ;
+    QPushButton *pB_son{}     ;
+    QPushButton *pB_ekle{}    ;
+    QPushButton *pB_sil{}     ;
 
-    QPushButton *pB_ara     ;
-    QPushButton *pB_yaz     ;
-    QPushButton *pB_kpt     ;
+    QPushButton *pB_ara{}     ;
+    QPushButton *pB_yaz{}     ;
+    QPushButton *pB_kpt{}     ;
 
 public:
     void setup_modelPer()  ;
 
 private:
-    QTableView  *tV_per     ;
+    QTableView  *tV_per{}     ;
 
     void setup_ui()        ;
 

@@ -38,47 +38,47 @@ void Cw_Mlzm::setup_mlzm()
 
 
     /// Mlzm map nav tuslari kontrol
-    //   connect(MLZMmapper, &QDataWidgetMapper::currentIndexChanged,
-    //                   this, &Cw_Mlzm::slt_Mlzm_updButtons);
+       connect(MLZMmapper, &QDataWidgetMapper::currentIndexChanged,
+                       this, &Cw_Mlzm::slt_Mlzm_updButtons);
     /// Mlzm da kolon değiştiğinde indexte değişsin
-    //  ( connect(  MLZMtview->table->selectionModel(),
-    //                    SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
-    //                  MLZMmapper, SLOT(setCurrentModelIndex(QModelIndex))));
+      ( connect(  MLZMtview->table->selectionModel(),
+                        SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
+                      MLZMmapper, SLOT(setCurrentModelIndex(QModelIndex))));
     // ( connect(  MLZMtview->table->selectionModel(),
-    //                   SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
-    //                 cw_mkn, SLOT( onMKNtview_resimGosterSLOT(QModelIndex))));
+      //                 SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
+        //             cw_mkn, SLOT( onMKNtview_resimGosterSLOT(QModelIndex))));
 
     /// Mlzm da row değiştiğinde indexte değişsin
-    /*  connect(  MLZMtview->table->selectionModel(),
+      connect(  MLZMtview->table->selectionModel(),
          &QItemSelectionModel::currentRowChanged, MLZMmapper,
          &QDataWidgetMapper::setCurrentModelIndex);
-*/
+
     /// row değiştiğnde resmide değiştirelim
-    /*    connect( MLZMtview->table->selectionModel (),
+        connect( MLZMtview->table->selectionModel (),
          &QItemSelectionModel::currentRowChanged, this,
          &Cw_Mlzm::slt_Mlzm_resimGoster );
-*/
+
     /// Mlzmdet miktar değiştiğinde Mlzm envanter hesabı
-    //   connect (lE_d_miktar, &QLineEdit::editingFinished, this,
-    //                   &Cw_Mlzm::slt_Mlzm_hesap);
+       connect (lE_d_miktar, &QLineEdit::editingFinished, this,
+                       &Cw_Mlzm::slt_Mlzm_hesap);
 
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
-    //  connect(MLZMDETtview->table->model() ,
-    //        &QSqlTableModel::dataChanged , this,
-    //      &Cw_Mlzm::slt_Mlzm_hesap);
+      connect(MLZMDETtview->table->model() ,
+            &QSqlTableModel::dataChanged , this,
+          &Cw_Mlzm::slt_Mlzm_hesap);
 
 
     /// Mlzmdet grs_cks değiştiğinde Mlzm envanter hesabı
-    //   (connect (cbx_d_grs_cks, &QComboBox::editTextChanged , this,
-    //                   &Cw_Mlzm::slt_Mlzm_hesap));
+       (connect (cbx_d_grs_cks, &QComboBox::editTextChanged , this,
+                       &Cw_Mlzm::slt_Mlzm_hesap));
 
     /// Mlzm ilk kayıda
-    //  Cw_Mlzm::slt_Mlzm_toFirst();
+      Cw_Mlzm::slt_Mlzm_toFirst();
 
     /// Mlzmda row değiştiğinde
-    //    Cw_Mlzm::slt_Mlzm_tV_rowchanged (MLZMmodel->index (0,0));
+        Cw_Mlzm::slt_Mlzm_tV_rowchanged (MLZMmodel->index (0,0));
 
-    /*
+
     /// Mlzmdet map değiştiğinde nav tuşalrı ayarlansın
     connect(MLZMDETmapper,
               &QDataWidgetMapper::currentIndexChanged, this,
@@ -88,14 +88,14 @@ void Cw_Mlzm::setup_mlzm()
     connect(  MLZMDETtview->table->selectionModel(),
               &QItemSelectionModel::currentRowChanged, MLZMDETmapper,
               &QDataWidgetMapper::setCurrentModelIndex);
-*/
+
     ///Mlzmda row değiştiğinde
-    /*   connect (MLZMtview->table->selectionModel (),
+       connect (MLZMtview->table->selectionModel (),
              &QItemSelectionModel::currentRowChanged, this,
              &Cw_Mlzm::slt_Mlzm_tV_rowchanged);
-*/
+
     /// Mlzmdetay varsa ilk kayda
-    //   Cw_Mlzm::slt_Mlzmd_toFirst(); // detay ilk kayıda
+       Cw_Mlzm::slt_Mlzmd_toFirst(); // detay ilk kayıda
     MLZMtview->table->setFocus ();
 }
 
@@ -117,7 +117,7 @@ void Cw_Mlzm::setup_uiMlzm()
     MLZMDETtview = new HC_TableView(i);
     MLZMDETtview->setMinimumSize (400,300);
     ////////////////////////////////////////////// layout
-    QGridLayout *LyG_Mlzm = new QGridLayout(this);
+    auto *LyG_Mlzm = new QGridLayout(this);
     LyG_Mlzm->addWidget (MLZMtview  , 0, 0);
     LyG_Mlzm->addWidget (wdgt_mapMlzm  , 0, 1);
     LyG_Mlzm->addWidget (MLZMDETtview  , 1, 0);
@@ -140,15 +140,15 @@ void Cw_Mlzm::wd_Mlzm()
     wdgt_mapMlzm->setLayout(LyG_Mlzm);
 
 
-    QLabel *lB_barkod = new QLabel(tr("&Barkod"));
+    auto *lB_barkod = new QLabel(tr("&Barkod"));
     lE_barkod = new QLineEdit();
     lB_barkod->setBuddy(lE_barkod);
 
     lB_brkd = new QLabel();
     lB_brkd->setFont (QFont ("code128",30));
-    lB_brkd->setText (lB_barkod->text ());
+    lB_brkd->setText (lE_barkod->text ());
 
-    QLabel *lB_malzeme = new QLabel(tr("&Malzeme"));
+    auto *lB_malzeme = new QLabel(tr("&Malzeme"));
     lE_malzeme = new QLineEdit();
     lB_malzeme->setBuddy(lE_malzeme);
 
@@ -457,7 +457,7 @@ void Cw_Mlzm::slt_Mlzm_hesap()
                          "WHERE mlzmDet_kod= %1 AND mlzmDet_gc='Giriş'").arg(id);
         q_qry.exec (s_qry);
 
-        QSqlRecord Mlzm_rec = MLZMmodel->record ();
+        //QSqlRecord Mlzm_rec = MLZMmodel->record ();
         double grs=0,cks=0;
         if (q_qry.isActive ())
         {
@@ -700,7 +700,7 @@ void Cw_Mlzm::wd_Mlzmdet()
              &Cw_Mlzm::slt_Mlzmd_toLast )) ;
     MLZMDETtview->pB_grscks->setVisible (false);
 
-    QGridLayout *lYG_d_map = new QGridLayout();
+    auto *lYG_d_map = new QGridLayout();
     lYG_d_map->addWidget(lB_d_tarih   , 0, 0, 1, 1);
     lYG_d_map->addWidget(lE_d_tarih   , 0, 1, 1, 1);
     lYG_d_map->addWidget(lB_d_grs_cks , 1, 0, 1, 1);
@@ -881,7 +881,7 @@ void Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked ()
 {
 
     QWidget *dia = new QWidget();
-    QGridLayout *gg = new QGridLayout;
+    auto *gg = new QGridLayout;
     dia->setLayout (gg);
 
     dia->setWindowTitle ("Giriş Tipi");
@@ -893,7 +893,7 @@ void Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked ()
     fat->setDefault (true) ;
 
     QGroupBox *ft = new QGroupBox("Mlzm Malzeme Giriş Tipi",dia);
-    QVBoxLayout *ff = new QVBoxLayout();
+    auto *ff = new QVBoxLayout();
     ff->addWidget (fat);
     ff->addWidget (fat1);
     ff->addWidget (fat2);
@@ -905,7 +905,7 @@ void Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked ()
                 [dia]()
         {
             qDebug()<<"clicked";
-            Cw_ftr *ftr = new Cw_ftr;
+            auto *ftr = new Cw_ftr;
             ftr->show ();
             ftr->setup_fatura ();
             dia->close ();

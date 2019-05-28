@@ -42,7 +42,7 @@ mknnn::mknnn(QWidget *parent)
     connect(mapper, &QDataWidgetMapper::currentIndexChanged,
             this, &mknnn::updateButtons);
 
-    QGridLayout *layout = new QGridLayout();
+    auto *layout = new QGridLayout();
     layout->addWidget(nameLabel, 0, 0, 1, 1);
     layout->addWidget(nameEdit, 0, 1, 1, 1);
     layout->addWidget(previousButton, 0, 2, 1, 1);
