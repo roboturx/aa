@@ -43,8 +43,7 @@ SOURCES += main.cpp\
     form.cpp \
     cw_ftr.cpp \
     login.cpp \
-    cw_mlzm.cpp \
-    dbase.cpp
+    cw_mlzm.cpp
 
 HEADERS  += \
     globals.h \
@@ -70,8 +69,7 @@ HEADERS  += \
     form.h \
     cw_ftr.h \
     login.h \
-    cw_mlzm.h \
-    dbase.h
+    cw_mlzm.h
 
 FORMS    += \
     wd_login.ui \
@@ -85,8 +83,7 @@ FORMS    += \
     form.ui \
     cw_.ui \
     login.ui \
-    dlg_ambar.ui \
-    dbase.ui
+    dlg_ambar.ui
 
 CONFIG  += C++11
 

@@ -1,7 +1,7 @@
 ﻿#include "cw_ftr.h"
 #include "globals.h"
 #include "hc_tableview.h"
-
+#include "mw_main.h"
 
 Cw_ftr::Cw_ftr(QWidget *parent) :  QWidget(parent)
 {
@@ -18,10 +18,8 @@ void Cw_ftr::setup_fatura()
     this->showMaximized ();
     lB_FTR     = new QLabel ("Fatura");
 
-
     setup_uiFtr();
 
-    dbase = new DBase;
     setup_modelFtr();
     setup_viewFtr();
     setup_mapFtr();
@@ -120,35 +118,23 @@ void Cw_ftr::setup_uiFtr()
     movie->start();
     */
 
-    //////////////////////////////////// depo tableview
-    int i=1;
+    QFrame frame1(this);
+    QGridLayout grid1;
+    frame1.setLayout (&grid1);
+    grid1.addWidget (FTRtview    , 0, 0 );
+    grid1.addWidget (wdgt_mapFTR , 0, 1 );
+    grid1.addWidget (wdgt_rsm    , 0, 2 );
 
-    FTRtview = new HC_TableView(i);
-    FTRtview->table->setMinimumSize (180,120);
-    //////////////////////////////////// depodet aslında malzemedet tableview
-    FTRDETtview = new HC_TableView(i);
-    FTRDETtview->setMinimumSize (180,120);
-
-
-    auto  frame1 = new QFrame;
-    frame1->setLineWidth (3);
-    frame1->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-    auto *grid1 = new QGridLayout;
-    frame1->setLayout (grid1);
-    grid1->addWidget (FTRtview    , 0, 0 );
-    grid1->addWidget (wdgt_mapFTR , 0, 1 );
-    grid1->addWidget (wdgt_rsm    , 0, 2 );
-
-    auto frame2 = new QFrame;
+    QFrame frame2(this);
     auto *grid2 = new QGridLayout;
-    frame2->setLayout (grid2);
+    frame2.setLayout (grid2);
     grid2->addWidget (FTRDETtview    , 0, 0 );
     grid2->addWidget (wdgt_mapFTR_dty, 0, 1 );
 
     ////////////////////////////////////////////// layout
-    auto *LyG_FTR = new QGridLayout(this);
-    LyG_FTR->addWidget (frame1 , 0, 0, 1, 1);
-    LyG_FTR->addWidget (frame2 , 1, 0, 1, 1);
+    auto *LyG_FTR = new QGridLayout();
+    LyG_FTR->addWidget (&frame1 , 0, 0, 1, 1);
+    LyG_FTR->addWidget (&frame2 , 1, 0, 1, 1);
 
 
 }
@@ -176,36 +162,24 @@ void Cw_ftr::wd_FTR()
     lE_aciklama = new QLineEdit();
     lB_ack->setBuddy(lE_aciklama);
 
-    auto *lB_ft1 = new QLabel(tr("Fatura Toplamı"));
-    auto *lE_ft1 = new QLineEdit();
-    lB_ft1->setBuddy(lE_ft1);
 
-    auto *lB_ft2 = new QLabel(tr("KDV"));
-    auto *lE_ft2 = new QLineEdit();
-    lB_ft2->setBuddy(lE_ft2);
-
-    auto *lB_ft3 = new QLabel(tr("Genel Toplam"));
-    auto *lE_ft3 = new QLineEdit();
-    lB_ft3->setBuddy(lE_ft3);
+    //////////////////////////////////// depo tableview
+    int i=1;
+    FTRtview = new HC_TableView(i);
+    FTRtview->setMinimumSize (180,120);
 
     ///////////////////////////////////////  mapper buttonz
     lB_rsm = new QLabel;
     LyG_FTR = new QGridLayout();
-    int str{};
-    LyG_FTR ->addWidget(lB_faturano,   str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_faturano,   str, 1, 1, 1);
-    LyG_FTR ->addWidget(lB_firma   , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_firma   ,   str, 1, 1, 1);
-    LyG_FTR ->addWidget(lB_tarih   , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_tarih   ,   str, 1, 1, 1);
-    LyG_FTR ->addWidget(lB_ack     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_aciklama,   str, 1, 1, 1);
-    LyG_FTR ->addWidget(lB_ft1     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_ft1     ,   str, 1, 1, 1);
-    LyG_FTR ->addWidget(lB_ft2     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_ft2     ,   str, 1, 1, 1);
-    LyG_FTR ->addWidget(lB_ft3     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_ft3     ,   str, 1, 1, 1);
+
+    LyG_FTR ->addWidget(lB_faturano  , 0, 0, 1, 1);
+    LyG_FTR ->addWidget(lE_faturano  , 0, 1, 1, 1);
+    LyG_FTR ->addWidget(lB_firma , 2, 0, 1, 1);
+    LyG_FTR ->addWidget(lE_firma , 2, 1, 1, 1);
+    LyG_FTR ->addWidget(lB_tarih, 4, 0, 1, 1);
+    LyG_FTR ->addWidget(lE_tarih, 4, 1, 1, 1);
+    LyG_FTR ->addWidget(lB_ack, 5, 0, 1, 1);
+    LyG_FTR ->addWidget(lE_aciklama, 5, 1, 1, 1);
 
     wdgt_mapFTR = new QWidget;
     wdgt_mapFTR->setLayout(LyG_FTR);
@@ -215,47 +189,9 @@ void Cw_ftr::wd_FTR()
 
 void Cw_ftr::setup_modelFtr()
 {
-    FTRmodel = new QSqlRelationalTableModel ;
-    FTRmodel = dbase->modelFatura() ;
     qDebug() << "  setupmodelfatura";
-
-//    qDebug() << " mdlftr";
-//        QString tableName  = "ftr__dbtb";
-//        QString indexField = "ftr_tarih";
-
-//        QStringList fieldList ;
-//        fieldList.append("Fatura Kod");
-//        fieldList.append("Fatura No");
-//        fieldList.append("Firma Unvanı");
-//        fieldList.append("Fatura Tarihi");
-//        fieldList.append("Açıklama");
-//        fieldList.append("Resim");
-
-
-//        mdlFtr = new QSqlRelationalTableModel;
-//        mdlFtr->setTable( tableName );
-//        mdlFtr->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
-//        mdlFtr->setSort(mdlFtr->fieldIndex ( indexField ),Qt::AscendingOrder );
-
-//        //qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
-//        // qDebug() << " view column count = i "<< FTRmodel->columnCount();
-
-//        for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
-//        {
-//            mdlFtr->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
-//        }
-
-//        // Populate the model_mkstok
-//        if (!mdlFtr->select())
-//        {
-//            qDebug () <<  " HATA - Model fatura select "
-//                       <<mdlFtr->lastError();
-//        }
-//        qDebug () <<  " MŞZMmodel orj mw main"<< mdlFtr;
-
-
-//        FTRmodel = mdlFtr;
-
+    auto *mwmain = new MW_main;;
+    FTRmodel = mwmain->modelFatura() ;
 
 }
 
@@ -263,10 +199,9 @@ void Cw_ftr::setup_viewFtr()
 {
 
     qDebug() << "  setup_viewFtr";
-    qDebug()<<"ekle 2" << FTRmodel;
+qDebug()<<"ekle 2" << FTRmodel;
+    FTRtview->table->setModel(FTRmodel);
 
-    FTRtview->table->setModel ( FTRmodel );
-    qDebug()<<"ekle 3" << FTRmodel;
     FTRtview->table->resizeColumnsToContents();
     FTRtview->table->resizeRowsToContents ();
 
@@ -295,61 +230,61 @@ void Cw_ftr::setup_viewFtr()
     ///// tableview kontrol connectleri
     ///
     ///
-/*
-    connect(FTRtview->table->pB_ekle, &QPushButton::clicked ,this ,
+
+    connect(FTRtview->pB_ekle, &QPushButton::clicked ,this ,
              &Cw_ftr::slt_ftr_pB_EKLE_clicked  ) ;
-    connect(FTRtview->table->pB_eklersm, &QPushButton::clicked,this ,
+    connect(FTRtview->pB_eklersm, &QPushButton::clicked,this ,
              &Cw_ftr::slt_ftr_pB_Eklersm_clicked  ) ;
 
-    connect(FTRtview->table->pB_sil, &QPushButton::clicked,this ,
+    connect(FTRtview->pB_sil, &QPushButton::clicked,this ,
              &Cw_ftr::slt_ftr_pB_SIL_clicked ) ;
-    connect(FTRtview->table->pB_ilk, &QPushButton::clicked ,
+    connect(FTRtview->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
             FTRmapper->toFirst ();
             int map_row = FTRmapper->currentIndex ();
-            FTRtview->table->pB_ilk->setEnabled (map_row>0);
+            FTRtview->pB_ilk->setEnabled (map_row>0);
             FTRtview->table->setCurrentIndex(FTRmodel->index( 0  ,0));
     });
 
-    connect(FTRtview->table->pB_ncki, &QPushButton::clicked,
+    connect(FTRtview->pB_ncki, &QPushButton::clicked,
             [this]()
     {
         FTRmapper->toPrevious ();
         int map_row = FTRmapper->currentIndex ();
-        FTRtview->table->pB_ncki->setEnabled(map_row > 0);
+        FTRtview->pB_ncki->setEnabled(map_row > 0);
         FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
     });
 
-    connect(FTRtview->table->pB_snrki, &QPushButton::clicked,
+    connect(FTRtview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
         FTRmapper->toNext ();
         int map_row = FTRmapper->currentIndex ();
-        FTRtview->table->pB_snrki->setEnabled(map_row < FTRmodel->rowCount() - 1);
+        FTRtview->pB_snrki->setEnabled(map_row < FTRmodel->rowCount() - 1);
         FTRtview->table->setCurrentIndex(FTRmodel->index( map_row  ,0));
     });
 
-    connect(FTRtview->table->pB_son, &QPushButton::clicked,
+    connect(FTRtview->pB_son, &QPushButton::clicked,
             [this]()
     {
         FTRmapper->toLast ();
         int map_row = FTRmapper->currentIndex ();
-        FTRtview->table->pB_son->setEnabled(map_row < FTRmodel->rowCount() - 1);
+        FTRtview->pB_son->setEnabled(map_row < FTRmodel->rowCount() - 1);
         FTRtview->table->setCurrentIndex(FTRmodel->index( FTRmodel->rowCount() - 1  ,0));
     });
 
 
-    FTRtview->table->pB_grscks->setVisible (false);
-    //  (connect(FTRtview->table->pB_grscks, &QPushButton::clicked,this ,
+    FTRtview->pB_grscks->setVisible (false);
+    //  (connect(FTRtview->pB_grscks, &QPushButton::clicked,this ,
     //                 &Cw_ftr::slt_ftr_cX_grs_clicked  )) ;
-*/
+
 
 }
 
 void Cw_ftr::setup_mapFtr()
 {
-    qDebug() << "  setup_mapFtr"<<FTRmodel;
+    qDebug() << "  setup_mapFtr";
     FTRmapper = new QDataWidgetMapper(this);
     FTRmapper->setModel(FTRmodel);
 
@@ -470,11 +405,10 @@ void Cw_ftr::slt_ftr_pB_Eklersm_clicked()
 void Cw_ftr::slt_ftr_updButtons(int row)
 {
     qDebug() << "  slt_ftr_updButtons";
- /*   FTRtview->table->pB_ilk->setEnabled (row>0);
-    FTRtview->table->pB_ncki->setEnabled(row > 0);
-    FTRtview->table->pB_snrki->setEnabled(row < FTRmodel->rowCount() - 1);
-    FTRtview->table->pB_son->setEnabled(row < FTRmodel->rowCount() - 1);
-*/
+    FTRtview->pB_ilk->setEnabled (row>0);
+    FTRtview->pB_ncki->setEnabled(row > 0);
+    FTRtview->pB_snrki->setEnabled(row < FTRmodel->rowCount() - 1);
+    FTRtview->pB_son->setEnabled(row < FTRmodel->rowCount() - 1);
 }
 
 
@@ -701,7 +635,7 @@ void Cw_ftr::slt_ftr_pB_SIL_clicked ()
             if (q_qry.isActive ())
             {
                 qDebug()<< "1 adet Fatura Kaydı Silindi";
-                FTRtview->table->setFocus ();
+                FTRtview->setFocus ();
                 FTRmodel->select ();
 
 
@@ -709,19 +643,19 @@ void Cw_ftr::slt_ftr_pB_SIL_clicked ()
                 if (FTRmodel->rowCount () == 1)
                 {
                     FTRtview->table->selectRow (0);
-                    FTRtview->table->setCurrentIndex (FTRmodel->index(0,0));
+                    FTRtview->setCurrentIndex (FTRmodel->index(0,0));
                 }
                 if (FTRmodel->rowCount () > 1)
                 {
                     if (ftrindex.row () == 0)
                     {
                         FTRtview->table->selectRow (0);
-                        FTRtview->table->setCurrentIndex (FTRmodel->index(0,0));
+                        FTRtview->setCurrentIndex (FTRmodel->index(0,0));
                     }
                     else if (ftrindex.row () > 0)
                     {
                         FTRtview->table->selectRow (ftrindex.row()-1);
-                        FTRtview->table->setCurrentIndex (FTRmodel->index(ftrindex.row ()-1,0));
+                        FTRtview->setCurrentIndex (FTRmodel->index(ftrindex.row ()-1,0));
                     }
                 }
             }
@@ -739,23 +673,23 @@ void Cw_ftr::slt_ftr_cX_grs_clicked()
 {
         qDebug() << "  slt_ftr_cX_grs_clicked";
     QIcon icon;
-    if ( ! FTRtview->table->pB_grscks->isFlat ())
+    if ( ! FTRtview->pB_grscks->isFlat ())
     {
 
         QModelIndex ftr_indx = FTRtview->table->currentIndex ();
         slt_ftr_tV_rowchanged (ftr_indx);
-        FTRtview->table->pB_grscks->setFlat (true);
+        FTRtview->pB_grscks->setFlat (true);
         icon.addPixmap(QPixmap (":/rsm/nv_eklesil.svg") ,
                        QIcon::Normal, QIcon::On);
-        FTRtview->table->pB_grscks->setIcon (icon);
+        FTRtview->pB_grscks->setIcon (icon);
         wdgt_mapFTR_dty->show ();
     }
     else
     {
-        FTRtview->table->pB_grscks->setFlat (false);
+        FTRtview->pB_grscks->setFlat (false);
         icon.addPixmap(QPixmap (":/rsm/nv_eklesil2.svg") ,
                        QIcon::Normal, QIcon::On);
-        FTRtview->table->pB_grscks->setIcon (icon);
+        FTRtview->pB_grscks->setIcon (icon);
         wdgt_mapFTR_dty->hide ();
     }
 }
@@ -829,6 +763,11 @@ void Cw_ftr::wd_FTRdet()
 
 
 
+    //////////////////////////////////// depodet tableview
+    int i= 1;
+    FTRDETtview = new HC_TableView(i);
+    FTRDETtview->setMinimumSize (180,120);
+
 
 
     auto *lYG_d_map = new QGridLayout();
@@ -879,9 +818,8 @@ void Cw_ftr::wd_FTRdet()
 
 void Cw_ftr::setup_modelFtrDet()
 {
-    qDebug() << "  setup_modelFtrDet";
-    FTRDETmodel = new QSqlRelationalTableModel;
-    FTRDETmodel = dbase->modelMalzemeDetay ();
+    auto *mwmain = new MW_main;
+    FTRDETmodel = mwmain->modelFaturaDetay ();
 }
 
 void Cw_ftr::setup_viewFtrDet()

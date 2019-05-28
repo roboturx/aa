@@ -230,6 +230,18 @@ Colors of the Year 2000-2019
 2001 Fuchsia Rose Hex #C3447A RGB(195, 68, 122) Pantone 17-2031
 2000 Cerulean Blue Hex #98B4D4 RGB(152, 180, 212) Pantone 15-4020
 */
+    QString ChiliPepper  ("#9B2335");
+    QString CeruleanBlue ("#98B4D4");
+    QString Turquoise    ("#45B8AC");
+    QString Serenity     ("#92A8D1");
+    QString AspenGold    ("#FFD662");
+    QString LivingCoral  ("#FF6F61");
+    QString UltraViolet  ("#6B5B95");
+    QString BrownGranite ("#615550");
+    QString Eclipse      ("#343148");
+    QString EveningBlue  ("#2A293E");
+    QString LushMeadow   ("#006E51");
+    QString NavyPeony ("#223A5E");
 
 
 
@@ -277,50 +289,38 @@ Colors of the Year 2000-2019
 //   // qApp->setStyleSheet("QToolTip { color: #ffffff;
 //    //background-color: #2a82da; border: 1px solid white; }");
 
-    QString ChiliPepper  ("#9B2335");
-    QString CeruleanBlue ("#98B4D4");
-    QString Turquoise    ("#45B8AC");
-    QString Serenity     ("#92A8D1");
-    QString AspenGold    ("#FFD662");
-    QString LivingCoral  ("#FF6F61");
-    QString UltraViolet  ("#6B5B95");
-    QString BrownGranite ("#615550");
-    QString Eclipse      ("#343148");
-    QString EveningBlue  ("#2A293E");
-    QString LushMeadow   ("#006E51");
-    QString NavyPeony ("#223A5E");
 
     QPalette dP;
     dP.setColor(QPalette::Window,
-                QColor(EveningBlue));
+                QColor(LushMeadow));
 
     dP.setColor(QPalette::WindowText,
                 QColor(AspenGold)); // label fg
     dP.setColor(QPalette::Base,
-                QColor(Eclipse)); // text arkaplan 25,25,25));
+                QColor(LushMeadow)); // text arkaplan 25,25,25));
     dP.setColor(QPalette::AlternateBase,
-                QColor("#0066ff"));//53,53,53));
+                QColor(ChiliPepper));//53,53,53));
     dP.setColor(QPalette::ToolTipBase,
-                QColor(ChiliPepper));
+                QColor(LushMeadow));
     dP.setColor(QPalette::ToolTipText,
-                QColor(LivingCoral));
+                QColor(LushMeadow));
 
     dP.setColor(QPalette::PlaceholderText,
-                QColor(NavyPeony));
-    dP.setColor(QPalette::Text, QColor(Turquoise));
+                QColor(LushMeadow));
+    dP.setColor(QPalette::Text, QColor(LushMeadow));
 
-    dP.setColor(QPalette::Button, QColor(EveningBlue));
+    dP.setColor(QPalette::Button, QColor(LushMeadow));
 //    dP.setColor(QPalette::Mid, QColor(EveningBlue));
-    dP.setColor(QPalette::ButtonText, QColor(CeruleanBlue));
+    dP.setColor(QPalette::ButtonText, QColor(LushMeadow));
     dP.setColor(QPalette::BrightText, Qt::red);
 
     dP.setColor(QPalette::Link, QColor(LushMeadow));
     dP.setColor(QPalette::LinkVisited , QColor(LushMeadow));
 
-    dP.setColor(QPalette::Highlight, QColor("#0066ff"));
+    dP.setColor(QPalette::Highlight, QColor(LushMeadow));
     dP.setColor(QPalette::HighlightedText, QColor(LushMeadow) );
 
-    qApp->setPalette(dP);
+  //  qApp->setPalette(dP);
    // qApp->setStyleSheet("QToolTip { color: #ffffff;
     //background-color: #2a82da; border: 1px solid white; }");
 

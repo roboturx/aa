@@ -130,7 +130,7 @@ void WW_Mkcins::cr_ui()
 
 
 
-    auto *gL = new QGridLayout(pnc);
+    QGridLayout *gL = new QGridLayout(pnc);
     gL->addWidget(tv_mkcins   ,0,0,20,2);
     gL->addWidget(pb_eklE_cns ,21,0,1,1);
     gL->addWidget(pb_sil_cns  ,21,1,1,1);

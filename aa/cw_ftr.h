@@ -5,7 +5,7 @@
 #include "globals.h"
 #include "hc_tableview.h"
 #include "cw_mkn.h"
-#include "dbase.h"
+
 
 
 namespace Ui {
@@ -18,19 +18,16 @@ class Cw_ftr : public QWidget
 
 public:
 
-    DBase *dbase;
     void setup_fatura() ;
 
 
- //   QString     *tableName ;
-   // QString     *indexField ;
-    //QStringList *fieldList;
+    QString     *tableName ;
+    QString     *indexField ;
+    QStringList *fieldList;
 
 
-   // QTableView      *FTRtview;
     HC_TableView      *FTRtview;
     QSqlRelationalTableModel    *FTRmodel;
-    QSqlRelationalTableModel    *mdlFtr;
     QDataWidgetMapper *FTRmapper;
 
     QWidget     *wdgt_mapFTR    ;
