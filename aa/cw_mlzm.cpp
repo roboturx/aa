@@ -2,7 +2,8 @@
 #include "cw_ftr.h"
 #include "globals.h"
 #include "hc_tableview.h"
-#include "mw_main.h"
+#include "dbase.h"
+
 
 Cw_Mlzm::Cw_Mlzm(QWidget *parent) :
     QWidget(parent)
@@ -25,6 +26,7 @@ void Cw_Mlzm::setup_mlzm()
     //*****************  A M B A R ************************
     setup_uiMlzm();
 
+    dbase = new DBase;
     setup_modelMlzm();
     setup_viewMlzm();
     setup_mapMlzm();
@@ -206,8 +208,8 @@ void Cw_Mlzm::wd_Mlzm()
 void Cw_Mlzm::setup_modelMlzm()
 {
     qDebug() << "  setup_modelMalzeme";
-    MW_main *mwmain = new MW_main;
-    MLZMmodel = mwmain->modelMalzeme ();
+
+    MLZMmodel = dbase->modelMalzeme ();
 }
 
 

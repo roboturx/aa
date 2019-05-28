@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "hc_tableview.h"
 #include "cw_mkn.h"
+#include "dbase.h"
 
 
 namespace Ui {
@@ -14,6 +15,8 @@ class Cw_Mlzm : public QWidget
 {   Q_OBJECT
 
 public:
+
+    DBase *dbase ;
 
     HC_TableView      *MLZMtview;
     QDataWidgetMapper *MLZMmapper;
