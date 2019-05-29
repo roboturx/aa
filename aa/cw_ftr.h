@@ -124,7 +124,7 @@ protected:
 
 public:
     explicit Cw_ftr(QWidget *parent = nullptr);
-    ~Cw_ftr() = default;
+    ~Cw_ftr() ;
 
 private:
 

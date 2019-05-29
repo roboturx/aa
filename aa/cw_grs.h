@@ -14,8 +14,8 @@ class Cw_Grs : public QWidget
     Q_OBJECT
 
 public:
-    explicit Cw_Grs(QWidget *parent = 0);
-    ~Cw_Grs() = default;
+    explicit Cw_Grs(QWidget *parent = nullptr);
+    ~Cw_Grs() ;
 
     //bool setData(const QModelIndex & index,
     //             const QVariant & value,

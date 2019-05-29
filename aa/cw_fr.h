@@ -18,6 +18,7 @@ public:
     QModelIndex *whichRow{};
     QDataWidgetMapper *map_fr{};
     QSqlTableModel *mdl_fr{} ;
+    QTableView  *tV_fr{}     ;
 
     int         meslekIndex{} ;
 
@@ -54,7 +55,7 @@ public:
     QPushButton *pB_kpt{}     ;
 
 private:
-    QTableView  *tV_fr{}     ;
+
 
     void setup_ui()        ;
     void setup_modelfr()  ;
