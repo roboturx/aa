@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -71,16 +71,16 @@ public:
 
 protected:
     bool event(QEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent *) override;
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private slots:
-    void createNewCircle();
+   // void createNewCircle();
     void createNewSquare();
-    void createNewTriangle();
+  //  void createNewTriangle();
 //! [0]
 
 //! [1]
@@ -103,18 +103,17 @@ private:
                                   const QPixmap &pixmap,
                                   const QString &text="2323");
 
-//! [2]
     QList<ShapeItem> shapeItems;
-    QPainterPath circlePath;
+//    QPainterPath circlePath;
     QPainterPath squarePath;
-    QPainterPath trianglePath;
+  //  QPainterPath trianglePath;
 
     QPoint previousPosition;
     ShapeItem *itemInMotion;
 
-    QToolButton *newCircleButton;
+   // QToolButton *newCircleButton;
     QToolButton *newSquareButton;
-    QToolButton *newTriangleButton;
+    //QToolButton *newTriangleButton;
 };
 //! [2]
 

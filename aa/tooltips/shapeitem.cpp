@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -82,12 +82,10 @@ QString ShapeItem::toolTip() const
 }
 QString ShapeItem::text() const
 {
-    qDebug()<<"s return  mytext() : "<<myText;
     return myText;
 }
 QPixmap ShapeItem::pixmap() const
 {
-    qDebug()<<"s return mypixmap"<<myPixmap;
     return myPixmap;
 }
 
@@ -117,13 +115,12 @@ void ShapeItem::setToolTip(const QString &toolTip)
 }
 void ShapeItem::setText(const QString &text)
 {
-    qDebug()<<"s set my text : "<<text;
+
     myText = text;
 }
 
 void ShapeItem::setPixmap(const QPixmap &pixmap)
 {
-    qDebug()<<"s set my pixmap : "<<pixmap;
     myPixmap = pixmap;
 }
 

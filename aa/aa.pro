@@ -44,7 +44,9 @@ SOURCES += main.cpp\
     cw_ftr.cpp \
     login.cpp \
     cw_mlzm.cpp \
-    dbase.cpp
+    dbase.cpp \
+    shapeitem.cpp \
+    sortingbox.cpp
 
 HEADERS  += \
     globals.h \
@@ -71,7 +73,9 @@ HEADERS  += \
     cw_ftr.h \
     login.h \
     cw_mlzm.h \
-    dbase.h
+    dbase.h \
+    shapeitem.h \
+    sortingbox.h
 
 FORMS    += \
     wd_login.ui \

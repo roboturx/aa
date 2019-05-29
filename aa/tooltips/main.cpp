@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -59,5 +59,6 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     SortingBox sortingBox;
     sortingBox.show();
+
     return app.exec();
 }

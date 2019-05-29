@@ -10,7 +10,7 @@
 #include "globals.h"
 #include "form.h"
 #include "dbase.h"
-
+#include <sortingbox.h>
 
 
 
@@ -35,7 +35,10 @@ void MW_main::login()
     durum = new QTextEdit(wd_log);
     durum->setReadOnly (true);
 
-    lg->addWidget(durum  ,1,0,1,6);
+
+    auto * sortingBox = new SortingBox;
+    lg->addWidget(durum  ,0,0,2,1);
+    lg->addWidget(  sortingBox  ,2,0,9,1);
 
 
 

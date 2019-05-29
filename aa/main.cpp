@@ -346,6 +346,8 @@ Colors of the Year 2000-2019
     qDebug ()<<"main";
     w.show ();
     w.login ();
+
+
     //w.hide ();
     //splash.finish(w);
     return QApplication::exec();
