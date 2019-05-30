@@ -2,6 +2,10 @@
 #define CW_FR_H
 
 #include "globals.h"
+#include "hc_tableview.h"
+#include "dbase.h"
+
+
 
 namespace Ui {
 class Cw_fr;
@@ -15,10 +19,14 @@ public:
     explicit Cw_fr(QWidget *parent = nullptr);
     ~Cw_fr();
 
+    void setup_firma();
+    DBase *dbase;
+
     QModelIndex *whichRow{};
-    QDataWidgetMapper *map_fr{};
-    QSqlTableModel *mdl_fr{} ;
-    QTableView  *tV_fr{}     ;
+    QDataWidgetMapper *FRMmapper {};
+    QSqlTableModel *FRMmodel {} ;
+    HC_TableView  *FRMtview ;
+
 
     int         meslekIndex{} ;
 
@@ -43,10 +51,6 @@ public:
     QLineEdit   *lE_ytel{} ;
 
     QPushButton *pB_rsm{}     ;
-    QPushButton *pB_ilk{}     ;
-    QPushButton *pB_snrki{}   ;
-    QPushButton *pB_oncki{}   ;
-    QPushButton *pB_son{}     ;
     QPushButton *pB_ekle{}    ;
     QPushButton *pB_sil{}     ;
 
@@ -68,12 +72,9 @@ private slots:
     void on_pB_YAZ_clicked();
     void on_pB_SIL_clicked();
     void on_pB_EKLE_clicked();
-    void ontV_fr_resimGosterSLOT(QModelIndex);
+    void onFRMtview_resimGosterSLOT(QModelIndex);
     void onpB_fr_resimEklE_clickedSLOT();
-    void r_toFirst();
-    void r_toPrevious();
-    void r_toNext();
-    void r_toLast();
+
 
    // void resim(QModelIndex);
     void on_updateButtonsSLOT(int row);

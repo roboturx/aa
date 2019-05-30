@@ -11,6 +11,8 @@
 #include "VTKontrol.h"
 #include "VTTekton.h"
 
+
+
 #include <QtCore>
 #include <QtGui>
 #include <QtPrintSupport/QPrinter>

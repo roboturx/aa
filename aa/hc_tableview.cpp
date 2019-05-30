@@ -70,13 +70,13 @@ HC_TableView::HC_TableView (int renk, QTableView *parent ) :
     pB_son->setIcon(icon);
     pB_son->setIconSize(QSize(x,y));
 
-   auto * fR_mn = new QFrame() ;
+ /*   auto * fR_mn = new QFrame(this) ;
     //fR_mn->setStyleSheet ("background-color:green");
-    fR_mn->setFrameStyle (QFrame::Panel | QFrame::Raised);
+    fR_mn->setFrameStyle (QFrame::Box | QFrame::Raised);
     fR_mn->setLineWidth (3);
     fR_mn->setMidLineWidth (2);
-    fR_mn->setGeometry (0,0,40,300);
-
+    fR_mn->setGeometry (0,0,40,30);
+*/
 
     auto *LYv_nv = new QVBoxLayout;
 
@@ -93,9 +93,13 @@ HC_TableView::HC_TableView (int renk, QTableView *parent ) :
     LYv_nv->addStretch (4);
     table = new QTableView;
 
-    auto *LYg_nv = new QGridLayout();
+    auto *LYg_nv = new QHBoxLayout(this);
     this->setLayout (LYg_nv);
-/*
+    LYg_nv->addLayout (LYv_nv );
+    LYg_nv->addWidget (table  );
+
+
+    /*
     QPainter pntr();
     QLinearGradient grd(0,0,100,100);
 
@@ -109,8 +113,6 @@ HC_TableView::HC_TableView (int renk, QTableView *parent ) :
 
 
 
-    LYg_nv->addLayout (LYv_nv  ,0,0,1,1 );
-    LYg_nv->addWidget (table   ,0,1,1,1 );
 }
 HC_TableView::~HC_TableView()
 = default;

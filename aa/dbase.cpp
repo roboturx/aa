@@ -300,6 +300,51 @@ QString DBase::VTd_FRMA()
 
 
 
+QSqlRelationalTableModel* DBase::modelFirma()
+{
+qDebug() << " mdlfrm";
+    QString tableName  = "frm__dbtb";
+    QString indexField = "frm_unvan";
+
+    QStringList fieldList ;
+    fieldList.append("Firma Unvanı");
+    fieldList.append("Adres");
+    fieldList.append("Şehir");
+    fieldList.append("Vergi Dairesi");
+    fieldList.append("VD No");
+    fieldList.append("Telefon");
+    fieldList.append("e-posta");
+    fieldList.append("Yetkili İsim");
+    fieldList.append("Yetkili Soyad");
+    fieldList.append("Tetkili Telefon");
+    // fieldList.append("resim");
+
+
+    mdlfrm = new QSqlRelationalTableModel;
+    mdlfrm->setTable( tableName );
+    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
+
+    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    {
+        mdlfrm->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+    }
+
+    // Populate the model_mkstok
+    if (!mdlfrm->select())
+    {
+        qDebug () <<  " HATA - Model fatura select "
+                   <<mdlfrm->lastError();
+    }
+
+    return mdlfrm ;
+}///FİRMA
+
+
+
+
+
+
 QString DBase::VTd_FTRA ()
 {
     QSqlQuery   q;

@@ -230,9 +230,8 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_fr = new Cw_fr;
+        mw_fr->setup_firma ();
         statusBar()->showMessage(tr("Firma Bilgileri"));
-        mw_fr->setWindowTitle ("FİRMA");
-        mw_fr->resize(qApp->screens()[0]->size()*.8);
         mw_fr->show ();
     });
 

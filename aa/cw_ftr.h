@@ -53,7 +53,7 @@ public:
     // depo detay
     QWidget     *wdgt_mapFTR_dty{};
     HC_TableView      *FTRDETtview{};
-    QItemSelectionModel *tV_ftr_selectionMdl{} ;
+    QItemSelectionModel *FTRselectionMdl{} ;
     QSqlRelationalTableModel    *FTRDETmodel{} ;
     QDataWidgetMapper *FTRDETmapper{} ;
 
@@ -104,20 +104,20 @@ private slots:
 
     void slt_ftr_pB_EKLE_clicked();
     void slt_ftr_pB_Eklersm_clicked();
-   // void slt_ftr_cX_grs_clicked();
+
     void slt_ftr_pB_SIL_clicked();
- //   void slt_ftr_cX_mkn();
 
 
-    void slt_ftr_tV_rowchanged(const QModelIndex &index );
+
+
     void slt_ftr_resimGoster(QModelIndex);
 
     // depo detay
     void slt_mlz_pB_EKLE_clicked();
     void slt_ftrd_pB_SIL_clicked();
 
-    void slt_ftr_updButtons(int row);
-    void slt_ftrd_updButtons(int row);
+
+
 
 protected:
     void showEvent(QShowEvent *);

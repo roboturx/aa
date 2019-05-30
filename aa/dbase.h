@@ -17,10 +17,19 @@ public:
 
     QSqlRelationalTableModel *mdlFtr{};
     QSqlRelationalTableModel *modelFatura();
+
     QSqlRelationalTableModel *mdlMlzm{};
     QSqlRelationalTableModel *modelMalzeme();
+
     QSqlRelationalTableModel *mdlMlzmDty{};
     QSqlRelationalTableModel *modelMalzemeDetay();
+
+    QSqlRelationalTableModel *mdlfrm{};
+    QSqlRelationalTableModel *modelFirma();
+
+
+
+
     bool setupDBase();
     void yaz(const QString& z);
 //    QTextEdit *durum;
