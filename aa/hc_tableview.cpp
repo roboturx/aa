@@ -6,9 +6,11 @@ HC_TableView::HC_TableView (int renk, QTableView *parent ) :
 {
 
     qDebug()<<"-hc-";
+
+
+    // //////////////////////////////////////////////
     QIcon icon;
     int x=30*renk,y=30;
-
 
     pB_ekle = new QPushButton;
     //pB_ekle->setGeometry (0,0,x,y );
@@ -77,27 +79,44 @@ HC_TableView::HC_TableView (int renk, QTableView *parent ) :
     fR_mn->setMidLineWidth (2);
     fR_mn->setGeometry (0,0,40,30);
 */
+    auto *widget_buttonz = new QWidget;
+    widget_buttonz->setWindowTitle ("buttonz window");
+    auto *Layout_buttonz = new QVBoxLayout;
+    widget_buttonz->setLayout (Layout_buttonz);
 
-    auto *LYv_nv = new QVBoxLayout;
+    Layout_buttonz->addWidget (pB_ekle );
+    Layout_buttonz->addWidget (pB_eklersm );
+    Layout_buttonz->addStretch (1);
+    Layout_buttonz->addWidget (pB_sil  );
+    Layout_buttonz->addWidget (pB_ilk  );
+    Layout_buttonz->addWidget (pB_ncki );
+    Layout_buttonz->addWidget (pB_snrki);
+    Layout_buttonz->addWidget (pB_son  );
+    Layout_buttonz->addStretch (1);
+    Layout_buttonz->addWidget (pB_grscks );
+    Layout_buttonz->addStretch (4);
+    // //////////////////////////////////////////////
 
-    LYv_nv->addWidget (pB_ekle );
-    LYv_nv->addWidget (pB_eklersm );
-    LYv_nv->addStretch (1);
-    LYv_nv->addWidget (pB_sil  );
-    LYv_nv->addWidget (pB_ilk  );
-    LYv_nv->addWidget (pB_ncki );
-    LYv_nv->addWidget (pB_snrki);
-    LYv_nv->addWidget (pB_son  );
-    LYv_nv->addStretch (1);
-    LYv_nv->addWidget (pB_grscks );
-    LYv_nv->addStretch (4);
+    // //////////////////////////////////////////////
+    auto *widget_table = new QWidget;
+    widget_table->setWindowTitle ("table window");
+    auto *Layout_table = new QVBoxLayout;
+    widget_table->setLayout (Layout_table);
+
     table = new QTableView;
 
-    auto *LYg_nv = new QHBoxLayout(this);
-    this->setLayout (LYg_nv);
-    LYg_nv->addLayout (LYv_nv );
-    LYg_nv->addWidget (table  );
+    Layout_table->addWidget (table);
+    // //////////////////////////////////////////////
 
+    // //////////////////////////////////////////////
+    auto *allwdgts = new QWidget(this);
+    allwdgts->setWindowTitle ("all window");
+    auto *Layout_all = new QGridLayout();
+    allwdgts->setMinimumSize (60,100);
+    allwdgts->setLayout (Layout_all);
+    Layout_all->addWidget (widget_buttonz,0,0 );
+    Layout_all->addWidget (widget_table,0,1  );
+    // //////////////////////////////////////////////
 
     /*
     QPainter pntr();

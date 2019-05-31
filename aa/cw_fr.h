@@ -26,6 +26,7 @@ public:
     QDataWidgetMapper *FRMmapper {};
     QSqlTableModel *FRMmodel {} ;
     HC_TableView  *FRMtview ;
+    QItemSelectionModel *FRMselectionMdl;
 
 
     int         meslekIndex{} ;

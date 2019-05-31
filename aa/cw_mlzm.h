@@ -53,7 +53,7 @@ public:
     // Mlzm detay
     QWidget     *wdgt_mapMlzm_dty{};
     HC_TableView      *MLZMDETtview{};
-    QItemSelectionModel *tV_Mlzm_selectionMdl{} ;
+    QItemSelectionModel *MLZMselectionMdl{} ;
     QSqlTableModel    *MLZMDETmodel{} ;
     QDataWidgetMapper *MLZMDETmapper{} ;
 

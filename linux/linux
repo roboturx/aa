@@ -5,3 +5,6 @@ console-setup yüklü olmalı
 
 21
 21 Mayıs
+mouse wheel direction change
+gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
+---------------------------------------

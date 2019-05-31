@@ -20,7 +20,7 @@ public:
 
     DBase *dbase{};
     void setup_fatura() ;
-
+QWidget *wdgt_rsm;
 
  //   QString     *tableName ;
    // QString     *indexField ;
@@ -31,6 +31,7 @@ public:
     HC_TableView      *FTRtview{};
     QSqlRelationalTableModel    *FTRmodel{};
     QSqlRelationalTableModel    *mdlFtr{};
+    QItemSelectionModel *FTRselectionMdl{} ;
     QDataWidgetMapper *FTRmapper{};
 
     QWidget     *wdgt_mapFTR{}    ;
@@ -53,7 +54,7 @@ public:
     // depo detay
     QWidget     *wdgt_mapFTR_dty{};
     HC_TableView      *FTRDETtview{};
-    QItemSelectionModel *FTRselectionMdl{} ;
+    QItemSelectionModel *FTRDETselectionMdl{} ;
     QSqlRelationalTableModel    *FTRDETmodel{} ;
     QDataWidgetMapper *FTRDETmapper{} ;
 

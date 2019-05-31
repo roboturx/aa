@@ -225,8 +225,10 @@ void Cw_Mlzm::setup_viewMlzm()
     /// bu view de seçileni belirlemede kullanılır
     /// selection ve current index ayrı şeyler
     ///
-    tV_Mlzm_selectionMdl = new QItemSelectionModel(MLZMmodel);
-    MLZMtview->table->setSelectionModel (tV_Mlzm_selectionMdl);
+
+    //FTRselectionMdl =   FTRtview->table->selectionModel ();
+    MLZMselectionMdl = new QItemSelectionModel(MLZMmodel);
+    MLZMtview->table->setSelectionModel (MLZMselectionMdl);
 
     MLZMtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
     MLZMtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
