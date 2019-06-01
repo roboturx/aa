@@ -605,19 +605,19 @@ void Cw_Mlzm::slt_Mlzm_pB_SIL_clicked ()
                 if (MLZMmodel->rowCount () == 1)
                 {
                     MLZMtview->table->selectRow (0);
-                    MLZMtview->setCurrentIndex (MLZMmodel->index(0,0));
+                    MLZMtview->table->setCurrentIndex (MLZMmodel->index(0,0));
                 }
                 if (MLZMmodel->rowCount () > 1)
                 {
                     if (sample.row () == 0)
                     {
                         MLZMtview->table->selectRow (0);
-                        MLZMtview->setCurrentIndex (MLZMmodel->index(0,0));
+                        MLZMtview->table->setCurrentIndex (MLZMmodel->index(0,0));
                     }
                     else if (sample.row () > 0)
                     {
                         MLZMtview->table->selectRow (sample.row()-1);
-                        MLZMtview->setCurrentIndex (MLZMmodel->index(sample.row ()-1,0));
+                        MLZMtview->table->setCurrentIndex (MLZMmodel->index(sample.row ()-1,0));
                     }
 
 

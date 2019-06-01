@@ -180,14 +180,9 @@ void Cw_ftr::wd_FTR()
     connect (cB_rsm, &QCheckBox::clicked,
              [this, cB_rsm ]()
     {
-        if (cB_rsm->isChecked () == true )
-        {
-            wdgt_rsm->show ();
-        }
-        else
-        {
-            wdgt_rsm->hide ();
-        }
+        if (cB_rsm->isChecked() ? 
+                wdgt_rsm->show () :  wdgt_rsm->hide ());
+        
     });
 
     LyG_FTR ->addWidget (lB_rsm   , str-2, 3, 3, 2);

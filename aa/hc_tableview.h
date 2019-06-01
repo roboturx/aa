@@ -4,55 +4,91 @@
 #include "globals.h"
 
 namespace Ui {
-class HC_TableView;
+class HC_;
 }
 
 
-class HC_TableView : public QTableView
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+//    L I N E D I T    -----> HC_LE
+
+// Sağ tuş butonu olan lineedit
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+class HC_LE : public QWidget
 {    Q_OBJECT
 
-public:
-    explicit HC_TableView(int renk=1, QTableView *parent = nullptr);
-    ~HC_TableView();
-
-    QTableView  *table;
-    QPushButton *pB_ekle   ;
-    QPushButton *pB_eklersm;
-    QPushButton *pB_grscks;
-
-    QPushButton *pB_sil;
-
-    QPushButton *pB_ilk  ;
-    QPushButton *pB_ncki ;
-    QPushButton *pB_snrki;
-    QPushButton *pB_son  ;
-/*
-public slots:
-    void SLT_ekle();
-    void SLT_eklersm();
-    void SLT_grscks();
-    void SLT_sil();
-
-    void SLT_first();
-    void SLT_next();
-    void SLT_previous();
-    void SLT_last();
+ public:
+     explicit HC_LE(QWidget *parent = nullptr);
+     ~HC_LE();
+     QLineEdit  *lineEdit;
+     QPushButton *pushButton;
+};
 
 
 
 
-signals:
-     void sG_ekle();
-     void sG_eklersm();
-     void sG_grscks();
-     void sG_sil();
 
-     void sG_first();
-     void sG_next();
-     void sG_previous();
-     void sG_last();
 
-*/
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+//    T A B L E V I E W   -----> HC_TableView
+
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+class HC_TableView : public QWidget
+{    Q_OBJECT
+
+ public:
+
+     explicit HC_TableView(int renk=1, QWidget *parent = nullptr);
+     ~HC_TableView();
+
+     QTableView  *table;
+      QPushButton *pB_ekle   ;
+       QPushButton *pB_eklersm;
+        QPushButton *pB_grscks;
+
+         QPushButton *pB_sil;
+
+          QPushButton *pB_ilk  ;
+           QPushButton *pB_ncki ;
+            QPushButton *pB_snrki;
+             QPushButton *pB_son  ;
+              /*
+ public slots:
+     void SLT_ekle();
+     void SLT_eklersm();
+     void SLT_grscks();
+     void SLT_sil();
+
+     void SLT_first();
+     void SLT_next();
+     void SLT_previous();
+     void SLT_last();
+
+
+
+
+ signals:
+      void sG_ekle();
+      void sG_eklersm();
+      void sG_grscks();
+      void sG_sil();
+
+      void sG_first();
+      void sG_next();
+      void sG_previous();
+      void sG_last();
+
+ */
 
 };
 

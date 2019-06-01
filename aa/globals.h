@@ -26,6 +26,8 @@
 #include <QColor>
 #include <QComboBox>
 #include <QDataWidgetMapper>
+#include <QDate>
+#include <QDateEdit>
 #include <QDebug>
 #include <QDialog>
 #include <QDir>

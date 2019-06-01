@@ -12,7 +12,7 @@ Cw_fr::Cw_fr(QWidget *parent) :
 
 void Cw_fr::setup_firma()
 {
-    qDebug() << "FİRMA";
+    qDebug() << "setup FİRMA";
 
     setup_ui();
 
@@ -22,32 +22,7 @@ void Cw_fr::setup_firma()
     setup_viewfr();
     setup_mapfr();
 
-
-
-
-  /*  (connect(FRMmapper, &QDataWidgetMapper::currentIndexChanged,
-             this, &Cw_fr::on_updateButtonsSLOT));
-
-    (connect(  FRMtview->selectionModel(),
-               SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
-               FRMmapper, SLOT(setCurrentModelIndex(QModelIndex))));
-
-    //  (connect(  FRMmapper->currentIndexChanged(FRMmapper->currentIndex ()) , &FRMmapper::currentIndexChanged, FRMtview,
-    //                   &FRMtview->setCurrentIndex (FRMmapper->currentIndex ());
-
-    (connect(  FRMtview->selectionModel(),
-               SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
-               FRMmapper, SLOT(setCurrentModelIndex(QModelIndex))));
-
-*/
-
-    /// per değiştiğnde resmide değiştirelim
-    connect( FRMtview->selectionModel (), &QItemSelectionModel::currentRowChanged,
-             this, &Cw_fr::onFRMtview_resimGosterSLOT );
-
-
- //   on_updateButtonsSLOT(0);
-
+    qDebug() << "setup_Firma END";
 }
 
 
@@ -68,23 +43,23 @@ void Cw_fr::setup_ui()
 
     lB_fr = new QLabel     (tr("Personel"));
 
-//    lB_rsm = new QLabel      (tr("Resim"));
-//    pB_ekle = new QPushButton (tr("&Ekle"));
-//    pB_sil = new QPushButton (tr("&Sil"));
-//    pB_ara = new QPushButton (tr("Ara"));
-//    pB_yaz = new QPushButton (tr("Yazdır"));
-//    pB_kpt = new QPushButton (tr("Kapat"));
-//    pB_rsm = new QPushButton (tr("Resim"));
-//    (connect( pB_kpt , &QPushButton::clicked,
-//              this, &Cw_fr::on_pB_KPT_clicked ));
-//    (connect( pB_ara , &QPushButton::clicked,
-//              this, &Cw_fr::on_pB_ARA_clicked ));
-//    (connect( pB_yaz , &QPushButton::clicked,
-//              this, &Cw_fr::on_pB_YAZ_clicked ));
-//    connect ( pB_rsm , &QPushButton::clicked, this,
-//              &Cw_fr::onpB_fr_resimEklE_clickedSLOT );
+        lB_rsm = new QLabel      (tr("Resim"));
+    //    pB_ekle = new QPushButton (tr("&Ekle"));
+    //    pB_sil = new QPushButton (tr("&Sil"));
+    //    pB_ara = new QPushButton (tr("Ara"));
+    //    pB_yaz = new QPushButton (tr("Yazdır"));
+    //    pB_kpt = new QPushButton (tr("Kapat"));
+    //    pB_rsm = new QPushButton (tr("Resim"));
+    //    (connect( pB_kpt , &QPushButton::clicked,
+    //              this, &Cw_fr::on_pB_KPT_clicked ));
+    //    (connect( pB_ara , &QPushButton::clicked,
+    //              this, &Cw_fr::on_pB_ARA_clicked ));
+    //    (connect( pB_yaz , &QPushButton::clicked,
+    //              this, &Cw_fr::on_pB_YAZ_clicked ));
+    //    connect ( pB_rsm , &QPushButton::clicked, this,
+    //              &Cw_fr::onpB_fr_resimEklE_clickedSLOT );
 
-/*
+    /*
 
     auto *wd_bttns = new QWidget();
     wd_bttns->setWindowTitle ("wd_bttns window");
@@ -105,14 +80,14 @@ void Cw_fr::setup_ui()
     // views
     int i=1;
     FRMtview = new HC_TableView(i);
-   // FRMtview->setMinimumSize (60,100);
+    // FRMtview->setMinimumSize (60,100);
 
     auto *wd_tvs = new QWidget() ;
     wd_tvs->setWindowTitle ("wd_tvs window");
     auto *lYG_tv = new QVBoxLayout();
     wd_tvs->setLayout (lYG_tv);
 
-  //  lYG_tv->addWidget (wd_bttns );
+    //  lYG_tv->addWidget (wd_bttns );
     lYG_tv->addWidget (FRMtview);
 
 
@@ -204,27 +179,23 @@ void Cw_fr::setup_modelfr()
 void Cw_fr::setup_viewfr()
 {
     qDebug()<<"setup view fr";
-    FRMtview->setModel(FRMmodel);
+
+    FRMtview->table->setModel(FRMmodel);
+
+    FRMselectionMdlxxx = new QItemSelectionModel( FRMmodel );
+    FRMtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
+    FRMtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
+    FRMtview->table->setSelectionModel( FRMselectionMdlxxx );
     FRMtview->table->resizeColumnsToContents();
     FRMtview->table->resizeRowsToContents ();
 
-    qDebug()<<"3www view model " << FRMtview->model ();
 
-    FRMselectionMdl = new QItemSelectionModel( FRMmodel );
-    qDebug()<<"3www slctn model " << FRMtview->selectionModel ();
-
-    FRMtview->table->setSelectionModel( FRMselectionMdl );
-    qDebug()<<"3www frm selectmodel" << FRMselectionMdl;
-
-    FRMtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
-    FRMtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-    qDebug()<<"3www" << FRMselectionMdl;
 
     // Hide the column id Records
 
     //// kullanıcı bu alanları görmesin
-    FRMtview->setColumnHidden(FRMmodel->fieldIndex("kod_pr"), true);
-    FRMtview->setColumnHidden(FRMmodel->fieldIndex("resim"), true);
+    FRMtview->table->setColumnHidden(FRMmodel->fieldIndex("frm_kod"), true);
+    FRMtview->table->setColumnHidden(FRMmodel->fieldIndex("frm_resim"), true);
 
     FRMtview->table->setEditTriggers
             (QAbstractItemView::DoubleClicked |
@@ -240,68 +211,77 @@ void Cw_fr::setup_viewfr()
     ///
     ///
 
-    qDebug()<<"3www1";
+
     connect(FRMtview->pB_ekle, &QPushButton::clicked ,this ,
             &Cw_fr::on_pB_EKLE_clicked  ) ;
-    qDebug()<<"3www2";
     connect(FRMtview->pB_eklersm, &QPushButton::clicked,this ,
             &Cw_fr::onpB_fr_resimEklE_clickedSLOT  ) ;
 
-    qDebug()<<"3www3";
     connect(FRMtview->pB_sil, &QPushButton::clicked,this ,
             &Cw_fr::on_pB_SIL_clicked ) ;
-    qDebug()<<"3www4";
+
     connect(FRMtview->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
         FRMmapper->toFirst ();
         int map_row = FRMmapper->currentIndex ();
         FRMtview->pB_ilk->setEnabled (map_row>0);
-        FRMtview->setCurrentIndex(FRMmodel->index( 0  ,0));
+        FRMtview->table->setCurrentIndex(FRMmodel->index( 0  ,0));
     });
 
-    qDebug()<<"3www5";
+
     connect(FRMtview->pB_ncki, &QPushButton::clicked,
             [this]()
     {
         FRMmapper->toPrevious ();
         int map_row = FRMmapper->currentIndex ();
         FRMtview->pB_ncki->setEnabled(map_row > 0);
-        FRMtview->setCurrentIndex(FRMmodel->index( map_row  ,0));
+        FRMtview->table->setCurrentIndex(FRMmodel->index( map_row  ,0));
     });
 
-    qDebug()<<"3www6";
+
     connect(FRMtview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
         FRMmapper->toNext ();
         int map_row = FRMmapper->currentIndex ();
         FRMtview->pB_snrki->setEnabled(map_row < FRMmodel->rowCount() - 1);
-        FRMtview->setCurrentIndex(FRMmodel->index( map_row  ,0));
+        FRMtview->table->setCurrentIndex(FRMmodel->index( map_row  ,0));
     });
 
-    qDebug()<<"3www7";
+
     connect(FRMtview->pB_son, &QPushButton::clicked,
             [this]()
     {
         FRMmapper->toLast ();
         int map_row = FRMmapper->currentIndex ();
         FRMtview->pB_son->setEnabled(map_row < FRMmodel->rowCount() - 1);
-        FRMtview->setCurrentIndex(FRMmodel->index( FRMmodel->rowCount() - 1  ,0));
+        FRMtview->table->setCurrentIndex(FRMmodel->index( FRMmodel->rowCount() - 1  ,0));
     });
 
+qDebug()<<"conn 2";
+    /// firm  değiştiğnde resmide değiştirelim
+    connect(  FRMselectionMdlxxx , &QItemSelectionModel::currentRowChanged,
+             this, &Cw_fr::onFRMtview_resimGosterSLOT );
 
-qDebug()<<"3www8";
-    FRMmodel->select();
-    FRMtview->setCurrentIndex(FRMmodel->index(0,0));
-qDebug()<<"3www33";
+
+/*
+    qDebug()<<"select model ";
+        FRMmodel->select();
+    qDebug()<<"clear select "<< FRMtview->table->currentIndex ();
+        FRMselectionMdlxxx->select(FRMmodel->index(0,0),
+                                   QItemSelectionModel::ClearAndSelect  );
+    qDebug()<<"view current index "<<FRMtview->table->currentIndex();
+        FRMtview->table->setCurrentIndex(FRMmodel->index(0, 0)  );
+*/
+    qDebug()<<"conn 1";
 }
 
 
 /* user interface */
 void Cw_fr::setup_mapfr()
 {
-    qDebug()<<"3www00";
+    qDebug()<<"setup mapfr";
     FRMmapper = new QDataWidgetMapper(this);
     FRMmapper->setModel(FRMmodel);
 
@@ -317,14 +297,11 @@ void Cw_fr::setup_mapfr()
     FRMmapper->addMapping(lE_ytel, FRMmodel->fieldIndex("frm_ytel"));
     // FRMmapper->addMapping(lB_resim, FRMmodel->fieldIndex("frm_resim"));
 
-
-    qDebug() << "  slt_ftr_updButtons"<<FRMmapper ;
     /// depo map nav tuslari kontrol
     connect(FRMmapper, &QDataWidgetMapper::currentIndexChanged,
             [this](int Index )
     {
 
-        qDebug() << "  slt_ftr_updButtons";
         int row = Index; //FTRmapper->currentIndex ();
         FRMtview->pB_ilk->setEnabled (row>0);
         FRMtview->pB_ncki->setEnabled(row > 0);
@@ -334,20 +311,22 @@ void Cw_fr::setup_mapfr()
     });
     // // firmada row değiştiğinde indexte değişsin
 
-    qDebug() << "  slctiun model "<<FRMselectionMdl ;
-    connect(  FRMselectionMdl ,
+    connect(  FRMselectionMdlxxx ,
               &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         FRMmapper->setCurrentModelIndex(Index) ;
     });
+    // same
+    //connect(  FRMselectionMdlxxx , &QItemSelectionModel::currentRowChanged,
+    //         FRMmapper, &QDataWidgetMapper::setCurrentModelIndex);
 
-            //  FRMmapper,
-             // &QDataWidgetMapper::setCurrentModelIndex);
+    //  FRMmapper,
+    // &QDataWidgetMapper::setCurrentModelIndex);
 
     FRMmapper->toFirst ();
 
-    qDebug()<<"3www09";
+
 }
 
 
@@ -384,7 +363,7 @@ void Cw_fr::on_pB_EKLE_clicked ()
 
 void Cw_fr::on_pB_SIL_clicked ()
 {
-    QModelIndex sample =   FRMtview->currentIndex();
+    QModelIndex sample =   FRMtview->table->currentIndex();
     if( sample.row() >= 0 )
     {
 
@@ -424,10 +403,10 @@ void Cw_fr::onFRMtview_resimGosterSLOT(QModelIndex)
 {
     // makina stok tablosundan resim gösterme
     // view row unu tespit et
-    int rowidx = FRMtview->selectionModel()->currentIndex().row();
+    int rowidx = FRMselectionMdlxxx->currentIndex().row();
 
     // row, xolumn daki veriyi bytearray a at
-    QByteArray outByteArray = FRMtview->
+    QByteArray outByteArray = FRMtview->table->
             model()->index( rowidx, FRMmodel->fieldIndex ("resim") ).data().toByteArray();
 
     QPixmap outPixmap = QPixmap();
@@ -461,7 +440,7 @@ void Cw_fr::onpB_fr_resimEklE_clickedSLOT()
         inByteArray = file.readAll();
 
         // table view de hangi rowdayız ?
-        QModelIndex index = FRMtview->currentIndex();
+        QModelIndex index = FRMtview->table->currentIndex();
         int row = index.row() ;
         // o row daki bilgelere ulaşalım
         FRMmodel->setData(FRMmodel->

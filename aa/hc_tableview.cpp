@@ -1,8 +1,73 @@
-﻿#include "hc_tableview.h"
-#include "globals.h"
+﻿#include "globals.h"
+#include "hc_tableview.h"
 
-HC_TableView::HC_TableView (int renk, QTableView *parent ) :
-    QTableView (parent)
+// HC_LE        -> QLineEdit  -> sağ menu butonu eklenmiş lineedit
+// HC_TableView -> QTableView -> Ekle-Sil-nav tuşları eklenmiş view
+
+
+
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+//    L I N E D I T    -----> HC_LE
+
+// Sağ tuş butonu olan lineedit
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+
+HC_LE::HC_LE ( QWidget *parent ) : QWidget (parent)
+{
+
+    qDebug()<<"-hcle-";
+
+    lineEdit = new QLineEdit;
+    pushButton= new QPushButton(QIcon(":/rsm/ex.ico"),nullptr );
+    auto *Layout_all = new QGridLayout(this);
+
+    Layout_all->addWidget (lineEdit   , 0, 0, 1, 4);
+    Layout_all->addWidget (pushButton , 0, 5, 1, 1);
+    // //////////////////////////////////////////////
+
+    /*
+    QPainter pntr();
+    QLinearGradient grd(0,0,100,100);
+    grd.setColorAt (0.0,QColor(QRgb(0x40434a)));
+    grd.setColorAt (1.0,QColor(QRgb(0x90434a)));
+    QRect rec(100,100,300,300);
+    pntr.fillRect (rec,grd);
+*/
+
+
+
+}
+HC_LE::~HC_LE()
+= default;
+
+
+
+
+
+
+
+
+
+
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+//    T A B L E V I E W   -----> HC_TableView
+
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+HC_TableView::HC_TableView (int renk, QWidget *parent ) :
+    QWidget (parent)
 {
 
     qDebug()<<"-hc-";
@@ -98,24 +163,24 @@ HC_TableView::HC_TableView (int renk, QTableView *parent ) :
     // //////////////////////////////////////////////
 
     // //////////////////////////////////////////////
-    auto *widget_table = new QWidget;
-    widget_table->setWindowTitle ("table window");
-    auto *Layout_table = new QVBoxLayout;
-    widget_table->setLayout (Layout_table);
+   // auto *widget_table = new QWidget;
+   // widget_table->setWindowTitle ("Table window");
+   // auto *Layout_table = new QVBoxLayout;
+   // widget_table->setLayout (Layout_table);
 
     table = new QTableView;
 
-    Layout_table->addWidget (table);
+    //ayout_table->addWidget (table);
     // //////////////////////////////////////////////
 
     // //////////////////////////////////////////////
-    auto *allwdgts = new QWidget(this);
-    allwdgts->setWindowTitle ("all window");
-    auto *Layout_all = new QGridLayout();
-    allwdgts->setMinimumSize (60,100);
-    allwdgts->setLayout (Layout_all);
-    Layout_all->addWidget (widget_buttonz,0,0 );
-    Layout_all->addWidget (widget_table,0,1  );
+  //  auto *allwdgts = new QWidget();
+  //  allwdgts->setWindowTitle ("all window");
+    auto *Layout_all = new QGridLayout(this);
+   // allwdgts->setMinimumSize (60,100);
+   // allwdgts->setLayout (Layout_all);
+    Layout_all->addWidget (widget_buttonz, 0, 0 );
+    Layout_all->addWidget (table  , 0, 1 );
     // //////////////////////////////////////////////
 
     /*

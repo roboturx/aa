@@ -20,7 +20,8 @@ public:
 
     DBase *dbase{};
     void setup_fatura() ;
-QWidget *wdgt_rsm;
+    QWidget *wdgt_rsm;
+    QHBoxLayout *wrsm_ly ;
 
  //   QString     *tableName ;
    // QString     *indexField ;
@@ -46,7 +47,7 @@ QWidget *wdgt_rsm;
     QLabel      *lB_rsm{}  ;
 
     QLineEdit   *lE_faturano{}  ;
-    QLineEdit   *lE_firma{} ;
+    HC_LE   *lE_firma{} ;
     QLineEdit   *lE_tarih{};
     QLineEdit   *lE_aciklama{};
 

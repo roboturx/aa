@@ -307,6 +307,7 @@ qDebug() << " mdlfrm";
     QString indexField = "frm_unvan";
 
     QStringList fieldList ;
+    fieldList.append("Firma Kod");
     fieldList.append("Firma Unvanı");
     fieldList.append("Adres");
     fieldList.append("Şehir");
@@ -316,7 +317,7 @@ qDebug() << " mdlfrm";
     fieldList.append("e-posta");
     fieldList.append("Yetkili İsim");
     fieldList.append("Yetkili Soyad");
-    fieldList.append("Tetkili Telefon");
+    fieldList.append("Yetkili Telefon");
     // fieldList.append("resim");
 
 
