@@ -40,7 +40,7 @@ HC_LE::HC_LE ( QWidget *parent ) : QWidget (parent)
 */
 
 
-
+qDebug()<<"-hcle- 2";
 }
 HC_LE::~HC_LE()
 = default;
@@ -91,6 +91,15 @@ HC_TableView::HC_TableView (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_eklersm->setIcon(icon);
     pB_eklersm->setIconSize(QSize(x,y));
+
+    //camera
+    auto pB_camera = new QPushButton;
+    pB_camera->setMaximumSize (x,y );
+    icon.addPixmap(QPixmap (":/rsm/nv_eklersm.svg") ,
+                   QIcon::Normal, QIcon::On);
+    pB_camera->setIcon(icon);
+    pB_camera->setIconSize(QSize(x,y));
+
 
     pB_grscks = new QPushButton;
     pB_grscks->setMaximumSize (x,y );
@@ -151,6 +160,7 @@ HC_TableView::HC_TableView (int renk, QWidget *parent ) :
 
     Layout_buttonz->addWidget (pB_ekle );
     Layout_buttonz->addWidget (pB_eklersm );
+    Layout_buttonz->addWidget (pB_camera );
     Layout_buttonz->addStretch (1);
     Layout_buttonz->addWidget (pB_sil  );
     Layout_buttonz->addWidget (pB_ilk  );
@@ -195,7 +205,7 @@ HC_TableView::HC_TableView (int renk, QWidget *parent ) :
     pntr.fillRect (rec,grd);
 */
 
-
+qDebug()<<"-hc- 2";
 
 }
 HC_TableView::~HC_TableView()

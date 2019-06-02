@@ -35,7 +35,7 @@ void Cw_ftr::setup_fatura()
 
     /// depoda row değiştiğinde
 
-    FTRtview->table->setFocus ();
+    // FTRtview->table->setFocus ();
 
     /// depodet miktar değiştiğinde depo envanter hesabı
     connect (lE_mlzdetmiktar, &QLineEdit::editingFinished, this,
@@ -54,6 +54,7 @@ void Cw_ftr::setup_uiFtr()
     Cw_ftr::showMaximized ();
 
     ////////////////////////////////////////// widgets
+
     wd_FTR();
     wd_FTRdet();
 
@@ -81,7 +82,7 @@ void Cw_ftr::setup_uiFtr()
     frame1->setLayout (grid1);
     grid1->addWidget (FTRtview    , 0, 0, 2, 1);
     grid1->addWidget (wdgt_mapFTR , 0, 1, 1, 1);
-    grid1->addWidget (wdgt_rsm    , 1, 1, 1, 1);
+    //grid1->addWidget (wdgt_rsm    , 1, 2, 1, 1);
 
     auto frame2 = new QFrame;
     auto *grid2 = new QGridLayout;
@@ -144,6 +145,26 @@ void Cw_ftr::wd_FTR()
     auto *lE_ft3 = new QLineEdit();
     lB_ft3->setBuddy(lE_ft3);
 
+    lB_rsm = new QLabel("Resim");
+    lB_rsm->setScaledContents( true );
+    lB_rsm->setSizePolicy( QSizePolicy::Preferred,
+                           QSizePolicy::Preferred );
+    lB_rsm->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(lB_rsm , &QLabel::customContextMenuRequested,
+            [ this ]()
+    {
+        QLabel *x = new QLabel();
+        x->resize(QGuiApplication::primaryScreen()->
+                         availableSize() * 3 / 5);
+        x->setScaledContents(true);
+        x->setPixmap(QPixmap (*lB_rsm->pixmap() ) );
+        x->setWindowTitle("FATURA RESİM");
+        x->show();
+    });
+
+
+
+
     ///////////////////////////////////////  mapper buttonz
 
     LyG_FTR = new QGridLayout();
@@ -162,41 +183,21 @@ void Cw_ftr::wd_FTR()
     LyG_FTR ->addWidget(lE_ft2     ,   str, 1, 1, 2);
     LyG_FTR ->addWidget(lB_ft3     , ++str, 0, 1, 1);
     LyG_FTR ->addWidget(lE_ft3     ,   str, 1, 1, 2);
-
-
-
-    wdgt_rsm = new QWidget(this);
-    wrsm_ly = new QHBoxLayout;
-    lB_rsm = new QLabel;
-    wdgt_rsm->setLayout (wrsm_ly);
-    wrsm_ly->addWidget (lB_rsm);
-
-
-    lB_rsm->setMinimumSize (180,120);
-    lB_rsm->setPixmap (QPixmap (":/rsm/rsm_yok.svg"));
-
-    auto *cB_rsm = new QCheckBox(this);
-    cB_rsm->setCheckState (Qt::Unchecked);
-    connect (cB_rsm, &QCheckBox::clicked,
-             [this, cB_rsm ]()
-    {
-        if (cB_rsm->isChecked () == true )
-        {
-            wdgt_rsm->show ();
-        }
-        else
-        {
-            wdgt_rsm->hide ();
-        }
-    });
-
-    LyG_FTR ->addWidget (lB_rsm   , str-2, 3, 3, 2);
-    LyG_FTR ->addWidget (cB_rsm   , ++str, 5, 1, 1);
-
+    LyG_FTR ->addWidget(lB_rsm     , str-2, 3, 3, 3);
 
     wdgt_mapFTR = new QWidget;
     wdgt_mapFTR->setLayout(LyG_FTR);
+
+
+
+
+
+
 }
+
+
+
+
 
 
 
@@ -245,7 +246,7 @@ void Cw_ftr::setup_viewFtr()
 
     // row değiştiğnde resmide değiştirelim
     connect( FTRselectionMdl , &QItemSelectionModel::currentRowChanged,
-              [this]()
+             [this]()
     {
 
         // makina stok tablosundan resim gösterme
@@ -255,7 +256,7 @@ void Cw_ftr::setup_viewFtr()
         // row, xolumn daki veriyi bytearray a at
         QByteArray outByteArray = FTRtview->table->
                 model()->index( rowidx, FTRmodel->
-                    fieldIndex ("ftr_resim") ).data().toByteArray();
+                                fieldIndex ("ftr_resim") ).data().toByteArray();
 
         QPixmap outPixmap = QPixmap();
         outPixmap.loadFromData( outByteArray  );
@@ -311,6 +312,7 @@ void Cw_ftr::setup_viewFtr()
         }
         FTRDETmodel->select();
     };
+
     connect (FTRselectionMdl, // tview->table->selectionModel (),
              &QItemSelectionModel::currentRowChanged,lmb_ftrRowChanged);
 
@@ -394,7 +396,7 @@ void Cw_ftr::setup_viewFtr()
             dia_fno->close ();
         });
 
-dia_fno->exec ();
+        dia_fno->exec ();
     });
 
     // ///////////////  resim ekle
@@ -447,6 +449,45 @@ dia_fno->exec ();
         }
     });
 
+    // ///////////////  camera
+    connect(FTRtview->pB_eklersm, &QPushButton::clicked,
+            [this]()
+    {
+
+        QCamera
+        // depo resim ekle
+        QString myfile = QFileDialog::
+                getOpenFileName(this,
+                                tr("Resim Aç"), "/home/mr/Resimler",
+                                tr("Resim Dosyaları (*.png *.jpg *.bmp *.jpeg)"
+                                   " ;; Tüm Dosyalar (*,*)"));
+
+        if (myfile == "")
+            return;
+
+        QImage image(myfile);
+        lB_rsm->setPixmap(QPixmap::fromImage(image));
+        QByteArray inByteArray;
+        QFile file(  myfile ); //dosyayı açmak için al
+
+        if ( file.open(QIODevice::ReadOnly))
+        {
+            //qDebug ()<<"file read";
+            inByteArray = file.readAll();
+
+            // table view de hangi rowdayız ?
+            QModelIndex index = FTRtview->table->currentIndex();
+            int row = index.row() ;
+
+            /// resmi değiştirelim
+            FTRmodel->setData(FTRmodel->
+                              index(row, FTRmodel->
+                                    fieldIndex ("ftr_resim")),inByteArray);
+            /// yeni eklenenleri kaydedelim
+            FTRmodel->submitAll();
+
+        }
+    });
 
 
     connect(FTRtview->pB_sil, &QPushButton::clicked,this ,
@@ -544,16 +585,16 @@ void Cw_ftr::setup_mapFtr()
 void Cw_ftr::slt_ftr_resimGoster(QModelIndex)
 {
     qDebug() << "  slt_ftr_resimGoster";
-    // makina stok tablosundan resim gösterme
+    // tablosundan resim gösterme
     // view row unu tespit et
     int rowidx = FTRselectionMdl->currentIndex().row();
 
     // row, xolumn daki veriyi bytearray a at
-    QByteArray outByteArray = FTRtview->table->
-            model()->index( rowidx, FTRmodel->
-                fieldIndex ("ftr_resim") ).data().toByteArray();
+    QByteArray outByteArray =
+            FTRmodel->index( rowidx,
+            FTRmodel->fieldIndex ("ftr_resim") ).data().toByteArray();
 
-    QPixmap outPixmap = QPixmap();
+    QPixmap outPixmap; // = QPixmap();
     outPixmap.loadFromData( outByteArray  );
     if ( ! outByteArray.isNull ())
     {
@@ -564,9 +605,8 @@ void Cw_ftr::slt_ftr_resimGoster(QModelIndex)
         lB_rsm->setPixmap (QPixmap (":/rsm/rsm_yok.svg"));
     }
 
-    lB_rsm->setScaledContents( true );
-    lB_rsm->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-    lB_rsm->show();
+    //    lB_rsm->show();
+
 }       ///     ontV_per_resimGosterSLOT
 
 void Cw_ftr::slt_ftr_pB_Eklersm_clicked()

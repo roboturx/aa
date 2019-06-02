@@ -46,6 +46,7 @@ public:
     QLabel      *lB_FTR{} ;
     QLabel      *lB_rsm{}  ;
 
+
     QLineEdit   *lE_faturano{}  ;
     HC_LE   *lE_firma{} ;
     QLineEdit   *lE_tarih{};
@@ -84,6 +85,7 @@ private:
 
     void setup_uiFtr() ;
     void wd_FTR()      ; //depo ui devamı
+
     void wd_FTRdet()   ;
 
     void setup_modelFtr()    ;
@@ -127,6 +129,8 @@ protected:
 public:
     explicit Cw_ftr(QWidget *parent = nullptr);
     ~Cw_ftr() ;
+
+
 
 private:
 

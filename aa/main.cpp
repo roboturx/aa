@@ -13,57 +13,133 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QTextCodec::codecForName("ISO-8859-9") ;
-    //    a.setStyle(QStyleFactory::create("Fusion"));
-    /// "#14dce7"
-    /// "#2effff"   #11f111
+
+    QString CeruleanBlue ("#98B4D4");  // fg
+    QString Turquoise    ("#45B8AC");  // fg
+    QString Serenity     ("#92A8D1");  // fg
+    QString AspenGold    ("#FFD662");  // fg
+    QString LivingCoral  ("#FF6F61");  // fg
+    QString UltraViolet  ("#6B5B95"); // bg
+    QString BrownGranite ("#615550"); // bg
+    QString Eclipse      ("#343148"); // bg
+    QString EveningBlue  ("#2A293E"); // bg
+    QString NavyPeony    ("#223A5E"); // bg
+
+    QString LushMeadow   ("#006E51");
+    QString ChiliPepper  ("#9B2335");
+
+    QPalette dP;
+    dP.setColor(QPalette::Window       , QColor(EveningBlue));// window
+
+    dP.setColor(QPalette::WindowText   , QColor(AspenGold));// label fg
+    dP.setColor(QPalette::Base         , QColor(Eclipse));// text arkaplan 25,25,25));
+    dP.setColor(QPalette::AlternateBase, QColor(ChiliPepper));//
+    dP.setColor(QPalette::ToolTipBase  , QColor(LushMeadow));//
+    dP.setColor(QPalette::ToolTipText  , QColor(LivingCoral));//
+
+    dP.setColor(QPalette::PlaceholderText, QColor(NavyPeony));  //
+    dP.setColor(QPalette::Text           , QColor(LivingCoral));//
+
+    dP.setColor(QPalette::Button         , QColor(Eclipse)); //
+//    dP.setColor(QPalette::Mid, QColor(EveningBlue));
+    dP.setColor(QPalette::ButtonText     , QColor(Turquoise)); //
+    dP.setColor(QPalette::BrightText     , QColor(Serenity) );           //
+
+    dP.setColor(QPalette::Link, QColor(LushMeadow));
+    dP.setColor(QPalette::LinkVisited , QColor(LushMeadow));
+
+    dP.setColor(QPalette::Highlight, QColor(NavyPeony));
+    dP.setColor(QPalette::HighlightedText, QColor(CeruleanBlue) );
+
+
+#ifdef LINUX
+    qApp->setPalette(dP);
+#endif
+
+
+   // qApp->setStyleSheet("QToolTip { color: #ffffff;
+    //background-color: #2a82da; border: 1px solid white; }");
+
+
+
+
+    ///////////////////// splash screen
+    //
+    //*
+    //    QPixmap pixmap(":/rsm/ex.png");
+    //QSplashScreen splash(pixmap);
+    ///splash.show();
+    // wait for just 5 second and then show main window
+    //a.thread()->sleep(1);
+    //a.processEvents();//**////
     ///
     ///
 
-    // 2019 - Living Coral    HEX: #FF6F61  PANTONE 16-1546
-    // 2018 - Ultra Violet   HEX: #6B5B95  PANTONE 18-3838
+    QSize size = qApp->screens()[0]->size();
+    MW_main w ;
 
-    // The Hottest Autumn 2019 / Winter 2020 Colors:
-    // Chili Pepper   HEX: #9B1B30  PANTONE 19-1557
-    // Biking Red     HEX: #77212E  PANTONE 19-1650
-    // Crème de Pêche HEX: #F5D6C6  PANTONE 12-1110
-    // Peach Pink     HEX: #FA9A85  PANTONE 15-1530
-    // Rocky Road     HEX: #5A3E36  PANTONE 19-1234
-    // Fruit Dove     HEX: #CE5B78  PANTONE 17-1926
-    // Sugar Almond   HEX: #935529  PANTONE 18-1155
-    // Dark Cheddar   HEX: #E08119  PANTONE 15-1150
-    // Galaxy Blue    HEX: #2A4B7C  PANTONE 19-4055
-    // BluestoneH     HEX: #577284  PANTONE 18-4217
-    // Orange Tiger   HEX: #F96714  PANTONE 16-1358
-    // Eden           HEX: #264E36  PANTONE 19-6050
+    w.resize(size*.3);
+    qDebug ()<<"main";
+    w.show ();
+    w.login ();
 
-    // The Autumn 2019 / Winter 2020 Classics:
 
-    // Vanilla Custard HEX: #F3E0BE PANTONE 19-12-0815
-    // Evening Blue    HEX: #2A293E PANTONE 19-3815
+    //w.hide ();
+    //splash.finish(w);
+    return QApplication::exec();
+}
 
-    // Paloma          HEX: #9F9C99 PANTONE 16-0000
-    // Guacamole       HEX: #797B3A PANTONE 17-0530
+//    a.setStyle(QStyleFactory::create("Fusion"));
+/// "#14dce7"
+/// "#2effff"   #11f111
+///
+///
 
-    // The Hottest Spring / Summer Colors 2019
+// 2019 - Living Coral    HEX: #FF6F61  PANTONE 16-1546
+// 2018 - Ultra Violet   HEX: #6B5B95  PANTONE 18-3838
 
-    // Fiesta         HEX: #DD4132 PANTONE 17-1564
-    // Jester Red     HEX: #9E1030 PANTONE 19-1862
-    // Turmeric       HEX: #FE840E PANTONE 15-1264
-    // Living Coral   HEX: #FF6F61 PANTONE 16-1546
-    // Pink Peacock   HEX: #C62168 PANTONE 18-2045
-    // Pepper Stem    HEX: #8D9440 PANTONE 17-0542
-    // Aspen Gold     HEX: #FFD662 PANTONE 13-0850
-    // Princess Blue  HEX: #00539C PANTONE 19-4150
-    // Toffee         HEX: #755139 PANTONE 18-1031
-    // Mango Mojito   HEX: #D69C2F PANTONE 15-0960
-    // Terrarium Moss HEX: #616247 PANTONE 18-0416
-    // Sweet Lilac    HEX: #E8B5CE PANTONE 14-2808
-    // Soybean        HEX: #D2C29D PANTONE 13-0919
-    // Eclipse        HEX: #343148 PANTONE 19-3810
-    // Sweet Corn     HEX: #F0EAD6 PANTONE 11-0106
-    // Brown Granite  HEX: #615550 PANTONE 19-0805
+// The Hottest Autumn 2019 / Winter 2020 Colors:
+// Chili Pepper   HEX: #9B1B30  PANTONE 19-1557
+// Biking Red     HEX: #77212E  PANTONE 19-1650
+// Crème de Pêche HEX: #F5D6C6  PANTONE 12-1110
+// Peach Pink     HEX: #FA9A85  PANTONE 15-1530
+// Rocky Road     HEX: #5A3E36  PANTONE 19-1234
+// Fruit Dove     HEX: #CE5B78  PANTONE 17-1926
+// Sugar Almond   HEX: #935529  PANTONE 18-1155
+// Dark Cheddar   HEX: #E08119  PANTONE 15-1150
+// Galaxy Blue    HEX: #2A4B7C  PANTONE 19-4055
+// BluestoneH     HEX: #577284  PANTONE 18-4217
+// Orange Tiger   HEX: #F96714  PANTONE 16-1358
+// Eden           HEX: #264E36  PANTONE 19-6050
 
-    /*
+// The Autumn 2019 / Winter 2020 Classics:
+
+// Vanilla Custard HEX: #F3E0BE PANTONE 19-12-0815
+// Evening Blue    HEX: #2A293E PANTONE 19-3815
+
+// Paloma          HEX: #9F9C99 PANTONE 16-0000
+// Guacamole       HEX: #797B3A PANTONE 17-0530
+
+// The Hottest Spring / Summer Colors 2019
+
+// Fiesta         HEX: #DD4132 PANTONE 17-1564
+// Jester Red     HEX: #9E1030 PANTONE 19-1862
+// Turmeric       HEX: #FE840E PANTONE 15-1264
+// Living Coral   HEX: #FF6F61 PANTONE 16-1546
+// Pink Peacock   HEX: #C62168 PANTONE 18-2045
+// Pepper Stem    HEX: #8D9440 PANTONE 17-0542
+// Aspen Gold     HEX: #FFD662 PANTONE 13-0850
+// Princess Blue  HEX: #00539C PANTONE 19-4150
+// Toffee         HEX: #755139 PANTONE 18-1031
+// Mango Mojito   HEX: #D69C2F PANTONE 15-0960
+// Terrarium Moss HEX: #616247 PANTONE 18-0416
+// Sweet Lilac    HEX: #E8B5CE PANTONE 14-2808
+// Soybean        HEX: #D2C29D PANTONE 13-0919
+// Eclipse        HEX: #343148 PANTONE 19-3810
+// Sweet Corn     HEX: #F0EAD6 PANTONE 11-0106
+// Brown Granite  HEX: #615550 PANTONE 19-0805
+
+/*
 
 Ultra Violet HEX: #6B5B95 PANTONE 18-3838   Color of the Year 2018
 
@@ -233,14 +309,14 @@ Colors of the Year 2000-2019
 
 
 
-   /*
-    QPalette::Light     2     Lighter than Button color.
-    QPalette::Midlight  3     Between Button and Light.
-    QPalette::Dark      4     Darker than Button.
-    QPalette::Mid       5     Between Button and Dark.
-    QPalette::Shadow    11    A very dark color. By default, the shadow color is Qt::black.
+/*
+QPalette::Light     2     Lighter than Button color.
+QPalette::Midlight  3     Between Button and Light.
+QPalette::Dark      4     Darker than Button.
+QPalette::Mid       5     Between Button and Dark.
+QPalette::Shadow    11    A very dark color. By default, the shadow color is Qt::black.
 
-     */
+ */
 
 
 //    QPalette dP;
@@ -276,80 +352,4 @@ Colors of the Year 2000-2019
 //    qApp->setPalette(dP);
 //   // qApp->setStyleSheet("QToolTip { color: #ffffff;
 //    //background-color: #2a82da; border: 1px solid white; }");
-
-
-    QString CeruleanBlue ("#98B4D4");  // fg
-    QString Turquoise    ("#45B8AC");  // fg
-    QString Serenity     ("#92A8D1");  // fg
-    QString AspenGold    ("#FFD662");  // fg
-    QString LivingCoral  ("#FF6F61");  // fg
-    QString UltraViolet  ("#6B5B95"); // bg
-    QString BrownGranite ("#615550"); // bg
-    QString Eclipse      ("#343148"); // bg
-    QString EveningBlue  ("#2A293E"); // bg
-    QString NavyPeony    ("#223A5E"); // bg
-
-    QString LushMeadow   ("#006E51");
-    QString ChiliPepper  ("#9B2335");
-
-    QPalette dP;
-    dP.setColor(QPalette::Window       , QColor(EveningBlue));// window
-
-    dP.setColor(QPalette::WindowText   , QColor(AspenGold));// label fg
-    dP.setColor(QPalette::Base         , QColor(Eclipse));// text arkaplan 25,25,25));
-    dP.setColor(QPalette::AlternateBase, QColor(ChiliPepper));//
-    dP.setColor(QPalette::ToolTipBase  , QColor(LushMeadow));//
-    dP.setColor(QPalette::ToolTipText  , QColor(LivingCoral));//
-
-    dP.setColor(QPalette::PlaceholderText, QColor(NavyPeony));  //
-    dP.setColor(QPalette::Text           , QColor(LivingCoral));//
-
-    dP.setColor(QPalette::Button         , QColor(Eclipse)); //
-//    dP.setColor(QPalette::Mid, QColor(EveningBlue));
-    dP.setColor(QPalette::ButtonText     , QColor(Turquoise)); //
-    dP.setColor(QPalette::BrightText     , QColor(Serenity) );           //
-
-    dP.setColor(QPalette::Link, QColor(LushMeadow));
-    dP.setColor(QPalette::LinkVisited , QColor(LushMeadow));
-
-    dP.setColor(QPalette::Highlight, QColor(NavyPeony));
-    dP.setColor(QPalette::HighlightedText, QColor(CeruleanBlue) );
-
-
-#ifdef LINUX
-    qApp->setPalette(dP);
-#endif
-
-
-   // qApp->setStyleSheet("QToolTip { color: #ffffff;
-    //background-color: #2a82da; border: 1px solid white; }");
-
-
-
-
-    ///////////////////// splash screen
-    //
-    //*
-    //    QPixmap pixmap(":/rsm/ex.png");
-    //QSplashScreen splash(pixmap);
-    ///splash.show();
-    // wait for just 5 second and then show main window
-    //a.thread()->sleep(1);
-    //a.processEvents();//**////
-    ///
-    ///
-
-    QSize size = qApp->screens()[0]->size();
-    MW_main w ;
-
-    w.resize(size*.3);
-    qDebug ()<<"main";
-    w.show ();
-    w.login ();
-
-
-    //w.hide ();
-    //splash.finish(w);
-    return QApplication::exec();
-}
 

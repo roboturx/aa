@@ -21,6 +21,7 @@
 
 #include <QAction>
 #include <QApplication>
+
 #include <QChar>
 #include <QCheckBox>
 #include <QColor>
