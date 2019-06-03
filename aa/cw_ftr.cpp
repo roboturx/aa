@@ -1,6 +1,7 @@
 ﻿#include "cw_ftr.h"
 #include "cw_fr.h"
 #include "cw_mlzm.h"
+#include "ftr_frmekle.h"
 
 #include "globals.h"
 #include "hc_tableview.h"
@@ -121,7 +122,81 @@ void Cw_ftr::wd_FTR()
             [this]()
     {
 
-        Cw_ftr::slt_ftr_pB_EKLE_clicked ();
+        auto *ftr = new Ftr_FrmEkle;
+        ftr->exec ();
+        connect (ftr->firma->FRMselectionMdlxxx,
+                 &QItemSelectionModel::currentRowChanged,
+                 [this, ftr](QModelIndex Index)
+        {
+            int fr_row = Index.row ();
+            this->lE_firma->lineEdit->
+                    setText (ftr->firma->FRMmodel->data(
+                                 ftr->firma->FRMmodel->index
+                                 (fr_row,ftr->firma->FRMmodel->fieldIndex ("frm_unvan"))
+                                 ).toString ());
+
+
+        });
+
+
+
+
+
+
+        qDebug()<<"selected firma"<< ftr->getFirma ();
+        /*      qDebug() << "  firma seçimi ";
+        // /////////////////////////////////////////////////////////////////////
+        // combpobox da istenen firma yoksa
+        // yeni firma eklemek için dialog oluşturalım
+        auto *diafr = new QDialog();
+        auto layout_diafr = new QGridLayout(diafr);
+        // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
+        diafr->setGeometry (100,220,800,500);
+
+        diafr->setWhatsThis ("<br>"
+                             "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                             "<br> Firma ünvanı girmek için seçim yapın "
+                             "<br> "
+                             "<br> Eğer aradığınız firma listede yoksa yeni  "
+                             "<br> firma girişi yaparak işlemi tamamlayın"
+                             "<br>");
+        diafr->setToolTipDuration (5000);
+        diafr->setToolTip ("<br>"
+                           "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                           "<br> Firma ünvanı girmek için seçim yapın "
+                           "<br> "
+                           "<br> Eğer aradığınız firma listede yoksa yeni  "
+                           "<br> firma girişi yaparak işlemi tamamlayın"
+                           "<br>");
+
+
+        // firma class ımızı getirelim
+        auto *firma = new Cw_fr;
+        firma->setup_firma ();
+        layout_diafr->addWidget (firma ,0 ,0 ,1, 1);
+        //diafr->show();
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // firma tableviewinde gezinirken firma adımız
+        // seçim yapılan lineedit e aktaralım
+        // ----------------------------------------------------
+        connect (firma->FRMselectionMdlxxx,
+                 &QItemSelectionModel::currentChanged  ,
+                 [ this, firma ] (QModelIndex Index )
+
+        {
+            //QModelIndex firmandx = firma->FRMtview->table->currentIndex ()  ;
+            int fr_row = Index.row ();
+            this->lE_firma->lineEdit->setText (firma->FRMmodel->data(
+                                                   firma->FRMmodel->index
+                                                   (fr_row,firma->FRMmodel->fieldIndex ("frm_unvan"))
+                                                   ).toString ());
+        });
+        diafr->exec ();
+
+        qDebug ()<<"frm un 4";
+*/
     }
     );
 
@@ -155,7 +230,7 @@ void Cw_ftr::wd_FTR()
     {
         QLabel *x = new QLabel();
         x->resize(QGuiApplication::primaryScreen()->
-                         availableSize() * 3 / 5);
+                  availableSize() * 3 / 5);
         x->setScaledContents(true);
         x->setPixmap(QPixmap (*lB_rsm->pixmap() ) );
         x->setWindowTitle("FATURA RESİM");
@@ -449,45 +524,6 @@ void Cw_ftr::setup_viewFtr()
         }
     });
 
-    // ///////////////  camera
-    connect(FTRtview->pB_eklersm, &QPushButton::clicked,
-            [this]()
-    {
-
-        QCamera
-        // depo resim ekle
-        QString myfile = QFileDialog::
-                getOpenFileName(this,
-                                tr("Resim Aç"), "/home/mr/Resimler",
-                                tr("Resim Dosyaları (*.png *.jpg *.bmp *.jpeg)"
-                                   " ;; Tüm Dosyalar (*,*)"));
-
-        if (myfile == "")
-            return;
-
-        QImage image(myfile);
-        lB_rsm->setPixmap(QPixmap::fromImage(image));
-        QByteArray inByteArray;
-        QFile file(  myfile ); //dosyayı açmak için al
-
-        if ( file.open(QIODevice::ReadOnly))
-        {
-            //qDebug ()<<"file read";
-            inByteArray = file.readAll();
-
-            // table view de hangi rowdayız ?
-            QModelIndex index = FTRtview->table->currentIndex();
-            int row = index.row() ;
-
-            /// resmi değiştirelim
-            FTRmodel->setData(FTRmodel->
-                              index(row, FTRmodel->
-                                    fieldIndex ("ftr_resim")),inByteArray);
-            /// yeni eklenenleri kaydedelim
-            FTRmodel->submitAll();
-
-        }
-    });
 
 
     connect(FTRtview->pB_sil, &QPushButton::clicked,this ,
@@ -539,7 +575,7 @@ void Cw_ftr::setup_mapFtr()
     FTRmapper->setModel(FTRmodel);
 
     FTRmapper->addMapping(lE_faturano , FTRmodel->fieldIndex("ftr_no"));
-    FTRmapper->addMapping(lE_firma, FTRmodel->fieldIndex("ftr_firma"));
+    FTRmapper->addMapping(lE_firma->lineEdit, FTRmodel->fieldIndex("ftr_firma"));
     FTRmapper->addMapping(lE_tarih, FTRmodel->fieldIndex("ftr_tarih"));
     FTRmapper->addMapping(lE_aciklama, FTRmodel->fieldIndex("ftr_aciklama"));
 
@@ -592,7 +628,7 @@ void Cw_ftr::slt_ftr_resimGoster(QModelIndex)
     // row, xolumn daki veriyi bytearray a at
     QByteArray outByteArray =
             FTRmodel->index( rowidx,
-            FTRmodel->fieldIndex ("ftr_resim") ).data().toByteArray();
+                             FTRmodel->fieldIndex ("ftr_resim") ).data().toByteArray();
 
     QPixmap outPixmap; // = QPixmap();
     outPixmap.loadFromData( outByteArray  );
@@ -761,6 +797,7 @@ void Cw_ftr::slt_ftr_pB_EKLE_clicked ()
     // combpobox da istenen firma yoksa
     // yeni firma eklemek için dialog oluşturalım
     auto *diafr = new QDialog();
+    // diafr->closeEvent (*clsevt);
     auto layout_diafr = new QGridLayout(diafr);
     // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
     diafr->setGeometry (100,220,800,500);

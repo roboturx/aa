@@ -41,55 +41,14 @@ void Cw_fr::setup_ui()
     // pButtonzzz
 
 
-    lB_fr = new QLabel     (tr("Personel"));
+    lB_fr  = new QLabel (tr("Firma"));
+    lB_rsm = new QLabel (tr("Resim"));
 
-        lB_rsm = new QLabel      (tr("Resim"));
-    //    pB_ekle = new QPushButton (tr("&Ekle"));
-    //    pB_sil = new QPushButton (tr("&Sil"));
-    //    pB_ara = new QPushButton (tr("Ara"));
-    //    pB_yaz = new QPushButton (tr("Yazdır"));
-    //    pB_kpt = new QPushButton (tr("Kapat"));
-    //    pB_rsm = new QPushButton (tr("Resim"));
-    //    (connect( pB_kpt , &QPushButton::clicked,
-    //              this, &Cw_fr::on_pB_KPT_clicked ));
-    //    (connect( pB_ara , &QPushButton::clicked,
-    //              this, &Cw_fr::on_pB_ARA_clicked ));
-    //    (connect( pB_yaz , &QPushButton::clicked,
-    //              this, &Cw_fr::on_pB_YAZ_clicked ));
-    //    connect ( pB_rsm , &QPushButton::clicked, this,
-    //              &Cw_fr::onpB_fr_resimEklE_clickedSLOT );
 
-    /*
-
-    auto *wd_bttns = new QWidget();
-    wd_bttns->setWindowTitle ("wd_bttns window");
-    auto *LG_pBs = new QHBoxLayout();
-    wd_bttns->setLayout (LG_pBs);
-
-    //    LG_pBs->addWidget( lB_rsm );
-//    LG_pBs->addWidget( pB_ekle);
-//    LG_pBs->addWidget( pB_sil );
-//    LG_pBs->addWidget( pB_ara );
-//    LG_pBs->addWidget( pB_yaz );
-//    LG_pBs->addWidget( pB_rsm );
-//    LG_pBs->addWidget( pB_kpt );
-    LG_pBs->addStretch (1);
-
-*/
     // ///////////////////////////////////////////////////////
     // views
     int i=1;
     FRMtview = new HC_TableView(i);
-    // FRMtview->setMinimumSize (60,100);
-
-    auto *wd_tvs = new QWidget() ;
-    wd_tvs->setWindowTitle ("wd_tvs window");
-    auto *lYG_tv = new QVBoxLayout();
-    wd_tvs->setLayout (lYG_tv);
-
-    //  lYG_tv->addWidget (wd_bttns );
-    lYG_tv->addWidget (FRMtview);
-
 
     // ///////////////////////////////////////////////////////
     // wdgt lbls
@@ -128,11 +87,7 @@ void Cw_fr::setup_ui()
     lB_ytel->setBuddy(lE_ytel);
 
 
-    auto *wd_lBs = new QWidget() ;
-    wd_lBs->setWindowTitle ("lbs window");
-    auto *lYG_map = new QGridLayout();
-    wd_lBs->setLayout (lYG_map);
-
+    auto *lYG_map = new QGridLayout;
 
     lYG_map->addWidget(lB_unvan   , 0, 0, 1, 1);
     lYG_map->addWidget(lE_unvan   , 0, 1, 1, 2);
@@ -154,23 +109,22 @@ void Cw_fr::setup_ui()
     lYG_map->addWidget(lE_ysoyad  , 8, 1, 1, 2);
     lYG_map->addWidget(lB_ytel    , 9, 0, 1, 1);
     lYG_map->addWidget(lE_ytel    , 9, 1, 1, 2);
-
+lYG_map->addWidget(lB_rsm    , 9, 1, 1, 2);
     // /////////////////////////////////////
     // main layout
 
-    auto *wd_all = new QWidget(this);
-    auto *lYG_per = new QHBoxLayout();
-    wd_all->setLayout (lYG_per);
-    this->setLayout (lYG_per);
-    lYG_per->addWidget ( wd_tvs );
-    lYG_per->addWidget ( wd_lBs   );
+qDebug()<<"lyg per";
+    auto *lYG_per = new QGridLayout(this);
 
+    lYG_per->addWidget ( FRMtview ,0 ,0 ,2 ,1 );
+    lYG_per->addLayout ( lYG_map   ,0 ,1 ,1 ,1);
+lYG_per->addWidget ( lB_rsm   ,1 ,1 ,1 ,1);
 
 }
 
 void Cw_fr::setup_modelfr()
 {
-
+    qDebug()<<"setup model fr";
     FRMmodel = new QSqlRelationalTableModel ;
     FRMmodel = dbase->modelFirma() ;
 }

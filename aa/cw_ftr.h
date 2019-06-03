@@ -126,6 +126,7 @@ private slots:
 protected:
     void showEvent(QShowEvent *);
 
+
 public:
     explicit Cw_ftr(QWidget *parent = nullptr);
     ~Cw_ftr() ;
