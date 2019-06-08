@@ -9,6 +9,7 @@
 
 namespace Ui {
 class Cw_Mlzm;
+class Kontrol;
 }
 
 class Cw_Mlzm : public QWidget
@@ -95,15 +96,39 @@ private slots:
     //Mlzm
 
     void slt_Mlzm_hesap();
-     jj void slt_Mlzmd_updButtons(int row);
+
 
 protected:
     void showEvent(QShowEvent *);
+
+signals:
+
+    void sgnMalzeme (const QString sgnMalzeme); //malzeme ismini yayınla
+
+
 
 public:
     explicit Cw_Mlzm(QWidget *parent = nullptr);
     ~Cw_Mlzm();
 };
 
-#endif // Cw_Mlzm_H
 
+
+
+class Kontrol
+{
+public:
+
+    Kontrol ();
+    void K_updBtt(QDataWidgetMapper *map,
+          HC_TableView *view,
+          QSqlRelationalTableModel *model,
+          int Index);
+
+
+
+};
+
+
+
+#endif // Cw_Mlzm_H

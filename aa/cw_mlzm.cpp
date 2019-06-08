@@ -12,29 +12,22 @@ Cw_Mlzm::Cw_Mlzm(QWidget *parent) : QWidget(parent)
 }
 
 
-
-
-// WARNING başlangıçta dosya oluşumları gözükmüyor
-
 void Cw_Mlzm::setup_mlzm()
 {
-    qDebug() << "MLZM";
-    Cw_Mlzm::setWindowTitle ("AMBAR");
-    Cw_Mlzm::showMaximized ();
 
-    setup_uiMlzm();
+    setup_uiMlzm();       // 100100
 
-    dbase = new DBase;
+    dbase = new DBase;    // 100200
 
-    setup_modelMlzm();
-    setup_viewMlzm();
-    setup_mapMlzm();
+    setup_modelMlzm();    // 200100
+    setup_viewMlzm();     // 200200
+    setup_mapMlzm();      // 200300
 
-    setup_modelMlzmdet();
-    setup_viewMlzmdet();
-    setup_mapMlzmdet();
+    setup_modelMlzmdet(); // 300100
+    setup_viewMlzmdet();  // 300200
+    setup_mapMlzmdet();   // 300300
 
-    setup_kontrol();
+    setup_kontrol();      // 100300
 
 
 }
@@ -42,25 +35,36 @@ void Cw_Mlzm::setup_mlzm()
 
 
 
-void Cw_Mlzm::setup_uiMlzm()
+void Cw_Mlzm::setup_uiMlzm()      // 100100
 {
     qDebug() << "  setup_uiMlzm";
+    Cw_Mlzm::setWindowTitle ("AMBAR");
+    Cw_Mlzm::showMaximized ();
+
     ////////////////////////////////////////// widgets
-    wd_Mlzm ();
-    wd_Mlzmdet();
+    wd_Mlzm ();                  // 100110
+    wd_Mlzmdet();                // 100120
     //////////////////////////////////// Mlzm tableview
-    int i=1;
+    int i=1;                     // 100130
     MLZMtview = new HC_TableView(i);
     MLZMtview->setMinimumSize (200,150);
-    MLZMDETtview = new HC_TableView(i);
+    MLZMDETtview = new HC_TableView(i);  // 100140
     MLZMDETtview->setMinimumSize (200,150);
 
     ////////////////////////////////////////////// layout
-    auto *LyG_Mlzm = new QGridLayout(this);
-    LyG_Mlzm->addWidget (MLZMtview  , 0, 0);
-    LyG_Mlzm->addWidget (wdgt_mapMlzm  , 0, 1);
-    LyG_Mlzm->addWidget (MLZMDETtview  , 1, 0);
-    LyG_Mlzm->addWidget (wdgt_mapMlzm_dty  , 1, 1);
+    auto *LyG_Mlzm = new QGridLayout(this);  // 100150
+    int str{};
+    LyG_Mlzm->addWidget (new QLabel("<b>Ambar Malzeme Listesi</b>")
+                                         ,  str, 0, 1, 5);
+    LyG_Mlzm->addWidget (MLZMtview       ,++str, 0, 1, 5);
+    LyG_Mlzm->addWidget (wdgt_mapMlzm    ,  str, 5, 1, 4);
+    LyG_Mlzm ->addWidget (lB_mlzrsm      ,  str, 9, 1, 1);
+
+    LyG_Mlzm->addWidget (new QLabel("<b>Malzemeye Ait Gİriş-Çıkış Bilgileri</b>")
+                                         ,++str, 0, 1, 5);
+
+    LyG_Mlzm->addWidget (MLZMDETtview    ,++str, 0, 1, 6);
+    LyG_Mlzm->addWidget (wdgt_mapMlzm_dty,  str, 6, 1, 4);
 
 }
 
@@ -68,7 +72,7 @@ void Cw_Mlzm::setup_uiMlzm()
 ///
 /// \brief Cw_Mlzm::wd_Mlzm
 ///
-void Cw_Mlzm::wd_Mlzm()
+void Cw_Mlzm::wd_Mlzm()    // 100110
 {
     qDebug () << "Mlzm Giriş";
 
@@ -123,7 +127,7 @@ void Cw_Mlzm::wd_Mlzm()
     ++str;
     LyG_Mlzm ->addWidget(lB_barkod   , ++str, 0, 1, 1);
     LyG_Mlzm ->addWidget(lE_barkod   , str , 1, 1, 1);
-    LyG_Mlzm ->addWidget(lB_brkd     , ++str, 1, 1, 1);
+    LyG_Mlzm ->addWidget(lB_brkd     , str, 2, 1, 1);
     LyG_Mlzm ->addWidget(lB_malzeme  , ++str, 0, 1, 1);
     LyG_Mlzm ->addWidget(lE_malzeme  , str, 1, 1, 1);
 
@@ -139,20 +143,29 @@ void Cw_Mlzm::wd_Mlzm()
     LyG_Mlzm ->addWidget (lE_cins    , str, 1, 1, 1);
     LyG_Mlzm ->addWidget (lB_birim   , ++str, 0, 1, 1);
     LyG_Mlzm ->addWidget (cbx_birim   , str, 1, 1, 1);
-    LyG_Mlzm ->addWidget (lB_mlzrsm  , ++str, 1, 5, 1);
+
 
 }
 
 
-void Cw_Mlzm::setup_modelMlzm()
+void Cw_Mlzm::setup_modelMlzm()  // 200100
 {
     qDebug() << "  setup_modelMalzeme";
+
+
     MLZMmodel = new QSqlRelationalTableModel;
     MLZMmodel = dbase->modelMalzeme ();
+
+
+
 }
 
 
-void Cw_Mlzm::setup_viewMlzm()
+
+
+
+
+void Cw_Mlzm::setup_viewMlzm()  // 200200
 {
     qDebug() << "  setup_viewMlzm";
 
@@ -193,7 +206,7 @@ void Cw_Mlzm::setup_viewMlzm()
 
 }
 
-void Cw_Mlzm::setup_mapMlzm()
+void Cw_Mlzm::setup_mapMlzm()  // 200300
 {
     qDebug() << "  setup_mapMlzm";
     MLZMmapper = new QDataWidgetMapper(this);
@@ -221,8 +234,6 @@ void Cw_Mlzm::setup_mapMlzm()
     /// Mlzmda row değiştiğinde
     //  Cw_Mlzm::slt_Mlzm_tV_rowchanged (MLZMmodel->index (0,0));
 
-
-
     /// Mlzm ilk kayıda
     Cw_Mlzm::MLZMmapper->toFirst() ;
 
@@ -235,6 +246,7 @@ void Cw_Mlzm::setup_mapMlzm()
 
 void Cw_Mlzm::setup_kontrol()
 {
+    qDebug() << "setup_kontrol";
 
     ///// tableview kontrol connectleri
     ///
@@ -245,6 +257,7 @@ void Cw_Mlzm::setup_kontrol()
     connect(MLZMtview->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
+        qDebug() << "pb ekle clicked";
         QSqlRecord rec = MLZMmodel->record();
         rec.setValue ("mlzm_makina","0");
         rec.setValue ("mlzm_barkod","123");
@@ -493,10 +506,25 @@ void Cw_Mlzm::setup_kontrol()
     connect(  MLZMselectionMdl , &QItemSelectionModel::currentRowChanged,
               MLZMmapper, &QDataWidgetMapper::setCurrentModelIndex);
 
-    /// malzemede row değiştiğnde resmide değiştirelim
+    // malzemede row değiştiğnde 3 şeyi değiştirelim
+    // 1 map indexi
+    // 2 malzeme ismini yayalım
+    // 3 resim
     connect( MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
-             [this] ()
+             [this] (QModelIndex Index)
     {
+        // 1 map indexi değiştirelim
+        MLZMmapper->setCurrentModelIndex(Index);
+
+        // 2 malzeme ismini yayalım
+            emit Cw_Mlzm::sgnMalzeme(
+                MLZMtview->table->
+                model()->index( Index.row() ,
+                MLZMmodel->fieldIndex ("mlzm_malzeme") ).data().toString()
+                        ) ;
+
+
+        // 3 resimi değiştirelim
         qDebug() << "  slt_Mlzm_resimGoster";
         // makina stok tablosundan resim gösterme
         // view row unu tespit et
@@ -524,7 +552,11 @@ void Cw_Mlzm::setup_kontrol()
 
     //      this,  &Cw_Mlzm::slt_Mlzm_resimGoster );
 
-
+//////////////////////////////////////////////////
+///
+///
+/// M L Z M     D E T
+///
     ///Mlzmda row değiştiğinde
     connect (MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
 
@@ -534,14 +566,10 @@ void Cw_Mlzm::setup_kontrol()
         qDebug() << "  slt_Mlzm_tV_rowchanged";
         if (Index.isValid())
         {
-            qDebug() << "  slt_Mlzm_tV_rowchanged 1";
             QSqlRecord record = MLZMmodel->record(Index.row());
-            qDebug() << "  slt_Mlzm_tV_rowchanged 11";
             QString MlzmKod = record.value("mlzm_kod").toString() ;
-            qDebug() << "  slt_Mlzm_tV_rowchanged 12";
             MLZMDETmodel->setFilter (
                         QString("mlzmdet_mlzm_kod = %1").arg(MlzmKod) );
-            qDebug() << "  slt_Mlzm_tV_rowchanged 2";
         }
         else
         {
@@ -552,9 +580,254 @@ void Cw_Mlzm::setup_kontrol()
     });
 
 
+
+
+
+
+
+
+    /// Mlzmdet miktar değiştiğinde Mlzm envanter hesabı
+    connect (lE_d_miktar, &QLineEdit::editingFinished,
+             this, &Cw_Mlzm::slt_Mlzm_hesap);
+
+    //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
+    connect(MLZMDETtview->table->model(), &QSqlTableModel::dataChanged ,
+            this, &Cw_Mlzm::slt_Mlzm_hesap);
+
+
+
+
+
+    /// Mlzmdet table da koon değiştiğnde index değişsin
+    connect(  MLZMDETselectionMdl, &QItemSelectionModel::currentRowChanged,
+              MLZMDETmapper,       &QDataWidgetMapper::setCurrentModelIndex);
+
+
+
+    connect(MLZMDETtview->pB_ekle, &QPushButton::clicked ,
+             //this , &Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked  )) ;
+             [this] ()
+    {
+
+        QWidget *dia = new QWidget();
+        auto *gg = new QGridLayout;
+        dia->setLayout (gg);
+
+        dia->setWindowTitle ("Giriş Tipi");
+        dia->setMinimumSize (250,200);
+
+        QPushButton* fat = new QPushButton("Faturalı Malzeme Girişi",dia);
+        QPushButton* fat1 = new QPushButton("Hibe Giriş",dia);
+        QPushButton* fat2 = new QPushButton("Envanter Giriş",dia);
+        fat->setDefault (true) ;
+
+        QGroupBox *ft = new QGroupBox("Mlzm Malzeme Giriş Tipi",dia);
+        auto *ff = new QVBoxLayout();
+        ff->addWidget (fat);
+        ff->addWidget (fat1);
+        ff->addWidget (fat2);
+        ft->setLayout (ff);
+
+        gg->addWidget (ft);
+
+        connect(fat, &QPushButton::clicked,
+                [dia]()
+        {
+            qDebug()<<"clicked";
+            auto *ftr = new Cw_ftr;
+            ftr->show ();
+            ftr->setup_fatura ();
+            dia->close ();
+        });
+        dia->show ();
+
+        qDebug() << "  slt_Mlzmd_pB_EKLE_clicked";
+        /*MLZMtview->table->setFocus ();
+        MLZMDETtview->table->setFocus ();
+
+        QModelIndex Mlzm_indx = MLZMtview->table->currentIndex () ;
+        if ( Mlzm_indx.row () >= 0 )
+        {
+            /// Mlzm kaydı var -
+            ///
+            /// yeni eklenecek kayıda -
+            /// Mlzmdan
+            /// malzeme - barkod - Mlzm_id
+            /// ekle
+            ///
+            ///
+            /// Mlzm modelden kaydı al
+
+            // QSqlRecord Mlzm_rec = MLZMmodel->record (Mlzm_indx.row ());
+            int Mlzm_row = Mlzm_indx.row ();
+
+            /// kayıt içerisinde belirli bir
+            /// field in içeriğini değişkene at
+
+            QString brkd = MLZMmodel->
+                    data ( MLZMmodel->
+                           index(Mlzm_row,MLZMmodel->
+                                 fieldIndex("mlzm_barkod"))).toString() ;
+            QString mlzm = MLZMmodel->
+                    data ( MLZMmodel->
+                           index(Mlzm_row,MLZMmodel->
+                                 fieldIndex("mlzm_malzeme"))).toString() ;
+            int Mlzm_no = MLZMmodel->
+                    data ( MLZMmodel->
+                           index(Mlzm_row,MLZMmodel->
+                                 fieldIndex("mlzm_kod"))).toInt ();
+
+            /// Mlzmdet den yeni boş bir record al = Mlzm_rec
+            QSqlRecord Mlzmdet_rec = MLZMDETmodel->record ();
+            /// rec in içerisinde istediğin fieldleri doldur
+            Mlzmdet_rec.setValue ("mlzm_barkod",brkd);
+            Mlzmdet_rec.setValue ("mlzm_malzeme",mlzm);
+            Mlzmdet_rec.setValue ("mlzm_kod", Mlzm_no);
+
+            // insert a new record (-1) with new data
+            if ( ! MLZMDETmodel->insertRecord(-1,Mlzmdet_rec))
+            {
+                qDebug() << "HATA - kayıt DEPO DETAY a eklenemedi ";
+            }
+            else /// Mlzmdet_rec detaya eklendi
+            {
+                MLZMDETmodel->submitAll ();
+                MLZMDETmodel->select();
+            }
+        }
+        else /// tVMlzm row yok - Mlzm_indx.row () < 0
+        {
+            qDebug()<<"HATA - Mlzm Ekleme .row yokk ";
+        }
+        */
+    });
+
+    connect(MLZMDETtview->pB_sil, &QPushButton::clicked,
+           // this , &Cw_Mlzm::slt_Mlzmd_pB_SIL_clicked )) ;
+            [this] ()
+    {
+
+        qDebug() << "  slt_Mlzmd_pB_SIL_clicked";
+        QModelIndex sample =   MLZMDETtview->table->currentIndex();
+        if( sample.row() >= 0 )
+        {
+            QSqlRecord rec = MLZMDETmodel->record();
+
+            QString val = rec.value(1).toString();// +" "+
+            QMessageBox::StandardButton dlg;
+
+            dlg = QMessageBox::question(this,
+                                        "KAYIT SİL",  val ,// + "\n barkodli personelin kaydı silinsin mi? ?" ,
+                                        QMessageBox::Yes | QMessageBox::No);
+
+            if(dlg == QMessageBox::Yes)
+            {
+                // remove the current index
+                // pmodel->beginRemoveColumn();
+                MLZMDETmodel->removeRow(sample.row());
+                //pmodel->endRemoveColumns();
+                MLZMDETmodel->select ();
+            }
+        }
+    });
+
+    connect(MLZMDETtview->pB_ilk, &QPushButton::clicked ,
+           // this , &Cw_Mlzm::slt_Mlzmd_toFirst ));
+            [this] ()
+    {
+        qDebug() << "  slt_Mlzmd_toFirst";
+        QDataWidgetMapper *x=MLZMDETmapper;
+        x->toFirst ();
+
+        int map_row = MLZMDETmapper->currentIndex ();
+        MLZMDETtview->pB_ilk->setEnabled (map_row>0);
+        MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( 0  ,0));
+
+    });
+
+
+    connect(MLZMDETtview->pB_ncki, &QPushButton::clicked,
+            // this , &Cw_Mlzm::slt_Mlzmd_toPrevious )) ;
+            [this] ()
+    {
+        qDebug() << "  slt_Mlzmd_toPrevious";
+        MLZMDETmapper->toPrevious ();
+        int map_row = MLZMDETmapper->currentIndex ();
+        MLZMDETtview->pB_ncki->setEnabled(map_row > 0);
+        MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( map_row  ,0));
+
+    });
+
+    connect(MLZMDETtview->pB_snrki, &QPushButton::clicked,
+            // this , &Cw_Mlzm::slt_Mlzmd_toNext )) ;
+            [this] ()
+    {
+        qDebug() << "  slt_Mlzmd_toNext";
+        MLZMDETmapper->toNext ();
+        int map_row = MLZMDETmapper->currentIndex ();
+        MLZMDETtview->pB_snrki->setEnabled(map_row < MLZMDETmodel->rowCount() - 1);
+        MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( map_row  ,0));
+
+    });
+
+
+    connect(MLZMDETtview->pB_son, &QPushButton::clicked,
+            // this , &Cw_Mlzm::slt_Mlzmd_toLast )) ;
+            [this] ()
+    {
+        qDebug() << "  slt_Mlzmd_toLast";
+        MLZMDETmapper->toLast ();
+        int map_row = MLZMDETmapper->currentIndex ();
+        MLZMDETtview->pB_son->setEnabled(map_row < MLZMDETmodel->rowCount() - 1);
+        MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( MLZMDETmodel->rowCount() - 1  ,0));
+
+    });
+
+
+    connect(MLZMDETmapper, &QDataWidgetMapper::currentIndexChanged,
+            [this](int Index )
+    {
+
+       // Kontrol kntrl;
+        //kntrl.K_updBtt (MLZMDETmapper,
+        //                MLZMtview,
+          //              MLZMmodel,
+            //            Index);
+
+        int row = Index;
+        qDebug() << "  slt_Mlzm_updButtons";
+        MLZMDETtview->pB_ilk->setEnabled (row>0);
+        MLZMDETtview->pB_ncki->setEnabled(row > 0);
+        MLZMDETtview->pB_snrki->setEnabled(row < MLZMDETmodel->rowCount() - 1);
+        MLZMDETtview->pB_son->setEnabled(row < MLZMDETmodel->rowCount() - 1);
+
+    });
+
+
 }
 
 
+
+
+
+
+Kontrol::Kontrol()
+{
+
+}
+void Kontrol::K_updBtt(    QDataWidgetMapper *map,
+                           HC_TableView *view,
+                           QSqlRelationalTableModel *model,
+                           int Index)
+{
+    int row = Index;
+    qDebug() << "  slt_Mlzm_updButtons"<< row ;
+    view->pB_ilk->setEnabled (row>0);
+    view->pB_ncki->setEnabled(row > 0);
+    view->pB_snrki->setEnabled(row < model->rowCount() - 1);
+    view->pB_son->setEnabled(row < model->rowCount() - 1);
+
+}
 
 
 
@@ -619,26 +892,6 @@ void Cw_Mlzm::slt_Mlzm_hesap()
         MLZMmodel->submitAll ();
         qDebug()<<"toplam mevcut    "<<grs-cks;
     }
-
-
-    /// Mlzmdet miktar değiştiğinde Mlzm envanter hesabı
-    connect (lE_d_miktar, &QLineEdit::editingFinished,
-             this, &Cw_Mlzm::slt_Mlzm_hesap);
-
-    //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
-    connect(MLZMDETtview->table->model(), &QSqlTableModel::dataChanged ,
-            this, &Cw_Mlzm::slt_Mlzm_hesap);
-
-
-
-
-
-    /// Mlzmdet table da koon değiştiğnde index değişsin
-    connect(  MLZMDETselectionMdl, &QItemSelectionModel::currentRowChanged,
-              MLZMDETmapper,       &QDataWidgetMapper::setCurrentModelIndex);
-
-
-
 
 
 }
@@ -736,11 +989,11 @@ void Cw_Mlzm::setup_viewMlzmdet()
     MLZMDETselectionMdl = MLZMDETtview->table->selectionModel();
 
     //// kullanıcı bu alanları görmesin
-    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("id_Mlzmdet"), true);
-    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("Mlzm_no"), true);
-    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("barkod"), true);
-    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("malzeme"), true);
-
+    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("mlzmdet_kod"), true);
+    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("mlzmdet_mlzm_kod"), true);
+    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("mlzmdet_barkod"), true);
+    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("mlzmdet_malzeme"), true);
+    MLZMDETtview->table->setColumnHidden(MLZMDETmodel->fieldIndex("mlzmdet_resim"), true);
 
     MLZMDETtview->table->setEditTriggers
             (QAbstractItemView::DoubleClicked |
@@ -793,202 +1046,6 @@ void Cw_Mlzm::setup_mapMlzmdet()
 ///
 
 
-
-
-
-
-
-(connect(MLZMDETtview->pB_ekle, &QPushButton::clicked ,
-         //this , &Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked  )) ;
-         [this] ()
-{
-
-    QWidget *dia = new QWidget();
-    auto *gg = new QGridLayout;
-    dia->setLayout (gg);
-
-    dia->setWindowTitle ("Giriş Tipi");
-    dia->setMinimumSize (250,200);
-
-    QPushButton* fat = new QPushButton("Faturalı Malzeme Girişi",dia);
-    QPushButton* fat1 = new QPushButton("Hibe Giriş",dia);
-    QPushButton* fat2 = new QPushButton("Envanter Giriş",dia);
-    fat->setDefault (true) ;
-
-    QGroupBox *ft = new QGroupBox("Mlzm Malzeme Giriş Tipi",dia);
-    auto *ff = new QVBoxLayout();
-    ff->addWidget (fat);
-    ff->addWidget (fat1);
-    ff->addWidget (fat2);
-    ft->setLayout (ff);
-
-    gg->addWidget (ft);
-
-    connect(fat, &QPushButton::clicked,
-            [dia]()
-    {
-        qDebug()<<"clicked";
-        auto *ftr = new Cw_ftr;
-        ftr->show ();
-        ftr->setup_fatura ();
-        dia->close ();
-    });
-    dia->show ();
-
-    qDebug() << "  slt_Mlzmd_pB_EKLE_clicked";
-    /*MLZMtview->table->setFocus ();
-    MLZMDETtview->table->setFocus ();
-
-    QModelIndex Mlzm_indx = MLZMtview->table->currentIndex () ;
-    if ( Mlzm_indx.row () >= 0 )
-    {
-        /// Mlzm kaydı var -
-        ///
-        /// yeni eklenecek kayıda -
-        /// Mlzmdan
-        /// malzeme - barkod - Mlzm_id
-        /// ekle
-        ///
-        ///
-        /// Mlzm modelden kaydı al
-
-        // QSqlRecord Mlzm_rec = MLZMmodel->record (Mlzm_indx.row ());
-        int Mlzm_row = Mlzm_indx.row ();
-
-        /// kayıt içerisinde belirli bir
-        /// field in içeriğini değişkene at
-
-        QString brkd = MLZMmodel->
-                data ( MLZMmodel->
-                       index(Mlzm_row,MLZMmodel->
-                             fieldIndex("mlzm_barkod"))).toString() ;
-        QString mlzm = MLZMmodel->
-                data ( MLZMmodel->
-                       index(Mlzm_row,MLZMmodel->
-                             fieldIndex("mlzm_malzeme"))).toString() ;
-        int Mlzm_no = MLZMmodel->
-                data ( MLZMmodel->
-                       index(Mlzm_row,MLZMmodel->
-                             fieldIndex("mlzm_kod"))).toInt ();
-
-        /// Mlzmdet den yeni boş bir record al = Mlzm_rec
-        QSqlRecord Mlzmdet_rec = MLZMDETmodel->record ();
-        /// rec in içerisinde istediğin fieldleri doldur
-        Mlzmdet_rec.setValue ("mlzm_barkod",brkd);
-        Mlzmdet_rec.setValue ("mlzm_malzeme",mlzm);
-        Mlzmdet_rec.setValue ("mlzm_kod", Mlzm_no);
-
-        // insert a new record (-1) with new data
-        if ( ! MLZMDETmodel->insertRecord(-1,Mlzmdet_rec))
-        {
-            qDebug() << "HATA - kayıt DEPO DETAY a eklenemedi ";
-        }
-        else /// Mlzmdet_rec detaya eklendi
-        {
-            MLZMDETmodel->submitAll ();
-            MLZMDETmodel->select();
-        }
-    }
-    else /// tVMlzm row yok - Mlzm_indx.row () < 0
-    {
-        qDebug()<<"HATA - Mlzm Ekleme .row yokk ";
-    }
-    */
-});
-
-connect(MLZMDETtview->pB_sil, &QPushButton::clicked,
-       // this , &Cw_Mlzm::slt_Mlzmd_pB_SIL_clicked )) ;
-        [this] ()
-{
-
-    qDebug() << "  slt_Mlzmd_pB_SIL_clicked";
-    QModelIndex sample =   MLZMDETtview->table->currentIndex();
-    if( sample.row() >= 0 )
-    {
-        QSqlRecord rec = MLZMDETmodel->record();
-
-        QString val = rec.value(1).toString();// +" "+
-        QMessageBox::StandardButton dlg;
-
-        dlg = QMessageBox::question(this,
-                                    "KAYIT SİL",  val ,// + "\n barkodli personelin kaydı silinsin mi? ?" ,
-                                    QMessageBox::Yes | QMessageBox::No);
-
-        if(dlg == QMessageBox::Yes)
-        {
-            // remove the current index
-            // pmodel->beginRemoveColumn();
-            MLZMDETmodel->removeRow(sample.row());
-            //pmodel->endRemoveColumns();
-            MLZMDETmodel->select ();
-        }
-    }
-});
-
-connect(MLZMDETtview->pB_ilk, &QPushButton::clicked ,
-       // this , &Cw_Mlzm::slt_Mlzmd_toFirst ));
-        [this] ()
-{
-    qDebug() << "  slt_Mlzmd_toFirst";
-    QDataWidgetMapper *x=MLZMDETmapper;
-    x->toFirst ();
-
-    int map_row = MLZMDETmapper->currentIndex ();
-    MLZMDETtview->pB_ilk->setEnabled (map_row>0);
-    MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( 0  ,0));
-
-});
-
-
-connect(MLZMDETtview->pB_ncki, &QPushButton::clicked,
-        // this , &Cw_Mlzm::slt_Mlzmd_toPrevious )) ;
-        [this] ()
-{
-    qDebug() << "  slt_Mlzmd_toPrevious";
-    MLZMDETmapper->toPrevious ();
-    int map_row = MLZMDETmapper->currentIndex ();
-    MLZMDETtview->pB_ncki->setEnabled(map_row > 0);
-    MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( map_row  ,0));
-
-});
-
-connect(MLZMDETtview->pB_snrki, &QPushButton::clicked,
-        // this , &Cw_Mlzm::slt_Mlzmd_toNext )) ;
-        [this] ()
-{
-    qDebug() << "  slt_Mlzmd_toNext";
-    MLZMDETmapper->toNext ();
-    int map_row = MLZMDETmapper->currentIndex ();
-    MLZMDETtview->pB_snrki->setEnabled(map_row < MLZMDETmodel->rowCount() - 1);
-    MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( map_row  ,0));
-
-});
-
-
-connect(MLZMDETtview->pB_son, &QPushButton::clicked,
-        // this , &Cw_Mlzm::slt_Mlzmd_toLast )) ;
-        [this] ()
-{
-    qDebug() << "  slt_Mlzmd_toLast";
-    MLZMDETmapper->toLast ();
-    int map_row = MLZMDETmapper->currentIndex ();
-    MLZMDETtview->pB_son->setEnabled(map_row < MLZMDETmodel->rowCount() - 1);
-    MLZMDETtview->table->setCurrentIndex(MLZMDETmodel->index( MLZMDETmodel->rowCount() - 1  ,0));
-
-});
-
-
-
-
-void Cw_Mlzm::slt_Mlzmd_updButtons(int row)
-{
-    qDebug() << "  slt_Mlzmd_updButtons";
-    MLZMDETtview->pB_ilk->setEnabled (row>0);
-    MLZMDETtview->pB_ncki->setEnabled(row > 0);
-    MLZMDETtview->pB_snrki->setEnabled(row < MLZMDETmodel->rowCount() - 1);
-    MLZMDETtview->pB_son->setEnabled(row < MLZMDETmodel->rowCount() - 1);
-
-}
 
 
 

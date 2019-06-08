@@ -93,8 +93,7 @@ FORMS    += \
     cw_.ui \
     login.ui \
     dlg_ambar.ui \
-    dbase.ui \
-    ftr_frmekle.ui
+    dbase.ui
 
 
 
