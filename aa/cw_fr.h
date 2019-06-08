@@ -68,18 +68,10 @@ private:
     void setup_mapfr()   ;
 
 private slots:
-    void on_pB_KPT_clicked();
-    void on_pB_ARA_clicked();
-    void on_pB_YAZ_clicked();
-    void on_pB_SIL_clicked();
-    void on_pB_EKLE_clicked();
-    void onFRMtview_resimGosterSLOT(QModelIndex);
-    void onpB_fr_resimEklE_clickedSLOT();
 
+signals:
 
-   // void resim(QModelIndex);
-    void on_updateButtonsSLOT(int row);
-
+    void sgnfirma (const QString sgnfirma); //firma ismini
 
 protected:
     void showEvent(QShowEvent *);

@@ -109,16 +109,15 @@ void Cw_fr::setup_ui()
     lYG_map->addWidget(lE_ysoyad  , 8, 1, 1, 2);
     lYG_map->addWidget(lB_ytel    , 9, 0, 1, 1);
     lYG_map->addWidget(lE_ytel    , 9, 1, 1, 2);
-lYG_map->addWidget(lB_rsm    , 9, 1, 1, 2);
+    //lYG_map->addWidget(lB_rsm    , 9, 1, 1, 2);
     // /////////////////////////////////////
     // main layout
 
-qDebug()<<"lyg per";
     auto *lYG_per = new QGridLayout(this);
 
     lYG_per->addWidget ( FRMtview ,0 ,0 ,2 ,1 );
     lYG_per->addLayout ( lYG_map   ,0 ,1 ,1 ,1);
-lYG_per->addWidget ( lB_rsm   ,1 ,1 ,1 ,1);
+    lYG_per->addWidget ( lB_rsm   ,1 ,1 ,1 ,1);
 
 }
 
@@ -136,16 +135,10 @@ void Cw_fr::setup_viewfr()
 
     FRMtview->table->setModel(FRMmodel);
 
-    FRMselectionMdlxxx = new QItemSelectionModel( FRMmodel );
+    //   FRMselectionMdlxxx = new QItemSelectionModel( FRMmodel );
     FRMtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
     FRMtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-    FRMtview->table->setSelectionModel( FRMselectionMdlxxx );
-    FRMtview->table->resizeColumnsToContents();
-    FRMtview->table->resizeRowsToContents ();
-
-
-
-    // Hide the column id Records
+    FRMselectionMdlxxx = FRMtview->table->selectionModel();
 
     //// kullanıcı bu alanları görmesin
     FRMtview->table->setColumnHidden(FRMmodel->fieldIndex("frm_kod"), true);
@@ -160,19 +153,139 @@ void Cw_fr::setup_viewfr()
     FRMtview->table->resizeRowsToContents ();
     FRMtview->table->resizeColumnsToContents();
 
+    // select first item
+    // selection model does not hide the frm_kod
+    // so index 0,1 must be select
+    FRMtview->table->setCurrentIndex(
+                FRMmodel->index(0, 1)
+                );
+    // with blue rect
+    FRMtview->table->setFocus();
+    //   QTimer::singleShot(0, FRMtview->table, SLOT(setFocus()));
 
     ///// tableview kontrol connectleri
     ///
     ///
 
+    // yeni firma ekle
+    connect(FRMtview->pB_ekle, &QPushButton::clicked ,
+            [this]()
+    {
+        QSqlRecord rec = FRMmodel->record();
+        // insert a new record (-1) with null date
 
-    connect(FRMtview->pB_ekle, &QPushButton::clicked ,this ,
-            &Cw_fr::on_pB_EKLE_clicked  ) ;
-    connect(FRMtview->pB_eklersm, &QPushButton::clicked,this ,
-            &Cw_fr::onpB_fr_resimEklE_clickedSLOT  ) ;
+        /// date does not take null value
+        /// line 126 at QDateEdit declaration
+        /// with the
+        /// dT_dotar->setSpecialValueText ("  ");
+        /// line
+        /// an invalid date value represents " "
+        ///
+        //    dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
 
-    connect(FRMtview->pB_sil, &QPushButton::clicked,this ,
-            &Cw_fr::on_pB_SIL_clicked ) ;
+
+        if ( ! FRMmodel->insertRecord(-1,rec))
+        {
+            qDebug() << "HATA - Firma kaydı eklenemedi ";
+        }
+        else
+            qDebug() << "Firma Kaydı eklendi ";
+        FRMmodel->select();
+    });
+
+
+    connect(FRMtview->pB_eklersm, &QPushButton::clicked,
+            [this]()
+    {
+        //firma resim ekle
+        QString myfile = QFileDialog::
+                getOpenFileName(this,
+                                tr("Resim Aç"), "/home/mr/Resimler",
+                                tr("Resim Dosyaları (*.png *.jpg *.bmp *.jpeg)"
+                                   " ;; Tüm Dosyalar (*,*)"));
+
+        if (myfile == "")
+            return;
+
+        QImage image(myfile);
+        lB_rsm->setPixmap(QPixmap::fromImage(image));
+        QByteArray inByteArray;
+        QFile file(  myfile ); //dosyayı açmak için al
+
+        if ( file.open(QIODevice::ReadOnly))
+        {
+            //qDebug ()<<"file read";
+            inByteArray = file.readAll();
+
+            // table view de hangi rowdayız ?
+            QModelIndex index = FRMtview->table->currentIndex();
+            int row = index.row() ;
+            // o row daki bilgelere ulaşalım
+            FRMmodel->setData(FRMmodel->
+                              index(row, FRMmodel->fieldIndex
+                                    ("frm_resim")),inByteArray);
+            FRMmodel->submitAll();
+        }
+    });
+
+
+    /// firm  değiştiğnde resmide değiştirelim
+    connect(  FRMselectionMdlxxx , &QItemSelectionModel::currentRowChanged,
+              [this]()
+    {
+
+        int rowidx = FRMselectionMdlxxx->currentIndex().row();
+        QByteArray outByteArray = FRMtview->table->
+                model()->index( rowidx,
+                                FRMmodel->fieldIndex ("frm_resim") ).data().toByteArray();
+
+        QPixmap outPixmap = QPixmap();
+        outPixmap.loadFromData( outByteArray  );
+        if ( ! outByteArray.isNull ())
+        {
+            lB_rsm->setPixmap( outPixmap );
+        }
+        else
+        {
+            lB_rsm->setPixmap (QPixmap (":/rsm/rsm_yok.svg"));
+        }
+        lB_rsm->setScaledContents( true );
+        lB_rsm->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+        lB_rsm->show();
+    });
+
+
+
+
+
+    connect(FRMtview->pB_sil, &QPushButton::clicked,
+            [this]()
+    {
+        QModelIndex sample =   FRMtview->table->currentIndex();
+        if( sample.row() >= 0 )
+        {
+
+            //         FRMtview->selectionModel()->setCurrentIndex
+            //             (sample,QItemSelectionModel::NoUpdate);
+
+            QSqlRecord rec = FRMmodel->record();
+            QString val = rec.value(1).toString();// +" "+
+            QMessageBox::StandardButton dlg;
+            dlg = QMessageBox::question(this,
+                                        "KAYIT SİL",  val ,// + "\n isimli personelin kaydı silinsin mi? ?" ,
+                                        QMessageBox::Yes | QMessageBox::No);
+
+            if(dlg == QMessageBox::Yes)
+            {
+                // remove the current index
+                // pmodel->beginRemoveColumn();
+                FRMmodel->removeRow(sample.row());
+                //pmodel->endRemoveColumns();
+                FRMmodel->select();
+            }
+        }
+    });
+
 
     connect(FRMtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -213,23 +326,11 @@ void Cw_fr::setup_viewfr()
         FRMtview->table->setCurrentIndex(FRMmodel->index( FRMmodel->rowCount() - 1  ,0));
     });
 
-qDebug()<<"conn 2";
-    /// firm  değiştiğnde resmide değiştirelim
-    connect(  FRMselectionMdlxxx , &QItemSelectionModel::currentRowChanged,
-             this, &Cw_fr::onFRMtview_resimGosterSLOT );
 
-
-/*
-    qDebug()<<"select model ";
-        FRMmodel->select();
-    qDebug()<<"clear select "<< FRMtview->table->currentIndex ();
-        FRMselectionMdlxxx->select(FRMmodel->index(0,0),
-                                   QItemSelectionModel::ClearAndSelect  );
-    qDebug()<<"view current index "<<FRMtview->table->currentIndex();
-        FRMtview->table->setCurrentIndex(FRMmodel->index(0, 0)  );
-*/
-    qDebug()<<"conn 1";
 }
+
+
+
 
 
 /* user interface */
@@ -255,7 +356,6 @@ void Cw_fr::setup_mapfr()
     connect(FRMmapper, &QDataWidgetMapper::currentIndexChanged,
             [this](int Index )
     {
-
         int row = Index; //FTRmapper->currentIndex ();
         FRMtview->pB_ilk->setEnabled (row>0);
         FRMtview->pB_ncki->setEnabled(row > 0);
@@ -263,232 +363,39 @@ void Cw_fr::setup_mapfr()
         FRMtview->pB_son->setEnabled(row < FRMmodel->rowCount() - 1);
 
     });
-    // // firmada row değiştiğinde indexte değişsin
 
+    // firmada row değiştiğinde 2 şey olsun
     connect(  FRMselectionMdlxxx ,
               &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
-        FRMmapper->setCurrentModelIndex(Index) ;
+        // firmada row değiştiğinde mapper index te değişsin
+        FRMmapper->setCurrentModelIndex(Index);
+        // firmada row değiştiğinde firma ismini etrafa yayınlayalım
+        emit Cw_fr::sgnfirma(
+                    FRMtview->table->
+                    model()->index( Index.row() ,
+                                    FRMmodel->fieldIndex ("frm_unvan") ).data().toString()
+                    ) ;
     });
-    // same
-    //connect(  FRMselectionMdlxxx , &QItemSelectionModel::currentRowChanged,
-    //         FRMmapper, &QDataWidgetMapper::setCurrentModelIndex);
-
-    //  FRMmapper,
-    // &QDataWidgetMapper::setCurrentModelIndex);
-
-    FRMmapper->toFirst ();
-
-
-}
-
-
-
-
-void Cw_fr::on_pB_ARA_clicked ()
-{
-
-}
-
-void Cw_fr::on_pB_EKLE_clicked ()
-{
-    QSqlRecord rec = FRMmodel->record();
-    // insert a new record (-1) with null date
-
-    /// date does not take null value
-    /// line 126 at QDateEdit declaration
-    /// with the
-    /// dT_dotar->setSpecialValueText ("  ");
-    /// line
-    /// an invalid date value represents " "
-    ///
-    //    dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
-
-
-    if ( ! FRMmodel->insertRecord(-1,rec))
+    /// depo da kolon değiştiğinde indexte değişsin
+    connect(  FRMselectionMdlxxx ,
+              &QItemSelectionModel::currentColumnChanged,
+              [this]( QModelIndex Index )
     {
-        qDebug() << "100111 -  HATA - kayıt eklenemedi ";
-    }
-    else
-        qDebug() << "100111 - Kayıt personele eklendi ";
-    FRMmodel->select();
+        FRMmapper->setCurrentModelIndex(Index);
+    });
+
+    /// firma ilk kayıda
+    Cw_fr::FRMmapper->toFirst ();
 }
-
-void Cw_fr::on_pB_SIL_clicked ()
-{
-    QModelIndex sample =   FRMtview->table->currentIndex();
-    if( sample.row() >= 0 )
-    {
-
-        //         FRMtview->selectionModel()->setCurrentIndex
-        //             (sample,QItemSelectionModel::NoUpdate);
-
-        QSqlRecord rec = FRMmodel->record();
-        QString val = rec.value(1).toString();// +" "+
-        QMessageBox::StandardButton dlg;
-        dlg = QMessageBox::question(this,
-                                    "KAYIT SİL",  val ,// + "\n isimli personelin kaydı silinsin mi? ?" ,
-                                    QMessageBox::Yes | QMessageBox::No);
-
-        if(dlg == QMessageBox::Yes)
-        {
-            // remove the current index
-            // pmodel->beginRemoveColumn();
-            FRMmodel->removeRow(sample.row());
-            //pmodel->endRemoveColumns();
-            FRMmodel->select();
-        }
-    }
-}
-
-void Cw_fr::on_pB_YAZ_clicked ()
-{
-
-}
-
-void Cw_fr::on_pB_KPT_clicked ()
-{
-    this->hide ();
-}
-
-
-void Cw_fr::onFRMtview_resimGosterSLOT(QModelIndex)
-{
-    // makina stok tablosundan resim gösterme
-    // view row unu tespit et
-    int rowidx = FRMselectionMdlxxx->currentIndex().row();
-
-    // row, xolumn daki veriyi bytearray a at
-    QByteArray outByteArray = FRMtview->table->
-            model()->index( rowidx, FRMmodel->fieldIndex ("resim") ).data().toByteArray();
-
-    QPixmap outPixmap = QPixmap();
-    outPixmap.loadFromData( outByteArray  );
-    lB_rsm->setPixmap( outPixmap );
-    lB_rsm->setScaledContents( true );
-    lB_rsm->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-    lB_rsm->show();
-}       ///     onFRMtview_resimGosterSLOT
-
-void Cw_fr::onpB_fr_resimEklE_clickedSLOT()
-{
-    // makina stok resim ekle
-    QString myfile = QFileDialog::
-            getOpenFileName(this,
-                            tr("Resim Aç"), "/home/mr/Resimler",
-                            tr("Resim Dosyaları (*.png *.jpg *.bmp *.jpeg)"
-                               " ;; Tüm Dosyalar (*,*)"));
-
-    if (myfile == "")
-        return;
-
-    QImage image(myfile);
-    lB_rsm->setPixmap(QPixmap::fromImage(image));
-    QByteArray inByteArray;
-    QFile file(  myfile ); //dosyayı açmak için al
-
-    if ( file.open(QIODevice::ReadOnly))
-    {
-        //qDebug ()<<"file read";
-        inByteArray = file.readAll();
-
-        // table view de hangi rowdayız ?
-        QModelIndex index = FRMtview->table->currentIndex();
-        int row = index.row() ;
-        // o row daki bilgelere ulaşalım
-        FRMmodel->setData(FRMmodel->
-                          index(row, FRMmodel->fieldIndex ("resim")),inByteArray);
-        FRMmodel->submitAll();
-    }
-}       ///     onpb_resimEkleSLOT
-
-
-/*
-
-
-void Cw_fr::r_toFirst()
-{
-    FRMmapper->toFirst ();
-    int map_row = FRMmapper->currentIndex ();
-    pB_ilk->setEnabled (map_row>0);
-    FRMtview->setCurrentIndex(FRMmodel->index( 0  ,0));
-}
-
-void Cw_fr::r_toPrevious( )
-{
-    FRMmapper->toPrevious ();
-    int map_row = FRMmapper->currentIndex ();
-    pB_oncki->setEnabled(map_row > 0);
-    FRMtview->setCurrentIndex(FRMmodel->index( map_row  ,0));
-}
-
-void Cw_fr::r_toNext()
-{
-    FRMmapper->toNext ();
-    int map_row = FRMmapper->currentIndex ();
-    pB_snrki->setEnabled(map_row < FRMmodel->rowCount() - 1);
-
-    FRMtview->setCurrentIndex(FRMmodel->index( map_row  ,0));
-}
-
-void Cw_fr::r_toLast()
-{
-    FRMmapper->toLast ();
-    int map_row = FRMmapper->currentIndex ();
-    pB_son->setEnabled(map_row < FRMmodel->rowCount() - 1);
-    FRMtview->setCurrentIndex(FRMmodel->index( FRMmodel->rowCount() - 1  ,0));
-}
-
-*/
-
-void Cw_fr::on_updateButtonsSLOT(int row)
-{
-    /* QModelIndex next_index = FRMtview->model()->index(row + 1, 0);
-    FRMtview->setCurrentIndex(next_index);
-
-    //FRMtview->setSelectionModel (Qt::m);*/
-
-    FRMtview->pB_ilk->setEnabled (row>0);
-    FRMtview->pB_ncki->setEnabled(row > 0);
-    FRMtview->pB_snrki->setEnabled(row < FRMmodel->rowCount() - 1);
-    FRMtview->pB_son->setEnabled(row < FRMmodel->rowCount() - 1);
-
-
-
-}
-
-
 
 
 
 void Cw_fr::showEvent(QShowEvent *)
 {
-    qDebug() << "Firma dosyası açılıyor";
+    qDebug() << "ShowEvent Firma dosyası açılıyor";
 }
-
-/*
-void Cw_fr::resim(QModelIndex)
-{
-    // personel tablosundan resim gösterme
-
-    // view row unu tespit et
-    int rowidx =   FRMtview->selectionModel()->currentIndex().row();
-
-    // row, xolumn daki veriyi bytearray a at
-    QByteArray outByteArray =   FRMtview->
-            model()->index(rowidx,10).data().toByteArray();
-
-    QPixmap outPixmap = QPixmap();
-    outPixmap.loadFromData( outByteArray  );
-
-
-    lB_rsm->setPixmap( outPixmap );
-    lB_rsm->setScaledContents( true );
-    lB_rsm->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-    lB_rsm->show();
-}
-*/
 
 
 Cw_fr::~Cw_fr()

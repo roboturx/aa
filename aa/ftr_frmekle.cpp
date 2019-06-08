@@ -1,4 +1,4 @@
-#include "ftr_frmekle.h"
+﻿#include "ftr_frmekle.h"
 #include "ui_ftr_frmekle.h"
 #include "cw_fr.h"
 
@@ -78,7 +78,7 @@ Ftr_FrmEkle::~Ftr_FrmEkle()
 
 QString Ftr_FrmEkle::getFirma() const
 {
-        qDebug()<<"return from getfirma"<<firma;
+        qDebug()<<"return from getfirma"<<m_firma;
     return m_firma;
 }
 

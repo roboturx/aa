@@ -41,16 +41,7 @@ void MW_main::login()
     lg->addWidget(  sortingBox  ,2,0,9,1);
 
 
-
-
-
-
-    mwyaz(QDate::currentDate ().toString());
-
-
-
-
-
+  //  mwyaz(QDate::currentDate ().toString());
 
 
     // fade(true);

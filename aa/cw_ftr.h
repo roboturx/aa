@@ -104,21 +104,20 @@ private slots:
     //depo
 
     void slt_ftr_hesap();
-    void slt_mlz_ara();
+ //   void slt_mlz_ara();
 
-    void slt_ftr_pB_EKLE_clicked();
-    void slt_ftr_pB_Eklersm_clicked();
+   // void slt_ftr_pB_EKLE_clicked();
+   // void slt_ftr_pB_Eklersm_clicked();
 
-    void slt_ftr_pB_SIL_clicked();
-
-
+  //  void slt_ftr_pB_SIL_clicked();
 
 
-    void slt_ftr_resimGoster(QModelIndex);
+
+
 
     // depo detay
     void slt_mlz_pB_EKLE_clicked();
-    void slt_ftrd_pB_SIL_clicked();
+
 
 
 

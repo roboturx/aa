@@ -18,9 +18,10 @@ public:
 
     DBase *dbase{} ;
 
-    HC_TableView      *MLZMtview{};
-    QDataWidgetMapper *MLZMmapper{};
-    QSqlRelationalTableModel    *MLZMmodel{};
+    HC_TableView             *MLZMtview{};
+    QSqlRelationalTableModel *MLZMmodel{};
+    QItemSelectionModel      *MLZMselectionMdl{} ;
+    QDataWidgetMapper        *MLZMmapper{};
     void setup_mlzm();
 
 
@@ -52,10 +53,11 @@ public:
 
     // Mlzm detay
     QWidget     *wdgt_mapMlzm_dty{};
-    HC_TableView      *MLZMDETtview{};
-    QItemSelectionModel *MLZMselectionMdl{} ;
-    QSqlTableModel    *MLZMDETmodel{} ;
-    QDataWidgetMapper *MLZMDETmapper{} ;
+
+    HC_TableView        *MLZMDETtview{};
+    QItemSelectionModel *MLZMDETselectionMdl{} ;
+    QSqlTableModel      *MLZMDETmodel{} ;
+    QDataWidgetMapper   *MLZMDETmapper{} ;
 
 
     QLabel      *lB_Mlzmdet{}  ;
@@ -78,53 +80,22 @@ private:
     void wd_Mlzmdet()   ;
 
     void setup_modelMlzm()    ;
-    void setup_modelMlzmdet() ;
-
     void setup_viewMlzm()    ;
-    void setup_viewMlzmdet() ;
-
     void setup_mapMlzm()    ;
+
+    void setup_viewMlzmdet() ;
+    void setup_modelMlzmdet() ;
     void setup_mapMlzmdet() ;
 
-
+    void setup_kontrol();
 
 
 private slots:
 
     //Mlzm
 
-  //  void slt_pB_ambar_grs_clicked();
-  //  void slt_pB_ambar_cks_clicked();
-  //  void cbx_grstipi_changed();
-
-
-
-
-    void slt_Mlzm_toFirst();
-    void slt_Mlzm_toPrevious();
-    void slt_Mlzm_toNext();
-    void slt_Mlzm_toLast();
     void slt_Mlzm_hesap();
-    //void slt_Mlzm_hesap2();
-    void slt_Mlzm_pB_EKLE_clicked();
-    void slt_Mlzm_pB_Eklersm_clicked();
-//    void slt_Mlzm_cX_grs_clicked();
-    void slt_Mlzm_pB_SIL_clicked();
- //   void slt_Mlzm_cX_mkn();
-
-    void slt_Mlzm_updButtons(int row);
-    void slt_Mlzm_tV_rowchanged(const QModelIndex &index );
-    void slt_Mlzm_resimGoster(QModelIndex);
-
-    // Mlzm detay
-    void slt_Mlzmd_pB_EKLE_clicked();
-    void slt_Mlzmd_pB_SIL_clicked();
-
-    void slt_Mlzmd_updButtons(int row);
-    void slt_Mlzmd_toFirst();
-    void slt_Mlzmd_toPrevious();
-    void slt_Mlzmd_toNext();
-    void slt_Mlzmd_toLast();
+     jj void slt_Mlzmd_updButtons(int row);
 
 protected:
     void showEvent(QShowEvent *);

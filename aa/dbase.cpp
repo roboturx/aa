@@ -632,7 +632,7 @@ QSqlRelationalTableModel* DBase::modelMalzemeDetay()
     QString indexField = "mlzmdet_gcno";
 
     QStringList fieldList ;
-    fieldList.append("Kod");
+    fieldList.append("Detay Kod");
     fieldList.append("Malzeme Kod");
     fieldList.append("Barkod");
     fieldList.append("Malzeme");
