@@ -64,6 +64,7 @@ public:
     QLabel      *lB_FTRdet{}  ;
 
     QLineEdit   *lE_mlzdetbarkod{}  ;
+    QLineEdit   *lE_mlzm{} ;
     HC_LE   *lE_mlzdetmlzm{} ;
 
     QLineEdit   *lE_mlzdetaciklama{}  ;

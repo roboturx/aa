@@ -508,7 +508,7 @@ void Cw_Mlzm::setup_kontrol()
 
     // malzemede row değiştiğnde 3 şeyi değiştirelim
     // 1 map indexi
-    // 2 malzeme ismini yayalım
+    // 2 malzeme kodunu ve ismini yayalım
     // 3 resim
     connect( MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index)
@@ -516,12 +516,25 @@ void Cw_Mlzm::setup_kontrol()
         // 1 map indexi değiştirelim
         MLZMmapper->setCurrentModelIndex(Index);
 
-        // 2 malzeme ismini yayalım
-            emit Cw_Mlzm::sgnMalzeme(
+        // 2 malzeme kod - barkod - isim ve birim yayalım
+        emit Cw_Mlzm::sgnMalzeme(
+
                 MLZMtview->table->
                 model()->index( Index.row() ,
-                MLZMmodel->fieldIndex ("mlzm_malzeme") ).data().toString()
-                        ) ;
+                MLZMmodel->fieldIndex ("mlzm_kod") ).data().toString(),
+
+                MLZMtview->table->
+                model()->index( Index.row() ,
+                MLZMmodel->fieldIndex ("mlzm_barkod") ).data().toString(),
+
+                MLZMtview->table->
+                model()->index( Index.row() ,
+                MLZMmodel->fieldIndex ("mlzm_malzeme") ).data().toString(),
+
+                MLZMtview->table->
+                model()->index( Index.row() ,
+                MLZMmodel->fieldIndex ("mlzm_birim") ).data().toString()
+                    );
 
 
         // 3 resimi değiştirelim

@@ -103,7 +103,11 @@ protected:
 
 signals:
 
-    void sgnMalzeme (const QString sgnMalzeme); //malzeme ismini yayınla
+    void sgnMalzeme (const QString sgnKod,
+                     const QString sgnBarkod,
+                     const QString sgnMalzeme,
+                     const QString sgnBirim
+                     ); //malzeme ismini yayınla
 
 
 

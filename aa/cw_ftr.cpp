@@ -1113,42 +1113,12 @@ void Cw_ftr::wd_FTRdet()
     lE_mlzdetbarkod = new QLineEdit();
     lB_mlzdetbarkod->setBuddy(lE_mlzdetbarkod);
 
-
+    /// malzeme adı değiştirlemez
+    /// sadece yeni kayıt ile eklenir
+    /// mlzm kod birim ve barkod isme bağlı
     QLabel *lB_mlzdetmlzm = new QLabel(tr("Malzeme Adı"));
-    lE_mlzdetmlzm = new HC_LE;
-    lE_mlzdetmlzm->lineEdit->setReadOnly (true);
-
-    connect (lE_mlzdetmlzm->pushButton, &QPushButton::clicked,
-             [this]()
-     {
-         // firma seçebilmek için firma penceresi
-
-         auto *mlz = new FtrDet_MlzEkle;
-
-
-         /////////////////////////////////////////////////////////////////////////////////
-         // ----------------------------------------------------
-         // malzeme tableviewinde gezinirken malzeme adımız
-         // signal ediliyor onu yakalayalım
-         // seçim yapılan lineedit e aktaralım
-         // ----------------------------------------------------
-
-         connect (mlz->malzeme, &Cw_Mlzm::sgnMalzeme,
-                  [ this ] (QString secMalzeme )
-         {
-             this->lE_mlzdetmlzm->lineEdit->setText (secMalzeme);
-             this->lE_mlzdetmlzm->lineEdit->setFocus();
-             qDebug()<<"signal cathed = "<< secMalzeme ;
-         });
-         mlz->exec ();
-         qDebug()<<"selected malzeme = "<< mlz->getMalzeme ();
-     });
-
-
-
-
-
-
+    lE_mlzm = new QLineEdit;
+    lE_mlzm->setReadOnly (true);
 
 
     QLabel *lB_mlzdettarih = new QLabel(tr("Tarih"));
@@ -1198,7 +1168,7 @@ void Cw_ftr::wd_FTRdet()
     lYG_d_map->addWidget(lB_mlzdetbarkod  , 0, 0, 1, 1);
     lYG_d_map->addWidget(lE_mlzdetbarkod  , 0, 1, 1, 1);
     lYG_d_map->addWidget(lB_mlzdetmlzm    , 1, 0, 1, 1);
-    lYG_d_map->addWidget(lE_mlzdetmlzm    , 1, 1, 1, 1);
+    lYG_d_map->addWidget(lE_mlzm    , 1, 1, 1, 1);
 
     lYG_d_map->addWidget(lB_mlzdetgc      , 2, 0, 1, 1);
     lYG_d_map->addWidget(lE_mlzdetgc      , 2, 1, 1, 1);
@@ -1293,14 +1263,17 @@ void Cw_ftr::setup_viewFtrDet()
             &Cw_ftr::slt_ftr_hesap);
 
 
-    // fatura detaya malzeme ismi hariç diğer
-    // bilgilerle yeni bir kayıt ekleyelim
+    /// fatura detaya yeni bir kayıt ekleyelim
+    /// bunu yaparken
+    /// 1- faturadan fatura no, firma ve detay
+    /// 2- Malzemeden fatura detaya eklenecek
+    ///    mlz kod, barkod, isim ve birimi ekleyelim
+    /// 3- diğer alanları mikttar fiyat vb
+    ///    kullanıcıdan isteyelim
     connect(FTRDETtview->pB_ekle, &QPushButton::clicked ,
-
-             [this]()
+            [this]()
     {
 
-        int mlz_row = 0;
         qDebug() << "  slt_mlz_pB_EKLE_clicked";
 
         // 001 faturaya malzeme detayı eklemek için dialog oluşturalım
@@ -1332,55 +1305,75 @@ void Cw_ftr::setup_viewFtrDet()
 
         // 003 dialoğumuzda fatura detayında olması gerekenleri ekleyelim
 
-
-        QLabel *lB_mlzdetmlzm = new QLabel(tr("Malzeme Adı"));
+        ///  malzemeden malzeme adını almak için linedit ve ekleme pB
+        auto *lB_mlzdetmlzm = new QLabel(tr("Malzeme Adı"));
         lE_mlzdetmlzm = new HC_LE;
         lE_mlzdetmlzm->lineEdit->setReadOnly (true);
 
+        ///  malzemeden malzeme kod - barkod - birim
+        // sgn ile gelen kod barkod ve birim için değişken
+        auto *mlzmKod= new QString{};
+        auto *mlzmBarkod= new QString{};
+        auto *mlzmBirim= new QString{};
+        /////////////////////////////////////////////////////////////////
+        /// malzeme adını almak için class devrede
+        /// class ın içinden malzeme detay bilgilerine
+        /// ulaşmak mümkün (mlz->malzeme->MLZMmodel
+        /// ama sinyal yoluyla alıyoruz ve classın içeriği hakkında
+        /// bişey bilmemiz gerekmiyor...
+        ///
+        auto *mlz = new FtrDet_MlzEkle;
+        mlz->hide();
         connect (lE_mlzdetmlzm->pushButton, &QPushButton::clicked,
-                 [this]()
-         {
-             // firma seçebilmek için firma penceresi
+                 [this, mlz, mlzmKod, mlzmBarkod, mlzmBirim ] ()
+        {
+            mlz->show();
+            /// malzeme detay seçebilmek için pencere
+            /// bu pencerenin açılması için
+            /// malzeme adı linedeitinin yanındaki
+            /// pushbuttonu tıklamak gerekir
+            /// HC_LE classında lineedit + pushbutton var
 
-             auto *mlz = new FtrDet_MlzEkle;
+            /////////////////////////////////////////////////////////////////////////////////
+            /// ----------------------------------------------------
+            /// malzeme tableviewinde gezinirken
+            /// 1 - malzeme kodu
+            /// 2 - malzeme barkodu
+            /// 3 - malzeme adı
+            /// 4 - birim
+            /// signal ediliyor onu yakalayalım
+            /// seçim yapılan lineedit e aktaralım
+            /// ----------------------------------------------------
+
+            connect (mlz->malzeme, &Cw_Mlzm::sgnMalzeme,
+                     [ this, mlzmKod, mlzmBarkod, mlzmBirim ] (QString secKod,
+                               QString secBarkod,
+                               QString secMalzeme,
+                               QString secBirim )
+            {
+
+                *mlzmKod = secKod;
+                *mlzmBarkod = secBarkod;
+                *mlzmBirim = secBirim;
+                this->lE_mlzdetbarkod->setText(secBarkod);
+                this->lE_mlzdetmlzm->lineEdit->setText (secMalzeme);
+                this->lE_mlzdetmlzm->lineEdit->setFocus();
+                qDebug()<<"signal cathed = "<< secMalzeme ;
+            });   /// signal
+            mlz->exec ();
+            qDebug()<<"selected malzeme = "<< mlz->getMalzeme ();
+
+        });  /// HC_LE pushbutton
+
+        /// yeni kayıt ekleme içerisinde
+        /// malzeme lineeditin pushbuttonu kontrol edildi
+        /// pb na basıldığında malzeme penceresi açıldı
+        /// malzeme ismi - kod - barkod - birim signalı alınmaya başlandı
 
 
-             /////////////////////////////////////////////////////////////////////////////////
-             // ----------------------------------------------------
-             // malzeme tableviewinde gezinirken malzeme adımız
-             // signal ediliyor onu yakalayalım
-             // seçim yapılan lineedit e aktaralım
-             // ----------------------------------------------------
+        /// diğer alanlarıda elle dolduralım
 
-             connect (mlz->malzeme, &Cw_Mlzm::sgnMalzeme,
-                      [ this ] (QString secMalzeme )
-             {
-                 this->lE_mlzdetmlzm->lineEdit->setText (secMalzeme);
-                 this->lE_mlzdetmlzm->lineEdit->setFocus();
-                 qDebug()<<"signal cathed = "<< secMalzeme ;
-             });
-             mlz->exec ();
-             qDebug()<<"selected malzeme = "<< mlz->getMalzeme ();
-         });
-
-
-
-
-
-
-
-  /*
-        auto *lB_mlz = new QLabel("Malzeme");
-
-        // malzeme listesini oluşturalım
-        auto *cbx_mlzm = new QComboBox;
-        auto *modelcbx = new QSqlTableModel;
-        modelcbx->setTable ("mlzm__dbtb");
-        cbx_mlzm->setModel (modelcbx);
-        cbx_mlzm->setModelColumn (modelcbx->fieldIndex ("mlzm_malzeme"));
-        modelcbx->select ();
-*/
-        // diğer alanlarıda elle dolduralım
+        /// - FATURA BAŞLIĞI
         auto *lB_fno = new QLabel("Fatura No");
         auto lE_fno = new QLineEdit ;
         lE_fno->insert (ftrno);
@@ -1394,7 +1387,7 @@ void Cw_ftr::setup_viewFtrDet()
         lE_frm->setText (ftrfrm);
         lE_frm->setReadOnly (true);
 
-
+        /// - YENİ GİRİLMESİ GEREKEN ALANLAR
         auto *lB_miktar = new QLabel("Miktar");
         auto *lE_miktar = new QLineEdit;
         auto *lB_bfiyat = new QLabel("Birim Fiyatı");
@@ -1414,8 +1407,8 @@ void Cw_ftr::setup_viewFtrDet()
         lay_dia->addWidget (lB_ftr   ,++str, 0, 1, 1);
         lay_dia->addWidget (lE_ftr   ,  str, 1, 1, 1);
 
-        lay_dia->addWidget (lB_mlz   ,++str, 0, 1, 1);
-        lay_dia->addWidget (cbx_mlzm ,  str, 1, 1, 1);
+        lay_dia->addWidget (lB_mlzdetmlzm   ,++str, 0, 1, 1);
+        lay_dia->addWidget (lE_mlzdetmlzm ,  str, 1, 1, 1);
         lay_dia->addWidget (lB_miktar,++str, 0, 1, 1);
         lay_dia->addWidget (lE_miktar,  str, 1, 1, 1);
         lay_dia->addWidget (lB_bfiyat,++str, 0, 1, 1);
@@ -1433,104 +1426,20 @@ void Cw_ftr::setup_viewFtrDet()
         lay_dia->addWidget (pB_vzgc       ,++str, 0, 1, 1 );
         lay_dia->addWidget (pB_mlzekle    ,  str, 1, 1, 2 );
 
-/*        // combpobox da istenen malzeme yoksa
-        // ambara yeni malzeme eklemek için dialog oluşturalım
-        auto *diamlz = new QDialog(this);
-        diamlz->setWindowTitle ("Fatura Detay Bilgilerine Malzeme Ekle ");
-        diamlz->setGeometry (400,0,400,600);
-
-        diamlz->setWhatsThis ("<br> MALZEME SEÇMEK İÇİN"
-                              "<br> Lütfen Girişi yapılan fatura detay bilgilerine "
-                              "<br> malzeme girmek için seçim yapın "
-                              "<br> "
-                              "<br> Eğer aradığınız malzeme listede yoksa yeni  "
-                              "<br> malzeme girişi yaparak işlemi tamamlayın"
-                              "<br>");
-        diamlz->setToolTipDuration (5000);
-        diamlz->setToolTip ("<br> MALZEME SEÇMEK İÇİN"
-                            "<br> Lütfen Girişi yapılan fatura detay bilgilerine "
-                            "<br> malzeme girmek için seçim yapın "
-                            "<br> "
-                            "<br> Eğer aradığınız malzeme listede yoksa yeni  "
-                            "<br> malzeme girişi yaparak işlemi tamamlayın"
-                            "<br>");
-
-        // ambar malzeme class ımızı getirelim
-        auto *malzeme = new Cw_Mlzm ;
-        malzeme->setup_mlzm ();
-
-        auto *l_dia = new QGridLayout(diamlz);
-        l_dia->addWidget (malzeme ,0,0,1,1);
-        diamlz->show();
-
-
-        // ----------------------------------------------------
-        // malzeme tableviewinde gezinirken malzeme adımızı
-        // seçim yapılan comboboxa aktaralım
-        // ----------------------------------------------------
-
-
-        // malzemede hangi kayıttayız ?
-
-        connect (malzeme->MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
-
-                 [ mlz_row, cbx_mlzm, malzeme, modelcbx] (QModelIndex Index ) mutable
-        {
-            //   QModelIndex mlzndx = malzeme->MLZMtview->currentIndex ()  ;
-            if (Index.isValid ())
+            // ekle pencerelrini kapatalım
+            connect (pB_vzgc, &QPushButton::clicked,
+                     [dia_ftrmlzmekle, mlz ] ()
             {
-
-                mlz_row = Index.row (); // mlzndx.row ();
-                modelcbx->select();
-                cbx_mlzm->setCurrentText (malzeme->MLZMmodel->data(
-                                              malzeme->MLZMmodel->index
-                                              (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_malzeme"))
-                                              ).toString ());
-            }
-            else
-            {
-                qDebug ()<<"mlzm un 42 invalid index";
-            }
-        });
+                dia_ftrmlzmekle->close ();
+                mlz->close ();
+            });
 
 
-        // ----------------------------------------------------
-        // malzeme tableviewinde gezinirken malzemedetaya
-        // eklenecek gerekli alanları alalım
-        // ----------------------------------------------------
-
-
-
-        // malzeme dosyasından faturadetaya eklenecek
-        // kayıtta gerekli alanları alalım
-        QString mlz_kod{ malzeme->MLZMmodel->data(
-                        malzeme->MLZMmodel->index
-                        (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_kod"))
-                        ).toString()};
-        QString mlz_barkod { malzeme->MLZMmodel->data(
-                        malzeme->MLZMmodel->index
-                        (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_barkod"))
-                        ).toString ()};
-        QString mlz_birim { malzeme->MLZMmodel->data(
-                        malzeme->MLZMmodel->index
-                        (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_birim"))
-                        ).toString ()};
-
-
-        // ekle pencerelrini kapatalım
-        connect (pB_vzgc, &QPushButton::clicked,
-                 [dia_ftrmlzmekle ,diamlz] ()
-        {
-            dia_ftrmlzmekle->close ();
-            diamlz->close ();
-        });
-*/
-        // fatura başlık bilgilerimizi girdik
-        // bunu kayıt edelim
-        qDebug ()<<"mlz_row"<<mlz_row;
+        /// tüm bilgileri "Faturaya Malzeme Kaydı Ekle"
+        /// tuşuna basılırsa fatura detaya eklelyelim
         connect (pB_mlzekle, &QPushButton::clicked,
-                 [ lE_miktar, lE_bfiyat, cbx_mlzm, lE_kdv, lE_ckl,
-                 malzeme , mlz_kod , mlz_barkod, mlz_birim,
+                 [this, mlzmKod, mlzmBirim,mlzmBarkod,
+                 lE_miktar, lE_bfiyat, lE_kdv, lE_ckl,
                  ftrno, ftrtarih
                  ]()
         {
@@ -1539,34 +1448,33 @@ void Cw_ftr::setup_viewFtrDet()
             // boş geçilmeyecek bir alan yok
 
             // kayıt oluşturalım
-            QSqlRecord rec = malzeme->MLZMDETmodel->record();
+            QSqlRecord rec = FTRDETmodel->record();
 
-            qDebug() << "mlz_kod = "<<mlz_kod;
-            rec.setValue ("mlzmdet_mlzm_kod" , mlz_kod );
-            rec.setValue ("mlzmdet_barkod"   , mlz_barkod);
-            rec.setValue ("mlzmdet_malzeme"  , cbx_mlzm->currentText ());
-            rec.setValue ("mlzmdet_tarih"    , ftrtarih);
-            rec.setValue ("mlzmdet_gc"       , "Faturalı Giriş");
-            rec.setValue ("mlzmdet_gcno"     , ftrno);
-            rec.setValue ("mlzmdet_miktar"   , lE_miktar->text ());
-            rec.setValue ("mlzmdet_birim"    , mlz_birim);
-            rec.setValue ("mlzmdet_fiyat"    , lE_bfiyat->text ());
-            rec.setValue ("mlzmdet_kdv"      , lE_kdv->text ());
-            rec.setValue ("mlzmdet_aciklama" , lE_ckl->text ());
+            rec.setValue ("mlzmdet_mlzm_kod" , *mlzmKod );    /// signal
+            rec.setValue ("mlzmdet_barkod"   , *mlzmBarkod ); /// signal
+            rec.setValue ("mlzmdet_malzeme"  , lE_mlzdetmlzm->lineEdit->text() ); /// signal
+            rec.setValue ("mlzmdet_tarih"    , ftrtarih); /// faturadan
+            rec.setValue ("mlzmdet_gc"       , "Faturalı Giriş");   // yeni girildi
+            rec.setValue ("mlzmdet_gcno"     , ftrno);    /// faturadan
+            rec.setValue ("mlzmdet_miktar"   , lE_miktar->text ()); // yeni girildi
+            rec.setValue ("mlzmdet_birim"    , *mlzmBirim );   /// signal
+            rec.setValue ("mlzmdet_fiyat"    , lE_bfiyat->text ()); // yeni girildi
+            rec.setValue ("mlzmdet_kdv"      , lE_kdv->text ());    // yeni girildi
+            rec.setValue ("mlzmdet_aciklama" , lE_ckl->text ());    // yeni girildi
 
 
             // insert a new record (-1)
-            if ( ! malzeme->MLZMDETmodel->insertRecord(malzeme->
-                                                       MLZMDETmodel->rowCount (),rec))
+            if ( ! FTRDETmodel->insertRecord(FTRDETmodel->rowCount (),rec))
             {
                 qDebug() << " HATA - FATura Detaya kayıt eklenemedi ";
             }
             else
             {
                 qDebug() << " - Kayıt FATURA Detaya eklendi ";
-                malzeme->MLZMDETmodel->submitAll ();
-                malzeme->MLZMDETmodel->select ();
+                FTRDETmodel->submitAll ();
+                FTRDETmodel->select ();
                 // kayıt eklendi yeni kayıt için hazırlık yap
+                lE_mlzdetmlzm->lineEdit->setText("");
                 lE_miktar->setText ("");
                 lE_bfiyat->setText ("");
                 lE_kdv->setText ("18");
@@ -1574,28 +1482,26 @@ void Cw_ftr::setup_viewFtrDet()
 
 
 
-                QModelIndex ftr_ndx= malzeme->MLZMDETmodel->
-                        index (malzeme->MLZMDETmodel->rowCount ()-1,0);
-                malzeme->MLZMDETtview->table->selectRow (ftr_ndx.row ());
-                // qDebug() << "mlz_kod = "<<mlz_kod;
+                QModelIndex ftr_ndx= FTRDETmodel->
+                        index (FTRDETmodel->rowCount ()-1,0);
+                FTRDETtview->table->selectRow (ftr_ndx.row ());
+
 
             }
-            //dia_ftrmlzmekle->close ();
-            //diamlz->close ();
 
-        });
-        diamlz->show ();
+        }); /// kaydı dosyaya kaydet pb
+
         dia_ftrmlzmekle->show ();
 
         qDebug ()<<"mlzm un 4";
 
 
 
-    });
+    });  /// FTRDETtview yeni kayıt pushbutton
 
 
 
-             // this ,  &Cw_ftr::slt_mlz_pB_EKLE_clicked  )) ;
+    // this ,  &Cw_ftr::slt_mlz_pB_EKLE_clicked  )) ;
 
     connect(FTRDETtview->pB_sil, &QPushButton::clicked,
             [this]()
@@ -1679,7 +1585,7 @@ void Cw_ftr::setup_mapFtrDet()
     //FTRDETmapper->addMapping(lE_d_faturano , FTRDETmodel->fieldIndex("faturano"));
     //FTRDETmapper->addMapping(lE_d_firma, FTRDETmodel->fieldIndex("firma"));
     FTRDETmapper->addMapping(lE_mlzdetbarkod, FTRDETmodel->fieldIndex("mlzmdet_barkod"));
-    FTRDETmapper->addMapping(lE_mlzdetmlzm->lineEdit, FTRDETmodel->fieldIndex("mlzmdet_malzeme"));
+    FTRDETmapper->addMapping(lE_mlzm, FTRDETmodel->fieldIndex("mlzmdet_malzeme"));
     FTRDETmapper->addMapping(lE_mlzdetmiktar, FTRDETmodel->fieldIndex("mlzmdet_miktar"));
     FTRDETmapper->addMapping(lE_mlzdetbirim, FTRDETmodel->fieldIndex("mlzmdet_birim"));
     FTRDETmapper->addMapping(lE_mlzdetfiyat, FTRDETmodel->fieldIndex("mlzmdet_fiyat"));
@@ -1733,373 +1639,373 @@ void Cw_ftr::setup_mapFtrDet()
 ///
 void Cw_ftr::slt_mlz_pB_EKLE_clicked ()
 {
-    int mlz_row = 0;
-    qDebug() << "  slt_mlz_pB_EKLE_clicked";
-
-    // 001 faturaya malzeme detayı eklemek için dialog oluşturalım
-    auto *dia_ftrmlzmekle = new QDialog(this);
-    dia_ftrmlzmekle->setGeometry (50,50,300,300);
-    dia_ftrmlzmekle->setWindowTitle ("Faturaya Malzeme Kaydı Ekle");
-
-
-    // 002 fatura başlığından fatura no (malzemedetayda = gcno)
-    //     ve tarihi alalım
-    QModelIndex ftr_indx = FTRtview->table->currentIndex () ;
-    int ftr_row = ftr_indx.row ();
-
-    QString ftrno = FTRmodel->
-            data ( FTRmodel->
-                   index(ftr_row,FTRmodel->
-                         fieldIndex("ftr_no"))).toString() ;
-    QString ftrfrm = FTRmodel->
-            data ( FTRmodel->
-                   index(ftr_row,FTRmodel->
-                         fieldIndex("ftr_firma"))).toString() ;
-
-    QString ftrtarih = FTRmodel->
-            data ( FTRmodel->
-                   index(ftr_row,FTRmodel->
-                         fieldIndex("ftr_tarih"))).toString() ;
-
-
-
-    // 003 dialoğumuzda fatura detayında olması gerekenleri ekleyelim
-
-
-    auto *lB_mlz = new QLabel("Malzeme");
-
-    // malzeme listesini oluşturalım
-    auto *cbx_mlzm = new QComboBox;
-    auto *modelcbx = new QSqlTableModel;
-    modelcbx->setTable ("mlzm__dbtb");
-    cbx_mlzm->setModel (modelcbx);
-    cbx_mlzm->setModelColumn (modelcbx->fieldIndex ("mlzm_malzeme"));
-    modelcbx->select ();
-
-    // diğer alanlarıda elle dolduralım
-    auto *lB_fno = new QLabel("Fatura No");
-    auto lE_fno = new QLineEdit ;
-    lE_fno->insert (ftrno);
-    lE_fno->setReadOnly (true);
-    auto *lB_ftr = new QLabel("Fatura Tarihi");
-    auto lE_ftr = new QLineEdit ;
-    lE_ftr->setText (ftrtarih);
-    lE_ftr->setReadOnly (true);
-    auto *lB_frm = new QLabel("Firma");
-    auto lE_frm = new QLineEdit ;
-    lE_frm->setText (ftrfrm);
-    lE_frm->setReadOnly (true);
-
-
-    auto *lB_miktar = new QLabel("Miktar");
-    auto *lE_miktar = new QLineEdit;
-    auto *lB_bfiyat = new QLabel("Birim Fiyatı");
-    auto *lE_bfiyat = new QLineEdit;
-    auto *lB_kdv = new QLabel("KDV oranı");
-    auto *lE_kdv = new QLineEdit;
-    lE_kdv->setText ("18");
-    auto *lB_ckl = new QLabel("Açıklama");
-    auto *lE_ckl = new QLineEdit;
-
-    auto *lay_dia = new QGridLayout(dia_ftrmlzmekle);
-    int str{};
-    lay_dia->addWidget (lB_frm   ,++str, 0, 1, 1);
-    lay_dia->addWidget (lE_frm   ,  str, 1, 1, 1);
-    lay_dia->addWidget (lB_fno   ,++str, 0, 1, 1);
-    lay_dia->addWidget (lE_fno   ,  str, 1, 1, 1);
-    lay_dia->addWidget (lB_ftr   ,++str, 0, 1, 1);
-    lay_dia->addWidget (lE_ftr   ,  str, 1, 1, 1);
-
-    lay_dia->addWidget (lB_mlz   ,++str, 0, 1, 1);
-    lay_dia->addWidget (cbx_mlzm ,  str, 1, 1, 1);
-    lay_dia->addWidget (lB_miktar,++str, 0, 1, 1);
-    lay_dia->addWidget (lE_miktar,  str, 1, 1, 1);
-    lay_dia->addWidget (lB_bfiyat,++str, 0, 1, 1);
-    lay_dia->addWidget (lE_bfiyat,  str, 1, 1, 1);
-    lay_dia->addWidget (lB_kdv   ,++str, 0, 1, 1);
-    lay_dia->addWidget (lE_kdv   ,  str, 1, 1, 1);
-    lay_dia->addWidget (lB_ckl   ,++str, 0, 1, 1);
-    lay_dia->addWidget (lE_ckl   ,  str, 1, 1, 1);
-
-
-
-    // yeni faturamızı ekleyelim
-    QPushButton *pB_mlzekle = new QPushButton("Faturaya Malzeme Kaydı Ekle");
-    QPushButton *pB_vzgc = new QPushButton("Kapat");
-    lay_dia->addWidget (pB_vzgc       ,++str, 0, 1, 1 );
-    lay_dia->addWidget (pB_mlzekle    ,  str, 1, 1, 2 );
-
-    // combpobox da istenen malzeme yoksa
-    // ambara yeni malzeme eklemek için dialog oluşturalım
-    auto *diamlz = new QDialog(this);
-    diamlz->setWindowTitle ("Fatura Detay Bilgilerine Malzeme Ekle ");
-    diamlz->setGeometry (400,0,400,600);
-
-    diamlz->setWhatsThis ("<br> MALZEME SEÇMEK İÇİN"
-                          "<br> Lütfen Girişi yapılan fatura detay bilgilerine "
-                          "<br> malzeme girmek için seçim yapın "
-                          "<br> "
-                          "<br> Eğer aradığınız malzeme listede yoksa yeni  "
-                          "<br> malzeme girişi yaparak işlemi tamamlayın"
-                          "<br>");
-    diamlz->setToolTipDuration (5000);
-    diamlz->setToolTip ("<br> MALZEME SEÇMEK İÇİN"
-                        "<br> Lütfen Girişi yapılan fatura detay bilgilerine "
-                        "<br> malzeme girmek için seçim yapın "
-                        "<br> "
-                        "<br> Eğer aradığınız malzeme listede yoksa yeni  "
-                        "<br> malzeme girişi yaparak işlemi tamamlayın"
-                        "<br>");
-
-    // ambar malzeme class ımızı getirelim
-    auto *malzeme = new Cw_Mlzm ;
-    malzeme->setup_mlzm ();
-
-    auto *l_dia = new QGridLayout(diamlz);
-    l_dia->addWidget (malzeme ,0,0,1,1);
-    diamlz->show();
-
-
-    // ----------------------------------------------------
-    // malzeme tableviewinde gezinirken malzeme adımızı
-    // seçim yapılan comboboxa aktaralım
-    // ----------------------------------------------------
-
-
-    // malzemede hangi kayıttayız ?
-
-    connect (malzeme->MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
-
-             [ mlz_row, cbx_mlzm, malzeme, modelcbx] (QModelIndex Index ) mutable
-    {
-        //   QModelIndex mlzndx = malzeme->MLZMtview->currentIndex ()  ;
-        if (Index.isValid ())
-        {
-
-            mlz_row = Index.row (); // mlzndx.row ();
-            modelcbx->select();
-            cbx_mlzm->setCurrentText (malzeme->MLZMmodel->data(
-                                          malzeme->MLZMmodel->index
-                                          (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_malzeme"))
-                                          ).toString ());
-        }
-        else
-        {
-            qDebug ()<<"mlzm un 42 invalid index";
-        }
-    });
-
-
-    // ----------------------------------------------------
-    // malzeme tableviewinde gezinirken malzemedetaya
-    // eklenecek gerekli alanları alalım
-    // ----------------------------------------------------
-
-
-
-    // malzeme dosyasından faturadetaya eklenecek
-    // kayıtta gerekli alanları alalım
-    QString mlz_kod{ malzeme->MLZMmodel->data(
-                    malzeme->MLZMmodel->index
-                    (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_kod"))
-                    ).toString()};
-    QString mlz_barkod { malzeme->MLZMmodel->data(
-                    malzeme->MLZMmodel->index
-                    (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_barkod"))
-                    ).toString ()};
-    QString mlz_birim { malzeme->MLZMmodel->data(
-                    malzeme->MLZMmodel->index
-                    (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_birim"))
-                    ).toString ()};
-
-
-    // ekle pencerelrini kapatalım
-    connect (pB_vzgc, &QPushButton::clicked,
-             [dia_ftrmlzmekle ,diamlz] ()
-    {
-        dia_ftrmlzmekle->close ();
-        diamlz->close ();
-    });
-
-    // fatura başlık bilgilerimizi girdik
-    // bunu kayıt edelim
-    qDebug ()<<"mlz_row"<<mlz_row;
-    connect (pB_mlzekle, &QPushButton::clicked,
-             [ lE_miktar, lE_bfiyat, cbx_mlzm, lE_kdv, lE_ckl,
-             malzeme , mlz_kod , mlz_barkod, mlz_birim,
-             ftrno, ftrtarih
-             ]()
-    {
-
-        // malzeme bilgileri fatura detay için yeterli
-        // boş geçilmeyecek bir alan yok
-
-        // kayıt oluşturalım
-        QSqlRecord rec = malzeme->MLZMDETmodel->record();
-
-        qDebug() << "mlz_kod = "<<mlz_kod;
-        rec.setValue ("mlzmdet_mlzm_kod" , mlz_kod );
-        rec.setValue ("mlzmdet_barkod"   , mlz_barkod);
-        rec.setValue ("mlzmdet_malzeme"  , cbx_mlzm->currentText ());
-        rec.setValue ("mlzmdet_tarih"    , ftrtarih);
-        rec.setValue ("mlzmdet_gc"       , "Faturalı Giriş");
-        rec.setValue ("mlzmdet_gcno"     , ftrno);
-        rec.setValue ("mlzmdet_miktar"   , lE_miktar->text ());
-        rec.setValue ("mlzmdet_birim"    , mlz_birim);
-        rec.setValue ("mlzmdet_fiyat"    , lE_bfiyat->text ());
-        rec.setValue ("mlzmdet_kdv"      , lE_kdv->text ());
-        rec.setValue ("mlzmdet_aciklama" , lE_ckl->text ());
-
-
-        // insert a new record (-1)
-        if ( ! malzeme->MLZMDETmodel->insertRecord(malzeme->
-                                                   MLZMDETmodel->rowCount (),rec))
-        {
-            qDebug() << " HATA - FATura Detaya kayıt eklenemedi ";
-        }
-        else
-        {
-            qDebug() << " - Kayıt FATURA Detaya eklendi ";
-            malzeme->MLZMDETmodel->submitAll ();
-            malzeme->MLZMDETmodel->select ();
-            // kayıt eklendi yeni kayıt için hazırlık yap
-            lE_miktar->setText ("");
-            lE_bfiyat->setText ("");
-            lE_kdv->setText ("18");
-            lE_ckl->setText ("");
-
-
-
-            QModelIndex ftr_ndx= malzeme->MLZMDETmodel->
-                    index (malzeme->MLZMDETmodel->rowCount ()-1,0);
-            malzeme->MLZMDETtview->table->selectRow (ftr_ndx.row ());
-            // qDebug() << "mlz_kod = "<<mlz_kod;
-
-        }
-        //dia_ftrmlzmekle->close ();
-        //diamlz->close ();
-
-    });
-    diamlz->show ();
-    dia_ftrmlzmekle->show ();
-
-    qDebug ()<<"mlzm un 4";
-
-
-    //***************************
-    /*
-    QModelIndex ftr_indx = FTRtview->table->currentIndex () ;
-    int ftr_row = ftr_indx.row ();
-
-    QString ftrno = FTRmodel->
-            data ( FTRmodel->
-                   index(ftr_row,FTRmodel->
-                         fieldIndex("ftr_no"))).toString() ;
-
-    qDebug ()<<"ftrno " << ftrno;
-    QString ftrtarih = FTRmodel->
-            data ( FTRmodel->
-                   index(ftr_row,FTRmodel->
-                         fieldIndex("ftr_tarih"))).toString() ;
-    qDebug ()<<"ftrno " << ftrtarih;
-    QLineEdit fno;
-    fno.insert (ftrno);
-    fno.setReadOnly (true);
-    QLineEdit ftr;
-    ftr.setText (ftrtarih);
-    ftr.setReadOnly (true);
-
-
-    QPushButton *pB_ftrekle = new QPushButton("Faturaya Malzeme Ekle");
-    QPushButton *pB_kpt = new QPushButton("Kapat");
-
-    lay_dia->addWidget (cbx_mlzm   ,0,0,6,2);
-    lay_dia->addWidget (new QLabel("Fatura No   :" + ftrno)      ,0,2,1,1);
-    lay_dia->addWidget (new QLabel("Fatura Tarih:" + ftrtarih)    ,1,2,1,1);
-    lay_dia->addWidget (pB_kpt    ,7,0,1,1);
-    lay_dia->addWidget (pB_ftrekle,7,1,1,2);
-
-    qDebug ()<<"ftrrrrrrr " ;
-    connect (pB_kpt, &QPushButton::clicked,dia_ftrmlzmekle, &QDialog::close );
-    connect (pB_ftrekle, &QPushButton::clicked,
-             // [ftr_indx,ftrno,ftrtarih,this,mlz_model,mlz_view]()
-             [this,ftr_indx, cbx_mlzm, modelcbx ]()
-    {  /// lambda
-
-
-        QModelIndex mlz_indx = cbx_mlzm->currentIndex () ;
-        if ( ftr_indx.row () >= 0 )
-        {
-
-            int mlzm_row = mlz_indx.row ();
-            qDebug ()<<"ftrrrrrrr 2 " ;
-            /// kayıt içerisinde belirli bir
-            /// field in içeriğini değişkene at
-
-            QString mlzkod = mlz_model->data ( mlz_model->
-                                               index(mlzm_row,mlz_model->
-                                                     fieldIndex("mlzm_kod"))).toString() ;
-            QString mlzbrkod = mlz_model->
-                    data ( mlz_model->
-                           index(mlzm_row,mlz_model->
-                                 fieldIndex("mlzm_barkod"))).toString() ;
-            QString mlzmMlzm = mlz_model->
-                    data ( mlz_model->
-                           index(mlzm_row,mlz_model->
-                                 fieldIndex("mlzm_malzeme"))).toString() ;
-            QString mlzmbirim = mlz_model->
-                    data ( mlz_model->
-                           index(mlzm_row,mlz_model->
-                                 fieldIndex("mlzm_birim"))).toString() ;
-
-            QSqlQuery q;
-            QString s_q;
-            s_q ="INSERT INTO mlzmdet__dbtb "
-                 "( mlzmdet_mlzm_kod, mlzmdet_barkod, mlzmdet_malzeme,"
-                 "  mlzmdet_tarih   , mlzmdet_gc    , mlzmdet_gcno,"
-                 "  mlzmdet_birim     )"
-                 " values( ?,?,?,?,?,?,?)"  ;
-            q.prepare(s_q);
-            qDebug ()<<"ftrrrrrrr 3" ;
-            q.bindValue(0, mlzkod  );
-            q.bindValue(1, mlzbrkod );
-            q.bindValue(2, mlzmMlzm );
-            q.bindValue(3, ftrtarih );
-            q.bindValue(4, "Faturalı Giriş" );
-            q.bindValue(5, ftrno );
-            q.bindValue(6, mlzmbirim);
-            q.exec();
-            //qDebug () << q.lastError();
-            if (q.isActive())
-            {
-
-                //           Hata hata("İş Emri Yeni Kayıt",
-                //                   "Yeni İş Emri Kaydı Eklendi","" );
-
-                qDebug () <<"Fatura Detay Yeni Kayıt Eklendi - "<< ftrno << " -   Eklendi";
-                //mppMKN->toLast;
-
-                FTRDETtview->table->setFocus ();
-                FTRDETmodel->select ();
-                qDebug ()<<"ftrrrrrrr 4 " ;
-            }
-            else
-            {
-                qDebug () << "Fatura Detay Yeni Kayıt Eklenemedi - " << q.lastError() ;
-            }
-        }
-        else /// tVdepo row yok - ftr_indx.row () < 0
-        {
-            qDebug()<<"HATA - Ftr Ekleme .row yokk ";
-        }
-
-
-    }); /// lambda
-
-    dia_ftrmlzmekle->show ();
-
-    qDebug ()<<"ftrrrrrrr 5 " ;
-*/
+//    int mlz_row = 0;
+//    qDebug() << "  slt_mlz_pB_EKLE_clicked";
+
+//    // 001 faturaya malzeme detayı eklemek için dialog oluşturalım
+//    auto *dia_ftrmlzmekle = new QDialog(this);
+//    dia_ftrmlzmekle->setGeometry (50,50,300,300);
+//    dia_ftrmlzmekle->setWindowTitle ("Faturaya Malzeme Kaydı Ekle");
+
+
+//    // 002 fatura başlığından fatura no (malzemedetayda = gcno)
+//    //     ve tarihi alalım
+//    QModelIndex ftr_indx = FTRtview->table->currentIndex () ;
+//    int ftr_row = ftr_indx.row ();
+
+//    QString ftrno = FTRmodel->
+//            data ( FTRmodel->
+//                   index(ftr_row,FTRmodel->
+//                         fieldIndex("ftr_no"))).toString() ;
+//    QString ftrfrm = FTRmodel->
+//            data ( FTRmodel->
+//                   index(ftr_row,FTRmodel->
+//                         fieldIndex("ftr_firma"))).toString() ;
+
+//    QString ftrtarih = FTRmodel->
+//            data ( FTRmodel->
+//                   index(ftr_row,FTRmodel->
+//                         fieldIndex("ftr_tarih"))).toString() ;
+
+
+
+//    // 003 dialoğumuzda fatura detayında olması gerekenleri ekleyelim
+
+
+//    auto *lB_mlz = new QLabel("Malzeme");
+
+//    // malzeme listesini oluşturalım
+//    auto *cbx_mlzm = new QComboBox;
+//    auto *modelcbx = new QSqlTableModel;
+//    modelcbx->setTable ("mlzm__dbtb");
+//    cbx_mlzm->setModel (modelcbx);
+//    cbx_mlzm->setModelColumn (modelcbx->fieldIndex ("mlzm_malzeme"));
+//    modelcbx->select ();
+
+//    // diğer alanlarıda elle dolduralım
+//    auto *lB_fno = new QLabel("Fatura No");
+//    auto lE_fno = new QLineEdit ;
+//    lE_fno->insert (ftrno);
+//    lE_fno->setReadOnly (true);
+//    auto *lB_ftr = new QLabel("Fatura Tarihi");
+//    auto lE_ftr = new QLineEdit ;
+//    lE_ftr->setText (ftrtarih);
+//    lE_ftr->setReadOnly (true);
+//    auto *lB_frm = new QLabel("Firma");
+//    auto lE_frm = new QLineEdit ;
+//    lE_frm->setText (ftrfrm);
+//    lE_frm->setReadOnly (true);
+
+
+//    auto *lB_miktar = new QLabel("Miktar");
+//    auto *lE_miktar = new QLineEdit;
+//    auto *lB_bfiyat = new QLabel("Birim Fiyatı");
+//    auto *lE_bfiyat = new QLineEdit;
+//    auto *lB_kdv = new QLabel("KDV oranı");
+//    auto *lE_kdv = new QLineEdit;
+//    lE_kdv->setText ("18");
+//    auto *lB_ckl = new QLabel("Açıklama");
+//    auto *lE_ckl = new QLineEdit;
+
+//    auto *lay_dia = new QGridLayout(dia_ftrmlzmekle);
+//    int str{};
+//    lay_dia->addWidget (lB_frm   ,++str, 0, 1, 1);
+//    lay_dia->addWidget (lE_frm   ,  str, 1, 1, 1);
+//    lay_dia->addWidget (lB_fno   ,++str, 0, 1, 1);
+//    lay_dia->addWidget (lE_fno   ,  str, 1, 1, 1);
+//    lay_dia->addWidget (lB_ftr   ,++str, 0, 1, 1);
+//    lay_dia->addWidget (lE_ftr   ,  str, 1, 1, 1);
+
+//    lay_dia->addWidget (lB_mlz   ,++str, 0, 1, 1);
+//    lay_dia->addWidget (cbx_mlzm ,  str, 1, 1, 1);
+//    lay_dia->addWidget (lB_miktar,++str, 0, 1, 1);
+//    lay_dia->addWidget (lE_miktar,  str, 1, 1, 1);
+//    lay_dia->addWidget (lB_bfiyat,++str, 0, 1, 1);
+//    lay_dia->addWidget (lE_bfiyat,  str, 1, 1, 1);
+//    lay_dia->addWidget (lB_kdv   ,++str, 0, 1, 1);
+//    lay_dia->addWidget (lE_kdv   ,  str, 1, 1, 1);
+//    lay_dia->addWidget (lB_ckl   ,++str, 0, 1, 1);
+//    lay_dia->addWidget (lE_ckl   ,  str, 1, 1, 1);
+
+
+
+//    // yeni faturamızı ekleyelim
+//    QPushButton *pB_mlzekle = new QPushButton("Faturaya Malzeme Kaydı Ekle");
+//    QPushButton *pB_vzgc = new QPushButton("Kapat");
+//    lay_dia->addWidget (pB_vzgc       ,++str, 0, 1, 1 );
+//    lay_dia->addWidget (pB_mlzekle    ,  str, 1, 1, 2 );
+
+//    // combpobox da istenen malzeme yoksa
+//    // ambara yeni malzeme eklemek için dialog oluşturalım
+//    auto *diamlz = new QDialog(this);
+//    diamlz->setWindowTitle ("Fatura Detay Bilgilerine Malzeme Ekle ");
+//    diamlz->setGeometry (400,0,400,600);
+
+//    diamlz->setWhatsThis ("<br> MALZEME SEÇMEK İÇİN"
+//                          "<br> Lütfen Girişi yapılan fatura detay bilgilerine "
+//                          "<br> malzeme girmek için seçim yapın "
+//                          "<br> "
+//                          "<br> Eğer aradığınız malzeme listede yoksa yeni  "
+//                          "<br> malzeme girişi yaparak işlemi tamamlayın"
+//                          "<br>");
+//    diamlz->setToolTipDuration (5000);
+//    diamlz->setToolTip ("<br> MALZEME SEÇMEK İÇİN"
+//                        "<br> Lütfen Girişi yapılan fatura detay bilgilerine "
+//                        "<br> malzeme girmek için seçim yapın "
+//                        "<br> "
+//                        "<br> Eğer aradığınız malzeme listede yoksa yeni  "
+//                        "<br> malzeme girişi yaparak işlemi tamamlayın"
+//                        "<br>");
+
+//    // ambar malzeme class ımızı getirelim
+//    auto *malzeme = new Cw_Mlzm ;
+//    malzeme->setup_mlzm ();
+
+//    auto *l_dia = new QGridLayout(diamlz);
+//    l_dia->addWidget (malzeme ,0,0,1,1);
+//    diamlz->show();
+
+
+//    // ----------------------------------------------------
+//    // malzeme tableviewinde gezinirken malzeme adımızı
+//    // seçim yapılan comboboxa aktaralım
+//    // ----------------------------------------------------
+
+
+//    // malzemede hangi kayıttayız ?
+
+//    connect (malzeme->MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
+
+//             [ mlz_row, cbx_mlzm, malzeme, modelcbx] (QModelIndex Index ) mutable
+//    {
+//        //   QModelIndex mlzndx = malzeme->MLZMtview->currentIndex ()  ;
+//        if (Index.isValid ())
+//        {
+
+//            mlz_row = Index.row (); // mlzndx.row ();
+//            modelcbx->select();
+//            cbx_mlzm->setCurrentText (malzeme->MLZMmodel->data(
+//                                          malzeme->MLZMmodel->index
+//                                          (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_malzeme"))
+//                                          ).toString ());
+//        }
+//        else
+//        {
+//            qDebug ()<<"mlzm un 42 invalid index";
+//        }
+//    });
+
+
+//    // ----------------------------------------------------
+//    // malzeme tableviewinde gezinirken malzemedetaya
+//    // eklenecek gerekli alanları alalım
+//    // ----------------------------------------------------
+
+
+
+//    // malzeme dosyasından faturadetaya eklenecek
+//    // kayıtta gerekli alanları alalım
+//    QString mlz_kod{ malzeme->MLZMmodel->data(
+//                    malzeme->MLZMmodel->index
+//                    (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_kod"))
+//                    ).toString()};
+//    QString mlz_barkod { malzeme->MLZMmodel->data(
+//                    malzeme->MLZMmodel->index
+//                    (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_barkod"))
+//                    ).toString ()};
+//    QString mlz_birim { malzeme->MLZMmodel->data(
+//                    malzeme->MLZMmodel->index
+//                    (mlz_row,malzeme->MLZMmodel->fieldIndex ("mlzm_birim"))
+//                    ).toString ()};
+
+
+//    // ekle pencerelrini kapatalım
+//    connect (pB_vzgc, &QPushButton::clicked,
+//             [dia_ftrmlzmekle ,diamlz] ()
+//    {
+//        dia_ftrmlzmekle->close ();
+//        diamlz->close ();
+//    });
+
+//    // fatura başlık bilgilerimizi girdik
+//    // bunu kayıt edelim
+//    qDebug ()<<"mlz_row"<<mlz_row;
+//    connect (pB_mlzekle, &QPushButton::clicked,
+//             [ lE_miktar, lE_bfiyat, cbx_mlzm, lE_kdv, lE_ckl,
+//             malzeme , mlz_kod , mlz_barkod, mlz_birim,
+//             ftrno, ftrtarih
+//             ]()
+//    {
+
+//        // malzeme bilgileri fatura detay için yeterli
+//        // boş geçilmeyecek bir alan yok
+
+//        // kayıt oluşturalım
+//        QSqlRecord rec = malzeme->MLZMDETmodel->record();
+
+//        qDebug() << "mlz_kod = "<<mlz_kod;
+//        rec.setValue ("mlzmdet_mlzm_kod" , mlz_kod );
+//        rec.setValue ("mlzmdet_barkod"   , mlz_barkod);
+//        rec.setValue ("mlzmdet_malzeme"  , cbx_mlzm->currentText ());
+//        rec.setValue ("mlzmdet_tarih"    , ftrtarih);
+//        rec.setValue ("mlzmdet_gc"       , "Faturalı Giriş");
+//        rec.setValue ("mlzmdet_gcno"     , ftrno);
+//        rec.setValue ("mlzmdet_miktar"   , lE_miktar->text ());
+//        rec.setValue ("mlzmdet_birim"    , mlz_birim);
+//        rec.setValue ("mlzmdet_fiyat"    , lE_bfiyat->text ());
+//        rec.setValue ("mlzmdet_kdv"      , lE_kdv->text ());
+//        rec.setValue ("mlzmdet_aciklama" , lE_ckl->text ());
+
+
+//        // insert a new record (-1)
+//        if ( ! malzeme->MLZMDETmodel->insertRecord(malzeme->
+//                                                   MLZMDETmodel->rowCount (),rec))
+//        {
+//            qDebug() << " HATA - FATura Detaya kayıt eklenemedi ";
+//        }
+//        else
+//        {
+//            qDebug() << " - Kayıt FATURA Detaya eklendi ";
+//            malzeme->MLZMDETmodel->submitAll ();
+//            malzeme->MLZMDETmodel->select ();
+//            // kayıt eklendi yeni kayıt için hazırlık yap
+//            lE_miktar->setText ("");
+//            lE_bfiyat->setText ("");
+//            lE_kdv->setText ("18");
+//            lE_ckl->setText ("");
+
+
+
+//            QModelIndex ftr_ndx= malzeme->MLZMDETmodel->
+//                    index (malzeme->MLZMDETmodel->rowCount ()-1,0);
+//            malzeme->MLZMDETtview->table->selectRow (ftr_ndx.row ());
+//            // qDebug() << "mlz_kod = "<<mlz_kod;
+
+//        }
+//        //dia_ftrmlzmekle->close ();
+//        //diamlz->close ();
+
+//    });
+//    diamlz->show ();
+//    dia_ftrmlzmekle->show ();
+
+//    qDebug ()<<"mlzm un 4";
+
+
+//    //***************************
+//    /*
+//    QModelIndex ftr_indx = FTRtview->table->currentIndex () ;
+//    int ftr_row = ftr_indx.row ();
+
+//    QString ftrno = FTRmodel->
+//            data ( FTRmodel->
+//                   index(ftr_row,FTRmodel->
+//                         fieldIndex("ftr_no"))).toString() ;
+
+//    qDebug ()<<"ftrno " << ftrno;
+//    QString ftrtarih = FTRmodel->
+//            data ( FTRmodel->
+//                   index(ftr_row,FTRmodel->
+//                         fieldIndex("ftr_tarih"))).toString() ;
+//    qDebug ()<<"ftrno " << ftrtarih;
+//    QLineEdit fno;
+//    fno.insert (ftrno);
+//    fno.setReadOnly (true);
+//    QLineEdit ftr;
+//    ftr.setText (ftrtarih);
+//    ftr.setReadOnly (true);
+
+
+//    QPushButton *pB_ftrekle = new QPushButton("Faturaya Malzeme Ekle");
+//    QPushButton *pB_kpt = new QPushButton("Kapat");
+
+//    lay_dia->addWidget (cbx_mlzm   ,0,0,6,2);
+//    lay_dia->addWidget (new QLabel("Fatura No   :" + ftrno)      ,0,2,1,1);
+//    lay_dia->addWidget (new QLabel("Fatura Tarih:" + ftrtarih)    ,1,2,1,1);
+//    lay_dia->addWidget (pB_kpt    ,7,0,1,1);
+//    lay_dia->addWidget (pB_ftrekle,7,1,1,2);
+
+//    qDebug ()<<"ftrrrrrrr " ;
+//    connect (pB_kpt, &QPushButton::clicked,dia_ftrmlzmekle, &QDialog::close );
+//    connect (pB_ftrekle, &QPushButton::clicked,
+//             // [ftr_indx,ftrno,ftrtarih,this,mlz_model,mlz_view]()
+//             [this,ftr_indx, cbx_mlzm, modelcbx ]()
+//    {  /// lambda
+
+
+//        QModelIndex mlz_indx = cbx_mlzm->currentIndex () ;
+//        if ( ftr_indx.row () >= 0 )
+//        {
+
+//            int mlzm_row = mlz_indx.row ();
+//            qDebug ()<<"ftrrrrrrr 2 " ;
+//            /// kayıt içerisinde belirli bir
+//            /// field in içeriğini değişkene at
+
+//            QString mlzkod = mlz_model->data ( mlz_model->
+//                                               index(mlzm_row,mlz_model->
+//                                                     fieldIndex("mlzm_kod"))).toString() ;
+//            QString mlzbrkod = mlz_model->
+//                    data ( mlz_model->
+//                           index(mlzm_row,mlz_model->
+//                                 fieldIndex("mlzm_barkod"))).toString() ;
+//            QString mlzmMlzm = mlz_model->
+//                    data ( mlz_model->
+//                           index(mlzm_row,mlz_model->
+//                                 fieldIndex("mlzm_malzeme"))).toString() ;
+//            QString mlzmbirim = mlz_model->
+//                    data ( mlz_model->
+//                           index(mlzm_row,mlz_model->
+//                                 fieldIndex("mlzm_birim"))).toString() ;
+
+//            QSqlQuery q;
+//            QString s_q;
+//            s_q ="INSERT INTO mlzmdet__dbtb "
+//                 "( mlzmdet_mlzm_kod, mlzmdet_barkod, mlzmdet_malzeme,"
+//                 "  mlzmdet_tarih   , mlzmdet_gc    , mlzmdet_gcno,"
+//                 "  mlzmdet_birim     )"
+//                 " values( ?,?,?,?,?,?,?)"  ;
+//            q.prepare(s_q);
+//            qDebug ()<<"ftrrrrrrr 3" ;
+//            q.bindValue(0, mlzkod  );
+//            q.bindValue(1, mlzbrkod );
+//            q.bindValue(2, mlzmMlzm );
+//            q.bindValue(3, ftrtarih );
+//            q.bindValue(4, "Faturalı Giriş" );
+//            q.bindValue(5, ftrno );
+//            q.bindValue(6, mlzmbirim);
+//            q.exec();
+//            //qDebug () << q.lastError();
+//            if (q.isActive())
+//            {
+
+//                //           Hata hata("İş Emri Yeni Kayıt",
+//                //                   "Yeni İş Emri Kaydı Eklendi","" );
+
+//                qDebug () <<"Fatura Detay Yeni Kayıt Eklendi - "<< ftrno << " -   Eklendi";
+//                //mppMKN->toLast;
+
+//                FTRDETtview->table->setFocus ();
+//                FTRDETmodel->select ();
+//                qDebug ()<<"ftrrrrrrr 4 " ;
+//            }
+//            else
+//            {
+//                qDebug () << "Fatura Detay Yeni Kayıt Eklenemedi - " << q.lastError() ;
+//            }
+//        }
+//        else /// tVdepo row yok - ftr_indx.row () < 0
+//        {
+//            qDebug()<<"HATA - Ftr Ekleme .row yokk ";
+//        }
+
+
+//    }); /// lambda
+
+//    dia_ftrmlzmekle->show ();
+
+//    qDebug ()<<"ftrrrrrrr 5 " ;
+//*/
 }
 
 
