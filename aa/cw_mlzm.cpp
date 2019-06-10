@@ -117,6 +117,16 @@ void Cw_Mlzm::wd_Mlzm()    // 100110
     cbx_birim->insertItems (0,  br );
     lB_birim->setBuddy(cbx_birim);
 
+    QLabel *lB_g = new QLabel(tr("Toplam Giriş"));
+    lE_giris = new QLineEdit();
+    lB_g->setBuddy(lE_giris);
+    QLabel *lB_c = new QLabel(tr("Toplam Çıkış"));
+    lE_cikis = new QLineEdit();
+    lB_c->setBuddy(lE_cikis);
+    QLabel *lB_m = new QLabel(tr("Ambar Mevcudu"));
+    lE_mevcut = new QLineEdit();
+    lB_m->setBuddy(lE_mevcut);
+
 
     ///////////////////////////////////////  mapper buttonz
     lB_mlzrsm = new QLabel(wdgt_mapMlzm);
@@ -144,6 +154,12 @@ void Cw_Mlzm::wd_Mlzm()    // 100110
     LyG_Mlzm ->addWidget (lB_birim   , ++str, 0, 1, 1);
     LyG_Mlzm ->addWidget (cbx_birim   , str, 1, 1, 1);
 
+    LyG_Mlzm ->addWidget (lB_g   , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (lE_giris   , str, 1, 1, 1);
+    LyG_Mlzm ->addWidget (lB_c   , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (lE_cikis   , str, 1, 1, 1);
+    LyG_Mlzm ->addWidget (lB_m   , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (lE_mevcut   , str, 1, 1, 1);
 
 }
 
@@ -179,9 +195,9 @@ void Cw_Mlzm::setup_viewMlzm()  // 200200
 
     //// kullanıcı bu alanları görmesin
     MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_kod"), true);
-    MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_giris"), true);
-    MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_cikis"), true);
-    MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_mevcut"), true);
+//    MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_giris"), true);
+//    MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_cikis"), true);
+//    MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_mevcut"), true);
     MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_resim"), true);
     MLZMtview->table->setColumnHidden(MLZMmodel->fieldIndex("mlzm_makina"), true);
 
@@ -219,9 +235,9 @@ void Cw_Mlzm::setup_mapMlzm()  // 200300
     MLZMmapper->addMapping(lE_model, MLZMmodel->fieldIndex("mlzm_model"));
     MLZMmapper->addMapping(lE_cins, MLZMmodel->fieldIndex("mlzm_cins"));
     MLZMmapper->addMapping(cbx_birim, MLZMmodel->fieldIndex("mlzm_birim"));
-    //MLZMmapper->addMapping( lE_giris, MLZMmodel->fieldIndex("giris"));
-    //MLZMmapper->addMapping( lE_cikis, MLZMmodel->fieldIndex("cikis"));
-    //MLZMmapper->addMapping( lE_mevcut, MLZMmodel->fieldIndex("mevcut"));
+    MLZMmapper->addMapping( lE_giris, MLZMmodel->fieldIndex("mlzm_giris"));
+    MLZMmapper->addMapping( lE_cikis, MLZMmodel->fieldIndex("mlzm_cikis"));
+    MLZMmapper->addMapping( lE_mevcut, MLZMmodel->fieldIndex("mlzm_mevcut"));
     //MLZMmapper->addMapping( cX_mkn, MLZMmodel->fieldIndex("makina"));
 
 
@@ -600,14 +616,13 @@ void Cw_Mlzm::setup_kontrol()
 
 
     /// Mlzmdet miktar değiştiğinde Mlzm envanter hesabı
-    connect (lE_d_miktar, &QLineEdit::editingFinished,
-             this, &Cw_Mlzm::slt_Mlzm_hesap);
+ //   connect (lE_d_miktar, &QLineEdit::editingFinished,
+   //          this, &Cw_Mlzm::slt_Mlzm_hesap);
 
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
-    connect(MLZMDETtview->table->model(), &QSqlTableModel::dataChanged ,
+
+    connect(MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
             this, &Cw_Mlzm::slt_Mlzm_hesap);
-
-
 
 
 
@@ -619,7 +634,7 @@ void Cw_Mlzm::setup_kontrol()
 
     connect(MLZMDETtview->pB_ekle, &QPushButton::clicked ,
              //this , &Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked  )) ;
-             [this] ()
+             [] ()
     {
 
         QWidget *dia = new QWidget();
@@ -844,7 +859,7 @@ void Kontrol::K_updBtt(    QDataWidgetMapper *map,
 
 
 
-void Cw_Mlzm::slt_Mlzm_hesap()
+void Cw_Mlzm::slt_Mlzm_hesap(QModelIndex Index)
 {
     qDebug() << "Mlzm_hesappppppppppppppppppp";
     // QModelIndex indx_Mlzmdet = MLZMDETtview->currentIndex ();
@@ -852,7 +867,9 @@ void Cw_Mlzm::slt_Mlzm_hesap()
     //int tpl_grs=0, tpl_cks=0;
     //int id_Mlzm ;
 
-    QModelIndex Mlzm_indx = MLZMtview->table->currentIndex ();
+    QModelIndex Mlzm_indx = Index;
+        qDebug() << "mlzm_indx     = " << Mlzm_indx ;
+        qDebug() << "mlzm_indx.row = " << Mlzm_indx.row ();
     if ( Mlzm_indx.row () >= 0 )
     {
         int Mlzm_row = Mlzm_indx.row ();
@@ -861,30 +878,44 @@ void Cw_Mlzm::slt_Mlzm_hesap()
                        index(Mlzm_row,MLZMmodel->
                              fieldIndex("mlzm_kod"))).toInt () ;
 
+        qDebug() << "mlzm_row  = " << Mlzm_row;
+        qDebug() << "mlzm_indx = " << Mlzm_indx ;
+        qDebug() << "id mlz kod= " << QString::number (id);
         QSqlQuery q_qry;
         QString s_qry;
-        s_qry = QString ("SELECT TOTAL(miktar) "
-                         "FROM mlzmDet_dbtb "
-                         "WHERE mlzmDet_kod= %1 AND mlzmDet_gc='Giriş'").arg(id);
+        s_qry = QString ("SELECT SUM(mlzmdet_miktar) "
+                         "FROM mlzmdet__dbtb "
+                         "WHERE mlzmDet_mlzm_kod = %1 AND "
+                                     "mlzmDet_gc = 'Faturalı Giriş'").arg(id);
         q_qry.exec (s_qry);
 
         //QSqlRecord Mlzm_rec = MLZMmodel->record ();
         double grs=0,cks=0;
+
         if (q_qry.isActive ())
         {
             q_qry.next ();
+            qDebug() << "toplam giris val          = "<< q_qry.value(0);
+            qDebug() << "toplam giris val.toDouble = "<< q_qry.value(0).toDouble ();
+
             grs = q_qry.value(0).toDouble ();
             MLZMmodel->setData(MLZMmodel->index(Mlzm_row, MLZMmodel->
-                                                fieldIndex ("giris")), grs);
+                                                fieldIndex ("mlzm_giris")), grs);
 
-
+qDebug() << "toplam giris = "<< QString::number (grs);
             //Mlzm_rec.setValue ("giris", q_qry.value(0).toDouble ());
             qDebug()<<"toplam giriş data    "<<q_qry.value(0);
 
         }
-        s_qry = QString ("SELECT TOTAL(miktar) "
-                         "FROM dbtb_Mlzmdet "
-                         "WHERE mlzmDet_kod= %1 AND mlzmDet_gc='Çıkış'").arg(id);
+        else
+        {
+            qDebug() << "qury not active"<<endl<<
+                        q_qry.lastError ().text()<<endl;
+        }
+        s_qry = QString ("SELECT SUM(mlzmdet_miktar) "
+                         "FROM mlzmdet__dbtb "
+                         "WHERE mlzmDet_mlzm_kod = %1 AND "
+                                     "mlzmDet_gc = 'Çıkış'").arg(id);
         q_qry.exec (s_qry);
         if (q_qry.isActive ())
         {
@@ -893,17 +924,26 @@ void Cw_Mlzm::slt_Mlzm_hesap()
             cks = q_qry.value(0).toDouble ();
             MLZMmodel->setData(MLZMmodel->
                                index(Mlzm_row, MLZMmodel->
-                                     fieldIndex ("mlzdet_cikis")),
-                               cks);
-
+                                     fieldIndex ("mlzm_cikis")), cks);
+            qDebug() << "çıkış = "<< QString::number (cks);
             qDebug()<<"toplam çıkış data    "<<q_qry.value(0);
             //Mlzm_rec.setValue ("cikis", q_qry.value(0).toDouble ());
         }
+        else
+        {
+            qDebug() << "qury not active 2  " <<endl<<
+                        q_qry.lastError ().text()<<endl;
+        }
 
         MLZMmodel->setData(MLZMmodel->
-                           index(Mlzm_row, MLZMmodel->fieldIndex ("mevcut")), grs-cks);
+                           index(Mlzm_row, MLZMmodel->
+                                 fieldIndex ("mlzm_mevcut")), grs-cks);
         MLZMmodel->submitAll ();
         qDebug()<<"toplam mevcut    "<<grs-cks;
+    }
+    else
+    {
+        qDebug() << "index invalid"<<endl          ;
     }
 
 
@@ -940,7 +980,7 @@ void Cw_Mlzm::wd_Mlzmdet()
 
     QLabel *lB_d_grs_cks = new QLabel(tr("Grş_Çkş"));
     cbx_d_grs_cks = new QComboBox;
-    QStringList GC = {"Giriş","Çıkış"};
+    QStringList GC = {"Faturalı Giriş","Çıkış"};
     cbx_d_grs_cks->insertItems (0,  GC );
     lB_d_grs_cks->setBuddy(cbx_d_grs_cks);
 

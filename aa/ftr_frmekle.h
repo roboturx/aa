@@ -8,9 +8,37 @@
 namespace Ui {
 class Ftr_FrmEkle;
 class FtrDet_MlzEkle;
-
+class Resim;
 }
 
+
+class Resim : public QWidget
+{
+    Q_OBJECT
+
+public:
+
+    Resim(QWidget *parent = nullptr);
+
+    QByteArray resimEkle();
+    void resimUpdate(  QLabel *rsm_updResim,
+                       HC_TableView *rsm_table,
+                       QSqlRelationalTableModel *rsm_model,
+                       QItemSelectionModel *rsm_selectionModel,
+                       QString rsm_field,
+                       QString rsm_new_upd = nullptr);
+
+    void resimGoster(QString resim);
+private:
+
+
+
+
+};
+
+
+
+// //////////////////////////////////////////// faturaya firma ekle
 class Ftr_FrmEkle : public QDialog
 {
     Q_OBJECT
@@ -29,7 +57,7 @@ private:
 };
 
 
-// Fatura detaya malzeme ekle
+// ////////////////////////////////////////////// Fatura detaya malzeme ekle
 class FtrDet_MlzEkle : public QDialog
 {
     Q_OBJECT

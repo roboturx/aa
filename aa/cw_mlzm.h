@@ -95,7 +95,7 @@ private slots:
 
     //Mlzm
 
-    void slt_Mlzm_hesap();
+    void slt_Mlzm_hesap(QModelIndex Index);
 
 
 protected:
