@@ -3,7 +3,7 @@
 #include "globals.h"
 #include "hc_tableview.h"
 #include "dbase.h"
-
+#include "ftr_frmekle.h"
 
 Cw_Mlzm::Cw_Mlzm(QWidget *parent) : QWidget(parent)
 {
@@ -42,6 +42,9 @@ void Cw_Mlzm::setup_uiMlzm()      // 100100
     Cw_Mlzm::showMaximized ();
 
     ////////////////////////////////////////// widgets
+    lB_rsm = new QLabel (tr("Resim"));
+    Resim resim(lB_rsm);
+
     wd_Mlzm ();                  // 100110
     wd_Mlzmdet();                // 100120
     //////////////////////////////////// Mlzm tableview
@@ -57,8 +60,8 @@ void Cw_Mlzm::setup_uiMlzm()      // 100100
     LyG_Mlzm->addWidget (new QLabel("<b>Ambar Malzeme Listesi</b>")
                                          ,  str, 0, 1, 5);
     LyG_Mlzm->addWidget (MLZMtview       ,++str, 0, 1, 5);
-    LyG_Mlzm->addWidget (wdgt_mapMlzm    ,  str, 5, 1, 4);
-    LyG_Mlzm ->addWidget (lB_mlzrsm      ,  str, 9, 1, 1);
+    LyG_Mlzm->addWidget (wdgt_mapMlzm    ,  str, 5, 1, 5);
+ //   LyG_Mlzm ->addWidget (lB_rsm      ,  str, 9, 1, 1);
 
     LyG_Mlzm->addWidget (new QLabel("<b>Malzemeye Ait Gİriş-Çıkış Bilgileri</b>")
                                          ,++str, 0, 1, 5);
@@ -135,31 +138,32 @@ void Cw_Mlzm::wd_Mlzm()    // 100110
     int str = 0;
 
     ++str;
-    LyG_Mlzm ->addWidget(lB_barkod   , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget(lE_barkod   , str , 1, 1, 1);
-    LyG_Mlzm ->addWidget(lB_brkd     , str, 2, 1, 1);
-    LyG_Mlzm ->addWidget(lB_malzeme  , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget(lE_malzeme  , str, 1, 1, 1);
+    LyG_Mlzm ->addWidget(lB_barkod  , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget(lE_barkod  ,   str, 1, 1, 2);
+    LyG_Mlzm ->addWidget(lB_brkd    ,   str, 3, 1, 2);
+    LyG_Mlzm ->addWidget(lB_malzeme , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget(lE_malzeme ,   str, 1, 1, 4);
 
     LyG_Mlzm ->addWidget(lB_marka   , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget(lE_marka   , str, 1, 1, 1);
+    LyG_Mlzm ->addWidget(lE_marka   ,   str, 1, 1, 4);
 
     LyG_Mlzm ->addWidget(lB_aciklama, ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget(lE_aciklama, str, 1, 1, 1);
+    LyG_Mlzm ->addWidget(lE_aciklama,   str, 1, 1, 4);
     LyG_Mlzm ->addWidget(lB_model   , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget(lE_model   , str, 1, 1, 1);
+    LyG_Mlzm ->addWidget(lE_model   ,   str, 1, 1, 4);
 
-    LyG_Mlzm ->addWidget (lB_cins    , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget (lE_cins    , str, 1, 1, 1);
-    LyG_Mlzm ->addWidget (lB_birim   , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget (cbx_birim   , str, 1, 1, 1);
+    LyG_Mlzm ->addWidget (lB_cins   , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (lE_cins   ,   str, 1, 1, 4);
 
-    LyG_Mlzm ->addWidget (lB_g   , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget (lE_giris   , str, 1, 1, 1);
-    LyG_Mlzm ->addWidget (lB_c   , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget (lE_cikis   , str, 1, 1, 1);
-    LyG_Mlzm ->addWidget (lB_m   , ++str, 0, 1, 1);
-    LyG_Mlzm ->addWidget (lE_mevcut   , str, 1, 1, 1);
+    LyG_Mlzm ->addWidget (lB_birim  , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (cbx_birim ,   str, 1, 1, 2);
+    LyG_Mlzm ->addWidget (lB_g      , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (lE_giris  ,   str, 1, 1, 2);
+    LyG_Mlzm ->addWidget (lB_c      , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (lE_cikis  ,   str, 1, 1, 2);
+    LyG_Mlzm ->addWidget (lB_m      , ++str, 0, 1, 1);
+    LyG_Mlzm ->addWidget (lE_mevcut ,   str, 1, 1, 2);
+    LyG_Mlzm ->addWidget (lB_rsm    , str-3, 3, 4, 2);
 
 }
 
@@ -296,6 +300,14 @@ void Cw_Mlzm::setup_kontrol()
     connect(MLZMtview->pB_eklersm, &QPushButton::clicked,
             [this] ()
     {
+        Resim resim;
+        resim.resimUpdate (lB_rsm,
+                           MLZMtview,
+                           MLZMmodel,
+                           MLZMselectionMdl,
+                           "mlzm_resim","ekle");
+
+        /*
         qDebug() << "  slt_Mlzm_pB_Eklersm_clicked";
         // Mlzm resim ekle
         QString myfile = QFileDialog::
@@ -329,7 +341,7 @@ void Cw_Mlzm::setup_kontrol()
             MLZMmodel->submitAll();
             MLZMmodel->select ();
 
-        }
+        }*/
     });
     //&Cw_Mlzm::slt_Mlzm_pB_Eklersm_clicked  )) ;
 
@@ -529,6 +541,8 @@ void Cw_Mlzm::setup_kontrol()
     connect( MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index)
     {
+
+
         // 1 map indexi değiştirelim
         MLZMmapper->setCurrentModelIndex(Index);
 
@@ -550,10 +564,20 @@ void Cw_Mlzm::setup_kontrol()
                 MLZMtview->table->
                 model()->index( Index.row() ,
                 MLZMmodel->fieldIndex ("mlzm_birim") ).data().toString()
+
                     );
 
 
         // 3 resimi değiştirelim
+        Resim resim;
+        resim.resimUpdate (lB_rsm,
+                           MLZMtview,
+                           MLZMmodel,
+                           MLZMselectionMdl,
+                           "mlzm_resim");
+
+        /*
+
         qDebug() << "  slt_Mlzm_resimGoster";
         // makina stok tablosundan resim gösterme
         // view row unu tespit et
@@ -576,7 +600,7 @@ void Cw_Mlzm::setup_kontrol()
 
         lB_mlzrsm->setScaledContents( true );
         lB_mlzrsm->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-        lB_mlzrsm->show();
+        lB_mlzrsm->show();*/
     });
 
     //      this,  &Cw_Mlzm::slt_Mlzm_resimGoster );

@@ -46,7 +46,7 @@ Ftr_FrmEkle::Ftr_FrmEkle(QDialog *parent) : QDialog(parent)
     // firma tableviewinde gezinirken firma adımız
     // seçim yapılan lineedit e aktaralım
     // ----------------------------------------------------
-    connect (firma->FRMselectionMdlxxx,
+    connect (firma->FRMselectionMdl,
              &QItemSelectionModel::currentChanged  ,
              [ this ] (QModelIndex Index )
 
@@ -177,14 +177,29 @@ void FtrDet_MlzEkle::setMalzeme(const QString &value)
 
 
 
-Resim::Resim( QWidget *parent) : QWidget(parent)
+Resim::Resim(QLabel *lB_resim, QWidget *parent) : QWidget(parent)
 {
+    if (lB_resim != nullptr)
+    {
+        lB_resim->setScaledContents( true );
+        lB_resim->setSizePolicy( QSizePolicy::Preferred,
+                                 QSizePolicy::Preferred );
+        lB_resim->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(lB_resim , &QLabel::customContextMenuRequested,
+                [ lB_resim]()
+        {
+            //QLabel *x = lB_rsm;
 
-    resmin labelını burada tanımla
-            ftrada resim classı çalıştır diğerlerine uygula
+            QLabel *x = new QLabel();
+            x->resize(QGuiApplication::primaryScreen()->
+                      availableSize() * 10 / 16);
+            x->setScaledContents(true);
+            x->setPixmap(QPixmap (*lB_resim->pixmap() ) );
+            x->setWindowTitle("RESİM GÖRÜNTÜLEME");
+            x->show();
+        });
 
- //   QLabel *resim = new QLabel;
-   // resim->show ();
+    }
 }
 
 void Resim::resimUpdate(  QLabel *rsm_updResim,

@@ -18,7 +18,7 @@ class Resim : public QWidget
 
 public:
 
-    Resim(QWidget *parent = nullptr);
+    Resim(QLabel *lB_resim=nullptr, QWidget *parent = nullptr);
 
     QByteArray resimEkle();
     void resimUpdate(  QLabel *rsm_updResim,
@@ -27,11 +27,6 @@ public:
                        QItemSelectionModel *rsm_selectionModel,
                        QString rsm_field,
                        QString rsm_new_upd = nullptr);
-
-    void resimGoster(QString resim);
-private:
-
-
 
 
 };

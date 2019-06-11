@@ -34,6 +34,7 @@ public:
     QGridLayout *LyG_Mlzm_dty{};
 
     QGroupBox   *gB_map{}  ;
+    QLabel      *lB_rsm;
     QLabel      *lB_brkd{} ;
     QLabel      *lB_Mlzm{} ;
     QLabel      *lB_mlzrsm{}  ;

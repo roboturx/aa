@@ -18,21 +18,24 @@ class Cw_ftr : public QWidget
 
 public:
 
+    void  setup_fatura() ;
     DBase *dbase{};
-    void setup_fatura() ;
-    QWidget *wdgt_rsm;
-    QHBoxLayout *wrsm_ly ;
 
-    HC_TableView      *FTRtview{};
-    QSqlRelationalTableModel    *FTRmodel{};
-    QSqlRelationalTableModel    *mdlFtr{};
-    QItemSelectionModel *FTRselectionMdl{} ;
-    QDataWidgetMapper *FTRmapper{};
+    HC_TableView             *FTRtview{};
+    QSqlRelationalTableModel *FTRmodel{};
+    QItemSelectionModel      *FTRselectionMdl{} ;
+    QDataWidgetMapper        *FTRmapper{};
 
+    QSqlRelationalTableModel *mdlFtr{};
+
+
+
+    QWidget     *wdgt_rsm;
     QWidget     *wdgt_mapFTR{}    ;
 
     QGridLayout *LyG_FTR{}    ;
     QGridLayout *LyG_FTR_dty{};
+    QHBoxLayout *wrsm_ly ;
 
     QGroupBox   *gB_map{}  ;
     QLabel      *lB_brkd{} ;
@@ -47,19 +50,18 @@ public:
 
 
     // depo detay
-    QWidget     *wdgt_mapFTR_dty{};
-    HC_TableView      *FTRDETtview{};
-    QItemSelectionModel *FTRDETselectionMdl{} ;
-    QSqlRelationalTableModel    *FTRDETmodel{} ;
-    QDataWidgetMapper *FTRDETmapper{} ;
 
+    HC_TableView             *FTRDETtview{};
+    QSqlRelationalTableModel *FTRDETmodel{} ;
+    QItemSelectionModel      *FTRDETselectionMdl{} ;
+    QDataWidgetMapper        *FTRDETmapper{} ;
+
+    QWidget     *wdgt_mapFTR_dty{};
 
     QLabel      *lB_FTRdet{}  ;
-
     QLineEdit   *lE_mlzdetbarkod{}  ;
     QLineEdit   *lE_mlzm{} ;
-    HC_LE   *lE_mlzdetmlzm{} ;
-
+    HC_LE       *lE_mlzdetmlzm{} ;
     QLineEdit   *lE_mlzdetaciklama{}  ;
     QLineEdit   *lE_mlzdettarih{} ;
     QLineEdit   *lE_mlzdetgc{} ;
@@ -76,22 +78,21 @@ public:
 
 private:
     void setup_uiFtr() ;
-    void wd_FTR()      ; //depo ui devamı
 
-    void wd_FTRdet()   ;
+    void wd_FTR()        ; //depo ui devamı
+    void setup_viewFtr() ;
+    void setup_modelFtr();
+    void setup_mapFtr()  ;
+    void setup_kntrlFtr();
 
-    void setup_modelFtr()    ;
-    void setup_modelFtrDet() ;
-
-    void setup_viewFtr()    ;
+    void wd_FTRdet()        ;
     void setup_viewFtrDet() ;
-
-    void setup_mapFtr()    ;
-    void setup_mapFtrDet() ;
+    void setup_modelFtrDet();
+    void setup_mapFtrDet()  ;
+    void setup_kntrlFtrDet();
 
 private slots:
     void slt_ftr_hesap();
-    //void slt_mlz_pB_EKLE_clicked();
 
 protected:
     void showEvent(QShowEvent *);
