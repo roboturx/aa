@@ -189,14 +189,17 @@ Resim::Resim(QLabel *lB_resim, QWidget *parent) : QWidget(parent)
                 [ lB_resim]()
         {
             //QLabel *x = lB_rsm;
-
-            QLabel *x = new QLabel();
+            QDialog xx;
+            xx.setModal(true);
+            xx.setSizeGripEnabled(true);
+            xx.setAutoFillBackground(true);
+            QLabel *x = new QLabel(&xx);
             x->resize(QGuiApplication::primaryScreen()->
                       availableSize() * 10 / 16);
             x->setScaledContents(true);
             x->setPixmap(QPixmap (*lB_resim->pixmap() ) );
-            x->setWindowTitle("RESİM GÖRÜNTÜLEME");
-            x->show();
+            xx.setWindowTitle("RESİM GÖRÜNTÜLEME");
+            xx.exec();
         });
 
     }

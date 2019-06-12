@@ -564,7 +564,9 @@ void Cw_ftr::slt_ftr_hesap()
         if (q_qry.isActive ())
         {
             q_qry.next ();
-            lE_ftrToplam->setText ( q_qry.value(0).toString ()) ;
+            double tpl =  q_qry.value(0).toDouble() ;
+            lE_ftrToplam->setAlignment(Qt::AlignRight );
+            lE_ftrToplam->setText ( QString::number(qRound( tpl *100) / 100.0, 'f', 2) ) ;
         }
         else
         {
@@ -581,7 +583,10 @@ void Cw_ftr::slt_ftr_hesap()
         if (q_qry.isActive ())
         {
             q_qry.next ();
-            lE_ftrKdv->setText (q_qry.value(0).toString ());
+            double kdv = q_qry.value(0).toDouble ();
+
+            lE_ftrKdv ->setAlignment(Qt::AlignRight );
+            lE_ftrKdv->setText ( QString::number(qRound( kdv *100) / 100.0, 'f', 2) ) ;
         }
 
         else
@@ -599,7 +604,10 @@ void Cw_ftr::slt_ftr_hesap()
         if (q_qry.isActive ())
         {
             q_qry.next ();
-            lE_ftrGenelToplam->setText (q_qry.value(0).toString ());
+            double GTop = q_qry.value(0).toDouble( );
+
+            lE_ftrGenelToplam->setAlignment(Qt::AlignRight );
+            lE_ftrGenelToplam->setText ( QString::number(qRound( GTop *100) / 100.0, 'f', 2) ) ;
         }
 
         else
@@ -716,6 +724,11 @@ void Cw_ftr::setup_viewFtrDet()
     qDebug() << "  setup_viewFtrDet";
 
     FTRDETtview->table->setModel(FTRDETmodel);
+    FTRDETtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
+    FTRDETtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
+    FTRDETselectionMdl = FTRDETtview->table->selectionModel ();
+
+
     // Hide the column id Records
     //// kullanıcı bu alanları görmesin
     FTRDETtview->table->setColumnHidden(FTRDETmodel->fieldIndex("mlzmdet_kod"), true);
@@ -725,20 +738,17 @@ void Cw_ftr::setup_viewFtrDet()
     FTRDETtview->table->setColumnHidden(FTRDETmodel->fieldIndex("mlzmdet_gcno"), true);
 
 
-    FTRDETtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-    FTRDETtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
-    FTRDETtview->table->resizeRowsToContents ();
-    FTRDETtview->table->resizeColumnsToContents();
+
+
     FTRDETtview->table->setEditTriggers
             (QAbstractItemView::DoubleClicked |
              QAbstractItemView::SelectedClicked |
              QAbstractItemView::EditKeyPressed);
 
-    FTRDETtview->table->horizontalHeader()->
-            setStretchLastSection(true);
-    FTRDETtview->table->horizontalHeader()->
-            resizeContentsPrecision();
-
+    FTRDETtview->table->horizontalHeader()->setStretchLastSection(true);
+    FTRDETtview->table->horizontalHeader()->resizeContentsPrecision();
+    FTRDETtview->table->resizeRowsToContents ();
+    FTRDETtview->table->resizeColumnsToContents();
 
     FTRtview->table->setCurrentIndex(
                 FTRmodel->index(0,1)
@@ -1106,7 +1116,7 @@ qDebug()<<" 1 ";
 
     });
 qDebug()<<" 2 ";
-    // --- 011 row değiştiğinde 3 şey olsun
+    // --- 011 FTRDET row değiştiğinde 2 şey olsun
     connect( FTRDETselectionMdl, &QItemSelectionModel::currentRowChanged,
                [this]( QModelIndex Index )
     {
@@ -1117,6 +1127,18 @@ qDebug()<<" 2 ";
         // 011-01 mapper indexi ayarla
         FTRDETmapper->setCurrentModelIndex(Index);
 
+        qDebug()<<" 23 ";
+        // 011-02 fatura hesabı yapılsın
+        this->slt_ftr_hesap ();
+        }
+    });
+
+    // --- 011 row FTR değiştiğinde
+    connect( FTRselectionMdl, &QItemSelectionModel::currentRowChanged,
+               [this]( QModelIndex Index )
+    {
+        if (Index.isValid())
+        {
         // 011-02 filtrele
          QSqlRecord record = FTRmodel->record(Index.row ());
             QString fatura_no = record.value("ftr_no").toString ();
@@ -1131,7 +1153,7 @@ qDebug()<<" 32 ";
         FTRDETmodel->select();
 
         qDebug()<<" 23 ";
-        // 011-03 fatura hesabı yapılsın
+        // 011-02 fatura hesabı yapılsın
         this->slt_ftr_hesap ();
 
     });
