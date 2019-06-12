@@ -686,14 +686,14 @@ void DBase::VTd_mkn()
 
     QString ct;
     QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_mkn"))
+    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "mkn__dbtb"))
     {
         //mkn_kurumNo key used every table's relation
 
-        ct =  "CREATE TABLE IF NOT EXISTS dbtb_mkn "
+        ct =  "CREATE TABLE IF NOT EXISTS mkn__dbtb "
               "("
               "id_mkn integer primary key, "
-              "mkn_kurumno        TEXT, "
+              "mkn_kurumno       TEXT, "
               "mkn_plaka         TEXT, "
               "mkn_cinsi         integer, "
               "mkn_Marka         integer,"
@@ -719,7 +719,7 @@ void DBase::VTd_mkn()
         else
         {
             qDebug() << "DEMİRBAŞ Makina Dosyası YENİ Oluşturuldu - ";
-            q.exec("INSERT INTO dbtb_mkn ( mkn_kurumNo,mkn_cinsi,"
+            q.exec("INSERT INTO mkn__dbtb ( mkn_kurumNo,mkn_cinsi,"
                    "mkn_marka, mkn_modeli, mkn_surucu )"
                    " values( '100001', 1 , 1 , 1 , 1 )"  );
 
@@ -730,6 +730,65 @@ void DBase::VTd_mkn()
         qDebug() << "1- DEMİRBAŞ Makina Dosyası - OK ";
     }
 }       /// VTdMKSTOK
+
+
+
+QSqlRelationalTableModel* DBase::modelMakina()
+{
+qDebug() << " mdlmkn";
+    QString tableName  = "mkn__dbtb";
+    QString indexField = "mkn_kurumno";
+
+    QStringList fieldList ;
+    fieldList.append("Makina Kod");
+    fieldList.append("Kurum No");
+    fieldList.append("Plaka");
+    fieldList.append("Cinsi");
+    fieldList.append("Markası");
+    fieldList.append("Modeli");
+    fieldList.append("Model Yılı");
+    fieldList.append("Şase No");
+    fieldList.append("Motor No");
+    fieldList.append("Motor Tipi");
+    fieldList.append("Yakıt Türü");
+    fieldList.append("Sürücü Adı");
+    fieldList.append("İşe Başlama Tarihi");
+    fieldList.append("Birimi");
+    fieldList.append("Açıklama");
+    fieldList.append("Bulunduğu Yer");
+    fieldList.append("Resim");
+    fieldList.append("Rating");
+    // fieldList.append("resim");
+
+
+    mdlmkn = new QSqlRelationalTableModel;
+    mdlmkn->setTable( tableName );
+    mdlmkn->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    mdlmkn->setSort(mdlmkn->fieldIndex ( indexField ),Qt::AscendingOrder );
+    mdlmkn->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+
+    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    {
+        mdlmkn->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+    }
+
+    // Populate the model_mkstok
+    if (!mdlmkn->select())
+    {
+        qDebug () <<  " HATA - Model fatura select "
+                   <<mdlmkn->lastError();
+    }
+
+    return mdlmkn ;
+}///MKN
+
+
+
+
+
+
+
+
 
 void DBase::VTd_ISEMRI ()
 {

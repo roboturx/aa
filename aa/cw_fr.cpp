@@ -3,8 +3,7 @@
 #include "globals.h"
 #include "ftr_frmekle.h"
 
-Cw_fr::Cw_fr(QWidget *parent) :
-    QWidget(parent)
+Cw_fr::Cw_fr(QWidget *parent) : QWidget(parent)
 {
     qDebug ()<<"Firma Constructor";
     //************************************************************
@@ -45,9 +44,7 @@ void Cw_fr::setup_ui()
 
     // ///////////////////////////////////////////////////////
     // views
-
-    int i=1;
-    FRMtview = new HC_TableView(i);
+    FRMtview = new HC_TableView();
 
     // ///////////////////////////////////////////////////////
     // wdgt lbls

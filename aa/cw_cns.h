@@ -1,4 +1,16 @@
-﻿#ifndef Cw_mkn_H
+#ifndef CW_CNS_H
+#define CW_CNS_H
+
+
+class Cw_Cns
+{
+public:
+    Cw_Cns();
+};
+
+#endif // CW_CNS_H
+
+#ifndef Cw_mkn_H
 #define Cw_mkn_H
 
 #include "globals.h"
@@ -81,10 +93,23 @@ public:
 
 public slots:
     /// makina ikmal resmi değiştirilince
+    void onMKNtview_resimGosterSLOT(QModelIndex);
+    void resimEkle();
     void mknKurumno_ara();
 private slots:
 
     //////////////////////////////////////////// tableview SLOTS
+
+    void onMKNtview_sagmenuSLOT(QPoint pos);
+    /// makina table view sağ menu SLOTLARI
+    void onmnMKN_MKNekle();
+    void onmnMKN_IEekle();
+
+    //    void mknekle();
+    void onmnMKN_resimEklE_clickedSLOT();
+    void onmnMKN_arac_sil_clickedSLOT();
+
+
 
 
 
@@ -100,7 +125,26 @@ private slots:
     void onmnMKN_yeniEklE_hgsSLOT();
 
 
-  //  void onMKNtview_cmm_filterSLOT(QModelIndex);
+    void onMKNtview_IE_filterSLOT(QModelIndex mknIndex);
+    //  void onMKNtview_resimGosterSLOT(QModelIndex);
+    void onMKNtview_cmm_filterSLOT(QModelIndex);
+    //  void onMKNtview_IE_det_filterSLOT(QModelIndex);
+
+    ///////////////////////////////////////////// pushbutton SLOTS
+    void onpb_mknclickedSLOT();
+    void onpb_tabclickedSLOT();
+    void onpb_resimPencereSLOT();
+    void clk_boshMKN();
+    void MKNekle();
+    void clk_boshIE();
+    void IEekle();
+
+    ///////////////////////////////////////////// combobox SLOTS
+
+
+
+    ///////////////////////////////// others
+    // void oncbx_mknCinsclickedSLOT(const QString&);
     void ww_mkcins();
 
 public:
@@ -168,8 +212,11 @@ public:
     void byer();
     QComboBox *cbx_mknByer{};      // dbtb_mknByer
 
+    QLineEdit *led_dp_no{};
 
+    QLabel *lB_resim{};
 
+    QByteArray *rsm_ByteArray{} ;
 
     // resim
     // rating
@@ -214,13 +261,12 @@ public:
  //   QDataWidgetMapper *MKNmapper{};
 
 
-    void wd_mppr();
     QWidget *wdgt_mppr{};
     QWidget *wdgt_sol{};
     QWidget *wdgt_tv{};
     QWidget *wdgt_rsm{};
 
-    QLabel *lB_rsm{};
+    QLabel *lB_foto{};
 
     QPushButton *pb_rsmEkle{};
     QPushButton *pb_rsm{};
@@ -230,6 +276,9 @@ public:
 
 
     QTabWidget *wtab{};
+
+    QString SS01;
+    QString SS02;
 
     //layouts
     QSplitter *qs{};
@@ -249,6 +298,11 @@ public:
     QToolBox *tbx_clsm{};
     QToolBox *tbx_arz{};
 
+    Cw_Grs *Cwv_Grs{} ;
+    Cw_IsEmri *Cwv_IsEmri{} ;
+    //Cw_IEdet *Cwv_IEdet ;
+    //Cw_tasinir *Cwv_Tasinir;
+
     Evr_Sgrt *evrk_sgrt{};
     Evr_Mua *evrk_mua{};
 
@@ -265,6 +319,40 @@ public:
 
     //    QPushButton *getPb_mknByer() const;
     //  void setPb_mknByer(QPushButton *value);
+};
+class __attribute__
+        ((visibility("default")))
+            SKGComboBox :
+               public QComboBox
+{
+Q_OBJECT
+Q_PROPERTY( QString text READ text WRITE setText USER true)
+
+public:
+/**
+* Default Constructor
+*/
+SKGComboBox(QWidget *parent = nullptr);
+
+/**
+* Default Destructor
+*/
+virtual ~SKGComboBox();
+
+/**
+* Get the text for the combo
+* @return the text
+*/
+virtual QString text() const;
+
+
+/**
+* Set the text for the combo
+* @param iText the text
+*/
+virtual void setText (const QString& iText);
+
+
 };
 
 

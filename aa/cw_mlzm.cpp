@@ -120,14 +120,29 @@ void Cw_Mlzm::wd_Mlzm()    // 100110
     cbx_birim->insertItems (0,  br );
     lB_birim->setBuddy(cbx_birim);
 
+
+  //  QDoubleValidator *doubleVal = new QDoubleValidator(
+    //            -100.00,100'000'000.00, 4, this);
+
+
     QLabel *lB_g = new QLabel(tr("Toplam Giriş"));
     lE_giris = new QLineEdit();
+    lE_giris->setAlignment (Qt::AlignRight);
+    lE_giris->setValidator (
+                new QDoubleValidator(-999.0,999'999'999.0, 2, lE_giris)) ;
     lB_g->setBuddy(lE_giris);
+
     QLabel *lB_c = new QLabel(tr("Toplam Çıkış"));
     lE_cikis = new QLineEdit();
+    lE_cikis->setValidator (
+                new QDoubleValidator(-999.0,999'999'999.0, 2, lE_cikis)) ;
+    lE_cikis->setAlignment (Qt::AlignRight);
     lB_c->setBuddy(lE_cikis);
     QLabel *lB_m = new QLabel(tr("Ambar Mevcudu"));
     lE_mevcut = new QLineEdit();
+    lE_mevcut->setValidator (
+                new QDoubleValidator(-999.0,999'999'999.0, 2, lE_mevcut)) ;
+    lE_mevcut->setAlignment (Qt::AlignRight);
     lB_m->setBuddy(lE_mevcut);
 
 
@@ -919,17 +934,9 @@ void Cw_Mlzm::slt_Mlzm_hesap(QModelIndex Index)
         if (q_qry.isActive ())
         {
             q_qry.next ();
-            qDebug() << "toplam giris val          = "<< q_qry.value(0);
-            qDebug() << "toplam giris val.toDouble = "<< q_qry.value(0).toDouble ();
-
             grs = q_qry.value(0).toDouble ();
             MLZMmodel->setData(MLZMmodel->index(Mlzm_row, MLZMmodel->
                                                 fieldIndex ("mlzm_giris")), grs);
-
-qDebug() << "toplam giris = "<< QString::number (grs);
-            //Mlzm_rec.setValue ("giris", q_qry.value(0).toDouble ());
-            qDebug()<<"toplam giriş data    "<<q_qry.value(0);
-
         }
         else
         {
@@ -949,9 +956,6 @@ qDebug() << "toplam giris = "<< QString::number (grs);
             MLZMmodel->setData(MLZMmodel->
                                index(Mlzm_row, MLZMmodel->
                                      fieldIndex ("mlzm_cikis")), cks);
-            qDebug() << "çıkış = "<< QString::number (cks);
-            qDebug()<<"toplam çıkış data    "<<q_qry.value(0);
-            //Mlzm_rec.setValue ("cikis", q_qry.value(0).toDouble ());
         }
         else
         {

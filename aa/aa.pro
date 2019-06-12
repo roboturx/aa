@@ -48,7 +48,9 @@ SOURCES += main.cpp\
     dbase.cpp \
     shapeitem.cpp \
     sortingbox.cpp \
-    ftr_frmekle.cpp
+    ftr_frmekle.cpp \
+ #   cw_cns.cpp
+
 
 HEADERS  += \
     globals.h \
@@ -79,6 +81,7 @@ HEADERS  += \
     shapeitem.h \
     sortingbox.h \
     ftr_frmekle.h
+    # cw_cns.h
 
 FORMS    += \
     wd_login.ui \

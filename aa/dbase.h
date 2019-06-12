@@ -27,6 +27,8 @@ public:
     QSqlRelationalTableModel *mdlfrm{};
     QSqlRelationalTableModel *modelFirma();
 
+    QSqlRelationalTableModel *mdlmkn{};
+    QSqlRelationalTableModel *modelMakina();
 
 
 

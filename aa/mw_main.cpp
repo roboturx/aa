@@ -171,8 +171,8 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Demirbaş Mlzm"));
         auto *mw_mkn = new Cw_mkn ();
-        mw_mkn->setWindowTitle ("MAKİNA");
-        mw_mkn ->showMaximized();
+        mw_mkn->set_mkn ();
+
     });
 
     /// personel
