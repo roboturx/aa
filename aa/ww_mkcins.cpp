@@ -1,363 +1,821 @@
 #include "ww_mkcins.h"
-
+#include "ftr_frmekle.h"
 #include "globals.h"
+#include "dbase.h"
 
-
-WW_Mkcins::WW_Mkcins(QWidget *parent) : QWidget(parent)
+WW_Mkcins::WW_Mkcins(QDialog *parent) : QDialog(parent)
 {
 
-    qDebug ()  <<"ww mkcins 001 ";
-    cr_ui();
-    cr_mdl_mkcins();
-    cr_mdl_mkmark();
-    cr_mdl_mkmodl();
-    cr_kontrol();
-}
+    qDebug ()  <<"CİNS MARKA MODEL YIL ";
+    set_uiCNS();
 
-WW_Mkcins::~WW_Mkcins()
-= default;
+    set_modelCNS ();
+    set_viewCNS ();
+    set_mapCNS ();
+    set_kntrlCNS ();
 
-void WW_Mkcins::cr_mdl_mkcins()
-{
-    // Create the data model for DBTB_MKCINS
+    set_modelMRK ();
+    set_viewMRK ();
+    set_mapMRK ();
+    set_kntrlMRK ();
 
-    mdl_mkcins = new QSqlRelationalTableModel(tv_mkcins);
-    mdl_mkcins->setEditStrategy(QSqlTableModel::OnFieldChange);
-    mdl_mkcins->setTable("DBTB_MKCINS");
-    mdl_mkcins->setJoinMode(QSqlRelationalTableModel::LeftJoin);
-
-    // Remember the indexes of the columns
-    // combobox fields
-    //idx_cins = mdl_mkcins->fieldIndex("cinsi");	//dbtb_mkcins
-
-    // Set the localized header captions
-    mdl_mkcins->setHeaderData(mdl_mkcins->fieldIndex("cinsi"),
-                              Qt::Horizontal, tr("CİNSİ"));
-
-    // Populate the model
-    if (!mdl_mkcins->select())
-    {
-        qDebug () << " HATA - " << mdl_mkcins->lastError();
-        return;
-    }
-
-    // Set the model and hide the ID column
-    tv_mkcins->setModel(mdl_mkcins);
-    tv_mkcins->setColumnHidden(mdl_mkcins->fieldIndex("id_mkcins"), true);
-    tv_mkcins->setSelectionMode(QAbstractItemView::SingleSelection);
-
+    set_modelMDL ();
+    set_viewMDL ();
+    set_mapMDL ();
+    set_kntrlMDL ();
 }
 
 
-void WW_Mkcins::cr_mdl_mkmark()
+void WW_Mkcins::set_uiCNS()
 {
-    // Create the data model for DBTB_MKCINS
+    qDebug() << "  setup_uiFr";
 
-    mdl_mkmark = new QSqlRelationalTableModel(tv_mkmark);
-    mdl_mkmark->setEditStrategy(QSqlTableModel::OnFieldChange);
-    mdl_mkmark->setTable("dbtb_mkmark");
-    mdl_mkmark->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+    this->setWindowTitle ("Cins - Marka _ Model Giriş");
+    // this->showMaximized ();
 
-    // Remember the indexes of the columns
-    // combobox fields
-    //idx_cins = mdl_mkcins->fieldIndex("cinsi");	//dbtb_mkcins
+    auto *pnc = new QWidget(this);
 
-    // Set the localized header captions
-    mdl_mkmark->setHeaderData(mdl_mkmark->fieldIndex("marka"),
-                              Qt::Horizontal, tr("MARKA"));
-
-    // Populate the model
-    if (!mdl_mkmark->select())
-    {
-        qDebug () << " HATA - " << mdl_mkmark->lastError();
-        return;
-    }
-
-    // Set the model and hide the ID column
-    tv_mkmark->setModel(mdl_mkmark);
-    tv_mkmark->setColumnHidden(mdl_mkmark->fieldIndex("id_mkmark"), true);
-    tv_mkmark->setSelectionMode(QAbstractItemView::SingleSelection);
-
-}
-void WW_Mkcins::cr_mdl_mkmodl()
-{
-    // Create the data model for DBTB_MKmodl
-
-    mdl_mkmodl = new QSqlTableModel(tv_mkmodl);
-    mdl_mkmodl->setEditStrategy(QSqlTableModel::OnFieldChange);
-    mdl_mkmodl->setTable("dbtb_mkmodl");
-
-    // Set the localized header captions
-    mdl_mkmodl->setHeaderData(mdl_mkmodl->fieldIndex("modeli"),
-                              Qt::Horizontal, tr("MODELİ"));
-
-    // Populate the model
-    if (!mdl_mkmodl->select())
-    {
-        qDebug () << " HATA - " << mdl_mkmodl->lastError();
-        return;
-    }
-
-    // Set the model and hide the ID column
-    tv_mkmodl->setModel(mdl_mkmodl);
-    tv_mkmodl->setColumnHidden(mdl_mkmodl->fieldIndex("id_mkmodl"), true);
-    tv_mkmodl->setSelectionMode(QAbstractItemView::SingleSelection);
-
-}
-
-void WW_Mkcins::cr_ui()
-{
-    pnc = new QWidget(this);
-    pnc->setGeometry(100,100,600,400);
-    pnc->setWindowTitle("Cins - Marka _ Model Giriş");
-
-    tv_mkcins = new QTableView();
-    pb_eklE_cns = new QPushButton("Cins Ekle");
-    pb_sil_cns = new QPushButton("Cins Sil");
+    lB_rsm = new QLabel ("Resim");
+    Resim resim (lB_rsm);
+    lB_rsm1 = new QLabel ("Resim");
+    Resim resim1 (lB_rsm1);
+    lB_rsm2 = new QLabel ("Resim");
+    Resim resim2 (lB_rsm2);
 
 
-    tv_mkmark = new QTableView();
-    pb_eklE_mrk = new QPushButton("Marka Ekle");
-    pb_sil_mrk = new QPushButton("Marka Sil");
-
-    tv_mkmodl = new QTableView(pnc);
-    pb_eklE_mdl = new QPushButton("Model Ekle");
-    pb_sil_mdl = new QPushButton("Model Sil");
-
-    pb_tmm = new QPushButton("Tamam");
+    CNStview = new HC_TableView;
+    MRKtview = new HC_TableView;
+    MDLtview = new HC_TableView;
 
 
+    auto *gL = new QGridLayout();
 
-    auto *gL = new QGridLayout(pnc);
-    gL->addWidget(tv_mkcins   ,0,0,20,2);
-    gL->addWidget(pb_eklE_cns ,21,0,1,1);
-    gL->addWidget(pb_sil_cns  ,21,1,1,1);
+    int str{};
+    int stn{};
+    gL->addWidget( CNStview   ,  str,  stn, 1, 1);
+    gL->addWidget( lB_rsm     ,++str,  stn, 1, 1);
+    gL->addWidget( MRKtview   ,--str,++stn, 1, 1);
+    gL->addWidget( lB_rsm1    ,++str,  stn, 1, 1);
+    gL->addWidget( MDLtview   ,--str,++stn, 1, 1);
+    gL->addWidget( lB_rsm2    ,++str,  stn, 1, 1);
 
-    gL->addWidget(tv_mkmark   ,0,3,20,2);
+
+    /*gL->addWidget(pb_eklE_cns , ,0,1,1);
+    //gL->addWidget(pb_sil_cns  ,21,1,1,1);
+
+    gL->addWidget(MRKtview   ,0,3,20,2);
     gL->addWidget(pb_eklE_mrk ,21,3,1,1);
     gL->addWidget(pb_sil_mrk  ,21,4,1,1);
 
-    gL->addWidget(tv_mkmodl   ,0,5,20,2);
+    gL->addWidget(MDLtview   ,0,5,20,2);
     gL->addWidget(pb_eklE_mdl ,21,5,1,1);
     gL->addWidget(pb_sil_mdl  ,21,6,1,1);
     gL->addWidget(pb_tmm     ,22,6,1,1);
-    //pnc->setLayout(gL);
+*/
+    pnc->setLayout(gL);
     pnc->show();
 
 
 
 }
 
-
-void WW_Mkcins::cr_kontrol()
+void WW_Mkcins::set_modelCNS()
 {
-    tv_mkcins->setCurrentIndex(mdl_mkcins->index(0, 0));
-    tv_mkcins->setFocus();
+    qDebug()<<"setup model cns";
 
-    connect(tv_mkcins->selectionModel(),
-            SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
-            this,  SLOT( ontV_cins_filterSLOT(QModelIndex) ));
-
-    connect(tv_mkmark->selectionModel(),
-            SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
-            this,  SLOT( ontV_mark_filterSLOT(QModelIndex) ));
-
-
-    connect( pb_tmm,&QPushButton::clicked,
-             this, &WW_Mkcins::onpb_tmm_clicked);
-
-    connect( pb_eklE_cns,&QPushButton::clicked,
-             this, &WW_Mkcins::onpb_eklE_cns_clicked);
-
-    connect( pb_sil_cns,&QPushButton::clicked,
-             this, &WW_Mkcins::onpb_sil_cns_clicked);
-
-    connect( pb_eklE_mrk,&QPushButton::clicked,
-             this, &WW_Mkcins::onpb_eklE_mrk_clicked);
-
-    connect( pb_sil_mrk,&QPushButton::clicked,
-             this, &WW_Mkcins::onpb_sil_mrk_clicked);
-
-    connect( pb_eklE_mdl,&QPushButton::clicked,
-             this, &WW_Mkcins::onpb_eklE_mdl_clicked);
-
-    connect( pb_sil_mdl,&QPushButton::clicked,
-             this, &WW_Mkcins::onpb_sil_mdl_clicked);
-    connect( tv_mkcins , &QTableView::clicked ,
-             this, &WW_Mkcins::ontv_cns_clicked);
-
-    connect( tv_mkmark , &QTableView::clicked ,
-             this, &WW_Mkcins::ontv_mrk_clicked);
-
-    }
-
-void WW_Mkcins::ontv_cns_clicked()
-{
-    //tv_mkmodl->hide();
-   // tv_mkmodl->hide();
+    CNSmodel = new QSqlRelationalTableModel ;
+    CNSmodel = dbase->modelCinsi() ;
+    qDebug()<<"setup model cns son";
 }
-
-
-void WW_Mkcins::ontv_mrk_clicked()
+void WW_Mkcins::set_viewCNS()
 {
-    //tv_mkmodl->hide();
-}
+    // Set the model and hide the ID column
+    CNStview-> table-> setModel(CNSmodel);
+    CNStview->table->setSelectionMode(QAbstractItemView::SingleSelection);
+    CNStview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
+    CNSselectionMdl = CNStview->table->selectionModel();
 
+    CNStview-> table-> setColumnHidden(CNSmodel->fieldIndex("id_mkcins"), true);
+    CNStview-> table-> setColumnHidden(CNSmodel->fieldIndex("resim"), true);
 
+    CNStview->table->setEditTriggers
+            (QAbstractItemView::DoubleClicked |
+             QAbstractItemView::SelectedClicked |
+             QAbstractItemView::EditKeyPressed);
+    CNStview->table->horizontalHeader()->setStretchLastSection(true);
+    CNStview->table->horizontalHeader()->resizeContentsPrecision();
+    CNStview->table->resizeRowsToContents ();
+    CNStview->table->resizeColumnsToContents();
 
-void WW_Mkcins::onpb_tmm_clicked()
-{
-    // tamam - close dialog
-    mdl_mkcins->submitAll();
-    pnc->close();
+    // select first item
+    // selection model does not hide the frm_kod
+    // so index 0,1 must be select
+    CNStview->table->setCurrentIndex(
+                CNSmodel->index(0, 1)
+                );
+    // with blue rect
+    CNStview->table->setFocus();
+    //   QTimer::singleShot(0, CNStview->table, SLOT(setFocus()));
+
 
 
 }
 
-
-void WW_Mkcins::onpb_eklE_mrk_clicked()
+void WW_Mkcins::set_mapCNS()
 {
-    // ekle marka
+    qDebug()<<"setup mapcns";
+    CNSmapper = new QDataWidgetMapper(this);
+    CNSmapper->setModel(CNSmodel);
 
-    // markaya yeni kayıt eklemek için cins kodunu üğrenelim
-    int id =-1;
-    QModelIndex index = tv_mkcins->currentIndex();
-    if (index.isValid())
+    //CNSmapper->addMapping(lE_unvan , CNSmodel->fieldIndex("frm_unvan"));
+
+    CNSmapper->toFirst ();
+}
+
+
+void WW_Mkcins::set_kntrlCNS()
+{
+    // pB 001 yeni ekle
+    connect(CNStview->pB_ekle, &QPushButton::clicked ,
+            [this]()
     {
-        QSqlRecord record = mdl_mkcins->record(index.row());
-        id = record.value("id_mkcins").toInt();
-    }
-
-    QSqlQuery *q = new QSqlQuery;
-    if (q->exec("INSERT INTO dbtb_mkmark ( mkcins_no )"
-                " values(" + QString::number( id) +   ")"   ))
-        qDebug () <<"Yeni Kayıt - "<< id << " -   Eklendi";
-    else
-        qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
-
-    mdl_mkmark->submit();
-    tv_mkmark->setFocus();
-    mdl_mkmark->select();
-
-}
-void WW_Mkcins::onpb_sil_mrk_clicked()
-{}
-void WW_Mkcins::onpb_eklE_mdl_clicked()
-{
-    // ekle model
-
-    // modele yeni kayıt eklemek için marka kodunu üğrenelim
-    int id =-1;
-    QModelIndex index = tv_mkmark->currentIndex();
-    if (index.isValid())
-    {
-        QSqlRecord record = mdl_mkmark->record(index.row());
-        id = record.value("id_mkmark").toInt();
-    }
-
-    QSqlQuery *q = new QSqlQuery;
-    if (q->exec("INSERT INTO dbtb_mkmodl ( mkmark_no )"
-                " values(" + QString::number( id) +   ")"   ))
-        qDebug () <<"Yeni Kayıt - "<< id << " -   Eklendi";
-    else
-        qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
-
-    mdl_mkmodl->submit();
-    tv_mkmodl->setFocus();
-    mdl_mkmodl->select();
-
-
-}
-void WW_Mkcins::onpb_sil_mdl_clicked()
-{}
-
-void WW_Mkcins::ontV_cins_filterSLOT(QModelIndex)
-{
-
-    QModelIndex index = tv_mkcins->currentIndex();
-    if (index.isValid())
-    {
-        QSqlRecord record = mdl_mkcins->record(index.row());
-        int id = record.value("id_mkcins").toInt();
-
-        mdl_mkmark->setFilter(QString("mkcins_no = %1").arg(id));
-        mdl_mkmark->select();
-
-
-    }
-    else
-    {
-        mdl_mkmark->setFilter("id_mkcins = -1");
-    }
-    tv_mkmark->setFocus();
-
-}
-
-
-void WW_Mkcins::ontV_mark_filterSLOT(QModelIndex)
-{
-
-    QModelIndex index = tv_mkmark->currentIndex();
-    if (index.isValid())
-    {
-        QSqlRecord record = mdl_mkmark->record(index.row());
-        int id = record.value("id_mkmark").toInt();
-
-        mdl_mkmodl->setFilter(QString("mkmark_no = %1").arg(id));
-        mdl_mkmodl->select();
-
-
-    }
-    else
-    {
-        mdl_mkmodl->setFilter("id_mkmark = -1");
-    }
-    tv_mkmodl->setFocus();
-
-}
-
-
-void WW_Mkcins::onpb_eklE_cns_clicked()
-{
-    // ekle cins
-    QSqlRecord  rec( mdl_mkcins->record() );
-
-    // Insert at end of table
-    mdl_mkcins->insertRecord( -1, rec );
-    mdl_mkcins->submitAll();
-    tv_mkcins->setCurrentIndex(mdl_mkcins->
-                               index(0,mdl_mkcins->columnCount()));
-    mdl_mkcins->submitAll();
-    mdl_mkcins->select();
-}
-
-void WW_Mkcins::onpb_sil_cns_clicked()
-{
-    // sil currentrecord
-    QModelIndex sample = tv_mkcins->currentIndex();
-    if( sample.row() >= 0 )
-    {
-        tv_mkcins->selectionModel()->
-                setCurrentIndex(sample,QItemSelectionModel::NoUpdate);
-
-        QSqlRecord rec = mdl_mkcins->record();
-
-        QString val = rec.value(1).toString();
-        QMessageBox::StandardButton dlg;
-
-        dlg = QMessageBox::question(this,
-                                    "KAYIT SİL",  val ,
-                                    QMessageBox::Yes | QMessageBox::No);
-
-
-        if(dlg == QMessageBox::Yes)
+        QSqlRecord rec = CNSmodel->record();
+        // insert a new record (-1) with null date
+        if ( ! CNSmodel->insertRecord(-1,rec))
         {
-            // remove the current index
-            // model->beginRemoveColumn();
-            mdl_mkcins->removeRow(sample.row());
-            //model->endRemoveColumns();
-            mdl_mkcins->submitAll();
-            mdl_mkcins->select();
+            qDebug() << "HATA - Cinsi kaydı eklenemedi ";
         }
-    }
+        else
+        {
+            qDebug() << "Cinsi Kaydı eklendi ";
+        }
+        CNSmodel->submitAll();
+        CNSmodel->select();
+        CNStview->table->setCurrentIndex(CNSmodel->
+                                         index(0,CNSmodel->columnCount()));
+
+    });
+
+    // pB 002 yeni resim ekle
+    connect(CNStview->pB_eklersm, &QPushButton::clicked,
+            [this]()
+    {
+        Resim resim;
+        resim.resimUpdate (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+                           "resim", "ekle");
+    });
+
+    // -- 003   firm  değiştiğnde resmide değiştirelim
+    connect(  CNSselectionMdl , &QItemSelectionModel::currentRowChanged,
+              [this]()
+    {
+        Resim resim;
+        resim.resimUpdate (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+                           "resim");
+    });
+
+
+    // pB 004 yeni camera resim ekle
+
+
+    // pB 005 sil
+
+    connect(CNStview->pB_sil, &QPushButton::clicked,
+            [this]()
+    {
+        // sil currentrecord
+        QModelIndex sample = CNStview->table->currentIndex();
+        if( sample.row() >= 0 )
+        {
+            CNSselectionMdl->
+                    setCurrentIndex(sample,QItemSelectionModel::NoUpdate);
+
+            QSqlRecord rec = CNSmodel->record();
+
+            QString val = rec.value(1).toString();
+            QMessageBox::StandardButton dlg;
+            dlg = QMessageBox::question ( this,
+                                          "KAYIT SİL",  val ,
+                                          QMessageBox::Yes |
+                                          QMessageBox::No);
+
+
+            if(dlg == QMessageBox::Yes)
+            {
+                // remove the current index
+                // model->beginRemoveColumn();
+                CNSmodel->removeRow(sample.row());
+                //model->endRemoveColumns();
+                CNSmodel->submitAll();
+                CNSmodel->select();
+            }
+        }
+    });
+
+    // pB 006 ilk
+    connect(CNStview->pB_ilk, &QPushButton::clicked ,
+            [this]()
+    {
+        CNSmapper->toFirst ();
+        int map_row = CNSmapper->currentIndex ();
+        CNStview->pB_ilk->setEnabled (map_row>0);
+        CNStview->table->setCurrentIndex(CNSmodel->index( 0  ,0));
+    });
+
+    // pB 007 önceki
+    connect(CNStview->pB_ncki, &QPushButton::clicked,
+            [this]()
+    {
+        CNSmapper->toPrevious ();
+        int map_row = CNSmapper->currentIndex ();
+        CNStview->pB_ncki->setEnabled(map_row > 0);
+        CNStview->table->setCurrentIndex(CNSmodel->index( map_row  ,0));
+    });
+
+    // pB 008 sonraki
+    connect(CNStview->pB_snrki, &QPushButton::clicked,
+            [this]()
+    {
+        CNSmapper->toNext ();
+        int map_row = CNSmapper->currentIndex ();
+        CNStview->pB_snrki->setEnabled(map_row < CNSmodel->rowCount() - 1);
+        CNStview->table->setCurrentIndex(CNSmodel->index( map_row  ,0));
+    });
+
+    // pB 009 son
+    connect(CNStview->pB_son, &QPushButton::clicked,
+            [this]()
+    {
+        CNSmapper->toLast ();
+        int map_row = CNSmapper->currentIndex ();
+        CNStview->pB_son->setEnabled(map_row < CNSmodel->rowCount() - 1);
+        CNStview->table->setCurrentIndex(CNSmodel->index( CNSmodel->rowCount() - 1  ,0));
+    });
+
+
+
+    ///// tableview kontrol connectleri
+    ///
+    ///
+    // pB 010 nav tuslari kontrol
+    connect(CNSmapper, &QDataWidgetMapper::currentIndexChanged,
+            [this](int Index )
+    {
+        int row = Index; //FTRmapper->currentIndex ();
+        CNStview->pB_ilk->setEnabled (row>0);
+        CNStview->pB_ncki->setEnabled(row > 0);
+        CNStview->pB_snrki->setEnabled(row < CNSmodel->rowCount() - 1);
+        CNStview->pB_son->setEnabled(row < CNSmodel->rowCount() - 1);
+
+    });
+
+    // --- 011 row değiştiğinde 2 şey olsun
+    connect(  CNSselectionMdl , &QItemSelectionModel::currentRowChanged,
+              [this]( QModelIndex Index )
+    {
+
+        if (Index.isValid())
+        {
+            // 011-01 mapper indexi ayarla
+            CNSmapper->setCurrentModelIndex(Index);
+
+            // 011-02 filter
+//            QSqlRecord record = CNSmodel->record(Index.row());
+//            int id = record.value("id_mkcins").toInt();
+
+//            MRKmodel->setFilter(QString("mkcins_no = %1").arg(id));
+//            MRKmodel->select();
+
+            // 011-03 cins row değiştiğinde cmmy etrafa yayınlayalım
+            QModelIndex Index  = CNStview->table->currentIndex ();
+            QModelIndex Index1 = MRKtview->table->currentIndex ();
+            QModelIndex Index2 = MDLtview->table->currentIndex ();
+            sgnText = CNStview->table->model()->index( Index.row() ,
+                                                       CNSmodel->fieldIndex
+                                                       ("cinsi") ).data().toString()
+                    + "\n" +
+                    MRKtview->table->model()->index( Index1.row() ,
+                                                     MRKmodel->fieldIndex
+                                                     ("marka") ).data().toString()
+                    + " - " +
+                    MDLtview->table->model()->index( Index2.row() ,
+                                                     MDLmodel->fieldIndex
+                                                     ("modeli") ).data().toString() ;
+            emit WW_Mkcins::sgnCmmy (sgnText);
+
+        }
+
+
+
+    });
+    qDebug ()<<"cins pB 010 nav 3";
+    // --- 012 kolon değiştiğinde indexte değişsin
+    connect(  CNSselectionMdl ,
+              &QItemSelectionModel::currentColumnChanged,
+              [this]( QModelIndex Index )
+    {
+        CNSmapper->setCurrentModelIndex(Index);
+    });
+
+    qDebug ()<<"cins pB 010 nav  sonnn";
+
 }
+
+void WW_Mkcins::set_modelMRK()
+{
+
+    MRKmodel = new QSqlRelationalTableModel ;
+    MRKmodel = dbase->modelMarka() ;
+
+
+}
+
+void WW_Mkcins::set_viewMRK()
+{
+
+    // Set the model and hide the ID column
+    MRKtview-> table-> setModel(MRKmodel);
+    MRKtview-> table-> setSelectionMode(QAbstractItemView::SingleSelection);
+    MRKtview-> table-> setSelectionBehavior(QAbstractItemView::SelectItems);
+    MRKselectionMdl = MRKtview-> table-> selectionModel();
+
+    MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("id_mkmark"), true);
+    MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("resim"), true);
+    MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("mkcins_no"), true);
+
+    MRKtview->table->setEditTriggers
+            (QAbstractItemView::DoubleClicked |
+             QAbstractItemView::SelectedClicked |
+             QAbstractItemView::EditKeyPressed);
+    MRKtview->table->horizontalHeader()->setStretchLastSection(true);
+    MRKtview->table->horizontalHeader()->resizeContentsPrecision();
+    MRKtview->table->resizeRowsToContents ();
+    MRKtview->table->resizeColumnsToContents();
+
+    // select first item
+    // selection model does not hide the frm_kod
+    // so index 0,1 must be select
+    MRKtview->table->setCurrentIndex(
+                MRKmodel->index(0, 0)
+                );
+    // with blue rect
+    MRKtview->table->setFocus();
+    //   QTimer::singleShot(0, CNStview->table, SLOT(setFocus()));
+
+
+}
+
+void WW_Mkcins::set_mapMRK()
+{
+
+    qDebug()<<"setup mapcns";
+    MRKmapper = new QDataWidgetMapper(this);
+    MRKmapper->setModel(MRKmodel);
+
+    //CNSmapper->addMapping(lE_unvan , MRKmodel->fieldIndex("frm_unvan"));
+
+    MRKmapper->toFirst ();
+}
+
+void WW_Mkcins::set_kntrlMRK()
+{
+
+    // pB 001 yeni ekle
+    connect(MRKtview->pB_ekle, &QPushButton::clicked ,
+            [this]()
+    {
+        // ekle marka
+
+        // markaya yeni kayıt eklemek için cins kodunu üğrenelim
+        int id =-1;
+        QModelIndex index = CNStview->table->currentIndex();
+        if (index.isValid())
+        {
+            QSqlRecord record = CNSmodel->record(index.row());
+            id = record.value("id_mkcins").toInt();
+        }
+
+        QSqlQuery *q = new QSqlQuery;
+        if (q->exec("INSERT INTO mkmark__dbtb ( mkcins_no )"
+                    " values(" + QString::number( id) +   ")"   ))
+            qDebug () <<"Yeni Kayıt - "<< id << " -   Eklendi";
+        else
+            qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
+
+        MRKmodel->submit();
+        MRKtview->setFocus();
+        MRKmodel->select();
+
+    });
+
+    // pB 002 yeni resim ekle
+    connect(MRKtview->pB_eklersm, &QPushButton::clicked,
+            [this]()
+    {
+        Resim resim;
+        resim.resimUpdate (lB_rsm1, MRKtview, MRKmodel, MRKselectionMdl,
+                           "resim", "ekle");
+    });
+
+    // -- 003   firm  değiştiğnde resmide değiştirelim
+    connect(  MRKselectionMdl , &QItemSelectionModel::currentRowChanged,
+              [this]()
+    {
+        Resim resim;
+        resim.resimUpdate (lB_rsm1, MRKtview, MRKmodel, MRKselectionMdl,
+                           "resim");
+    });
+
+
+    // pB 004 yeni camera resim ekle
+
+
+    // pB 005 sil
+
+    connect(MRKtview->pB_sil, &QPushButton::clicked,
+            [this]()
+    {
+        QModelIndex sample =   MRKtview->table->currentIndex();
+        if( sample.row() >= 0 )
+        {
+            QSqlRecord rec = MRKmodel->record();
+            QString val = rec.value(1).toString();// +" "+
+            QMessageBox::StandardButton dlg;
+            dlg = QMessageBox::question(this,
+                                        "KAYIT SİL",  val+
+                                        "\n Marka kaydı silinsin mi? ?" ,
+                                        QMessageBox::Yes | QMessageBox::No);
+
+            if(dlg == QMessageBox::Yes)
+            {
+                // remove the current index
+                // pmodel->beginRemoveColumn();
+                MRKmodel->removeRow(sample.row());
+                //pmodel->endRemoveColumns();
+                MRKmodel->select();
+            }
+        }
+    });
+
+    // pB 006 ilk
+    connect(MRKtview->pB_ilk, &QPushButton::clicked ,
+            [this]()
+    {
+        MRKmapper->toFirst ();
+        int map_row = MRKmapper->currentIndex ();
+        MRKtview->pB_ilk->setEnabled (map_row>0);
+        MRKtview->table->setCurrentIndex(MRKmodel->index( 0  ,0));
+    });
+
+    // pB 007 önceki
+    connect(MRKtview->pB_ncki, &QPushButton::clicked,
+            [this]()
+    {
+        MRKmapper->toPrevious ();
+        int map_row = MRKmapper->currentIndex ();
+        MRKtview->pB_ncki->setEnabled(map_row > 0);
+        MRKtview->table->setCurrentIndex(MRKmodel->index( map_row  ,0));
+    });
+
+    // pB 008 sonraki
+    connect(MRKtview->pB_snrki, &QPushButton::clicked,
+            [this]()
+    {
+        MRKmapper->toNext ();
+        int map_row = MRKmapper->currentIndex ();
+        MRKtview->pB_snrki->setEnabled(map_row < MRKmodel->rowCount() - 1);
+        MRKtview->table->setCurrentIndex(MRKmodel->index( map_row  ,0));
+    });
+
+    // pB 009 son
+    connect(MRKtview->pB_son, &QPushButton::clicked,
+            [this]()
+    {
+        MRKmapper->toLast ();
+        int map_row = MRKmapper->currentIndex ();
+        MRKtview->pB_son->setEnabled(map_row < MRKmodel->rowCount() - 1);
+        MRKtview->table->setCurrentIndex(MRKmodel->index( MRKmodel->rowCount() - 1  ,0));
+    });
+
+
+
+    ///// tableview kontrol connectleri
+    ///
+    ///
+
+
+    // pB 010 nav tuslari kontrol
+    connect(MRKmapper, &QDataWidgetMapper::currentIndexChanged,
+            [this](int Index )
+    {
+        int row = Index; //FTRmapper->currentIndex ();
+        MRKtview->pB_ilk->setEnabled (row>0);
+        MRKtview->pB_ncki->setEnabled(row > 0);
+        MRKtview->pB_snrki->setEnabled(row < MRKmodel->rowCount() - 1);
+        MRKtview->pB_son->setEnabled(row < MRKmodel->rowCount() - 1);
+
+    });
+
+    // --- 011 row değiştiğinde 2 şey olsun
+    connect(  MRKselectionMdl , &QItemSelectionModel::currentRowChanged,
+              [this]( QModelIndex Index )
+    {
+        if (Index.isValid())
+        {
+            // 011-01 mapper indexi ayarla
+            MRKmapper->setCurrentModelIndex(Index);
+
+
+            QSqlRecord record = MRKmodel->record(Index.row());
+            int id = record.value("id_mkmark").toInt();
+
+            // 011-02 filter
+            MDLmodel->setFilter(QString("mkmark_no = %1").arg(id));
+            MDLmodel->select();
+
+            // 011-03 marka row değiştiğinde cmmy etrafa yayınlayalım
+            QModelIndex Index  = CNStview->table->currentIndex ();
+            QModelIndex Index1 = MRKtview->table->currentIndex ();
+            QModelIndex Index2 = MDLtview->table->currentIndex ();
+            sgnText = CNStview->table->model()->index( Index.row() ,
+                                                       CNSmodel->fieldIndex
+                                                       ("cinsi") ).data().toString()
+                    + "\n" +
+                    MRKtview->table->model()->index( Index1.row() ,
+                                                     MRKmodel->fieldIndex
+                                                     ("marka") ).data().toString()
+                    + " - " +
+                    MDLtview->table->model()->index( Index2.row() ,
+                                                     MDLmodel->fieldIndex
+                                                     ("modeli") ).data().toString() ;
+            emit WW_Mkcins::sgnCmmy (sgnText);
+        }
+        else
+        {
+            MDLmodel->setFilter("id_mkmark = -1");
+        }
+        MDLtview->table->setFocus();
+
+    });
+
+    // --- 012 kolon değiştiğinde indexte değişsin
+    connect(  MRKselectionMdl ,
+              &QItemSelectionModel::currentColumnChanged,
+              [this]( QModelIndex Index )
+    {
+        MRKmapper->setCurrentModelIndex(Index);
+    });
+
+
+}
+
+void WW_Mkcins::set_modelMDL()
+{
+    MDLmodel = new QSqlRelationalTableModel ;
+    MDLmodel = dbase->modelModeli() ;
+}
+
+void WW_Mkcins::set_viewMDL()
+{
+
+    // Set the model and hide the ID column
+    MDLtview-> table-> setModel(MDLmodel);
+    MDLtview-> table-> setSelectionMode(QAbstractItemView::SingleSelection);
+    MDLtview-> table-> setSelectionBehavior(QAbstractItemView::SelectItems);
+    MDLselectionMdl = MDLtview-> table-> selectionModel();
+
+
+    MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("resim"), true);
+    MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("mkmark_no"), true);
+    MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("id_mkmodl"), true);
+
+    MDLtview->table->setEditTriggers
+            (QAbstractItemView::DoubleClicked |
+             QAbstractItemView::SelectedClicked |
+             QAbstractItemView::EditKeyPressed);
+    MDLtview->table->horizontalHeader()->setStretchLastSection(true);
+    MDLtview->table->horizontalHeader()->resizeContentsPrecision();
+    MDLtview->table->resizeRowsToContents ();
+    MDLtview->table->resizeColumnsToContents();
+
+    // select first item
+    // selection model does not hide the frm_kod
+    // so index 0,1 must be select
+    MDLtview->table->setCurrentIndex(
+                MDLmodel->index(0, 0)
+                );
+    // with blue rect
+    MDLtview->table->setFocus();
+    //   QTimer::singleShot(0, CNStview->table, SLOT(setFocus()));
+
+
+}
+
+void WW_Mkcins::set_mapMDL()
+{
+
+    qDebug()<<"setup mapmodeli";
+    MDLmapper = new QDataWidgetMapper(this);
+    MDLmapper->setModel(MDLmodel);
+
+    //CNSmapper->addMapping(lE_unvan , MDLmodel->fieldIndex("frm_unvan"));
+
+    MDLmapper->toFirst ();
+
+}
+
+void WW_Mkcins::set_kntrlMDL()
+{
+qDebug()<<"kntrl mdl ";
+    // pB 001 yeni ekle
+    connect(MDLtview->pB_ekle, &QPushButton::clicked ,
+            [this]()
+    {
+        // ekle model
+
+        // modele yeni kayıt eklemek için marka kodunu üğrenelim
+        int id =-1;
+        QModelIndex index = MRKtview->table->currentIndex();
+        if (index.isValid())
+        {
+            QSqlRecord record = MRKmodel->record(index.row());
+            id = record.value("id_mkmark").toInt();
+        }
+
+        QSqlQuery *q = new QSqlQuery;
+        if (q->exec("INSERT INTO mkmodl__dbtb ( mkmark_no )"
+                    " values(" + QString::number( id) +   ")"   ))
+            qDebug () <<"Yeni Kayıt - "<< id << " -   Eklendi";
+        else
+            qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
+
+        MDLmodel->submit();
+        MDLtview->setFocus();
+        MDLmodel->select();
+
+
+    });
+
+    // pB 002 yeni resim ekle
+    connect(MDLtview->pB_eklersm, &QPushButton::clicked,
+            [this]()
+    {
+        Resim resim;
+        resim.resimUpdate (lB_rsm2, MDLtview, MDLmodel, MDLselectionMdl,
+                           "resim", "ekle");
+    });
+
+    // -- 003   firm  değiştiğnde resmide değiştirelim
+    connect(  MDLselectionMdl , &QItemSelectionModel::currentRowChanged,
+              [this]()
+    {
+        qDebug()<<"kntrl mdl11111 ";
+        Resim resim;
+        resim.resimUpdate (lB_rsm2, MDLtview, MDLmodel, MDLselectionMdl,
+                           "resim");
+    });
+
+
+    // pB 004 yeni camera resim ekle
+
+
+    // pB 005 sil
+
+    connect(MDLtview->pB_sil, &QPushButton::clicked,
+            [this]()
+    {
+        QModelIndex sample =   MDLtview->table->currentIndex();
+        if( sample.row() >= 0 )
+        {
+            QSqlRecord rec = MDLmodel->record();
+            QString val = rec.value(1).toString();// +" "+
+            QMessageBox::StandardButton dlg;
+            dlg = QMessageBox::question (this,
+                                         "KAYIT SİL",  val +
+                                         "\n Modeli kaydı silinsin mi? ?" ,
+                                         QMessageBox::Yes | QMessageBox::No);
+
+            if(dlg == QMessageBox::Yes)
+            {
+                // remove the current index
+                // pmodel->beginRemoveColumn();
+                MDLmodel->removeRow(sample.row());
+                //pmodel->endRemoveColumns();
+                MDLmodel->select();
+            }
+        }
+    });
+
+    // pB 006 ilk
+    connect(MDLtview->pB_ilk, &QPushButton::clicked ,
+            [this]()
+    {
+        MDLmapper->toFirst ();
+        int map_row = MDLmapper->currentIndex ();
+        MDLtview->pB_ilk->setEnabled (map_row>0);
+        MDLtview->table->setCurrentIndex(MDLmodel->index( 0  ,0));
+    });
+
+    // pB 007 önceki
+    connect(MDLtview->pB_ncki, &QPushButton::clicked,
+            [this]()
+    {
+        MDLmapper->toPrevious ();
+        int map_row = MDLmapper->currentIndex ();
+        MDLtview->pB_ncki->setEnabled(map_row > 0);
+        MDLtview->table->setCurrentIndex(MDLmodel->index( map_row  ,0));
+    });
+
+    // pB 008 sonraki
+    connect(MDLtview->pB_snrki, &QPushButton::clicked,
+            [this]()
+    {
+        MDLmapper->toNext ();
+        int map_row = MDLmapper->currentIndex ();
+        MDLtview->pB_snrki->setEnabled(map_row < MDLmodel->rowCount() - 1);
+        MDLtview->table->setCurrentIndex(MDLmodel->index( map_row  ,0));
+    });
+
+    // pB 009 son
+    connect(MDLtview->pB_son, &QPushButton::clicked,
+            [this]()
+    {
+        MDLmapper->toLast ();
+        int map_row = MDLmapper->currentIndex ();
+        MDLtview->pB_son->setEnabled(map_row < MDLmodel->rowCount() - 1);
+        MDLtview->table->setCurrentIndex(MDLmodel->index( MDLmodel->rowCount() - 1  ,0));
+    });
+
+
+
+    ///// tableview kontrol connectleri
+    ///
+    ///
+
+
+    // pB 010 nav tuslari kontrol
+    connect(MDLmapper, &QDataWidgetMapper::currentIndexChanged,
+            [this](int Index )
+    {
+        int row = Index; //FTRmapper->currentIndex ();
+        MDLtview->pB_ilk->setEnabled (row>0);
+        MDLtview->pB_ncki->setEnabled(row > 0);
+        MDLtview->pB_snrki->setEnabled(row < MDLmodel->rowCount() - 1);
+        MDLtview->pB_son->setEnabled(row < MDLmodel->rowCount() - 1);
+
+    });
+
+    // --- 011 row değiştiğinde 2 şey olsun
+    connect(  MDLselectionMdl , &QItemSelectionModel::currentRowChanged,
+              [this]( QModelIndex Index )
+    {
+        // 011-01 mapper indexi ayarla
+        MDLmapper->setCurrentModelIndex(Index);
+        if (Index.isValid())
+        {
+
+            // 011-02 marka row değiştiğinde cmmy etrafa yayınlayalım
+            QModelIndex Index  = CNStview->table->currentIndex ();
+            QModelIndex Index1 = MRKtview->table->currentIndex ();
+            QModelIndex Index2 = MDLtview->table->currentIndex ();
+            sgnText = CNStview->table->model()->index( Index.row() ,
+                                                       CNSmodel->fieldIndex
+                                                       ("cinsi") ).data().toString()
+                    + "\n" +
+                    MRKtview->table->model()->index( Index1.row() ,
+                                                     MRKmodel->fieldIndex
+                                                     ("marka") ).data().toString()
+                    + " - " +
+                    MDLtview->table->model()->index( Index2.row() ,
+                                                     MDLmodel->fieldIndex
+                                                     ("modeli") ).data().toString() ;
+
+
+
+            emit WW_Mkcins::sgnCmmy (sgnText);
+
+        }
+        // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
+        //  emit Cw_fr::sgnfirma(MDLtview->table->model()->index( Index.row() ,
+        //                                                      MDLmodel->fieldIndex ("frm_unvan") ).data().toString() );
+    });
+
+    // --- 012 kolon değiştiğinde indexte değişsin
+    connect(  MDLselectionMdl ,
+              &QItemSelectionModel::currentColumnChanged,
+              [this]( QModelIndex Index )
+    {
+        MDLmapper->setCurrentModelIndex(Index);
+    });
+
+}
+
+
+
+
+
+
+WW_Mkcins::~WW_Mkcins()
+= default;
+
+

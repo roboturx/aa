@@ -35,13 +35,13 @@ bool DBase::setupDBase()
     }
     
     
-        /// hata ne /// baglanti yok
-        QString x = "Hata 002 - Code::Database NOT Connected !!! <br>"+
-                VTKontrolEt::instance ()->GetError ()   ;
-        yaz("/// ? - "+x);
+    /// hata ne /// baglanti yok
+    QString x = "Hata 002 - Code::Database NOT Connected !!! <br>"+
+            VTKontrolEt::instance ()->GetError ()   ;
+    yaz("/// ? - "+x);
 
 
-        return false;
+    return false;
     
 }
 
@@ -63,10 +63,12 @@ void DBase::VTDosyaKontrol()
     yaz(DBase::VTd_MlzmDETAY ());
 
 
-    DBase::VTd_mkn ();
-    DBase::VTd_CINS ();
-    DBase::VTd_MARKA ();
-    DBase::VTd_MODEL ();
+    yaz(DBase::VTd_mkn ());
+    yaz(DBase::VTd_CINS ());
+    yaz(DBase::VTd_MARKA ());
+    yaz(DBase::VTd_MODEL ());
+
+
     DBase::VTd_ISEMRI ();
     DBase::VTd_ISEMRIDETAY ();
     DBase::VTd_IEDTAMIRYERI ();
@@ -93,12 +95,12 @@ QString DBase::VTd_CLSN()
     QSqlQuery   q;
     QString     ct, mesaj = "OK - Çalışan";
     QStringList inserts;
-
+    CLSNtableName = new QString( "clsn_dbtb");
     if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( "dbtb_clsn"))
+         GetDB().tables().contains( *CLSNtableName ))
     {
 
-        ct = "CREATE TABLE IF NOT EXISTS dbtb_clsn"
+        ct = "CREATE TABLE IF NOT EXISTS " + *CLSNtableName +
              "("
              "  kod_pr	    INTEGER PRIMARY KEY  , "
              "  isim		TEXT ,"
@@ -130,7 +132,7 @@ QString DBase::VTd_CLSN()
         else
         {
             mesaj = "OK - Çalışan Dosyası YENİ Oluşturuldu ";
-            inserts << "INSERT INTO dbtb_clsn "
+            inserts << "INSERT INTO " + *CLSNtableName +
                        "( "
                        "isim, soyad, "
                        "bolum, meslek, gorev, "
@@ -146,7 +148,7 @@ QString DBase::VTd_CLSN()
                        "'', '', '', "
                        "'','', ''"
                        " )"
-                    << "INSERT INTO dbtb_clsn "
+                    << "INSERT INTO " + *CLSNtableName +
                        "( "
                        "isim, soyad, "
                        "bolum, meslek, gorev, "
@@ -195,12 +197,13 @@ QString DBase::VTd_MSLK ()
 {
     QString mesaj = "OK - Meslek";
     QSqlQuery query;
+    MSLKtableName = new QString( "clsnmslk__dbtb");
 
     if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( "dbtb_mslk"))
+         GetDB().tables().contains( *MSLKtableName ))
     {
-        if (! query.exec("create table if not exists "
-                         "dbtb_mslk (id int, meslek TEXT)"))
+        if (! query.exec("create table if not exists " + *MSLKtableName +
+                         " (id int, meslek TEXT)"))
         {
             mesaj = "<br>HATA - Meslek Dosyası Oluşturulamadı"
                     "<br>------------------------------------<br>"+
@@ -210,7 +213,7 @@ QString DBase::VTd_MSLK ()
         else
         {
             mesaj = "OK - Meslek Dosyası YENİ Oluşturuldu - ";
-            if ( !query.exec("insert into dbtb_mslk values(101, 'Makina Mühendisi')"))
+            if ( !query.exec("insert into " + *MSLKtableName + " values(101, 'Makina Mühendisi')"))
             {
                 mesaj = mesaj + "<br>İLK meslek kaydı eklenemedi "
                                 "<br>------------------------------------<br>"+
@@ -234,11 +237,12 @@ QString DBase::VTd_FRMA()
     QSqlQuery   q;
     QString     ct, mesaj ="OK - Firma";
     QStringList inserts;
+    FRMtableName = new QString( "frm__dbtb");
 
     if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( "frm__dbtb"))
+         GetDB().tables().contains( *FRMtableName ))
     {
-        ct = "CREATE TABLE IF NOT EXISTS frm__dbtb"
+        ct = "CREATE TABLE IF NOT EXISTS " + *FRMtableName +
              "("
              "  frm_kod    INTEGER PRIMARY KEY  , "
              "  frm_unvan	TEXT ,"
@@ -263,7 +267,7 @@ QString DBase::VTd_FRMA()
         else
         {
             mesaj = "OK - FİRMA Dosyası YENİ Oluşturuldu ";
-            inserts << "INSERT INTO frm__dbtb "
+            inserts << "INSERT INTO " + *FRMtableName +
                        "( "
                        "frm_unvan , frm_adres, frm_sehir , "
                        "frm_vd    , frm_vdno , frm_tel   , "
@@ -302,8 +306,7 @@ QString DBase::VTd_FRMA()
 
 QSqlRelationalTableModel* DBase::modelFirma()
 {
-qDebug() << " mdlfrm";
-    QString tableName  = "frm__dbtb";
+    qDebug() << " mdlfrm";
     QString indexField = "frm_unvan";
 
     QStringList fieldList ;
@@ -321,8 +324,8 @@ qDebug() << " mdlfrm";
     // fieldList.append("resim");
 
 
-    mdlfrm = new QSqlRelationalTableModel;
-    mdlfrm->setTable( tableName );
+    auto *mdlfrm = new QSqlRelationalTableModel;
+    mdlfrm->setTable( "frm_dbtb" );
     mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
@@ -334,7 +337,7 @@ qDebug() << " mdlfrm";
     // Populate the model_mkstok
     if (!mdlfrm->select())
     {
-        qDebug () <<  " HATA - Model fatura select "
+        qDebug () <<  " HATA - Model firma select "
                    <<mdlfrm->lastError();
     }
 
@@ -351,11 +354,12 @@ QString DBase::VTd_FTRA ()
     QSqlQuery   q;
     QString     ct, mesaj = "OK - Fatura" ;
     QStringList inserts;
+    FTRtableName = new QString( "ftr__dbtb");
 
-    if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( "ftr__dbtb"))
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains(*FTRtableName ))
     {
-        ct = "CREATE TABLE IF NOT EXISTS ftr__dbtb"
+        ct = "CREATE TABLE IF NOT EXISTS " + *FTRtableName +
              "("
              "  ftr_kod    INTEGER PRIMARY KEY  , "
              "  ftr_no  	TEXT ,"
@@ -374,7 +378,7 @@ QString DBase::VTd_FTRA ()
         else
         {
             mesaj = " OK - Fatuura Dosyası YENİ Oluşturuldu - ";
-            inserts << "INSERT INTO ftr__dbtb "
+            inserts << "INSERT INTO " + *FTRtableName +
                        "( "
                        "ftr_no , ftr_firma "
                        ") "
@@ -401,8 +405,8 @@ QString DBase::VTd_FTRA ()
     }
     else /// dosya var
     {
-       // mdlFtr = new QSqlRelationalTableModel;
-       // mdlFtr = modelFatura();
+        // mdlFtr = new QSqlRelationalTableModel;
+        // mdlFtr = modelFatura();
     }
 
     qDebug()<< mesaj ;
@@ -411,8 +415,8 @@ QString DBase::VTd_FTRA ()
 
 QSqlRelationalTableModel* DBase::modelFatura()
 {
-qDebug() << " mdlftr";
-    QString tableName  = "ftr__dbtb";
+    qDebug() << " mdlftr";
+
     QString indexField = "ftr_tarih";
 
     QStringList fieldList ;
@@ -424,8 +428,8 @@ qDebug() << " mdlftr";
     fieldList.append("Resim");
 
 
-    mdlFtr = new QSqlRelationalTableModel;
-    mdlFtr->setTable( tableName );
+    auto *mdlFtr = new QSqlRelationalTableModel;
+    mdlFtr->setTable( "ftr__dbtb" );
     mdlFtr->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlFtr->setSort(mdlFtr->fieldIndex ( indexField ),Qt::AscendingOrder );
 
@@ -443,7 +447,7 @@ qDebug() << " mdlftr";
         qDebug () <<  " HATA - Model fatura select "
                    <<mdlFtr->lastError();
     }
-    qDebug () <<  " MŞZMmodel orj mw main"<< mdlFtr;
+
     return mdlFtr ;
 }///FATURA
 
@@ -460,10 +464,12 @@ QString DBase::VTd_Mlzm()
 
     QString ct, mesaj ="OK - Malzeme";
     QSqlQuery q;
+    MLZMtableName = new QString( "mlzm__dbtb");
+
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( "mlzm__dbtb"))
     {
-        ct = "CREATE TABLE IF NOT EXISTS mlzm__dbtb "
+        ct = "CREATE TABLE IF NOT EXISTS " + *MLZMtableName +
              "("
              "mlzm_kod integer primary key, "
              "mlzm_barkod	TEXT, "
@@ -490,7 +496,7 @@ QString DBase::VTd_Mlzm()
         {
             mesaj= "OK - Malzeme Dosyası YENİ Oluşturuldu ";
             if (
-                    q.exec("INSERT INTO mlzm__dbtb "
+                    q.exec("INSERT INTO " + *MLZMtableName +
                            "( mlzm_barkod,mlzm_malzeme )"
                            " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
             {
@@ -508,8 +514,8 @@ QString DBase::VTd_Mlzm()
     }
     else /// dosya var
     {
-//        mdlMlzm = new QSqlRelationalTableModel;
-  //      mdlMlzm = modelMalzeme();
+        //        mdlMlzm = new QSqlRelationalTableModel;
+        //      mdlMlzm = modelMalzeme();
     }
     qDebug() << mesaj;
     return mesaj;
@@ -519,8 +525,8 @@ QString DBase::VTd_Mlzm()
 
 QSqlRelationalTableModel* DBase::modelMalzeme()
 {
-qDebug() << " mdlmlzm";
-    QString tableName  = "mlzm__dbtb";
+    qDebug() << " mdlmlzm";
+
     QString indexField = "mlzm_malzeme";
 
     QStringList fieldList;
@@ -538,8 +544,8 @@ qDebug() << " mdlmlzm";
     fieldList.append("Makina");
     fieldList.append("Resim");
 
-    mdlMlzm = new QSqlRelationalTableModel;
-    mdlMlzm->setTable( tableName );
+    auto *mdlMlzm = new QSqlRelationalTableModel;
+    mdlMlzm->setTable( "mlzm__dbtb" );
     mdlMlzm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlMlzm->setSort(mdlMlzm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
@@ -572,10 +578,12 @@ QString DBase::VTd_MlzmDETAY()
 {
     QString ct, mesaj = "OK - Malzeme Detay";
     QSqlQuery q;
+    MLZDETtableName = new QString( "mlzmdet__dbtb");
+
     if ( ! VTKontrolEt::instance()->GetDB().
-         tables().contains( "mlzmdet__dbtb"))
+         tables().contains( *MLZDETtableName ))
     {
-        ct = "CREATE TABLE IF NOT EXISTS mlzmdet__dbtb "
+        ct = "CREATE TABLE IF NOT EXISTS " + *MLZDETtableName +
              "("
              "mlzmDet_kod integer primary key, "
              "mlzmDet_mlzm_kod	INTEGER, "
@@ -603,7 +611,7 @@ QString DBase::VTd_MlzmDETAY()
         {
             mesaj= "OK - Malzeme Detay Dosyası YENİ Oluşturuldu";
 
-            if (q.exec("INSERT INTO mlzmdet__dbtb "
+            if (q.exec("INSERT INTO " + *MLZDETtableName +
                        "( mlzmdet_malzeme, mlzmDet_gc, mlzmDet_gcno )"
                        " values( '1 nolu ürüne ait detay','Faturalı Giriş','1' )"  ))
             {
@@ -628,7 +636,7 @@ QSqlRelationalTableModel* DBase::modelMalzemeDetay()
     /// NOTE Model 1 mw_main de modeli oluştur
     /// fatura detayında
     /// malzeme detay dosyası oluşturuluyor
-    QString tableName  = "mlzmdet__dbtb";
+
     QString indexField = "mlzmdet_gcno";
 
     QStringList fieldList ;
@@ -646,8 +654,8 @@ QSqlRelationalTableModel* DBase::modelMalzemeDetay()
     fieldList.append("Açıklama");
     fieldList.append("Resim");
 
-    mdlMlzmDty = new QSqlRelationalTableModel;
-    mdlMlzmDty->setTable( tableName );
+    auto *mdlMlzmDty = new QSqlRelationalTableModel;
+    mdlMlzmDty->setTable( "mlzmdet__dbtb" );
     mdlMlzmDty->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlMlzmDty->setSort(mdlMlzmDty->fieldIndex ( indexField ),Qt::AscendingOrder );
 
@@ -678,19 +686,21 @@ QSqlRelationalTableModel* DBase::modelMalzemeDetay()
 ///
 /// \brief DBase::VTd_mkn
 ///
-void DBase::VTd_mkn()
+QString DBase::VTd_mkn()
 {
 
     /// MKSTOK create
     ///
-
-    QString ct;
+    QString ct, mesaj = "OK - Makina";
     QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "mkn__dbtb"))
+    MKNtableName = new QString( "mkn__dbtb");
+
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( *MKNtableName ))
     {
         //mkn_kurumNo key used every table's relation
 
-        ct =  "CREATE TABLE IF NOT EXISTS mkn__dbtb "
+        ct =  "CREATE TABLE IF NOT EXISTS  " + *MKNtableName +
               "("
               "id_mkn integer primary key, "
               "mkn_kurumno       TEXT, "
@@ -711,33 +721,47 @@ void DBase::VTd_mkn()
               "mkn_resim         BLOB, "
               "mkn_rating        INTEGER)" ;
 
+
         if (!q.exec( ct ))
         {
-            qDebug() << "DEMİRBAŞ Makina Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
+            mesaj = "<br>HATA - Makina Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
         }
         else
         {
-            qDebug() << "DEMİRBAŞ Makina Dosyası YENİ Oluşturuldu - ";
-            q.exec("INSERT INTO mkn__dbtb ( mkn_kurumNo,mkn_cinsi,"
-                   "mkn_marka, mkn_modeli, mkn_surucu )"
-                   " values( '100001', 1 , 1 , 1 , 1 )"  );
+            mesaj= "OK - Malzeme Detay Dosyası YENİ Oluşturuldu";
 
+            if ( q.exec("INSERT INTO "+*MKNtableName+" ( mkn_kurumNo,mkn_cinsi,"
+                        "mkn_marka, mkn_modeli, mkn_surucu )"
+                        " values( '100001', 1 , 1 , 1 , 1 )"  ))
+            {
+                mesaj = mesaj + "<br>İLK kayıt eklendi";
+            }
+            else
+            {
+                mesaj = mesaj +"<br>İLK Kayıt EKLENEMEDİ "
+                               "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
         }
     }
-    else
-    {
-        qDebug() << "1- DEMİRBAŞ Makina Dosyası - OK ";
-    }
+    qDebug()<< mesaj ;
+    return mesaj ;
+
+
+
 }       /// VTdMKSTOK
 
 
 
 QSqlRelationalTableModel* DBase::modelMakina()
 {
-qDebug() << " mdlmkn";
-    QString tableName  = "mkn__dbtb";
+    qDebug() << " modelmkn";
     QString indexField = "mkn_kurumno";
+
 
     QStringList fieldList ;
     fieldList.append("Makina Kod");
@@ -761,8 +785,8 @@ qDebug() << " mdlmkn";
     // fieldList.append("resim");
 
 
-    mdlmkn = new QSqlRelationalTableModel;
-    mdlmkn->setTable( tableName );
+    auto *mdlmkn = new QSqlRelationalTableModel;
+    mdlmkn->setTable( "mkn__dbtb" );
     mdlmkn->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlmkn->setSort(mdlmkn->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlmkn->setJoinMode(QSqlRelationalTableModel::LeftJoin);
@@ -784,6 +808,351 @@ qDebug() << " mdlmkn";
 
 
 
+
+
+///// CINS
+///
+///
+QString DBase::VTd_CINS()
+{
+    qDebug() << "db Cinsi CREATE  ";
+    QString ct, mesaj = "OK - Cinsi";
+    QSqlQuery q;
+    CNStableName = new QString( "mkcins__dbtb");
+
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( *CNStableName ))
+    {
+        ct = "CREATE TABLE " + *CNStableName +
+             "("
+             "cinsi TEXT, "
+             "resim BLOB, "
+             "id_mkcins INTEGER PRIMARY key "
+             ") " ;
+
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Cinsi Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj= "OK - Cinsi Dosyası YENİ Oluşturuldu";
+
+            QStringList inserts;
+            inserts << "INSERT INTO"+ *CNStableName +" ( cinsi ) values(' - ')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Otomobil')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Arazi Aracı')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Pickup')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Kamyon')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Çekici 2x2')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Çekici 4x2')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Çekici 4x4')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Forklift')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Loader')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Backhoe')"
+                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Excavator')" ;
+            int x{},y{};
+            foreach (QString qry , inserts)
+            {
+                if ( q.exec(qry) )
+                {
+                    x++;
+                }
+                else
+                {
+                    y++;
+
+                }
+            }
+            if (x>0)
+            {
+                mesaj = mesaj + QString::number (x) +
+                        "<br>kayıt eklendi";
+            }
+            if (y>0)
+            {
+                mesaj = mesaj + QString::number (y) +
+                        "<br>Kayıt EKLENEMEDİ "
+                        "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
+        }
+    }
+    qDebug()<< mesaj ;
+    return mesaj ;
+
+}
+
+QSqlRelationalTableModel* DBase::modelCinsi()
+{
+    qDebug() << " db model cns";
+    QString indexField = "cinsi";
+    QStringList fieldList ;
+
+    fieldList.append("Cinsi");
+    fieldList.append("Resim");
+    fieldList.append("Cinsi Kodu");
+
+    auto *mdlcnsi = new QSqlRelationalTableModel;
+    mdlcnsi->setTable( "mkcins__dbtb" );
+    mdlcnsi->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    mdlcnsi->setSort(mdlcnsi->fieldIndex ( indexField ),Qt::AscendingOrder );
+    mdlcnsi->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+
+    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    {
+        mdlcnsi->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+    }
+
+    // Populate the model_mkstok
+    if (!mdlcnsi->select())
+    {
+        qDebug () <<  " HATA - Model Cinsi select "
+                   <<mdlcnsi->lastError();
+    }
+
+    return mdlcnsi ;
+}///CNS
+
+
+
+
+///// MARKA
+///
+///
+QString DBase::VTd_MARKA()
+{
+    qDebug() << " db Marka CREATE  ";
+    QString ct, mesaj = "OK - Marka";
+    QSqlQuery q;
+    MRKtableName = new QString( "mkmark__dbtb");
+
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( *MRKtableName ))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS " + *MRKtableName +
+             "("
+             "marka TEXT, "
+             "resim BLOB, "
+             "mkcins_no INTEGER,"
+             "id_mkmark INTEGER PRIMARY key )"  ;
+
+
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Marka Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj= "OK - Marka Dosyası YENİ Oluşturuldu";
+
+
+            QStringList inserts;
+            inserts << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' - ',1)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' FORD '  ,2)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' RENAULT',2)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' OPEL '  ,2)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' VW'     ,2)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' JEEP '  ,3)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' TOYOTA' ,3)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' NISSAN ',4)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' ISUZU'  ,4)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',5)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',6)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',7)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',8)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' BAOLI'        ,9)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' ÇUKUROVA'     ,9)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' CATERPILLAR'  ,10)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' JVC'          ,11)"
+                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' HITACHI'      ,12)";
+            int x{},y{};
+            foreach (QString qry , inserts)
+            {
+                if ( q.exec(qry) )
+                {
+                    x++;
+                }
+                else
+                {
+                    y++;
+
+                }
+            }
+            if (x>0)
+            {
+                mesaj = mesaj + QString::number (x) +
+                        "<br>kayıt eklendi";
+            }
+            if (y>0)
+            {
+                mesaj = mesaj + QString::number (y) +
+                        "<br>Kayıt EKLENEMEDİ "
+                        "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
+        }
+    }
+    qDebug()<< mesaj ;
+    return mesaj ;
+
+}
+
+
+QSqlRelationalTableModel* DBase::modelMarka()
+{
+    qDebug() << " db modelmarka";
+    QString indexField = "marka";
+    QStringList fieldList ;
+
+    fieldList.append("Marka");
+    fieldList.append("Resim");
+    fieldList.append("Cinsi Nosu");
+    fieldList.append("Marka kodu");
+
+
+    auto *mdlmrk = new QSqlRelationalTableModel;
+    mdlmrk->setTable( "mkmark__dbtb" );
+    mdlmrk->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    mdlmrk->setSort(mdlmrk->fieldIndex ( indexField ),Qt::AscendingOrder );
+    mdlmrk->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+
+    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    {
+        mdlmrk->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+    }
+
+    // Populate the model_mkstok
+    if (!mdlmrk->select())
+    {
+        qDebug () <<  " HATA - Model Marka select "
+                   <<mdlmrk->lastError();
+    }
+
+    return mdlmrk ;
+}///MRK
+
+
+
+
+///// MODEL
+///
+///
+QString DBase::VTd_MODEL()
+{
+    qDebug() << " db Modeli CREATE  ";
+    QString ct, mesaj = "OK - Model";
+    QSqlQuery q;
+    MDLtableName = new QString( "mkmodl__dbtb");
+
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( *MDLtableName ))
+    {
+        ct =  "CREATE TABLE IF NOT EXISTS " + *MDLtableName +
+              "("
+              "modeli TEXT, "
+              "resim BLOB, "
+              "mkmark_no INTEGER,"
+              "id_mkmodl INTEGER PRIMARY key )"  ;
+
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Modeli Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj= "OK - Modeli Dosyası YENİ Oluşturuldu";
+
+
+            QStringList inserts;
+            inserts << "INSERT INTO "+ *MDLtableName +" ( modeli, mkmark_no ) values(' - '       ,1)"
+                    << "INSERT INTO "+ *MDLtableName +" ( modeli, mkmark_no ) values('Fiesta 1.4',2)"
+                    << "INSERT INTO "+ *MDLtableName +" ( modeli, mkmark_no ) values('Focus 1.6' ,2)"
+                    << "INSERT INTO "+ *MDLtableName +" ( modeli, mkmark_no ) values('Mondeo 2.0',2)"
+                    << "INSERT INTO "+ *MDLtableName +" ( modeli, mkmark_no ) values('Clio'      ,3)"
+                    << "INSERT INTO "+ *MDLtableName +" ( modeli, mkmark_no ) values('Laguna'    ,3)" ;
+            int x{},y{};
+            foreach (QString qry , inserts)
+            {
+                if ( q.exec(qry) )
+                {
+                    x++;
+                }
+                else
+                {
+                    y++;
+
+                }
+            }
+            if (x>0)
+            {
+                mesaj = mesaj + QString::number (x) +
+                        "<br>kayıt eklendi";
+            }
+            if (y>0)
+            {
+                mesaj = mesaj + QString::number (y) +
+                        "<br>Kayıt EKLENEMEDİ "
+                        "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
+        }
+    }
+    qDebug()<< mesaj ;
+    return mesaj ;
+
+}
+
+
+
+QSqlRelationalTableModel* DBase::modelModeli()
+{
+    qDebug() << " db modeldlmodeli";
+    QString indexField = "modeli";
+    QStringList fieldList ;
+
+
+    fieldList.append("Model");
+    fieldList.append("Resim");
+    fieldList.append("Marka Nosu");
+    fieldList.append("Model kodu");
+
+
+    auto *mdlmdli = new QSqlRelationalTableModel;
+    mdlmdli->setTable( "mkmodl__dbtb" );
+    mdlmdli->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    mdlmdli->setSort(mdlmdli->fieldIndex ( indexField ),Qt::AscendingOrder );
+    mdlmdli->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+
+    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    {
+        mdlmdli->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+    }
+
+    // Populate the model_mkstok
+    if (!mdlmdli->select())
+    {
+        qDebug () <<  " HATA - Model Marka select "
+                   <<mdlmdli->lastError();
+    }
+
+    return mdlmdli ;
+}///MRK
 
 
 
@@ -1496,159 +1865,6 @@ void DBase::VTd_DPTLP()
 
 
 
-///// CINS
-///
-///
-void DBase::VTd_CINS()
-{
-    QString ct;
-    QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_mkcins"))
-    {
-        ct = "CREATE TABLE dbtb_mkcins "
-             "("
-             "cinsi TEXT, "
-             "id_mkcins INTEGER PRIMARY key "
-             ") " ;
-
-
-        if (!q.exec( ct ))
-        {
-            qDebug() << "MAKİNA CİNSİ Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-        }
-        else
-        {
-            qDebug() << "MAKİNA CİNSİ Dosyası YENİ Oluşturuldu - ";
-            QStringList inserts;
-            inserts << "INSERT INTO dbtb_mkcins ( cinsi ) values(' - ')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Otomobil')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Arazi Aracı')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Pickup')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Kamyon')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Çekici 2x2')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Çekici 4x2')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Çekici 4x4')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Forklift')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Loader')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Backhoe')"
-                    << "INSERT INTO dbtb_mkcins ( cinsi ) values('Excavator')" ;
-
-            foreach (QString qry , inserts)
-            {
-                if ( !q.exec(qry) )
-                    qDebug()  << " HATA - CİNS Kaydı Eklenemedi - "
-                              << q.lastError() ;
-                else
-                    qDebug()  << " CİNS Kaydı Eklendi - ";
-
-            }
-        }
-    }
-}
-
-///// MARKA
-///
-///
-void DBase::VTd_MARKA()
-{
-    QString ct;
-    QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_mkmark"))
-    {
-        ct = "CREATE TABLE IF NOT EXISTS dbtb_mkmark "
-             "("
-             "marka TEXT, "
-             "mkcins_no INTEGER,"
-             "id_mkmark INTEGER PRIMARY key )"  ;
-
-        if (!q.exec( ct ))
-        {
-            qDebug() << "MARKA Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-        }
-        else
-        {
-            qDebug() << "MARKA Dosyası YENİ Oluşturuldu - ";
-            QStringList inserts;
-            inserts << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' - ',1)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' FORD '  ,2)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' RENAULT',2)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' OPEL '  ,2)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' VW'     ,2)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' JEEP '  ,3)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' TOYOTA' ,3)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' NISSAN ',4)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' ISUZU'  ,4)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',5)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',6)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',7)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' MERCEDES-BENZ',8)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' BAOLI'        ,9)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' ÇUKUROVA'     ,9)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' CATERPILLAR'  ,10)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' JVC'          ,11)"
-                    << "INSERT INTO dbtb_mkmark ( marka,mkcins_no ) values(' HITACHI'      ,12)";
-
-            foreach (QString qry , inserts)
-            {
-                if ( !q.exec(qry) )
-                    qDebug()  << " HATA - MARKA Kaydı Eklenemedi - "
-                              << q.lastError() ;
-                else
-                    qDebug()  << " MARKA Kaydı Eklendi - ";
-
-            }
-        }
-    }
-}
-
-///// MODEL
-///
-///
-void DBase::VTd_MODEL()
-{
-    QString ct;
-    QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_mkmodl"))
-    {
-        ct =  "CREATE TABLE IF NOT EXISTS dbtb_mkmodl "
-              "("
-              "modeli TEXT, "
-              "mkmark_no INTEGER,"
-              "id_mkmodl INTEGER PRIMARY key )"  ;
-
-        if (!q.exec( ct ))
-        {
-            qDebug() << "MODEL Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-        }
-        else
-        {
-            qDebug() << "MODEL Dosyası YENİ Oluşturuldu - ";
-
-            QStringList inserts;
-            inserts << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values(' - '       ,1)"
-                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Fiesta 1.4',2)"
-                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Focus 1.6' ,2)"
-                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Mondeo 2.0',2)"
-                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Clio'      ,3)"
-                    << "INSERT INTO dbtb_mkmodl ( modeli, mkmark_no ) values('Laguna'    ,3)" ;
-
-            foreach (QString qry , inserts)
-            {
-                if ( !q.exec(qry) )
-                    qDebug()  << " HATA - MODEL Kaydı Eklenemedi - "
-                              << q.lastError() ;
-                else
-                    qDebug()  << " MODEL Kaydı Eklendi - ";
-
-            }
-        }
-    }
-}
-
-
 
 
 
@@ -1670,22 +1886,22 @@ void DBase::yaz(const QString& z)
     if (x.contains("OK"))
     {
         ui->durum->append("<span style='color:green;font-size:15px' > "
-                      + x +" < /span> "
-                           "<span style='color:darkblue;font-size:15px' > "
-                      + y +" < /span> ");
+                          + x +" < /span> "
+                               "<span style='color:darkblue;font-size:15px' > "
+                          + y +" < /span> ");
     }
     else if  (x.contains("HATA"))
     {
         ui->durum->append("<span style='color:red;font-size:15px' > "
-                      + x +" < /span> "
-                           "<span style='color:darkblue;font-size:15px' > "
-                      + y +" < /span> ");
+                          + x +" < /span> "
+                               "<span style='color:darkblue;font-size:15px' > "
+                          + y +" < /span> ");
     }
     else
         ui->durum->append("<span style='color:darkyellow;font-size:15px' > "
-                      + x +" < /span> "
-                           "<span style='color:darkyellow;font-size:15px' > "
-                      + y +" < /span> ");
+                          + x +" < /span> "
+                               "<span style='color:darkyellow;font-size:15px' > "
+                          + y +" < /span> ");
 
 }
 

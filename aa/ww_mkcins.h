@@ -2,61 +2,68 @@
 #define WW_MKCINS_H
 
 #include "globals.h"
-
-
+#include "hc_tableview.h"
+#include "dbase.h"
 namespace Ui {
     class WW_Mkcins;
 }
 
-class WW_Mkcins : public QWidget
+class WW_Mkcins : public QDialog
 {
 	Q_OBJECT
 
-    public:
-    explicit WW_Mkcins(QWidget *parent = 0);
+public:
+    explicit WW_Mkcins(QDialog *parent = nullptr);
 	~WW_Mkcins();
 
-    QTableView *tv_mkcins{};
-    QTableView *tv_mkmark{};
-    QTableView *tv_mkmodl{};
 
-    QPushButton *pb_eklE_cns{} ;
-    QPushButton *pb_sil_cns{} ;
-    QPushButton *pb_eklE_mrk{} ;
-    QPushButton *pb_sil_mrk{} ;
-    QPushButton *pb_eklE_mdl{} ;
-    QPushButton *pb_sil_mdl{} ;
-    QPushButton *pb_tmm{} ;
+    QString sgnText;
+    void setup_CNS();
+    DBase *dbase;
 
-    QSqlRelationalTableModel *mdl_mkcins{} ;
-    QSqlRelationalTableModel *mdl_mkmark{} ;
-    QSqlTableModel *mdl_mkmodl{} ;
-
-    QWidget *pnc{};
+    QLabel *lB_rsm;
+    HC_TableView             *CNStview{};
+    QSqlRelationalTableModel *CNSmodel{} ;
+    QItemSelectionModel      *CNSselectionMdl;
+    QDataWidgetMapper        *CNSmapper;
 
 
-    private slots:
-    void onpb_tmm_clicked();
-    void onpb_eklE_cns_clicked();
-    void onpb_sil_cns_clicked();
-    void onpb_eklE_mrk_clicked();
-    void onpb_sil_mrk_clicked();
-    void onpb_eklE_mdl_clicked();
-    void onpb_sil_mdl_clicked();
+    QLabel *lB_rsm1;
+    HC_TableView             *MRKtview{};
+    QSqlRelationalTableModel *MRKmodel{} ;
+    QItemSelectionModel      *MRKselectionMdl;
+    QDataWidgetMapper        *MRKmapper;
 
-    void ontV_cins_filterSLOT(QModelIndex);
-    void ontV_mark_filterSLOT(QModelIndex);
-    void ontv_cns_clicked();
-    void ontv_mrk_clicked();
+    QLabel *lB_rsm2;
+    HC_TableView             *MDLtview{};
+    QSqlRelationalTableModel *MDLmodel{} ;
+    QItemSelectionModel      *MDLselectionMdl;
+    QDataWidgetMapper        *MDLmapper;
+
+private:
+
+    void set_uiCNS();
+
+    void set_modelCNS();
+    void set_viewCNS();
+    void set_mapCNS();
+    void set_kntrlCNS();
+
+    void set_modelMRK();
+    void set_viewMRK();
+    void set_mapMRK();
+    void set_kntrlMRK();
+
+    void set_modelMDL();
+    void set_viewMDL();
+    void set_mapMDL();
+    void set_kntrlMDL();
 
 
-    private:
 
-    void cr_ui();
-    void cr_mdl_mkcins();
-    void cr_mdl_mkmark();
-    void cr_mdl_mkmodl();
-    void cr_kontrol();
+signals:
+    void sgnCmmy (const QString sgnCmmy);
+
 };
 
 #endif // WW_MKCINS_H

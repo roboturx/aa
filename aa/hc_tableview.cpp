@@ -1,8 +1,37 @@
 ﻿#include "globals.h"
 #include "hc_tableview.h"
 
+// hC_textEdit  -> QTextEdit  -> sağ menu butonu eklenmiş textedit
 // HC_LE        -> QLineEdit  -> sağ menu butonu eklenmiş lineedit
 // HC_TableView -> QTableView -> Ekle-Sil-nav tuşları eklenmiş view
+
+
+
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+//    L I N E D I T    -----> HC_LE
+
+// Sağ tuş butonu olan lineedit
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+
+hC_textEdit::hC_textEdit ( QWidget *parent ) : QWidget (parent)
+{
+    hC_txEdt   = new QTextEdit;
+    hC_txEdtpB = new QPushButton(QIcon(":/rsm/ex.ico"),nullptr );
+    auto *Layout_all = new QGridLayout(this);
+    Layout_all->addWidget (hC_txEdt   , 0, 0, 3, 6);
+    Layout_all->addWidget (hC_txEdtpB , 1, 6, 1, 1);
+}
+hC_textEdit::~hC_textEdit()
+= default;
+
+
+
+
 
 
 

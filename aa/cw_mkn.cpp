@@ -44,21 +44,12 @@ void Cw_mkn::set_uiMKN()   // centralwidget görüntüsü
 
     lB_rsm = new QLabel;
     Resim resim(lB_rsm);
-    qDebug ()  <<"mkn ui sonu2";
     MKNtview    = new HC_TableView;
-    qDebug ()  <<"mkn ui sonu3";
-
     wd_mppr ()    ;
-
-    qDebug ()  <<"mkn ui sonu4";
     auto *mkn_l = new QGridLayout;
-    qDebug ()  <<"mkn ui sonu5";
-    mkn_l->addWidget(MKNtview   , 4, 0, 6, 4 );     // tv       sol alt
-    qDebug ()  <<"mkn ui sonu6";
-    mkn_l->addWidget(wdgt_mppr , 0, 5,10, 6 );     // tv       sol alt
-    qDebug ()  <<"mkn ui sonu7";
-    mkn_l->addWidget(lB_rsm  , 0, 0, 4, 4 );     // foto     sol üst
-    qDebug ()  <<"mkn ui sonu8";
+    mkn_l->addWidget(MKNtview   , 4, 0, 6, 4 );
+    mkn_l->addWidget(wdgt_mppr , 0, 5,10, 6 );
+    mkn_l->addWidget(lB_rsm  , 0, 0, 4, 4 );
     this->setLayout (mkn_l);
 
 }       ///     mkn_ui
@@ -79,9 +70,44 @@ void Cw_mkn::wd_mppr ()
     led_mknPlaka = new QLineEdit();
     lB_plaka->setBuddy(led_mknPlaka);
 
-    QLabel *lB_cins = new QLabel("Cinsi  ");
+
+    // /////////////////////////////////////////////////////
+
+    auto *lB_cmmy = new QLabel("Cins-Marka-Model");
+    tE_cmmy = new hC_textEdit ;
+    tE_cmmy->hC_txEdt->setReadOnly(true);
+
+    // cins-marka-model-yıl makinaya ekle
+    connect(tE_cmmy->hC_txEdtpB , &QPushButton::clicked,
+            [this ]()
+    {
+        // seçebilmek için pencere
+        auto *cmmy = new WW_Mkcins ;
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // cmmy tableviewinde gezinirken
+        // cins - marka - moel - yıl
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan textedit e aktaralım
+        // ----------------------------------------------------
+
+        connect (cmmy , &WW_Mkcins::sgnCmmy ,
+                 [ this ] ( QString sgnText )
+        {
+            tE_cmmy->hC_txEdt->setText ( sgnText );
+            tE_cmmy->hC_txEdt->setFocus();
+        });
+        cmmy->show ();
+    });
+
+
+
+/*
     cbx_mknCins = new QComboBox;
     pb_mknCins = new QPushButton;
+
     connect(pb_mknCins, &QPushButton::clicked ,
             this,&Cw_mkn::ww_mkcins );
 
@@ -92,7 +118,7 @@ void Cw_mkn::wd_mppr ()
     QLabel *lB_mknModl = new QLabel("Modeli ");
     cbx_mknModl = new QComboBox;
     pb_mknModl = new QPushButton;
-
+*/
     QLabel *lB_mknYil = new QLabel("Yıl ");
     spn_mknYil = new QSpinBox();
     spn_mknYil->setMinimum (1900);
@@ -100,6 +126,11 @@ void Cw_mkn::wd_mppr ()
     spn_mknYil->setValue ( QDate::currentDate ().year ());
     qDebug ()  <<"wd mp yıl  "<<spn_mknYil->value ();
     lB_mknYil->setBuddy(spn_mknYil);
+
+
+    // /////////////////////////////////////////////////////
+
+
 
     QLabel *lB_mknSase = new QLabel("Şase No   ");
     led_mknSase = new QLineEdit();
@@ -165,28 +196,19 @@ void Cw_mkn::wd_mppr ()
 
 
     mapperL->addWidget(lB_kurumno    ,  satr,0,1,1 );
-    qDebug ()  <<"wd mp  ";
     mapperL->addWidget(led_mknKurumno,  satr,1,1,3 );
-    qDebug ()  <<"wd mp  11";
     mapperL->addWidget(lB_plaka      ,++satr,0,1,1 );
-    qDebug ()  <<"wd mp  111";
     mapperL->addWidget(led_mknPlaka  ,  satr,1,1,3 );
-    qDebug ()  <<"wd mp  112";
-    mapperL->addWidget(lB_cins       ,++satr,0,1,1 );
+    mapperL->addWidget(lB_cmmy       ,++satr,0,1,3 );
+    mapperL->addWidget(tE_cmmy       ,  satr,1,1,3 );
 
-    qDebug ()  <<"wd mp  113";
-    mapperL->addWidget(cbx_mknCins   ,  satr,1,1,2 );
-
-    qDebug ()  <<"wd mp  134";
-    mapperL->addWidget(pb_mknCins    ,  satr,3,3,1 );
-    qDebug ()  <<"wd mp  22";
-    mapperL->addWidget(lB_mknMark    ,++satr,0,1,1 );
-
-    mapperL->addWidget(cbx_mknMark   ,  satr,1,1,2 );
-
-    mapperL->addWidget(lB_mknModl    ,++satr,0,1,1 );
-
-    mapperL->addWidget(cbx_mknModl   ,  satr,1,1,2 );
+    //    mapperL->addWidget(lB_cins       ,++satr,0,1,1 );
+//    mapperL->addWidget(cbx_mknCins   ,  satr,1,1,2 );
+//    mapperL->addWidget(pb_mknCins    ,  satr,3,3,1 );
+//    mapperL->addWidget(lB_mknMark    ,++satr,0,1,1 );
+//    mapperL->addWidget(cbx_mknMark   ,  satr,1,1,2 );
+//    mapperL->addWidget(lB_mknModl    ,++satr,0,1,1 );
+//    mapperL->addWidget(cbx_mknModl   ,  satr,1,1,2 );
 
     mapperL->addWidget(lB_mknYil     ,++satr,0,1,1 );
     mapperL->addWidget(spn_mknYil    ,  satr,1,1,3 );
@@ -196,17 +218,12 @@ void Cw_mkn::wd_mppr ()
     mapperL->addWidget(led_mknMotor  ,  satr,1,1,3 );
     mapperL->addWidget(lB_mknMtip    ,++satr,0,1,1 );
     mapperL->addWidget(led_mknMtip   ,  satr,1,1,3 );
-    qDebug ()  <<"wd mp  4";
     mapperL->addWidget(lB_mknYkt     ,++satr,0,1,1 );
-
     mapperL->addWidget(cbx_mknYkt    ,  satr,1,1,2 );
-
     mapperL->addWidget(pb_mknYkt     ,  satr,3,1,1 );
-
     mapperL->addWidget(lB_mknSurucu  ,++satr,0,1,1 );
     mapperL->addWidget(cbx_mknSurucu ,  satr,1,1,2 );
     mapperL->addWidget(pb_mknSurucu  ,  satr,3,1,1 );
-    qDebug ()  <<"wd mp  ";
     mapperL->addWidget(lB_mknSurucutar   ,++satr,0,1,1 );
     mapperL->addWidget(clndr_mknSurucutar,  satr,1,1,3 );
     mapperL->addWidget(lB_mknBirim   ,++satr,0,1,1 );
@@ -231,56 +248,60 @@ void Cw_mkn::set_modelMKN()
 
 
 
-    // cinsi combo //////////////////////////////////////////////
-    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_cinsi"),
-            QSqlRelation ("dbtb_mkcins", "id_mkcins", "cinsi"));
-    cbxCinsiModel = new QSqlTableModel ;
-    cbxCinsiModel = MKNmodel->relationModel(
-            MKNmodel->fieldIndex("mkn_cinsi"));
-    cbx_mknCins ->setModel(cbxCinsiModel);
-    cbx_mknCins->setModelColumn(cbxCinsiModel->fieldIndex("cinsi"));
+//    // cinsi combo //////////////////////////////////////////////
+
+//    mdll_mkcins ();
+//    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_cinsi"),
+//            QSqlRelation ("dbtb_mkcins", "id_mkcins", "cinsi"));
+//    cbxCinsiModel = new QSqlTableModel ;
+//    cbxCinsiModel = MKNmodel->relationModel(
+//            MKNmodel->fieldIndex("mkn_cinsi"));
+//    cbx_mknCins ->setModel(cbxCinsiModel);
+//    cbx_mknCins->setModelColumn(cbxCinsiModel->fieldIndex("cinsi"));
 
 
-    // marka combo //////////////////////////////////////////////
-    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_marka"),
-            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
-    cbxMarkaModel = new QSqlTableModel ;
-    cbxMarkaModel  = MKNmodel->relationModel(
-                MKNmodel->fieldIndex("mkn_marka"));
-    cbx_mknMark->setModel(cbxMarkaModel); // cbxMarkaModel);
-    cbx_mknMark->setModelColumn(cbxMarkaModel->fieldIndex("marka"));
-
-
-
-    //    // marka combo //////////////////////////////////////////////
+//    mdll_mkmark ();
+//    // marka combo //////////////////////////////////////////////
 //    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_marka"),
 //            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
 //    cbxMarkaModel = new QSqlTableModel ;
-//    cbxMarkaModel = MKNmodel->relationModel(
-//                MKNmodel->fieldIndex("mkn_marka"));
-//    cbx_mknMark->setModel(cbxMarkaModel); // cbxMarkaModel);
-//    cbx_mknMark->setModelColumn(cbxMarkaModel->fieldIndex("marka"));
+////    cbxMarkaModel  = MKNmodel->relationModel(
+////                MKNmodel->fieldIndex("mkn_marka"));
+////    cbx_mknMark->setModel(cbxMarkaModel); // cbxMarkaModel);
+////    cbx_mknMark->setModelColumn(cbxMarkaModel->fieldIndex("marka"));
+
+
+
+//    //    // marka combo //////////////////////////////////////////////
+////    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_marka"),
+////            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
+////    cbxMarkaModel = new QSqlTableModel ;
+////    cbxMarkaModel = MKNmodel->relationModel(
+////                MKNmodel->fieldIndex("mkn_marka"));
+////    cbx_mknMark->setModel(cbxMarkaModel); // cbxMarkaModel);
+////    cbx_mknMark->setModelColumn(cbxMarkaModel->fieldIndex("marka"));
 
 
 
 
-    // model combo  /////////////////////////////////////////////
-    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_modeli"),
-            QSqlRelation("dbtb_mkmodl", "id_mkmodl", "modeli"));
-    cbxModeliModel = new QSqlTableModel ;
-    cbxModeliModel = MKNmodel->relationModel(
-                MKNmodel->fieldIndex("mkn_modeli"));
-    cbx_mknModl->setModel( cbxModeliModel ); //cbxModeliModel);
-    cbx_mknModl->setModelColumn(cbxModeliModel->fieldIndex("modeli"));
+//    // model combo  /////////////////////////////////////////////
+//    mdll_mkmodl ();
+//    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_modeli"),
+//            QSqlRelation("dbtb_mkmodl", "id_mkmodl", "modeli"));
+//    cbxModeliModel = new QSqlTableModel ;
+//    cbxModeliModel = MKNmodel->relationModel(
+//                MKNmodel->fieldIndex("mkn_modeli"));
+//    cbx_mknModl->setModel( cbxModeliModel ); //cbxModeliModel);
+//    cbx_mknModl->setModelColumn(cbxModeliModel->fieldIndex("modeli"));
 
-    // sürücü combo ///////////////////////////////////////////////
-    MKNmodel->setRelation(  MKNmodel->fieldIndex("mkn_surucu"),
-            QSqlRelation("dbtb_clsn", "kod_pr", "soyad"));
-    cbxClsnModel = new QSqlTableModel;
-    cbxClsnModel = MKNmodel->relationModel(
-                MKNmodel->fieldIndex("mkn_surucu"));
-    cbx_mknSurucu->setModel(cbxClsnModel);
-    cbx_mknSurucu->setModelColumn(cbxClsnModel->fieldIndex("soyad"));
+//    // sürücü combo ///////////////////////////////////////////////
+//    MKNmodel->setRelation(  MKNmodel->fieldIndex("mkn_surucu"),
+//            QSqlRelation("dbtb_clsn", "kod_pr", "soyad"));
+//    cbxClsnModel = new QSqlTableModel;
+//    cbxClsnModel = MKNmodel->relationModel(
+//                MKNmodel->fieldIndex("mkn_surucu"));
+//    cbx_mknSurucu->setModel(cbxClsnModel);
+//    cbx_mknSurucu->setModelColumn(cbxClsnModel->fieldIndex("soyad"));
 
 
 
@@ -344,9 +365,11 @@ void Cw_mkn::set_mapMKN()
 
     MKNmapper->addMapping(led_mknKurumno, MKNmodel->fieldIndex("mkn_kurumNo"));
     MKNmapper->addMapping(led_mknPlaka, MKNmodel->fieldIndex("mkn_plaka"));
-    MKNmapper->addMapping(cbx_mknCins, MKNmodel->fieldIndex("mkn_cinsi"));
-    MKNmapper->addMapping(cbx_mknMark, MKNmodel->fieldIndex("mkn_marka"));
-    MKNmapper->addMapping(cbx_mknModl, MKNmodel->fieldIndex("mkn_modeli"));
+
+    MKNmapper->addMapping(tE_cmmy->hC_txEdt, MKNmodel->fieldIndex("mkn_cinsi"));
+//    MKNmapper->addMapping(cbx_mknMark, MKNmodel->fieldIndex("mkn_marka"));
+ //   MKNmapper->addMapping(cbx_mknModl, MKNmodel->fieldIndex("mkn_modeli"));
+
     MKNmapper->addMapping(spn_mknYil, MKNmodel->fieldIndex("mkn_yil"));
     MKNmapper->addMapping(led_mknSase, MKNmodel->fieldIndex("mkn_saseno"));
     MKNmapper->addMapping(led_mknMotor, MKNmodel->fieldIndex("mkn_motorno"));
@@ -730,10 +753,6 @@ void Cw_mkn::set_kntrlMKN()
         menu->popup(MKNtview->table->viewport()->mapToGlobal(pos()));
     });
 
-    /// mkn değiştiğinde cins e bağlı marka ve modelde değişsin    ??????
-    connect(MKNselectionMdl,
-            SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
-            this,  SLOT( onMKNtview_cmm_filterSLOT(QModelIndex) ));
 
 }       ///     mkn_kontrol
 
@@ -768,120 +787,156 @@ void Cw_mkn::ykt()
 
 
 
-void Cw_mkn::mdll_mkcins()
-{
-    //  qDebug ()  <<" ' mdl_mkcins ' - mkcins Model Başlatıldı ";
-    // Create the data model for DBTB_MKCINS
+//void Cw_mkn::mdll_mkcins()
+//{
+//    //  qDebug ()  <<" ' mdl_mkcins ' - mkcins Model Başlatıldı ";
+//    // Create the data model for DBTB_MKCINS
 
-    mdl_mkcins = new QSqlRelationalTableModel(tV_mkcins);
-    mdl_mkcins->setEditStrategy(QSqlTableModel::OnFieldChange);
-    mdl_mkcins->setTable("DBTB_MKCINS");
-    mdl_mkcins->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+//    mdl_mkcins = new QSqlRelationalTableModel(tV_mkcins);
+//    mdl_mkcins->setEditStrategy(QSqlTableModel::OnFieldChange);
+//    mdl_mkcins->setTable("DBTB_MKCINS");
+//    mdl_mkcins->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    //// mkcins ile mkmark relation
-    mdl_mkcins->setRelation(mdl_mkcins->fieldIndex("mkcins_no"),
-            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
+//    //// mkcins ile mkmark relation
+//    //mdl_mkcins->setRelation(mdl_mkcins->fieldIndex("mkcins_no"),
+//      //      QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
 
-    // Remember the indexes of the columns
-    // combobox fields
-    //idx_cins = mdl_mkcins->fieldIndex("cinsi");	//dbtb_mkcins
+//    // Remember the indexes of the columns
+//    // combobox fields
+//    //idx_cins = mdl_mkcins->fieldIndex("cinsi");	//dbtb_mkcins
 
-    // Set the localized header captions
-    mdl_mkcins->setHeaderData(mdl_mkcins->fieldIndex("cinsi"),
-                              Qt::Horizontal, tr("CİNSİ"));
+//    // Set the localized header captions
+//    mdl_mkcins->setHeaderData(mdl_mkcins->fieldIndex("cinsi"),
+//                              Qt::Horizontal, tr("CİNSİ"));
 
-    // Populate the model
-    if (!mdl_mkcins->select())
-    {
-        qDebug () << " HATA - " << mdl_mkcins->lastError();
-        return;
-    }
+//    // Populate the model
+//    if (!mdl_mkcins->select())
+//    {
+//        qDebug () << " HATA - " << mdl_mkcins->lastError();
+//        return;
+//    }
 
-    // Set the model and hide the ID column
-    tV_mkcins->setModel(mdl_mkcins);
-    tV_mkcins->setColumnHidden(mdl_mkcins->fieldIndex("id_mkcins"), true);
-    tV_mkcins->setSelectionMode(QAbstractItemView::SingleSelection);
+//    // Set the model and hide the ID column
+//    tV_mkcins->setModel(mdl_mkcins);
+//    tV_mkcins->setColumnHidden(mdl_mkcins->fieldIndex("id_mkcins"), true);
+//    tV_mkcins->setSelectionMode(QAbstractItemView::SingleSelection);
 
-}       ///     mdl_mkcins
+//}       ///     mdl_mkcins
 
-void Cw_mkn::mdll_mkmark()
-{
-    // Create the data model for DBTB_MKCINS
-    //  qDebug ()  <<" ' mdl_mkmark ' - mkmark Model Başlatıldı ";
-    mdl_mkmark = new QSqlRelationalTableModel(tV_mkmark);
-    mdl_mkmark->setEditStrategy(QSqlTableModel::OnFieldChange);
-    mdl_mkmark->setTable("dbtb_mkmark");
-    mdl_mkmark->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+//void Cw_mkn::mdll_mkmark()
+//{
+//    // Create the data model for DBTB_MKCINS
+//    //  qDebug ()  <<" ' mdl_mkmark ' - mkmark Model Başlatıldı ";
+//    mdl_mkmark = new QSqlRelationalTableModel(tV_mkmark);
+//    mdl_mkmark->setEditStrategy(QSqlTableModel::OnFieldChange);
+//    mdl_mkmark->setTable("dbtb_mkmark");
+//    mdl_mkmark->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    //// mkmark ile mkmodel relation
-    mdl_mkmark->setRelation(mdl_mkmark->fieldIndex("mkmark_no"),
-                            QSqlRelation("dbtb_mkmodl", "id_mkmodl", "modeli"));
-
-
-    // Remember the indexes of the columns
-    // combobox fields
-    //idx_cins = mdl_mkcins->fieldIndex("cinsi");	//dbtb_mkcins
-
-    // Set the localized header captions
-    mdl_mkmark->setHeaderData(mdl_mkmark->fieldIndex("marka"),
-                              Qt::Horizontal, tr("MARKA"));
-
-    // Populate the model
-    if (!mdl_mkmark->select())
-    {
-        qDebug () << " HATA - " << mdl_mkmark->lastError();
-        return;
-    }
-
-    // Set the model and hide the ID column
-    tV_mkmark->setModel(mdl_mkmark);
-    tV_mkmark->setColumnHidden(mdl_mkmark->fieldIndex("id_mkmark"), true);
-    tV_mkmark->setSelectionMode(QAbstractItemView::SingleSelection);
-
-}       ///     mdl_mkmark
-
-void Cw_mkn::mdll_mkmodl()
-{
-    //    qDebug ()  <<" ' mdl_mkmodl ' - mkmodl Model Başlatıldı ";
-    // Create the data model for DBTB_MKmodl
-
-    mdl_mkmodl = new QSqlRelationalTableModel(tV_mkmodl);
-    mdl_mkmodl->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
-    mdl_mkmodl->setTable("dbtb_mkmodl");
-
-    // Set the localized header captions
-    mdl_mkmodl->setHeaderData(mdl_mkmodl->fieldIndex("modeli"),
-                              Qt::Horizontal, tr("MODELİ"));
-
-    // Populate the model
-    if (!mdl_mkmodl->select())
-    {
-        qDebug () << " HATA - " << mdl_mkmodl->lastError();
-        return;
-    }
-
-    // Set the model and hide the ID column
-    tV_mkmodl->setModel(mdl_mkmodl);
-    tV_mkmodl->setColumnHidden(mdl_mkmodl->fieldIndex("id_mkmodl"), true);
-    tV_mkmodl->setSelectionMode(QAbstractItemView::SingleSelection);
-
-}       ///     mdl_mkmodl
+//    //// mkmark ile mkmodel relation
+//    mdl_mkmark->setRelation(mdl_mkmark->fieldIndex("mkmark_no"),
+//                            QSqlRelation("dbtb_mkmodl", "id_mkmodl", "modeli"));
 
 
-void Cw_mkn::tV_cns_view()   // mkn cins tableview
-{
+//    // Remember the indexes of the columns
+//    // combobox fields
+//    //idx_cins = mdl_mkcins->fieldIndex("cinsi");	//dbtb_mkcins
 
-}       ///     tV_cns_view
+//    // Set the localized header captions
+//    mdl_mkmark->setHeaderData(mdl_mkmark->fieldIndex("marka"),
+//                              Qt::Horizontal, tr("MARKA"));
 
-void Cw_mkn::tV_mrk_view()   // mkn marka tableview
-{
+//    // Populate the model
+//    if (!mdl_mkmark->select())
+//    {
+//        qDebug () << " HATA - " << mdl_mkmark->lastError();
+//        return;
+//    }
 
-}       ///     tV_mrk_view
+//    // Set the model and hide the ID column
+//    tV_mkmark->setModel(mdl_mkmark);
+//    tV_mkmark->setColumnHidden(mdl_mkmark->fieldIndex("id_mkmark"), true);
+//    tV_mkmark->setSelectionMode(QAbstractItemView::SingleSelection);
 
-void Cw_mkn::tV_mdl_view()   // mkn model tableview
-{
+//}       ///     mdl_mkmark
 
-}       ///     tV_mdl_view
+//void Cw_mkn::mdll_mkmodl()
+//{
+//    //    qDebug ()  <<" ' mdl_mkmodl ' - mkmodl Model Başlatıldı ";
+//    // Create the data model for DBTB_MKmodl
+
+//    mdl_mkmodl = new QSqlRelationalTableModel(tV_mkmodl);
+//    mdl_mkmodl->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+//    mdl_mkmodl->setTable("dbtb_mkmodl");
+
+//    // Set the localized header captions
+//    mdl_mkmodl->setHeaderData(mdl_mkmodl->fieldIndex("modeli"),
+//                              Qt::Horizontal, tr("MODELİ"));
+
+//    // Populate the model
+//    if (!mdl_mkmodl->select())
+//    {
+//        qDebug () << " HATA - " << mdl_mkmodl->lastError();
+//        return;
+//    }
+
+//    // Set the model and hide the ID column
+//    tV_mkmodl->setModel(mdl_mkmodl);
+//    tV_mkmodl->setColumnHidden(mdl_mkmodl->fieldIndex("id_mkmodl"), true);
+//    tV_mkmodl->setSelectionMode(QAbstractItemView::SingleSelection);
+
+
+//    /// mkn değiştiğinde cins e bağlı marka ve modelde değişsin    ??????
+//    connect(MKNselectionMdl,
+//            SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
+//            this,  SLOT( onMKNtview_cmm_filterSLOT(QModelIndex) ));
+
+
+//}       ///     mdl_mkmodl
+
+
+//void Cw_mkn::onMKNtview_cmm_filterSLOT(QModelIndex Index)
+//{
+//    // Cins ne
+//    QSqlRecord rec = MKNmodel->record(Index.row() );
+//    int cinsid = rec.value("mkn_cinsi").toInt();
+//    qDebug () << "cmm rec    " << endl <<
+//                 "-----------" << endl <<
+//                 rec <<endl <<
+//                 "-----------" << endl ;
+//    qDebug () << "cmm cinsid " << endl <<
+//                 "-----------" << endl <<
+//                 cinsid << endl <<
+//                 "-----------" << endl ;
+//    qDebug ()<<"filter = "<<    mdl_mkmark ;
+
+//    mdl_mkmark->setFilter(QString("mkcins_no = %1").arg(cinsid));
+//    mdl_mkmark->select();
+//    cbxMarkaModel  = MKNmodel->relationModel(
+//                MKNmodel->fieldIndex("mkn_marka"));
+//    cbx_mknMark->setModel(cbxMarkaModel); // cbxMarkaModel);
+//    cbx_mknMark->setModelColumn(cbxMarkaModel->fieldIndex("marka"));
+
+//}       ///     filter cmm
+
+
+
+
+
+
+//void Cw_mkn::tV_cns_view()   // mkn cins tableview
+//{
+
+//}       ///     tV_cns_view
+
+//void Cw_mkn::tV_mrk_view()   // mkn marka tableview
+//{
+
+//}       ///     tV_mrk_view
+
+//void Cw_mkn::tV_mdl_view()   // mkn model tableview
+//{
+
+//}       ///     tV_mdl_view
 
 
 
@@ -1137,26 +1192,6 @@ void Cw_mkn::onmnMKN_yeniEklE_hgsSLOT()
     evrk_mua->tV_evrk_mua->setFocus();
 */
 }
-
-void Cw_mkn::onMKNtview_cmm_filterSLOT(QModelIndex Index)
-{
-    // Cins ne
-    QSqlRecord rec = MKNmodel->record(Index.row() );
-    QString cinsid = rec.value("mkn_cinsi").toString();
-    qDebug () << "cmm rec    " << endl <<
-                 "-----------" << endl <<
-                 rec <<endl <<
-                 "-----------" << endl ;
-    qDebug () << "cmm cinsid " << endl <<
-                 "-----------" << endl <<
-                 cinsid << endl <<
-                 "-----------" << endl ;
-
-    mdl_mkmark->setFilter(QString("mkcins_no = %1").arg(cinsid));
-    mdl_mkmark->select();
-
-
-}       ///     filter cmm
 
 
 

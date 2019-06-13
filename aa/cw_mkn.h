@@ -100,7 +100,7 @@ private slots:
     void onmnMKN_yeniEklE_hgsSLOT();
 
 
-    void onMKNtview_cmm_filterSLOT(QModelIndex Index);
+   // void onMKNtview_cmm_filterSLOT(QModelIndex Index);
     void ww_mkcins();
 
 public:
@@ -125,22 +125,22 @@ public:
     QLineEdit *led_mknKurumno{};
     QLineEdit *led_mknPlaka{};
 
-    QComboBox *cbx_mknCins{};
-    QSqlTableModel *cbxCinsiModel{};// dbtb_cins
-    QPushButton *pb_mknCins{};
+//    QComboBox *cbx_mknCins{};
+//    QSqlTableModel *cbxCinsiModel{};// dbtb_cins
+//    QPushButton *pb_mknCins{};
 
 
-    QComboBox *cbx_mknMark{};
-    QSqlTableModel *cbxMarkaModel{};// dbtb_mknMarka
-    QPushButton *pb_mknMark{};
-    //void oncbx_mknMarkclickedSLOT();
+//    QComboBox *cbx_mknMark{};
+//    QSqlTableModel *cbxMarkaModel{};// dbtb_mknMarka
+//    QPushButton *pb_mknMark{};
+//    //void oncbx_mknMarkclickedSLOT();
 
 
-    QComboBox *cbx_mknModl{};
-    QSqlTableModel *cbxModeliModel{};// dbtb_model
-    QPushButton *pb_mknModl{};
+//    QComboBox *cbx_mknModl{};
+//    QSqlTableModel *cbxModeliModel{};// dbtb_model
+//    QPushButton *pb_mknModl{};
 
-
+    hC_textEdit *tE_cmmy = new hC_textEdit ;
     QSpinBox *spn_mknYil{};
 
     QLineEdit *led_mknSase{};
