@@ -457,9 +457,9 @@ void Cw_mkn::set_kntrlMKN()
             QSqlRecord rec = MKNmodel->record();
             rec.setValue ("mkn_kurumno"  , lE_krmno->text ());
             rec.setValue ("mkn_yil"      , QDate::currentDate ().year ());
-            rec.setValue ("mkn_cinsi"     , 1 );
-            rec.setValue ("mkn_marka"    , 1 );
-            rec.setValue ("mkn_modeli"   , 1 );
+            rec.setValue ("mkn_cinsi"     , " " );
+            rec.setValue ("mkn_marka"    , " " );
+            rec.setValue ("mkn_modeli"   , " " );
 // QString date(QDate::currentDate().toString ( "dd-MM-yyyy" ));
 
 // rec.setValue ("ftr_tarih"   , date );

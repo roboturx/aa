@@ -1,4 +1,4 @@
-#include "ww_mkcins.h"
+﻿#include "ww_mkcins.h"
 #include "ftr_frmekle.h"
 #include "globals.h"
 #include "dbase.h"
@@ -28,18 +28,23 @@ WW_Mkcins::WW_Mkcins(QDialog *parent) : QDialog(parent)
 
 void WW_Mkcins::set_uiCNS()
 {
-    qDebug() << "  setup_uiFr";
+    qDebug() << "  setup_uicns";
 
     this->setWindowTitle ("Cins - Marka _ Model Giriş");
     // this->showMaximized ();
 
-    auto *pnc = new QWidget(this);
+    //auto *pnc = new QWidget(this);
 
     lB_rsm = new QLabel ("Resim");
+    lB_rsm->setMinimumSize(60,100);
     Resim resim (lB_rsm);
+
     lB_rsm1 = new QLabel ("Resim");
+    lB_rsm1->setMinimumSize(60,100);
     Resim resim1 (lB_rsm1);
+
     lB_rsm2 = new QLabel ("Resim");
+    lB_rsm2->setMinimumSize(60,100);
     Resim resim2 (lB_rsm2);
 
 
@@ -52,12 +57,12 @@ void WW_Mkcins::set_uiCNS()
 
     int str{};
     int stn{};
-    gL->addWidget( CNStview   ,  str,  stn, 1, 1);
-    gL->addWidget( lB_rsm     ,++str,  stn, 1, 1);
-    gL->addWidget( MRKtview   ,--str,++stn, 1, 1);
-    gL->addWidget( lB_rsm1    ,++str,  stn, 1, 1);
-    gL->addWidget( MDLtview   ,--str,++stn, 1, 1);
-    gL->addWidget( lB_rsm2    ,++str,  stn, 1, 1);
+    gL->addWidget( CNStview   , 0,   0 , 4, 1);
+    gL->addWidget( lB_rsm     , 4,   0 , 1, 1);
+    gL->addWidget( MRKtview   , 0,   1 , 4, 1);
+    gL->addWidget( lB_rsm1    , 4,   1 , 1, 1);
+    gL->addWidget( MDLtview   , 0,   2 , 4, 1);
+    gL->addWidget( lB_rsm2    , 4,   2 , 1, 1);
 
 
     /*gL->addWidget(pb_eklE_cns , ,0,1,1);
@@ -72,8 +77,8 @@ void WW_Mkcins::set_uiCNS()
     gL->addWidget(pb_sil_mdl  ,21,6,1,1);
     gL->addWidget(pb_tmm     ,22,6,1,1);
 */
-    pnc->setLayout(gL);
-    pnc->show();
+    this->setLayout(gL);
+    //pnc->show();
 
 
 
@@ -402,7 +407,7 @@ void WW_Mkcins::set_kntrlMRK()
         else
             qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
 
-        MRKmodel->submit();
+        MRKmodel->submitAll();
         MRKtview->setFocus();
         MRKmodel->select();
 
@@ -649,7 +654,7 @@ qDebug()<<"kntrl mdl ";
         else
             qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
 
-        MDLmodel->submit();
+        MDLmodel->submitAll();
         MDLtview->setFocus();
         MDLmodel->select();
 

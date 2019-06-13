@@ -705,9 +705,9 @@ QString DBase::VTd_mkn()
               "id_mkn integer primary key, "
               "mkn_kurumno       TEXT, "
               "mkn_plaka         TEXT, "
-              "mkn_cinsi         integer, "
-              "mkn_Marka         integer,"
-              "mkn_modeli        integer,"
+              "mkn_cinsi         TEXT, "
+              "mkn_Marka         TEXT,"
+              "mkn_modeli        TEXT,"
               "mkn_Yil           INTEGER, "
               "mkn_Saseno        TEXT, "
               "mkn_Motorno       TEXT, "
@@ -843,18 +843,18 @@ QString DBase::VTd_CINS()
             mesaj= "OK - Cinsi Dosyası YENİ Oluşturuldu";
 
             QStringList inserts;
-            inserts << "INSERT INTO"+ *CNStableName +" ( cinsi ) values(' - ')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Otomobil')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Arazi Aracı')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Pickup')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Kamyon')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Çekici 2x2')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Çekici 4x2')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Çekici 4x4')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Forklift')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Loader')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Backhoe')"
-                    << "INSERT INTO"+ *CNStableName +" ( cinsi ) values('Excavator')" ;
+            inserts << "INSERT INTO "+ *CNStableName +" ( cinsi ) values(' - ')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Otomobil')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Arazi Aracı')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Pickup')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Kamyon')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 2x2')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 4x2')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 4x4')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Forklift')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Loader')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Backhoe')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Excavator')" ;
             int x{},y{};
             foreach (QString qry , inserts)
             {
@@ -957,24 +957,24 @@ QString DBase::VTd_MARKA()
 
 
             QStringList inserts;
-            inserts << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' - ',1)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' FORD '  ,2)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' RENAULT',2)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' OPEL '  ,2)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' VW'     ,2)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' JEEP '  ,3)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' TOYOTA' ,3)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' NISSAN ',4)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' ISUZU'  ,4)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',5)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',6)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',7)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',8)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' BAOLI'        ,9)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' ÇUKUROVA'     ,9)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' CATERPILLAR'  ,10)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' JVC'          ,11)"
-                    << "INSERT INTO"+ *MRKtableName +" ( marka,mkcins_no ) values(' HITACHI'      ,12)";
+            inserts << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' - ',1)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' FORD '  ,2)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' RENAULT',2)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' OPEL '  ,2)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' VW'     ,2)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' JEEP '  ,3)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' TOYOTA' ,3)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' NISSAN ',4)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' ISUZU'  ,4)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',5)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',6)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',7)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',8)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' BAOLI'        ,9)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' ÇUKUROVA'     ,9)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' CATERPILLAR'  ,10)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' JVC'          ,11)"
+                    << "INSERT INTO "+ *MRKtableName +" ( marka,mkcins_no ) values(' HITACHI'      ,12)";
             int x{},y{};
             foreach (QString qry , inserts)
             {
