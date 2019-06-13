@@ -163,7 +163,7 @@ void Cw_mkn::wd_mppr ()
     wdgt_mppr->setLayout(mapperL);
     int satr=0;
 
-    qDebug ()  <<"wd mp  1";
+
     mapperL->addWidget(lB_kurumno    ,  satr,0,1,1 );
     qDebug ()  <<"wd mp  ";
     mapperL->addWidget(led_mknKurumno,  satr,1,1,3 );
@@ -244,11 +244,6 @@ void Cw_mkn::set_modelMKN()
     // marka combo //////////////////////////////////////////////
     MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_marka"),
             QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
-dddddddddd
-    mdl_mkmark->setRelation(mdl_mkmark->fieldIndex("mkmark_no"),
-            QSqlRelation("dbtb_mkmodl", "id_mkmodl", "modeli"));
-
-
     cbxMarkaModel = new QSqlTableModel ;
     cbxMarkaModel  = MKNmodel->relationModel(
                 MKNmodel->fieldIndex("mkn_marka"));
@@ -736,9 +731,9 @@ void Cw_mkn::set_kntrlMKN()
     });
 
     /// mkn değiştiğinde cins e bağlı marka ve modelde değişsin    ??????
-  //  connect(MKNselectionMdl,
-    //        SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
-      //      this,  SLOT( onMKNtview_cmm_filterSLOT(QModelIndex) ));
+    connect(MKNselectionMdl,
+            SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
+            this,  SLOT( onMKNtview_cmm_filterSLOT(QModelIndex) ));
 
 }       ///     mkn_kontrol
 
@@ -746,6 +741,10 @@ void Cw_mkn::set_kntrlMKN()
 // ////////////////////////////////////////////////////////////////////
 // ////////////////////  M K N   //////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////
+
+
+
+
 
 void Cw_mkn::birim()
 {
@@ -781,7 +780,7 @@ void Cw_mkn::mdll_mkcins()
 
     //// mkcins ile mkmark relation
     mdl_mkcins->setRelation(mdl_mkcins->fieldIndex("mkcins_no"),
-                            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
+            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
 
     // Remember the indexes of the columns
     // combobox fields
@@ -1137,7 +1136,27 @@ void Cw_mkn::onmnMKN_yeniEklE_hgsSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 */
-}       ///      onmnMKN_yeniEklE_hgs
+}
+
+void Cw_mkn::onMKNtview_cmm_filterSLOT(QModelIndex Index)
+{
+    // Cins ne
+    QSqlRecord rec = MKNmodel->record(Index.row() );
+    QString cinsid = rec.value("mkn_cinsi").toString();
+    qDebug () << "cmm rec    " << endl <<
+                 "-----------" << endl <<
+                 rec <<endl <<
+                 "-----------" << endl ;
+    qDebug () << "cmm cinsid " << endl <<
+                 "-----------" << endl <<
+                 cinsid << endl <<
+                 "-----------" << endl ;
+
+    mdl_mkmark->setFilter(QString("mkcins_no = %1").arg(cinsid));
+    mdl_mkmark->select();
+
+
+}       ///     filter cmm
 
 
 

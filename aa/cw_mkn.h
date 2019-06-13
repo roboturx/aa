@@ -100,7 +100,7 @@ private slots:
     void onmnMKN_yeniEklE_hgsSLOT();
 
 
-  //  void onMKNtview_cmm_filterSLOT(QModelIndex);
+    void onMKNtview_cmm_filterSLOT(QModelIndex Index);
     void ww_mkcins();
 
 public:
