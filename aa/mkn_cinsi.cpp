@@ -1,4 +1,4 @@
-#include "mkn_cinsi.h"
+﻿#include "mkn_cinsi.h"
 #include "ftr_frmekle.h"
 #include "globals.h"
 #include "dbase.h"
@@ -21,7 +21,7 @@ void Mkn_Cinsi::set_uiCNS()
     qDebug() << "  setup_uicns";
 
     this->setWindowTitle ("Cinsi");
-    // this->showMaximized ();
+    this->setGeometry(500,50,300,600);
 
     //auto *pnc = new QWidget(this);
 
@@ -33,8 +33,9 @@ void Mkn_Cinsi::set_uiCNS()
 
     auto *gL = new QGridLayout();
 
-    gL->addWidget( CNStview   , 0,   0 , 4, 1);
-    gL->addWidget( lB_rsm     , 4,   0 , 1, 1);
+    gL->addWidget( lB_rsm     , 0,   0 , 1, 1);
+    gL->addWidget( CNStview   , 1,   0 , 4, 1);
+
     this->setLayout(gL);
 
 }

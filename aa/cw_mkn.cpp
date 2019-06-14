@@ -42,22 +42,23 @@ void Cw_mkn::set_uiMKN()   // centralwidget görüntüsü
     qDebug ()  <<"mkn ui";
     this->setWindowTitle ("MAKİNA");
     this->showMaximized();
-    qDebug ()  <<"mkn ui sonu 1";
+
 
     wd_mppr ()    ;
-    wD_Rsm rsm("Audi");
-    Resim resim(Wd_Rsm);
+
+    lB_rsm = new QLabel;
+    Resim resim(lB_rsm);
 
     MKNtview    = new HC_TableView;
 
     auto *mkn_l = new QGridLayout;
     mkn_l->addWidget ( MKNtview   , 0, 0,10, 5 );
-    mkn_l->addWidget ( Wd_Rsm     , 0, 9, 1, 1 );
+    mkn_l->addWidget ( lB_rsm     , 0, 9, 1, 1 );
     mkn_l->addWidget ( wdgt_mppr  , 0, 5,10, 5 );
     //mkn_l->addWidget(wdgt_mppr  , 3, 6, 3, 5 );
 
     this->setLayout (mkn_l);
-
+    qDebug ()  <<"mkn ui sonu 1";
 }       ///     mkn_ui
 
 
@@ -529,7 +530,7 @@ void Cw_mkn::set_kntrlMKN()
             [this]()
     {
         Resim resim;
-        resim.resimUpdate (Wd_Rsm, MKNtview, MKNmodel, MKNselectionMdl,
+        resim.resimUpdate (lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
                            "mkn_resim", "ekle");
     });
 
@@ -538,7 +539,7 @@ void Cw_mkn::set_kntrlMKN()
               [this]()
     {
         Resim resim;
-        resim.resimUpdate (Wd_Rsm, MKNtview, MKNmodel, MKNselectionMdl,
+        resim.resimUpdate (lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
                            "mkn_resim");
     });
 

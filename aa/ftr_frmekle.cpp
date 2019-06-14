@@ -177,16 +177,17 @@ void FtrDet_MlzEkle::setMalzeme(const QString &value)
 
 
 
-Resim::Resim(QWidget *wD_resim, QWidget *parent) : QWidget(parent)
+Resim::Resim(QLabel *lB_resim, QWidget *parent) : QWidget(parent)
 {
-    if (wD_resim != nullptr)
+    if (lB_resim != nullptr)
     {
-        wD_resim->lB_resim->setScaledContents( true );
-        wD_resim->lB_resim->setSizePolicy( QSizePolicy::Preferred,
+
+        lB_resim->setScaledContents( true );
+        lB_resim->setSizePolicy( QSizePolicy::Preferred,
                                  QSizePolicy::Preferred );
-        wD_resim->lB_resim->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(wD_resim->lB_resim , &QLabel::customContextMenuRequested,
-                [ wD_resim->lB_resim]()
+        lB_resim->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(lB_resim , &QLabel::customContextMenuRequested,
+                [ lB_resim]()
         {
             //QLabel *x = lB_rsm;
             QDialog xx;
@@ -197,7 +198,7 @@ Resim::Resim(QWidget *wD_resim, QWidget *parent) : QWidget(parent)
             x->resize(QGuiApplication::primaryScreen()->
                       availableSize() * 10 / 16);
             x->setScaledContents(true);
-            x->setPixmap(QPixmap (*wD_resim->lB_resim->pixmap() ) );
+            x->setPixmap(QPixmap (*lB_resim->pixmap() ) );
             xx.setWindowTitle("RESİM GÖRÜNTÜLEME");
             xx.exec();
         });
@@ -207,37 +208,8 @@ Resim::Resim(QWidget *wD_resim, QWidget *parent) : QWidget(parent)
 
 
 
-wD_Rsm::wD_Rsm(QString *png_name,
-               QLabel *wD_resim,
-               QWidget *parent)
-{
-    if (wD_resim != nullptr)
-    {
 
-    }
-
-
-    QLabel *rsm1 = new QLabel ;
-    QLabel *rsm2 = new QLabel ;
-    QLabel *rsm3 = new QLabel ;
-    QLabel *rsm4 = new QLabel ;
-
-   // rsm2->setPixmap (QPixmap(":/rsm/logo/Audi.png"));
-    rsm3->setPixmap (":/rsm/logo/"+ *png_name+".png");
-   // rsm4->setPixmap (QPixmap (":/rsm/logo/hm/caterpillar.jpg"));
-
-    auto *mkn_rs = new QGridLayout();
-    mkn_rs->addWidget (rsm1,1,1,1,1);
-    mkn_rs->addWidget (rsm2  ,0,1,1,1);
-    mkn_rs->addWidget (rsm3  ,1,0,1,1);
-    mkn_rs->addWidget (rsm4  ,0,0,1,1);
-
-
-}
-
-
-
-void Resim::resimUpdate(  QWidget *rsm_updResim,
+void Resim::resimUpdate(  QLabel *rsm_updResim,
                           HC_TableView *rsm_table,
                           QSqlRelationalTableModel *rsm_model,
                           QItemSelectionModel *rsm_selectionModel,
@@ -259,16 +231,16 @@ void Resim::resimUpdate(  QWidget *rsm_updResim,
         outPixmap.loadFromData( outByteArray  );
         if ( ! outByteArray.isNull ())
         {
-            rsm_updResim->lB_resim->setPixmap( outPixmap );
+            rsm_updResim->setPixmap( outPixmap );
         }
         else
         {
-            rsm_updResim->lB_resim->setPixmap (QPixmap (":/rsm/icon/photo_camera.png"));
+            rsm_updResim->setPixmap (QPixmap (":/rsm/icon/photo_camera.png"));
         }
 
-        rsm_updResim->lB_resim->setScaledContents( true );
-        rsm_updResim->lB_resim->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-        rsm_updResim->lB_resim->show();
+        rsm_updResim->setScaledContents( true );
+        rsm_updResim->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+        rsm_updResim->show();
 
     }
     else  // resim uodate
@@ -290,7 +262,7 @@ void Resim::resimUpdate(  QWidget *rsm_updResim,
             return ;
 
         QImage image(myfile);
-        rsm_updResim->lB_resim->setPixmap(QPixmap::fromImage(image));
+        rsm_updResim->setPixmap(QPixmap::fromImage(image));
         QByteArray inByteArray;
         QFile file(  myfile ); //dosyayı açmak için al
 
@@ -306,7 +278,3 @@ void Resim::resimUpdate(  QWidget *rsm_updResim,
         }
     }
 }
-
-
-
-

@@ -1,4 +1,4 @@
-#include "mkn_modeli.h"
+﻿#include "mkn_modeli.h"
 #include "cw_mkcins.h"
 #include "ftr_frmekle.h"
 #include "globals.h"
@@ -21,7 +21,8 @@ void Mkn_Modeli::set_uiMDL()
 {
     qDebug() << "  setup_uicns";
 
-    this->setWindowTitle ("Cins - Marka _ Model Giriş");
+    this->setWindowTitle ("Model Giriş");
+    this->setGeometry(500,50,300,600);
     // this->showMaximized ();
 
     //auto *pnc = new QWidget(this);
@@ -34,8 +35,8 @@ void Mkn_Modeli::set_uiMDL()
 
     auto *gL = new QGridLayout();
 
-    gL->addWidget( lB_rsm     , 4,   0 , 1, 1);
-    gL->addWidget( MDLtview   , 0,   2 , 4, 1);
+    gL->addWidget( lB_rsm     , 0,   0 , 1, 1);
+    gL->addWidget( MDLtview   , 1,   0 , 4, 1);
 
     this->setLayout(gL);
 

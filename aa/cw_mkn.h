@@ -24,7 +24,7 @@ public:
 
     void set_mkn();
     DBase *dbase;
-
+    QLabel *lB_rsm;
     HC_TableView             *MKNtview ;
     QSqlRelationalTableModel *MKNmodel {} ;
     QItemSelectionModel      *MKNselectionMdl;

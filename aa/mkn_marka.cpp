@@ -1,4 +1,4 @@
-#include "mkn_marka.h"
+﻿#include "mkn_marka.h"
 #include "cw_mkcins.h"
 #include "ftr_frmekle.h"
 #include "globals.h"
@@ -22,6 +22,7 @@ void Mkn_Marka::set_uiMRK()
     qDebug() << "  setup_uimrk";
 
     this->setWindowTitle ("Marka Giriş");
+    this->setGeometry(500,50,300,600);
     // this->showMaximized ();
 
     //auto *pnc = new QWidget(this);
@@ -34,8 +35,8 @@ void Mkn_Marka::set_uiMRK()
 
     auto *gL = new QGridLayout();
 
-    gL->addWidget( lB_rsm     , 4,   0 , 1, 1);
-    gL->addWidget( MRKtview   , 0,   1 , 4, 1);
+    gL->addWidget( lB_rsm     , 0,   0 , 1, 1);
+    gL->addWidget( MRKtview   , 1,   0 , 4, 1);
     this->setLayout(gL);
 }
 
@@ -245,8 +246,8 @@ void Mkn_Marka::set_kntrlMRK()
             MRKmapper->setCurrentModelIndex(Index);
 
 
-            QSqlRecord record = MRKmodel->record(Index.row());
-            int id = record.value("id_mkmark").toInt();
+          //  QSqlRecord record = MRKmodel->record(Index.row());
+        //    int id = record.value("id_mkmark").toInt();
 
             // 011-02 filter
 //            MDLmodel->setFilter(QString("mkmark_no = %1").arg(id));
