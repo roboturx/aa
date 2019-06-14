@@ -39,5 +39,30 @@
         <file>rsm/nv_eklesil2.svg</file>
         <file>rsm/rsm_yok.svg</file>
         <file>rsm/mkndrm.txt</file>
+        <file>rsm/icon/camera.png</file>
+        <file>rsm/icon/file.png</file>
+        <file>rsm/icon/photo_camera.png</file>
+        <file>rsm/icon/icons8-add-camera-64.png</file>
+        <file>rsm/icon/icons8-slide-up-128.png</file>
+        <file>rsm/icon/icons8-slide-up-64.png</file>
+        <file>rsm/bobcat (2).png</file>
+        <file>rsm/bobcat.png</file>
+        <file>rsm/delete.png</file>
+        <file>rsm/edit.png</file>
+        <file>rsm/ex.png</file>
+        <file>rsm/excavator.png</file>
+        <file>rsm/folder-invoices-icon.png</file>
+        <file>rsm/icons8-add-camera-64.png</file>
+        <file>rsm/nv_ekle.ico</file>
+        <file>rsm/nv_ekle2.svg</file>
+        <file>rsm/nv_eklee.svg</file>
+        <file>rsm/nv_ok.ico</file>
+        <file>rsm/nv_sil3.svg</file>
+        <file>rsm/rsm_yok2.svg</file>
+        <file>rsm/rsm_yok2.svg.2018_09_08_13_35_27.0.svg</file>
+        <file>rsm/Slide Up-64-128px.zip</file>
+        <file>rsm/trb3 - Kopya.gif</file>
+        <file>rsm/logo/Audi.png</file>
+        <file>rsm/logo/hm/caterpillar.jpg</file>
     </qresource>
 </RCC>

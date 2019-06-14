@@ -1,4 +1,4 @@
-﻿#include "ww_mkcins.h"
+﻿#include "cw_mkcins.h"
 #include "ftr_frmekle.h"
 #include "globals.h"
 #include "dbase.h"
@@ -295,18 +295,18 @@ void WW_Mkcins::set_kntrlCNS()
             QModelIndex Index  = CNStview->table->currentIndex ();
             QModelIndex Index1 = MRKtview->table->currentIndex ();
             QModelIndex Index2 = MDLtview->table->currentIndex ();
-            sgnText = CNStview->table->model()->index( Index.row() ,
+            sgnText1 = CNStview->table->model()->index( Index.row() ,
                                                        CNSmodel->fieldIndex
-                                                       ("cinsi") ).data().toString()
-                    + "\n" +
-                    MRKtview->table->model()->index( Index1.row() ,
+                                                       ("cinsi") ).data().toString();
+
+            sgnText2 = MRKtview->table->model()->index( Index1.row() ,
                                                      MRKmodel->fieldIndex
-                                                     ("marka") ).data().toString()
-                    + " - " +
-                    MDLtview->table->model()->index( Index2.row() ,
+                                                     ("marka") ).data().toString();
+
+            sgnText3 = MDLtview->table->model()->index( Index2.row() ,
                                                      MDLmodel->fieldIndex
                                                      ("modeli") ).data().toString() ;
-            emit WW_Mkcins::sgnCmmy (sgnText);
+            emit WW_Mkcins::sgnCmmy (sgnText1, sgnText2, sgnText3);
 
         }
 
@@ -542,18 +542,18 @@ void WW_Mkcins::set_kntrlMRK()
             QModelIndex Index  = CNStview->table->currentIndex ();
             QModelIndex Index1 = MRKtview->table->currentIndex ();
             QModelIndex Index2 = MDLtview->table->currentIndex ();
-            sgnText = CNStview->table->model()->index( Index.row() ,
+            sgnText1 = CNStview->table->model()->index( Index.row() ,
                                                        CNSmodel->fieldIndex
-                                                       ("cinsi") ).data().toString()
-                    + "\n" +
-                    MRKtview->table->model()->index( Index1.row() ,
+                                                       ("cinsi") ).data().toString();
+
+            sgnText2 = MRKtview->table->model()->index( Index1.row() ,
                                                      MRKmodel->fieldIndex
-                                                     ("marka") ).data().toString()
-                    + " - " +
-                    MDLtview->table->model()->index( Index2.row() ,
+                                                     ("marka") ).data().toString();
+
+            sgnText3 = MDLtview->table->model()->index( Index2.row() ,
                                                      MDLmodel->fieldIndex
                                                      ("modeli") ).data().toString() ;
-            emit WW_Mkcins::sgnCmmy (sgnText);
+            emit WW_Mkcins::sgnCmmy (sgnText1, sgnText2, sgnText3);
         }
         else
         {
@@ -783,21 +783,21 @@ qDebug()<<"kntrl mdl ";
             QModelIndex Index  = CNStview->table->currentIndex ();
             QModelIndex Index1 = MRKtview->table->currentIndex ();
             QModelIndex Index2 = MDLtview->table->currentIndex ();
-            sgnText = CNStview->table->model()->index( Index.row() ,
+            sgnText1 = CNStview->table->model()->index( Index.row() ,
                                                        CNSmodel->fieldIndex
-                                                       ("cinsi") ).data().toString()
-                    + "\n" +
-                    MRKtview->table->model()->index( Index1.row() ,
+                                                       ("cinsi") ).data().toString();
+
+            sgnText2 = MRKtview->table->model()->index( Index1.row() ,
                                                      MRKmodel->fieldIndex
-                                                     ("marka") ).data().toString()
-                    + " - " +
-                    MDLtview->table->model()->index( Index2.row() ,
+                                                     ("marka") ).data().toString();
+
+            sgnText3 = MDLtview->table->model()->index( Index2.row() ,
                                                      MDLmodel->fieldIndex
                                                      ("modeli") ).data().toString() ;
 
 
 
-            emit WW_Mkcins::sgnCmmy (sgnText);
+            emit WW_Mkcins::sgnCmmy (sgnText1, sgnText2, sgnText3);
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım

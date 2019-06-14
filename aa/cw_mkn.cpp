@@ -3,7 +3,9 @@
 #include "cw_per.h"
 #include "mkevrk.h"
 #include "dlgt_mkstok.h"
-#include "ww_mkcins.h"
+#include "mkn_cinsi.h"
+#include "mkn_marka.h"
+#include "mkn_modeli.h"
 #include "globals.h"
 #include "tamamla.h"
 #include "ftr_frmekle.h"
@@ -13,7 +15,7 @@ Cw_mkn::Cw_mkn(QWidget *parent) : QWidget(parent)
 
     qDebug ()<<"MAKİNA";
     //************************************************************
-    //*****************  F İ R m A  ****************************
+    //*****************  M A K İ N A  ****************************
 }
 
 void Cw_mkn::set_mkn()
@@ -42,14 +44,18 @@ void Cw_mkn::set_uiMKN()   // centralwidget görüntüsü
     this->showMaximized();
     qDebug ()  <<"mkn ui sonu 1";
 
-    lB_rsm = new QLabel;
-    Resim resim(lB_rsm);
-    MKNtview    = new HC_TableView;
     wd_mppr ()    ;
+    wD_Rsm rsm("Audi");
+    Resim resim(Wd_Rsm);
+
+    MKNtview    = new HC_TableView;
+
     auto *mkn_l = new QGridLayout;
-    mkn_l->addWidget(MKNtview   , 4, 0, 6, 4 );
-    mkn_l->addWidget(wdgt_mppr , 0, 5,10, 6 );
-    mkn_l->addWidget(lB_rsm  , 0, 0, 4, 4 );
+    mkn_l->addWidget ( MKNtview   , 0, 0,10, 5 );
+    mkn_l->addWidget ( Wd_Rsm     , 0, 9, 1, 1 );
+    mkn_l->addWidget ( wdgt_mppr  , 0, 5,10, 5 );
+    //mkn_l->addWidget(wdgt_mppr  , 3, 6, 3, 5 );
+
     this->setLayout (mkn_l);
 
 }       ///     mkn_ui
@@ -70,55 +76,101 @@ void Cw_mkn::wd_mppr ()
     led_mknPlaka = new QLineEdit();
     lB_plaka->setBuddy(led_mknPlaka);
 
-
     // /////////////////////////////////////////////////////
-
-    auto *lB_cmmy = new QLabel("Cins-Marka-Model");
-    tE_cmmy = new hC_textEdit ;
-    tE_cmmy->hC_txEdt->setReadOnly(true);
+    // cins
+    auto *lB_cins = new QLabel("Cins");
+    lE_cins = new HC_LE ;
+    lE_cins->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
-    connect(tE_cmmy->hC_txEdtpB , &QPushButton::clicked,
+    connect(lE_cins->pushButton , &QPushButton::clicked,
             [this ]()
     {
         // seçebilmek için pencere
-        auto *cmmy = new WW_Mkcins ;
+        auto *cmmy = new Mkn_Cinsi ;
+
 
 
         /////////////////////////////////////////////////////////////////////////////////
         // ----------------------------------------------------
         // cmmy tableviewinde gezinirken
-        // cins - marka - moel - yıl
+        // cins - marka - moel
         // signal ediliyor onu yakalayalım
         // seçim yapılan textedit e aktaralım
         // ----------------------------------------------------
 
-        connect (cmmy , &WW_Mkcins::sgnCmmy ,
+        connect (cmmy , &Mkn_Cinsi::sgnCmmy ,
                  [ this ] ( QString sgnText )
         {
-            tE_cmmy->hC_txEdt->setText ( sgnText );
-            tE_cmmy->hC_txEdt->setFocus();
+            lE_cins->lineEdit->setText ( sgnText );
+            lE_cins->lineEdit->setFocus();
         });
         cmmy->show ();
     });
 
+    // /////////////////////////////////////////////////////
+
+    auto *lB_mark = new QLabel("Marka");
+    lE_mark = new HC_LE ;
+    lE_mark->lineEdit ->setReadOnly(true);
+
+    // cins-marka-model-yıl makinaya ekle
+    connect(lE_mark->pushButton , &QPushButton::clicked,
+            [this ]()
+    {
+
+        // seçebilmek için pencere
+        auto *cmmy = new Mkn_Marka ;
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // cmmy tableviewinde gezinirken
+        // cins - marka - moel
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan textedit e aktaralım
+        // ----------------------------------------------------
+
+        connect (cmmy , &Mkn_Marka::sgnCmmy ,
+                 [ this ] ( QString sgnText )
+        {
+            lE_mark->lineEdit->setText ( sgnText );
+            lE_mark->lineEdit->setFocus();
+        });
+        cmmy->show ();
+    });
+// ///////////////////// marka
+    // /////////////////////////////////////////////////////
+
+    auto *lB_modl = new QLabel("Model");
+    lE_modl = new HC_LE ;
+    lE_modl->lineEdit ->setReadOnly(true);
+
+    // cins-marka-model-yıl makinaya ekle
+    connect(lE_modl->pushButton , &QPushButton::clicked,
+            [this]()
+    {
+
+        // seçebilmek için pencere
+        auto *cmmy = new Mkn_Modeli ;
 
 
-/*
-    cbx_mknCins = new QComboBox;
-    pb_mknCins = new QPushButton;
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // cmmy tableviewinde gezinirken
+        // cins - marka - moel
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan textedit e aktaralım
+        // ----------------------------------------------------
 
-    connect(pb_mknCins, &QPushButton::clicked ,
-            this,&Cw_mkn::ww_mkcins );
+        connect (cmmy , &Mkn_Modeli::sgnCmmy ,
+                 [ this ] ( QString sgnText )
+        {
+            lE_modl->lineEdit->setText ( sgnText );
+            lE_modl->lineEdit->setFocus();
+        });
+        cmmy->show ();
+    });
 
-    QLabel *lB_mknMark = new QLabel("Markası");
-    cbx_mknMark = new QComboBox;
-    pb_mknMark = new QPushButton;
-
-    QLabel *lB_mknModl = new QLabel("Modeli ");
-    cbx_mknModl = new QComboBox;
-    pb_mknModl = new QPushButton;
-*/
     QLabel *lB_mknYil = new QLabel("Yıl ");
     spn_mknYil = new QSpinBox();
     spn_mknYil->setMinimum (1900);
@@ -196,44 +248,36 @@ void Cw_mkn::wd_mppr ()
 
 
     mapperL->addWidget(lB_kurumno    ,  satr,0,1,1 );
-    mapperL->addWidget(led_mknKurumno,  satr,1,1,3 );
+    mapperL->addWidget(led_mknKurumno,  satr,1,1,2 );
     mapperL->addWidget(lB_plaka      ,++satr,0,1,1 );
-    mapperL->addWidget(led_mknPlaka  ,  satr,1,1,3 );
-    mapperL->addWidget(lB_cmmy       ,++satr,0,1,3 );
-    mapperL->addWidget(tE_cmmy       ,  satr,1,1,3 );
-
-    //    mapperL->addWidget(lB_cins       ,++satr,0,1,1 );
-//    mapperL->addWidget(cbx_mknCins   ,  satr,1,1,2 );
-//    mapperL->addWidget(pb_mknCins    ,  satr,3,3,1 );
-//    mapperL->addWidget(lB_mknMark    ,++satr,0,1,1 );
-//    mapperL->addWidget(cbx_mknMark   ,  satr,1,1,2 );
-//    mapperL->addWidget(lB_mknModl    ,++satr,0,1,1 );
-//    mapperL->addWidget(cbx_mknModl   ,  satr,1,1,2 );
-
+    mapperL->addWidget(led_mknPlaka  ,  satr,1,1,2 );
+    mapperL->addWidget(lB_cins       ,++satr,0,1,1 );
+    mapperL->addWidget(lE_cins       ,  satr,1,1,2 );
+    mapperL->addWidget(lB_mark       ,++satr,0,1,1 );
+    mapperL->addWidget(lE_mark       ,  satr,1,1,2 );
+    mapperL->addWidget(lB_modl       ,++satr,0,1,1 );
+    mapperL->addWidget(lE_modl       ,  satr,1,1,2 );
     mapperL->addWidget(lB_mknYil     ,++satr,0,1,1 );
-    mapperL->addWidget(spn_mknYil    ,  satr,1,1,3 );
+    mapperL->addWidget(spn_mknYil    ,  satr,1,1,2 );
+
     mapperL->addWidget(lB_mknSase    ,++satr,0,1,1 );
-    mapperL->addWidget(led_mknSase   ,  satr,1,1,3 );
-    mapperL->addWidget(lB_mknMotor   ,++satr,0,1,1 );
-    mapperL->addWidget(led_mknMotor  ,  satr,1,1,3 );
+    mapperL->addWidget(led_mknSase   ,  satr,1,1,2 );
+    mapperL->addWidget(lB_mknMotor   ,  satr,3,1,1 );
+    mapperL->addWidget(led_mknMotor  ,  satr,4,1,2 );
     mapperL->addWidget(lB_mknMtip    ,++satr,0,1,1 );
-    mapperL->addWidget(led_mknMtip   ,  satr,1,1,3 );
-    mapperL->addWidget(lB_mknYkt     ,++satr,0,1,1 );
-    mapperL->addWidget(cbx_mknYkt    ,  satr,1,1,2 );
-    mapperL->addWidget(pb_mknYkt     ,  satr,3,1,1 );
+    mapperL->addWidget(led_mknMtip   ,  satr,1,1,2 );
+    mapperL->addWidget(lB_mknYkt     ,  satr,3,1,1 );
+    mapperL->addWidget(cbx_mknYkt    ,  satr,4,1,2 );
     mapperL->addWidget(lB_mknSurucu  ,++satr,0,1,1 );
     mapperL->addWidget(cbx_mknSurucu ,  satr,1,1,2 );
-    mapperL->addWidget(pb_mknSurucu  ,  satr,3,1,1 );
-    mapperL->addWidget(lB_mknSurucutar   ,++satr,0,1,1 );
-    mapperL->addWidget(clndr_mknSurucutar,  satr,1,1,3 );
+    mapperL->addWidget(lB_mknSurucutar   ,  satr,3,1,1 );
+    mapperL->addWidget(clndr_mknSurucutar,  satr,4,1,2 );
     mapperL->addWidget(lB_mknBirim   ,++satr,0,1,1 );
     mapperL->addWidget(cbx_mknBirim  ,  satr,1,1,2 );
-    mapperL->addWidget(pb_mknBirim   ,  satr,3,1,1 );
-    mapperL->addWidget(lB_mknByer    ,++satr,0,1,1 );
-    mapperL->addWidget(cbx_mknByer   ,  satr,1,1,2 );
-    mapperL->addWidget(pb_mknByer    ,  satr,3,1,1 );
+    mapperL->addWidget(lB_mknByer    ,  satr,3,1,1 );
+    mapperL->addWidget(cbx_mknByer   ,  satr,4,1,2 );
     mapperL->addWidget(lB_mknAcklm   ,++satr,0,1,1 );
-    mapperL->addWidget(ted_mknAcklm  ,  satr,1,1,3 );
+    mapperL->addWidget(ted_mknAcklm  ,  satr,1,1,5 );
    // mapperL->addWidget(lB_foto      ,++satr,0,4,4 );
 
 }
@@ -366,9 +410,9 @@ void Cw_mkn::set_mapMKN()
     MKNmapper->addMapping(led_mknKurumno, MKNmodel->fieldIndex("mkn_kurumNo"));
     MKNmapper->addMapping(led_mknPlaka, MKNmodel->fieldIndex("mkn_plaka"));
 
-    MKNmapper->addMapping(tE_cmmy->hC_txEdt, MKNmodel->fieldIndex("mkn_cinsi"));
-//    MKNmapper->addMapping(cbx_mknMark, MKNmodel->fieldIndex("mkn_marka"));
- //   MKNmapper->addMapping(cbx_mknModl, MKNmodel->fieldIndex("mkn_modeli"));
+    MKNmapper->addMapping(lE_cins->lineEdit , MKNmodel->fieldIndex("mkn_cinsi"));
+    MKNmapper->addMapping(lE_mark->lineEdit , MKNmodel->fieldIndex("mkn_marka"));
+    MKNmapper->addMapping(lE_modl->lineEdit , MKNmodel->fieldIndex("mkn_modeli"));
 
     MKNmapper->addMapping(spn_mknYil, MKNmodel->fieldIndex("mkn_yil"));
     MKNmapper->addMapping(led_mknSase, MKNmodel->fieldIndex("mkn_saseno"));
@@ -485,7 +529,7 @@ void Cw_mkn::set_kntrlMKN()
             [this]()
     {
         Resim resim;
-        resim.resimUpdate (lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
+        resim.resimUpdate (Wd_Rsm, MKNtview, MKNmodel, MKNselectionMdl,
                            "mkn_resim", "ekle");
     });
 
@@ -494,7 +538,7 @@ void Cw_mkn::set_kntrlMKN()
               [this]()
     {
         Resim resim;
-        resim.resimUpdate (lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
+        resim.resimUpdate (Wd_Rsm, MKNtview, MKNmodel, MKNselectionMdl,
                            "mkn_resim");
     });
 
@@ -1199,7 +1243,7 @@ void Cw_mkn::onmnMKN_yeniEklE_hgsSLOT()
 
 
 ////////////////////////////////////////////////////////////  others
-void Cw_mkn::ww_mkcins()
+/*void Cw_mkn::ww_mkcins()
 {
     auto *w = new WW_Mkcins;
     //w->setModal(true);
@@ -1208,7 +1252,7 @@ void Cw_mkn::ww_mkcins()
 
 }       ///      ww_mkcins
 
-
+*/
 
 Cw_mkn::~Cw_mkn()
 = default;       ///      ~Cw_mkn

@@ -101,7 +101,7 @@ private slots:
 
 
    // void onMKNtview_cmm_filterSLOT(QModelIndex Index);
-    void ww_mkcins();
+   // void ww_mkcins();
 
 public:
 
@@ -140,7 +140,9 @@ public:
 //    QSqlTableModel *cbxModeliModel{};// dbtb_model
 //    QPushButton *pb_mknModl{};
 
-    hC_textEdit *tE_cmmy = new hC_textEdit ;
+    HC_LE *lE_cins ;
+    HC_LE *lE_mark ;
+    HC_LE *lE_modl ;
     QSpinBox *spn_mknYil{};
 
     QLineEdit *led_mknSase{};
@@ -220,7 +222,7 @@ public:
     QWidget *wdgt_tv{};
     QWidget *wdgt_rsm{};
 
-    QLabel *lB_rsm{};
+    QLabel *Wd_Rsm{};
 
     QPushButton *pb_rsmEkle{};
     QPushButton *pb_rsm{};

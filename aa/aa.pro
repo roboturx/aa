@@ -26,7 +26,6 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += main.cpp\
     cw_mkn.cpp \
-    ww_mkcins.cpp \
     cw_per.cpp \
     cw_grs.cpp \
     cw_isemri.cpp \
@@ -50,12 +49,15 @@ SOURCES += main.cpp\
     sortingbox.cpp \
     ftr_frmekle.cpp \
  #   cw_cns.cpp
+    cw_mkcins.cpp \
+    mkn_cinsi.cpp \
+    mkn_marka.cpp \
+    mkn_modeli.cpp
 
 
 HEADERS  += \
     globals.h \
     cw_mkn.h \
-    ww_mkcins.h \
     dlgt_mkstok.h \
     cw_per.h \
     cw_grs.h \
@@ -80,7 +82,11 @@ HEADERS  += \
     dbase.h \
     shapeitem.h \
     sortingbox.h \
-    ftr_frmekle.h
+    ftr_frmekle.h \
+    cw_mkcins.h \
+    mkn_cinsi.h \
+    mkn_marka.h \
+    mkn_modeli.h
     # cw_cns.h
 
 FORMS    += \

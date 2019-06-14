@@ -17,7 +17,7 @@ public:
 	~WW_Mkcins();
 
 
-    QString sgnText;
+    QString sgnText1{}, sgnText2{}, sgnText3{} ;
     void setup_CNS();
     DBase *dbase;
 
@@ -62,8 +62,7 @@ private:
 
 
 signals:
-    void sgnCmmy (const QString sgnCmmy);
-
+    void sgnCmmy (const QString, const QString, const QString);
 };
 
 #endif // WW_MKCINS_H

@@ -18,16 +18,29 @@ class Resim : public QWidget
 
 public:
 
-    Resim(QLabel *lB_resim=nullptr, QWidget *parent = nullptr);
+    Resim(QWidget *wD_resim=nullptr, QWidget *parent = nullptr);
 
     QByteArray resimEkle();
-    void resimUpdate(  QLabel *rsm_updResim,
+    void resimUpdate(QWidget *rsm_updResim,
                        HC_TableView *rsm_table,
                        QSqlRelationalTableModel *rsm_model,
                        QItemSelectionModel *rsm_selectionModel,
                        QString rsm_field,
                        QString rsm_new_upd = nullptr);
 
+
+};
+
+
+class wD_Rsm : public QWidget
+{
+    Q_OBJECT
+
+public:
+
+    wD_Rsm(QString *png_name = nullptr,
+           QLabel *wD_resim  = nullptr,
+           QWidget *parent   = nullptr);
 
 };
 
