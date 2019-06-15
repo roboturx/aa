@@ -1,9 +1,9 @@
-#ifndef MKN_CINSI_H
+﻿#ifndef MKN_CINSI_H
 #define MKN_CINSI_H
 
 
 #include "globals.h"
-#include "hc_tableview.h"
+#include "hc_.h"
 #include "dbase.h"
 namespace Ui {
     class Mkn_Cinsi;
@@ -23,7 +23,7 @@ public:
     DBase *dbase;
 
     QLabel *lB_rsm;
-    HC_TableView             *CNStview{};
+    hC_Tv             *CNStview{};
     QSqlRelationalTableModel *CNSmodel{} ;
     QItemSelectionModel      *CNSselectionMdl;
     QDataWidgetMapper        *CNSmapper;

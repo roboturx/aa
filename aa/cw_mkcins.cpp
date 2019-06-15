@@ -37,26 +37,25 @@ void WW_Mkcins::set_uiCNS()
 
     lB_rsm = new QLabel ("Resim");
     lB_rsm->setMinimumSize(60,100);
-    Resim resim (lB_rsm);
+    hC_Rs resim (lB_rsm);
 
     lB_rsm1 = new QLabel ("Resim");
     lB_rsm1->setMinimumSize(60,100);
-    Resim resim1 (lB_rsm1);
+    hC_Rs resim1 (lB_rsm1);
 
     lB_rsm2 = new QLabel ("Resim");
     lB_rsm2->setMinimumSize(60,100);
-    Resim resim2 (lB_rsm2);
+    hC_Rs resim2 (lB_rsm2);
 
 
-    CNStview = new HC_TableView;
-    MRKtview = new HC_TableView;
-    MDLtview = new HC_TableView;
+    CNStview = new hC_Tv;
+    MRKtview = new hC_Tv;
+    MDLtview = new hC_Tv;
 
 
     auto *gL = new QGridLayout();
 
-    int str{};
-    int stn{};
+
     gL->addWidget( CNStview   , 0,   0 , 4, 1);
     gL->addWidget( lB_rsm     , 4,   0 , 1, 1);
     gL->addWidget( MRKtview   , 0,   1 , 4, 1);
@@ -165,8 +164,7 @@ void WW_Mkcins::set_kntrlCNS()
     connect(CNStview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+        hC_Rs resim (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
                            "resim", "ekle");
     });
 
@@ -174,9 +172,8 @@ void WW_Mkcins::set_kntrlCNS()
     connect(  CNSselectionMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
-                           "resim");
+        hC_Rs resim (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+                           "resim", "değiştir" ) ;
     });
 
 
@@ -417,8 +414,7 @@ void WW_Mkcins::set_kntrlMRK()
     connect(MRKtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm1, MRKtview, MRKmodel, MRKselectionMdl,
+        hC_Rs resim (lB_rsm1, MRKtview, MRKmodel, MRKselectionMdl,
                            "resim", "ekle");
     });
 
@@ -426,9 +422,8 @@ void WW_Mkcins::set_kntrlMRK()
     connect(  MRKselectionMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm1, MRKtview, MRKmodel, MRKselectionMdl,
-                           "resim");
+        hC_Rs resim ( lB_rsm1, MRKtview, MRKmodel, MRKselectionMdl,
+                           "resim", "değiştir" ) ;
     });
 
 
@@ -665,8 +660,7 @@ qDebug()<<"kntrl mdl ";
     connect(MDLtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm2, MDLtview, MDLmodel, MDLselectionMdl,
+        hC_Rs resim (lB_rsm2, MDLtview, MDLmodel, MDLselectionMdl,
                            "resim", "ekle");
     });
 
@@ -675,9 +669,8 @@ qDebug()<<"kntrl mdl ";
               [this]()
     {
         qDebug()<<"kntrl mdl11111 ";
-        Resim resim;
-        resim.resimUpdate (lB_rsm2, MDLtview, MDLmodel, MDLselectionMdl,
-                           "resim");
+        hC_Rs resim ( lB_rsm2, MDLtview, MDLmodel, MDLselectionMdl,
+                           "resim", "değiştir" );
     });
 
 

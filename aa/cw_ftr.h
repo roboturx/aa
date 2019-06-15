@@ -3,7 +3,7 @@
 
 
 #include "globals.h"
-#include "hc_tableview.h"
+#include "hc_.h"
 #include "cw_mkn.h"
 #include "dbase.h"
 
@@ -21,7 +21,7 @@ public:
     void  setup_fatura() ;
     DBase *dbase{};
 
-    HC_TableView             *FTRtview{};
+    hC_Tv             *FTRtview{};
     QSqlRelationalTableModel *FTRmodel{};
     QItemSelectionModel      *FTRselectionMdl{} ;
     QDataWidgetMapper        *FTRmapper{};
@@ -44,14 +44,14 @@ public:
 
 
     QLineEdit   *lE_faturano{}  ;
-    HC_LE   *lE_firma{} ;
+    hC_Le   *lE_firma{} ;
     QLineEdit   *lE_tarih{};
     QLineEdit   *lE_aciklama{};
 
 
     // depo detay
 
-    HC_TableView             *FTRDETtview{};
+    hC_Tv             *FTRDETtview{};
     QSqlRelationalTableModel *FTRDETmodel{} ;
     QItemSelectionModel      *FTRDETselectionMdl{} ;
     QDataWidgetMapper        *FTRDETmapper{} ;
@@ -61,7 +61,7 @@ public:
     QLabel      *lB_FTRdet{}  ;
     QLineEdit   *lE_mlzdetbarkod{}  ;
     QLineEdit   *lE_mlzm{} ;
-    HC_LE       *lE_mlzdetmlzm{} ;
+    hC_Le       *lE_mlzdetmlzm{} ;
     QLineEdit   *lE_mlzdetaciklama{}  ;
     QLineEdit   *lE_mlzdettarih{} ;
     QLineEdit   *lE_mlzdetgc{} ;

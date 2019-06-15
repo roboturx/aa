@@ -29,9 +29,9 @@ void Mkn_Marka::set_uiMRK()
 
     lB_rsm = new QLabel ("Resim");
     lB_rsm->setMinimumSize(60,100);
-    Resim resim (lB_rsm);
+    hC_Rs resim (lB_rsm);
 
-    MRKtview = new HC_TableView;
+    MRKtview = new hC_Tv;
 
     auto *gL = new QGridLayout();
 
@@ -132,8 +132,7 @@ void Mkn_Marka::set_kntrlMRK()
     connect(MRKtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, MRKtview, MRKmodel, MRKselectionMdl,
+        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKselectionMdl,
                            "resim", "ekle");
     });
 
@@ -141,9 +140,8 @@ void Mkn_Marka::set_kntrlMRK()
     connect(  MRKselectionMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, MRKtview, MRKmodel, MRKselectionMdl,
-                           "resim");
+        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKselectionMdl,
+                           "resim", "değiştir" ) ;
     });
 
 

@@ -304,7 +304,7 @@ QString DBase::VTd_FRMA()
 
 
 
-QSqlRelationalTableModel* DBase::modelFirma()
+hC_Rm* DBase::modelFirma()
 {
     qDebug() << " mdlfrm";
     QString indexField = "frm_unvan";
@@ -324,22 +324,25 @@ QSqlRelationalTableModel* DBase::modelFirma()
     // fieldList.append("resim");
 
 
-    auto *mdlfrm = new QSqlRelationalTableModel;
-    mdlfrm->setTable( "frm_dbtb" );
-    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
-    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
+     hC_Rm hC_Rm ("frm_dbtb",
+                  *FRMmodel,
+                  "frm_firma",
+                  *fieldlist,) ; // QSqlRelationalTableModel ;;
+//    mdlfrm->setTable( "frm_dbtb" );
+//    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+//    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
-    {
-        mdlfrm->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
-    }
+//    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+//    {
+//        mdlfrm->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+//    }
 
-    // Populate the model_mkstok
-    if (!mdlfrm->select())
-    {
-        qDebug () <<  " HATA - Model firma select "
-                   <<mdlfrm->lastError();
-    }
+//    // Populate the model_mkstok
+//    if (!mdlfrm->select())
+//    {
+//        qDebug () <<  " HATA - Model firma select "
+//                   <<mdlfrm->lastError();
+//    }
 
     return mdlfrm ;
 }///FİRMA

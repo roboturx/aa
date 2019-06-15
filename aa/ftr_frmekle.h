@@ -12,27 +12,6 @@ class Resim;
 }
 
 
-class Resim : public QWidget
-{
-    Q_OBJECT
-
-public:
-
-    Resim(QLabel *lB_resim=nullptr, QWidget *parent = nullptr);
-
-    QByteArray resimEkle();
-    void resimUpdate(QLabel *rsm_updResim,
-                       HC_TableView *rsm_table,
-                       QSqlRelationalTableModel *rsm_model,
-                       QItemSelectionModel *rsm_selectionModel,
-                       QString rsm_field,
-                       QString rsm_new_upd = nullptr);
-
-
-};
-
-
-
 // //////////////////////////////////////////// faturaya firma ekle
 class Ftr_FrmEkle : public QDialog
 {

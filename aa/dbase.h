@@ -1,7 +1,8 @@
-#ifndef DBASE_H
+﻿#ifndef DBASE_H
 #define DBASE_H
 
 #include "globals.h"
+#include "hc_.h"
 
 namespace Ui {
 class DBase;
@@ -32,7 +33,8 @@ public:
     QSqlRelationalTableModel *modelMalzemeDetay();
     QString *MLZDETtableName{};
 
-    QSqlRelationalTableModel *modelFirma();
+    //QSqlRelationalTableModel *modelFirma();
+    hC_Rm *modelFirma();
     QString *FRMtableName{};
 
     QSqlRelationalTableModel *modelMakina();

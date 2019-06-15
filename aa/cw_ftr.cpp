@@ -4,7 +4,7 @@
 #include "ftr_frmekle.h"
 
 #include "globals.h"
-#include "hc_tableview.h"
+
 
 
 Cw_ftr::Cw_ftr(QWidget *parent) :  QWidget(parent)
@@ -47,11 +47,11 @@ void Cw_ftr::setup_uiFtr()
     wd_FTR();
     wd_FTRdet();
     //////////////////////////////////// depo tableview
-    FTRtview = new HC_TableView;
+    FTRtview = new hC_Tv;
     FTRtview->setMinimumSize (160,60);
     //////////////////////////////////// depodet
     ///  aslında malzemedet tableview
-    FTRDETtview = new HC_TableView;
+    FTRDETtview = new hC_Tv;
     FTRDETtview->setMinimumSize (160,60);
 
     ////////////////////////////////////////////// layout
@@ -92,7 +92,7 @@ void Cw_ftr::wd_FTR()
     lB_faturano->setBuddy(lE_faturano);
 
     QLabel *lB_firma = new QLabel(tr("Firma Ünvanı "));
-    lE_firma = new HC_LE ;
+    lE_firma = new hC_Le ;
     lE_firma->lineEdit->setReadOnly(true);
 
     // firma ismini fatyraya ekle
@@ -160,7 +160,7 @@ void Cw_ftr::wd_FTR()
     LyG_FTR ->addWidget(lE_ftrGenelToplam     ,   str, 1, 1, 2);
 
     lB_rsm = new QLabel ("Resim");
-    Resim resim(lB_rsm);
+    hC_Rs resim(lB_rsm);
     LyG_FTR ->addWidget(lB_rsm  , str-2, 3, 3, 3);
 
     wdgt_mapFTR = new QWidget;
@@ -321,9 +321,8 @@ void Cw_ftr::setup_kntrlFtr()
             [this]()
     {
 
-        Resim resim;
-        resim.resimUpdate (lB_rsm, FTRtview, FTRmodel, FTRselectionMdl,
-                           "ftr_resim", "ekle");
+        hC_Rs resim (lB_rsm, FTRtview, FTRmodel, FTRselectionMdl,
+                           "ftr_resim", "yeni");
     });
 
     // row değiştiğnde resmide değiştirelim
@@ -331,9 +330,8 @@ void Cw_ftr::setup_kntrlFtr()
     connect( FTRselectionMdl , &QItemSelectionModel::currentRowChanged,
              [this ]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, FTRtview, FTRmodel, FTRselectionMdl,
-                           "ftr_resim");
+        hC_Rs resim ( lB_rsm, FTRtview, FTRmodel, FTRselectionMdl,
+                           "ftr_resim", "değiştir" ) ;
     });
 
 
@@ -835,7 +833,7 @@ void Cw_ftr::setup_kntrlFtrDet()
 
         ///  malzemeden malzeme adını almak için linedit ve ekleme pB
         auto *lB_mlzdetmlzm = new QLabel(tr("Malzeme Adı"));
-        lE_mlzdetmlzm = new HC_LE;
+        lE_mlzdetmlzm = new hC_Le;
         lE_mlzdetmlzm->lineEdit->setReadOnly (true);
 
         ///  malzemeden malzeme kod - barkod - birim

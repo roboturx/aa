@@ -1,7 +1,6 @@
 ﻿#include "cw_mlzm.h"
 #include "cw_ftr.h"
 #include "globals.h"
-#include "hc_tableview.h"
 #include "dbase.h"
 #include "ftr_frmekle.h"
 
@@ -43,15 +42,15 @@ void Cw_Mlzm::setup_uiMlzm()      // 100100
 
     ////////////////////////////////////////// widgets
     lB_rsm = new QLabel (tr("Resim"));
-    Resim resim(lB_rsm);
+    hC_Rs resim(lB_rsm);
 
     wd_Mlzm ();                  // 100110
     wd_Mlzmdet();                // 100120
     //////////////////////////////////// Mlzm tableview
-    int i=1;                     // 100130
-    MLZMtview = new HC_TableView(i);
+         // 100130
+    MLZMtview = new hC_Tv;
     MLZMtview->setMinimumSize (200,150);
-    MLZMDETtview = new HC_TableView(i);  // 100140
+    MLZMDETtview = new hC_Tv;  // 100140
     MLZMDETtview->setMinimumSize (200,150);
 
     ////////////////////////////////////////////// layout
@@ -315,48 +314,9 @@ void Cw_Mlzm::setup_kontrol()
     connect(MLZMtview->pB_eklersm, &QPushButton::clicked,
             [this] ()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm,
-                           MLZMtview,
-                           MLZMmodel,
-                           MLZMselectionMdl,
-                           "mlzm_resim","ekle");
+        hC_Rs resim (lB_rsm, MLZMtview, MLZMmodel, MLZMselectionMdl,
+                           "mlzm_resim","yeni");
 
-        /*
-        qDebug() << "  slt_Mlzm_pB_Eklersm_clicked";
-        // Mlzm resim ekle
-        QString myfile = QFileDialog::
-                getOpenFileName(this,
-                                tr("Resim Aç"), "/home/mr/Resimler",
-                                tr("Resim Dosyaları (*.png *.jpg *.bmp *.jpeg)"
-                                   " ;; Tüm Dosyalar (*,*)"));
-
-        if (myfile == "")
-            return;
-
-        QImage image(myfile);
-        lB_mlzrsm->setPixmap(QPixmap::fromImage(image));
-        QByteArray inByteArray;
-        QFile file(  myfile ); //dosyayı açmak için al
-
-        if ( file.open(QIODevice::ReadOnly))
-        {
-            //qDebug ()<<"file read";
-            inByteArray = file.readAll();
-
-            // table view de hangi rowdayız ?
-            QModelIndex index = MLZMtview->table->currentIndex();
-            int row = index.row() ;
-
-            /// resmi değiştirelim
-            MLZMmodel->setData(MLZMmodel->
-                               index(row, MLZMmodel->
-                                     fieldIndex ("mlzm_resim")),inByteArray);
-            /// yeni eklenenleri kaydedelim
-            MLZMmodel->submitAll();
-            MLZMmodel->select ();
-
-        }*/
     });
     //&Cw_Mlzm::slt_Mlzm_pB_Eklersm_clicked  )) ;
 
@@ -584,12 +544,8 @@ void Cw_Mlzm::setup_kontrol()
 
 
         // 3 resimi değiştirelim
-        Resim resim;
-        resim.resimUpdate (lB_rsm,
-                           MLZMtview,
-                           MLZMmodel,
-                           MLZMselectionMdl,
-                           "mlzm_resim");
+        hC_Rs resim ( lB_rsm, MLZMtview, MLZMmodel, MLZMselectionMdl,
+                     "mlzm_resim", "değiştir" ) ;
 
         /*
 
@@ -883,7 +839,7 @@ Kontrol::Kontrol()
 
 }
 void Kontrol::K_updBtt(    QDataWidgetMapper *map,
-                           HC_TableView *view,
+                           hC_Tv *view,
                            QSqlRelationalTableModel *model,
                            int Index)
 {
@@ -1025,8 +981,8 @@ void Cw_Mlzm::wd_Mlzmdet()
     lB_d_aciklama->setBuddy(lE_d_aciklama);
 
     //////////////////////////////////// Mlzmdet tableview
-    int i= 1;
-    MLZMDETtview = new HC_TableView(i);
+
+    MLZMDETtview = new hC_Tv;
   //  MLZMDETtview->pB_grscks->setVisible (false);
 
     auto *lYG_d_map = new QGridLayout();

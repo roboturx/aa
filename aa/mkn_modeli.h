@@ -1,8 +1,8 @@
-#ifndef MKN_MODELI_H
+﻿#ifndef MKN_MODELI_H
 #define MKN_MODELI_H
 
 #include "globals.h"
-#include "hc_tableview.h"
+#include "hc_.h"
 #include "dbase.h"
 namespace Ui {
     class Mkn_Modeli;
@@ -23,7 +23,7 @@ public:
 
     QLabel *lB_rsm;
 
-    HC_TableView             *MDLtview{};
+    hC_Tv            *MDLtview{};
     QSqlRelationalTableModel *MDLmodel{} ;
     QItemSelectionModel      *MDLselectionMdl;
     QDataWidgetMapper        *MDLmapper;

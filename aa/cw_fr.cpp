@@ -40,11 +40,11 @@ void Cw_fr::setup_ui()
 
     lB_fr  = new QLabel (tr("Firma"));
     lB_rsm = new QLabel (tr("Resim"));
-    Resim resim(lB_rsm);
+    hC_Rs resim(lB_rsm);
 
     // ///////////////////////////////////////////////////////
     // views
-    FRMtview = new HC_TableView();
+    FRMtview = new hC_Tv();
 
     // ///////////////////////////////////////////////////////
     // wdgt lbls
@@ -119,7 +119,7 @@ void Cw_fr::setup_ui()
 void Cw_fr::setup_modelfr()
 {
     qDebug()<<"setup model fr";
-    FRMmodel = new QSqlRelationalTableModel ;
+    FRMmodel = new QSqlRelationalTableModel;
     FRMmodel = dbase->modelFirma() ;
 }
 
@@ -204,18 +204,16 @@ void Cw_fr::setup_kntrlfr()
     connect(FRMtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, FRMtview, FRMmodel, FRMselectionMdl,
-                           "frm_resim", "ekle");
+        hC_Rs resim(lB_rsm, FRMtview, FRMmodel, FRMselectionMdl,
+                           "frm_resim", "new");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
     connect(  FRMselectionMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, FRMtview, FRMmodel, FRMselectionMdl,
-                           "frm_resim");
+        hC_Rs resim ( lB_rsm, FRMtview, FRMmodel, FRMselectionMdl,
+                           "frm_resim", "değiştir" ) ;
     });
 
 

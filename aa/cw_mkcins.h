@@ -1,8 +1,8 @@
-#ifndef WW_MKCINS_H
+﻿#ifndef WW_MKCINS_H
 #define WW_MKCINS_H
 
 #include "globals.h"
-#include "hc_tableview.h"
+#include "hc_.h"
 #include "dbase.h"
 namespace Ui {
     class WW_Mkcins;
@@ -22,20 +22,20 @@ public:
     DBase *dbase;
 
     QLabel *lB_rsm;
-    HC_TableView             *CNStview{};
+    hC_Tv             *CNStview{};
     QSqlRelationalTableModel *CNSmodel{} ;
     QItemSelectionModel      *CNSselectionMdl;
     QDataWidgetMapper        *CNSmapper;
 
 
     QLabel *lB_rsm1;
-    HC_TableView             *MRKtview{};
+    hC_Tv             *MRKtview{};
     QSqlRelationalTableModel *MRKmodel{} ;
     QItemSelectionModel      *MRKselectionMdl;
     QDataWidgetMapper        *MRKmapper;
 
     QLabel *lB_rsm2;
-    HC_TableView             *MDLtview{};
+    hC_Tv             *MDLtview{};
     QSqlRelationalTableModel *MDLmodel{} ;
     QItemSelectionModel      *MDLselectionMdl;
     QDataWidgetMapper        *MDLmapper;

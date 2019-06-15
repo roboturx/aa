@@ -29,9 +29,9 @@ void Mkn_Modeli::set_uiMDL()
 
     lB_rsm = new QLabel ("Resim");
     lB_rsm->setMinimumSize(60,100);
-    Resim resim (lB_rsm);
+    hC_Rs resim (lB_rsm);
 
-    MDLtview = new HC_TableView;
+    MDLtview = new hC_Tv;
 
     auto *gL = new QGridLayout();
 
@@ -133,8 +133,7 @@ qDebug()<<"kntrl mdl ";
     connect(MDLtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, MDLtview, MDLmodel, MDLselectionMdl,
+        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLselectionMdl,
                            "resim", "ekle");
     });
 
@@ -143,9 +142,8 @@ qDebug()<<"kntrl mdl ";
               [this]()
     {
         qDebug()<<"kntrl mdl11111 ";
-        Resim resim;
-        resim.resimUpdate (lB_rsm, MDLtview, MDLmodel, MDLselectionMdl,
-                           "resim");
+        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLselectionMdl,
+                           "resim", "değiştir" ) ;
     });
 
 

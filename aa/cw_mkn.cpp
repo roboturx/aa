@@ -47,9 +47,9 @@ void Cw_mkn::set_uiMKN()   // centralwidget görüntüsü
     wd_mppr ()    ;
 
     lB_rsm = new QLabel;
-    Resim resim(lB_rsm);
+    hC_Rs resim(lB_rsm);
 
-    MKNtview    = new HC_TableView;
+    MKNtview    = new hC_Tv;
 
     auto *mkn_l = new QGridLayout;
     mkn_l->addWidget ( MKNtview   , 0, 0,10, 5 );
@@ -80,7 +80,7 @@ void Cw_mkn::wd_mppr ()
     // /////////////////////////////////////////////////////
     // cins
     auto *lB_cins = new QLabel("Cins");
-    lE_cins = new HC_LE ;
+    lE_cins = new hC_Le ;
     lE_cins->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
@@ -112,7 +112,7 @@ void Cw_mkn::wd_mppr ()
     // /////////////////////////////////////////////////////
 
     auto *lB_mark = new QLabel("Marka");
-    lE_mark = new HC_LE ;
+    lE_mark = new hC_Le ;
     lE_mark->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
@@ -143,7 +143,7 @@ void Cw_mkn::wd_mppr ()
     // /////////////////////////////////////////////////////
 
     auto *lB_modl = new QLabel("Model");
-    lE_modl = new HC_LE ;
+    lE_modl = new hC_Le ;
     lE_modl->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
@@ -529,8 +529,7 @@ void Cw_mkn::set_kntrlMKN()
     connect(MKNtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
+        hC_Rs resim(lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
                            "mkn_resim", "ekle");
     });
 
@@ -538,9 +537,8 @@ void Cw_mkn::set_kntrlMKN()
     connect(  MKNselectionMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
-                           "mkn_resim");
+        hC_Rs resim ( lB_rsm, MKNtview, MKNmodel, MKNselectionMdl,
+                           "mkn_resim","değiştir" ) ;
     });
 
 

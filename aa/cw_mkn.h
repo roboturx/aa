@@ -2,11 +2,12 @@
 #define Cw_mkn_H
 
 #include "globals.h"
+#include "hc_.h"
 #include "cw_grs.h"
 #include "cw_isemri.h"
 #include "dbase.h"
 #include "mkevrk.h"
-#include "hc_tableview.h"
+
 
 class SKGComboBox;
 namespace Ui {
@@ -25,7 +26,7 @@ public:
     void set_mkn();
     DBase *dbase;
     QLabel *lB_rsm;
-    HC_TableView             *MKNtview ;
+    hC_Tv             *MKNtview ;
     QSqlRelationalTableModel *MKNmodel {} ;
     QItemSelectionModel      *MKNselectionMdl;
     QDataWidgetMapper        *MKNmapper {};
@@ -140,9 +141,9 @@ public:
 //    QSqlTableModel *cbxModeliModel{};// dbtb_model
 //    QPushButton *pb_mknModl{};
 
-    HC_LE *lE_cins ;
-    HC_LE *lE_mark ;
-    HC_LE *lE_modl ;
+    hC_Le *lE_cins ;
+    hC_Le *lE_mark ;
+    hC_Le *lE_modl ;
     QSpinBox *spn_mknYil{};
 
     QLineEdit *led_mknSase{};

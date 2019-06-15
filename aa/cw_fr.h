@@ -2,7 +2,7 @@
 #define CW_FR_H
 
 #include "globals.h"
-#include "hc_tableview.h"
+#include "hc_.h"
 #include "dbase.h"
 
 
@@ -22,7 +22,7 @@ public:
     void setup_firma();
     DBase *dbase;
 
-    HC_TableView             *FRMtview ;
+    hC_Tv *FRMtview ;
     QSqlRelationalTableModel *FRMmodel {} ;
     QItemSelectionModel      *FRMselectionMdl;
     QDataWidgetMapper        *FRMmapper {};

@@ -2,7 +2,7 @@
 #define Cw_Mlzm_H
 
 #include "globals.h"
-#include "hc_tableview.h"
+#include "hc_.h"
 #include "cw_mkn.h"
 #include "dbase.h"
 
@@ -19,7 +19,7 @@ public:
 
     DBase *dbase{} ;
 
-    HC_TableView             *MLZMtview{};
+    hC_Tv             *MLZMtview{};
     QSqlRelationalTableModel *MLZMmodel{};
     QItemSelectionModel      *MLZMselectionMdl{} ;
     QDataWidgetMapper        *MLZMmapper{};
@@ -56,7 +56,7 @@ public:
     // Mlzm detay
     QWidget     *wdgt_mapMlzm_dty{};
 
-    HC_TableView        *MLZMDETtview{};
+    hC_Tv        *MLZMDETtview{};
     QItemSelectionModel *MLZMDETselectionMdl{} ;
     QSqlTableModel      *MLZMDETmodel{} ;
     QDataWidgetMapper   *MLZMDETmapper{} ;
@@ -126,7 +126,7 @@ public:
 
     Kontrol ();
     void K_updBtt(QDataWidgetMapper *map,
-          HC_TableView *view,
+          hC_Tv *view,
           QSqlRelationalTableModel *model,
           int Index);
 

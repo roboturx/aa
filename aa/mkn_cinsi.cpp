@@ -27,9 +27,9 @@ void Mkn_Cinsi::set_uiCNS()
 
     lB_rsm = new QLabel ("Resim");
     lB_rsm->setMinimumSize(60,100);
-    Resim resim (lB_rsm);
+    hC_Rs resim (lB_rsm);
 
-    CNStview = new HC_TableView;
+    CNStview = new hC_Tv;
 
     auto *gL = new QGridLayout();
 
@@ -121,8 +121,7 @@ void Mkn_Cinsi::set_kntrlCNS()
     connect(CNStview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+        hC_Rs resim ( lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
                            "resim", "ekle");
     });
 
@@ -130,9 +129,8 @@ void Mkn_Cinsi::set_kntrlCNS()
     connect(  CNSselectionMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        Resim resim;
-        resim.resimUpdate (lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
-                           "resim");
+        hC_Rs resim ( lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+                           "resim", "değiştir" );
     });
 
 

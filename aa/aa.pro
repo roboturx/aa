@@ -34,7 +34,6 @@ SOURCES += main.cpp\
     cw_gelir.cpp \
     VTKontrol.cpp \
     cw_hkk.cpp \
-    hc_tableview.cpp \
     mw_main.cpp \
     wd_dptlp.cpp \
     cw_fr.cpp \
@@ -48,11 +47,11 @@ SOURCES += main.cpp\
     shapeitem.cpp \
     sortingbox.cpp \
     ftr_frmekle.cpp \
- #   cw_cns.cpp
     cw_mkcins.cpp \
     mkn_cinsi.cpp \
     mkn_marka.cpp \
-    mkn_modeli.cpp
+    mkn_modeli.cpp \
+    hc_.cpp
 
 
 HEADERS  += \
@@ -69,7 +68,6 @@ HEADERS  += \
     VTTekton.h \    
     cw_hkk.h \
     main.h \
-    hc_tableview.h \
     mw_main.h \
     wd_dptlp.h \
     cw_fr.h \
@@ -86,7 +84,8 @@ HEADERS  += \
     cw_mkcins.h \
     mkn_cinsi.h \
     mkn_marka.h \
-    mkn_modeli.h
+    mkn_modeli.h \
+    hc_.h
     # cw_cns.h
 
 FORMS    += \

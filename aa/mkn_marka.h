@@ -1,8 +1,8 @@
-#ifndef MKN_MARKA_H
+﻿#ifndef MKN_MARKA_H
 #define MKN_MARKA_H
 
 #include "globals.h"
-#include "hc_tableview.h"
+#include "hc_.h"
 #include "dbase.h"
 namespace Ui {
     class Mkn_Marka;
@@ -23,7 +23,7 @@ public:
 
     QLabel *lB_rsm;
 
-    HC_TableView             *MRKtview{};
+    hC_Tv             *MRKtview{};
     QSqlRelationalTableModel *MRKmodel{} ;
     QItemSelectionModel      *MRKselectionMdl;
     QDataWidgetMapper        *MRKmapper;
