@@ -374,8 +374,7 @@ hC_Te::~hC_Te()
 hC_Rm::hC_Rm ( QString *rm_Table,
                QSqlRelationalTableModel *rm_model,
                QString *rm_IndexField,
-               QStringList *rm_List,
-               QSqlRelationalTableModel *parent=nullptr)
+               QStringList *rm_List )
 
 {
     rm_model->setTable( *rm_Table );
@@ -391,8 +390,12 @@ hC_Rm::hC_Rm ( QString *rm_Table,
     // Populate the model
     if (!rm_model->select())
     {
-        qDebug () <<  " HATA - Model "+ *rm_Table +" Select "
-                   <<rm_model->lastError();
+        QString m("HATA - \n"
+                  "-*- Model Seçim   \n"
+                  "-*- class hC_Rm - \n"+
+                  *rm_Table + "   " +
+                  rm_model->lastError().text() ) ;
+        qDebug () <<  m ;
     }
 }
 

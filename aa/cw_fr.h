@@ -19,8 +19,12 @@ public:
     explicit Cw_fr(QWidget *parent = nullptr);
     ~Cw_fr();
 
-    void setup_firma();
+    void    setup_firma();
+    QString frm_VT();
+    void frm_model(QSqlRelationalTableModel * );
+
     DBase *dbase;
+    QString *FRMtableName;
 
     hC_Tv *FRMtview ;
     QSqlRelationalTableModel *FRMmodel {} ;

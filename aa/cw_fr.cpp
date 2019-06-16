@@ -7,7 +7,7 @@ Cw_fr::Cw_fr(QWidget *parent) : QWidget(parent)
 {
     qDebug ()<<"Firma Constructor";
     //************************************************************
-    //*****************  F İ R m A  ****************************
+    //*****************  F İ R M A  ****************************
 }
 
 void Cw_fr::setup_firma()
@@ -120,7 +120,7 @@ void Cw_fr::setup_modelfr()
 {
     qDebug()<<"setup model fr";
     FRMmodel = new QSqlRelationalTableModel;
-    FRMmodel = dbase->modelFirma() ;
+    dbase->modelFirma( FRMmodel ) ;
 }
 
 
@@ -354,3 +354,108 @@ Cw_fr::~Cw_fr()
 /// an invalid date value represents " "
 ///
 //    dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
+
+
+
+
+QString Cw_fr::frm_VT()
+{
+    QSqlQuery   q;
+    QString     ct, mesaj ="OK - Firma";
+    QStringList inserts;
+    FRMtableName = new QString( "frm__dbtb");
+
+    if ( ! VTKontrolEt::instance()->
+         GetDB().tables().contains( *FRMtableName ))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS " + *FRMtableName +
+             "("
+             "  frm_kod    INTEGER PRIMARY KEY  , "
+             "  frm_unvan	TEXT ,"
+             "  frm_adres	TEXT ,"
+             "  frm_sehir    TEXT ,"
+             "  frm_vd       TEXT ,"
+             "  frm_vdno     TEXT ,"
+             "  frm_tel 	    TEXT ,"
+             "  frm_eposta   TEXT ,"
+             "  frm_yisim	TEXT ,"
+             "  frm_ysoyad	TEXT ,"
+             "  frm_ytel 	TEXT ,"
+             "  frm_resim    BLOB  )" ;
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Firma Dosyası Oluşturulamadı - "
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj = "OK - FİRMA Dosyası YENİ Oluşturuldu ";
+            inserts << "INSERT INTO " + *FRMtableName +
+                       "( "
+                       "frm_unvan , frm_adres, frm_sehir , "
+                       "frm_vd    , frm_vdno , frm_tel   , "
+                       "frm_eposta, frm_yisim, frm_ysoyad, "
+                       "frm_ytel  , frm_resim  "
+                       ") "
+                       "VALUES "
+                       "("
+                       "'-', '-', ' ', "
+                       "' ', ' ', ' ', "
+                       "' ', ' ', ' ', "
+                       "' ', ' ' "
+                       " )" ;
+
+
+            foreach (QString qry , inserts)
+            {
+                if ( !q.exec(qry) )
+                {
+                    mesaj = mesaj + "<br>İLK Firma Kaydı Eklenemedi "
+                                    "<br>------------------------------------<br>"+
+                            q.lastError().text ()+
+                            "<br>------------------------------------<br>";
+                }
+                else{
+                    mesaj = mesaj + "<br>İLK Firma Eklendi ";
+                }
+            } // foreach
+        }
+    }
+    qDebug()  << mesaj ;
+    return mesaj ;
+}   /// FİRMA
+
+
+
+void Cw_fr::frm_model(QSqlRelationalTableModel *model)
+{
+    qDebug() << " mdlfrm";
+    QString indexField = "frm_unvan";
+
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Firma Kod");
+    tableFieldList->append("Firma Unvanı");
+    tableFieldList->append("Adres");
+    tableFieldList->append("Şehir");
+    tableFieldList->append("Vergi Dairesi");
+    tableFieldList->append("VD No");
+    tableFieldList->append("Telefon");
+    tableFieldList->append("e-posta");
+    tableFieldList->append("Yetkili İsim");
+    tableFieldList->append("Yetkili Soyad");
+    tableFieldList->append("Yetkili Telefon");
+    // tableFieldList->append("resim");
+
+
+     hC_Rm hC_Rm (FRMtableName,
+                  model,
+                  &indexField ,
+                  tableFieldList) ;
+
+}///FİRMA
+
+
+

@@ -210,11 +210,10 @@ class hC_Rm : public QSqlRelationalTableModel
 {    Q_OBJECT
 
  public:
-     explicit hC_Rm ( QString *rm_Table,
+     explicit hC_Rm (QString *rm_Table,
            QSqlRelationalTableModel *rm_model,
            QString *rm_IndexField,
-           QStringList *rm_List,
-           QSqlRelationalTableModel *parent);
+           QStringList *rm_List);
      ~hC_Rm();
     // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
      //QSqlRelationalTableModel  *hC_rm;

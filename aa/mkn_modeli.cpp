@@ -45,7 +45,7 @@ void Mkn_Modeli::set_uiMDL()
 void Mkn_Modeli::set_modelMDL()
 {
     MDLmodel = new QSqlRelationalTableModel ;
-    MDLmodel = dbase->modelModeli() ;
+    dbase->modelModeli(MDLmodel) ;
 }
 
 void Mkn_Modeli::set_viewMDL()

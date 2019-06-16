@@ -58,7 +58,7 @@ public:
 
     hC_Tv        *MLZMDETtview{};
     QItemSelectionModel *MLZMDETselectionMdl{} ;
-    QSqlTableModel      *MLZMDETmodel{} ;
+    QSqlRelationalTableModel      *MLZMDETmodel{} ;
     QDataWidgetMapper   *MLZMDETmapper{} ;
 
 

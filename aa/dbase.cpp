@@ -304,37 +304,40 @@ QString DBase::VTd_FRMA()
 
 
 
-hC_Rm* DBase::modelFirma()
+void DBase::modelFirma(QSqlRelationalTableModel *model)
 {
     qDebug() << " mdlfrm";
     QString indexField = "frm_unvan";
+    FRMtableName = new QString("frm__dbtb");
 
-    QStringList fieldList ;
-    fieldList.append("Firma Kod");
-    fieldList.append("Firma Unvanı");
-    fieldList.append("Adres");
-    fieldList.append("Şehir");
-    fieldList.append("Vergi Dairesi");
-    fieldList.append("VD No");
-    fieldList.append("Telefon");
-    fieldList.append("e-posta");
-    fieldList.append("Yetkili İsim");
-    fieldList.append("Yetkili Soyad");
-    fieldList.append("Yetkili Telefon");
-    // fieldList.append("resim");
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Firma Kod");
+    tableFieldList->append("Firma Unvanı");
+    tableFieldList->append("Adres");
+    tableFieldList->append("Şehir");
+    tableFieldList->append("Vergi Dairesi");
+    tableFieldList->append("VD No");
+    tableFieldList->append("Telefon");
+    tableFieldList->append("e-posta");
+    tableFieldList->append("Yetkili İsim");
+    tableFieldList->append("Yetkili Soyad");
+    tableFieldList->append("Yetkili Telefon");
+    // tableFieldList->append("resim");
 
 
-     hC_Rm hC_Rm ("frm_dbtb",
-                  *FRMmodel,
-                  "frm_firma",
-                  *fieldlist,) ; // QSqlRelationalTableModel ;;
-//    mdlfrm->setTable( "frm_dbtb" );
+     hC_Rm hC_Rm (FRMtableName,
+                  model,
+                  &indexField ,
+                  tableFieldList) ;
+
+      //FRMmodel = new QSqlRelationalTableModel;
+     //    mdlfrm->setTable( "frm_dbtb" );
 //    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
 //    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-//    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+//    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
 //    {
-//        mdlfrm->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+//        mdlfrm->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
 //    }
 
 //    // Populate the model_mkstok
@@ -344,7 +347,7 @@ hC_Rm* DBase::modelFirma()
 //                   <<mdlfrm->lastError();
 //    }
 
-    return mdlfrm ;
+
 }///FİRMA
 
 
@@ -416,21 +419,24 @@ QString DBase::VTd_FTRA ()
     return mesaj;
 }
 
-QSqlRelationalTableModel* DBase::modelFatura()
+void DBase::modelFatura(QSqlRelationalTableModel *model)
 {
     qDebug() << " mdlftr";
-
     QString indexField = "ftr_tarih";
+    QString *tableName = new QString("ftr__dbtb");
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Fatura Kod");
+    tableFieldList->append("Fatura No");
+    tableFieldList->append("Firma Unvanı");
+    tableFieldList->append("Fatura Tarihi");
+    tableFieldList->append("Açıklama");
+    tableFieldList->append("Resim");
 
-    QStringList fieldList ;
-    fieldList.append("Fatura Kod");
-    fieldList.append("Fatura No");
-    fieldList.append("Firma Unvanı");
-    fieldList.append("Fatura Tarihi");
-    fieldList.append("Açıklama");
-    fieldList.append("Resim");
-
-
+    hC_Rm hC_Rm (tableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+    /*
     auto *mdlFtr = new QSqlRelationalTableModel;
     mdlFtr->setTable( "ftr__dbtb" );
     mdlFtr->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
@@ -439,9 +445,9 @@ QSqlRelationalTableModel* DBase::modelFatura()
     //qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
     // qDebug() << " view column count = i "<< FTRmodel->columnCount();
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
     {
-        mdlFtr->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+        mdlFtr->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
     }
 
     // Populate the model_mkstok
@@ -451,7 +457,7 @@ QSqlRelationalTableModel* DBase::modelFatura()
                    <<mdlFtr->lastError();
     }
 
-    return mdlFtr ;
+    return mdlFtr ;*/
 }///FATURA
 
 
@@ -526,35 +532,38 @@ QString DBase::VTd_Mlzm()
 
 
 
-QSqlRelationalTableModel* DBase::modelMalzeme()
+void DBase::modelMalzeme(QSqlRelationalTableModel *model)
 {
     qDebug() << " mdlmlzm";
-
+    QString *tableName = new QString("mlzm__dbtb");
     QString indexField = "mlzm_malzeme";
-
-    QStringList fieldList;
-    fieldList.append("Kod");
-    fieldList.append("Barkod");
-    fieldList.append("Malzeme");
-    fieldList.append("Açıklama");
-    fieldList.append("Marka");
-    fieldList.append("Model");
-    fieldList.append("Cins");
-    fieldList.append("Birim");
-    fieldList.append("Giriş");
-    fieldList.append("Çıkış");
-    fieldList.append("Mevcut");
-    fieldList.append("Makina");
-    fieldList.append("Resim");
-
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Kod");
+    tableFieldList->append("Barkod");
+    tableFieldList->append("Malzeme");
+    tableFieldList->append("Açıklama");
+    tableFieldList->append("Marka");
+    tableFieldList->append("Model");
+    tableFieldList->append("Cins");
+    tableFieldList->append("Birim");
+    tableFieldList->append("Giriş");
+    tableFieldList->append("Çıkış");
+    tableFieldList->append("Mevcut");
+    tableFieldList->append("Makina");
+    tableFieldList->append("Resim");
+    hC_Rm hC_Rm (tableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+/*
     auto *mdlMlzm = new QSqlRelationalTableModel;
     mdlMlzm->setTable( "mlzm__dbtb" );
     mdlMlzm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlMlzm->setSort(mdlMlzm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
     {
-        mdlMlzm->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+        mdlMlzm->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
     }
 
     // Populate the model_mkstok
@@ -565,7 +574,7 @@ QSqlRelationalTableModel* DBase::modelMalzeme()
 
     }
     qDebug () <<  " MŞZMmodel orj mw main"<<mdlMlzm;
-    return mdlMlzm ;
+    return mdlMlzm ;*/
 }///Malzeme Model
 
 
@@ -634,37 +643,43 @@ QString DBase::VTd_MlzmDETAY()
 }   /// malzeme detay
 
 
-QSqlRelationalTableModel* DBase::modelMalzemeDetay()
+void DBase::modelMalzemeDetay(
+        QSqlRelationalTableModel *model)
 {
     /// NOTE Model 1 mw_main de modeli oluştur
     /// fatura detayında
     /// malzeme detay dosyası oluşturuluyor
-
+    QString *tableName = new QString("mlzmdet__dbtb");
     QString indexField = "mlzmdet_gcno";
 
-    QStringList fieldList ;
-    fieldList.append("Detay Kod");
-    fieldList.append("Malzeme Kod");
-    fieldList.append("Barkod");
-    fieldList.append("Malzeme");
-    fieldList.append("Tarih");
-    fieldList.append("İşlem Türü");
-    fieldList.append("İşlem No");
-    fieldList.append("Miktar");
-    fieldList.append("Birim");
-    fieldList.append("Fiyat");
-    fieldList.append("KDV");
-    fieldList.append("Açıklama");
-    fieldList.append("Resim");
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Detay Kod");
+    tableFieldList->append("Malzeme Kod");
+    tableFieldList->append("Barkod");
+    tableFieldList->append("Malzeme");
+    tableFieldList->append("Tarih");
+    tableFieldList->append("İşlem Türü");
+    tableFieldList->append("İşlem No");
+    tableFieldList->append("Miktar");
+    tableFieldList->append("Birim");
+    tableFieldList->append("Fiyat");
+    tableFieldList->append("KDV");
+    tableFieldList->append("Açıklama");
+    tableFieldList->append("Resim");
 
-    auto *mdlMlzmDty = new QSqlRelationalTableModel;
+    hC_Rm hC_Rm (tableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+
+/*    auto *mdlMlzmDty = new QSqlRelationalTableModel;
     mdlMlzmDty->setTable( "mlzmdet__dbtb" );
     mdlMlzmDty->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlMlzmDty->setSort(mdlMlzmDty->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
     {
-        mdlMlzmDty->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+        mdlMlzmDty->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
     }
 
     // Populate the model_mkstok
@@ -675,7 +690,7 @@ QSqlRelationalTableModel* DBase::modelMalzemeDetay()
 
     }
 
-    return mdlMlzmDty ;
+    return mdlMlzmDty ;*/
 }///fsturs detsy Model
 
 
@@ -760,43 +775,47 @@ QString DBase::VTd_mkn()
 
 
 
-QSqlRelationalTableModel* DBase::modelMakina()
+void DBase::modelMakina(QSqlRelationalTableModel *model)
 {
     qDebug() << " modelmkn";
     QString indexField = "mkn_kurumno";
+    MKNtableName = new QString("mkn__dbtb");
 
 
-    QStringList fieldList ;
-    fieldList.append("Makina Kod");
-    fieldList.append("Kurum No");
-    fieldList.append("Plaka");
-    fieldList.append("Cinsi");
-    fieldList.append("Markası");
-    fieldList.append("Modeli");
-    fieldList.append("Model Yılı");
-    fieldList.append("Şase No");
-    fieldList.append("Motor No");
-    fieldList.append("Motor Tipi");
-    fieldList.append("Yakıt Türü");
-    fieldList.append("Sürücü Adı");
-    fieldList.append("İşe Başlama Tarihi");
-    fieldList.append("Birimi");
-    fieldList.append("Açıklama");
-    fieldList.append("Bulunduğu Yer");
-    fieldList.append("Resim");
-    fieldList.append("Rating");
-    // fieldList.append("resim");
-
-
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Makina Kod");
+    tableFieldList->append("Kurum No");
+    tableFieldList->append("Plaka");
+    tableFieldList->append("Cinsi");
+    tableFieldList->append("Markası");
+    tableFieldList->append("Modeli");
+    tableFieldList->append("Model Yılı");
+    tableFieldList->append("Şase No");
+    tableFieldList->append("Motor No");
+    tableFieldList->append("Motor Tipi");
+    tableFieldList->append("Yakıt Türü");
+    tableFieldList->append("Sürücü Adı");
+    tableFieldList->append("İşe Başlama Tarihi");
+    tableFieldList->append("Birimi");
+    tableFieldList->append("Açıklama");
+    tableFieldList->append("Bulunduğu Yer");
+    tableFieldList->append("Resim");
+    tableFieldList->append("Rating");
+    // tableFieldList->append("resim");
+    hC_Rm hC_Rm (MKNtableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+/*
     auto *mdlmkn = new QSqlRelationalTableModel;
     mdlmkn->setTable( "mkn__dbtb" );
     mdlmkn->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlmkn->setSort(mdlmkn->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlmkn->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
     {
-        mdlmkn->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+        mdlmkn->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
     }
 
     // Populate the model_mkstok
@@ -806,7 +825,7 @@ QSqlRelationalTableModel* DBase::modelMakina()
                    <<mdlmkn->lastError();
     }
 
-    return mdlmkn ;
+    return mdlmkn ;*/
 }///MKN
 
 
@@ -891,25 +910,30 @@ QString DBase::VTd_CINS()
 
 }
 
-QSqlRelationalTableModel* DBase::modelCinsi()
+void DBase::modelCinsi(QSqlRelationalTableModel *model)
 {
     qDebug() << " db model cns";
+    CNStableName = new QString("mkcins__dbtb");
     QString indexField = "cinsi";
-    QStringList fieldList ;
+    QStringList *tableFieldList = new QStringList ;
 
-    fieldList.append("Cinsi");
-    fieldList.append("Resim");
-    fieldList.append("Cinsi Kodu");
-
+    tableFieldList->append("Cinsi");
+    tableFieldList->append("Resim");
+    tableFieldList->append("Cinsi Kodu");
+    hC_Rm hC_Rm (CNStableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+    /*
     auto *mdlcnsi = new QSqlRelationalTableModel;
     mdlcnsi->setTable( "mkcins__dbtb" );
     mdlcnsi->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlcnsi->setSort(mdlcnsi->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlcnsi->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
     {
-        mdlcnsi->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+        mdlcnsi->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
     }
 
     // Populate the model_mkstok
@@ -919,7 +943,7 @@ QSqlRelationalTableModel* DBase::modelCinsi()
                    <<mdlcnsi->lastError();
     }
 
-    return mdlcnsi ;
+    return mdlcnsi ;*/
 }///CNS
 
 
@@ -1012,27 +1036,32 @@ QString DBase::VTd_MARKA()
 }
 
 
-QSqlRelationalTableModel* DBase::modelMarka()
+void DBase::modelMarka(QSqlRelationalTableModel *model)
 {
     qDebug() << " db modelmarka";
+    MRKtableName = new QString("mkmark__dbtb");
     QString indexField = "marka";
-    QStringList fieldList ;
+    QStringList *tableFieldList = new QStringList ;
 
-    fieldList.append("Marka");
-    fieldList.append("Resim");
-    fieldList.append("Cinsi Nosu");
-    fieldList.append("Marka kodu");
+    tableFieldList->append("Marka");
+    tableFieldList->append("Resim");
+    tableFieldList->append("Cinsi Nosu");
+    tableFieldList->append("Marka kodu");
 
-
+    hC_Rm hC_Rm (MRKtableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+    /*
     auto *mdlmrk = new QSqlRelationalTableModel;
     mdlmrk->setTable( "mkmark__dbtb" );
     mdlmrk->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlmrk->setSort(mdlmrk->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlmrk->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
     {
-        mdlmrk->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+        mdlmrk->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
     }
 
     // Populate the model_mkstok
@@ -1042,7 +1071,7 @@ QSqlRelationalTableModel* DBase::modelMarka()
                    <<mdlmrk->lastError();
     }
 
-    return mdlmrk ;
+    return mdlmrk ;*/
 }///MRK
 
 
@@ -1123,28 +1152,33 @@ QString DBase::VTd_MODEL()
 
 
 
-QSqlRelationalTableModel* DBase::modelModeli()
+void DBase::modelModeli(QSqlRelationalTableModel *model)
 {
     qDebug() << " db modeldlmodeli";
+    MDLtableName = new QString("mkmodl__dbtb");
     QString indexField = "modeli";
-    QStringList fieldList ;
+    QStringList *tableFieldList = new QStringList ;
 
 
-    fieldList.append("Model");
-    fieldList.append("Resim");
-    fieldList.append("Marka Nosu");
-    fieldList.append("Model kodu");
+    tableFieldList->append("Model");
+    tableFieldList->append("Resim");
+    tableFieldList->append("Marka Nosu");
+    tableFieldList->append("Model kodu");
+    hC_Rm hC_Rm ( MDLtableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
 
-
+/*
     auto *mdlmdli = new QSqlRelationalTableModel;
     mdlmdli->setTable( "mkmodl__dbtb" );
     mdlmdli->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlmdli->setSort(mdlmdli->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlmdli->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < fieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
     {
-        mdlmdli->setHeaderData(i,Qt::Horizontal,fieldList.value (j));
+        mdlmdli->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
     }
 
     // Populate the model_mkstok
@@ -1154,8 +1188,8 @@ QSqlRelationalTableModel* DBase::modelModeli()
                    <<mdlmdli->lastError();
     }
 
-    return mdlmdli ;
-}///MRK
+    return mdlmdli ; */
+}///MDLİ
 
 
 

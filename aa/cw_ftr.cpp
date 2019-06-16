@@ -171,7 +171,7 @@ void Cw_ftr::wd_FTR()
 void Cw_ftr::setup_modelFtr()
 {
     FTRmodel = new QSqlRelationalTableModel ;
-    FTRmodel = dbase->modelFatura() ;
+    dbase->modelFatura( FTRmodel ) ;
     qDebug() << "  setupmodelfatura";
 }
 
@@ -322,7 +322,7 @@ void Cw_ftr::setup_kntrlFtr()
     {
 
         hC_Rs resim (lB_rsm, FTRtview, FTRmodel, FTRselectionMdl,
-                           "ftr_resim", "yeni");
+                     "ftr_resim", "yeni");
     });
 
     // row değiştiğnde resmide değiştirelim
@@ -331,7 +331,7 @@ void Cw_ftr::setup_kntrlFtr()
              [this ]()
     {
         hC_Rs resim ( lB_rsm, FTRtview, FTRmodel, FTRselectionMdl,
-                           "ftr_resim", "değiştir" ) ;
+                      "ftr_resim", "değiştir" ) ;
     });
 
 
@@ -714,7 +714,7 @@ void Cw_ftr::setup_modelFtrDet()
 {
     qDebug() << "  setup_modelFtrDet";
     FTRDETmodel = new QSqlRelationalTableModel;
-    FTRDETmodel = dbase->modelMalzemeDetay ();
+    dbase->modelMalzemeDetay(FTRDETmodel);
 }
 
 void Cw_ftr::setup_viewFtrDet()
@@ -1100,7 +1100,7 @@ void Cw_ftr::setup_kntrlFtrDet()
         FTRDETtview->table->setCurrentIndex(FTRDETmodel->index( FTRDETmodel->rowCount() - 1  ,0));
     });
 
-qDebug()<<" 1 ";
+    qDebug()<<" 1 ";
     /// depodet map değiştiğinde nav tuşalrı ayarlansın
     // pB 010 nav tuslari kontrol
     connect(FTRDETmapper, &QDataWidgetMapper::currentIndexChanged,
@@ -1113,32 +1113,32 @@ qDebug()<<" 1 ";
         FTRDETtview->pB_son->setEnabled(row < FTRDETmodel->rowCount() - 1);
 
     });
-qDebug()<<" 2 ";
+    qDebug()<<" 2 ";
     // --- 011 FTRDET row değiştiğinde 2 şey olsun
     connect( FTRDETselectionMdl, &QItemSelectionModel::currentRowChanged,
-               [this]( QModelIndex Index )
+             [this]( QModelIndex Index )
     {
         if (Index.isValid())
         {
 
-        qDebug()<<" 3323 ";
-        // 011-01 mapper indexi ayarla
-        FTRDETmapper->setCurrentModelIndex(Index);
+            qDebug()<<" 3323 ";
+            // 011-01 mapper indexi ayarla
+            FTRDETmapper->setCurrentModelIndex(Index);
 
-        qDebug()<<" 23 ";
-        // 011-02 fatura hesabı yapılsın
-        this->slt_ftr_hesap ();
+            qDebug()<<" 23 ";
+            // 011-02 fatura hesabı yapılsın
+            this->slt_ftr_hesap ();
         }
     });
 
     // --- 011 row FTR değiştiğinde
     connect( FTRselectionMdl, &QItemSelectionModel::currentRowChanged,
-               [this]( QModelIndex Index )
+             [this]( QModelIndex Index )
     {
         if (Index.isValid())
         {
-        // 011-02 filtrele
-         QSqlRecord record = FTRmodel->record(Index.row ());
+            // 011-02 filtrele
+            QSqlRecord record = FTRmodel->record(Index.row ());
             QString fatura_no = record.value("ftr_no").toString ();
             FTRDETmodel->setFilter (QString("mlzmdet_gcno = %1").arg(fatura_no) );
 
@@ -1146,7 +1146,7 @@ qDebug()<<" 2 ";
         else
         {
             FTRDETmodel->setFilter("mlzdet_gcno=-1");
-qDebug()<<" 32 ";
+            qDebug()<<" 32 ";
         }
         FTRDETmodel->select();
 
@@ -1155,15 +1155,15 @@ qDebug()<<" 32 ";
         this->slt_ftr_hesap ();
 
     });
-qDebug()<<" 3 ";
+    qDebug()<<" 3 ";
     // --- 012 kolon değiştiğinde indexte değişsin
     connect(FTRDETselectionMdl, &QItemSelectionModel::currentColumnChanged,
-              [this]( QModelIndex Index )
+            [this]( QModelIndex Index )
     {
         FTRDETmapper->setCurrentModelIndex(Index);
     });
 
-qDebug()<<" 4 ";
+    qDebug()<<" 4 ";
     // --- 013 tableviewde miktar ve grs cks değştiğinde hsap yapılsın
     connect(FTRDETtview->table->model() ,
             &QSqlTableModel::dataChanged , this,

@@ -185,10 +185,8 @@ void Cw_Mlzm::wd_Mlzm()    // 100110
 void Cw_Mlzm::setup_modelMlzm()  // 200100
 {
     qDebug() << "  setup_modelMalzeme";
-
-
     MLZMmodel = new QSqlRelationalTableModel;
-    MLZMmodel = dbase->modelMalzeme ();
+    dbase->modelMalzeme ( MLZMmodel ) ;
 
 
 
@@ -1012,7 +1010,7 @@ void Cw_Mlzm::wd_Mlzmdet()
 void Cw_Mlzm::setup_modelMlzmdet()
 {
     MLZMDETmodel = new QSqlRelationalTableModel ;
-    MLZMDETmodel = dbase->modelMalzemeDetay() ;
+    dbase->modelMalzemeDetay( MLZMDETmodel ) ;
     qDebug() << "  setup_modelmlzmDet";
 }
 

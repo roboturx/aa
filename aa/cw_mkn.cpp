@@ -289,7 +289,7 @@ void Cw_mkn::set_modelMKN()
 {
     qDebug()<<"set model makina";
     MKNmodel = new QSqlRelationalTableModel;
-    MKNmodel = dbase->modelMakina ();
+    dbase->modelMakina ( MKNmodel );
 
 
 

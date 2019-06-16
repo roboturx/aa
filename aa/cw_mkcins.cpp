@@ -88,7 +88,7 @@ void WW_Mkcins::set_modelCNS()
     qDebug()<<"setup model cns";
 
     CNSmodel = new QSqlRelationalTableModel ;
-    CNSmodel = dbase->modelCinsi() ;
+    dbase->modelCinsi ( CNSmodel ) ;
     qDebug()<<"setup model cns son";
 }
 void WW_Mkcins::set_viewCNS()
@@ -327,7 +327,7 @@ void WW_Mkcins::set_modelMRK()
 {
 
     MRKmodel = new QSqlRelationalTableModel ;
-    MRKmodel = dbase->modelMarka() ;
+    dbase->modelMarka(MRKmodel) ;
 
 
 }
@@ -572,7 +572,7 @@ void WW_Mkcins::set_kntrlMRK()
 void WW_Mkcins::set_modelMDL()
 {
     MDLmodel = new QSqlRelationalTableModel ;
-    MDLmodel = dbase->modelModeli() ;
+    dbase->modelModeli( MDLmodel) ;
 }
 
 void WW_Mkcins::set_viewMDL()

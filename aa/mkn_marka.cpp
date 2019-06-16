@@ -45,7 +45,7 @@ void Mkn_Marka::set_modelMRK()
 {
 
     MRKmodel = new QSqlRelationalTableModel ;
-    MRKmodel = dbase->modelMarka() ;
+    dbase->modelMarka(MRKmodel) ;
 
 
 }

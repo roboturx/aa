@@ -45,7 +45,7 @@ void Mkn_Cinsi::set_modelCNS()
     qDebug()<<"setup model cns";
 
     CNSmodel = new QSqlRelationalTableModel ;
-    CNSmodel = dbase->modelCinsi() ;
+    dbase->modelCinsi(CNSmodel) ;
     qDebug()<<"setup model cns son";
 }
 void Mkn_Cinsi::set_viewCNS()
