@@ -16,47 +16,34 @@ public:
     explicit DBase(QWidget *parent = nullptr);
     ~DBase();
 
-    void modelCalisan(
-            QSqlRelationalTableModel *model);
+    void modelCalisan(QSqlRelationalTableModel *model);
     QString *CLSNtableName{};
 
-    void modelMeslek(
-            QSqlRelationalTableModel *model);
+    void modelMeslek(QSqlRelationalTableModel *model);
     QString *MSLKtableName{};
 
-
-
-    void modelFatura(
-            QSqlRelationalTableModel *model);
+    void modelFatura(QSqlRelationalTableModel *model);
     QString *FTRtableName{};
 
-    void modelMalzeme(
-            QSqlRelationalTableModel *model);
+    void modelMalzeme(QSqlRelationalTableModel *model);
     QString *MLZMtableName{};
 
-    void modelMalzemeDetay(
-            QSqlRelationalTableModel *model);
+    void modelMalzemeDetay(QSqlRelationalTableModel *model);
     QString *MLZDETtableName{};
 
-    ///////////////
     void modelFirma(QSqlRelationalTableModel *model);
     QString *FRMtableName{};
 
-    void modelMakina(
-            QSqlRelationalTableModel *model);
+    void modelMakina(QSqlRelationalTableModel *model);
     QString *MKNtableName{};
 
-    void modelCinsi(
-            QSqlRelationalTableModel *model);
+    void modelCinsi(QSqlRelationalTableModel *model);
     QString *CNStableName{};
 
-
-    void modelMarka(
-            QSqlRelationalTableModel *model);
+    void modelMarka(QSqlRelationalTableModel *model);
     QString *MRKtableName{};
 
-    void modelModeli(
-            QSqlRelationalTableModel *model);
+    void modelModeli(QSqlRelationalTableModel *model);
     QString *MDLtableName{};
 
 

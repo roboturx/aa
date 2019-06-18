@@ -35,8 +35,8 @@ Ftr_FrmEkle::Ftr_FrmEkle(QDialog *parent) : QDialog(parent)
 
 
     // firma class ımızı getirelim
-    firma = new Cw_fr;
-    firma->setup_firma ();
+    firma = new hC_FRM;
+    firma->frm_setup ();
     layout_diafr->addWidget (firma ,0 ,0 ,1, 1);
     //diafr->show();
 

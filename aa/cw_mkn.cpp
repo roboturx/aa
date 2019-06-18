@@ -1,6 +1,6 @@
 ﻿#include "cw_mkn.h"
 #include "cw_isemri.h"
-#include "cw_per.h"
+#include "clsn.h"
 #include "mkevrk.h"
 #include "dlgt_mkstok.h"
 #include "mkn_cinsi.h"

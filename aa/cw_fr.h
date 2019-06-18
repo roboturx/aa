@@ -7,29 +7,29 @@
 
 
 
-namespace Ui {
-class Cw_fr;
+namespace ns_FRM {
+class hC_FRM;
 }
 
-class Cw_fr : public QWidget
+class hC_FRM : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Cw_fr(QWidget *parent = nullptr);
-    ~Cw_fr();
+    explicit hC_FRM(QWidget *parent = nullptr);
+    ~hC_FRM();
 
-    void    setup_firma();
+    void    frm_setup();
     QString frm_VT();
-    void frm_model(QSqlRelationalTableModel * );
+    void    frm_model(QSqlRelationalTableModel * );
 
-    DBase *dbase;
-    QString *FRMtableName;
+    QString *FRMtableName {};
 
-    hC_Tv *FRMtview ;
-    QSqlRelationalTableModel *FRMmodel {} ;
-    QItemSelectionModel      *FRMselectionMdl;
-    QDataWidgetMapper        *FRMmapper {};
+    //DBase *dbase;
+    hC_Tv*                    FRMtview ;
+    QSqlRelationalTableModel* FRMmodel {} ;
+    QItemSelectionModel*      FRMselectionMdl;
+    QDataWidgetMapper*        FRMmapper {};
 
     int       meslekIndex{} ;
     QComboBox   *cb_meslek{};
@@ -56,11 +56,10 @@ public:
   //  QPushButton *pB_kpt{}     ;
 
 private:
-    void setup_ui()     ;
-    void setup_viewfr() ;
-    void setup_modelfr();
-    void setup_mapfr()  ;
-    void setup_kntrlfr();
+    void frm_ui()   ;
+    void frm_view() ;
+    void frm_map()  ;
+    void frm_kntrl();
 
 signals:
     void sgnfirma (const QString sgnfirma); //firma ismini

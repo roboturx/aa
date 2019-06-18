@@ -22,7 +22,7 @@ public:
     ~Ftr_FrmEkle();
 
     QString getFirma() const;
-    Cw_fr *firma;
+    hC_FRM *firma;
 protected:
     void reject() ;
 private:

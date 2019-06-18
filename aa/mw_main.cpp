@@ -1,5 +1,5 @@
 ﻿#include "mw_main.h" // main
-#include "cw_per.h"  // stack per
+#include "clsn.h"  // stack per
 #include "cw_fr.h"   // stack fr
 #include "cw_mkn.h"  // stack mkn
 #include "cw_grs.h"  // stack giris
@@ -185,7 +185,7 @@ void MW_main::cr_Actions()
     connect( act_per , &QAction::triggered,
              [this]()
     {
-        mw_per = new Cw_per();
+        mw_per = new hC_CLSN ;
         statusBar()->showMessage(tr("Çalışan Bilgileri"));
         mw_per->setWindowTitle ("ÇALIŞAN");
         mw_per->resize(qApp->screens()[0]->size()*.8);
@@ -222,8 +222,8 @@ void MW_main::cr_Actions()
     connect( act_fr , &QAction::triggered,
              [this]()
     {
-        mw_fr = new Cw_fr;
-        mw_fr->setup_firma ();
+        mw_fr = new hC_FRM;
+        mw_fr->frm_setup ();
         statusBar()->showMessage(tr("Firma Bilgileri"));
         mw_fr->show ();
     });

@@ -110,7 +110,7 @@ void Cw_ftr::wd_FTR()
         // seçim yapılan lineedit e aktaralım
         // ----------------------------------------------------
 
-        connect (ftr->firma, &Cw_fr::sgnfirma,
+        connect (ftr->firma, &hC_FRM::sgnfirma,
                  [ this ] (QString secfirma )
         {
             this->lE_firma->lineEdit->setText (secfirma);

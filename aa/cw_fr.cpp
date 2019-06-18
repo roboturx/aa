@@ -1,45 +1,50 @@
 ﻿#include "cw_fr.h"
-#include "dbase.h"
-#include "globals.h"
+//#include "dbase.h"
+//#include "globals.h"
 #include "ftr_frmekle.h"
 
-Cw_fr::Cw_fr(QWidget *parent) : QWidget(parent)
+
+
+hC_FRM::hC_FRM(QWidget *parent) : QWidget(parent)
 {
     qDebug ()<<"Firma Constructor";
     //************************************************************
     //*****************  F İ R M A  ****************************
 }
 
-void Cw_fr::setup_firma()
+void hC_FRM::frm_setup()
 {
     qDebug() << "setup FİRMA";
 
-    setup_ui();
+    frm_ui();
 
-    dbase = new DBase ;
 
-    setup_modelfr();
-    setup_viewfr();
-    setup_mapfr();
-    setup_kntrlfr();
+    qDebug()<<"setup model fr";
+    FRMmodel = new QSqlRelationalTableModel;
+    DBase dbase;
+    dbase.modelCalisan ( FRMmodel ) ;
+
+    frm_view();
+    frm_map();
+    frm_kntrl();
     qDebug() << "setup_Firma END";
 }
 
 
 
-void Cw_fr::setup_ui()
+void hC_FRM::frm_ui()
 {
 
-    qDebug() << "  setup_uiFr";
+    qDebug() << "  frm_ui";
 
-    Cw_fr::setWindowTitle ("FİRMA");
-    Cw_fr::showMaximized ();
+    hC_FRM::setWindowTitle ("FİRMA");
+    hC_FRM::showMaximized ();
 
 
     // ///////////////////////////////////////////////////////
 
-    lB_fr  = new QLabel (tr("Firma"));
-    lB_rsm = new QLabel (tr("Resim"));
+    lB_fr  = new QLabel ("Firma");
+    lB_rsm = new QLabel ("Resim");
     hC_Rs resim(lB_rsm);
 
     // ///////////////////////////////////////////////////////
@@ -82,49 +87,41 @@ void Cw_fr::setup_ui()
     lB_ytel->setBuddy(lE_ytel);
 
 
-    auto *lYG_map = new QGridLayout;
+    auto *frm_mly = new QGridLayout;
 
-    lYG_map->addWidget(lB_unvan   , 0, 0, 1, 1);
-    lYG_map->addWidget(lE_unvan   , 0, 1, 1, 2);
-    lYG_map->addWidget(lB_adres   , 1, 0, 1, 1);
-    lYG_map->addWidget(lE_adres   , 1, 1, 1, 2);
-    lYG_map->addWidget(lB_sehir   , 2, 0, 1, 1);
-    lYG_map->addWidget(lE_sehir   , 2, 1, 1, 2);
-    lYG_map->addWidget(lB_vd      , 3, 0, 1, 1);
-    lYG_map->addWidget(lE_vd      , 3, 1, 1, 2);
-    lYG_map->addWidget(lB_vdno    , 4, 0, 1, 1);
-    lYG_map->addWidget(lE_vdno    , 4, 1, 1, 2);
-    lYG_map->addWidget(lB_tel     , 5, 0, 1, 1);
-    lYG_map->addWidget(lE_tel     , 5, 1, 1, 2);
-    lYG_map->addWidget(lB_eposta  , 6, 0, 1, 1);
-    lYG_map->addWidget(lE_eposta  , 6, 1, 1, 2);
-    lYG_map->addWidget(lB_yisim   , 7, 0, 1, 1);
-    lYG_map->addWidget(lE_yisim   , 7, 1, 1, 2);
-    lYG_map->addWidget(lB_ysoyad  , 8, 0, 1, 1);
-    lYG_map->addWidget(lE_ysoyad  , 8, 1, 1, 2);
-    lYG_map->addWidget(lB_ytel    , 9, 0, 1, 1);
-    lYG_map->addWidget(lE_ytel    , 9, 1, 1, 2);
-    //lYG_map->addWidget(lB_rsm    , 9, 1, 1, 2);
+    frm_mly->addWidget(lB_unvan   , 0, 0, 1, 1);
+    frm_mly->addWidget(lE_unvan   , 0, 1, 1, 2);
+    frm_mly->addWidget(lB_adres   , 1, 0, 1, 1);
+    frm_mly->addWidget(lE_adres   , 1, 1, 1, 2);
+    frm_mly->addWidget(lB_sehir   , 2, 0, 1, 1);
+    frm_mly->addWidget(lE_sehir   , 2, 1, 1, 2);
+    frm_mly->addWidget(lB_vd      , 3, 0, 1, 1);
+    frm_mly->addWidget(lE_vd      , 3, 1, 1, 2);
+    frm_mly->addWidget(lB_vdno    , 4, 0, 1, 1);
+    frm_mly->addWidget(lE_vdno    , 4, 1, 1, 2);
+    frm_mly->addWidget(lB_tel     , 5, 0, 1, 1);
+    frm_mly->addWidget(lE_tel     , 5, 1, 1, 2);
+    frm_mly->addWidget(lB_eposta  , 6, 0, 1, 1);
+    frm_mly->addWidget(lE_eposta  , 6, 1, 1, 2);
+    frm_mly->addWidget(lB_yisim   , 7, 0, 1, 1);
+    frm_mly->addWidget(lE_yisim   , 7, 1, 1, 2);
+    frm_mly->addWidget(lB_ysoyad  , 8, 0, 1, 1);
+    frm_mly->addWidget(lE_ysoyad  , 8, 1, 1, 2);
+    frm_mly->addWidget(lB_ytel    , 9, 0, 1, 1);
+    frm_mly->addWidget(lE_ytel    , 9, 1, 1, 2);
+    //frm_mly->addWidget(lB_rsm    , 9, 1, 1, 2);
     // /////////////////////////////////////
     // main layout
 
     auto *lYG_per = new QGridLayout(this);
 
     lYG_per->addWidget ( FRMtview ,0 ,0 ,2 ,1 );
-    lYG_per->addLayout ( lYG_map   ,0 ,1 ,1 ,1);
+    lYG_per->addLayout ( frm_mly   ,0 ,1 ,1 ,1);
     lYG_per->addWidget ( lB_rsm   ,1 ,1 ,1 ,1);
 
 }
 
-void Cw_fr::setup_modelfr()
-{
-    qDebug()<<"setup model fr";
-    FRMmodel = new QSqlRelationalTableModel;
-    dbase->modelFirma( FRMmodel ) ;
-}
-
-
-void Cw_fr::setup_viewfr()
+void hC_FRM::frm_view()
 {
     qDebug()<<"setup view fr";
 
@@ -159,7 +156,7 @@ void Cw_fr::setup_viewfr()
 
 
 /* user interface */
-void Cw_fr::setup_mapfr()
+void hC_FRM::frm_map()
 {
     qDebug()<<"setup mapfr";
     FRMmapper = new QDataWidgetMapper(this);
@@ -175,13 +172,13 @@ void Cw_fr::setup_mapfr()
     FRMmapper->addMapping(lE_yisim, FRMmodel->fieldIndex("frm_yisim"));
     FRMmapper->addMapping(lE_ysoyad, FRMmodel->fieldIndex("frm_ysoyad"));
     FRMmapper->addMapping(lE_ytel, FRMmodel->fieldIndex("frm_ytel"));
-    // FRMmapper->addMapping(lB_resim, FRMmodel->fieldIndex("frm_resim"));
+    FRMmapper->addMapping(lB_rsm, FRMmodel->fieldIndex("frm_resim"));
 
     /// firma ilk kayıda
-    Cw_fr::FRMmapper->toFirst ();
+    hC_FRM::FRMmapper->toFirst ();
 }
 
-void Cw_fr::setup_kntrlfr()
+void hC_FRM::frm_kntrl()
 {
 
     // pB 001 yeni ekle
@@ -316,7 +313,7 @@ void Cw_fr::setup_kntrlfr()
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-        emit Cw_fr::sgnfirma(FRMtview->table->model()->index( Index.row() ,
+        emit hC_FRM::sgnfirma(FRMtview->table->model()->index( Index.row() ,
                     FRMmodel->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
@@ -334,13 +331,13 @@ void Cw_fr::setup_kntrlfr()
 
 
 
-void Cw_fr::showEvent(QShowEvent *)
+void hC_FRM::showEvent(QShowEvent *)
 {
     qDebug() << "ShowEvent Firma dosyası açılıyor";
 }
 
 
-Cw_fr::~Cw_fr()
+hC_FRM::~hC_FRM()
 = default;
 
 
@@ -358,7 +355,7 @@ Cw_fr::~Cw_fr()
 
 
 
-QString Cw_fr::frm_VT()
+QString hC_FRM::frm_VT()
 {
     QSqlQuery   q;
     QString     ct, mesaj ="OK - Firma";
@@ -430,7 +427,7 @@ QString Cw_fr::frm_VT()
 
 
 
-void Cw_fr::frm_model(QSqlRelationalTableModel *model)
+void hC_FRM::frm_model(QSqlRelationalTableModel *model)
 {
     qDebug() << " mdlfrm";
     QString indexField = "frm_unvan";

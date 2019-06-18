@@ -1,6 +1,8 @@
 ﻿#include "dbase.h"
 #include "ui_dbase.h"
 
+
+
 DBase::DBase(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DBase)
@@ -16,7 +18,7 @@ DBase::~DBase()
 bool DBase::setupDBase()
 {
 
-    qDebug()<<"WD Login dbcontrol";
+    qDebug()<<"setupDbase ";
     //durum = new QTextEdit(this);
     /// veritabanini kontrol et yoksa olustur
     VTKontrolEt::instance()->SetupDB();
@@ -24,32 +26,15 @@ bool DBase::setupDBase()
     /// veritabanina baglanilabilir mi
     if(VTKontrolEt::instance()->Connect())
     {
-        /// baglanti var /// uygulama yoluna devam etsin
-        //        emit DBase::gologin();
-
-
-        /// bağlandı - olmayan dosyaları oluştur
-
         DBase::VTDosyaKontrol ();
         return true;
     }
-    
-    
     /// hata ne /// baglanti yok
     QString x = "Hata 002 - Code::Database NOT Connected !!! <br>"+
             VTKontrolEt::instance ()->GetError ()   ;
     yaz("/// ? - "+x);
-
-
     return false;
-    
 }
-
-
-
-
-
-
 
 
 void DBase::VTDosyaKontrol()
@@ -102,24 +87,24 @@ QString DBase::VTd_CLSN()
 
         ct = "CREATE TABLE IF NOT EXISTS " + *CLSNtableName +
              "("
-             "  kod_pr	    INTEGER PRIMARY KEY  , "
-             "  isim		TEXT ,"
-             "  soyad	    TEXT ,"
-             "  tckimlik    TEXT ,"
-             "  dogumyeri   TEXT ,"
-             "  dogumtarihi DATE ,"
-             "  babaadi     TEXT ,"
-             "  bolum	    TEXT ,"
-             "  meslek      int ,"
-             "  gorev	    TEXT ,"
-             "  adres		TEXT ,"
-             "  sehir       TEXT ,"
-             "  tel_cep	    TEXT ,"
-             "  tel_ev	    TEXT ,"
-             "  eposta      TEXT ,"
-             "  username	TEXT ,"
-             "  password	TEXT ,"
-             "  yetki		TEXT ,"
+             "  clsn_kod	    INTEGER PRIMARY KEY  , "
+             "  clsn_isim		TEXT ,"
+             "  clsn_soyad	    TEXT ,"
+             "  clsn_tckimlik    TEXT ,"
+             "  clsn_dogumyeri   TEXT ,"
+             "  clsn_dogumtarihi DATE ,"
+             "  clsn_babaadi     TEXT ,"
+             "  clsn_bolum	    TEXT ,"
+             "  clsn_meslek      int ,"
+             "  clsn_gorev	    TEXT ,"
+             "  clsn_adres		TEXT ,"
+             "  clsn_sehir       TEXT ,"
+             "  clsn_tel_cep	    TEXT ,"
+             "  clsn_tel_ev	    TEXT ,"
+             "  clsn_eposta      TEXT ,"
+             "  clsn_username	TEXT ,"
+             "  clsn_password	TEXT ,"
+             "  clsn_yetki		TEXT ,"
              "  resim       BLOB  )" ;
 
         if (!q.exec( ct ))
@@ -187,6 +172,44 @@ QString DBase::VTd_CLSN()
 
 
 }
+
+
+
+void DBase::modelCalisan(QSqlRelationalTableModel *model)
+{
+    qDebug() << " mdl_Clsn";
+    QString indexField = "clsn_soyad";
+    FRMtableName = new QString("clsn__dbtb");
+
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Çalışan Kod");
+    tableFieldList->append("İsim");
+    tableFieldList->append("Soyad");
+    tableFieldList->append("TC Kimlik No");
+    tableFieldList->append("Doğum Yeri");
+    tableFieldList->append("Doğum Tarihi");
+    tableFieldList->append("Baba Adı");
+    tableFieldList->append("Bölüm");
+    tableFieldList->append("Meslek");
+    tableFieldList->append("Gorev");
+    tableFieldList->append("Adres");
+    tableFieldList->append("Şehir");
+    tableFieldList->append("Telefon Cep");
+    tableFieldList->append("Telefon Ev");
+    tableFieldList->append("E-Poata");
+    tableFieldList->append("Kullanıcı Adı");
+    tableFieldList->append("Şifre");
+    tableFieldList->append("Yetki");
+    tableFieldList->append("resim");
+
+
+     hC_Rm hC_Rm (FRMtableName,
+                  model,
+                  &indexField ,
+                  tableFieldList) ;
+}
+
+
 
 
 ///
@@ -335,9 +358,9 @@ void DBase::modelFirma(QSqlRelationalTableModel *model)
 //    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
 //    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-//    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+//    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
 //    {
-//        mdlfrm->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+//        mdlfrm->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
 //    }
 
 //    // Populate the model_mkstok
@@ -445,9 +468,9 @@ void DBase::modelFatura(QSqlRelationalTableModel *model)
     //qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
     // qDebug() << " view column count = i "<< FTRmodel->columnCount();
 
-    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
     {
-        mdlFtr->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+        mdlFtr->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
     }
 
     // Populate the model_mkstok
@@ -561,9 +584,9 @@ void DBase::modelMalzeme(QSqlRelationalTableModel *model)
     mdlMlzm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlMlzm->setSort(mdlMlzm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
     {
-        mdlMlzm->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+        mdlMlzm->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
     }
 
     // Populate the model_mkstok
@@ -677,9 +700,9 @@ void DBase::modelMalzemeDetay(
     mdlMlzmDty->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     mdlMlzmDty->setSort(mdlMlzmDty->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
     {
-        mdlMlzmDty->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+        mdlMlzmDty->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
     }
 
     // Populate the model_mkstok
@@ -813,9 +836,9 @@ void DBase::modelMakina(QSqlRelationalTableModel *model)
     mdlmkn->setSort(mdlmkn->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlmkn->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
     {
-        mdlmkn->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+        mdlmkn->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
     }
 
     // Populate the model_mkstok
@@ -931,9 +954,9 @@ void DBase::modelCinsi(QSqlRelationalTableModel *model)
     mdlcnsi->setSort(mdlcnsi->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlcnsi->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
     {
-        mdlcnsi->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+        mdlcnsi->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
     }
 
     // Populate the model_mkstok
@@ -1059,9 +1082,9 @@ void DBase::modelMarka(QSqlRelationalTableModel *model)
     mdlmrk->setSort(mdlmrk->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlmrk->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
     {
-        mdlmrk->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+        mdlmrk->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
     }
 
     // Populate the model_mkstok
@@ -1176,9 +1199,9 @@ void DBase::modelModeli(QSqlRelationalTableModel *model)
     mdlmdli->setSort(mdlmdli->fieldIndex ( indexField ),Qt::AscendingOrder );
     mdlmdli->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-    for(int i = 0, j = 0; i < tableFieldList.size (); i++, j++)
+    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
     {
-        mdlmdli->setHeaderData(i,Qt::Horizontal,tableFieldList.value (j));
+        mdlmdli->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
     }
 
     // Populate the model_mkstok

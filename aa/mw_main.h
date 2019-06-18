@@ -10,7 +10,7 @@
 
 #include "globals.h"
 //#include "wd_login.h"
-#include "cw_per.h"
+#include "clsn.h"
 #include "cw_fr.h"
 #include "cw_ftr.h"
 #include "cw_grs.h"
@@ -31,8 +31,8 @@ public:
     ~MW_main();
     QStackedWidget *stw{};
     QAction *act_main{};
-    Cw_per *mw_per{};
-    Cw_fr *mw_fr{};
+    hC_CLSN *mw_per{};
+    hC_FRM *mw_fr{};
     Cw_ftr *mw_ftr{};
 
     Form *mw_mkk{};
