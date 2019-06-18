@@ -119,11 +119,11 @@ QString DBase::VTd_CLSN()
             mesaj = "OK - Çalışan Dosyası YENİ Oluşturuldu ";
             inserts << "INSERT INTO " + *CLSNtableName +
                        "( "
-                       "isim, soyad, "
-                       "bolum, meslek, gorev, "
-                       "adres, sehir, "
-                       "tel_cep, tel_ev, eposta,"
-                       " username, password, yetki"
+                       "clsn_isim, clsn_soyad, "
+                       "clsn_bolum, clsn_meslek, clsn_gorev, "
+                       "clsn_adres, clsn_sehir, "
+                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
+                       " clsn_username, clsn_password, clsn_yetki"
                        ") "
                        "VALUES "
                        "("
@@ -135,11 +135,11 @@ QString DBase::VTd_CLSN()
                        " )"
                     << "INSERT INTO " + *CLSNtableName +
                        "( "
-                       "isim, soyad, "
-                       "bolum, meslek, gorev, "
-                       "adres, sehir, "
-                       "tel_cep, tel_ev, eposta,"
-                       " username, password, yetki"
+                       "clsn_isim, clsn_soyad, "
+                       "clsn_bolum, clsn_meslek, clsn_gorev, "
+                       "clsn_adres, clsn_sehir, "
+                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
+                       " clsn_username, clsn_password, clsn_yetki"
                        ") "
                        "VALUES "
                        "("
@@ -179,7 +179,7 @@ void DBase::modelCalisan(QSqlRelationalTableModel *model)
 {
     qDebug() << " mdl_Clsn";
     QString indexField = "clsn_soyad";
-    FRMtableName = new QString("clsn__dbtb");
+    CLSNtableName = new QString("clsn__dbtb");
 
     QStringList *tableFieldList = new QStringList ;
     tableFieldList->append("Çalışan Kod");
@@ -203,7 +203,7 @@ void DBase::modelCalisan(QSqlRelationalTableModel *model)
     tableFieldList->append("resim");
 
 
-     hC_Rm hC_Rm (FRMtableName,
+     hC_Rm hC_Rm (CLSNtableName,
                   model,
                   &indexField ,
                   tableFieldList) ;

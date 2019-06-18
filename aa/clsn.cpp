@@ -10,11 +10,12 @@ qDebug ()<<"Çalışan Constructor";
 
 void hC_CLSN::clsn_setup()
 {
+    qDebug() << "clsn setup ";
     clsn_ui();
 
     CLSNmodel = new QSqlRelationalTableModel;
     DBase dbase;
-    dbase.modelFirma( CLSNmodel ) ;
+    dbase.modelCalisan( CLSNmodel ) ;
     // Set Sort Ascending steering column data
     CLSNmodel->setSort(2,Qt::AscendingOrder);
 
@@ -253,7 +254,7 @@ void hC_CLSN::clsn_kntrl()
             [this]()
     {
         hC_Rs resim(lB_rsm, CLSNtview, CLSNmodel, CLSNselectionMdl,
-                           "frm_resim", "new");
+                           "resim", "new");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
@@ -261,7 +262,7 @@ void hC_CLSN::clsn_kntrl()
               [this]()
     {
         hC_Rs resim ( lB_rsm, CLSNtview, CLSNmodel, CLSNselectionMdl,
-                           "frm_resim", "değiştir" ) ;
+                           "resim", "değiştir" ) ;
     });
 
 
@@ -475,23 +476,29 @@ QString hC_CLSN::clsn_VT()
 
 void hC_CLSN::clsn_model(QSqlRelationalTableModel *model)
 {
-    qDebug() << " mdlfrm";
-    QString indexField = "frm_unvan";
+    qDebug() << " clsn mdl";
+    QString indexField = "clsn_soyad";
 
     QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Firma Kod");
-    tableFieldList->append("Firma Unvanı");
+    tableFieldList->append("Çalışan Kod");
+    tableFieldList->append("İsim");
+    tableFieldList->append("Soyad");
+    tableFieldList->append("TC Kimlik No");
+    tableFieldList->append("Doğum Yeri");
+    tableFieldList->append("Doğum Tarihi");
+    tableFieldList->append("Baba Adı");
+    tableFieldList->append("Bölüm");
+    tableFieldList->append("Meslek");
+    tableFieldList->append("Gorev");
     tableFieldList->append("Adres");
     tableFieldList->append("Şehir");
-    tableFieldList->append("Vergi Dairesi");
-    tableFieldList->append("VD No");
-    tableFieldList->append("Telefon");
-    tableFieldList->append("e-posta");
-    tableFieldList->append("Yetkili İsim");
-    tableFieldList->append("Yetkili Soyad");
-    tableFieldList->append("Yetkili Telefon");
-    // tableFieldList->append("resim");
-
+    tableFieldList->append("Telefon Cep");
+    tableFieldList->append("Telefon Ev");
+    tableFieldList->append("E-Poata");
+    tableFieldList->append("Kullanıcı Adı");
+    tableFieldList->append("Şifre");
+    tableFieldList->append("Yetki");
+    tableFieldList->append("resim");
 
      hC_Rm hC_Rm (CLSNtableName,
                   model,

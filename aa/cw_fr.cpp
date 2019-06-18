@@ -15,19 +15,17 @@ hC_FRM::hC_FRM(QWidget *parent) : QWidget(parent)
 void hC_FRM::frm_setup()
 {
     qDebug() << "setup FİRMA";
-
     frm_ui();
-
 
     qDebug()<<"setup model fr";
     FRMmodel = new QSqlRelationalTableModel;
     DBase dbase;
-    dbase.modelCalisan ( FRMmodel ) ;
+    dbase.modelFirma( FRMmodel );
+    qDebug() << "setup_Firma END";
 
     frm_view();
     frm_map();
     frm_kntrl();
-    qDebug() << "setup_Firma END";
 }
 
 
@@ -114,7 +112,6 @@ void hC_FRM::frm_ui()
     // main layout
 
     auto *lYG_per = new QGridLayout(this);
-
     lYG_per->addWidget ( FRMtview ,0 ,0 ,2 ,1 );
     lYG_per->addLayout ( frm_mly   ,0 ,1 ,1 ,1);
     lYG_per->addWidget ( lB_rsm   ,1 ,1 ,1 ,1);
