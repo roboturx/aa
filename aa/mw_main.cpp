@@ -171,7 +171,7 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Demirbaş Mlzm"));
         auto *mw_mkn = new hC_MKN;
-        mw_mkn->set_mkn ();
+        mw_mkn->mkn_setup ();
 
     });
 
@@ -208,7 +208,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         statusBar()->showMessage(tr("Mlzm "));
-        mwMLZM = new Cw_Mlzm;
+        mwMLZM = new hC_MLZM;
         mwMLZM->setup_mlzm ();
         mwMLZM->show ();
     });
@@ -241,7 +241,7 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
         mw_ftr = new hC_FTR;
-        mw_ftr->setup_fatura ();
+        mw_ftr->ftr_setup ();
         mw_ftr->show ();
     });
 

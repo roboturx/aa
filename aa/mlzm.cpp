@@ -1,28 +1,39 @@
-#include "mlzm.h"
+﻿#include "mlzm.h"
 #include "ftr.h"
 #include "globals.h"
 #include "dbase.h"
 #include "ftr_frmekle.h"
 
-Cw_Mlzm::Cw_Mlzm(QWidget *parent) : QWidget(parent)
+hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
 {
     //************************************************************
     //*****************  M A L Z E M E  **************************
 }
 
 
-void Cw_Mlzm::setup_mlzm()
+void hC_MLZM::setup_mlzm()
 {
+
+    mlzm_VTd();
 
     setup_uiMlzm();       // 100100
 
-    dbase = new DBase;    // 100200
+    qDebug() << "  setup_modelMalzeme";
+    MLZMmodel = new QSqlRelationalTableModel;
+    mlzm_model ( MLZMmodel ) ;
 
-    setup_modelMlzm();    // 200100
+
+
     setup_viewMlzm();     // 200200
     setup_mapMlzm();      // 200300
 
-    setup_modelMlzmdet(); // 300100
+
+    qDebug() << "  setup_modelmlzmDet";
+    MLZMDETmodel = new QSqlRelationalTableModel ;
+    mlzmdet_model ( MLZMDETmodel ) ;
+
+
+
     setup_viewMlzmdet();  // 300200
     setup_mapMlzmdet();   // 300300
 
@@ -34,11 +45,11 @@ void Cw_Mlzm::setup_mlzm()
 
 
 
-void Cw_Mlzm::setup_uiMlzm()      // 100100
+void hC_MLZM::setup_uiMlzm()      // 100100
 {
     qDebug() << "  setup_uiMlzm";
-    Cw_Mlzm::setWindowTitle ("AMBAR");
-    Cw_Mlzm::showMaximized ();
+    hC_MLZM::setWindowTitle ("AMBAR");
+    hC_MLZM::showMaximized ();
 
     ////////////////////////////////////////// widgets
     lB_rsm = new QLabel (tr("Resim"));
@@ -72,9 +83,9 @@ void Cw_Mlzm::setup_uiMlzm()      // 100100
 
 
 ///
-/// \brief Cw_Mlzm::wd_Mlzm
+/// \brief hC_MLZM::wd_Mlzm
 ///
-void Cw_Mlzm::wd_Mlzm()    // 100110
+void hC_MLZM::wd_Mlzm()    // 100110
 {
     qDebug () << "Mlzm Giriş";
 
@@ -182,22 +193,7 @@ void Cw_Mlzm::wd_Mlzm()    // 100110
 }
 
 
-void Cw_Mlzm::setup_modelMlzm()  // 200100
-{
-    qDebug() << "  setup_modelMalzeme";
-    MLZMmodel = new QSqlRelationalTableModel;
-    dbase->modelMalzeme ( MLZMmodel ) ;
-
-
-
-}
-
-
-
-
-
-
-void Cw_Mlzm::setup_viewMlzm()  // 200200
+void hC_MLZM::setup_viewMlzm()  // 200200
 {
     qDebug() << "  setup_viewMlzm";
 
@@ -234,11 +230,11 @@ void Cw_Mlzm::setup_viewMlzm()  // 200200
     ///
 
 
-    //             &Cw_Mlzm::slt_Mlzm_toLast )) ;
+    //             &hC_MLZM::slt_Mlzm_toLast )) ;
 
 }
 
-void Cw_Mlzm::setup_mapMlzm()  // 200300
+void hC_MLZM::setup_mapMlzm()  // 200300
 {
     qDebug() << "  setup_mapMlzm";
     MLZMmapper = new QDataWidgetMapper(this);
@@ -257,17 +253,17 @@ void Cw_Mlzm::setup_mapMlzm()  // 200300
     //MLZMmapper->addMapping( cX_mkn, MLZMmodel->fieldIndex("makina"));
 
 
-    //this, &Cw_Mlzm::slt_Mlzm_tV_rowchanged);
+    //this, &hC_MLZM::slt_Mlzm_tV_rowchanged);
 
     /// Mlzmdetay varsa ilk kayda
-    //    Cw_Mlzm::MLZMmapper->toFirst(); // detay ilk kayıda
+    //    hC_MLZM::MLZMmapper->toFirst(); // detay ilk kayıda
     MLZMtview->table->setFocus ();
 
     /// Mlzmda row değiştiğinde
-    //  Cw_Mlzm::slt_Mlzm_tV_rowchanged (MLZMmodel->index (0,0));
+    //  hC_MLZM::slt_Mlzm_tV_rowchanged (MLZMmodel->index (0,0));
 
     /// Mlzm ilk kayıda
-    Cw_Mlzm::MLZMmapper->toFirst() ;
+    hC_MLZM::MLZMmapper->toFirst() ;
 
 
 }
@@ -276,7 +272,7 @@ void Cw_Mlzm::setup_mapMlzm()  // 200300
 ///****************  D  E  P  O     S  L  O  T  S  ************
 
 
-void Cw_Mlzm::setup_kontrol()
+void hC_MLZM::setup_kontrol()
 {
     qDebug() << "setup_kontrol";
 
@@ -316,7 +312,7 @@ void Cw_Mlzm::setup_kontrol()
                      "mlzm_resim","ekle");
 
     });
-    //&Cw_Mlzm::slt_Mlzm_pB_Eklersm_clicked  )) ;
+    //&hC_MLZM::slt_Mlzm_pB_Eklersm_clicked  )) ;
 
     connect(MLZMtview->pB_sil, &QPushButton::clicked,
             [this] ()
@@ -438,28 +434,28 @@ void Cw_Mlzm::setup_kontrol()
         }
     });
 
-    //             &Cw_Mlzm::slt_Mlzm_pB_SIL_clicked )) ;
+    //             &hC_MLZM::slt_Mlzm_pB_SIL_clicked )) ;
     connect(MLZMtview->pB_ilk, &QPushButton::clicked ,
             [this] ()
     {
      MLZMtview->hC_TvPb ("ilk", MLZMmodel, MLZMmapper);
     });
 
-    // &Cw_Mlzm::slt_Mlzm_toFirst )) ;
+    // &hC_MLZM::slt_Mlzm_toFirst )) ;
     connect(MLZMtview->pB_ncki, &QPushButton::clicked,
             [this] ()
     {
         MLZMtview->hC_TvPb ("ncki", MLZMmodel, MLZMmapper);
     });
 
-    //             &Cw_Mlzm::slt_Mlzm_toPrevious )) ;
+    //             &hC_MLZM::slt_Mlzm_toPrevious )) ;
     connect(MLZMtview->pB_snrki, &QPushButton::clicked,
             [this] ()
     {
         MLZMtview->hC_TvPb ("snrki", MLZMmodel, MLZMmapper);
     });
 
-    //             &Cw_Mlzm::slt_Mlzm_toNext )) ;
+    //             &hC_MLZM::slt_Mlzm_toNext )) ;
     connect(MLZMtview->pB_son, &QPushButton::clicked,
             [this] ()
     {
@@ -494,7 +490,7 @@ void Cw_Mlzm::setup_kontrol()
         MLZMmapper->setCurrentModelIndex(Index);
 
         // 2 malzeme kod - barkod - isim ve birim yayalım
-        emit Cw_Mlzm::sgnMalzeme(
+        emit hC_MLZM::sgnMalzeme(
 
                     MLZMtview->table->
                     model()->index( Index.row() ,
@@ -546,7 +542,7 @@ void Cw_Mlzm::setup_kontrol()
         lB_mlzrsm->show();*/
     });
 
-    //      this,  &Cw_Mlzm::slt_Mlzm_resimGoster );
+    //      this,  &hC_MLZM::slt_Mlzm_resimGoster );
 
     //////////////////////////////////////////////////
     ///
@@ -584,12 +580,12 @@ void Cw_Mlzm::setup_kontrol()
 
     /// Mlzmdet miktar değiştiğinde Mlzm envanter hesabı
     //   connect (lE_d_miktar, &QLineEdit::editingFinished,
-    //          this, &Cw_Mlzm::slt_Mlzm_hesap);
+    //          this, &hC_MLZM::slt_Mlzm_hesap);
 
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
 
     connect(MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
-            this, &Cw_Mlzm::slt_Mlzm_hesap);
+            this, &hC_MLZM::slt_Mlzm_hesap);
 
 
 
@@ -600,7 +596,7 @@ void Cw_Mlzm::setup_kontrol()
 
 
     connect(MLZMDETtview->pB_ekle, &QPushButton::clicked ,
-            //this , &Cw_Mlzm::slt_Mlzmd_pB_EKLE_clicked  )) ;
+            //this , &hC_MLZM::slt_Mlzmd_pB_EKLE_clicked  )) ;
             [] ()
     {
 
@@ -631,14 +627,14 @@ void Cw_Mlzm::setup_kontrol()
             qDebug()<<"clicked";
             auto *ftr = new hC_FTR;
             ftr->show ();
-            ftr->setup_fatura ();
+            ftr->ftr_setup ();
             dia->close ();
         });
         dia->show ();
     });
 
     connect(MLZMDETtview->pB_sil, &QPushButton::clicked,
-            // this , &Cw_Mlzm::slt_Mlzmd_pB_SIL_clicked )) ;
+            // this , &hC_MLZM::slt_Mlzmd_pB_SIL_clicked )) ;
             [this] ()
     {
 
@@ -710,7 +706,7 @@ void Cw_Mlzm::setup_kontrol()
 
 
 
-void Cw_Mlzm::slt_Mlzm_hesap(QModelIndex Index)
+void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
 {
     qDebug() << "Mlzm_hesappppppppppppppppppp";
     // QModelIndex indx_Mlzmdet = MLZMDETtview->currentIndex ();
@@ -802,7 +798,7 @@ void Cw_Mlzm::slt_Mlzm_hesap(QModelIndex Index)
 ///
 ///
 
-void Cw_Mlzm::wd_Mlzmdet()
+void hC_MLZM::wd_Mlzmdet()
 {
     qDebug() << "  wd_Mlzmdet";
     lB_Mlzmdet = new QLabel("Malzeme Mlzm Giriş - Çıkış İşlemleri");
@@ -862,17 +858,7 @@ void Cw_Mlzm::wd_Mlzmdet()
 
 }
 
-///
-/// \brief Cw_Mlzm::setup_modelMlzmdet
-///
-void Cw_Mlzm::setup_modelMlzmdet()
-{
-    MLZMDETmodel = new QSqlRelationalTableModel ;
-    dbase->modelMalzemeDetay( MLZMDETmodel ) ;
-    qDebug() << "  setup_modelmlzmDet";
-}
-
-void Cw_Mlzm::setup_viewMlzmdet()
+void hC_MLZM::setup_viewMlzmdet()
 {
     qDebug() << "  setup_viewMlzmdet";
 
@@ -916,7 +902,7 @@ void Cw_Mlzm::setup_viewMlzmdet()
 
 }
 
-void Cw_Mlzm::setup_mapMlzmdet()
+void hC_MLZM::setup_mapMlzmdet()
 {
     qDebug() << "  setup_mapMlzmdet";
     MLZMDETmapper = new QDataWidgetMapper(this);
@@ -946,12 +932,12 @@ void Cw_Mlzm::setup_mapMlzmdet()
 
 
 
-Cw_Mlzm::~Cw_Mlzm()
+hC_MLZM::~hC_MLZM()
 {
     qDebug() << "   destructor";
 }
 
-void Cw_Mlzm::showEvent(QShowEvent *)
+void hC_MLZM::showEvent(QShowEvent *)
 {
 
     qDebug() << "   Show event - - - Mlzm dosyası açılıyor";
@@ -970,7 +956,7 @@ void Cw_Mlzm::showEvent(QShowEvent *)
 /// \brief DBase::VTd_Mlzm
 /// \return
 ///
-QString DBase::VTd_Mlzm()
+QString hC_MLZM::mlzm_VTd ()
 {
     /// Malzeme create
     ///
@@ -1036,7 +1022,7 @@ QString DBase::VTd_Mlzm()
 
 
 
-void DBase::modelMalzeme(QSqlRelationalTableModel *model)
+void hC_MLZM::mlzm_model(QSqlRelationalTableModel* model)
 {
     qDebug() << " mdlmlzm";
     QString tableName ("mlzm__dbtb");
@@ -1071,7 +1057,7 @@ void DBase::modelMalzeme(QSqlRelationalTableModel *model)
 /// \brief DBase::VTd_MlzmDETAY
 /// \return
 ///
-QString DBase::VTd_MlzmDETAY()
+QString hC_MLZM::mlzmdet_VTd ()
 {
     QString ct, mesaj = "OK - Malzeme Detay";
     QSqlQuery q;
@@ -1128,8 +1114,7 @@ QString DBase::VTd_MlzmDETAY()
 }   /// malzeme detay
 
 
-void DBase::modelMalzemeDetay(
-        QSqlRelationalTableModel *model)
+void hC_MLZM::mlzmdet_model (QSqlRelationalTableModel *model)
 {
     /// NOTE Model 1 mw_main de modeli oluştur
     /// fatura detayında

@@ -18,8 +18,12 @@ public:
 
 
     QString sgnText{};
-    void setup_MODL();
+
     DBase *dbase;
+    QString mkmodl_VTd();
+    void mkmodl_setup();
+    void mkmodl_model(QSqlRelationalTableModel *model) ;
+
 
     QLabel *lB_rsm;
 

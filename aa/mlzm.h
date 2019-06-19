@@ -1,4 +1,4 @@
-#ifndef HC_MLZM_H
+﻿#ifndef HC_MLZM_H
 #define HC_MLZM_H
 
 
@@ -9,16 +9,18 @@
 
 
 namespace Ui {
-class Cw_Mlzm;
+class hC_MLZM;
 class Kontrol;
 }
 
-class Cw_Mlzm : public QWidget
+class hC_MLZM : public QWidget
 {   Q_OBJECT
 
 public:
 
-    DBase *dbase{} ;
+    void    mlzm_setup();
+    QString mlzm_VTd();
+    void    mlzm_model(QSqlRelationalTableModel * );
 
     hC_Tv             *MLZMtview{};
     QSqlRelationalTableModel *MLZMmodel{};
@@ -55,6 +57,14 @@ public:
 
 
     // Mlzm detay
+
+
+
+    void    mlzmdet_setup();
+    QString mlzmdet_VTd();
+    void    mlzmdet_model(QSqlRelationalTableModel * );
+
+
     QWidget     *wdgt_mapMlzm_dty{};
 
     hC_Tv        *MLZMDETtview{};
@@ -114,8 +124,8 @@ signals:
 
 
 public:
-    explicit Cw_Mlzm(QWidget *parent = nullptr);
-    ~Cw_Mlzm();
+    explicit hC_MLZM(QWidget *parent = nullptr);
+    ~hC_MLZM();
 };
 
 

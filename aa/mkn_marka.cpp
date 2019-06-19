@@ -8,12 +8,17 @@ hC_MKMARK::hC_MKMARK(QDialog *parent) : QDialog(parent)
 {
 }
 
-void hC_MKMARK::setup_MARK()
+void hC_MKMARK::mkmark_setup()
 {
     qDebug ()  <<"CİNS MARKA MODEL YIL ";
+    mkmark_VTd();
     set_uiMRK();
 
-    set_modelMRK ();
+    MRKmodel = new QSqlRelationalTableModel ;
+    mkmark_model ( MRKmodel ) ;
+
+
+    //set_modelMRK ();
     set_viewMRK ();
     set_mapMRK ();
     set_kntrlMRK ();
@@ -44,14 +49,6 @@ void hC_MKMARK::set_uiMRK()
 }
 
 
-void hC_MKMARK::set_modelMRK()
-{
-
-    MRKmodel = new QSqlRelationalTableModel ;
-    dbase->modelMarka(MRKmodel) ;
-
-
-}
 
 void hC_MKMARK::set_viewMRK()
 {
@@ -267,7 +264,7 @@ hC_MKMARK::~hC_MKMARK()
 ///// MARKA
 ///
 ///
-QString hC_MKMARK::VTd_MARKA()
+QString hC_MKMARK::mkmark_VTd()
 {
     //qDebug() << " db Marka CREATE  ";
     QString ct, mesaj = "OK - Marka";
@@ -351,7 +348,7 @@ QString hC_MKMARK::VTd_MARKA()
 }
 
 
-void hC_MKMARK::modelMarka(QSqlRelationalTableModel *model)
+void hC_MKMARK::mkmark_model ( QSqlRelationalTableModel *model)
 {
     qDebug() << " db modelmarka";
     QString MRKtableName("mkmark__dbtb");

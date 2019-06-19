@@ -7,14 +7,15 @@ hC_MKCINS::hC_MKCINS(QDialog *parent) : QDialog(parent)
 {
 }
 
-void hC_MKCINS::setup_CNS()
+void hC_MKCINS::mkcins_setup()
 {
     qDebug ()  <<"CİNS MARKA MODEL YIL ";
+    mkcins_VTd();
     set_uiCNS();
 
 
     CNSmodel = new QSqlRelationalTableModel ;
-    dbase->modelCinsi(CNSmodel) ;
+    mkcins_model ( CNSmodel ) ;
 
 
     set_viewCNS ();
@@ -257,17 +258,17 @@ hC_MKCINS::~hC_MKCINS()
 ///// CINS
 ///
 ///
-QString hC_MKCINS::VTd_CINS()
+QString hC_MKCINS::mkcins_VTd()
 {
     //qDebug() << "db Cinsi CREATE  ";
     QString ct, mesaj = "OK - Cinsi";
     QSqlQuery q;
-    CNStableName = new QString( "mkcins__dbtb");
+    QString CNStableName ( "mkcins__dbtb");
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().
-         contains( *CNStableName ))
+         contains( CNStableName ))
     {
-        ct = "CREATE TABLE " + *CNStableName +
+        ct = "CREATE TABLE " + CNStableName +
              "("
              "cinsi TEXT, "
              "resim BLOB, "
@@ -287,18 +288,18 @@ QString hC_MKCINS::VTd_CINS()
             mesaj= "OK - Cinsi Dosyası YENİ Oluşturuldu";
 
             QStringList inserts;
-            inserts << "INSERT INTO "+ *CNStableName +" ( cinsi ) values(' - ')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Otomobil')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Arazi Aracı')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Pickup')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Kamyon')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 2x2')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 4x2')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 4x4')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Forklift')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Loader')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Backhoe')"
-                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Excavator')" ;
+            inserts << "INSERT INTO "+ CNStableName +" ( cinsi ) values(' - ')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Otomobil')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Arazi Aracı')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Pickup')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Kamyon')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Çekici 2x2')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Çekici 4x2')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Çekici 4x4')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Forklift')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Loader')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Backhoe')"
+                    << "INSERT INTO "+ CNStableName +" ( cinsi ) values('Excavator')" ;
             int x{},y{};
             foreach (QString qry , inserts)
             {
@@ -332,17 +333,17 @@ QString hC_MKCINS::VTd_CINS()
 
 }
 
-void hC_MKCINS::modelCinsi(QSqlRelationalTableModel *model)
+void hC_MKCINS::mkcins_model ( QSqlRelationalTableModel *model)
 {
     qDebug() << " db model cns";
-    CNStableName = new QString("mkcins__dbtb");
+    QString CNStableName ("mkcins__dbtb");
     QString indexField = "cinsi";
     QStringList *tableFieldList = new QStringList ;
 
     tableFieldList->append("Cinsi");
     tableFieldList->append("Resim");
     tableFieldList->append("Cinsi Kodu");
-    hC_Rm hC_Rm (CNStableName,
+    hC_Rm hC_Rm ( &CNStableName,
                  model,
                  &indexField ,
                  tableFieldList) ;

@@ -119,7 +119,7 @@ FtrDet_MlzEkle::FtrDet_MlzEkle(QDialog *parent) : QDialog(parent)
 
 
     // firma class ımızı getirelim
-    malzeme = new Cw_Mlzm ;
+    malzeme = new hC_MLZM ;
     malzeme->setup_mlzm ();
     layout_diafr->addWidget (malzeme ,0 ,0 ,1, 1);
     //diafr->show();

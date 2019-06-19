@@ -41,7 +41,7 @@ public:
     ~FtrDet_MlzEkle();
 
     QString getMalzeme() const;
-    Cw_Mlzm  *malzeme;
+    hC_MLZM  *malzeme;
 protected:
     void reject() ;
 private:

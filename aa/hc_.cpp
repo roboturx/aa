@@ -75,7 +75,8 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
         }
         else
         {
-            lB_resim->setPixmap (QPixmap (":/rsm/icon/photo_camera.png"));
+            //lB_resim->setPixmap (QPixmap (":/rsm/icon/photo_camera.png"));
+            lB_resim->setPixmap (QPixmap (""));
         }
 
         lB_resim->setScaledContents( true );

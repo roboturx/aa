@@ -12,13 +12,11 @@ void hC_CLSN::clsn_setup()
 {
     qDebug() << "clsn setup ";
 
-    CLSNtableName = new QString( "clsn__dbtb");
-    clsn_VT ();
+
+    clsn_VTd ();
     clsn_ui();
 
     CLSNmodel = new QSqlRelationalTableModel;
-    //    DBase dbase;
-    //    dbase.modelCalisan( CLSNmodel ) ;
     clsn_model( CLSNmodel ) ;
     // Set Sort Ascending steering column data
     CLSNmodel->setSort(2,Qt::AscendingOrder);
@@ -163,11 +161,10 @@ void hC_CLSN::clsn_view()
     CLSNtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
     CLSNtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
     CLSNselectionMdl = CLSNtview->table->selectionModel();
-    qDebug()<<"clsn view 2";
+
     CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("clsn_kod"), true);
     CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("resim"), true);
 
-    qDebug()<<"clsn view 3";
     CLSNtview->table->setEditTriggers
             (QAbstractItemView::DoubleClicked |
              QAbstractItemView::SelectedClicked |
@@ -176,7 +173,7 @@ void hC_CLSN::clsn_view()
     CLSNtview->table->horizontalHeader()->resizeContentsPrecision();
     CLSNtview->table->resizeRowsToContents ();
     CLSNtview->table->resizeColumnsToContents();
-    qDebug()<<"clsn view 4";
+
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
@@ -187,7 +184,6 @@ void hC_CLSN::clsn_view()
     CLSNtview->table->setFocus();
     //   QTimer::singleShot(0, CLSNtview->table, SLOT(setFocus()));
 
-    qDebug()<<"clsn view 5";
 }
 
 
@@ -385,17 +381,17 @@ hC_CLSN::~hC_CLSN()
 
 
 
-QString hC_CLSN::clsn_VT()
+QString hC_CLSN::clsn_VTd()
 {
     QSqlQuery   q;
     QString     ct, mesaj = "OK - Çalışan";
     QStringList inserts;
-    CLSNtableName = new QString( "clsn_dbtb");
+    QString CLSNtableName ( "clsn__dbtb");
     if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( *CLSNtableName ))
+         GetDB().tables().contains( CLSNtableName ))
     {
 
-        ct = "CREATE TABLE IF NOT EXISTS " + *CLSNtableName +
+        ct = "CREATE TABLE IF NOT EXISTS " + CLSNtableName +
              "("
              "  clsn_kod	    INTEGER PRIMARY KEY  , "
              "  clsn_isim		TEXT ,"
@@ -427,23 +423,7 @@ QString hC_CLSN::clsn_VT()
         else
         {
             mesaj = "OK - Çalışan Dosyası YENİ Oluşturuldu ";
-            inserts << "INSERT INTO " + *CLSNtableName +
-                       "( "
-                       "clsn_isim, clsn_soyad, "
-                       "clsn_bolum, clsn_meslek, clsn_gorev, "
-                       "clsn_adres, clsn_sehir, "
-                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
-                       " clsn_username, clsn_password, clsn_yetki"
-                       ") "
-                       "VALUES "
-                       "("
-                       "'-', '-', "
-                       "'', '', '', "
-                       "'', '', "
-                       "'', '', '', "
-                       "'','', ''"
-                       " )"
-                    << "INSERT INTO " + *CLSNtableName +
+            inserts << "INSERT INTO " + CLSNtableName +
                        "( "
                        "clsn_isim, clsn_soyad, "
                        "clsn_bolum, clsn_meslek, clsn_gorev, "
@@ -491,6 +471,7 @@ void hC_CLSN::clsn_model(QSqlRelationalTableModel *model)
 {
     qDebug() << " clsn mdl";
     QString indexField = "clsn_soyad";
+    QString CLSNtableName ("clsn__dbtb");
     QStringList *tableFieldList = new QStringList ;
     tableFieldList->append("Çalışan Kod");
     tableFieldList->append("İsim");
@@ -512,7 +493,7 @@ void hC_CLSN::clsn_model(QSqlRelationalTableModel *model)
     tableFieldList->append("Yetki");
     tableFieldList->append("resim");
 
-    hC_Rm hC_Rm (CLSNtableName,
+    hC_Rm hC_Rm ( &CLSNtableName,
                  model,
                  &indexField ,
                  tableFieldList) ;
@@ -521,143 +502,6 @@ void hC_CLSN::clsn_model(QSqlRelationalTableModel *model)
 
 
 
-
-
-
-///*
-//QString DBase::VTd_CLSN()
-//{
-//    QSqlQuery   q;
-//    QString     ct, mesaj = "OK - Çalışan";
-//    QStringList inserts;
-//    CLSNtableName = new QString( "clsn_dbtb");
-//    if ( ! VTKontrolEt::instance()->
-//         GetDB().tables().contains( *CLSNtableName ))
-//    {
-
-//        ct = "CREATE TABLE IF NOT EXISTS " + *CLSNtableName +
-//             "("
-//             "  clsn_kod	    INTEGER PRIMARY KEY  , "
-//             "  clsn_isim		TEXT ,"
-//             "  clsn_soyad	    TEXT ,"
-//             "  clsn_tckimlik    TEXT ,"
-//             "  clsn_dogumyeri   TEXT ,"
-//             "  clsn_dogumtarihi DATE ,"
-//             "  clsn_babaadi     TEXT ,"
-//             "  clsn_bolum	    TEXT ,"
-//             "  clsn_meslek      int ,"
-//             "  clsn_gorev	    TEXT ,"
-//             "  clsn_adres		TEXT ,"
-//             "  clsn_sehir       TEXT ,"
-//             "  clsn_tel_cep	    TEXT ,"
-//             "  clsn_tel_ev	    TEXT ,"
-//             "  clsn_eposta      TEXT ,"
-//             "  clsn_username	TEXT ,"
-//             "  clsn_password	TEXT ,"
-//             "  clsn_yetki		TEXT ,"
-//             "  resim       BLOB  )" ;
-
-//        if (!q.exec( ct ))
-//        {
-//            mesaj = "<br>HATA - Çalışan Dosyası Oluşturulamadı  "
-//                    "<br>------------------------------------<br>"+
-//                    q.lastError().text() +
-//                    "<br>------------------------------------<br>";
-//        }
-//        else
-//        {
-//            mesaj = "OK - Çalışan Dosyası YENİ Oluşturuldu ";
-//            inserts << "INSERT INTO " + *CLSNtableName +
-//                       "( "
-//                       "clsn_isim, clsn_soyad, "
-//                       "clsn_bolum, clsn_meslek, clsn_gorev, "
-//                       "clsn_adres, clsn_sehir, "
-//                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
-//                       " clsn_username, clsn_password, clsn_yetki"
-//                       ") "
-//                       "VALUES "
-//                       "("
-//                       "'-', '-', "
-//                       "'', '', '', "
-//                       "'', '', "
-//                       "'', '', '', "
-//                       "'','', ''"
-//                       " )"
-//                    << "INSERT INTO " + *CLSNtableName +
-//                       "( "
-//                       "clsn_isim, clsn_soyad, "
-//                       "clsn_bolum, clsn_meslek, clsn_gorev, "
-//                       "clsn_adres, clsn_sehir, "
-//                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
-//                       " clsn_username, clsn_password, clsn_yetki"
-//                       ") "
-//                       "VALUES "
-//                       "("
-//                       "'Murat', 'BALCI', "
-//                       "'bilgi işlem', 'CASE', 'Developer', "
-//                       "'KSS', 'Tokat', "
-//                       "'505 320 22 40', '356 232 91 01', 'roboturx@gmail.com', "
-//                       "'a','a', 'a'"
-//                       " )" ;
-
-
-//            foreach (QString qry , inserts)
-//            {
-//                if ( !q.exec(qry) )
-//                {
-//                    mesaj = mesaj + "<br>İLK Çalışan Eklenemdi"+
-//                            "<br>------------------------------------<br>"+
-//                            q.lastError().text ()+
-//                            "<br>------------------------------------<br>";
-//                }
-//                else
-//                {
-//                    mesaj = mesaj + "<br>İLK Çalışan eklendi.";
-//                }
-//            } // foreach
-//        }
-//    }
-//    qDebug ()<< mesaj;
-//    return mesaj ;
-
-
-//}
-
-
-
-//void DBase::modelCalisan(QSqlRelationalTableModel *model)
-//{
-//    qDebug() << " mdl_Clsn";
-//    QString indexField = "clsn_soyad";
-//    CLSNtableName = new QString("clsn__dbtb");
-
-//    QStringList *tableFieldList = new QStringList ;
-//    tableFieldList->append("Çalışan Kod");
-//    tableFieldList->append("İsim");
-//    tableFieldList->append("Soyad");
-//    tableFieldList->append("TC Kimlik No");
-//    tableFieldList->append("Doğum Yeri");
-//    tableFieldList->append("Doğum Tarihi");
-//    tableFieldList->append("Baba Adı");
-//    tableFieldList->append("Bölüm");
-//    tableFieldList->append("Meslek");
-//    tableFieldList->append("Gorev");
-//    tableFieldList->append("Adres");
-//    tableFieldList->append("Şehir");
-//    tableFieldList->append("Telefon Cep");
-//    tableFieldList->append("Telefon Ev");
-//    tableFieldList->append("E-Poata");
-//    tableFieldList->append("Kullanıcı Adı");
-//    tableFieldList->append("Şifre");
-//    tableFieldList->append("Yetki");
-//    tableFieldList->append("resim");
-
-
-//     hC_Rm hC_Rm (CLSNtableName,
-//                  model,
-//                  &indexField ,
-//                  tableFieldList) ;
-//}
 
 
 //*/

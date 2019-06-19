@@ -22,8 +22,13 @@ public:
     explicit hC_MKN(QWidget *parent = nullptr);
     ~hC_MKN();
 
+    void    mkn_setup();
+    QString mkn_VTd();
+    void    mkn_model(QSqlRelationalTableModel * );
 
-    void set_mkn();
+    //void set_mkn();
+
+
     DBase *dbase;
     QLabel *lB_rsm;
     hC_Tv             *MKNtview ;

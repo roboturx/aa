@@ -18,11 +18,13 @@ public:
 
 
     QString sgnText{};
-    void setup_MARK();
-    DBase *dbase;
+
+    void mkmark_setup();
+    QString mkmark_VTd();
+    void mkmark_model(QSqlRelationalTableModel *model);
 
     QLabel *lB_rsm;
-
+    DBase *dbase;
     hC_Tv             *MRKtview{};
     QSqlRelationalTableModel *MRKmodel{} ;
     QItemSelectionModel      *MRKselectionMdl;

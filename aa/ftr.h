@@ -18,8 +18,11 @@ class hC_FTR : public QWidget
 
 public:
 
-    void  setup_fatura() ;
-    DBase *dbase{};
+    void    ftr_setup();
+    QString ftr_VTd();
+    void    ftr_model(QSqlRelationalTableModel * );
+
+
 
     hC_Tv             *FTRtview{};
     QSqlRelationalTableModel *FTRmodel{};
@@ -50,6 +53,12 @@ public:
 
 
     // depo detay
+
+    void    ftrdet_setup();
+    QString ftrdet_VTd();
+    void    ftrdet_model(QSqlRelationalTableModel * );
+
+
 
     hC_Tv             *FTRDETtview{};
     QSqlRelationalTableModel *FTRDETmodel{} ;

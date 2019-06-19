@@ -15,22 +15,29 @@ hC_FTR::hC_FTR(QWidget *parent) :  QWidget(parent)
 
 
 
-void hC_FTR::setup_fatura()
+void hC_FTR::ftr_setup()
 {
     qDebug() << "FATURA";
-    hC_FTR::setWindowTitle("FATURA");
-    this->setMinimumSize (800,400);
-    hC_FTR::showMaximized();
 
+
+    ftr_VTd();
     setup_uiFtr();
-    dbase = new DBase;
 
-    setup_modelFtr ();
+    qDebug() << "  setupmodelfatura";
+    FTRmodel = new QSqlRelationalTableModel ;
+    ftr_model ( FTRmodel ) ;
+
+
+
     setup_viewFtr () ;
     setup_mapFtr ()  ;
     setup_kntrlFtr ();
 
-    setup_modelFtrDet() ;
+
+    qDebug() << "  setup_modelFtrDet";
+    FTRDETmodel = new QSqlRelationalTableModel;
+    ftrdet_model ( FTRDETmodel );
+
     setup_viewFtrDet () ;
     setup_mapFtrDet ()  ;
     setup_kntrlFtrDet ();
@@ -43,6 +50,12 @@ void hC_FTR::setup_fatura()
 void hC_FTR::setup_uiFtr()
 {
     qDebug() << "  setup_uiFtr";
+
+    hC_FTR::setWindowTitle("FATURA");
+    this->setMinimumSize (800,400);
+    hC_FTR::showMaximized();
+
+
     ////////////////////////////////////////// widgets
     wd_FTR();
     wd_FTRdet();
@@ -168,12 +181,6 @@ void hC_FTR::wd_FTR()
 
 }
 
-void hC_FTR::setup_modelFtr()
-{
-    FTRmodel = new QSqlRelationalTableModel ;
-    dbase->modelFatura( FTRmodel ) ;
-    qDebug() << "  setupmodelfatura";
-}
 
 void hC_FTR::setup_viewFtr()
 {
@@ -693,12 +700,6 @@ void hC_FTR::wd_FTRdet()
 }
 
 
-void hC_FTR::setup_modelFtrDet()
-{
-    qDebug() << "  setup_modelFtrDet";
-    FTRDETmodel = new QSqlRelationalTableModel;
-    dbase->modelMalzemeDetay(FTRDETmodel);
-}
 
 void hC_FTR::setup_viewFtrDet()
 {
@@ -854,7 +855,7 @@ void hC_FTR::setup_kntrlFtrDet()
             /// seçim yapılan lineedit e aktaralım
             /// ----------------------------------------------------
 
-            connect (mlz->malzeme, &Cw_Mlzm::sgnMalzeme,
+            connect (mlz->malzeme, &hC_MLZM::sgnMalzeme,
                      [ this, mlzmKod, mlzmBarkod, mlzmBirim ] (QString secKod,
                      QString secBarkod,
                      QString secMalzeme,
@@ -1175,7 +1176,7 @@ hC_FTR::~hC_FTR()
 
 
 
-QString hC_FTR::VTd_FTRA ()
+QString hC_FTR::ftr_VTd ()
 {
     QSqlQuery   q;
     QString     ct, mesaj = "OK - Fatura" ;
@@ -1239,7 +1240,7 @@ QString hC_FTR::VTd_FTRA ()
     return mesaj;
 }
 
-void hC_FTR::modelFatura(QSqlRelationalTableModel *model)
+void hC_FTR::ftr_model(QSqlRelationalTableModel *model)
 {
     qDebug() << " mdlftr";
     QString indexField = "ftr_tarih";
@@ -1258,4 +1259,35 @@ void hC_FTR::modelFatura(QSqlRelationalTableModel *model)
                  tableFieldList) ;
 
 }///FATURA
+
+void hC_FTR::ftrdet_model (QSqlRelationalTableModel *model)
+{
+    /// NOTE Model 1 mw_main de modeli oluştur
+    /// fatura detayında
+    /// malzeme detay dosyası oluşturuluyor
+    QString tableName ("mlzmdet__dbtb");
+    QString indexField = "mlzmdet_gcno";
+
+    QStringList *tableFieldList = new QStringList ;
+    tableFieldList->append("Detay Kod");
+    tableFieldList->append("Malzeme Kod");
+    tableFieldList->append("Barkod");
+    tableFieldList->append("Malzeme");
+    tableFieldList->append("Tarih");
+    tableFieldList->append("İşlem Türü");
+    tableFieldList->append("İşlem No");
+    tableFieldList->append("Miktar");
+    tableFieldList->append("Birim");
+    tableFieldList->append("Fiyat");
+    tableFieldList->append("KDV");
+    tableFieldList->append("Açıklama");
+    tableFieldList->append("Resim");
+
+    hC_Rm hC_Rm (&tableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+
+}///fatura detasy Model
+
 

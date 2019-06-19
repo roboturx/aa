@@ -15,14 +15,15 @@ hC_FRM::hC_FRM(QWidget *parent) : QWidget(parent)
 void hC_FRM::frm_setup()
 {
     qDebug() << "setup FİRMA";
+
+    frm_VTd();
     frm_ui();
 
     qDebug()<<"setup model fr";
     FRMmodel = new QSqlRelationalTableModel;
-    DBase dbase;
-    dbase.modelFirma( FRMmodel );
-    qDebug() << "setup_Firma END";
+    frm_model ( FRMmodel );
 
+    qDebug() << "setup_Firma END";
     frm_view();
     frm_map();
     frm_kntrl();
@@ -328,17 +329,17 @@ hC_FRM::~hC_FRM()
 
 
 
-QString hC_FRM::frm_VT()
+QString hC_FRM::frm_VTd()
 {
     QSqlQuery   q;
     QString     ct, mesaj ="OK - Firma";
     QStringList inserts;
-    FRMtableName = new QString( "frm__dbtb");
+    QString FRMtableName ( "frm__dbtb");
 
     if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( *FRMtableName ))
+         GetDB().tables().contains( FRMtableName ))
     {
-        ct = "CREATE TABLE IF NOT EXISTS " + *FRMtableName +
+        ct = "CREATE TABLE IF NOT EXISTS " + FRMtableName +
              "("
              "  frm_kod    INTEGER PRIMARY KEY  , "
              "  frm_unvan	TEXT ,"
@@ -363,7 +364,7 @@ QString hC_FRM::frm_VT()
         else
         {
             mesaj = "OK - FİRMA Dosyası YENİ Oluşturuldu ";
-            inserts << "INSERT INTO " + *FRMtableName +
+            inserts << "INSERT INTO " + FRMtableName +
                        "( "
                        "frm_unvan , frm_adres, frm_sehir , "
                        "frm_vd    , frm_vdno , frm_tel   , "
@@ -402,8 +403,9 @@ QString hC_FRM::frm_VT()
 
 void hC_FRM::frm_model(QSqlRelationalTableModel *model)
 {
-    qDebug() << " mdlfrm";
+    qDebug() << " frm model";
     QString indexField = "frm_unvan";
+    QString FRMtableName ("frm__dbtb");
 
     QStringList *tableFieldList = new QStringList ;
     tableFieldList->append("Firma Kod");
@@ -420,7 +422,7 @@ void hC_FRM::frm_model(QSqlRelationalTableModel *model)
     // tableFieldList->append("resim");
 
 
-     hC_Rm hC_Rm (FRMtableName,
+     hC_Rm hC_Rm ( &FRMtableName,
                   model,
                   &indexField ,
                   tableFieldList) ;

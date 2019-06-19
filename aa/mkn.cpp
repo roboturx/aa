@@ -18,16 +18,19 @@ hC_MKN::hC_MKN(QWidget *parent) : QWidget(parent)
     //*****************  M A K İ N A  ****************************
 }
 
-void hC_MKN::set_mkn()
+void hC_MKN::mkn_setup()
 {
     qDebug ()<<"setup MKN";
 
     // ekran görüntüsünü hazırlayalım
+    hC_MKN::mkn_VTd();
     hC_MKN::set_uiMKN();
 
-    dbase = new DBase ;
+    qDebug()<<"set model makina";
+    MKNmodel = new QSqlRelationalTableModel;
+    mkn_model ( MKNmodel );
 
-    hC_MKN::set_modelMKN ();
+
     hC_MKN::set_viewMKN ();
     hC_MKN::set_mapMKN ();
     hC_MKN::set_kntrlMKN();
@@ -89,7 +92,7 @@ void hC_MKN::wd_mppr ()
     {
         // seçebilmek için pencere
         auto *cmmy = new hC_MKCINS ;
-        cmmy->setup_CNS ();
+        cmmy->mkcins_setup ();
 
 
 
@@ -123,7 +126,7 @@ void hC_MKN::wd_mppr ()
 
         // seçebilmek için pencere
         auto *cmmy = new hC_MKMARK ;
-        cmmy->setup_MARK ();
+        cmmy->mkmark_setup ();
 
         /////////////////////////////////////////////////////////////////////////////////
         // ----------------------------------------------------
@@ -155,7 +158,7 @@ void hC_MKN::wd_mppr ()
 
         // seçebilmek için pencere
         auto *cmmy = new hC_MKMODL ;
-        cmmy->setup_MODL ();
+        cmmy->mkmodl_setup ();
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -283,76 +286,6 @@ void hC_MKN::wd_mppr ()
     mapperL->addWidget(lB_mknAcklm   ,++satr,0,1,1 );
     mapperL->addWidget(ted_mknAcklm  ,  satr,1,1,5 );
    // mapperL->addWidget(lB_foto      ,++satr,0,4,4 );
-
-}
-
-
-///////////////////////////////          modelleri oluşturalım
-void hC_MKN::set_modelMKN()
-{
-    qDebug()<<"set model makina";
-    MKNmodel = new QSqlRelationalTableModel;
-    dbase->modelMakina ( MKNmodel );
-
-
-
-//    // cinsi combo //////////////////////////////////////////////
-
-//    mdll_mkcins ();
-//    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_cinsi"),
-//            QSqlRelation ("dbtb_mkcins", "id_mkcins", "cinsi"));
-//    cbxCinsiModel = new QSqlTableModel ;
-//    cbxCinsiModel = MKNmodel->relationModel(
-//            MKNmodel->fieldIndex("mkn_cinsi"));
-//    cbx_mknCins ->setModel(cbxCinsiModel);
-//    cbx_mknCins->setModelColumn(cbxCinsiModel->fieldIndex("cinsi"));
-
-
-//    mdll_mkmark ();
-//    // marka combo //////////////////////////////////////////////
-//    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_marka"),
-//            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
-//    cbxMarkaModel = new QSqlTableModel ;
-////    cbxMarkaModel  = MKNmodel->relationModel(
-////                MKNmodel->fieldIndex("mkn_marka"));
-////    cbx_mknMark->setModel(cbxMarkaModel); // cbxMarkaModel);
-////    cbx_mknMark->setModelColumn(cbxMarkaModel->fieldIndex("marka"));
-
-
-
-//    //    // marka combo //////////////////////////////////////////////
-////    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_marka"),
-////            QSqlRelation("dbtb_mkmark", "id_mkmark", "marka"));
-////    cbxMarkaModel = new QSqlTableModel ;
-////    cbxMarkaModel = MKNmodel->relationModel(
-////                MKNmodel->fieldIndex("mkn_marka"));
-////    cbx_mknMark->setModel(cbxMarkaModel); // cbxMarkaModel);
-////    cbx_mknMark->setModelColumn(cbxMarkaModel->fieldIndex("marka"));
-
-
-
-
-//    // model combo  /////////////////////////////////////////////
-//    mdll_mkmodl ();
-//    MKNmodel->setRelation(MKNmodel->fieldIndex("mkn_modeli"),
-//            QSqlRelation("dbtb_mkmodl", "id_mkmodl", "modeli"));
-//    cbxModeliModel = new QSqlTableModel ;
-//    cbxModeliModel = MKNmodel->relationModel(
-//                MKNmodel->fieldIndex("mkn_modeli"));
-//    cbx_mknModl->setModel( cbxModeliModel ); //cbxModeliModel);
-//    cbx_mknModl->setModelColumn(cbxModeliModel->fieldIndex("modeli"));
-
-//    // sürücü combo ///////////////////////////////////////////////
-//    MKNmodel->setRelation(  MKNmodel->fieldIndex("mkn_surucu"),
-//            QSqlRelation("dbtb_clsn", "kod_pr", "soyad"));
-//    cbxClsnModel = new QSqlTableModel;
-//    cbxClsnModel = MKNmodel->relationModel(
-//                MKNmodel->fieldIndex("mkn_surucu"));
-//    cbx_mknSurucu->setModel(cbxClsnModel);
-//    cbx_mknSurucu->setModelColumn(cbxClsnModel->fieldIndex("soyad"));
-
-
-
 
 }
 
@@ -1262,7 +1195,7 @@ hC_MKN::~hC_MKN()
 
 
 
-void c::mknKurumno_ara()
+void hC_MKN::mknKurumno_ara()
 {
 
 
@@ -1304,7 +1237,7 @@ void c::mknKurumno_ara()
 ///
 /// \brief DBase::VTd_mkn
 ///
-QString hC_FTR::VTd_mkn()
+QString hC_MKN::mkn_VTd()
 {
 
     /// MKSTOK create
@@ -1375,7 +1308,7 @@ QString hC_FTR::VTd_mkn()
 
 
 
-void hC_FTR::modelMakina(QSqlRelationalTableModel *model)
+void hC_MKN::mkn_model (QSqlRelationalTableModel *model)
 {
     qDebug() << " modelmkn";
     QString indexField = "mkn_kurumno";

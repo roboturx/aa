@@ -20,7 +20,7 @@ public:
     ~hC_FRM();
 
     void    frm_setup();
-    QString frm_VT();
+    QString frm_VTd();
     void    frm_model(QSqlRelationalTableModel * );
 
     QString *FRMtableName {};

@@ -37,7 +37,7 @@ public:
 
     Form *mw_mkk{};
     hC_MKN *mw_mkn{};
-    Cw_Mlzm *mwMLZM{};
+    hC_MLZM *mwMLZM{};
 
 
     QTextEdit *durum{};

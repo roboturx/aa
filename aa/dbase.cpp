@@ -43,17 +43,17 @@ void DBase::VTDosyaKontrol()
     //yaz(DBase::VTd_CLSN ());
 
 
-    yaz(DBase::VTd_MSLK ());
-    yaz(DBase::VTd_FRMA ());
-    yaz(DBase::VTd_FTRA ());
-    yaz(DBase::VTd_Mlzm ());
-    yaz(DBase::VTd_MlzmDETAY ());
+    //yaz(DBase::VTd_MSLK ());
+    //yaz(DBase::VTd_FRMA ());
+   // yaz(DBase::VTd_FTRA ());
+   // yaz(DBase::VTd_Mlzm ());
+   // yaz(DBase::VTd_MlzmDETAY ());
 
 
-    yaz(DBase::VTd_mkn ());
-    yaz(DBase::VTd_CINS ());
-    yaz(DBase::VTd_MARKA ());
-    yaz(DBase::VTd_MODEL ());
+   // yaz(DBase::VTd_mkn ());
+   // yaz(DBase::VTd_CINS ());
+   // yaz(DBase::VTd_MARKA ());
+   // yaz(DBase::VTd_MODEL ());
 
 
     DBase::VTd_ISEMRI ();

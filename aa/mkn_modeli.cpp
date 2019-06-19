@@ -8,13 +8,16 @@ hC_MKMODL::hC_MKMODL(QDialog *parent) : QDialog(parent)
 {
 }
 
-void hC_MKMODL::setup_MODL()
+void hC_MKMODL::mkmodl_setup()
 {
 
     qDebug ()  <<"MODEL ";
     set_uiMDL();
 
-    set_modelMDL ();
+    qDebug() << "  set_modelmdl";
+    MDLmodel = new QSqlRelationalTableModel ;
+    mkmodl_model ( MDLmodel ) ;
+
     set_viewMDL ();
     set_mapMDL ();
     set_kntrlMDL ();
@@ -44,14 +47,6 @@ void hC_MKMODL::set_uiMDL()
 
     this->setLayout(gL);
 
-}
-
-void hC_MKMODL::set_modelMDL()
-{
-    qDebug() << "  set_modelmdl";
-
-    MDLmodel = new QSqlRelationalTableModel ;
-    dbase->modelModeli(MDLmodel) ;
 }
 
 void hC_MKMODL::set_viewMDL()
@@ -277,7 +272,7 @@ hC_MKMODL::~hC_MKMODL()
 ///// MODEL
 ///
 ///
-QString hC_MKMODL::VTd_MODEL()
+QString hC_MKMODL::mkmodl_VTd()
 {
     //qDebug() << " db Modeli CREATE  ";
     QString ct, mesaj = "OK - Model";
@@ -350,7 +345,7 @@ QString hC_MKMODL::VTd_MODEL()
 
 
 
-void hC_MKMODL::modelModeli(QSqlRelationalTableModel *model)
+void hC_MKMODL::mkmodl_model ( QSqlRelationalTableModel *model)
 {
     qDebug() << " db model"<< model;
 

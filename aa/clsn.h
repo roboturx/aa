@@ -21,10 +21,8 @@ public:
     ~hC_CLSN();
 
     void    clsn_setup();
-    QString clsn_VT();
+    QString clsn_VTd();
     void    clsn_model(QSqlRelationalTableModel * );
-
-    QString* CLSNtableName {};
 
     DBase* dbase;
     hC_Tv*                    CLSNtview;

@@ -18,8 +18,14 @@ public:
     ~hC_MKCINS();
 
 
+
+
     QString sgnText ;
-    void setup_CNS();
+
+    void mkcins_setup();
+    QString mkcins_VTd();
+    void mkcins_model(QSqlRelationalTableModel *model);
+
     DBase *dbase;
 
     QLabel *lB_rsm;
@@ -31,7 +37,7 @@ public:
 private:
 
     void set_uiCNS();
-    void set_modelCNS();
+    //void modelCinsi();
     void set_viewCNS();
     void set_mapCNS();
     void set_kntrlCNS();
