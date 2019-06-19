@@ -1,9 +1,10 @@
-﻿#ifndef Cw_Mlzm_H
-#define Cw_Mlzm_H
+#ifndef HC_MLZM_H
+#define HC_MLZM_H
+
 
 #include "globals.h"
 #include "hc_.h"
-#include "cw_mkn.h"
+#include "mkn.h"
 #include "dbase.h"
 
 
@@ -118,22 +119,4 @@ public:
 };
 
 
-
-
-class Kontrol
-{
-public:
-
-    Kontrol ();
-    void K_updBtt(QDataWidgetMapper *map,
-          hC_Tv *view,
-          QSqlRelationalTableModel *model,
-          int Index);
-
-
-
-};
-
-
-
-#endif // Cw_Mlzm_H
+#endif // HC_MLZM_H

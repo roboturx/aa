@@ -1,12 +1,15 @@
 ﻿#include "mkn_marka.h"
-#include "cw_mkcins.h"
+//#include "cw_mkcins.h"
 #include "ftr_frmekle.h"
 #include "globals.h"
 #include "dbase.h"
 
-Mkn_Marka::Mkn_Marka(QDialog *parent) : QDialog(parent)
+hC_MKMARK::hC_MKMARK(QDialog *parent) : QDialog(parent)
 {
+}
 
+void hC_MKMARK::setup_MARK()
+{
     qDebug ()  <<"CİNS MARKA MODEL YIL ";
     set_uiMRK();
 
@@ -17,7 +20,7 @@ Mkn_Marka::Mkn_Marka(QDialog *parent) : QDialog(parent)
 }
 
 
-void Mkn_Marka::set_uiMRK()
+void hC_MKMARK::set_uiMRK()
 {
     qDebug() << "  setup_uimrk";
 
@@ -41,7 +44,7 @@ void Mkn_Marka::set_uiMRK()
 }
 
 
-void Mkn_Marka::set_modelMRK()
+void hC_MKMARK::set_modelMRK()
 {
 
     MRKmodel = new QSqlRelationalTableModel ;
@@ -50,7 +53,7 @@ void Mkn_Marka::set_modelMRK()
 
 }
 
-void Mkn_Marka::set_viewMRK()
+void hC_MKMARK::set_viewMRK()
 {
 
     // Set the model and hide the ID column
@@ -85,7 +88,7 @@ void Mkn_Marka::set_viewMRK()
 
 }
 
-void Mkn_Marka::set_mapMRK()
+void hC_MKMARK::set_mapMRK()
 {
 
     qDebug()<<"setup mapcns";
@@ -97,7 +100,7 @@ void Mkn_Marka::set_mapMRK()
     MRKmapper->toFirst ();
 }
 
-void Mkn_Marka::set_kntrlMRK()
+void hC_MKMARK::set_kntrlMRK()
 {
 
     // pB 001 yeni ekle
@@ -179,59 +182,35 @@ void Mkn_Marka::set_kntrlMRK()
     connect(MRKtview->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        MRKmapper->toFirst ();
-        int map_row = MRKmapper->currentIndex ();
-        MRKtview->pB_ilk->setEnabled (map_row>0);
-        MRKtview->table->setCurrentIndex(MRKmodel->index( 0  ,0));
+        MRKtview->hC_TvPb ("ilk", MRKmodel, MRKmapper);
     });
 
     // pB 007 önceki
     connect(MRKtview->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        MRKmapper->toPrevious ();
-        int map_row = MRKmapper->currentIndex ();
-        MRKtview->pB_ncki->setEnabled(map_row > 0);
-        MRKtview->table->setCurrentIndex(MRKmodel->index( map_row  ,0));
+        MRKtview->hC_TvPb ("ncki", MRKmodel, MRKmapper);
     });
 
     // pB 008 sonraki
     connect(MRKtview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        MRKmapper->toNext ();
-        int map_row = MRKmapper->currentIndex ();
-        MRKtview->pB_snrki->setEnabled(map_row < MRKmodel->rowCount() - 1);
-        MRKtview->table->setCurrentIndex(MRKmodel->index( map_row  ,0));
+        MRKtview->hC_TvPb ("snrki", MRKmodel, MRKmapper);
     });
 
     // pB 009 son
     connect(MRKtview->pB_son, &QPushButton::clicked,
             [this]()
     {
-        MRKmapper->toLast ();
-        int map_row = MRKmapper->currentIndex ();
-        MRKtview->pB_son->setEnabled(map_row < MRKmodel->rowCount() - 1);
-        MRKtview->table->setCurrentIndex(MRKmodel->index( MRKmodel->rowCount() - 1  ,0));
+        MRKtview->hC_TvPb ("son", MRKmodel, MRKmapper);
     });
-
-
-
-    ///// tableview kontrol connectleri
-    ///
-    ///
-
 
     // pB 010 nav tuslari kontrol
     connect(MRKmapper, &QDataWidgetMapper::currentIndexChanged,
-            [this](int Index )
+            [this]( )
     {
-        int row = Index; //FTRmapper->currentIndex ();
-        MRKtview->pB_ilk->setEnabled (row>0);
-        MRKtview->pB_ncki->setEnabled(row > 0);
-        MRKtview->pB_snrki->setEnabled(row < MRKmodel->rowCount() - 1);
-        MRKtview->pB_son->setEnabled(row < MRKmodel->rowCount() - 1);
-
+        MRKtview->hC_TvPb ("yenile", MRKmodel, MRKmapper);
     });
 
     // --- 011 row değiştiğinde 2 şey olsun
@@ -258,7 +237,7 @@ void Mkn_Marka::set_kntrlMRK()
                                                      MRKmodel->fieldIndex
                                                      ("marka") ).data().toString();
 
-            emit Mkn_Marka::sgnCmmy (sgnText);
+            emit hC_MKMARK::sgnCmmy (sgnText);
         }
         else
         {
@@ -279,7 +258,115 @@ void Mkn_Marka::set_kntrlMRK()
 
 }
 
-Mkn_Marka::~Mkn_Marka()
+hC_MKMARK::~hC_MKMARK()
 = default;
 
+
+
+
+///// MARKA
+///
+///
+QString hC_MKMARK::VTd_MARKA()
+{
+    //qDebug() << " db Marka CREATE  ";
+    QString ct, mesaj = "OK - Marka";
+    QSqlQuery q;
+    QString MRKtableName( "mkmark__dbtb");
+
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( MRKtableName ))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS " + MRKtableName +
+             "("
+             "marka TEXT, "
+             "resim BLOB, "
+             "mkcins_no INTEGER,"
+             "id_mkmark INTEGER PRIMARY key )"  ;
+
+
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Marka Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj= "OK - Marka Dosyası YENİ Oluşturuldu";
+
+
+            QStringList inserts;
+            inserts << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' - ',1)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' FORD '  ,2)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' RENAULT',2)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' OPEL '  ,2)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' VW'     ,2)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' JEEP '  ,3)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' TOYOTA' ,3)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' NISSAN ',4)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' ISUZU'  ,4)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',5)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',6)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',7)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' MERCEDES-BENZ',8)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' BAOLI'        ,9)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' ÇUKUROVA'     ,9)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' CATERPILLAR'  ,10)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' JVC'          ,11)"
+                    << "INSERT INTO "+ MRKtableName +" ( marka,mkcins_no ) values(' HITACHI'      ,12)";
+            int x{},y{};
+            foreach (QString qry , inserts)
+            {
+                if ( q.exec(qry) )
+                {
+                    x++;
+                }
+                else
+                {
+                    y++;
+
+                }
+            }
+            if (x>0)
+            {
+                mesaj = mesaj + QString::number (x) +
+                        "<br>kayıt eklendi";
+            }
+            if (y>0)
+            {
+                mesaj = mesaj + QString::number (y) +
+                        "<br>Kayıt EKLENEMEDİ "
+                        "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
+        }
+    }
+    qDebug()<< mesaj ;
+    return mesaj ;
+
+}
+
+
+void hC_MKMARK::modelMarka(QSqlRelationalTableModel *model)
+{
+    qDebug() << " db modelmarka";
+    QString MRKtableName("mkmark__dbtb");
+    QString indexField = "marka";
+    QStringList *tableFieldList = new QStringList ;
+
+    tableFieldList->append("Marka");
+    tableFieldList->append("Resim");
+    tableFieldList->append("Cinsi Nosu");
+    tableFieldList->append("Marka kodu");
+
+    hC_Rm hC_Rm (&MRKtableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+
+}///MRK
 

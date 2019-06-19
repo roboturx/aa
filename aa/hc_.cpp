@@ -5,6 +5,10 @@ hC_::hC_()
 
 }
 
+
+
+
+
 /// 2- hC_Resim         - etiket üzerine diskten resim ekler,
 ///                         resmi değiştirir, pencerede gösterir
 ///
@@ -237,11 +241,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     // //////////////////////////////////////////////
 
     // //////////////////////////////////////////////
-    //  auto *allwdgts = new QWidget();
-    //  allwdgts->setWindowTitle ("all window");
     auto *Layout_all = new QGridLayout(this);
-    // allwdgts->setMinimumSize (60,100);
-    // allwdgts->setLayout (Layout_all);
     Layout_all->addWidget (widget_buttonz, 0, 0 );
     Layout_all->addWidget (table  , 0, 1 );
     // //////////////////////////////////////////////
@@ -249,48 +249,60 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     /*
     QPainter pntr();
     QLinearGradient grd(0,0,100,100);
-
     grd.setColorAt (0.0,QColor(QRgb(0x40434a)));
     grd.setColorAt (1.0,QColor(QRgb(0x90434a)));
-
-
     QRect rec(100,100,300,300);
     pntr.fillRect (rec,grd);
 */
 
 }
+
+void hC_Tv::hC_TvPb(QString Key,
+                    QSqlRelationalTableModel *model,
+                    QDataWidgetMapper *map)
+{
+    if ( Key == "yenile")
+    {
+        int map_row = map->currentIndex ();
+        this->pB_ilk->setEnabled (map_row>0);
+        this->pB_ncki->setEnabled(map_row > 0);
+        this->pB_snrki->setEnabled(map_row < model->rowCount() - 1);
+        this->pB_son->setEnabled(map_row < model->rowCount() - 1);
+    }
+    else if ( Key == "ilk")
+    {
+        map->toFirst ();
+        int map_row = map->currentIndex ();
+        this->pB_ilk->setEnabled (map_row>0);
+        this->table->setCurrentIndex( model->index( 0  ,0));
+    }
+    else if ( Key == "ncki")
+    {
+        map->toPrevious ();
+        int map_row = map->currentIndex ();
+        this->pB_ncki->setEnabled(map_row > 0);
+        this->table->setCurrentIndex( model->index( map_row  ,0));
+    }
+    else if ( Key == "snrki")
+    {
+        map->toNext ();
+        int map_row = map->currentIndex ();
+        this->pB_snrki->setEnabled(map_row < model->rowCount() - 1);
+        this->table->setCurrentIndex(model->index( map_row  ,0));
+    }
+    else if ( Key == "son")
+    {
+        map->toLast ();
+        int map_row = map->currentIndex ();
+        this->pB_son->setEnabled(map_row < model->rowCount() - 1);
+        this->table->setCurrentIndex(
+            model->index( model->rowCount() - 1  ,0));
+    }
+
+}
 hC_Tv::~hC_Tv()
 = default;
 
-
-
-
-/*
-    connect(pB_ekle , &QPushButton::clicked , this, &hC_Tv::SLT_ekle );
-    connect(pB_eklersm , &QPushButton::clicked , this, &hC_Tv::SLT_eklersm );
-    connect(pB_grscks , &QPushButton::clicked , this, &hC_Tv::SLT_grscks );
-
-    connect(pB_sil  , &QPushButton::clicked , this, &hC_Tv::SLT_sil );
-
-    connect(pB_ilk  , &QPushButton::clicked , this, &hC_Tv::SLT_first );
-    connect(pB_ncki , &QPushButton::clicked , this, &hC_Tv::SLT_previous );
-    connect(pB_snrki, &QPushButton::clicked , this, &hC_Tv::SLT_next );
-    connect(pB_son  , &QPushButton::clicked , this, &hC_Tv::SLT_last );
-
-
-
-
-void hC_Tv::SLT_ekle ()    { emit sG_ekle();    }
-void hC_Tv::SLT_eklersm () { emit sG_eklersm(); }
-void hC_Tv::SLT_grscks ()  { emit sG_grscks();  }
-
-void hC_Tv::SLT_sil ()     { emit sG_sil();     }
-
-void hC_Tv::SLT_first ()   { emit sG_first();   }
-void hC_Tv::SLT_next()     { emit sG_next();    }
-void hC_Tv::SLT_previous() { emit sG_previous();}
-void hC_Tv::SLT_last()     { emit sG_last();    }
-*/
 
 
 
@@ -371,7 +383,7 @@ hC_Te::~hC_Te()
 
 /// 4- hC_Rm            - rel model
 
-hC_Rm::hC_Rm ( QString *rm_Table,
+hC_Rm::hC_Rm (QString *rm_Table,
                QSqlRelationalTableModel *rm_model,
                QString *rm_IndexField,
                QStringList *rm_List )

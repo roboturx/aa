@@ -1,4 +1,4 @@
-﻿#include "cw_fr.h"
+﻿#include "frm.h"
 //#include "dbase.h"
 //#include "globals.h"
 #include "ftr_frmekle.h"
@@ -199,7 +199,7 @@ void hC_FRM::frm_kntrl()
             [this]()
     {
         hC_Rs resim(lB_rsm, FRMtview, FRMmodel, FRMselectionMdl,
-                           "frm_resim", "new");
+                           "frm_resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
@@ -244,59 +244,35 @@ void hC_FRM::frm_kntrl()
     connect(FRMtview->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        FRMmapper->toFirst ();
-        int map_row = FRMmapper->currentIndex ();
-        FRMtview->pB_ilk->setEnabled (map_row>0);
-        FRMtview->table->setCurrentIndex(FRMmodel->index( 0  ,0));
+        FRMtview->hC_TvPb ("ilk", FRMmodel, FRMmapper);
     });
 
     // pB 007 önceki
     connect(FRMtview->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        FRMmapper->toPrevious ();
-        int map_row = FRMmapper->currentIndex ();
-        FRMtview->pB_ncki->setEnabled(map_row > 0);
-        FRMtview->table->setCurrentIndex(FRMmodel->index( map_row  ,0));
+        FRMtview->hC_TvPb ("ncki", FRMmodel, FRMmapper);
     });
 
     // pB 008 sonraki
     connect(FRMtview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        FRMmapper->toNext ();
-        int map_row = FRMmapper->currentIndex ();
-        FRMtview->pB_snrki->setEnabled(map_row < FRMmodel->rowCount() - 1);
-        FRMtview->table->setCurrentIndex(FRMmodel->index( map_row  ,0));
+    FRMtview->hC_TvPb ("snrki", FRMmodel, FRMmapper);
     });
 
     // pB 009 son
     connect(FRMtview->pB_son, &QPushButton::clicked,
             [this]()
     {
-        FRMmapper->toLast ();
-        int map_row = FRMmapper->currentIndex ();
-        FRMtview->pB_son->setEnabled(map_row < FRMmodel->rowCount() - 1);
-        FRMtview->table->setCurrentIndex(FRMmodel->index( FRMmodel->rowCount() - 1  ,0));
+        FRMtview->hC_TvPb ("son", FRMmodel, FRMmapper);
     });
-
-
-
-    ///// tableview kontrol connectleri
-    ///
-    ///
-
 
     // pB 010 nav tuslari kontrol
     connect(FRMmapper, &QDataWidgetMapper::currentIndexChanged,
-            [this](int Index )
+            [this]( )
     {
-        int row = Index; //FTRmapper->currentIndex ();
-        FRMtview->pB_ilk->setEnabled (row>0);
-        FRMtview->pB_ncki->setEnabled(row > 0);
-        FRMtview->pB_snrki->setEnabled(row < FRMmodel->rowCount() - 1);
-        FRMtview->pB_son->setEnabled(row < FRMmodel->rowCount() - 1);
-
+        FRMtview->hC_TvPb ("yenile", FRMmodel, FRMmapper);
     });
 
     // --- 011 row değiştiğinde 2 şey olsun
@@ -452,4 +428,124 @@ void hC_FRM::frm_model(QSqlRelationalTableModel *model)
 }///FİRMA
 
 
+
+
+
+//QString DBase::VTd_FRMA()
+//{
+//    QSqlQuery   q;
+//    QString     ct, mesaj ="OK - Firma";
+//    QStringList inserts;
+//    FRMtableName = new QString( "frm__dbtb");
+
+//    if ( ! VTKontrolEt::instance()->
+//         GetDB().tables().contains( *FRMtableName ))
+//    {
+//        ct = "CREATE TABLE IF NOT EXISTS " + *FRMtableName +
+//             "("
+//             "  frm_kod    INTEGER PRIMARY KEY  , "
+//             "  frm_unvan	TEXT ,"
+//             "  frm_adres	TEXT ,"
+//             "  frm_sehir    TEXT ,"
+//             "  frm_vd       TEXT ,"
+//             "  frm_vdno     TEXT ,"
+//             "  frm_tel 	    TEXT ,"
+//             "  frm_eposta   TEXT ,"
+//             "  frm_yisim	TEXT ,"
+//             "  frm_ysoyad	TEXT ,"
+//             "  frm_ytel 	TEXT ,"
+//             "  frm_resim    BLOB  )" ;
+
+//        if (!q.exec( ct ))
+//        {
+//            mesaj = "<br>HATA - Firma Dosyası Oluşturulamadı - "
+//                    "<br>------------------------------------<br>"+
+//                    q.lastError().text()+
+//                    "<br>------------------------------------<br>";
+//        }
+//        else
+//        {
+//            mesaj = "OK - FİRMA Dosyası YENİ Oluşturuldu ";
+//            inserts << "INSERT INTO " + *FRMtableName +
+//                       "( "
+//                       "frm_unvan , frm_adres, frm_sehir , "
+//                       "frm_vd    , frm_vdno , frm_tel   , "
+//                       "frm_eposta, frm_yisim, frm_ysoyad, "
+//                       "frm_ytel  , frm_resim  "
+//                       ") "
+//                       "VALUES "
+//                       "("
+//                       "'-', '-', ' ', "
+//                       "' ', ' ', ' ', "
+//                       "' ', ' ', ' ', "
+//                       "' ', ' ' "
+//                       " )" ;
+
+
+//            foreach (QString qry , inserts)
+//            {
+//                if ( !q.exec(qry) )
+//                {
+//                    mesaj = mesaj + "<br>İLK Firma Kaydı Eklenemedi "
+//                                    "<br>------------------------------------<br>"+
+//                            q.lastError().text ()+
+//                            "<br>------------------------------------<br>";
+//                }
+//                else{
+//                    mesaj = mesaj + "<br>İLK Firma Eklendi ";
+//                }
+//            } // foreach
+//        }
+//    }
+//    qDebug()  << mesaj ;
+//    return mesaj ;
+//}   /// FİRMA
+
+
+
+//void DBase::modelFirma(QSqlRelationalTableModel *model)
+//{
+//    qDebug() << " mdlfrm";
+//    QString indexField = "frm_unvan";
+//    FRMtableName = new QString("frm__dbtb");
+
+//    QStringList *tableFieldList = new QStringList ;
+//    tableFieldList->append("Firma Kod");
+//    tableFieldList->append("Firma Unvanı");
+//    tableFieldList->append("Adres");
+//    tableFieldList->append("Şehir");
+//    tableFieldList->append("Vergi Dairesi");
+//    tableFieldList->append("VD No");
+//    tableFieldList->append("Telefon");
+//    tableFieldList->append("e-posta");
+//    tableFieldList->append("Yetkili İsim");
+//    tableFieldList->append("Yetkili Soyad");
+//    tableFieldList->append("Yetkili Telefon");
+//    // tableFieldList->append("resim");
+
+
+//     hC_Rm hC_Rm (FRMtableName,
+//                  model,
+//                  &indexField ,
+//                  tableFieldList) ;
+
+//      //FRMmodel = new QSqlRelationalTableModel;
+//     //    mdlfrm->setTable( "frm_dbtb" );
+////    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+////    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
+
+////    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
+////    {
+////        mdlfrm->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
+////    }
+
+////    // Populate the model_mkstok
+////    if (!mdlfrm->select())
+////    {
+////        qDebug () <<  " HATA - Model firma select "
+////                   <<mdlfrm->lastError();
+////    }
+
+
+//}///FİRMA
 

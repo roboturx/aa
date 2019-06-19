@@ -1,5 +1,5 @@
-﻿#ifndef Cw_mkn_H
-#define Cw_mkn_H
+﻿#ifndef hC_MKN_H
+#define hC_MKN_H
 
 #include "globals.h"
 #include "hc_.h"
@@ -11,16 +11,16 @@
 
 class SKGComboBox;
 namespace Ui {
-class Cw_mkn;
+class hC_MKN;
 }
 
 
-class Cw_mkn : public QWidget
+class hC_MKN : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Cw_mkn(QWidget *parent = nullptr);
-    ~Cw_mkn();
+    explicit hC_MKN(QWidget *parent = nullptr);
+    ~hC_MKN();
 
 
     void set_mkn();
@@ -271,4 +271,4 @@ public:
 };
 
 
-#endif // Cw_mkn_H
+#endif // hC_MKN_H

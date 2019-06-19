@@ -1,9 +1,9 @@
 ﻿#include "mw_main.h" // main
 #include "clsn.h"  // stack per
-#include "cw_fr.h"   // stack fr
-#include "cw_mkn.h"  // stack mkn
+#include "frm.h"   // stack fr
+#include "mkn.h"  // stack mkn
 #include "cw_grs.h"  // stack giris
-#include "cw_mlzm.h"// stack Mlzm
+#include "mlzm.h"// stack Mlzm
 #include "cw_hkk.h"  // hakk1nda
 #include "login.h"
 
@@ -170,7 +170,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         statusBar()->showMessage(tr("Demirbaş Mlzm"));
-        auto *mw_mkn = new Cw_mkn ();
+        auto *mw_mkn = new hC_MKN;
         mw_mkn->set_mkn ();
 
     });
@@ -186,9 +186,10 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_per = new hC_CLSN ;
-        statusBar()->showMessage(tr("Çalışan Bilgileri"));
-        mw_per->setWindowTitle ("ÇALIŞAN");
-        mw_per->resize(qApp->screens()[0]->size()*.8);
+        mw_per->clsn_setup ();
+        //statusBar()->showMessage(tr("Çalışan Bilgileri"));
+        //mw_per->setWindowTitle ("ÇALIŞAN");
+        //mw_per->resize(qApp->screens()[0]->size()*.8);
         mw_per->show ();
     });
 
@@ -239,7 +240,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
-        mw_ftr = new Cw_ftr;
+        mw_ftr = new hC_FTR;
         mw_ftr->setup_fatura ();
         mw_ftr->show ();
     });

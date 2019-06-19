@@ -2,20 +2,24 @@
 
 hC_CLSN::hC_CLSN ( QWidget *parent) : QWidget(parent)
 {
-qDebug ()<<"Çalışan Constructor";
-//************************************************************
-//*****************  Ç A L I Ş A N  **************************
+    qDebug ()<<"Çalışan Constructor";
+    //************************************************************
+    //*****************  Ç A L I Ş A N  **************************
 }
 
 
 void hC_CLSN::clsn_setup()
 {
     qDebug() << "clsn setup ";
+
+    CLSNtableName = new QString( "clsn__dbtb");
+    clsn_VT ();
     clsn_ui();
 
     CLSNmodel = new QSqlRelationalTableModel;
-    DBase dbase;
-    dbase.modelCalisan( CLSNmodel ) ;
+    //    DBase dbase;
+    //    dbase.modelCalisan( CLSNmodel ) ;
+    clsn_model( CLSNmodel ) ;
     // Set Sort Ascending steering column data
     CLSNmodel->setSort(2,Qt::AscendingOrder);
 
@@ -46,7 +50,7 @@ void hC_CLSN::clsn_ui()
     // views
     CLSNtview = new hC_Tv();
 
-/////*******************************************////////
+    /////*******************************************////////
 
     QLabel *lB_isim  = new QLabel("İ&sim"        );
     lE_isim = new QLineEdit() ;
@@ -56,10 +60,6 @@ void hC_CLSN::clsn_ui()
     QLabel *lB_soyad = new QLabel("S&oyad"       );
     lE_soyad = new QLineEdit();
     lB_soyad->setBuddy(lE_soyad);
-
-    QLabel *lB_bolum = new QLabel("Bölü&m"       );
-    lE_bolum = new QLineEdit();
-    lB_bolum->setBuddy(lE_bolum);
 
     QLabel *lB_tc    = new QLabel("TC Kimlik No" );
     lE_tc = new QLineEdit();
@@ -82,9 +82,14 @@ void hC_CLSN::clsn_ui()
     QLabel *lB_baba  = new QLabel("Baba Adı "  );
     lE_baba = new QLineEdit();
     lB_baba->setBuddy(lE_baba);
+
+    QLabel *lB_bolum = new QLabel("Bölü&m"       );
+    lE_bolum = new QLineEdit();
+    lB_bolum->setBuddy(lE_bolum);
+
     QLabel *lB_meslek   = new QLabel("M&eslek" );
-    auto *cb_meslek = new QComboBox();
-    lB_meslek->setBuddy(cb_meslek);
+    lE_meslek = new QLineEdit;
+    lB_meslek->setBuddy(lE_meslek);
 
     QLabel *lB_gorev    = new QLabel("Gö&rev"  );
     lE_gorev = new QLineEdit();
@@ -123,7 +128,7 @@ void hC_CLSN::clsn_ui()
     clsn_mly->addWidget(lB_baba      , 5, 0, 1, 1);
     clsn_mly->addWidget(lE_baba      , 5, 1, 1, 2);
     clsn_mly->addWidget(lB_meslek    , 6, 0, 1, 1);
-    clsn_mly->addWidget(cb_meslek    , 6, 1, 1, 2);
+    clsn_mly->addWidget(lE_meslek    , 6, 1, 1, 2);
     clsn_mly->addWidget(lB_bolum     , 7, 0, 1, 1);
     clsn_mly->addWidget(lE_bolum     , 7, 1, 1, 2);
     clsn_mly->addWidget(lB_gorev     , 8, 0, 1, 1);
@@ -146,9 +151,9 @@ void hC_CLSN::clsn_ui()
     clsn_mly->addWidget(lE_yetki     , 6, 4, 1, 2);
 
     auto *clsn_mainlay = new QGridLayout(this);
-    clsn_mainlay->addWidget (CLSNtview  , 0, 0, 1, 2);
-    clsn_mainlay->addLayout (clsn_mly   , 0, 1, 1, 1);
-    clsn_mainlay->addWidget (lB_rsm     , 1, 1, 1, 1);
+    clsn_mainlay->addWidget (CLSNtview  , 0, 0, 9, 5);
+    clsn_mainlay->addLayout (clsn_mly   , 0, 5, 9, 5);
+    clsn_mainlay->addWidget (lB_rsm     , 6, 8, 3, 2);
 
 }
 void hC_CLSN::clsn_view()
@@ -158,11 +163,11 @@ void hC_CLSN::clsn_view()
     CLSNtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
     CLSNtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
     CLSNselectionMdl = CLSNtview->table->selectionModel();
-
+    qDebug()<<"clsn view 2";
     CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("clsn_kod"), true);
     CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("resim"), true);
 
-
+    qDebug()<<"clsn view 3";
     CLSNtview->table->setEditTriggers
             (QAbstractItemView::DoubleClicked |
              QAbstractItemView::SelectedClicked |
@@ -171,7 +176,7 @@ void hC_CLSN::clsn_view()
     CLSNtview->table->horizontalHeader()->resizeContentsPrecision();
     CLSNtview->table->resizeRowsToContents ();
     CLSNtview->table->resizeColumnsToContents();
-
+    qDebug()<<"clsn view 4";
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
@@ -182,7 +187,7 @@ void hC_CLSN::clsn_view()
     CLSNtview->table->setFocus();
     //   QTimer::singleShot(0, CLSNtview->table, SLOT(setFocus()));
 
-
+    qDebug()<<"clsn view 5";
 }
 
 
@@ -190,29 +195,30 @@ void hC_CLSN::clsn_view()
 /* user interface */
 void hC_CLSN::clsn_map()
 {
+    qDebug()<<"clsn map ";
     CLSNmapper = new QDataWidgetMapper(this);
     CLSNmapper->setModel(CLSNmodel);
 
-    CLSNmapper->addMapping(lE_isim , CLSNmodel->fieldIndex("clsn_isim"));
-    CLSNmapper->addMapping(lE_soyad, CLSNmodel->fieldIndex("clsn_soyad"));
-    CLSNmapper->addMapping(lE_tc, CLSNmodel->fieldIndex("clsn_tckimlik"));
-    CLSNmapper->addMapping(lE_doyer, CLSNmodel->fieldIndex("clsn_dogumyeri"));
-    CLSNmapper->addMapping(dT_dotar, CLSNmodel->fieldIndex("clsn_dogumtarihi"));
-    CLSNmapper->addMapping(lE_baba, CLSNmodel->fieldIndex("clsn_babaadi"));
+    CLSNmapper->addMapping (lE_isim , CLSNmodel->fieldIndex("clsn_isim"));
+    CLSNmapper->addMapping (lE_soyad, CLSNmodel->fieldIndex("clsn_soyad"));
+    CLSNmapper->addMapping (lE_tc, CLSNmodel->fieldIndex("clsn_tckimlik"));
+    CLSNmapper->addMapping (lE_doyer, CLSNmodel->fieldIndex("clsn_dogumyeri"));
+    CLSNmapper->addMapping (dT_dotar, CLSNmodel->fieldIndex("clsn_dogumtarihi"));
+    CLSNmapper->addMapping (lE_baba, CLSNmodel->fieldIndex("clsn_babaadi"));
 
-    CLSNmapper->addMapping(lE_bolum, CLSNmodel->fieldIndex("clsn_bolum"));
-    CLSNmapper->addMapping(lE_meslek, CLSNmodel->fieldIndex("clsn_meslek"));
-    CLSNmapper->addMapping(lE_gorev, CLSNmodel->fieldIndex("clsn_gorev"));
-    CLSNmapper->addMapping(lE_adres, CLSNmodel->fieldIndex("clsn_adres"));
-    CLSNmapper->addMapping(lE_sehir, CLSNmodel->fieldIndex("clsn_sehir"));
-    CLSNmapper->addMapping( lE_tel_cep, CLSNmodel->fieldIndex("clsn_tel_cep"));
-    CLSNmapper->addMapping( lE_tel_ev, CLSNmodel->fieldIndex("clsn_tel_ev"));
-    CLSNmapper->addMapping( lE_eposta, CLSNmodel->fieldIndex("clsn_eposta"));
-    CLSNmapper->addMapping( lE_username, CLSNmodel->fieldIndex("clsn_username"));
-    CLSNmapper->addMapping( lE_password, CLSNmodel->fieldIndex("clsn_password"));
-    CLSNmapper->addMapping( lE_yetki, CLSNmodel->fieldIndex("clsn_yetki"));
-    CLSNmapper->addMapping( lB_rsm, CLSNmodel->fieldIndex("resim"));
-
+    CLSNmapper->addMapping (lE_bolum,    CLSNmodel->fieldIndex("clsn_bolum"));
+    CLSNmapper->addMapping (lE_meslek,   CLSNmodel->fieldIndex("clsn_meslek"));
+    CLSNmapper->addMapping (lE_gorev,    CLSNmodel->fieldIndex("clsn_gorev"));
+    CLSNmapper->addMapping (lE_adres,    CLSNmodel->fieldIndex("clsn_adres"));
+    CLSNmapper->addMapping (lE_sehir,    CLSNmodel->fieldIndex("clsn_sehir"));
+    CLSNmapper->addMapping (lE_tel_cep,  CLSNmodel->fieldIndex("clsn_tel_cep"));
+    CLSNmapper->addMapping (lE_tel_ev,   CLSNmodel->fieldIndex("clsn_tel_ev"));
+    CLSNmapper->addMapping (lE_eposta,   CLSNmodel->fieldIndex("clsn_eposta"));
+    CLSNmapper->addMapping (lE_username, CLSNmodel->fieldIndex("clsn_username"));
+    CLSNmapper->addMapping (lE_password, CLSNmodel->fieldIndex("clsn_password"));
+    CLSNmapper->addMapping (lE_yetki, CLSNmodel->fieldIndex("clsn_yetki"));
+    CLSNmapper->addMapping (lB_rsm, CLSNmodel->fieldIndex("resim"));
+    qDebug()<<"clsn view son";
     CLSNmapper->toFirst ();
 }
 
@@ -253,8 +259,9 @@ void hC_CLSN::clsn_kntrl()
     connect(CLSNtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
+        qDebug() << "new resim";
         hC_Rs resim(lB_rsm, CLSNtview, CLSNmodel, CLSNselectionMdl,
-                           "resim", "new");
+                    "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
@@ -262,7 +269,7 @@ void hC_CLSN::clsn_kntrl()
               [this]()
     {
         hC_Rs resim ( lB_rsm, CLSNtview, CLSNmodel, CLSNselectionMdl,
-                           "resim", "değiştir" ) ;
+                      "resim", "değiştir" ) ;
     });
 
 
@@ -285,8 +292,8 @@ void hC_CLSN::clsn_kntrl()
             QString val = rec.value(1).toString();// +" "+
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question(this,
-                  "KAYIT SİL",  val ,// + "\n isimli personelin kaydı silinsin mi? ?" ,
-                   QMessageBox::Yes | QMessageBox::No);
+                                        "KAYIT SİL",  val ,// + "\n isimli personelin kaydı silinsin mi? ?" ,
+                                        QMessageBox::Yes | QMessageBox::No);
 
             if(dlg == QMessageBox::Yes)
             {
@@ -303,58 +310,35 @@ void hC_CLSN::clsn_kntrl()
     connect(CLSNtview->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        CLSNmapper->toFirst ();
-        int map_row = CLSNmapper->currentIndex ();
-        CLSNtview->pB_ilk->setEnabled (map_row>0);
-        CLSNtview->table->setCurrentIndex(CLSNmodel->index( 0  ,0));
+        CLSNtview->hC_TvPb ("ilk", CLSNmodel, CLSNmapper);
     });
 
     // pB 007 önceki
     connect(CLSNtview->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        CLSNmapper->toPrevious ();
-        int map_row = CLSNmapper->currentIndex ();
-        CLSNtview->pB_ncki->setEnabled(map_row > 0);
-        CLSNtview->table->setCurrentIndex(CLSNmodel->index( map_row  ,0));
+        CLSNtview->hC_TvPb ("ncki", CLSNmodel, CLSNmapper);
     });
 
     // pB 008 sonraki
     connect(CLSNtview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        CLSNmapper->toNext ();
-        int map_row = CLSNmapper->currentIndex ();
-        CLSNtview->pB_snrki->setEnabled(map_row < CLSNmodel->rowCount() - 1);
-        CLSNtview->table->setCurrentIndex(CLSNmodel->index( map_row  ,0));
+      CLSNtview->hC_TvPb ("snrki", CLSNmodel, CLSNmapper);
     });
 
     // pB 009 son
     connect(CLSNtview->pB_son, &QPushButton::clicked,
             [this]()
-    {
-        CLSNmapper->toLast ();
-        int map_row = CLSNmapper->currentIndex ();
-        CLSNtview->pB_son->setEnabled(map_row < CLSNmodel->rowCount() - 1);
-        CLSNtview->table->setCurrentIndex(CLSNmodel->index( CLSNmodel->rowCount() - 1  ,0));
+    {CLSNtview->hC_TvPb ("son", CLSNmodel, CLSNmapper);
     });
 
 
 
-    ///// tableview kontrol connectleri
-    ///
-    ///
-
-
     // pB 010 nav tuslari kontrol
     connect(CLSNmapper, &QDataWidgetMapper::currentIndexChanged,
-            [this](int Index )
-    {
-        int row = Index; //FTRmapper->currentIndex ();
-        CLSNtview->pB_ilk->setEnabled (row>0);
-        CLSNtview->pB_ncki->setEnabled(row > 0);
-        CLSNtview->pB_snrki->setEnabled(row < CLSNmodel->rowCount() - 1);
-        CLSNtview->pB_son->setEnabled(row < CLSNmodel->rowCount() - 1);
+            [this]()
+    {CLSNtview->hC_TvPb ("yenile", CLSNmodel, CLSNmapper);
 
     });
 
@@ -369,8 +353,8 @@ void hC_CLSN::clsn_kntrl()
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-   //     emit hC_CLSN::sgn(CLSNtview->table->model()->index( Index.row() ,
-     //               CLSNmodel->fieldIndex ("frm_unvan") ).data().toString() );
+        //     emit hC_CLSN::sgn(CLSNtview->table->model()->index( Index.row() ,
+        //               CLSNmodel->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
@@ -401,55 +385,79 @@ hC_CLSN::~hC_CLSN()
 
 
 
-
 QString hC_CLSN::clsn_VT()
 {
     QSqlQuery   q;
-    QString     ct, mesaj ="OK - Firma";
+    QString     ct, mesaj = "OK - Çalışan";
     QStringList inserts;
-    CLSNtableName = new QString( "clsn__dbtb");
-
+    CLSNtableName = new QString( "clsn_dbtb");
     if ( ! VTKontrolEt::instance()->
          GetDB().tables().contains( *CLSNtableName ))
     {
+
         ct = "CREATE TABLE IF NOT EXISTS " + *CLSNtableName +
              "("
-             "  frm_kod    INTEGER PRIMARY KEY  , "
-             "  frm_unvan	TEXT ,"
-             "  frm_adres	TEXT ,"
-             "  frm_sehir    TEXT ,"
-             "  frm_vd       TEXT ,"
-             "  frm_vdno     TEXT ,"
-             "  frm_tel 	    TEXT ,"
-             "  frm_eposta   TEXT ,"
-             "  frm_yisim	TEXT ,"
-             "  frm_ysoyad	TEXT ,"
-             "  frm_ytel 	TEXT ,"
-             "  frm_resim    BLOB  )" ;
+             "  clsn_kod	    INTEGER PRIMARY KEY  , "
+             "  clsn_isim		TEXT ,"
+             "  clsn_soyad	    TEXT ,"
+             "  clsn_tckimlik    TEXT ,"
+             "  clsn_dogumyeri   TEXT ,"
+             "  clsn_dogumtarihi DATE ,"
+             "  clsn_babaadi     TEXT ,"
+             "  clsn_bolum	    TEXT ,"
+             "  clsn_meslek      int ,"
+             "  clsn_gorev	    TEXT ,"
+             "  clsn_adres		TEXT ,"
+             "  clsn_sehir       TEXT ,"
+             "  clsn_tel_cep	    TEXT ,"
+             "  clsn_tel_ev	    TEXT ,"
+             "  clsn_eposta      TEXT ,"
+             "  clsn_username	TEXT ,"
+             "  clsn_password	TEXT ,"
+             "  clsn_yetki		TEXT ,"
+             "  resim       BLOB  )" ;
 
         if (!q.exec( ct ))
         {
-            mesaj = "<br>HATA - Firma Dosyası Oluşturulamadı - "
+            mesaj = "<br>HATA - Çalışan Dosyası Oluşturulamadı  "
                     "<br>------------------------------------<br>"+
-                    q.lastError().text()+
+                    q.lastError().text() +
                     "<br>------------------------------------<br>";
         }
         else
         {
-            mesaj = "OK - FİRMA Dosyası YENİ Oluşturuldu ";
+            mesaj = "OK - Çalışan Dosyası YENİ Oluşturuldu ";
             inserts << "INSERT INTO " + *CLSNtableName +
                        "( "
-                       "frm_unvan , frm_adres, frm_sehir , "
-                       "frm_vd    , frm_vdno , frm_tel   , "
-                       "frm_eposta, frm_yisim, frm_ysoyad, "
-                       "frm_ytel  , frm_resim  "
+                       "clsn_isim, clsn_soyad, "
+                       "clsn_bolum, clsn_meslek, clsn_gorev, "
+                       "clsn_adres, clsn_sehir, "
+                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
+                       " clsn_username, clsn_password, clsn_yetki"
                        ") "
                        "VALUES "
                        "("
-                       "'-', '-', ' ', "
-                       "' ', ' ', ' ', "
-                       "' ', ' ', ' ', "
-                       "' ', ' ' "
+                       "'-', '-', "
+                       "'', '', '', "
+                       "'', '', "
+                       "'', '', '', "
+                       "'','', ''"
+                       " )"
+                    << "INSERT INTO " + *CLSNtableName +
+                       "( "
+                       "clsn_isim, clsn_soyad, "
+                       "clsn_bolum, clsn_meslek, clsn_gorev, "
+                       "clsn_adres, clsn_sehir, "
+                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
+                       " clsn_username, clsn_password, clsn_yetki"
+                       ") "
+                       "VALUES "
+                       "("
+                       "'Murat', 'BALCI', "
+                       "'bilgi işlem', 'CASE', 'Developer', "
+                       "'KSS', 'Tokat', "
+                       "'505 320 22 40', '356 232 91 01', 'roboturx@gmail.com', "
+                       "'a','a', 'a'"
                        " )" ;
 
 
@@ -457,20 +465,25 @@ QString hC_CLSN::clsn_VT()
             {
                 if ( !q.exec(qry) )
                 {
-                    mesaj = mesaj + "<br>İLK Firma Kaydı Eklenemedi "
-                                    "<br>------------------------------------<br>"+
+                    mesaj = mesaj + "<br>İLK Çalışan Eklenemdi"+
+                            "<br>------------------------------------<br>"+
                             q.lastError().text ()+
                             "<br>------------------------------------<br>";
                 }
-                else{
-                    mesaj = mesaj + "<br>İLK Firma Eklendi ";
+                else
+                {
+                    mesaj = mesaj + "<br>İLK Çalışan eklendi.";
                 }
             } // foreach
         }
     }
-    qDebug()  << mesaj ;
+    qDebug ()<< mesaj;
     return mesaj ;
-}   /// FİRMA
+
+
+}
+
+
 
 
 
@@ -478,7 +491,6 @@ void hC_CLSN::clsn_model(QSqlRelationalTableModel *model)
 {
     qDebug() << " clsn mdl";
     QString indexField = "clsn_soyad";
-
     QStringList *tableFieldList = new QStringList ;
     tableFieldList->append("Çalışan Kod");
     tableFieldList->append("İsim");
@@ -500,14 +512,194 @@ void hC_CLSN::clsn_model(QSqlRelationalTableModel *model)
     tableFieldList->append("Yetki");
     tableFieldList->append("resim");
 
-     hC_Rm hC_Rm (CLSNtableName,
-                  model,
-                  &indexField ,
-                  tableFieldList) ;
+    hC_Rm hC_Rm (CLSNtableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
 
 } /// ÇALIŞAN
 
 
 
 
+
+
+///*
+//QString DBase::VTd_CLSN()
+//{
+//    QSqlQuery   q;
+//    QString     ct, mesaj = "OK - Çalışan";
+//    QStringList inserts;
+//    CLSNtableName = new QString( "clsn_dbtb");
+//    if ( ! VTKontrolEt::instance()->
+//         GetDB().tables().contains( *CLSNtableName ))
+//    {
+
+//        ct = "CREATE TABLE IF NOT EXISTS " + *CLSNtableName +
+//             "("
+//             "  clsn_kod	    INTEGER PRIMARY KEY  , "
+//             "  clsn_isim		TEXT ,"
+//             "  clsn_soyad	    TEXT ,"
+//             "  clsn_tckimlik    TEXT ,"
+//             "  clsn_dogumyeri   TEXT ,"
+//             "  clsn_dogumtarihi DATE ,"
+//             "  clsn_babaadi     TEXT ,"
+//             "  clsn_bolum	    TEXT ,"
+//             "  clsn_meslek      int ,"
+//             "  clsn_gorev	    TEXT ,"
+//             "  clsn_adres		TEXT ,"
+//             "  clsn_sehir       TEXT ,"
+//             "  clsn_tel_cep	    TEXT ,"
+//             "  clsn_tel_ev	    TEXT ,"
+//             "  clsn_eposta      TEXT ,"
+//             "  clsn_username	TEXT ,"
+//             "  clsn_password	TEXT ,"
+//             "  clsn_yetki		TEXT ,"
+//             "  resim       BLOB  )" ;
+
+//        if (!q.exec( ct ))
+//        {
+//            mesaj = "<br>HATA - Çalışan Dosyası Oluşturulamadı  "
+//                    "<br>------------------------------------<br>"+
+//                    q.lastError().text() +
+//                    "<br>------------------------------------<br>";
+//        }
+//        else
+//        {
+//            mesaj = "OK - Çalışan Dosyası YENİ Oluşturuldu ";
+//            inserts << "INSERT INTO " + *CLSNtableName +
+//                       "( "
+//                       "clsn_isim, clsn_soyad, "
+//                       "clsn_bolum, clsn_meslek, clsn_gorev, "
+//                       "clsn_adres, clsn_sehir, "
+//                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
+//                       " clsn_username, clsn_password, clsn_yetki"
+//                       ") "
+//                       "VALUES "
+//                       "("
+//                       "'-', '-', "
+//                       "'', '', '', "
+//                       "'', '', "
+//                       "'', '', '', "
+//                       "'','', ''"
+//                       " )"
+//                    << "INSERT INTO " + *CLSNtableName +
+//                       "( "
+//                       "clsn_isim, clsn_soyad, "
+//                       "clsn_bolum, clsn_meslek, clsn_gorev, "
+//                       "clsn_adres, clsn_sehir, "
+//                       "clsn_tel_cep, clsn_tel_ev, clsn_eposta,"
+//                       " clsn_username, clsn_password, clsn_yetki"
+//                       ") "
+//                       "VALUES "
+//                       "("
+//                       "'Murat', 'BALCI', "
+//                       "'bilgi işlem', 'CASE', 'Developer', "
+//                       "'KSS', 'Tokat', "
+//                       "'505 320 22 40', '356 232 91 01', 'roboturx@gmail.com', "
+//                       "'a','a', 'a'"
+//                       " )" ;
+
+
+//            foreach (QString qry , inserts)
+//            {
+//                if ( !q.exec(qry) )
+//                {
+//                    mesaj = mesaj + "<br>İLK Çalışan Eklenemdi"+
+//                            "<br>------------------------------------<br>"+
+//                            q.lastError().text ()+
+//                            "<br>------------------------------------<br>";
+//                }
+//                else
+//                {
+//                    mesaj = mesaj + "<br>İLK Çalışan eklendi.";
+//                }
+//            } // foreach
+//        }
+//    }
+//    qDebug ()<< mesaj;
+//    return mesaj ;
+
+
+//}
+
+
+
+//void DBase::modelCalisan(QSqlRelationalTableModel *model)
+//{
+//    qDebug() << " mdl_Clsn";
+//    QString indexField = "clsn_soyad";
+//    CLSNtableName = new QString("clsn__dbtb");
+
+//    QStringList *tableFieldList = new QStringList ;
+//    tableFieldList->append("Çalışan Kod");
+//    tableFieldList->append("İsim");
+//    tableFieldList->append("Soyad");
+//    tableFieldList->append("TC Kimlik No");
+//    tableFieldList->append("Doğum Yeri");
+//    tableFieldList->append("Doğum Tarihi");
+//    tableFieldList->append("Baba Adı");
+//    tableFieldList->append("Bölüm");
+//    tableFieldList->append("Meslek");
+//    tableFieldList->append("Gorev");
+//    tableFieldList->append("Adres");
+//    tableFieldList->append("Şehir");
+//    tableFieldList->append("Telefon Cep");
+//    tableFieldList->append("Telefon Ev");
+//    tableFieldList->append("E-Poata");
+//    tableFieldList->append("Kullanıcı Adı");
+//    tableFieldList->append("Şifre");
+//    tableFieldList->append("Yetki");
+//    tableFieldList->append("resim");
+
+
+//     hC_Rm hC_Rm (CLSNtableName,
+//                  model,
+//                  &indexField ,
+//                  tableFieldList) ;
+//}
+
+
+//*/
+
+/////
+///// \brief DBase::VTd_MSLK
+///// \return
+/////
+//QString DBase::VTd_MSLK ()
+//{
+//    QString mesaj = "OK - Meslek";
+//    QSqlQuery query;
+//    MSLKtableName = new QString( "clsnmslk__dbtb");
+
+//    if ( ! VTKontrolEt::instance()->
+//         GetDB().tables().contains( *MSLKtableName ))
+//    {
+//        if (! query.exec("create table if not exists " + *MSLKtableName +
+//                         " (id int, meslek TEXT)"))
+//        {
+//            mesaj = "<br>HATA - Meslek Dosyası Oluşturulamadı"
+//                    "<br>------------------------------------<br>"+
+//                    query.lastError().text ()+
+//                    "<br>------------------------------------<br>";
+//        }
+//        else
+//        {
+//            mesaj = "OK - Meslek Dosyası YENİ Oluşturuldu - ";
+//            if ( !query.exec("insert into " + *MSLKtableName + " values(101, 'Makina Mühendisi')"))
+//            {
+//                mesaj = mesaj + "<br>İLK meslek kaydı eklenemedi "
+//                                "<br>------------------------------------<br>"+
+//                        query.lastError().text() +
+//                        "<br>------------------------------------<br>";
+//            }
+//            else
+//            {
+//                mesaj = mesaj + "<br>İLK Meslek kaydı eklendi.";
+//            }
+//        }
+//    }
+//    qDebug()<< mesaj ;
+//    return mesaj ;
+//} /// meslek
 

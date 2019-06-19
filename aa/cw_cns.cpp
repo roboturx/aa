@@ -1752,15 +1752,15 @@ void Cw_mkn::ykt()
 
 
 ////////////////////////////////////////////////////////////  others
-void Cw_mkn::ww_mkcins()
+/*void Cw_mkn::ww_mkcins()
 {
-    auto *w = new WW_Mkcins;
+    auto *w = new ;
     //w->setModal(true);
     w->show();
     MKNmodel->select();
 
 }       ///      ww_mkcins
-
+*/
 
 
 Cw_mkn::~Cw_mkn()

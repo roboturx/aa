@@ -2,8 +2,8 @@
 #define FTR_FRMEKLE_H
 
 #include <QtWidgets>
-#include "cw_fr.h"
-#include "cw_mlzm.h"
+#include "frm.h"
+#include "mlzm.h"
 
 namespace Ui {
 class Ftr_FrmEkle;

@@ -6,16 +6,16 @@
 #include "hc_.h"
 #include "dbase.h"
 namespace Ui {
-    class Mkn_Cinsi;
+    class hC_MKCINS;
 }
 
-class Mkn_Cinsi : public QDialog
+class hC_MKCINS : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Mkn_Cinsi(QDialog *parent = nullptr);
-    ~Mkn_Cinsi();
+    explicit hC_MKCINS(QDialog *parent = nullptr);
+    ~hC_MKCINS();
 
 
     QString sgnText ;
@@ -31,7 +31,6 @@ public:
 private:
 
     void set_uiCNS();
-
     void set_modelCNS();
     void set_viewCNS();
     void set_mapCNS();

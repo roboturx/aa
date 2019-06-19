@@ -3,20 +3,27 @@
 #include "globals.h"
 #include "dbase.h"
 
-Mkn_Cinsi::Mkn_Cinsi(QDialog *parent) : QDialog(parent)
+hC_MKCINS::hC_MKCINS(QDialog *parent) : QDialog(parent)
 {
+}
 
+void hC_MKCINS::setup_CNS()
+{
     qDebug ()  <<"CİNS MARKA MODEL YIL ";
     set_uiCNS();
 
-    set_modelCNS ();
+
+    CNSmodel = new QSqlRelationalTableModel ;
+    dbase->modelCinsi(CNSmodel) ;
+
+
     set_viewCNS ();
     set_mapCNS ();
     set_kntrlCNS ();
 }
 
 
-void Mkn_Cinsi::set_uiCNS()
+void hC_MKCINS::set_uiCNS()
 {
     qDebug() << "  setup_uicns";
 
@@ -40,15 +47,7 @@ void Mkn_Cinsi::set_uiCNS()
 
 }
 
-void Mkn_Cinsi::set_modelCNS()
-{
-    qDebug()<<"setup model cns";
-
-    CNSmodel = new QSqlRelationalTableModel ;
-    dbase->modelCinsi(CNSmodel) ;
-    qDebug()<<"setup model cns son";
-}
-void Mkn_Cinsi::set_viewCNS()
+void hC_MKCINS::set_viewCNS()
 {
     // Set the model and hide the ID column
     CNStview-> table-> setModel(CNSmodel);
@@ -82,7 +81,7 @@ void Mkn_Cinsi::set_viewCNS()
 
 }
 
-void Mkn_Cinsi::set_mapCNS()
+void hC_MKCINS::set_mapCNS()
 {
     qDebug()<<"setup mapcns";
     CNSmapper = new QDataWidgetMapper(this);
@@ -94,7 +93,7 @@ void Mkn_Cinsi::set_mapCNS()
 }
 
 
-void Mkn_Cinsi::set_kntrlCNS()
+void hC_MKCINS::set_kntrlCNS()
 {
     // pB 001 yeni ekle
     connect(CNStview->pB_ekle, &QPushButton::clicked ,
@@ -175,57 +174,35 @@ void Mkn_Cinsi::set_kntrlCNS()
     connect(CNStview->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        CNSmapper->toFirst ();
-        int map_row = CNSmapper->currentIndex ();
-        CNStview->pB_ilk->setEnabled (map_row>0);
-        CNStview->table->setCurrentIndex(CNSmodel->index( 0  ,0));
+         CNStview->hC_TvPb ("ilk", CNSmodel, CNSmapper);
     });
 
     // pB 007 önceki
     connect(CNStview->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        CNSmapper->toPrevious ();
-        int map_row = CNSmapper->currentIndex ();
-        CNStview->pB_ncki->setEnabled(map_row > 0);
-        CNStview->table->setCurrentIndex(CNSmodel->index( map_row  ,0));
+        CNStview->hC_TvPb ("ncki", CNSmodel, CNSmapper);
     });
 
     // pB 008 sonraki
     connect(CNStview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        CNSmapper->toNext ();
-        int map_row = CNSmapper->currentIndex ();
-        CNStview->pB_snrki->setEnabled(map_row < CNSmodel->rowCount() - 1);
-        CNStview->table->setCurrentIndex(CNSmodel->index( map_row  ,0));
+        CNStview->hC_TvPb ("snrki", CNSmodel, CNSmapper);
     });
 
     // pB 009 son
     connect(CNStview->pB_son, &QPushButton::clicked,
             [this]()
     {
-        CNSmapper->toLast ();
-        int map_row = CNSmapper->currentIndex ();
-        CNStview->pB_son->setEnabled(map_row < CNSmodel->rowCount() - 1);
-        CNStview->table->setCurrentIndex(CNSmodel->index( CNSmodel->rowCount() - 1  ,0));
+        CNStview->hC_TvPb ("son", CNSmodel, CNSmapper);
     });
 
-
-
-    ///// tableview kontrol connectleri
-    ///
-    ///
     // pB 010 nav tuslari kontrol
     connect(CNSmapper, &QDataWidgetMapper::currentIndexChanged,
-            [this](int Index )
+            [this]()
     {
-        int row = Index; //FTRmapper->currentIndex ();
-        CNStview->pB_ilk->setEnabled (row>0);
-        CNStview->pB_ncki->setEnabled(row > 0);
-        CNStview->pB_snrki->setEnabled(row < CNSmodel->rowCount() - 1);
-        CNStview->pB_son->setEnabled(row < CNSmodel->rowCount() - 1);
-
+        CNStview->hC_TvPb ("yenile", CNSmodel, CNSmapper);
     });
 
     // --- 011 row değiştiğinde 2 şey olsun
@@ -251,7 +228,7 @@ void Mkn_Cinsi::set_kntrlCNS()
                                                        CNSmodel->fieldIndex
                                                        ("cinsi") ).data().toString();
 
-            emit Mkn_Cinsi::sgnCmmy (sgnText);
+            emit hC_MKCINS::sgnCmmy (sgnText);
 
         }
 
@@ -271,5 +248,106 @@ void Mkn_Cinsi::set_kntrlCNS()
 
 }
 
-Mkn_Cinsi::~Mkn_Cinsi()
+hC_MKCINS::~hC_MKCINS()
 = default;
+
+
+
+
+///// CINS
+///
+///
+QString hC_MKCINS::VTd_CINS()
+{
+    //qDebug() << "db Cinsi CREATE  ";
+    QString ct, mesaj = "OK - Cinsi";
+    QSqlQuery q;
+    CNStableName = new QString( "mkcins__dbtb");
+
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( *CNStableName ))
+    {
+        ct = "CREATE TABLE " + *CNStableName +
+             "("
+             "cinsi TEXT, "
+             "resim BLOB, "
+             "id_mkcins INTEGER PRIMARY key "
+             ") " ;
+
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Cinsi Dosyası Oluşturulamadı"
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj= "OK - Cinsi Dosyası YENİ Oluşturuldu";
+
+            QStringList inserts;
+            inserts << "INSERT INTO "+ *CNStableName +" ( cinsi ) values(' - ')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Otomobil')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Arazi Aracı')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Pickup')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Kamyon')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 2x2')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 4x2')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Çekici 4x4')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Forklift')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Loader')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Backhoe')"
+                    << "INSERT INTO "+ *CNStableName +" ( cinsi ) values('Excavator')" ;
+            int x{},y{};
+            foreach (QString qry , inserts)
+            {
+                if ( q.exec(qry) )
+                {
+                    x++;
+                }
+                else
+                {
+                    y++;
+
+                }
+            }
+            if (x>0)
+            {
+                mesaj = mesaj + QString::number (x) +
+                        "<br>kayıt eklendi";
+            }
+            if (y>0)
+            {
+                mesaj = mesaj + QString::number (y) +
+                        "<br>Kayıt EKLENEMEDİ "
+                        "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }
+        }
+    }
+    qDebug()<< mesaj ;
+    return mesaj ;
+
+}
+
+void hC_MKCINS::modelCinsi(QSqlRelationalTableModel *model)
+{
+    qDebug() << " db model cns";
+    CNStableName = new QString("mkcins__dbtb");
+    QString indexField = "cinsi";
+    QStringList *tableFieldList = new QStringList ;
+
+    tableFieldList->append("Cinsi");
+    tableFieldList->append("Resim");
+    tableFieldList->append("Cinsi Kodu");
+    hC_Rm hC_Rm (CNStableName,
+                 model,
+                 &indexField ,
+                 tableFieldList) ;
+
+}///CNS
+
+
+

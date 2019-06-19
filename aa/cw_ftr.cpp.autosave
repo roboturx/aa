@@ -1,5 +1,5 @@
 ﻿#include "cw_ftr.h"
-#include "cw_fr.h"
+#include "frm.h"
 #include "cw_mlzm.h"
 #include "ftr_frmekle.h"
 
@@ -322,7 +322,7 @@ void Cw_ftr::setup_kntrlFtr()
     {
 
         hC_Rs resim (lB_rsm, FTRtview, FTRmodel, FTRselectionMdl,
-                     "ftr_resim", "yeni");
+                     "ftr_resim", "ekle");
     });
 
     // row değiştiğnde resmide değiştirelim

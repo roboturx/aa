@@ -44,7 +44,7 @@ public:
     QString *MRKtableName{};
 
     void modelModeli(QSqlRelationalTableModel *model);
-    QString *MDLtableName{};
+    QString* MDLtableName;
 
 
 

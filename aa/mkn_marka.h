@@ -5,20 +5,20 @@
 #include "hc_.h"
 #include "dbase.h"
 namespace Ui {
-    class Mkn_Marka;
+    class hC_MKMARK;
 }
 
-class Mkn_Marka : public QDialog
+class hC_MKMARK : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Mkn_Marka(QDialog *parent = nullptr);
-    ~Mkn_Marka();
+    explicit hC_MKMARK(QDialog *parent = nullptr);
+    ~hC_MKMARK();
 
 
     QString sgnText{};
-    void setup_CNS();
+    void setup_MARK();
     DBase *dbase;
 
     QLabel *lB_rsm;

@@ -11,11 +11,11 @@
 #include "globals.h"
 //#include "wd_login.h"
 #include "clsn.h"
-#include "cw_fr.h"
-#include "cw_ftr.h"
+#include "frm.h"
+#include "ftr.h"
 #include "cw_grs.h"
-#include "cw_mkn.h"
-#include "cw_mlzm.h"
+#include "mkn.h"
+#include "mlzm.h"
 #include "login.h"
 #include "form.h"
 namespace Ui {
@@ -33,10 +33,10 @@ public:
     QAction *act_main{};
     hC_CLSN *mw_per{};
     hC_FRM *mw_fr{};
-    Cw_ftr *mw_ftr{};
+    hC_FTR *mw_ftr{};
 
     Form *mw_mkk{};
-    Cw_mkn *mw_mkn{};
+    hC_MKN *mw_mkn{};
     Cw_Mlzm *mwMLZM{};
 
 

@@ -5,20 +5,20 @@
 #include "hc_.h"
 #include "dbase.h"
 namespace Ui {
-    class Mkn_Modeli;
+    class hC_MKMODL;
 }
 
-class Mkn_Modeli : public QDialog
+class hC_MKMODL : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Mkn_Modeli(QDialog *parent = nullptr);
-    ~Mkn_Modeli();
+    explicit hC_MKMODL(QDialog *parent = nullptr);
+    ~hC_MKMODL();
 
 
     QString sgnText{};
-    void setup_CNS();
+    void setup_MODL();
     DBase *dbase;
 
     QLabel *lB_rsm;

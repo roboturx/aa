@@ -15,6 +15,7 @@
 /// 5- hC_Tm            - QSqlRelationalTableModel
 
 
+
 namespace HC_ {
 class hC_Rs;
 class hC_Tv;
@@ -109,6 +110,10 @@ public:
 
     explicit hC_Tv(int renk=1, QWidget *parent = nullptr);
     ~hC_Tv();
+
+    void hC_TvPb(QString Key,
+                 QSqlRelationalTableModel *model= nullptr,
+                 QDataWidgetMapper *map = nullptr);
     QTableView *table;
     QPushButton *pB_ekle   ;
     QPushButton *pB_eklersm;
@@ -120,33 +125,6 @@ public:
     QPushButton *pB_ncki ;
     QPushButton *pB_snrki;
     QPushButton *pB_son  ;
-    /*
-     public slots:
-         void SLT_ekle();
-         void SLT_eklersm();
-         void SLT_grscks();
-         void SLT_sil();
-
-         void SLT_first();
-         void SLT_next();
-         void SLT_previous();
-         void SLT_last();
-
-
-
-
-     signals:
-          void sG_ekle();
-          void sG_eklersm();
-          void sG_grscks();
-          void sG_sil();
-
-          void sG_first();
-          void sG_next();
-          void sG_previous();
-          void sG_last();
-
-     */
 
 };
 

@@ -1,5 +1,5 @@
 #include "mkevrk.h"
-#include "cw_mkn.h"
+#include "mkn.h"
 #include "globals.h"
 
 _Evr::_Evr()

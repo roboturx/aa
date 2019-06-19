@@ -39,7 +39,7 @@ public:
 
 
 
-    QComboBox   *cb_meslek=nullptr  ;
+//    QComboBox   *cb_meslek=nullptr  ;
     QGroupBox   *gB_map=nullptr     ;
       
     QLineEdit   *lE_isim=nullptr    ;

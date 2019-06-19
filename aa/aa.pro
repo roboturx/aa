@@ -25,7 +25,6 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 
 SOURCES += main.cpp\
-    cw_mkn.cpp \
     cw_grs.cpp \
     cw_isemri.cpp \
     mkevrk.cpp \
@@ -35,28 +34,27 @@ SOURCES += main.cpp\
     cw_hkk.cpp \
     mw_main.cpp \
     wd_dptlp.cpp \
-    cw_fr.cpp \
     tamamla.cpp \
     mknnn.cpp \
     form.cpp \
-    cw_ftr.cpp \
     login.cpp \
-    cw_mlzm.cpp \
     dbase.cpp \
     shapeitem.cpp \
     sortingbox.cpp \
     ftr_frmekle.cpp \
-    cw_mkcins.cpp \
     mkn_cinsi.cpp \
     mkn_marka.cpp \
     mkn_modeli.cpp \
     hc_.cpp \
-    clsn.cpp
+    clsn.cpp \
+    frm.cpp \
+    ftr.cpp \
+    mkn.cpp \
+    mlzm.cpp
 
 
 HEADERS  += \
     globals.h \
-    cw_mkn.h \
     dlgt_mkstok.h \
     cw_grs.h \
     cw_isemri.h \
@@ -69,23 +67,23 @@ HEADERS  += \
     main.h \
     mw_main.h \
     wd_dptlp.h \
-    cw_fr.h \
     tamamla.h \
     mknnn.h \
     form.h \
-    cw_ftr.h \
     login.h \
-    cw_mlzm.h \
     dbase.h \
     shapeitem.h \
     sortingbox.h \
     ftr_frmekle.h \
-    cw_mkcins.h \
     mkn_cinsi.h \
     mkn_marka.h \
     mkn_modeli.h \
     hc_.h \
-    clsn.h
+    clsn.h \
+    frm.h \
+    ftr.h \
+    mkn.h \
+    mlzm.h
     # cw_cns.h
 
 FORMS    += \

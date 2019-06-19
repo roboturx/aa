@@ -4,15 +4,15 @@
 
 #include "globals.h"
 #include "hc_.h"
-#include "cw_mkn.h"
+#include "mkn.h"
 #include "dbase.h"
 
 
 namespace Ui {
-class Cw_ftr;
+class hC_FTR;
 }
 
-class Cw_ftr : public QWidget
+class hC_FTR : public QWidget
 {
     Q_OBJECT
 
@@ -98,8 +98,8 @@ protected:
     void showEvent(QShowEvent *);
 
 public:
-    explicit Cw_ftr(QWidget *parent = nullptr);
-    ~Cw_ftr() ;
+    explicit hC_FTR(QWidget *parent = nullptr);
+    ~hC_FTR() ;
 
 };
 
