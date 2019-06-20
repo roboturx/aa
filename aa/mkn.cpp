@@ -55,9 +55,9 @@ void hC_MKN::set_uiMKN()   // centralwidget görüntüsü
     MKNtview    = new hC_Tv;
 
     auto *mkn_l = new QGridLayout;
-    mkn_l->addWidget ( MKNtview   , 0, 0,10, 5 );
-    mkn_l->addWidget ( lB_rsm     , 0, 9, 1, 1 );
-    mkn_l->addWidget ( wdgt_mppr  , 0, 5,10, 5 );
+    mkn_l->addWidget ( MKNtview   , 0, 0,10, 10 );
+    mkn_l->addWidget ( lB_rsm     , 0,15, 4, 5 );
+    mkn_l->addWidget ( wdgt_mppr  , 0,10,10, 10 );
     //mkn_l->addWidget(wdgt_mppr  , 3, 6, 3, 5 );
 
     this->setLayout (mkn_l);
@@ -75,8 +75,9 @@ void hC_MKN::wd_mppr ()
              this,  &hC_MKN::mknKurumno_ara);
     lB_kurumno->setBuddy(led_mknKurumno);
     led_mknKurumno->setFocus();
+    led_mknKurumno->setReadOnly (true);
 
-    QLabel *lB_plaka = new QLabel("Plaka ");
+            QLabel *lB_plaka = new QLabel("Plaka ");
     led_mknPlaka = new QLineEdit();
     lB_plaka->setBuddy(led_mknPlaka);
 
@@ -91,7 +92,22 @@ void hC_MKN::wd_mppr ()
             [this ]()
     {
         // seçebilmek için pencere
+
+        auto *dia = new QDialog();
+        auto *layout = new QGridLayout;
+        dia->setLayout (layout);
+        dia->setModal (true);
+        dia->setGeometry (lE_cins->pushButton->pos ().rx (),
+                          lE_cins->pushButton->pos ().ry (),
+                          300,480);
+        dia->setWindowTitle (
+            QString::number(lE_cins->pos ().rx ())+"," +
+            QString::number(lE_cins->pos ().ry ())+" - "+
+            QString::number(lE_cins->pos ().x() )+"," +
+            QString::number(lE_cins->pos ().y ()));
+
         auto *cmmy = new hC_MKCINS ;
+        layout->addWidget (cmmy,0,0);
         cmmy->mkcins_setup ();
 
 
@@ -110,7 +126,7 @@ void hC_MKN::wd_mppr ()
             lE_cins->lineEdit->setText ( sgnText );
             lE_cins->lineEdit->setFocus();
         });
-        cmmy->show ();
+        dia->exec ();
     });
 
     // /////////////////////////////////////////////////////
@@ -293,8 +309,6 @@ void hC_MKN::set_viewMKN()
 {
     qDebug()<<"setup view mkn";
     MKNtview->table->setModel(MKNmodel);
-    MKNtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
-    MKNtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
     MKNselectionMdl = MKNtview->table->selectionModel ();
 
     // sağ tuş menusu
@@ -307,22 +321,6 @@ void hC_MKN::set_viewMKN()
     MKNtview->table->setColumnHidden(MKNmodel->fieldIndex("id_mkn"), true);
     MKNtview->table->setColumnHidden(MKNmodel->fieldIndex("mkn_resim"), true);
     MKNtview->table->setColumnHidden(MKNmodel->fieldIndex("mkn_rating"), true);
-
-    MKNtview->table->setEditTriggers
-            (QAbstractItemView::DoubleClicked |
-             QAbstractItemView::SelectedClicked |
-             QAbstractItemView::EditKeyPressed);
-    MKNtview->table->horizontalHeader()->setStretchLastSection(true);
-    MKNtview->table->horizontalHeader()->resizeContentsPrecision();
-    MKNtview->table->resizeRowsToContents ();
-    MKNtview->table->resizeColumnsToContents();
-
-
-
-
-
-
-
 
     // select first item
     // selection model does not hide the frm_kod

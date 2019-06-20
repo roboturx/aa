@@ -37,7 +37,6 @@
         <file>rsm/nv_eklersm.svg</file>
         <file>rsm/nv_eklesil.svg</file>
         <file>rsm/nv_eklesil2.svg</file>
-        <file>rsm/rsm_yok.svg</file>
         <file>rsm/mkndrm.txt</file>
         <file>rsm/icon/camera.png</file>
         <file>rsm/icon/file.png</file>
@@ -58,11 +57,10 @@
         <file>rsm/nv_eklee.svg</file>
         <file>rsm/nv_ok.ico</file>
         <file>rsm/nv_sil3.svg</file>
-        <file>rsm/rsm_yok2.svg</file>
-        <file>rsm/rsm_yok2.svg.2018_09_08_13_35_27.0.svg</file>
         <file>rsm/Slide Up-64-128px.zip</file>
         <file>rsm/trb3 - Kopya.gif</file>
         <file>rsm/logo/Audi.png</file>
         <file>rsm/logo/hm/caterpillar.jpg</file>
+        <file>rsm/rsm_yok.png</file>
     </qresource>
 </RCC>

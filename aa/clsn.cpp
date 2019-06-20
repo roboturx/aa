@@ -158,22 +158,9 @@ void hC_CLSN::clsn_view()
 {
     qDebug()<<"clsn view ";
     CLSNtview->table->setModel(CLSNmodel);
-    CLSNtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
-    CLSNtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
     CLSNselectionMdl = CLSNtview->table->selectionModel();
-
     CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("clsn_kod"), true);
     CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("resim"), true);
-
-    CLSNtview->table->setEditTriggers
-            (QAbstractItemView::DoubleClicked |
-             QAbstractItemView::SelectedClicked |
-             QAbstractItemView::EditKeyPressed);
-    CLSNtview->table->horizontalHeader()->setStretchLastSection(true);
-    CLSNtview->table->horizontalHeader()->resizeContentsPrecision();
-    CLSNtview->table->resizeRowsToContents ();
-    CLSNtview->table->resizeColumnsToContents();
-
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select

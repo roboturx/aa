@@ -75,8 +75,8 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
         }
         else
         {
-            //lB_resim->setPixmap (QPixmap (":/rsm/icon/photo_camera.png"));
-            lB_resim->setPixmap (QPixmap (""));
+            lB_resim->setPixmap (QPixmap (":/rsm/rsm_yok.png"));
+           // lB_resim->setPixmap (QPixmap (""));
         }
 
         lB_resim->setScaledContents( true );
@@ -131,6 +131,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     QWidget (parent)
 {
 
+
     // //////////////////////////////////////////////
     QIcon icon;
     int x=30*renk,y=30;
@@ -142,6 +143,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_ekle->setIcon(icon);
     pB_ekle->setIconSize(QSize(x,y));
+    pB_ekle->setToolTip ("Yeni KAYIT ekle");
 
     pB_eklersm = new QPushButton;
     pB_eklersm->setMaximumSize (x,y );
@@ -149,6 +151,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_eklersm->setIcon(icon);
     pB_eklersm->setIconSize(QSize(x,y));
+    pB_eklersm->setToolTip ("Dosyadan RESİM Ekle-Değiştir");
 
     //camera
     auto pB_camera = new QPushButton;
@@ -157,22 +160,24 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_camera->setIcon(icon);
     pB_camera->setIconSize(QSize(x,y));
+    pB_camera->setToolTip ("Kameradan RESİM ekle-değiştir");
 
 
-    pB_grscks = new QPushButton;
+ /*   pB_grscks = new QPushButton;
     pB_grscks->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_eklesil2.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_grscks->setIcon(icon);
     pB_grscks->setIconSize(QSize(x, y));
     pB_grscks->setAutoFillBackground (true);
-
+*/
     pB_sil= new QPushButton();
     pB_sil->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_sil.svg") ,
                    QIcon::Normal, QIcon::On);
     pB_sil->setIcon(icon);
     pB_sil->setIconSize(QSize(x,y));
+    pB_sil->setToolTip ("Kayıt SİL");
 
 
     pB_ilk= new QPushButton();
@@ -181,6 +186,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_ilk->setIcon(icon);
     pB_ilk->setIconSize(QSize(x,y));
+    pB_ilk->setToolTip ("İlk kayıda git");
 
 
     pB_ncki= new QPushButton();
@@ -189,6 +195,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_ncki->setIcon(icon);
     pB_ncki->setIconSize(QSize(x,y));
+    pB_ncki->setToolTip ("Önceki Kayıda git");
 
     pB_snrki= new QPushButton();
     pB_snrki->setMaximumSize (x,y );
@@ -196,6 +203,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_snrki->setIcon(icon);
     pB_snrki->setIconSize(QSize(x,y));
+    pB_snrki->setToolTip ("Sonraki kayıda git");
 
     pB_son= new QPushButton();
     pB_son->setMaximumSize (x,y );
@@ -203,7 +211,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
                    QIcon::Normal, QIcon::On);
     pB_son->setIcon(icon);
     pB_son->setIconSize(QSize(x,y));
-
+    pB_son->setToolTip ("Son Kayıda git");
     /*   auto * fR_mn = new QFrame(this) ;
     //fR_mn->setStyleSheet ("background-color:green");
     fR_mn->setFrameStyle (QFrame::Box | QFrame::Raised);
@@ -218,7 +226,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
 
     Layout_buttonz->addWidget (pB_ekle );
     Layout_buttonz->addWidget (pB_eklersm );
-    Layout_buttonz->addWidget (pB_camera );
+   // Layout_buttonz->addWidget (pB_camera );
     Layout_buttonz->addStretch (1);
     Layout_buttonz->addWidget (pB_sil  );
     Layout_buttonz->addWidget (pB_ilk  );
@@ -226,7 +234,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     Layout_buttonz->addWidget (pB_snrki);
     Layout_buttonz->addWidget (pB_son  );
     Layout_buttonz->addStretch (1);
-    Layout_buttonz->addWidget (pB_grscks );
+    //Layout_buttonz->addWidget (pB_grscks );
     Layout_buttonz->addStretch (4);
     // //////////////////////////////////////////////
 
@@ -238,13 +246,26 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
 
     table = new QTableView;
 
+    table->setSelectionMode(QAbstractItemView::SingleSelection);
+    table->setSelectionBehavior(QAbstractItemView::SelectItems);
+    table->setEditTriggers
+            (QAbstractItemView::NoEditTriggers );
+           /*  (QAbstractItemView::DoubleClicked |
+             QAbstractItemView::SelectedClicked |
+             QAbstractItemView::EditKeyPressed);*/
+    table->horizontalHeader()->setStretchLastSection(true);
+    table->horizontalHeader()->resizeContentsPrecision();
+    table->resizeRowsToContents ();
+    table->resizeColumnsToContents();
+
+
     //ayout_table->addWidget (table);
     // //////////////////////////////////////////////
 
     // //////////////////////////////////////////////
     auto *Layout_all = new QGridLayout(this);
-    Layout_all->addWidget (widget_buttonz, 0, 0 );
-    Layout_all->addWidget (table  , 0, 1 );
+    Layout_all->addWidget (widget_buttonz, 0, 1 );
+    Layout_all->addWidget (table  , 0, 0 );
     // //////////////////////////////////////////////
 
     /*
