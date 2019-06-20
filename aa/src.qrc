@@ -62,5 +62,6 @@
         <file>rsm/logo/Audi.png</file>
         <file>rsm/logo/hm/caterpillar.jpg</file>
         <file>rsm/rsm_yok.png</file>
+        <file>rsm/rsm_yok.svg</file>
     </qresource>
 </RCC>

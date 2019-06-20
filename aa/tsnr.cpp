@@ -1,5 +1,11 @@
-﻿#include "cw_isemri.h"
-#include "globals.h"
+﻿#include "tsnr.h"
+
+TSNR::TSNR()
+{
+
+}
+#include "ie.h"
+
 
 /////////////////////////////////////////////////
 ///
@@ -9,28 +15,90 @@
 
 
 
-Cw_IsEmri::Cw_IsEmri(QWidget *parent) : QWidget (parent)
+hC_IE::hC_IE(QWidget *parent) : QWidget (parent)
 {
-    //qDebug ()  <<" 'İş Emri   ' - İş Emri Başlatıldı ";
-    setup_ui();
- //   setup_uidet();
-
-    model_IE();
-    view_IE();
-
-    model_IEDET();
-    view_IEDET();
-
-    model_TASINIR();
-    view_TASINIR();
-
-    model_ISCILIK();
-    view_ISCILIK();
-
-    kontrolIE();
+    qDebug ()<<"İş Emri Constructor";
+    //************************************************************
+    //*****************  İ Ş   E M R İ  **************************
 }
 
-void Cw_IsEmri::kontrolIE()
+void hC_IE::ie_setup()
+{
+    qDebug() << "ie setup ";
+    ie_VTd();
+    ie_ui();
+
+    IEmodel = new QSqlRelationalTableModel;
+    ie_model( IEmodel ) ;
+
+    ie_view();
+    ie_map();
+    ie_kntrl ();
+
+}
+
+
+void hC_IE::ie_ui()
+{
+    auto *gLl = new QGridLayout(this);
+
+    lbl_mkn = new QLabel("İş Emri ");
+    lbl_IE = new QLabel("İş Emri Detay");
+
+    IEtview = new hC_Tv;
+    gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
+    gLl->addWidget(IEDETtview,   0, 1, 1, 1 );
+}
+
+
+
+
+
+
+
+void hC_IE::iedet_ui()
+{
+    auto *gLl = new QGridLayout(this);
+
+    lbl_mkn = new QLabel("İş Emri ");
+    lbl_IE = new QLabel("İş Emri Detay");
+
+    IEDETtview = new hC_Tv;
+
+    gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
+    gLl->addWidget(IEDETtview,   0, 1, 1, 1 );
+}
+void hC_IE::tsnr_ui()
+{
+    auto *gLl = new QGridLayout(this);
+
+    lbl_mkn = new QLabel("İş Emri ");
+    lbl_IE = new QLabel("İş Emri Detay");
+
+    TSNRtview = new hC_Tv;
+
+    gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
+    gLl->addWidget(IEDETtview,   0, 1, 1, 1 );
+}
+void hC_IE::sclk_ui()
+{
+    auto *gLl = new QGridLayout(this);
+
+    lbl_mkn = new QLabel("İş Emri ");
+    lbl_IE = new QLabel("İş Emri Detay");
+
+    SCLKtview = new QTableView;
+
+    gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
+    gLl->addWidget(IEDETtview,   0, 1, 1, 1 );
+}
+
+
+
+
+
+
+void hC_IE::ie_kntrl()
 {
     /// iş emri ekran kontrolleri
     ///
@@ -38,7 +106,7 @@ void Cw_IsEmri::kontrolIE()
 
     qDebug()<<"kontrolie";
 
-    connect(IEtview->selectionModel(),
+    connect(IEtview->table->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             this, SLOT(rowChanged_IE(QModelIndex)));
 
@@ -48,12 +116,12 @@ void Cw_IsEmri::kontrolIE()
             this, SLOT(rowChanged_IEDET(QModelIndex)));
 
     /// ie column değiştiğinde modelindex de değişsin
-       connect(IEtview->selectionModel(),
+       connect(IEtview->table->selectionModel(),
             SIGNAL(currentColumnChanged(QModelIndex,QModelIndex)),
             IEmapper, SLOT(setCurrentModelIndex(QModelIndex)));
 
     /// ie row değiştiğinde modelindex de değişsin
-    connect(IEtview->selectionModel(),
+    connect(IEtview->table->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             IEmapper, SLOT(setCurrentModelIndex(QModelIndex)));
 
@@ -82,7 +150,7 @@ void Cw_IsEmri::kontrolIE()
 /// VIEW
 
 
-void Cw_IsEmri::model_IE()
+void hC_IE::ie_model()
 {
 
     QString tableName = "dbtb_ie";
@@ -118,58 +186,58 @@ void Cw_IsEmri::model_IE()
     }
 }
 
-void Cw_IsEmri::view_IE()
+void hC_IE::view_IE()
 {
-    IEtview->setModel(IEmodel);
-    IEtview->resizeColumnsToContents();
-    IEtview->resizeRowsToContents();
+    IEtview->table->setModel(IEmodel);
+    IEtview->table->resizeColumnsToContents();
+    IEtview->table->resizeRowsToContents();
 
     /// tV için selection model  oluştur
     /// bu view de seçileni belirlemede kullanılır
     /// selection ve current index ayrı şeyler
     ///
-    IEtV_selectionMdl = new QItemSelectionModel(IEmodel);
-    IEtview->setSelectionModel (IEtV_selectionMdl);
+    IEselectionMdl = new QItemSelectionModel(IEmodel);
+    IEtview->table->setSelectionModel (IEselectionMdl);
 
-    IEtview->setSelectionMode(QAbstractItemView::SingleSelection);
-    IEtview->setSelectionBehavior(QAbstractItemView::SelectItems);
-    //IEtview->setCurrentIndex(IEmodel->index(0,0));
+    IEtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
+    IEtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
+    //IEtview->table->setCurrentIndex(IEmodel->index(0,0));
 
     //// kullanıcı bu alanları görmesin
-    IEtview->setColumnHidden(IEmodel->fieldIndex("ie_mknstk_no"), true);
-    IEtview->setColumnHidden(IEmodel->fieldIndex("id_IE"), true);
-    IEtview->setColumnHidden(IEmodel->fieldIndex("ie_resim"), true);
+    IEtview->table->setColumnHidden(IEmodel->fieldIndex("ie_mknstk_no"), true);
+    IEtview->table->setColumnHidden(IEmodel->fieldIndex("id_IE"), true);
+    IEtview->table->setColumnHidden(IEmodel->fieldIndex("ie_resim"), true);
 
-    IEtview->setEditTriggers
+    IEtview->table->setEditTriggers
             (QAbstractItemView::DoubleClicked |
              QAbstractItemView::SelectedClicked |
              QAbstractItemView::EditKeyPressed);
 
-    IEtview->horizontalHeader()->setStretchLastSection(true);
-    IEtview->horizontalHeader()->resizeContentsPrecision();
+    IEtview->table->horizontalHeader()->setStretchLastSection(true);
+    IEtview->table->horizontalHeader()->resizeContentsPrecision();
 
     ///// tableview kontrol connectleri
     ///
     ///
     ///
-/*    (connect(IEtview->pB_ekle, &QPushButton::clicked ,this ,
+/*    (connect(IEtview->table->pB_ekle, &QPushButton::clicked ,this ,
                      &Cw_Ambar::slt_dp_pB_EKLE_clicked  )) ;
-    (connect(IEtview->pB_eklersm, &QPushButton::clicked,this ,
+    (connect(IEtview->table->pB_eklersm, &QPushButton::clicked,this ,
                      &Cw_Ambar::slt_dp_pB_Eklersm_clicked  )) ;
 
-    (connect(IEtview->pB_sil, &QPushButton::clicked,this ,
+    (connect(IEtview->table->pB_sil, &QPushButton::clicked,this ,
                      &Cw_Ambar::slt_dp_pB_SIL_clicked )) ;
-    (connect(IEtview->pB_ilk, &QPushButton::clicked ,this ,
+    (connect(IEtview->table->pB_ilk, &QPushButton::clicked ,this ,
                      &Cw_Ambar::slt_dp_toFirst )) ;
-    (connect(IEtview->pB_ncki, &QPushButton::clicked,this ,
+    (connect(IEtview->table->pB_ncki, &QPushButton::clicked,this ,
                      &Cw_Ambar::slt_dp_toPrevious )) ;
-    (connect(IEtview->pB_snrki, &QPushButton::clicked,this ,
+    (connect(IEtview->table->pB_snrki, &QPushButton::clicked,this ,
                      &Cw_Ambar::slt_dp_toNext )) ;
-    (connect(IEtview->pB_son, &QPushButton::clicked,this ,
+    (connect(IEtview->table->pB_son, &QPushButton::clicked,this ,
                      &Cw_Ambar::slt_dp_toLast )) ;
 
-    IEtview->pB_grscks->setVisible (false);
-    (connect(IEtview->pB_grscks, &QPushButton::clicked,this ,
+    IEtview->table->pB_grscks->setVisible (false);
+    (connect(IEtview->table->pB_grscks, &QPushButton::clicked,this ,
                      &Cw_IE::slt_dp_cX_grs_clicked  )) ;
   */
 
@@ -178,14 +246,14 @@ void Cw_IsEmri::view_IE()
     IEmapper->setModel(IEmodel);
     // mppMKN->setItemDelegate(new IEDelegate(this));
     IEmodel->select();
-    IEtview->setContextMenuPolicy(Qt::CustomContextMenu);
+    IEtview->table->setContextMenuPolicy(Qt::CustomContextMenu);
 
     /// ie sağ tık menu kontrollerini
     /// bu fonksiyonun içinden kontrol edelim
 
     bool sccs (true);
-    sccs = connect(IEtview, &QTableView::customContextMenuRequested,this,
-                   &Cw_IsEmri::rightMenu_IE);
+    sccs = connect(IEtview->table, &QTableView::customContextMenuRequested,this,
+                   &hC_IE::rightMenu_IE);
     if (! sccs)
     {
         qDebug()<<"HATA - IE Right Menu Connection";
@@ -208,7 +276,7 @@ void Cw_IsEmri::view_IE()
 /// VIEW
 
 
-void Cw_IsEmri::model_IEDET()
+void hC_IE::model_IEDET()
 {
     IEDETmodel = new QSqlRelationalTableModel();
     IEDETmodel->setTable("dbtb_iedet");
@@ -232,7 +300,7 @@ void Cw_IsEmri::model_IEDET()
     }
 }
 
-void Cw_IsEmri::view_IEDET()
+void hC_IE::view_IEDET()
 {
     IEDETtview->setModel(IEDETmodel);
     IEDETtview->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -265,7 +333,7 @@ void Cw_IsEmri::view_IEDET()
 
     bool sccs (true);
     sccs = connect(IEDETtview, &QTableView::customContextMenuRequested,this,
-                   &Cw_IsEmri::rightMenu_IEDET);
+                   &hC_IE::rightMenu_IEDET);
     if (! sccs)
     {
         qDebug()<<"HATA - iedet Right Menu Connection";
@@ -288,7 +356,7 @@ void Cw_IsEmri::view_IEDET()
 /// MODEL
 /// VIEW
 
-void Cw_IsEmri::model_TASINIR()
+void hC_IE::model_TASINIR()
 {
     TSmodel = new QSqlRelationalTableModel();
     TSmodel->setTable("dbtb_tasinir");
@@ -337,7 +405,7 @@ void Cw_IsEmri::model_TASINIR()
 
 }
 
-void Cw_IsEmri::view_TASINIR()
+void hC_IE::view_TASINIR()
 {
     TStview->setModel(TSmodel);
 
@@ -371,7 +439,7 @@ TStview ->setItemDelegate(new QSqlRelationalDelegate(this));
 
     bool sccs (true);
     sccs = connect(TStview, &QTableView::customContextMenuRequested,this,
-                   &Cw_IsEmri::rightMenu_TASINIR);
+                   &hC_IE::rightMenu_TASINIR);
     if (! sccs)
     {
         qDebug()<<"HATA - TAŞINIR Right Menu Connection";
@@ -402,7 +470,7 @@ TStview ->setItemDelegate(new QSqlRelationalDelegate(this));
 
 
 
-void Cw_IsEmri::model_ISCILIK()
+void hC_IE::model_ISCILIK()
 {
     qDebug()<<"iscilik 1";
     SCmodel = new QSqlRelationalTableModel();
@@ -437,7 +505,7 @@ void Cw_IsEmri::model_ISCILIK()
 
 }
 
-void Cw_IsEmri::view_ISCILIK()
+void hC_IE::view_ISCILIK()
 {
 
     SCtview->setModel(SCmodel);
@@ -470,7 +538,7 @@ void Cw_IsEmri::view_ISCILIK()
 
     bool sccs (true);
     sccs = connect(SCtview, &QTableView::customContextMenuRequested,this,
-                   &Cw_IsEmri::rightMenu_ISCILIK);
+                   &hC_IE::rightMenu_ISCILIK);
     if (! sccs)
     {
         qDebug()<<"HATA - IŞCİLİK Right Menu Connection";
@@ -493,7 +561,7 @@ void Cw_IsEmri::view_ISCILIK()
 ///
 
 
-void Cw_IsEmri::setup_ui()
+void hC_IE::setup_ui()
 {
 
         auto *gLl = new QGridLayout(this);
@@ -501,7 +569,7 @@ void Cw_IsEmri::setup_ui()
     lbl_mkn = new QLabel("İş Emri ");
     lbl_IE = new QLabel("İş Emri Detay");
 
-    IEtview = new QTableView(this);
+    IEtview->table = new QTableView(this);
     IEDETtview = new QTableView;
     TStview = new QTableView;
     SCtview = new QTableView;
@@ -526,26 +594,26 @@ void Cw_IsEmri::setup_ui()
 
 
 //    gL->addLayout(hL1,        5, 0, 1, 4 );
-    gLl->addWidget(IEtview,      0, 0, 1, 1 );
+    gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
     gLl->addWidget(IEDETtview,   0, 1, 1, 1 );
  //   gL->addLayout(hL2,        2, 0, 1, 4 );
  //   gLl->addWidget(TStview, 0, 0 );
    // gLl->addWidget(SCtview, 1, 1 );
     // x->show();
     /*    connect( pB1, &QPushButton::clicked,
-             this, &Cw_IsEmri::ekle_IEDET );
+             this, &hC_IE::ekle_IEDET );
     connect( pB2, &QPushButton::clicked,
-             this, &Cw_IsEmri::sil_IE );
+             this, &hC_IE::sil_IE );
     //connect( pB3, &QPushButton::clicked,
-    //       this, &Cw_IsEmri::ieYaz );
+    //       this, &hC_IE::ieYaz );
     //connect( pB4, &QPushButton::clicked,
-    //       this, &Cw_IsEmri::ieEkleDDD );
+    //       this, &hC_IE::ieEkleDDD );
     //   connect( pB5, &QPushButton::clicked,
-    //          this, &Cw_IsEmri::iedetEkle );
+    //          this, &hC_IE::iedetEkle );
     connect( pB6, &QPushButton::clicked,
-             this, &Cw_IsEmri::sil_IEDET );
+             this, &hC_IE::sil_IEDET );
     //connect( pB7, &QPushButton::clicked,
-    //       this, &Cw_IsEmri::iedetayEkleDDD );
+    //       this, &hC_IE::iedetayEkleDDD );
 */
 
 }
@@ -559,7 +627,7 @@ void Cw_IsEmri::setup_ui()
 ///
 /// ROWCHANGED
 
-void Cw_IsEmri::rowChanged_IE(QModelIndex IEindex)
+void hC_IE::rowChanged_IE(QModelIndex IEindex)
 {
 
     if (IEindex.isValid())
@@ -571,7 +639,7 @@ void Cw_IsEmri::rowChanged_IE(QModelIndex IEindex)
 
         IEDETtview->setCurrentIndex(IEDETmodel->index(0,0));
         QModelIndex iedetindx = IEDETtview->currentIndex();
-        Cw_IsEmri::rowChanged_IEDET(iedetindx);
+        hC_IE::rowChanged_IEDET(iedetindx);
         IEDETtview->setFocus ();
     }
     else
@@ -582,17 +650,17 @@ void Cw_IsEmri::rowChanged_IE(QModelIndex IEindex)
 
     }
 
-    // IEtview->setFocus(); // detaya geç
+    // IEtview->table->setFocus(); // detaya geç
     /*   IEDETmodel->select();
     IEDETtview->setFocus();    // iş emrine geri dön
 */
-    IEtview->setFocus ();
+    IEtview->table->setFocus ();
 }
 
 
 
 
-void Cw_IsEmri::rowChanged_IEDET(QModelIndex IEDETindex)
+void hC_IE::rowChanged_IEDET(QModelIndex IEDETindex)
 {
 
     //QModelIndex index = IEDETtview->currentIndex();
@@ -632,12 +700,12 @@ SCtview->setFocus();
 
 
 
-void Cw_IsEmri::rowChanged_TASINIR(QModelIndex)
+void hC_IE::rowChanged_TASINIR(QModelIndex)
 {
 
 }
 
-void Cw_IsEmri::rowChanged_ISCILIK(QModelIndex)
+void hC_IE::rowChanged_ISCILIK(QModelIndex)
 {
 
 }
@@ -655,7 +723,7 @@ void Cw_IsEmri::rowChanged_ISCILIK(QModelIndex)
 
 
 /////////////////////////////////////////////   ie view sağ tuş menusu
-void Cw_IsEmri::rightMenu_IE(QPoint pos)
+void hC_IE::rightMenu_IE(QPoint pos)
 
 {
     //qDebug ()  <<"  cw işemri view sağ tuş 001";
@@ -667,7 +735,7 @@ void Cw_IsEmri::rightMenu_IE(QPoint pos)
     ekleAct_IEdet->setShortcuts (QKeySequence::New);
     ekleAct_IEdet->setStatusTip ("İş Emri Detay Kaydı Ekle");
     connect (ekleAct_IEdet, &QAction::triggered, this,
-             &Cw_IsEmri::onmnIE_IEDETekle );
+             &hC_IE::onmnIE_IEDETekle );
     menuie->addAction(ekleAct_IEdet);
 
     //  iş emri detay sil
@@ -676,15 +744,15 @@ void Cw_IsEmri::rightMenu_IE(QPoint pos)
     silAct_IE->setShortcuts (QKeySequence::New);
     silAct_IE->setStatusTip ("İş Emri Sil");
     connect (silAct_IE, &QAction::triggered, this,
-             &Cw_IsEmri::sil_IE );
+             &hC_IE::sil_IE );
     menuie->addAction(silAct_IE);
 
-    menuie->popup(IEtview->viewport()->mapToGlobal(pos));
+    menuie->popup(IEtview->table->viewport()->mapToGlobal(pos));
 }
 
 
 /////////////////////////////////////////////   iedet view sağ tuş menusu
-void Cw_IsEmri::rightMenu_IEDET(QPoint pos)
+void hC_IE::rightMenu_IEDET(QPoint pos)
 
 {
     //qDebug ()  <<"  cw işemri view sağ tuş 001";
@@ -696,7 +764,7 @@ void Cw_IsEmri::rightMenu_IEDET(QPoint pos)
     ekleAct_IEdet->setShortcuts (QKeySequence::New);
     ekleAct_IEdet->setStatusTip ("Taşınır Kaydı Ekle");
     connect (ekleAct_IEdet, &QAction::triggered, this,
-             &Cw_IsEmri::onmnIEDET_TSekle );
+             &hC_IE::onmnIEDET_TSekle );
     menuiedet->addAction(ekleAct_IEdet);
 
     // işbilik kaydı ekle
@@ -705,7 +773,7 @@ void Cw_IsEmri::rightMenu_IEDET(QPoint pos)
     ekleAct_is->setShortcuts (QKeySequence::New);
     ekleAct_is->setStatusTip ("İşçilik Kaydı Ekle");
     connect (ekleAct_is, &QAction::triggered, this,
-             &Cw_IsEmri::onmnIEDET_SCekle );
+             &hC_IE::onmnIEDET_SCekle );
     menuiedet->addAction(ekleAct_is);
 
 
@@ -715,7 +783,7 @@ void Cw_IsEmri::rightMenu_IEDET(QPoint pos)
     silAct_IEdet->setShortcuts (QKeySequence::New);
     silAct_IEdet->setStatusTip ("İş Emri Detay Sil");
     connect (silAct_IEdet, &QAction::triggered, this,
-             &Cw_IsEmri::sil_IEDET );
+             &hC_IE::sil_IEDET );
     menuiedet->addAction(silAct_IEdet);
 
     menuiedet->popup(IEDETtview->viewport()->mapToGlobal(pos));
@@ -723,7 +791,7 @@ void Cw_IsEmri::rightMenu_IEDET(QPoint pos)
 
 
 /////////////////////////////////////////////   tasinir view sağ tuş menusu
-void Cw_IsEmri::rightMenu_TASINIR(QPoint pos)
+void hC_IE::rightMenu_TASINIR(QPoint pos)
 
 {
     //qDebug ()  <<"  cw tasinir view sağ tuş 001";
@@ -735,7 +803,7 @@ void Cw_IsEmri::rightMenu_TASINIR(QPoint pos)
     ekleAct_ts->setShortcuts (QKeySequence::New);
     ekleAct_ts->setStatusTip ("Taşınır Kaydı Ekle");
     connect (ekleAct_ts, &QAction::triggered, this,
-             &Cw_IsEmri::TSekle );
+             &hC_IE::TSekle );
     menuts->addAction(ekleAct_ts);
 
     //  tasinir sil
@@ -744,13 +812,13 @@ void Cw_IsEmri::rightMenu_TASINIR(QPoint pos)
     silAct_ts->setShortcuts (QKeySequence::New);
     silAct_ts->setStatusTip ("Taşınır Sil");
     connect (silAct_ts, &QAction::triggered, this,
-             &Cw_IsEmri::sil_TASINIR );
+             &hC_IE::sil_TASINIR );
     menuts->addAction(silAct_ts);
 
     menuts->popup(TStview->viewport()->mapToGlobal(pos));
 }
 
-void Cw_IsEmri::rightMenu_ISCILIK(QPoint pos)
+void hC_IE::rightMenu_ISCILIK(QPoint pos)
 {
     //qDebug ()  <<"  cw iscilik view sağ tuş 001";
     auto *menuis = new QMenu(this);
@@ -761,7 +829,7 @@ void Cw_IsEmri::rightMenu_ISCILIK(QPoint pos)
     ekleAct_is->setShortcuts (QKeySequence::New);
     ekleAct_is->setStatusTip ("İşçilik Ücretleri");
     connect (ekleAct_is, &QAction::triggered, this,
-             &Cw_IsEmri::ayar_ISCILIK );
+             &hC_IE::ayar_ISCILIK );
     menuis->addAction(ekleAct_is);
 
     //  iscilik sil
@@ -770,7 +838,7 @@ void Cw_IsEmri::rightMenu_ISCILIK(QPoint pos)
     silAct_ts->setShortcuts (QKeySequence::New);
     silAct_ts->setStatusTip ("Taşınır Sil");
     connect (silAct_ts, &QAction::triggered, this,
-             &Cw_IsEmri::sil_ISCILIK );
+             &hC_IE::sil_ISCILIK );
     menuis->addAction(silAct_ts);
 
     menuis->popup(SCtview->viewport()->mapToGlobal(pos));
@@ -817,13 +885,13 @@ void Cw_IsEmri::rightMenu_ISCILIK(QPoint pos)
 
 
 
-void Cw_IsEmri::onmnIE_IEDETekle()
+void hC_IE::onmnIE_IEDETekle()
 {
     IEno = new QString;
     IE_idno = new QString;
     //QSqlQuery q;
     //QVariant ino = " " ;
-    QModelIndex index = IEtview->currentIndex();
+    QModelIndex index = IEtview->table->currentIndex();
     if (index.isValid())
     {
         // tv index i ile model de recordu bulduk
@@ -931,7 +999,7 @@ void Cw_IsEmri::onmnIE_IEDETekle()
     lB_dr->setBuddy(cbx_IEdetdurum);
 //    QPushButton *pb_durum = new QPushButton("+");
 //    TsL->addWidget(pb_durum   ,4,4,1,1,nullptr);
-//    connect(pb_durum, &QPushButton::clicked, this, &Cw_IsEmri::clk_IEdetdurum);
+//    connect(pb_durum, &QPushButton::clicked, this, &hC_IE::clk_IEdetdurum);
 
     QLabel *lB_gt = new QLabel("Araç Giriş Tarihi");
     TsL->addWidget(lB_gt        ,7,0,1,1,nullptr);
@@ -958,7 +1026,7 @@ void Cw_IsEmri::onmnIE_IEDETekle()
 
     QPushButton *pb_kaydet = new QPushButton("Yeni Ekle");
     connect (pb_kaydet, &QPushButton::clicked,
-             this, & Cw_IsEmri::clk_IEDETbosh );
+             this, & hC_IE::clk_IEDETbosh );
     TsL->addWidget(pb_kaydet        ,10,5,1,1,nullptr);
 
     QPushButton *TStview = new QPushButton("Vazgeç");
@@ -1004,7 +1072,7 @@ qDebug ()<< "::::: 5" ;
 }
 
 
-void Cw_IsEmri::clk_IEDETbosh()
+void hC_IE::clk_IEDETbosh()
 {
     /// yeni IE iş emri detay kaydı için
     /// sahaları boşaltalım
@@ -1019,14 +1087,14 @@ void Cw_IsEmri::clk_IEDETbosh()
     dE_IEdetciktarihi->setDate(QDate::currentDate());
 
 
-    Cw_IsEmri::IEDETekle();
+    hC_IE::IEDETekle();
 
 }
 
 
 
 
-void Cw_IsEmri::IEDETekle()
+void hC_IE::IEDETekle()
 {
 
     ////////////////////////////////
@@ -1078,13 +1146,13 @@ void Cw_IsEmri::IEDETekle()
 
 
 
-void Cw_IsEmri::clk_IEdetdurum()
+void hC_IE::clk_IEdetdurum()
 {}
 
-void Cw_IsEmri::clk_IEdetyyer()
+void hC_IE::clk_IEdetyyer()
 {}
 
-void Cw_IsEmri::clk_IEdetclsn()
+void hC_IE::clk_IEdetclsn()
 {}
 
 
@@ -1112,7 +1180,7 @@ void Cw_IsEmri::clk_IEdetclsn()
 
 
 
-void Cw_IsEmri::onmnIEDET_TSekle()
+void hC_IE::onmnIEDET_TSekle()
 {
     qDebug ()<<"ts 1";
     TSno = new QString;
@@ -1216,7 +1284,7 @@ qDebug ()<<"ts 142";
     lB_us->setBuddy(cbx_TSmalzeme);
     QPushButton *pb_clsn = new QPushButton("+");
     TsL->addWidget(pb_clsn   ,2,4,1,1,nullptr);
-    connect (pb_clsn, &QPushButton::clicked, this, &Cw_IsEmri::clk_IEdetclsn);
+    connect (pb_clsn, &QPushButton::clicked, this, &hC_IE::clk_IEdetclsn);
 
 
 
@@ -1241,7 +1309,7 @@ qDebug ()<<"ts 143";
     lB_usb->setBuddy(cbx_TSbirim);
     QPushButton *pb_clsn2 = new QPushButton("+");
     TsL->addWidget(pb_clsn2   ,4,4,1,1,nullptr);
-    connect (pb_clsn2, &QPushButton::clicked, this, &Cw_IsEmri::clk_IEdetclsn);
+    connect (pb_clsn2, &QPushButton::clicked, this, &hC_IE::clk_IEdetclsn);
 qDebug ()<<"ts 143";
     QLabel *lB_bf = new QLabel("Birim Fiyat");
     TsL->addWidget(lB_bf        ,5,0,1,1,nullptr);
@@ -1261,7 +1329,7 @@ qDebug ()<<"ts 144";
     lB_dr->setBuddy(cbx_TSdurum);
     QPushButton *pb_durum = new QPushButton("+");
     TsL->addWidget(pb_durum   ,6,4,1,1,nullptr);
-    connect(pb_durum, &QPushButton::clicked, this, &Cw_IsEmri::clk_IEdetdurum);
+    connect(pb_durum, &QPushButton::clicked, this, &hC_IE::clk_IEdetdurum);
 
     QLabel *lB_acklm = new QLabel("Açıklama");
     TsL->addWidget(lB_acklm        ,7,0,1,1,nullptr);
@@ -1276,7 +1344,7 @@ qDebug ()<<"ts 145";
 
     QPushButton *pb_kaydet = new QPushButton("Yeni Ekle");
     connect (pb_kaydet, &QPushButton::clicked,
-             this, & Cw_IsEmri::clk_TSbosh );
+             this, & hC_IE::clk_TSbosh );
     TsL->addWidget(pb_kaydet        ,10,5,1,1,nullptr);
 
     QPushButton *TStview = new QPushButton("Vazgeç");
@@ -1324,7 +1392,7 @@ qDebug ()<<"ts 15";
 }
 
 
-void Cw_IsEmri::clk_TSbosh()
+void hC_IE::clk_TSbosh()
 {
     /// yeni IE iş emri detay kaydı için
     /// sahaları boşaltalım
@@ -1340,14 +1408,14 @@ qDebug ()<<"ts 16";
     lE_TSaciklama->setText ("");
 
 
-    Cw_IsEmri::TSekle();
+    hC_IE::TSekle();
 
 }
 
 
 
 
-void Cw_IsEmri::TSekle()
+void hC_IE::TSekle()
 {
 qDebug ()<<"ts 17";
     ////////////////////////////////
@@ -1429,7 +1497,7 @@ qDebug ()<<"ts 19";
 
 
 
-void Cw_IsEmri::onmnIEDET_SCekle()
+void hC_IE::onmnIEDET_SCekle()
 {
     qDebug ()<<"SC 1";
     SCno = new QString;
@@ -1532,7 +1600,7 @@ qDebug ()<<"SC 142";
     lB_usb2->setBuddy(cbx_SCbirim);
     QPushButton *pb_clsn2 = new QPushButton("+");
     SCL->addWidget(pb_clsn2   ,4,4,1,1,nullptr);
-    connect (pb_clsn2, &QPushButton::clicked, this, &Cw_IsEmri::clk_IEdetclsn);
+    connect (pb_clsn2, &QPushButton::clicked, this, &hC_IE::clk_IEdetclsn);
 
     QLabel *lB_usb = new QLabel("Usta");
     SCL->addWidget(lB_usb        ,4,0,1,1,nullptr);
@@ -1541,7 +1609,7 @@ qDebug ()<<"SC 142";
     lB_usb->setBuddy(cbx_SCusta);
     QPushButton *pb_cl2 = new QPushButton("+");
     SCL->addWidget(pb_cl2   ,4,4,1,1,nullptr);
-    connect (pb_cl2, &QPushButton::clicked, this, &Cw_IsEmri::clk_IEdetclsn);
+    connect (pb_cl2, &QPushButton::clicked, this, &hC_IE::clk_IEdetclsn);
 
 
 
@@ -1579,7 +1647,7 @@ qDebug ()<<"SC 144";
     lB_dr->setBuddy(cbx_SCucrettip);
     QPushButton *pb_utip = new QPushButton("+");
     SCL->addWidget(pb_utip   ,6,4,1,1,nullptr);
-    connect(pb_utip, &QPushButton::clicked, this, &Cw_IsEmri::clk_IEdetdurum);
+    connect(pb_utip, &QPushButton::clicked, this, &hC_IE::clk_IEdetdurum);
 
     QLabel *lB_acklm = new QLabel("Açıklama");
     SCL->addWidget(lB_acklm        ,7,0,1,1,nullptr);
@@ -1594,7 +1662,7 @@ qDebug ()<<"SC 145";
 
     QPushButton *pb_kaydet = new QPushButton("Yeni Ekle");
     connect (pb_kaydet, &QPushButton::clicked,
-             this, & Cw_IsEmri::clk_SCbosh );
+             this, & hC_IE::clk_SCbosh );
     SCL->addWidget(pb_kaydet        ,10,5,1,1,nullptr);
 
     QPushButton *SCtview = new QPushButton("Vazgeç");
@@ -1646,7 +1714,7 @@ qDebug ()<<"SC 15";
 }
 
 
-void Cw_IsEmri::clk_SCbosh()
+void hC_IE::clk_SCbosh()
 {
     /// yeni IE iş emri detay kaydı için
     /// sahaları boşaltalım
@@ -1662,14 +1730,14 @@ qDebug ()<<"SC 16";
     lE_SCaciklama->setText ("");
 
 
-    Cw_IsEmri::SCekle();
+    hC_IE::SCekle();
 
 }
 
 
 
 
-void Cw_IsEmri::SCekle()
+void hC_IE::SCekle()
 {
 qDebug ()<<"SC 17";
     ////////////////////////////////
@@ -1720,12 +1788,12 @@ qDebug ()<<"SC 19";
 
 
 
-Cw_IsEmri::~Cw_IsEmri()
+hC_IE::~hC_IE()
 = default;
 
 /*
 
-void Cw_IsEmri::TSekle()
+void hC_IE::TSekle()
 {
     QString ieno = "";
     QModelIndex index = IEDETtview->currentIndex();
@@ -1753,7 +1821,7 @@ void Cw_IsEmri::TSekle()
 }  // ekle tasinir
 
 
-void Cw_IsEmri::SCekle()
+void hC_IE::SCekle()
 {
     QString ieno = "";
     QModelIndex index = IEDETtview->currentIndex();
@@ -1795,7 +1863,7 @@ void Cw_IsEmri::SCekle()
 
 
 
-void Cw_IsEmri::sil_IE()
+void hC_IE::sil_IE()
 {
     // ie  kayıt sil
     QMessageBox msgBox;
@@ -1828,7 +1896,7 @@ void Cw_IsEmri::sil_IE()
         // şimdi iş emrini silelim
         QSqlQuery q_qry;
         QString s_qry;
-        QModelIndex ie_indx = IEtview->currentIndex ();
+        QModelIndex ie_indx = IEtview->table->currentIndex ();
         QString ino = IEmodel->data
                 (IEmodel->index
                  (ie_indx.row (),
@@ -1866,7 +1934,7 @@ void Cw_IsEmri::sil_IE()
 
 
 
-void Cw_IsEmri::sil_IEDET()
+void hC_IE::sil_IEDET()
 {
     // iedet  kayıt sil
     QMessageBox msgBox;
@@ -1926,7 +1994,7 @@ void Cw_IsEmri::sil_IEDET()
 
 
 
-void Cw_IsEmri::sil_TASINIR()
+void hC_IE::sil_TASINIR()
 {
     // tasinir  kayıt sil
     QMessageBox msgBox;
@@ -1984,7 +2052,7 @@ void Cw_IsEmri::sil_TASINIR()
 
 
 
-void Cw_IsEmri::sil_ISCILIK()
+void hC_IE::sil_ISCILIK()
 {
     // işçilik  kayıt sil
     QMessageBox msgBox;
@@ -2051,7 +2119,7 @@ void Cw_IsEmri::sil_ISCILIK()
 
 
 
-void Cw_IsEmri::ayar_ISCILIK()
+void hC_IE::ayar_ISCILIK()
 {
 
 }       ///      AYAR işçilik

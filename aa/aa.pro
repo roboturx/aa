@@ -26,7 +26,6 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += main.cpp\
     cw_grs.cpp \
-    cw_isemri.cpp \
     mkevrk.cpp \
     dlgt_mkstok.cpp \
     cw_gelir.cpp \
@@ -50,14 +49,17 @@ SOURCES += main.cpp\
     frm.cpp \
     ftr.cpp \
     mkn.cpp \
-    mlzm.cpp
+    mlzm.cpp \
+    iedet.cpp \
+    tsnr.cpp \
+    sclk.cpp \
+    ie.cpp
 
 
 HEADERS  += \
     globals.h \
     dlgt_mkstok.h \
     cw_grs.h \
-    cw_isemri.h \
     mkevrk.h \
     cw_gelir.h \
     VTKontrol.h \
@@ -83,7 +85,11 @@ HEADERS  += \
     frm.h \
     ftr.h \
     mkn.h \
-    mlzm.h
+    mlzm.h \
+    iedet.h \
+    tsnr.h \
+    sclk.h \
+    ie.h
     # cw_cns.h
 
 FORMS    += \

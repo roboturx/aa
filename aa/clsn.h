@@ -1,11 +1,9 @@
 ﻿#ifndef CW_CLSN_H
 #define CW_CLSN_H
 
-
 #include "globals.h"
 #include "hc_.h"
 #include "dbase.h"
-
 
 namespace ns_CLSN
 {
@@ -13,7 +11,8 @@ class hC_CLSN;
 }
 
 class hC_CLSN : public QWidget
-{   Q_OBJECT
+{
+    Q_OBJECT
 
 public:
 
@@ -24,22 +23,27 @@ public:
     QString clsn_VTd();
     void    clsn_model(QSqlRelationalTableModel * );
 
-    DBase* dbase;
     hC_Tv*                    CLSNtview;
     QSqlRelationalTableModel* CLSNmodel;
     QItemSelectionModel*      CLSNselectionMdl;
     QDataWidgetMapper*        CLSNmapper;
 
+
+private:
+    void clsn_ui()   ;
+    void clsn_view() ;
+    void clsn_map()  ;
+    void clsn_kntrl();
+
+protected:
+    void showEvent(QShowEvent *);
+
+public:
     QLabel      *lB_clsn =nullptr    ;
     QLabel      *lB_rsm  =nullptr    ;
 
-
-
-
-
-//    QComboBox   *cb_meslek=nullptr  ;
     QGroupBox   *gB_map=nullptr     ;
-      
+
     QLineEdit   *lE_isim=nullptr    ;
     QLineEdit   *lE_soyad=nullptr   ;
     QLineEdit   *lE_tc=nullptr;
@@ -58,15 +62,6 @@ public:
     QLineEdit   *lE_username{};
     QLineEdit   *lE_password{};
     QLineEdit   *lE_yetki{}   ;
-
-private:
-    void clsn_ui()   ;
-    void clsn_view() ;
-    void clsn_map()  ;
-    void clsn_kntrl();
-
-protected:
-    void showEvent(QShowEvent *);
 
 
 };

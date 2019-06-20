@@ -1,5 +1,5 @@
 ﻿#include "mkn.h"
-#include "cw_isemri.h"
+#include "ie.h"
 #include "clsn.h"
 #include "mkevrk.h"
 #include "dlgt_mkstok.h"
