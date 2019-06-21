@@ -1,8 +1,6 @@
 ﻿#ifndef HC_IEDET_H
 #define HC_IEDET_H
 
-#include <QWidget>
-
 #include <globals.h>
 #include "hc_.h"
 
