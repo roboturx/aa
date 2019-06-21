@@ -38,7 +38,7 @@ void hC_IEDET::iedet_ui()
 
     IEDETtview = new hC_Tv;
 
-    gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
+   // gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
     gLl->addWidget(IEDETtview,   0, 1, 1, 1 );
 }
 //////////////////////////////////
@@ -50,7 +50,7 @@ void hC_IEDET::iedet_ui()
 /// VIEW
 
 
-void hC_IE::model_IEDET()
+void hC_IEDET::iedet_model()
 {
     IEDETmodel = new QSqlRelationalTableModel();
     IEDETmodel->setTable("dbtb_iedet");

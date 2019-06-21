@@ -56,7 +56,7 @@ void DBase::VTDosyaKontrol()
    // yaz(DBase::VTd_MODEL ());
 
 
-    DBase::VTd_ISEMRI ();
+//    DBase::VTd_ISEMRI ();
     DBase::VTd_ISEMRIDETAY ();
     DBase::VTd_IEDTAMIRYERI ();
     DBase::VTd_IEDTYDETAY ();
@@ -1141,57 +1141,57 @@ void DBase::VTDosyaKontrol()
 //}///MDLİ
 
 
-void DBase::VTd_ISEMRI ()
-{
-    ///  ISEMRI create
-    ///
+//void DBase::VTd_ISEMRI ()
+//{
+//    ///  ISEMRI create
+//    ///
 
-    QString ct;
-    QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_IE"))
-    {
-        /// mkstok_no joins Mlzm with işemri
-        /// db_mkn <- dbtb_IE
-        ///
-        /// ie_no = mknstk_n0 + id_IE
-        ///
-        /// ie_no used iedetay relation
+//    QString ct;
+//    QSqlQuery q;
+//    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_IE"))
+//    {
+//        /// mkstok_no joins Mlzm with işemri
+//        /// db_mkn <- dbtb_IE
+//        ///
+//        /// ie_no = mknstk_n0 + id_IE
+//        ///
+//        /// ie_no used iedetay relation
 
-        ct ="CREATE TABLE IF NOT EXISTS dbtb_IE "
-            "("
-            "ie_mkn_id        TEXT, "
-            "ie_ie_no         TEXT, "
-            "ie_tarih         TEXT, "
-            "ie_bolum         TEXT, "
-            "ie_durum         TEXT, "
-            "ie_girtar        TEXT, "
-            "ie_ciktar        TEXT, "
-            "ie_yetkili1      TEXT, "
-            "ie_yetkili2      TEXT, "
-            "ie_resim         BLOB, "
-            "id_IE integer primary key  )"  ;
+//        ct ="CREATE TABLE IF NOT EXISTS dbtb_IE "
+//            "("
+//            "ie_mkn_id        TEXT, "
+//            "ie_ie_no         TEXT, "
+//            "ie_tarih         TEXT, "
+//            "ie_bolum         TEXT, "
+//            "ie_durum         TEXT, "
+//            "ie_girtar        TEXT, "
+//            "ie_ciktar        TEXT, "
+//            "ie_yetkili1      TEXT, "
+//            "ie_yetkili2      TEXT, "
+//            "ie_resim         BLOB, "
+//            "id_IE integer primary key  )"  ;
 
 
 
-        if (!q.exec( ct ))
-        {
-            qDebug() << " ISEMRI Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-        }
-        else
-        {
-            qDebug() << " ISEMRI Dosyası YENİ Oluşturuldu - ";
-            q.exec("INSERT INTO dbtb_IE ( ie_mkn_id )"
-                   " values( 1 )"  );
+//        if (!q.exec( ct ))
+//        {
+//            qDebug() << " ISEMRI Dosyası Oluşturulamadı - "
+//                     << q.lastError() ;
+//        }
+//        else
+//        {
+//            qDebug() << " ISEMRI Dosyası YENİ Oluşturuldu - ";
+//            q.exec("INSERT INTO dbtb_IE ( ie_mkn_id )"
+//                   " values( 1 )"  );
 
-        }
-    }
-    else
-    {
-        qDebug() << "2- İŞ EMRİ Dosyası - OK ";
-    }
+//        }
+//    }
+//    else
+//    {
+//        qDebug() << "2- İŞ EMRİ Dosyası - OK ";
+//    }
 
-}
+//}
 
 
 void DBase::VTd_ISEMRIDETAY ()

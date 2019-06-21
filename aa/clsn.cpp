@@ -40,7 +40,7 @@ void hC_CLSN::clsn_ui()
 
     // ///////////////////////////////////////////////////////
 
-    lB_clsn  = new QLabel ("Firma");
+    lB_clsn  = new QLabel ("ÇALIŞAN");
     lB_rsm = new QLabel ("Resim");
     hC_Rs resim(lB_rsm);
 
@@ -374,8 +374,8 @@ QString hC_CLSN::clsn_VTd()
     QString     ct, mesaj = "OK - Çalışan";
     QStringList inserts;
     QString CLSNtableName ( "clsn__dbtb");
-    if ( ! VTKontrolEt::instance()->
-         GetDB().tables().contains( CLSNtableName ))
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( CLSNtableName ))
     {
 
         ct = "CREATE TABLE IF NOT EXISTS " + CLSNtableName +
