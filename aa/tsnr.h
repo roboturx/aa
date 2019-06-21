@@ -51,6 +51,11 @@ private slots:
 public:
 
     // TS variable
+    QLabel* lB_rsm ;
+    QLabel* lB_tsnr;
+
+
+
     QComboBox *cbx_TSmlzm{};
     QSqlTableModel *cbxTSmlzmModel{} ;
 
