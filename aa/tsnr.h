@@ -37,17 +37,6 @@ private:
     void tsnr_map()  ;
     void tsnr_kntrl();
 
-public slots:
-    void clk_TSbosh();
-
-private slots:
-
-    void onmnIEDET_TSekle();
-    void rowChanged_TASINIR(QModelIndex);
-    void rightMenu_TASINIR(QPoint pos);
-    void TSekle();
-    void sil_TASINIR();
-
 public:
 
     // TS variable

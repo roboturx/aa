@@ -77,18 +77,12 @@ void hC_SCLK::sclk_ui()
     cbx_SCbirim = new QComboBox;                    //dbtb_SCLK
     SCL->addWidget(cbx_SCbirim   ,4,1,1,3,nullptr);
     lB_usb2->setBuddy(cbx_SCbirim);
-    QPushButton *pb_SCLK2 = new QPushButton("+");
-    SCL->addWidget(pb_SCLK2   ,4,4,1,1,nullptr);
-    connect (pb_SCLK2, &QPushButton::clicked, this, &hC_IE::clk_IEdetSCLK);
 
     QLabel *lB_usb = new QLabel("Usta");
     SCL->addWidget(lB_usb        ,4,0,1,1,nullptr);
     cbx_SCusta = new QComboBox;                    //dbtb_SCLK
     SCL->addWidget(cbx_SCusta   ,4,1,1,3,nullptr);
     lB_usb->setBuddy(cbx_SCusta);
-    QPushButton *pb_cl2 = new QPushButton("+");
-    SCL->addWidget(pb_cl2   ,4,4,1,1,nullptr);
-    connect (pb_cl2, &QPushButton::clicked, this, &hC_IE::clk_IEdetSCLK);
 
     QLabel *lB_tm = new QLabel("Saat");
     SCL->addWidget(lB_tm        ,3,0,1,1,nullptr);
@@ -115,9 +109,6 @@ void hC_SCLK::sclk_ui()
     cbx_SCucrettip->addItem ("ücret tip 3");
     SCL->addWidget(cbx_SCucrettip   ,6,1,1,3,nullptr);
     lB_dr->setBuddy(cbx_SCucrettip);
-    QPushButton *pb_utip = new QPushButton("+");
-    SCL->addWidget(pb_utip   ,6,4,1,1,nullptr);
-    connect(pb_utip, &QPushButton::clicked, this, &hC_IE::clk_IEdetdurum);
 
     QLabel *lB_acklm = new QLabel("Açıklama");
     SCL->addWidget(lB_acklm        ,7,0,1,1,nullptr);
@@ -419,20 +410,22 @@ void hC_SCLK::sclk_kntrl()
             QAction* ekleAct_is = new QAction(ekleIc_is, tr("İşçilik Ücretleri..."), this);
             ekleAct_is->setShortcuts (QKeySequence::New);
             ekleAct_is->setStatusTip ("İşçilik Ücretleri");
-            connect (ekleAct_is, &QAction::triggered, this,
-                     &hC_SCLK::ayar_ISCILIK );
+            connect (ekleAct_is, &QAction::triggered,
+                     []()
+            {
+            });
             menuis->addAction(ekleAct_is);
 
-            //  iscilik sil
-            const QIcon silIc_ts = QIcon(":/rsm/Add.ico");
-            QAction* silAct_ts = new QAction(silIc_ts, tr("Taşınır Sil..."), this);
-            silAct_ts->setShortcuts (QKeySequence::New);
-            silAct_ts->setStatusTip ("Taşınır Sil");
-            connect (silAct_ts, &QAction::triggered, this,
-                     &hC_SCLK::sil_ISCILIK );
-            menuis->addAction(silAct_ts);
+//            //  iscilik sil
+//            const QIcon silIc_ts = QIcon(":/rsm/Add.ico");
+//            QAction* silAct_ts = new QAction(silIc_ts, tr("Taşınır Sil..."), this);
+//            silAct_ts->setShortcuts (QKeySequence::New);
+//            silAct_ts->setStatusTip ("Taşınır Sil");
+//            connect (silAct_ts, &QAction::triggered, this,
+//                     &hC_SCLK::sil_ISCILIK );
+//            menuis->addAction(silAct_ts);
 
-            menuis->popup(SCLKtview->table->viewport()->mapToGlobal(pos));
+            menuis->popup(SCLKtview->table->viewport()->mapToGlobal(pos()));
 
 
         });
@@ -442,6 +435,95 @@ void hC_SCLK::sclk_kntrl()
 
 hC_SCLK::~hC_SCLK()
 = default;
+
+
+QString hC_SCLK::sclk_VTd ()
+{
+    QString ct,
+            mesaj = "OK - İŞÇİLİK" ,
+            tName = "sclk__dbtb";
+    QStringList inserts;
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( tName ))
+    {
+        ct ="CREATE TABLE IF NOT EXISTS " + tName +
+            "("
+            "sc_iedet_id   INTEGER, "
+            "sc_no         TEXT, "
+            "sc_tarih      TEXT, "
+            "sc_Birim      TEXT, "
+            "sc_usta       TEXT, "
+            "sc_saat       TEXT, "
+            "sc_ucret      TEXT, "
+            "sc_ucrettip   TEXT,"
+            "sc_aciklama   TEXT,"
+            "sc_resim         BLOB, "
+            "id_sc integer primary key  )"  ;
+
+
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - İşçilik Dosyası Oluşturulamadı  "
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text() +
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj = "OK - İşçilik Dosyası YENİ Oluşturuldu ";
+            inserts << "INSERT INTO dbtb_iscilik ( mknstk_no,iedet_no,is_no )"
+                       " values( 1,1,1 )" ;
+
+            foreach (QString qry , inserts)
+            {
+                if ( !q.exec(qry) )
+                {
+                    mesaj = mesaj + "<br>İLK İşçilik Kaydı Eklenemdi"+
+                            "<br>------------------------------------<br>"+
+                            q.lastError().text ()+
+                            "<br>------------------------------------<br>";
+                }
+                else
+                {
+                    mesaj = mesaj + "<br>İLK İşçilik kaydı eklendi.";
+                }
+            } // foreach
+        }
+    }
+    qDebug ()<< mesaj;
+    return mesaj ;
+
+
+} //ISCILIK
+
+
+
+
+void hC_SCLK::sclk_model(QSqlRelationalTableModel *model)
+{
+    qDebug() << " sclk mdl";
+    QString indexField = "sclk";
+    QString tName ("sclk__dbtb");
+    QStringList *tFieldList = new QStringList ;
+    tFieldList->append("IEDET-SCLK ID ");
+    tFieldList->append("İşçilik No");
+    tFieldList->append("Tarih");
+    tFieldList->append("Birim");
+    tFieldList->append("Usta");
+    tFieldList->append("Saat");
+    tFieldList->append("Ücret");
+    tFieldList->append("Ücret Tipi");
+    tFieldList->append("Açıklama");
+    tFieldList->append("Resim");
+    tFieldList->append("İŞÇİLİK-ID");
+
+    hC_Rm hC_Rm ( &tName,
+                 model,
+                 &indexField ,
+                 tFieldList) ;
+
+} /// İŞÇİLİK MODEL
 
 
 

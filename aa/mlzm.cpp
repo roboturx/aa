@@ -1027,24 +1027,24 @@ void hC_MLZM::mlzm_model(QSqlRelationalTableModel* model)
     qDebug() << " mdlmlzm";
     QString tableName ("mlzm__dbtb");
     QString indexField = "mlzm_malzeme";
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Kod");
-    tableFieldList->append("Barkod");
-    tableFieldList->append("Malzeme");
-    tableFieldList->append("Açıklama");
-    tableFieldList->append("Marka");
-    tableFieldList->append("Model");
-    tableFieldList->append("Cins");
-    tableFieldList->append("Birim");
-    tableFieldList->append("Giriş");
-    tableFieldList->append("Çıkış");
-    tableFieldList->append("Mevcut");
-    tableFieldList->append("Makina");
-    tableFieldList->append("Resim");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Kod");
+    tB_FieldList->append("Barkod");
+    tB_FieldList->append("Malzeme");
+    tB_FieldList->append("Açıklama");
+    tB_FieldList->append("Marka");
+    tB_FieldList->append("Model");
+    tB_FieldList->append("Cins");
+    tB_FieldList->append("Birim");
+    tB_FieldList->append("Giriş");
+    tB_FieldList->append("Çıkış");
+    tB_FieldList->append("Mevcut");
+    tB_FieldList->append("Makina");
+    tB_FieldList->append("Resim");
     hC_Rm hC_Rm (&tableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 }///Malzeme Model
 
@@ -1122,25 +1122,25 @@ void hC_MLZM::mlzmdet_model (QSqlRelationalTableModel *model)
     QString tableName ("mlzmdet__dbtb");
     QString indexField = "mlzmdet_gcno";
 
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Detay Kod");
-    tableFieldList->append("Malzeme Kod");
-    tableFieldList->append("Barkod");
-    tableFieldList->append("Malzeme");
-    tableFieldList->append("Tarih");
-    tableFieldList->append("İşlem Türü");
-    tableFieldList->append("İşlem No");
-    tableFieldList->append("Miktar");
-    tableFieldList->append("Birim");
-    tableFieldList->append("Fiyat");
-    tableFieldList->append("KDV");
-    tableFieldList->append("Açıklama");
-    tableFieldList->append("Resim");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Detay Kod");
+    tB_FieldList->append("Malzeme Kod");
+    tB_FieldList->append("Barkod");
+    tB_FieldList->append("Malzeme");
+    tB_FieldList->append("Tarih");
+    tB_FieldList->append("İşlem Türü");
+    tB_FieldList->append("İşlem No");
+    tB_FieldList->append("Miktar");
+    tB_FieldList->append("Birim");
+    tB_FieldList->append("Fiyat");
+    tB_FieldList->append("KDV");
+    tB_FieldList->append("Açıklama");
+    tB_FieldList->append("Resim");
 
     hC_Rm hC_Rm (&tableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 }///fsturs detsy Model
 

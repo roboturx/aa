@@ -1313,30 +1313,30 @@ void hC_MKN::mkn_model (QSqlRelationalTableModel *model)
     QString MKNtableName ("mkn__dbtb");
 
 
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Makina Kod");
-    tableFieldList->append("Kurum No");
-    tableFieldList->append("Plaka");
-    tableFieldList->append("Cinsi");
-    tableFieldList->append("Markası");
-    tableFieldList->append("Modeli");
-    tableFieldList->append("Model Yılı");
-    tableFieldList->append("Şase No");
-    tableFieldList->append("Motor No");
-    tableFieldList->append("Motor Tipi");
-    tableFieldList->append("Yakıt Türü");
-    tableFieldList->append("Sürücü Adı");
-    tableFieldList->append("İşe Başlama Tarihi");
-    tableFieldList->append("Birimi");
-    tableFieldList->append("Açıklama");
-    tableFieldList->append("Bulunduğu Yer");
-    tableFieldList->append("Resim");
-    tableFieldList->append("Rating");
-    // tableFieldList->append("resim");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Makina Kod");
+    tB_FieldList->append("Kurum No");
+    tB_FieldList->append("Plaka");
+    tB_FieldList->append("Cinsi");
+    tB_FieldList->append("Markası");
+    tB_FieldList->append("Modeli");
+    tB_FieldList->append("Model Yılı");
+    tB_FieldList->append("Şase No");
+    tB_FieldList->append("Motor No");
+    tB_FieldList->append("Motor Tipi");
+    tB_FieldList->append("Yakıt Türü");
+    tB_FieldList->append("Sürücü Adı");
+    tB_FieldList->append("İşe Başlama Tarihi");
+    tB_FieldList->append("Birimi");
+    tB_FieldList->append("Açıklama");
+    tB_FieldList->append("Bulunduğu Yer");
+    tB_FieldList->append("Resim");
+    tB_FieldList->append("Rating");
+    // tB_FieldList->append("resim");
     hC_Rm hC_Rm (&MKNtableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 }///MKN
 

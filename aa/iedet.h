@@ -38,22 +38,12 @@ private:
     void clk_IEdetclsn();
     void clk_IEdetyyer();
 
-public slots:
-    void rowChanged_IEDET(QModelIndex IEDETindex);
-    void clk_IEDETbosh();
-
-private slots:
-
-    void onmnIE_IEDETekle();
-    void rightMenu_IEDET(QPoint pos);
-    void IEDETekle();
-    void sil_IEDET();
-
-
 
 public:
     /// iedet variables
 
+    QLabel* lB_iedet ;
+    QLabel* lB_rsm;
     QWidget *wdgt_IEdetekle{};
     QWidget *wdgt_TSekle{};
     QWidget *wdgt_SCekle{};

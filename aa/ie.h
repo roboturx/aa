@@ -35,11 +35,7 @@ private:
     void ie_map()  ;
     void ie_kntrl();
 
-public slots:
-    void rowChanged_IE(QModelIndex IEindex);
-    void rowChanged_IEDET(QModelIndex IEDETindex);
-    void rightMenu_IE(QPoint pos);
-    void sil_IE();
+
 };
 
 

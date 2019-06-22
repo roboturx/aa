@@ -459,31 +459,31 @@ void hC_CLSN::clsn_model(QSqlRelationalTableModel *model)
     qDebug() << " clsn mdl";
     QString indexField = "clsn_soyad";
     QString CLSNtableName ("clsn__dbtb");
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Çalışan Kod");
-    tableFieldList->append("İsim");
-    tableFieldList->append("Soyad");
-    tableFieldList->append("TC Kimlik No");
-    tableFieldList->append("Doğum Yeri");
-    tableFieldList->append("Doğum Tarihi");
-    tableFieldList->append("Baba Adı");
-    tableFieldList->append("Bölüm");
-    tableFieldList->append("Meslek");
-    tableFieldList->append("Gorev");
-    tableFieldList->append("Adres");
-    tableFieldList->append("Şehir");
-    tableFieldList->append("Telefon Cep");
-    tableFieldList->append("Telefon Ev");
-    tableFieldList->append("E-Poata");
-    tableFieldList->append("Kullanıcı Adı");
-    tableFieldList->append("Şifre");
-    tableFieldList->append("Yetki");
-    tableFieldList->append("resim");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Çalışan Kod");
+    tB_FieldList->append("İsim");
+    tB_FieldList->append("Soyad");
+    tB_FieldList->append("TC Kimlik No");
+    tB_FieldList->append("Doğum Yeri");
+    tB_FieldList->append("Doğum Tarihi");
+    tB_FieldList->append("Baba Adı");
+    tB_FieldList->append("Bölüm");
+    tB_FieldList->append("Meslek");
+    tB_FieldList->append("Gorev");
+    tB_FieldList->append("Adres");
+    tB_FieldList->append("Şehir");
+    tB_FieldList->append("Telefon Cep");
+    tB_FieldList->append("Telefon Ev");
+    tB_FieldList->append("E-Poata");
+    tB_FieldList->append("Kullanıcı Adı");
+    tB_FieldList->append("Şifre");
+    tB_FieldList->append("Yetki");
+    tB_FieldList->append("resim");
 
     hC_Rm hC_Rm ( &CLSNtableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 } /// ÇALIŞAN
 

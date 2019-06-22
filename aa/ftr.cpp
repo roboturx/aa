@@ -1245,18 +1245,18 @@ void hC_FTR::ftr_model(QSqlRelationalTableModel *model)
     qDebug() << " mdlftr";
     QString indexField = "ftr_tarih";
     QString tableName ("ftr__dbtb");
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Fatura Kod");
-    tableFieldList->append("Fatura No");
-    tableFieldList->append("Firma Unvanı");
-    tableFieldList->append("Fatura Tarihi");
-    tableFieldList->append("Açıklama");
-    tableFieldList->append("Resim");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Fatura Kod");
+    tB_FieldList->append("Fatura No");
+    tB_FieldList->append("Firma Unvanı");
+    tB_FieldList->append("Fatura Tarihi");
+    tB_FieldList->append("Açıklama");
+    tB_FieldList->append("Resim");
 
     hC_Rm hC_Rm (&tableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 }///FATURA
 
@@ -1268,25 +1268,25 @@ void hC_FTR::ftrdet_model (QSqlRelationalTableModel *model)
     QString tableName ("mlzmdet__dbtb");
     QString indexField = "mlzmdet_gcno";
 
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Detay Kod");
-    tableFieldList->append("Malzeme Kod");
-    tableFieldList->append("Barkod");
-    tableFieldList->append("Malzeme");
-    tableFieldList->append("Tarih");
-    tableFieldList->append("İşlem Türü");
-    tableFieldList->append("İşlem No");
-    tableFieldList->append("Miktar");
-    tableFieldList->append("Birim");
-    tableFieldList->append("Fiyat");
-    tableFieldList->append("KDV");
-    tableFieldList->append("Açıklama");
-    tableFieldList->append("Resim");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Detay Kod");
+    tB_FieldList->append("Malzeme Kod");
+    tB_FieldList->append("Barkod");
+    tB_FieldList->append("Malzeme");
+    tB_FieldList->append("Tarih");
+    tB_FieldList->append("İşlem Türü");
+    tB_FieldList->append("İşlem No");
+    tB_FieldList->append("Miktar");
+    tB_FieldList->append("Birim");
+    tB_FieldList->append("Fiyat");
+    tB_FieldList->append("KDV");
+    tB_FieldList->append("Açıklama");
+    tB_FieldList->append("Resim");
 
     hC_Rm hC_Rm (&tableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 }///fatura detasy Model
 

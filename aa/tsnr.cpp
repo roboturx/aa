@@ -2,9 +2,9 @@
 
 hC_TSNR::hC_TSNR(QWidget *parent) : QWidget (parent)
 {
-    qDebug ()<<"İş Emri Constructor";
+    qDebug ()<<"Taşınır İstek Constructor";
     //************************************************************
-    //*****************  İ Ş   E M R İ  **************************
+    //************  T A Ş I N I R   İ S T E K  *******************
 }
 
 void hC_TSNR::tsnr_setup()
@@ -56,7 +56,7 @@ void hC_TSNR::tsnr_ui()
     TsL->addWidget(lE_TSno   ,0,1,1,3,nullptr);
     lB_tsno->setBuddy(lE_TSno);
 
-qDebug ()<<"ts 142";
+    qDebug ()<<"ts 142";
     QLabel *lB_gt = new QLabel("Tarih");
     TsL->addWidget(lB_gt        ,1,0,1,1,nullptr);
     dE_TStarih = new QDateTimeEdit(QDate::currentDate());
@@ -73,42 +73,33 @@ qDebug ()<<"ts 142";
     cbx_TSmalzeme = new QComboBox;                    //dbtb_TSNR
     TsL->addWidget(cbx_TSmalzeme   ,2,1,1,3,nullptr);
     lB_us->setBuddy(cbx_TSmalzeme);
-    QPushButton *pb_TSNR = new QPushButton("+");
-    TsL->addWidget(pb_TSNR   ,2,4,1,1,nullptr);
-    connect (pb_TSNR, &QPushButton::clicked, this, &hC_TSNR::clk_tsnrdetTSNR);
 
 
 
 
 
-qDebug ()<<"ts 143";
+    qDebug ()<<"ts 143";
 
 
     QLabel *lB_tm = new QLabel("Miktar");
     TsL->addWidget(lB_tm        ,3,0,1,1,nullptr);
     lE_TSmiktar = new QLineEdit;
-    QPushButton *pb_TSmk= new QPushButton("+");
-    TsL->addWidget(lE_TSmiktar  ,3,1,1,3,nullptr);
-    TsL->addWidget(pb_TSmk   ,3,4,1,1,nullptr);
+
     lB_tm->setBuddy(lE_TSmiktar );
 
-qDebug ()<<"ts 143";
     QLabel *lB_usb = new QLabel("Birim");
     TsL->addWidget(lB_usb        ,4,0,1,1,nullptr);
     cbx_TSbirim = new QComboBox;                    //dbtb_TSNR
     TsL->addWidget(cbx_TSbirim   ,4,1,1,3,nullptr);
     lB_usb->setBuddy(cbx_TSbirim);
-    QPushButton *pb_TSNR2 = new QPushButton("+");
-    TsL->addWidget(pb_TSNR2   ,4,4,1,1,nullptr);
-//    connect (pb_TSNR2, &QPushButton::clicked, this, &hC_TSNR::clk_tsnrdetTSNR);
-qDebug ()<<"ts 143";
+
     QLabel *lB_bf = new QLabel("Birim Fiyat");
     TsL->addWidget(lB_bf        ,5,0,1,1,nullptr);
     lE_TSbfiyat = new QLineEdit;
     TsL->addWidget(lE_TSbfiyat   ,5,1,1,3,nullptr);
     lB_bf->setBuddy(lE_TSbfiyat);
 
-qDebug ()<<"ts 144";
+
     QLabel *lB_dr = new QLabel("Durum");
     TsL->addWidget(lB_dr        ,6,0,1,1,nullptr);
     cbx_TSdurum = new QComboBox;                    // dbtb_durum
@@ -118,9 +109,6 @@ qDebug ()<<"ts 144";
     cbx_TSdurum->addItem ("Tamamlandı");
     TsL->addWidget(cbx_TSdurum   ,6,1,1,3,nullptr);
     lB_dr->setBuddy(cbx_TSdurum);
-    QPushButton *pb_durum = new QPushButton("+");
-    TsL->addWidget(pb_durum   ,6,4,1,1,nullptr);
-  //  connect(pb_durum, &QPushButton::clicked, this, &hC_TSNR::clk_tsnrdetdurum);
 
     QLabel *lB_acklm = new QLabel("Açıklama");
     TsL->addWidget(lB_acklm        ,7,0,1,1,nullptr);
@@ -133,7 +121,7 @@ qDebug ()<<"ts 144";
 
 
     gLl->addWidget(TSNRtview->table,      0, 0, 1, 1 );
-    gLl->addWidget(tsnrDETtvtsnrw,   0, 1, 1, 1 );
+
 }
 
 void hC_TSNR::tsnr_view()
@@ -167,14 +155,14 @@ void hC_TSNR::tsnr_map()
     TSNRmapper->setModel(TSNRmodel);
 
     //TSNRmodelapper->addMapping(TSNRmodelapper, mdl_mkn->fieldIndex("tsnr_mknstk_no"));
-        TSNRmapper->addMapping(lE_TSno, TSNRmodel->fieldIndex("ts_no"));
-        TSNRmapper->addMapping(dE_TStarih , TSNRmodel->fieldIndex("ts_tarih"));
-        TSNRmapper->addMapping(cbx_TSmalzeme , TSNRmodel->fieldIndex("ts_malzeme"));
-        TSNRmapper->addMapping(lE_TSmiktar, TSNRmodel->fieldIndex("ts_miktar"));
-        TSNRmapper->addMapping(cbx_TSbirim , TSNRmodel->fieldIndex("ts_birim"));
-        TSNRmapper->addMapping(lE_TSbfiyat, TSNRmodel->fieldIndex("ts_bfiyat"));
-        TSNRmapper->addMapping(cbx_TSdurum, TSNRmodel->fieldIndex("ts_durum"));
-        TSNRmapper->addMapping(lE_TSaciklama , TSmodel->fieldIndex("ts_aciklama"));
+    TSNRmapper->addMapping(lE_TSno, TSNRmodel->fieldIndex("ts_no"));
+    TSNRmapper->addMapping(dE_TStarih , TSNRmodel->fieldIndex("ts_tarih"));
+    TSNRmapper->addMapping(cbx_TSmalzeme , TSNRmodel->fieldIndex("ts_malzeme"));
+    TSNRmapper->addMapping(lE_TSmiktar, TSNRmodel->fieldIndex("ts_miktar"));
+    TSNRmapper->addMapping(cbx_TSbirim , TSNRmodel->fieldIndex("ts_birim"));
+    TSNRmapper->addMapping(lE_TSbfiyat, TSNRmodel->fieldIndex("ts_bfiyat"));
+    TSNRmapper->addMapping(cbx_TSdurum, TSNRmodel->fieldIndex("ts_durum"));
+    TSNRmapper->addMapping(lE_TSaciklama , TSNRmodel->fieldIndex("ts_aciklama"));
 
 
     qDebug()<<"TSNR view son";
@@ -207,7 +195,7 @@ void hC_TSNR::tsnr_kntrl()
         /// line
         /// an invalid date value represents " "
         ///
-        dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
+        //dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
 
 
         if ( ! TSNRmodel->insertRecord(-1,rec))
@@ -218,7 +206,7 @@ void hC_TSNR::tsnr_kntrl()
             qDebug() << "100111 - Çalışan Kaydı eklendi ";
         TSNRmodel->select();
         qDebug ()<<"ts 17";
-            ////////////////////////////////
+        ////////////////////////////////
         /*
         q.bindValue(0, *TSdet_idno  );
         q.bindValue(1, lE_TSno->text() );
@@ -231,46 +219,46 @@ void hC_TSNR::tsnr_kntrl()
         q.bindValue(8, lE_TSaciklama->text() );
         */
         QSqlQuery q;
-            QString q_s;
-            q_s="INSERT INTO dbtb_tasinir ( "
-                "ts_tsnrdet_id, ts_no    , ts_tarih, ts_malzeme , ts_miktar, "
-                "ts_birim   , ts_bfiyat, ts_durum, ts_aciklama  "
-                " )"
-                " values(?, ?, ?, ?, ?, ?, ?, ?, ? )";
-            q.prepare(q_s);
+        QString q_s;
+        q_s="INSERT INTO dbtb_tasinir ( "
+            "ts_tsnrdet_id, ts_no    , ts_tarih, ts_malzeme , ts_miktar, "
+            "ts_birim   , ts_bfiyat, ts_durum, ts_aciklama  "
+            " )"
+            " values(?, ?, ?, ?, ?, ?, ?, ?, ? )";
+        q.prepare(q_s);
 
 
-            qDebug ()<<"ts 17***** " <<  *TSdet_idno  << " *****" << q.lastError();
+        qDebug ()<<"ts 17***** " <<  *TSdet_idno  << " *****" << q.lastError();
 
 
-            q.bindValue(0, *TSdet_idno  );
-            q.bindValue(1, lE_TSno->text() );
-            q.bindValue(2, dE_TStarih->text ());
-            q.bindValue(3, 0 );
-            q.bindValue(4, 0 );
-            q.bindValue(5, 0 );
-            q.bindValue(6, 0 );
-            q.bindValue(7, 0 );
-            q.bindValue(8, "" );
+        q.bindValue(0, *TSdet_idno  );
+        q.bindValue(1, lE_TSno->text() );
+        q.bindValue(2, dE_TStarih->text ());
+        q.bindValue(3, 0 );
+        q.bindValue(4, 0 );
+        q.bindValue(5, 0 );
+        q.bindValue(6, 0 );
+        q.bindValue(7, 0 );
+        q.bindValue(8, "" );
 
-            q.exec();
+        q.exec();
         qDebug ()<<"ts 18";
-            if (q.isActive())
-            {
-                qDebug () <<"Taşınır Yeni Kayıt Eklendi - "<< lE_TSno->text() << " -   Eklendi";
-            }
-            else
-            {
-                qDebug () << "Taşınır Yeni Kayıt Eklenemedi - " << q.lastError().text() ;
-            }
+        if (q.isActive())
+        {
+            qDebug () <<"Taşınır Yeni Kayıt Eklendi - "<< lE_TSno->text() << " -   Eklendi";
+        }
+        else
+        {
+            qDebug () << "Taşınır Yeni Kayıt Eklenemedi - " << q.lastError().text() ;
+        }
 
 
 
-            TSmodel->select();
-            TStvtsnrw->setFocus();
+        TSNRmodel->select();
+        TSNRtview->setFocus();
 
-            // tasinir ekle
-            ///////////////////////////////////////////////////
+        // tasinir ekle
+        ///////////////////////////////////////////////////
 
         qDebug ()<<"ts 19";
 
@@ -323,11 +311,11 @@ void hC_TSNR::tsnr_kntrl()
             // şimdi taşınır silelim
             QSqlQuery q_qry;
             QString s_qry;
-            QModelIndex tasinir_indx = TStvtsnrw->currentIndex ();
-            QString ino = TSmodel->data
-                    (TSmodel->index
+            QModelIndex tasinir_indx = TSNRtview->table->currentIndex ();
+            QString ino = TSNRmodel->data
+                    (TSNRmodel->index
                      (tasinir_indx.row (),
-                      TSmodel->fieldIndex ("id_tasinir"))).toString ();
+                      TSNRmodel->fieldIndex ("id_tasinir"))).toString ();
 
             s_qry = QString("DELETE FROM dbtb_tasinir "
                             "WHERE id_tasinir = %1").arg( ino );
@@ -336,8 +324,8 @@ void hC_TSNR::tsnr_kntrl()
             if (q_qry.isActive ())
             {
                 qDebug()<< " Taşınır Kaydı Silindi ";
-                //  TSmodel->submitAll ();
-                TSmodel->select ();
+                //  TSNRmodel->submitAll ();
+                TSNRmodel->select ();
             }
             else
             {
@@ -371,7 +359,7 @@ void hC_TSNR::tsnr_kntrl()
     connect(TSNRtview->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-      TSNRtview->hC_TvPb ("snrki", TSNRmodel, TSNRmapper);
+        TSNRtview->hC_TvPb ("snrki", TSNRmodel, TSNRmapper);
     });
 
     // pB 009 son
@@ -418,31 +406,99 @@ void hC_TSNR::tsnr_kntrl()
 
 
 
-void hC_TSNR::showEvent(QShowEvent *)
-{
-    qDebug() << "Personel dosyası açılıyor";
-}
-
-
 hC_TSNR::~hC_TSNR()
 = default;
 
 
 
-void hC_TSNR::tsnr_model()
+
+QString hC_TSNR::tsnr_VTd ()
 {
+    QSqlQuery q;
+    QString ct ,
+            mesaj = "OK - Taşınır İstek",
+            tB_Name = "sclk__dbtb";
+    QStringList inserts;
 
-    QString tableName = "tsnr__dbtb";
-    QStringList ftsnrldList;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( tB_Name ))
+    {
+        ct ="CREATE TABLE IF NOT EXISTS "+ tB_Name +
+                "("
+                "ts_iedet_id   TEXT, "
+                "ts_no   TEXT, "
+                "ts_tarih      TEXT, "
+                "ts_malzeme    INTEGER, "
+                "ts_miktar       TEXT, "
+                "ts_Birim       TEXT, "
+                "ts_bfiyat     TEXT, "
+                "ts_durum      TEXT, "
+                "ts_aciklama   TEXT, "
+                "ts_resim      BLOB, "
+                "id_tasinir integer primary key  )"  ;
 
-    ftsnrldList.append("İş Emri No");
-    ftsnrldList.append("İş Emri Tarihi");
-    ftsnrldList.append("Bölüm");
-    ftsnrldList.append("Durum");
-    ftsnrldList.append("Araç Giriş Tarihi");
-    ftsnrldList.append("Araç Çıkış Tarihi");
-    ftsnrldList.append("Yetkili");
-    ftsnrldList.append("Yetkili");
+        if (!q.exec( ct ))
+        {
+            mesaj = "<br>HATA - Taşınır İstek Dosyası Oluşturulamadı  "
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text() +
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj = "OK - Taşınır İstek Dosyası YENİ Oluşturuldu ";
+            inserts << "INSERT INTO " + tB_Name + " ( ts_iedet_id )"
+                                                  " values( 1 )";
+
+
+            foreach (QString qry , inserts)
+            {
+                if ( !q.exec(qry) )
+                {
+                    mesaj = mesaj + "<br>İLK Taşınır İstek Eklenemdi"+
+                            "<br>------------------------------------<br>"+
+                            q.lastError().text ()+
+                            "<br>------------------------------------<br>";
+                }
+                else
+                {
+                    mesaj = mesaj + "<br>İLK Taşınır İstek eklendi.";
+                }
+            } // foreach
+        }
+    }
+    qDebug ()<< mesaj;
+    return mesaj ;
+
+
+
+
+} //TAŞINIR
+
+
+
+
+
+void hC_TSNR::tsnr_model(QSqlRelationalTableModel* model)
+{
+    qDebug() << " tsnr mdl";
+    QString indexField = "tsnr";
+    QString tB_Name = "tsnr__dbtb";
+    QStringList *tB_FieldList = new QStringList;
+
+    tB_FieldList->append("İş Emri No");
+    tB_FieldList->append("İş Emri Tarihi");
+    tB_FieldList->append("Bölüm");
+    tB_FieldList->append("Durum");
+    tB_FieldList->append("Araç Giriş Tarihi");
+    tB_FieldList->append("Araç Çıkış Tarihi");
+    tB_FieldList->append("Yetkili");
+    tB_FieldList->append("Yetkili");
+
+    hC_Rm hC_Rm ( &tB_Name,
+                 model,
+                 &indexField ,
+                 tB_FieldList) ;
 
 }
 

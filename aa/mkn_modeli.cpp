@@ -349,11 +349,11 @@ void hC_MKMODL::mkmodl_model ( QSqlRelationalTableModel *model)
 {
     qDebug() << " db model"<< model;
 
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Model");
-    tableFieldList->append("Resim");
-    tableFieldList->append("Marka Nosu");
-    tableFieldList->append("Model kodu");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Model");
+    tB_FieldList->append("Resim");
+    tB_FieldList->append("Marka Nosu");
+    tB_FieldList->append("Model kodu");
 
     QString MODLtableName{"mkmodl__dbtb"} ;
     QString indexField = "modeli";
@@ -361,7 +361,7 @@ void hC_MKMODL::mkmodl_model ( QSqlRelationalTableModel *model)
     hC_Rm hC_Rm ( &MODLtableName,
                   model,
                   &indexField ,
-                  tableFieldList) ;
+                  tB_FieldList) ;
 
 }///MDLİ
 

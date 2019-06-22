@@ -338,15 +338,15 @@ void hC_MKCINS::mkcins_model ( QSqlRelationalTableModel *model)
     qDebug() << " db model cns";
     QString CNStableName ("mkcins__dbtb");
     QString indexField = "cinsi";
-    QStringList *tableFieldList = new QStringList ;
+    QStringList *tB_FieldList = new QStringList ;
 
-    tableFieldList->append("Cinsi");
-    tableFieldList->append("Resim");
-    tableFieldList->append("Cinsi Kodu");
+    tB_FieldList->append("Cinsi");
+    tB_FieldList->append("Resim");
+    tB_FieldList->append("Cinsi Kodu");
     hC_Rm hC_Rm ( &CNStableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 }///CNS
 

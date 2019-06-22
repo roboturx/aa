@@ -407,25 +407,25 @@ void hC_FRM::frm_model(QSqlRelationalTableModel *model)
     QString indexField = "frm_unvan";
     QString FRMtableName ("frm__dbtb");
 
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Firma Kod");
-    tableFieldList->append("Firma Unvanı");
-    tableFieldList->append("Adres");
-    tableFieldList->append("Şehir");
-    tableFieldList->append("Vergi Dairesi");
-    tableFieldList->append("VD No");
-    tableFieldList->append("Telefon");
-    tableFieldList->append("e-posta");
-    tableFieldList->append("Yetkili İsim");
-    tableFieldList->append("Yetkili Soyad");
-    tableFieldList->append("Yetkili Telefon");
-    // tableFieldList->append("resim");
+    QStringList *tB_FieldList = new QStringList ;
+    tB_FieldList->append("Firma Kod");
+    tB_FieldList->append("Firma Unvanı");
+    tB_FieldList->append("Adres");
+    tB_FieldList->append("Şehir");
+    tB_FieldList->append("Vergi Dairesi");
+    tB_FieldList->append("VD No");
+    tB_FieldList->append("Telefon");
+    tB_FieldList->append("e-posta");
+    tB_FieldList->append("Yetkili İsim");
+    tB_FieldList->append("Yetkili Soyad");
+    tB_FieldList->append("Yetkili Telefon");
+    // tB_FieldList->append("resim");
 
 
      hC_Rm hC_Rm ( &FRMtableName,
                   model,
                   &indexField ,
-                  tableFieldList) ;
+                  tB_FieldList) ;
 
 }///FİRMA
 
@@ -511,34 +511,34 @@ void hC_FRM::frm_model(QSqlRelationalTableModel *model)
 //    QString indexField = "frm_unvan";
 //    FRMtableName = new QString("frm__dbtb");
 
-//    QStringList *tableFieldList = new QStringList ;
-//    tableFieldList->append("Firma Kod");
-//    tableFieldList->append("Firma Unvanı");
-//    tableFieldList->append("Adres");
-//    tableFieldList->append("Şehir");
-//    tableFieldList->append("Vergi Dairesi");
-//    tableFieldList->append("VD No");
-//    tableFieldList->append("Telefon");
-//    tableFieldList->append("e-posta");
-//    tableFieldList->append("Yetkili İsim");
-//    tableFieldList->append("Yetkili Soyad");
-//    tableFieldList->append("Yetkili Telefon");
-//    // tableFieldList->append("resim");
+//    QStringList *tB_FieldList = new QStringList ;
+//    tB_FieldList->append("Firma Kod");
+//    tB_FieldList->append("Firma Unvanı");
+//    tB_FieldList->append("Adres");
+//    tB_FieldList->append("Şehir");
+//    tB_FieldList->append("Vergi Dairesi");
+//    tB_FieldList->append("VD No");
+//    tB_FieldList->append("Telefon");
+//    tB_FieldList->append("e-posta");
+//    tB_FieldList->append("Yetkili İsim");
+//    tB_FieldList->append("Yetkili Soyad");
+//    tB_FieldList->append("Yetkili Telefon");
+//    // tB_FieldList->append("resim");
 
 
 //     hC_Rm hC_Rm (FRMtableName,
 //                  model,
 //                  &indexField ,
-//                  tableFieldList) ;
+//                  tB_FieldList) ;
 
 //      //FRMmodel = new QSqlRelationalTableModel;
 //     //    mdlfrm->setTable( "frm_dbtb" );
 ////    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
 ////    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-////    for(int i = 0, j = 0; i < tableFieldList->size (); i++, j++)
+////    for(int i = 0, j = 0; i < tB_FieldList->size (); i++, j++)
 ////    {
-////        mdlfrm->setHeaderData(i,Qt::Horizontal,tableFieldList->value (j));
+////        mdlfrm->setHeaderData(i,Qt::Horizontal,tB_FieldList->value (j));
 ////    }
 
 ////    // Populate the model_mkstok

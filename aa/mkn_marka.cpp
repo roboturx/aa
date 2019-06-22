@@ -353,17 +353,17 @@ void hC_MKMARK::mkmark_model ( QSqlRelationalTableModel *model)
     qDebug() << " db modelmarka";
     QString MRKtableName("mkmark__dbtb");
     QString indexField = "marka";
-    QStringList *tableFieldList = new QStringList ;
+    QStringList *tB_FieldList = new QStringList ;
 
-    tableFieldList->append("Marka");
-    tableFieldList->append("Resim");
-    tableFieldList->append("Cinsi Nosu");
-    tableFieldList->append("Marka kodu");
+    tB_FieldList->append("Marka");
+    tB_FieldList->append("Resim");
+    tB_FieldList->append("Cinsi Nosu");
+    tB_FieldList->append("Marka kodu");
 
     hC_Rm hC_Rm (&MRKtableName,
                  model,
                  &indexField ,
-                 tableFieldList) ;
+                 tB_FieldList) ;
 
 }///MRK
 

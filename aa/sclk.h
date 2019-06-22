@@ -34,17 +34,6 @@ private:
     void sclk_kntrl();
 
 
-public slots:
-   void clk_SCbosh();
-
-private slots:
-    void onmnIEDET_SCekle();
-    void rowChanged_ISCILIK(QModelIndex);
-    void rightMenu_ISCILIK(QPoint pos);
-    void SCekle();
-    void sil_ISCILIK();
-    void ayar_ISCILIK();
-
 public:
     // SC variable
     QLabel *lB_sclk ;
