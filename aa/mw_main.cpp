@@ -9,13 +9,13 @@
 
 #include "globals.h"
 #include "form.h"
-#include "dbase.h"
 #include <sortingbox.h>
 
 
 
 MW_main::MW_main( )
 = default;
+
 void MW_main::login()
 {
     cr_Actions ();
@@ -28,18 +28,19 @@ void MW_main::login()
     this->setWindowTitle ("Makina İkmal Atölye Yönetim Uygulaması");
     this->setGeometry (200,200,600,100);
     MW_main::showMaximized ();
+
     wd_log = new QWidget(this);
     this->setCentralWidget (wd_log);
 
     auto *lg = new QGridLayout(wd_log);
     wd_log->setLayout(lg);
 
-    durum = new QTextEdit(wd_log);
-    durum->setReadOnly (true);
+  //  durum = new QTextEdit(wd_log);
+    //durum->setReadOnly (true);
 
 
     auto * sortingBox = new SortingBox;
-    lg->addWidget(durum  ,0,0,2,1);
+   // lg->addWidget(durum  ,0,0,2,1);
     lg->addWidget(  sortingBox  ,2,0,9,1);
 
 
@@ -51,21 +52,23 @@ void MW_main::login()
 
     /// veritabanı kontrol
     qDebug() << "db control";
-
-    DBase dbase;
-    if (! dbase.setupDBase ())
+    dbase =new DBase();
+    dbase->setWindowTitle("Veri Tabanı Kontrol");
+    //dbase->yaz("dbase mw_main show");
+    dbase->show();
+    if (! dbase->setupDBase ())
     {
         /// hata ne /// baglanti yok
-        mwyaz("----------------------------------------");
-        mwyaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
+        dbase->yaz("----------------------------------------");
+        dbase->yaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
         return;
     }
     
     
         /// baglanti var /// uygulama yoluna devam etsin
 
-        mwyaz("----------------------------------------");
-        mwyaz("OK - Veri Tabanı Bağlantısı Yapıldı");
+        dbase->yaz("----------------------------------------");
+        dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
         qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
 
     
@@ -99,7 +102,7 @@ void MW_main::yetkiler(const QString& yetki, const QString& user)
     qDebug() << "yetkiler ="<<yetki;
     QString x ="++++ Kullanıcı ( "+user +" ) - ( "+ yetki +
             " ) yetkileri ile bağlandı";
-    mwyaz(QDateTime::currentDateTime ().toString() + x);
+    dbase->yaz(QDateTime::currentDateTime ().toString() + x);
 
 }
 
@@ -110,7 +113,7 @@ void MW_main::logouted()
     GLB_yetki = "İlk";
     QString x =" +++ ( "+logger->lE_user->text ()+
             " ) kullanıcısı ile yapılan bağlantı sona erdi...";
-    mwyaz(QDateTime::currentDateTime ().toString() + x);
+    dbase->yaz(QDateTime::currentDateTime ().toString() + x);
     logger->lE_user->setFocus ();
     logger->lE_user->setText ("");
     logger->lE_pass->setText ("");
@@ -318,6 +321,7 @@ void MW_main::closeEvent (QCloseEvent *event)
     }
     else if (msgBox.clickedButton() == bt_evet)
     {
+        qApp->closeAllWindows();
         event->accept();
         //quitApp();
         emit cikis("Close Event");
@@ -376,33 +380,4 @@ void MW_main::fade(bool ne)
 }
 
 
-
-
-void MW_main::mwyaz(const QString& z)
-{
-    QString x,y;
-    x = z.left(z.indexOf("-"));
-    y = z.right(z.length() - z.indexOf("-"));
-    qDebug()<<"x= "<< x <<"   y= "<<y;
-    if (x.contains("OK"))
-    {
-        durum->append("<span style='color:green;font-size:15px' > "
-                      + x +" < /span> "
-                           "<span style='color:darkblue;font-size:15px' > "
-                      + y +" < /span> ");
-    }
-    else if  (x.contains("HATA"))
-    {
-        durum->append("<span style='color:red;font-size:15px' > "
-                      + x +" < /span> "
-                           "<span style='color:darkblue;font-size:15px' > "
-                      + y +" < /span> ");
-    }
-    else
-        durum->append("<span style='color:darkyellow;font-size:15px' > "
-                      + x +" < /span> "
-                           "<span style='color:darkyellow;font-size:15px' > "
-                      + y +" < /span> ");
-
-}
 

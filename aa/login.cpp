@@ -1,4 +1,4 @@
-#include "login.h"
+﻿#include "login.h"
 
 Login::Login(QWidget *parent) : QWidget(parent)
 
@@ -108,8 +108,9 @@ void Login::logex(const QString& nereden)
             {
                 qDebug() << "Disconnected from " << nereden;
                 QApplication::setQuitOnLastWindowClosed(true);
+                QApplication::closeAllWindows();
 
-
+                qDebug() << "All windows Closed";
                 this->destroy (true,true);
 
                  qDebug() << "Destroyed";
@@ -121,9 +122,7 @@ void Login::logex(const QString& nereden)
                  qDebug() << "Exited";
                  qDebug() << "All windows Closing";
 
-                 QApplication::closeAllWindows();
 
-                 qDebug() << "All windows Closed";
             }
         }
 

@@ -18,6 +18,7 @@
 #include "mlzm.h"
 #include "login.h"
 #include "form.h"
+#include "dbase.h"
 namespace Ui {
 class MW_main;
 }
@@ -29,6 +30,7 @@ class MW_main : public QMainWindow
 public:
     explicit MW_main();
     ~MW_main();
+    DBase* dbase;
     QStackedWidget *stw{};
     QAction *act_main{};
     hC_CLSN *mw_per{};

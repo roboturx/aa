@@ -286,7 +286,7 @@ QString hC_IE::ie_VTd ()
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( IEtableName))
     {
-        ct ="CREATE TABLE IF NOT EXISTS"+ IEtableName +
+        ct ="CREATE TABLE IF NOT EXISTS "+ IEtableName +
                 "("
                 "ie_mkn_id        TEXT, "
                 "ie_ie_no         TEXT, "
@@ -314,12 +314,12 @@ QString hC_IE::ie_VTd ()
         {
             mesaj = "OK - İşEmri Dosyası YENİ Oluşturuldu ";
             QString qry;
-            qry = "INSERT INTO dbtb_IE ( ie_mkn_id )"
+            qry = "INSERT INTO " + IEtableName + " ( ie_mkn_id )"
                   " values( 1 )"  ;
 
             if ( !q.exec(qry) )
             {
-                mesaj = mesaj + "<br>İLK İş Emri Eklenemdi"+
+                mesaj = mesaj + "<br>İLK İş Emri Eklenemedi"+
                         "<br>------------------------------------<br>"+
                         q.lastError().text ()+
                         "<br>------------------------------------<br>";

@@ -1,14 +1,31 @@
 ﻿#include "dbase.h"
 #include "ui_dbase.h"
 
-
+#include "clsn.h"
+#include "frm.h"
+#include "ftr.h"
+#include "mlzm.h"
+#include "mkn.h"
+#include "mkn_cinsi.h"
+#include "mkn_marka.h"
+#include "mkn_modeli.h"
+#include "ie.h"
+#include "iedet.h"
 
 DBase::DBase(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DBase)
 {
     ui->setupUi(this);
+    ui->durum->append("Veri tabanı dosysalrı kontrol ediliyor...");
 }
+
+
+
+
+
+
+
 
 DBase::~DBase()
 {
@@ -37,31 +54,40 @@ bool DBase::setupDBase()
 }
 
 
+
 void DBase::VTDosyaKontrol()
 {
 
-    //yaz(DBase::VTd_CLSN ());
-
-
+    hC_CLSN clsn;
+    yaz(clsn.clsn_VTd());
+    hC_FRM frm;
+    yaz(frm.frm_VTd());
     //yaz(DBase::VTd_MSLK ());
-    //yaz(DBase::VTd_FRMA ());
-   // yaz(DBase::VTd_FTRA ());
-   // yaz(DBase::VTd_Mlzm ());
-   // yaz(DBase::VTd_MlzmDETAY ());
+    hC_FTR ftr;
+    yaz(ftr.ftr_VTd());
 
+    hC_MLZM malzeme;
+    yaz(malzeme.mlzm_VTd() );
+    yaz(malzeme.mlzmdet_VTd());
 
-   // yaz(DBase::VTd_mkn ());
-   // yaz(DBase::VTd_CINS ());
-   // yaz(DBase::VTd_MARKA ());
-   // yaz(DBase::VTd_MODEL ());
+    hC_MKN makina;
+    yaz(makina.mkn_VTd());
 
+    hC_MKCINS mkcins;
+    yaz(mkcins.mkcins_VTd());
+    hC_MKMARK mkmark;
+    yaz(mkmark.mkmark_VTd());
+    hC_MKMODL mkmodl;
+    yaz(mkmodl.mkmodl_VTd());
+    hC_IE ie;
+    yaz(ie.ie_VTd());
+    hC_IEDET iedet;
+    yaz(iedet.iedet_VTd());
 
-//    DBase::VTd_ISEMRI ();
- //   DBase::VTd_ISEMRIDETAY ();
     DBase::VTd_IEDTAMIRYERI ();
     DBase::VTd_IEDTYDETAY ();
     //DBase::VTd_ISCILIK ();
-   // DBase::VTd_TASINIR () ;
+    // DBase::VTd_TASINIR () ;
     DBase::VTd_MKYAG ();
     DBase::VTd_MKFILTRE ();
     DBase::VTd_MKAKU ();
@@ -75,6 +101,46 @@ void DBase::VTDosyaKontrol()
 
 
 }
+
+
+
+void DBase::yaz(const QString& z)
+{
+   // qDebug ()<<"yaz - 1";
+    QString x,y;
+    x = z.left(z.indexOf("-"));
+    y = z.right(z.length() - z.indexOf("-"));
+    //    qDebug()<<"x= "<< x <<"   y= "<<y;
+    if (x.contains("OK"))
+    {
+       // qDebug ()<<"yaz - 11";
+        ui->durum->append("<span style='color:green;font-size:15px' > "
+                          + x +" < /span> "
+                               "<span style='color:darkblue;font-size:15px' > "
+                          + y +" < /span> ");
+    }
+    else if  (x.contains("HATA"))
+    {
+      //  qDebug ()<<"yaz - 12";
+        ui->durum->append("<span style='color:red;font-size:15px' > "
+                          + x +" < /span> "
+                               "<span style='color:darkblue;font-size:15px' > "
+                          + y +" < /span> ");
+    }
+    else
+    {
+      //  qDebug ()<<"yaz - 13";
+        ui->durum->append("<span style='color:darkyellow;font-size:15px' > "
+                          + x +" < /span> "
+                               "<span style='color:darkyellow;font-size:15px' > "
+                          + y +" < /span> ");
+    }
+}
+
+
+
+
+
 
 ///*
 //QString DBase::VTd_CLSN()
@@ -1397,51 +1463,51 @@ void DBase::VTd_IEDTYDETAY ()
 
 
 
-void DBase::VTd_TASINIR ()
-{
-    ///  TASINIR create
-    ///
+//void DBase::VTd_TASINIR ()
+//{
+//    ///  TASINIR create
+//    ///
 
-    QString ct;
-    QSqlQuery q;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_tasinir"))
-    {
-        ct ="CREATE TABLE IF NOT EXISTS dbtb_tasinir "
-            "("
-            "ts_iedet_id   TEXT, "
-            "ts_no   TEXT, "
-            "ts_tarih      TEXT, "
-            "ts_malzeme    INTEGER, "
-            "ts_miktar       TEXT, "
-            "ts_Birim       TEXT, "
-            "ts_bfiyat     TEXT, "
-            "ts_durum      TEXT, "
-            "ts_aciklama   TEXT, "
-            "ts_resim      BLOB, "
-            "id_tasinir integer primary key  )"  ;
-
-
-
-        if (!q.exec( ct ))
-        {
-            qDebug() << " TAŞINIR Dosyası Oluşturulamadı - "
-                     << q.lastError() ;
-        }
-        else
-        {
-            qDebug() << " TAŞINIR Dosyası YENİ Oluşturuldu - ";
-            q.exec("INSERT INTO dbtb_tasinir ( ts_iedet_id )"
-                   " values( 1 )"  );
-
-        }
-    }
-    else
-    {
-        qDebug() << "9- TAŞINIR Dosyası - OK ";
-    }
+//    QString ct;
+//    QSqlQuery q;
+//    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_tasinir"))
+//    {
+//        ct ="CREATE TABLE IF NOT EXISTS dbtb_tasinir "
+//            "("
+//            "ts_iedet_id   TEXT, "
+//            "ts_no   TEXT, "
+//            "ts_tarih      TEXT, "
+//            "ts_malzeme    INTEGER, "
+//            "ts_miktar       TEXT, "
+//            "ts_Birim       TEXT, "
+//            "ts_bfiyat     TEXT, "
+//            "ts_durum      TEXT, "
+//            "ts_aciklama   TEXT, "
+//            "ts_resim      BLOB, "
+//            "id_tasinir integer primary key  )"  ;
 
 
-} //TAŞINIR
+
+//        if (!q.exec( ct ))
+//        {
+//            qDebug() << " TAŞINIR Dosyası Oluşturulamadı - "
+//                     << q.lastError() ;
+//        }
+//        else
+//        {
+//            qDebug() << " TAŞINIR Dosyası YENİ Oluşturuldu - ";
+//            q.exec("INSERT INTO dbtb_tasinir ( ts_iedet_id )"
+//                   " values( 1 )"  );
+
+//        }
+//    }
+//    else
+//    {
+//        qDebug() << "9- TAŞINIR Dosyası - OK ";
+//    }
+
+
+//} //TAŞINIR
 
 
 void DBase::VTd_MKYAG ()
@@ -1855,35 +1921,4 @@ void DBase::VTd_DPTLP()
 
 
 ///////////////////////////////////////////////////////// DBASE
-
-
-
-
-void DBase::yaz(const QString& z)
-{
-    QString x,y;
-    x = z.left(z.indexOf("-"));
-    y = z.right(z.length() - z.indexOf("-"));
-//    qDebug()<<"x= "<< x <<"   y= "<<y;
-    if (x.contains("OK"))
-    {
-        ui->durum->append("<span style='color:green;font-size:15px' > "
-                          + x +" < /span> "
-                               "<span style='color:darkblue;font-size:15px' > "
-                          + y +" < /span> ");
-    }
-    else if  (x.contains("HATA"))
-    {
-        ui->durum->append("<span style='color:red;font-size:15px' > "
-                          + x +" < /span> "
-                               "<span style='color:darkblue;font-size:15px' > "
-                          + y +" < /span> ");
-    }
-    else
-        ui->durum->append("<span style='color:darkyellow;font-size:15px' > "
-                          + x +" < /span> "
-                               "<span style='color:darkyellow;font-size:15px' > "
-                          + y +" < /span> ");
-
-}
 
