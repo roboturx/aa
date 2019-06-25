@@ -35,21 +35,21 @@ void MW_main::login()
     auto *lg = new QGridLayout(wd_log);
     wd_log->setLayout(lg);
 
-  //  durum = new QTextEdit(wd_log);
+    //  durum = new QTextEdit(wd_log);
     //durum->setReadOnly (true);
 
 
     auto * sortingBox = new SortingBox;
-   // lg->addWidget(durum  ,0,0,2,1);
+    // lg->addWidget(durum  ,0,0,2,1);
     lg->addWidget(  sortingBox  ,2,0,9,1);
 
 
-  //  mwyaz(QDate::currentDate ().toString());
+    //  mwyaz(QDate::currentDate ().toString());
 
 
     // fade(true);
 
-iş emri - taşınır - sclk views
+
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase =new DBase();
@@ -66,11 +66,11 @@ iş emri - taşınır - sclk views
     }
     
     
-        /// baglanti var /// uygulama yoluna devam etsin
+    /// baglanti var /// uygulama yoluna devam etsin
 
-        dbase->yaz("----------------------------------------");
-        dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
-        qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
+    dbase->yaz("----------------------------------------");
+    dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
+    qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
 
     
 
@@ -130,8 +130,13 @@ void MW_main::cr_Actions()
 {
     /////////////////// ana menü
     qDebug() << "main menu ";
-    QMenu *mn_main = menuBar()->addMenu(tr("&Giriş"));
 
+    ////////////////////////////////////////////////////////////////
+    /// main
+    ///
+    ///
+
+    QMenu *mn_main  = menuBar()->addMenu(tr("&Giriş"));
     QToolBar *tb_main = addToolBar(tr("Makina İkmal"));
     tb_main->setMaximumHeight (50);
     tb_main->setMaximumWidth (650);
@@ -139,37 +144,42 @@ void MW_main::cr_Actions()
     tb_main->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     tb_main->setAllowedAreas(Qt::LeftToolBarArea);
 
-
-    /// main
     auto *act_main = new QAction(QIcon(":/rsm/home.png"),
-                                 tr("&Giriş..."), this);
+                          tr("&Kontrol Merkezi..."), this);
     act_main->setStatusTip("Ana Pencere" );
     act_main->setWhatsThis("Program Giriş Sayfas1");
-    act_main->setShortcut(QKeySequence(tr("Ctrl+G")));
+    act_main->setShortcut(QKeySequence(tr("Ctrl+K")));
     act_main->setShortcutContext(Qt::ApplicationShortcut);
     act_main->setStatusTip(tr("Ana Ekran"));
     mn_main->addAction(act_main);
     tb_main->addAction(act_main);
 
-
+    //////// G İ R İ Ş
     connect( act_main , &QAction::triggered,
 
              [this]()
     {
         mw_mkk = new Form();
-        statusBar()->showMessage( "Giriş" );
+        statusBar()->showMessage( "Kontrol Merkezi" );
         mw_mkk->setWindowTitle ( GLB_yetki );
         mw_mkk->resize(qApp->screens()[0]->size()*.6);
         mw_mkk ->show ();
     });
 
+
+
+    menuBar()->addSeparator();
+    tb_main->addSeparator ();
+
+
+    QMenu *mn_atlye = menuBar()->addMenu(tr("&Atölye"));
     /// mkn
     auto *act_mkn = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Makina..."), this);
     act_mkn->setStatusTip(tr("Demirbaş Mlzm"));
     act_mkn->setShortcut(QKeySequence(tr("Ctrl+M")));
-    mn_main->addAction(act_mkn);
-    tb_main->addAction(act_mkn);
+    mn_atlye->addAction(act_mkn);
+    //tb_main->addAction(act_mkn);
     connect( act_mkn , &QAction::triggered,
              [this]()
     {
@@ -179,13 +189,33 @@ void MW_main::cr_Actions()
 
     });
 
+
+    QMenu *mn_mkn = mn_atlye->addMenu(tr("&Mkcins"));
+    /// mkn
+    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
+                                tr("&Makina..."), this);
+    act_mkc->setStatusTip(tr("Demirbaş Mlzm"));
+    //act_mkc->setShortcut(QKeycequence(tr("Ctrl+M")));
+    mn_mkn->addAction(act_mkc);
+    //tb_main->addAction(act_mkn);
+    connect( act_mkn , &QAction::triggered,
+             [this]()
+    {
+        statusBar()->showMessage(tr("Demirbaş Mlzm"));
+        auto *mw_mkn = new hC_MKN;
+        mw_mkn->mkn_setup ();
+
+    });
+
+
+
     /// personel
     auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("&Personel..."), this);
     act_per->setShortcut(QKeySequence(tr("Ctrl+P")));
     act_per->setStatusTip(tr("Personel"));
-    mn_main->addAction(act_per);
-    tb_main->addAction(act_per);
+    mn_atlye->addAction(act_per);
+    // tb_main->addAction(act_per);
     connect( act_per , &QAction::triggered,
              [this]()
     {
@@ -197,17 +227,17 @@ void MW_main::cr_Actions()
         mw_per->show ();
     });
 
-    menuBar()->addSeparator();
-    tb_main->addSeparator ();
 
+
+    QMenu *mn_mbar  = menuBar()->addMenu(tr("&Ambar"));
     /// dpo    Mlzm kontrol
     auto *act_dpo = new QAction(QIcon(":/rsm/plt.png"),
                                 tr("&Mlzm..."), this);
     act_dpo->setShortcut(QKeySequence(tr("Ctrl+S")));
     act_dpo->setShortcutContext(Qt::ApplicationShortcut);
     act_dpo->setStatusTip(tr("Mlzm Kontrol "));
-    mn_main->addAction(act_dpo);
-    tb_main->addAction(act_dpo);
+    mn_mbar->addAction(act_dpo);
+    // tb_main->addAction(act_dpo);
     connect( act_dpo , &QAction::triggered,
              [this]()
     {
@@ -217,13 +247,32 @@ void MW_main::cr_Actions()
         mwMLZM->show ();
     });
 
+
+    QMenu *mn_stnlm = menuBar()->addMenu(tr("&Satın Alma"));
+
+
+    /// fatura
+    auto *act_ftr = new QAction(QIcon(""),
+                                tr("&Fatura..."), this);
+    act_ftr->setShortcut(QKeySequence(tr("Ctrl+t")));
+    act_ftr->setStatusTip(tr("Fatura"));
+    mn_stnlm->addAction(act_ftr);
+    // tb_main->addAction(act_ftr);
+    connect( act_ftr , &QAction::triggered,
+             [this]()
+    {
+        statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
+        mw_ftr = new hC_FTR;
+        mw_ftr->ftr_setup ();
+        mw_ftr->show ();
+    });
     /// firma
     auto *act_fr = new QAction(QIcon(""),
                                tr("&Firma..."), this);
     act_fr->setShortcut(QKeySequence(tr("Ctrl+f")));
     act_fr->setStatusTip(tr("Firma"));
-    mn_main->addAction(act_fr);
-    tb_main->addAction(act_fr);
+    mn_stnlm->addAction(act_fr);
+    //tb_main->addAction(act_fr);
     connect( act_fr , &QAction::triggered,
              [this]()
     {
@@ -233,21 +282,7 @@ void MW_main::cr_Actions()
         mw_fr->show ();
     });
 
-    /// fatura
-    auto *act_ftr = new QAction(QIcon(""),
-                                tr("&Fatura..."), this);
-    act_ftr->setShortcut(QKeySequence(tr("Ctrl+t")));
-    act_ftr->setStatusTip(tr("Fatura"));
-    mn_main->addAction(act_ftr);
-    tb_main->addAction(act_ftr);
-    connect( act_ftr , &QAction::triggered,
-             [this]()
-    {
-        statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
-        mw_ftr = new hC_FTR;
-        mw_ftr->ftr_setup ();
-        mw_ftr->show ();
-    });
+
 
     menuBar()->addSeparator();
 
@@ -269,7 +304,7 @@ void MW_main::cr_Actions()
         emit cikis("Ana Menu act");
     });
 
-
+    ////////////////////////////////////////////////////////////////
     ///////////////////////
     /// \brief mn_yrdm
     ///
