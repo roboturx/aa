@@ -49,10 +49,11 @@ void MW_main::login()
 
     // fade(true);
 
-
+iş emri - taşınır - sclk views
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase =new DBase();
+    dbase->setGeometry (600,300,300,480);
     dbase->setWindowTitle("Veri Tabanı Kontrol");
     //dbase->yaz("dbase mw_main show");
     dbase->show();

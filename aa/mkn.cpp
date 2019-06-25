@@ -94,21 +94,19 @@ void hC_MKN::wd_mppr ()
         // seçebilmek için pencere
 
         auto *dia = new QDialog();
-        auto *layout = new QGridLayout;
-        dia->setLayout (layout);
         dia->setModal (true);
-        dia->setGeometry (lE_cins->pushButton->pos ().rx (),
-                          lE_cins->pushButton->pos ().ry (),
-                          300,480);
-        dia->setWindowTitle (
-            QString::number(lE_cins->pos ().rx ())+"," +
-            QString::number(lE_cins->pos ().ry ())+" - "+
+        dia->setGeometry ( 50, //lE_cins->pushButton->pos ().rx (),
+                          400, //lE_cins->pushButton->pos ().ry (),
+                          900,200);
+        dia->setWindowTitle ("Cinsi - Marka ve Modeli "+
+            QString::number(lE_cins->lineEdit->pos ().rx ())+"," +
+            QString::number(lE_cins->lineEdit->pos ().ry ())+" - "+
             QString::number(lE_cins->pos ().x() )+"," +
             QString::number(lE_cins->pos ().y ()));
 
-        auto *cmmy = new hC_MKCINS ;
-        layout->addWidget (cmmy,0,0);
-        cmmy->mkcins_setup ();
+        auto *c = new hC_MKCINS ;
+
+        c->mkcins_setup ();
 
 
 
@@ -120,12 +118,66 @@ void hC_MKN::wd_mppr ()
         // seçim yapılan textedit e aktaralım
         // ----------------------------------------------------
 
-        connect (cmmy , &hC_MKCINS::sgnCmmy ,
+        connect (c , &hC_MKCINS::sgnCmmy ,
                  [ this ] ( QString sgnText )
         {
             lE_cins->lineEdit->setText ( sgnText );
             lE_cins->lineEdit->setFocus();
         });
+
+        ////////////////////////////////////////////************
+
+        // seçebilmek için pencere
+        auto *cm = new hC_MKMARK ;
+        cm->mkmark_setup ();
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // cmmy tableviewinde gezinirken
+        // cins - marka - moel
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan textedit e aktaralım
+        // ----------------------------------------------------
+
+        connect (cm , &hC_MKMARK::sgnCmmy ,
+                 [ this ] ( QString sgnText )
+        {
+            lE_mark->lineEdit->setText ( sgnText );
+            lE_mark->lineEdit->setFocus();
+        });
+        //cm->show ();
+
+
+        // seçebilmek için pencere
+        auto *cmm = new hC_MKMODL ;
+        cmm->mkmodl_setup ();
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // cmmy tableviewinde gezinirken
+        // cins - marka - moel
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan textedit e aktaralım
+        // ----------------------------------------------------
+
+        connect (cmm , &hC_MKMODL::sgnCmmy ,
+                 [ this ] ( QString sgnText )
+        {
+            lE_modl->lineEdit->setText ( sgnText );
+            lE_modl->lineEdit->setFocus();
+        });
+        //cmmy->show ();
+        ////////////////////////////////////////////**************
+
+        auto *layout = new QGridLayout;
+        dia->setLayout (layout);
+        layout->addWidget (c  ,0 ,0 );
+        layout->addWidget (cm ,0 ,1 );
+        layout->addWidget (cmm,0 ,2 );
+
+
+
         dia->exec ();
     });
 
@@ -137,7 +189,9 @@ void hC_MKN::wd_mppr ()
 
     // cins-marka-model-yıl makinaya ekle
     connect(lE_mark->pushButton , &QPushButton::clicked,
-            [this ]()
+            lE_cins->pushButton, &QPushButton::click );
+
+ /*           [this ]()
     {
 
         // seçebilmek için pencere
@@ -159,7 +213,7 @@ void hC_MKN::wd_mppr ()
             lE_mark->lineEdit->setFocus();
         });
         cmmy->show ();
-    });
+    });*/
 // ///////////////////// marka
     // /////////////////////////////////////////////////////
 
@@ -169,6 +223,9 @@ void hC_MKN::wd_mppr ()
 
     // cins-marka-model-yıl makinaya ekle
     connect(lE_modl->pushButton , &QPushButton::clicked,
+            lE_cins->pushButton, &QPushButton::click );
+
+ /*
             [this]()
     {
 
@@ -192,7 +249,7 @@ void hC_MKN::wd_mppr ()
             lE_modl->lineEdit->setFocus();
         });
         cmmy->show ();
-    });
+    });*/
 
     QLabel *lB_mknYil = new QLabel("Yıl ");
     spn_mknYil = new QSpinBox();
