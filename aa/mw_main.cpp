@@ -240,7 +240,35 @@ void MW_main::cr_Actions()
         mw_iedet = new hC_IEDET ;
         mw_iedet->iedet_setup ();
         mw_iedet->show ();
-    });
+    });/// iş emri detay
+
+    //// Taşınır istek
+    auto *act_tsnr = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                tr("&Taşınır İsatek"), this);
+    act_tsnr->setShortcut(QKeySequence(tr("Ctrl+T")));
+    act_tsnr->setStatusTip(tr(""));
+    mn_atlye->addAction(act_tsnr);
+    connect( act_tsnr , &QAction::triggered,
+             [this]()
+    {
+        mw_tsnr = new hC_TSNR ;
+        mw_tsnr->tsnr_setup ();
+        mw_tsnr->show ();
+    });/// taşınır istek
+
+    //// işçilik
+    auto *act_sclk = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                tr("İşçi&lik"), this);
+    act_sclk->setShortcut(QKeySequence(tr("Ctrl+L")));
+    act_sclk->setStatusTip(tr("İşçilik"));
+    mn_atlye->addAction(act_sclk);
+    connect( act_sclk , &QAction::triggered,
+             [this]()
+    {
+        mw_sclk = new hC_SCLK ;
+        mw_sclk->sclk_setup();
+        mw_sclk->show ();
+    }); // işçilik
 
     /// personel
     auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),

@@ -20,6 +20,8 @@
 #include "mkn_modeli.h"
 #include "ie.h"
 #include "iedet.h"
+#include "tsnr.h"
+#include "sclk.h"
 #include "mlzm.h"
 #include "login.h"
 #include "form.h"
@@ -56,7 +58,9 @@ public:
     hC_MKMODL* mw_mkcmm;
     hC_IE* mw_ie;
     hC_IEDET* mw_iedet;
-    hC_MLZM *mwMLZM{};
+    hC_TSNR* mw_tsnr;
+    hC_SCLK* mw_sclk;
+    hC_MLZM* mwMLZM{};
 
 
     QTextEdit *durum{};

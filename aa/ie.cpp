@@ -46,25 +46,48 @@ void hC_IE::ie_ui()
 
     /////*******************************************////////
 
-    auto lB_mk = new QLabel("Araç");
-    auto lB_ie = new QLabel("İş Emri No");
-    auto lB_tr = new QLabel("Geliş Tarihi");
-    auto lB_dr = new QLabel("İş Emri Durumu");
-    auto lB_gt = new QLabel("Atölye Giriş Tarihi");
-    auto lB_ck = new QLabel("Atölye Çıkış Tarihi");
-    auto lB_y1 = new QLabel("Yetkili - I ");
-    auto lB_y2 = new QLabel("Yetkili - II");
+    auto* lB_mk = new QLabel("Araç");
+    lE_mkn = new hC_Le;
+    auto* lB_ie = new QLabel("İş Emri No");
+    lE_ieno = new  QLineEdit;
+    auto* lB_tr = new QLabel("Geliş Tarihi");
+    lE_geltar = new QLineEdit;
+    qDebug () << "cbx";
+    auto *lB_dr = new QLabel("İş Emri Durumu");
+    QStringList lst{"Sahada Bekliyor",
+            "Atölyede",
+            "Tamamlandı"};
+    cbX_durum = new QComboBox;
+    cbX_durum->insertItems(0,lst);
 
-   auto IEwdlay = new QGridLayout;
-   IEwdlay->addWidget (lB_mk , 0, 0, 1, 1);
-   IEwdlay->addWidget (lB_ie , 0, 1, 1, 4);
-   IEwdlay->addWidget (lB_tr , 2, 0, 1, 1);
-   IEwdlay->addWidget (lB_dr , 3, 0, 1, 1);
-   IEwdlay->addWidget (lB_gt , 4, 0, 1, 1);
-   IEwdlay->addWidget (lB_ck , 5, 0, 1, 1);
-   IEwdlay->addWidget (lB_y1 , 6, 0, 1, 1);
-   IEwdlay->addWidget (lB_y2 , 7, 0, 1, 1);
-   IEwdlay->addWidget (lB_rsm, 8, 0, 6, 3);
+    qDebug () << "cbx 2";
+    auto lB_gt = new QLabel("Atölye Giriş Tarihi");
+    lE_girtar = new QLineEdit;
+    auto lB_ck = new QLabel("Atölye Çıkış Tarihi");
+    lE_ciktar = new QLineEdit;
+    auto lB_y1 = new QLabel("Yetkili - I ");
+    lE_yetkili1 = new hC_Le;
+    auto lB_y2 = new QLabel("Yetkili - II");
+    lE_yetkili2 = new hC_Le;
+
+    auto IEwdlay = new QGridLayout;
+    IEwdlay->addWidget (lB_mk   , 0, 0, 1, 4);
+    IEwdlay->addWidget (lE_mkn  , 0, 4, 1, 6);
+    IEwdlay->addWidget (lB_ie   , 1, 0, 1, 4);
+    IEwdlay->addWidget (lE_ieno , 1, 4, 1, 6);
+    IEwdlay->addWidget (lB_tr     , 2, 0, 1, 4);
+    IEwdlay->addWidget (lE_geltar , 2, 4, 1, 6);
+    IEwdlay->addWidget (lB_dr     , 3, 0, 1, 4);
+    IEwdlay->addWidget (cbX_durum , 3, 4, 1, 6);
+    IEwdlay->addWidget (lB_gt     , 4, 0, 1, 4);
+    IEwdlay->addWidget (lE_girtar , 4, 4, 1, 6);
+    IEwdlay->addWidget (lB_ck     , 5, 0, 1, 4);
+    IEwdlay->addWidget (lE_ciktar , 5, 4, 1, 6);
+    IEwdlay->addWidget (lB_y1       , 6, 0, 1, 4);
+    IEwdlay->addWidget (lE_yetkili1 , 6, 4, 1, 6);
+    IEwdlay->addWidget (lB_y2       , 7, 0, 1, 4);
+    IEwdlay->addWidget (lE_yetkili2 , 7, 4, 1, 6);
+    IEwdlay->addWidget (lB_rsm, 8, 0, 6, 3);
 
 
 
@@ -338,7 +361,7 @@ QString hC_IE::ie_VTd ()
             mesaj = "OK - İşEmri Dosyası YENİ Oluşturuldu ";
             QString qry;
             qry = "INSERT INTO " + IEtableName + " ( ie_mkn_id )"
-                  " values( 1 )"  ;
+                                                 " values( 1 )"  ;
 
             if ( !q.exec(qry) )
             {
@@ -361,7 +384,7 @@ QString hC_IE::ie_VTd ()
 
 void hC_IE::ie_model(QSqlRelationalTableModel *model)
 {
-     qDebug() << "ie mdl";
+    qDebug() << "ie mdl";
     QString IEtableName = "ie__dbtb";
     QString indexField = "ie_----------soyad";
     auto *fieldList = new QStringList;
@@ -375,8 +398,8 @@ void hC_IE::ie_model(QSqlRelationalTableModel *model)
     fieldList->append("Yetkili");
     fieldList->append("Yetkili");
     hC_Rm hC_Rm ( &IEtableName,
-                 model,
-                 &indexField ,
-                 fieldList) ;
+                  model,
+                  &indexField ,
+                  fieldList) ;
 
 } /// İŞ EMRİ
