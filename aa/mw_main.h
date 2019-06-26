@@ -15,10 +15,22 @@
 #include "ftr.h"
 #include "cw_grs.h"
 #include "mkn.h"
+#include "mkn_cinsi.h"
+#include "mkn_marka.h"
+#include "mkn_modeli.h"
+#include "ie.h"
+#include "iedet.h"
 #include "mlzm.h"
 #include "login.h"
 #include "form.h"
 #include "dbase.h"
+
+#include "cw_hkk.h"  // hakk1nda
+#include "login.h"
+
+#include <sortingbox.h>
+#include "form.h"
+
 namespace Ui {
 class MW_main;
 }
@@ -39,6 +51,11 @@ public:
 
     Form *mw_mkk{};
     hC_MKN *mw_mkn{};
+    hC_MKCINS* mw_mkc;
+    hC_MKMARK* mw_mkcm;
+    hC_MKMODL* mw_mkcmm;
+    hC_IE* mw_ie;
+    hC_IEDET* mw_iedet;
     hC_MLZM *mwMLZM{};
 
 

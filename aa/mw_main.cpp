@@ -1,16 +1,4 @@
 ﻿#include "mw_main.h" // main
-#include "clsn.h"  // stack per
-#include "frm.h"   // stack fr
-#include "mkn.h"  // stack mkn
-#include "cw_grs.h"  // stack giris
-#include "mlzm.h"// stack Mlzm
-#include "cw_hkk.h"  // hakk1nda
-#include "login.h"
-
-#include "globals.h"
-#include "form.h"
-#include <sortingbox.h>
-
 
 
 MW_main::MW_main( )
@@ -173,12 +161,14 @@ void MW_main::cr_Actions()
 
 
     QMenu *mn_atlye = menuBar()->addMenu(tr("&Atölye"));
+
+    QMenu *mn_mkn = mn_atlye->addMenu(tr("&Makina"));
     /// mkn
     auto *act_mkn = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Makina..."), this);
     act_mkn->setStatusTip(tr("Demirbaş Mlzm"));
-    act_mkn->setShortcut(QKeySequence(tr("Ctrl+M")));
-    mn_atlye->addAction(act_mkn);
+    //act_mkc->setShortcut(QKeycequence(tr("Ctrl+M")));
+    mn_mkn->addAction(act_mkn);
     //tb_main->addAction(act_mkn);
     connect( act_mkn , &QAction::triggered,
              [this]()
@@ -190,24 +180,67 @@ void MW_main::cr_Actions()
     });
 
 
-    QMenu *mn_mkn = mn_atlye->addMenu(tr("&Mkcins"));
-    /// mkn
+    /// mkn cmm
     auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
-                                tr("&Makina..."), this);
-    act_mkc->setStatusTip(tr("Demirbaş Mlzm"));
-    //act_mkc->setShortcut(QKeycequence(tr("Ctrl+M")));
+                                tr("&Makina &Cinsi..."), this);
+    act_mkc->setStatusTip(tr("Makina Cinsi"));
+    act_mkc->setShortcut(QKeySequence(tr("Ctrl+C")));
     mn_mkn->addAction(act_mkc);
     //tb_main->addAction(act_mkn);
-    connect( act_mkn , &QAction::triggered,
+    connect( act_mkc , &QAction::triggered,
+             []()
+    {
+        auto *dia = new QDialog();
+        dia->setModal (true);
+        dia->setGeometry ( 50, //lE_cins->pushButton->pos ().rx (),
+                          400, //lE_cins->pushButton->pos ().ry (),
+                          900,200);
+        dia->setWindowTitle ("Cinsi - Marka ve Modeli ");
+
+        auto *c = new hC_MKCINS ;
+        c->mkcins_setup ();
+        auto *cm = new hC_MKMARK ;
+        cm->mkmark_setup ();
+        auto *cmm = new hC_MKMODL ;
+        cmm->mkmodl_setup ();
+
+        auto *layout = new QGridLayout;
+        dia->setLayout (layout);
+        layout->addWidget (c  ,0 ,0 );
+        layout->addWidget (cm ,0 ,1 );
+        layout->addWidget (cmm,0 ,2 );
+
+        dia->exec ();
+    });
+
+    /// iş emri
+    auto *act_ie = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                tr("İş &Emri..."), this);
+    act_ie->setShortcut(QKeySequence(tr("Ctrl+E")));
+    act_ie->setStatusTip(tr("İş Emri"));
+    mn_atlye->addAction(act_ie);
+    connect( act_ie , &QAction::triggered,
              [this]()
     {
-        statusBar()->showMessage(tr("Demirbaş Mlzm"));
-        auto *mw_mkn = new hC_MKN;
-        mw_mkn->mkn_setup ();
-
+        mw_ie = new hC_IE ;
+        mw_ie->ie_setup ();
+        mw_ie->show ();
     });
 
 
+    /// iş emri detay
+    auto *act_iedet = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                tr("&İş Emri Detay..."), this);
+    act_iedet->setShortcut(QKeySequence(tr("Ctrl+P")));
+    act_iedet->setStatusTip(tr("İş Emri Detay"));
+    mn_atlye->addAction(act_iedet);
+    connect( act_iedet , &QAction::triggered,
+             [this]()
+    {
+        mw_iedet = new hC_IEDET ;
+        mw_iedet->iedet_setup ();
+        mw_iedet->show ();
+    });
 
     /// personel
     auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),
