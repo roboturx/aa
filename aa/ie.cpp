@@ -46,11 +46,35 @@ void hC_IE::ie_ui()
 
     /////*******************************************////////
 
-    auto *gLl = new QGridLayout(this);
+    auto lB_mk = new QLabel("Araç");
+    auto lB_ie = new QLabel("İş Emri No");
+    auto lB_tr = new QLabel("Geliş Tarihi");
+    auto lB_dr = new QLabel("İş Emri Durumu");
+    auto lB_gt = new QLabel("Atölye Giriş Tarihi");
+    auto lB_ck = new QLabel("Atölye Çıkış Tarihi");
+    auto lB_y1 = new QLabel("Yetkili - I ");
+    auto lB_y2 = new QLabel("Yetkili - II");
 
-    IEtview = new hC_Tv;
-    gLl->addWidget(IEtview->table,      0, 0, 1, 1 );
-    gLl->addWidget(IEtview,   0, 1, 1, 1 );
+   auto IEwdlay = new QGridLayout;
+   IEwdlay->addWidget (lB_mk , 0, 0, 1, 1);
+   IEwdlay->addWidget (lB_ie , 0, 1, 1, 4);
+   IEwdlay->addWidget (lB_tr , 2, 0, 1, 1);
+   IEwdlay->addWidget (lB_dr , 3, 0, 1, 1);
+   IEwdlay->addWidget (lB_gt , 4, 0, 1, 1);
+   IEwdlay->addWidget (lB_ck , 5, 0, 1, 1);
+   IEwdlay->addWidget (lB_y1 , 6, 0, 1, 1);
+   IEwdlay->addWidget (lB_y2 , 7, 0, 1, 1);
+   IEwdlay->addWidget (lB_rsm, 8, 0, 6, 3);
+
+
+
+
+    auto IEwmap = new QWidget;
+    IEwmap->setLayout (IEwdlay);
+
+    auto *gLl = new QGridLayout(this);
+    gLl->addWidget ( IEtview ,  0, 0, 1, 1 );
+    gLl->addWidget ( IEwmap  ,  0, 1, 1, 1 );
 
 }
 
@@ -291,7 +315,6 @@ QString hC_IE::ie_VTd ()
                 "ie_mkn_id        TEXT, "
                 "ie_ie_no         TEXT, "
                 "ie_tarih         TEXT, "
-                "ie_bolum         TEXT, "
                 "ie_durum         TEXT, "
                 "ie_girtar        TEXT, "
                 "ie_ciktar        TEXT, "
