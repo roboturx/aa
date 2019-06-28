@@ -184,7 +184,7 @@ void hC_IEDET::iedet_map()
     IEDETmapper->addMapping(cbx_IEdetdurum, IEDETmodel->fieldIndex("iedet_yap"));
     IEDETmapper->addMapping(dE_IEdetgirtarihi , IEDETmodel->fieldIndex("ie_gir_tar"));
     IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->fieldIndex("ie_cik_tar"));
-    qDebug ()<< "::::: 5" ;
+  /*  qDebug ()<< "::::: 5" ;
     //        IEmapper->addMapping(cbx_ykt, mdl_mkn->fieldIndex("ie_resim"));
 
 
@@ -207,7 +207,7 @@ void hC_IEDET::iedet_map()
     connect( pb_ls, &QPushButton::clicked,
              IEDETmapper, &QDataWidgetMapper::toLast );
     IEDETwdlay->addWidget( pb_ls   ,10,4,1,1);
-
+*/
 
     IEDETmapper->toFirst ();
 }
@@ -487,7 +487,7 @@ QString hC_IEDET::iedet_VTd ()
     QSqlQuery q;
     QString ct,
             mesaj = { "OK - İş Emri Detay" } ,
-            IEDETtableName {"ieddet__dbtb"};
+            IEDETtableName {"iedet__dbtb"};
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( IEDETtableName ))
