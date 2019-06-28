@@ -3,6 +3,7 @@
 
 #include <globals.h>
 #include "hc_.h"
+#include "iedet.h"
 
 namespace ns_IE {
 class hC_IE;
@@ -31,11 +32,15 @@ public:
 
 private:
     void ie_ui()   ;
+    void iedet_ui();
+
     void ie_view() ;
     void ie_map()  ;
     void ie_kntrl();
 
 public:
+    hC_IEDET* iedet;
+
     hC_Le* lE_mkn;
     QLineEdit* lE_ieno;
     QLineEdit* lE_geltar;
@@ -44,6 +49,9 @@ public:
     QLineEdit* lE_ciktar;
     hC_Le* lE_yetkili1;
     hC_Le* lE_yetkili2;
+
+public: signals:
+    void sgn (QString);
 
 };
 

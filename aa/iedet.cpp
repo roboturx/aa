@@ -2,14 +2,14 @@
 
 hC_IEDET::hC_IEDET(QWidget *parent) : QWidget (parent)
 {
-    qDebug ()<<"İş Emri Constructor";
+    qDebug ()<<"İş Emri Detay Constructor";
     //************************************************************
     //*****************  İ Ş   E M R İ  **************************
 }
 
 void hC_IEDET::iedet_setup()
 {
-    qDebug() << "ie setup ";
+    qDebug() << " iedet setup ";
     iedet_VTd();
     iedet_ui();
 
@@ -31,14 +31,15 @@ void hC_IEDET::iedet_setup()
 
 void hC_IEDET::iedet_ui()
 {
-    qDebug() << "  IEDET_ui";
-    hC_IEDET::setWindowTitle ("ÇALIŞAN");
+    qDebug() << " iedet_ui";
+    lB_iedet  = new QLabel ("İŞ EMRİ DETAY");
+    hC_IEDET::setWindowTitle (lB_iedet->text());
     hC_IEDET::showMaximized ();
 
 
     // ///////////////////////////////////////////////////////
 
-    lB_iedet  = new QLabel ("ÇALIŞAN");
+
     lB_rsm = new QLabel ("Resim");
     hC_Rs resim(lB_rsm);
 
@@ -48,121 +49,98 @@ void hC_IEDET::iedet_ui()
 
     /////*******************************************////////
 
-    auto *gLl = new QGridLayout(this);
-
-
-
-    gLl->addWidget(IEDETtview,   0, 1, 1, 1 );
-
+    /*//////
     QWidget *wdgt_TSekle = new QWidget;
     wdgt_TSekle->setWindowTitle("İş Emri Detay Yeni Kayıt");
     wdgt_TSekle->setVisible(false);
     wdgt_TSekle->show();
 
-    auto *TsL = new QGridLayout;
-    wdgt_TSekle->setLayout(TsL);
+    auto *IEDETwdlay = new QGridLayout;
+    wdgt_TSekle->setLayout(IEDETwdlay);
+    //////*/
 
-
-    QLabel *lB_IEdetno = new QLabel("İş Emri Detay No ");
-    TsL->addWidget(lB_IEdetno        ,0,0,1,1,nullptr);
+    /*QLabel *lB_IEdetno = new QLabel("İş Emri Detay No ");
     lE_IEdetno = new QLineEdit;
     lE_IEdetno->setText (*IEdetno);
     lE_IEdetno->setReadOnly (true);
-    TsL->addWidget(lE_IEdetno   ,0,1,1,3,nullptr);
-    lB_IEdetno->setBuddy(lE_IEdetno);
 
+    lB_IEdetno->setBuddy(lE_IEdetno);
+*/
     QLabel *lB_acklm = new QLabel("Yapılacak İş");
-    TsL->addWidget(lB_acklm        ,1,0,1,1,nullptr);
     lE_IEdetaciklama = new QLineEdit;
-    TsL->addWidget(lE_IEdetaciklama   ,1,1,1,3,nullptr);
     lB_acklm->setBuddy(lE_IEdetaciklama);
 
-
-    QLabel *lB_ust = new QLabel("Tamir Yeri");
-    TsL->addWidget(lB_ust        ,3,0,1,1,nullptr);
-    cbx_IEdetkurumicdis = new QComboBox;                    //dbtb_IEDET
-    QStringList tylist {"Atolye","Arazi","Yetkili Servis","Dış Servis"};
+    QLabel *lB_krm = new QLabel("Tamir Yeri");
+    cbx_IEdetkurumicdis = new QComboBox;
+    QStringList tylist {"Atolye",
+                        "Arazi",
+                        "Yetkili Servis",
+                        "Dış Servis"};
     cbx_IEdetkurumicdis->addItems(tylist);
-    TsL->addWidget(cbx_IEdetkurumicdis   ,3,1,1,3,nullptr);
-    lB_ust->setBuddy(cbx_IEdetkurumicdis);
+    lB_krm->setBuddy(cbx_IEdetkurumicdis);
 
     QLabel *lB_tm = new QLabel("Atolye Bolüm");
-    TsL->addWidget(lB_tm        ,2,0,1,1,nullptr);
     cbx_IEdettamiryeri = new QComboBox;
-    QStringList ablist {"Boya","Kaporta","Motor","Torna","Mekanik"};
+    QStringList ablist {" ",
+                        "Boya",
+                        "Kaporta",
+                        "Motor",
+                        "Torna",
+                        "Mekanik"};
     cbx_IEdettamiryeri->addItems(ablist);
-    TsL->addWidget(cbx_IEdettamiryeri  ,2,1,1,3,nullptr);
     lB_tm->setBuddy(cbx_IEdettamiryeri );
 
-    QLabel *lB_dr = new QLabel("İş Emri Detay Durum");
-    TsL->addWidget(lB_dr        ,4,0,1,1,nullptr);
+    QLabel *lB_dr = new QLabel("İş Durumu");
     cbx_IEdetdurum = new QComboBox;                    // dbtb_durum
-    QStringList drlist { "-","Parça Bekliyor","Usta Bekliyor","Tamamlandı"};
+    QStringList drlist { " ",
+                         "Parça Bekliyor",
+                         "Usta Bekliyor",
+                         "Tamamlandı"};
     cbx_IEdetdurum->addItems(drlist);
-    TsL->addWidget(cbx_IEdetdurum   ,4,1,1,3,nullptr);
     lB_dr->setBuddy(cbx_IEdetdurum);
-    //    QPushButton *pb_durum = new QPushButton("+");
-    //    TsL->addWidget(pb_durum   ,4,4,1,1,nullptr);
-    //    connect(pb_durum, &QPushButton::clicked, this, &hC_IE::clk_IEdetdurum);
 
     QLabel *lB_gt = new QLabel("Araç Giriş Tarihi");
-    TsL->addWidget(lB_gt        ,7,0,1,1,nullptr);
     dE_IEdetgirtarihi = new QDateTimeEdit(QDate::currentDate());
     dE_IEdetgirtarihi->setDisplayFormat("dd.MM.yyyy");
     dE_IEdetgirtarihi->setMinimumDate(QDate(01, 01, 1900));
     dE_IEdetgirtarihi->setMaximumDate(QDate(valiDDate));
     dE_IEdetgirtarihi->setCalendarPopup(true);
-    TsL->addWidget(dE_IEdetgirtarihi   ,7,1,1,3,nullptr);
     lB_gt->setBuddy(dE_IEdetgirtarihi);
 
     QLabel *lB_ct = new QLabel("Araç Çıkış Tarihi");
-    TsL->addWidget(lB_ct        ,8,0,1,1,nullptr);
     dE_IEdetciktarihi = new QDateTimeEdit(QDate::currentDate());
     dE_IEdetciktarihi->setDisplayFormat("dd.MM.yyyy");
     dE_IEdetciktarihi->setMinimumDate(QDate (01, 01, 1900));
     dE_IEdetciktarihi->setMaximumDate(QDate ( valiDDate ));
     dE_IEdetciktarihi->setCalendarPopup(true);
-    TsL->addWidget(dE_IEdetciktarihi   ,8,1,1,3,nullptr);
     lB_ct->setBuddy(dE_IEdetciktarihi);
 
     //QLabel *lB_rsm = new QLabel("Resim");
 
 
+//    IEDETwdlay->addWidget(lB_IEdetno        ,0,0,1,1);
+//    IEDETwdlay->addWidget(lE_IEdetno   ,0,1,1,3);
 
+    auto IEDETwdlay = new QGridLayout;
+    IEDETwdlay->addWidget(lB_acklm            ,1,0,1,1);
+    IEDETwdlay->addWidget(lE_IEdetaciklama    ,1,1,1,3);
+    IEDETwdlay->addWidget(lB_krm              ,3,0,1,1);
+    IEDETwdlay->addWidget(cbx_IEdetkurumicdis  ,3,1,1,3);
+    IEDETwdlay->addWidget(lB_tm        ,2,0,1,1);
+    IEDETwdlay->addWidget(cbx_IEdettamiryeri  ,2,1,1,3);
+    IEDETwdlay->addWidget(lB_dr        ,4,0,1,1);
+    IEDETwdlay->addWidget(cbx_IEdetdurum   ,4,1,1,3);
+    IEDETwdlay->addWidget(lB_gt        ,7,0,1,1);
+    IEDETwdlay->addWidget(dE_IEdetgirtarihi   ,7,1,1,3);
+    IEDETwdlay->addWidget(lB_ct        ,8,0,1,1);
+    IEDETwdlay->addWidget(dE_IEdetciktarihi   ,8,1,1,3);
 
+    auto IEDETwdmap = new QWidget;
+    IEDETwdmap->setLayout(IEDETwdlay);
 
-
-    //IEmapper->addMapping(IEmapper, mdl_mkn->fieldIndex("ie_mknstk_no"));
-    IEDETmapper->addMapping(lE_IEdetno, IEDETmodel->fieldIndex("iedet_iedet_no"));
-    IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->fieldIndex("iedet_aciklama"));
-    IEDETmapper->addMapping(cbx_IEdettamiryeri , IEDETmodel->fieldIndex("iedet_tamiryeri"));
-    IEDETmapper->addMapping(cbx_IEdetkurumicdis, IEDETmodel->fieldIndex("iedet_kurumicdis"));
-    IEDETmapper->addMapping(cbx_IEdetdurum, IEDETmodel->fieldIndex("iedet_yap"));
-    IEDETmapper->addMapping(dE_IEdetgirtarihi , IEDETmodel->fieldIndex("ie_gir_tar"));
-    IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->fieldIndex("ie_cik_tar"));
-    qDebug ()<< "::::: 5" ;
-    //        IEmapper->addMapping(cbx_ykt, mdl_mkn->fieldIndex("ie_resim"));
-
-
-    QPushButton *pb_ilk = new QPushButton("İlk");
-    connect( pb_ilk, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toFirst );
-    TsL->addWidget( pb_ilk   ,10,1,1,1,nullptr);
-
-    QPushButton *pb_pr = new QPushButton("Önceki");
-    connect( pb_pr, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toPrevious );
-    TsL->addWidget( pb_pr   ,10,2,1,1,nullptr);
-
-    QPushButton *pb_lr = new QPushButton("Sonraki");
-    connect( pb_lr, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toNext );
-    TsL->addWidget( pb_lr   ,10,3,1,1,nullptr);
-
-    QPushButton *pb_ls = new QPushButton("Son");
-    connect( pb_ls, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toLast );
-    TsL->addWidget( pb_ls   ,10,4,1,1,nullptr);
+    auto *IEDETmainLay = new QGridLayout(this);
+    IEDETmainLay->addWidget ( IEDETtview ,  0, 0, 1, 1 );
+    IEDETmainLay->addWidget ( IEDETwdmap  ,  0, 1, 1, 1 );
 
 
 }
@@ -197,7 +175,39 @@ void hC_IEDET::iedet_map()
     /// mapper IEdet
     IEDETmapper = new QDataWidgetMapper(this);
     IEDETmapper->setModel(IEDETmodel);
-    // mpp->setItemDelegate(new IEDelegate(this));
+
+
+    IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->fieldIndex("iedet_aciklama"));
+    IEDETmapper->addMapping(cbx_IEdetkurumicdis, IEDETmodel->fieldIndex("iedet_kurumicdis"));
+    IEDETmapper->addMapping(cbx_IEdettamiryeri , IEDETmodel->fieldIndex("iedet_tamiryeri"));
+
+    IEDETmapper->addMapping(cbx_IEdetdurum, IEDETmodel->fieldIndex("iedet_yap"));
+    IEDETmapper->addMapping(dE_IEdetgirtarihi , IEDETmodel->fieldIndex("ie_gir_tar"));
+    IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->fieldIndex("ie_cik_tar"));
+    qDebug ()<< "::::: 5" ;
+    //        IEmapper->addMapping(cbx_ykt, mdl_mkn->fieldIndex("ie_resim"));
+
+
+    QPushButton *pb_ilk = new QPushButton("İlk");
+    connect( pb_ilk, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toFirst );
+    IEDETwdlay->addWidget( pb_ilk   ,10,1,1,1);
+
+    QPushButton *pb_pr = new QPushButton("Önceki");
+    connect( pb_pr, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toPrevious );
+    IEDETwdlay->addWidget( pb_pr   ,10,2,1,1);
+
+    QPushButton *pb_lr = new QPushButton("Sonraki");
+    connect( pb_lr, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toNext );
+    IEDETwdlay->addWidget( pb_lr   ,10,3,1,1);
+
+    QPushButton *pb_ls = new QPushButton("Son");
+    connect( pb_ls, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toLast );
+    IEDETwdlay->addWidget( pb_ls   ,10,4,1,1);
+
 
     IEDETmapper->toFirst ();
 }
@@ -560,8 +570,8 @@ void hC_IEDET::iedet_model(QSqlRelationalTableModel* model)
     tB_FieldList->append("Detay ID");
 
     hC_Rm hC_Rm ( &tableName,
-                 model,
-                 &indexField ,
-                 tB_FieldList) ;
+                  model,
+                  &indexField ,
+                  tB_FieldList) ;
 
 }

@@ -2,6 +2,7 @@
 
 
 
+
 hC_IE::hC_IE(QWidget *parent) : QWidget (parent)
 {
     qDebug ()<<"İş Emri Constructor";
@@ -14,6 +15,7 @@ void hC_IE::ie_setup()
     qDebug() << "ie setup ";
     ie_VTd();
     ie_ui();
+    iedet_ui();
 
     IEmodel = new QSqlRelationalTableModel;
     ie_model( IEmodel ) ;
@@ -29,14 +31,14 @@ void hC_IE::ie_ui()
 {
 
 
-    qDebug() << "  clsn_ui";
-    hC_IE::setWindowTitle ("İŞ EMRİ");
+    qDebug() << "ie_ui";
+    lB_ie  = new QLabel ("İŞ EMRİ");
+    hC_IE::setWindowTitle (lB_ie->text());
     hC_IE::showMaximized ();
 
 
     // ///////////////////////////////////////////////////////
 
-    lB_ie  = new QLabel ("İŞ EMRİ");
     lB_rsm = new QLabel ("Resim");
     hC_Rs resim(lB_rsm);
 
@@ -52,15 +54,15 @@ void hC_IE::ie_ui()
     lE_ieno = new  QLineEdit;
     auto* lB_tr = new QLabel("Geliş Tarihi");
     lE_geltar = new QLineEdit;
-    qDebug () << "cbx";
-    auto *lB_dr = new QLabel("İş Emri Durumu");
-    QStringList lst{"Sahada Bekliyor",
-            "Atölyede",
-            "Tamamlandı"};
+
+
+    auto *lB_dr = new QLabel("Bakım Yeri");
+    QStringList lst{ "Sıra Bekliyor",
+                     "Bakıma Alındı",
+                     "Tamamlandı"};
     cbX_durum = new QComboBox;
     cbX_durum->insertItems(0,lst);
 
-    qDebug () << "cbx 2";
     auto lB_gt = new QLabel("Atölye Giriş Tarihi");
     lE_girtar = new QLineEdit;
     auto lB_ck = new QLabel("Atölye Çıkış Tarihi");
@@ -87,18 +89,24 @@ void hC_IE::ie_ui()
     IEwdlay->addWidget (lE_yetkili1 , 6, 4, 1, 6);
     IEwdlay->addWidget (lB_y2       , 7, 0, 1, 4);
     IEwdlay->addWidget (lE_yetkili2 , 7, 4, 1, 6);
-    IEwdlay->addWidget (lB_rsm, 8, 0, 6, 3);
+    IEwdlay->addWidget (lB_rsm      , 8, 4, 1, 6);
 
 
 
 
-    auto IEwmap = new QWidget;
-    IEwmap->setLayout (IEwdlay);
+    auto IEwdmap = new QWidget;
+    IEwdmap->setLayout (IEwdlay);
 
-    auto *gLl = new QGridLayout(this);
-    gLl->addWidget ( IEtview ,  0, 0, 1, 1 );
-    gLl->addWidget ( IEwmap  ,  0, 1, 1, 1 );
+    auto *IEmainLay = new QGridLayout(this);
+    IEmainLay->addWidget ( IEtview ,  0, 0, 1, 1 );
+    IEmainLay->addWidget ( IEwdmap  ,  0, 1, 1, 1 );
 
+}
+
+void hC_IE::iedet_ui()
+{
+    hC_IEDET* iedet = new hC_IEDET;
+    iedet->iedet_setup();
 }
 
 void hC_IE::ie_view()
@@ -297,9 +305,20 @@ void hC_IE::ie_kntrl()
         {
 
         }
-        // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-        //     emit hC_IE::sgn(IEtview->table->model()->index( Index.row() ,
-        //               IEmodel->fieldIndex ("frm_unvan") ).data().toString() );
+        // 011-02 setfilter
+        // 011-02 filtrele
+        QSqlRecord record = IEmodel->record(Index.row ());
+        QString ie_mkn_no = record.value("ie_ie_no").toString ();
+        /// iş emri no her yılbaşında birden başlar
+
+        iedet->IEDETmodel->setFilter(
+                    QString("iedet_ie_id = %1").arg(ie_mkn_no) );
+
+        // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
+        emit hC_IE::sgn ( IEtview->table->model()->
+                          index( Index.row() ,
+                                 IEmodel->fieldIndex ("ie_ie_no")
+                                 ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
