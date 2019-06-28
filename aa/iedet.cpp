@@ -9,7 +9,7 @@ hC_IEDET::hC_IEDET(QWidget *parent) : QWidget (parent)
 
 void hC_IEDET::iedet_setup()
 {
-    qDebug() << " iedet setup ";
+    qDebug() << " -iedet setup ";
     iedet_VTd();
     iedet_ui();
 
@@ -31,7 +31,7 @@ void hC_IEDET::iedet_setup()
 
 void hC_IEDET::iedet_ui()
 {
-    qDebug() << " iedet_ui";
+    qDebug() << " -iedet_ui";
     lB_iedet  = new QLabel ("İŞ EMRİ DETAY");
     hC_IEDET::setWindowTitle (lB_iedet->text());
     hC_IEDET::showMaximized ();
@@ -49,24 +49,7 @@ void hC_IEDET::iedet_ui()
 
     /////*******************************************////////
 
-    /*//////
-    QWidget *wdgt_TSekle = new QWidget;
-    wdgt_TSekle->setWindowTitle("İş Emri Detay Yeni Kayıt");
-    wdgt_TSekle->setVisible(false);
-    wdgt_TSekle->show();
-
-    auto *IEDETwdlay = new QGridLayout;
-    wdgt_TSekle->setLayout(IEDETwdlay);
-    //////*/
-
-    /*QLabel *lB_IEdetno = new QLabel("İş Emri Detay No ");
-    lE_IEdetno = new QLineEdit;
-    lE_IEdetno->setText (*IEdetno);
-    lE_IEdetno->setReadOnly (true);
-
-    lB_IEdetno->setBuddy(lE_IEdetno);
-*/
-    QLabel *lB_acklm = new QLabel("Yapılacak İş");
+    QLabel *lB_acklm = new QLabel("Açıklama");
     lE_IEdetaciklama = new QLineEdit;
     lB_acklm->setBuddy(lE_IEdetaciklama);
 
@@ -115,22 +98,17 @@ void hC_IEDET::iedet_ui()
     dE_IEdetciktarihi->setCalendarPopup(true);
     lB_ct->setBuddy(dE_IEdetciktarihi);
 
-    //QLabel *lB_rsm = new QLabel("Resim");
-
-
-//    IEDETwdlay->addWidget(lB_IEdetno        ,0,0,1,1);
-//    IEDETwdlay->addWidget(lE_IEdetno   ,0,1,1,3);
 
     auto IEDETwdlay = new QGridLayout;
     IEDETwdlay->addWidget(lB_acklm            ,1,0,1,1);
     IEDETwdlay->addWidget(lE_IEdetaciklama    ,1,1,1,3);
-    IEDETwdlay->addWidget(lB_krm              ,3,0,1,1);
-    IEDETwdlay->addWidget(cbx_IEdetkurumicdis  ,3,1,1,3);
-    IEDETwdlay->addWidget(lB_tm        ,2,0,1,1);
+    IEDETwdlay->addWidget(lB_krm              ,2,0,1,1);
     IEDETwdlay->addWidget(cbx_IEdettamiryeri  ,2,1,1,3);
-    IEDETwdlay->addWidget(lB_dr        ,4,0,1,1);
-    IEDETwdlay->addWidget(cbx_IEdetdurum   ,4,1,1,3);
-    IEDETwdlay->addWidget(lB_gt        ,7,0,1,1);
+    IEDETwdlay->addWidget(lB_dr               ,3,0,1,1);
+    IEDETwdlay->addWidget(cbx_IEdetkurumicdis ,3,1,1,3);
+    IEDETwdlay->addWidget(lB_tm               ,4,0,1,1);
+    IEDETwdlay->addWidget(cbx_IEdetdurum      ,4,1,1,3);
+    IEDETwdlay->addWidget(lB_gt               ,7,0,1,1);
     IEDETwdlay->addWidget(dE_IEdetgirtarihi   ,7,1,1,3);
     IEDETwdlay->addWidget(lB_ct        ,8,0,1,1);
     IEDETwdlay->addWidget(dE_IEdetciktarihi   ,8,1,1,3);
@@ -149,12 +127,18 @@ void hC_IEDET::iedet_ui()
 
 void hC_IEDET::iedet_view()
 {
-    qDebug()<<"iedet view ";
+    qDebug()<<" -iedet view ";
     IEDETtview->table->setModel(IEDETmodel);
     IEDETselectionMdl = IEDETtview->table->selectionModel();
     //// kullanıcı bu alanları görmesin
     IEDETtview->table->setColumnHidden(
+                IEDETmodel->fieldIndex("iedet_ie_id"), true);
+    IEDETtview->table->setColumnHidden(
+                IEDETmodel->fieldIndex("iedet_iedet_no"), true);
+
+    IEDETtview->table->setColumnHidden(
                 IEDETmodel->fieldIndex("iedet_resim"), true);
+
     //IEDETtview->table->setColumnHidden(
     //          IEDETmodel->fieldIndex("iedet_iedet_no"), true);
     IEDETtview->table->setColumnHidden(
@@ -172,42 +156,23 @@ void hC_IEDET::iedet_view()
 }
 void hC_IEDET::iedet_map()
 {
+    qDebug()<<" iedet map";
     /// mapper IEdet
     IEDETmapper = new QDataWidgetMapper(this);
     IEDETmapper->setModel(IEDETmodel);
 
-
-    IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->fieldIndex("iedet_aciklama"));
-    IEDETmapper->addMapping(cbx_IEdetkurumicdis, IEDETmodel->fieldIndex("iedet_kurumicdis"));
-    IEDETmapper->addMapping(cbx_IEdettamiryeri , IEDETmodel->fieldIndex("iedet_tamiryeri"));
-
-    IEDETmapper->addMapping(cbx_IEdetdurum, IEDETmodel->fieldIndex("iedet_yap"));
-    IEDETmapper->addMapping(dE_IEdetgirtarihi , IEDETmodel->fieldIndex("ie_gir_tar"));
-    IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->fieldIndex("ie_cik_tar"));
-    qDebug ()<< "::::: 5" ;
-    //        IEmapper->addMapping(cbx_ykt, mdl_mkn->fieldIndex("ie_resim"));
-
-
-    QPushButton *pb_ilk = new QPushButton("İlk");
-    connect( pb_ilk, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toFirst );
-    IEDETwdlay->addWidget( pb_ilk   ,10,1,1,1);
-
-    QPushButton *pb_pr = new QPushButton("Önceki");
-    connect( pb_pr, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toPrevious );
-    IEDETwdlay->addWidget( pb_pr   ,10,2,1,1);
-
-    QPushButton *pb_lr = new QPushButton("Sonraki");
-    connect( pb_lr, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toNext );
-    IEDETwdlay->addWidget( pb_lr   ,10,3,1,1);
-
-    QPushButton *pb_ls = new QPushButton("Son");
-    connect( pb_ls, &QPushButton::clicked,
-             IEDETmapper, &QDataWidgetMapper::toLast );
-    IEDETwdlay->addWidget( pb_ls   ,10,4,1,1);
-
+    IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->
+                            fieldIndex("iedet_aciklama"));
+    IEDETmapper->addMapping(cbx_IEdettamiryeri , IEDETmodel->
+                            fieldIndex("iedet_tamiryeri"));
+    IEDETmapper->addMapping(cbx_IEdetkurumicdis, IEDETmodel->
+                            fieldIndex("iedet_kurumicdis"));
+    IEDETmapper->addMapping(cbx_IEdetdurum, IEDETmodel->
+                            fieldIndex("iedet_durum"));
+    IEDETmapper->addMapping(dE_IEdetgirtarihi , IEDETmodel->
+                            fieldIndex("iedet_girtar"));
+    IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->
+                            fieldIndex("iedet_ciktar"));
 
     IEDETmapper->toFirst ();
 }
@@ -216,7 +181,7 @@ void hC_IEDET::iedet_map()
 void hC_IEDET::iedet_kntrl()
 {
 
-
+    qDebug()<<" iedet kntrl ";
     // pB 001 yeni ekle
     connect(IEDETtview->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -486,8 +451,8 @@ QString hC_IEDET::iedet_VTd ()
 {
     QSqlQuery q;
     QString ct,
-            mesaj = { "OK - İş Emri Detay" } ,
-            IEDETtableName {"ieddet__dbtb"};
+            mesaj = { "OK - VTd - İş Emri Detay" } ,
+            IEDETtableName {"iedet__dbtb"};
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( IEDETtableName ))
@@ -508,7 +473,7 @@ QString hC_IEDET::iedet_VTd ()
                 "iedet_iedet_no	TEXT, "
                 "iedet_aciklama	TEXT, "
                 "iedet_tamiryeri	TEXT, "
-                "ie_kurumicdis    TEXT, "
+                "iedet_kurumicdis    TEXT, "
                 "iedet_durum     TEXT, "
                 "iedet_girtar    TEXT, "
                 "iedet_ciktar    TEXT, "
@@ -554,12 +519,12 @@ QString hC_IEDET::iedet_VTd ()
 void hC_IEDET::iedet_model(QSqlRelationalTableModel* model)
 {
     qDebug() << " iedet mdl";
-    QString indexField = "iedet_soyad";
+    QString indexField = "iedet_aciklama";
     QString tableName ("iedet__dbtb");
     QStringList *tB_FieldList = new QStringList ;
 
     tB_FieldList->append("Detay da İş Emri id");
-    tB_FieldList->append("Detay da İş Emri no");
+    tB_FieldList->append("Detay no");
     tB_FieldList->append("Yapılacak İş");
     tB_FieldList->append("Tamir Yeri");
     tB_FieldList->append("Kurum İç Dış");

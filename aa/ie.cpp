@@ -1,8 +1,5 @@
 ﻿#include "ie.h"
 
-
-
-
 hC_IE::hC_IE(QWidget *parent) : QWidget (parent)
 {
     qDebug ()<<"İş Emri Constructor";
@@ -12,7 +9,7 @@ hC_IE::hC_IE(QWidget *parent) : QWidget (parent)
 
 void hC_IE::ie_setup()
 {
-    qDebug() << "ie setup ";
+    qDebug() << " -ie setup ";
     ie_VTd();
     ie_ui();
     iedet_ui();
@@ -31,7 +28,7 @@ void hC_IE::ie_ui()
 {
 
 
-    qDebug() << "ie_ui";
+    qDebug() << " -ie_ui";
     lB_ie  = new QLabel ("İŞ EMRİ");
     hC_IE::setWindowTitle (lB_ie->text());
     hC_IE::showMaximized ();
@@ -56,7 +53,7 @@ void hC_IE::ie_ui()
     lE_geltar = new QLineEdit;
 
 
-    auto *lB_dr = new QLabel("Bakım Yeri");
+    auto *lB_dr = new QLabel("Araç Durumu ");
     QStringList lst{ "Sıra Bekliyor",
                      "Bakıma Alındı",
                      "Tamamlandı"};
@@ -105,20 +102,27 @@ void hC_IE::ie_ui()
 
 void hC_IE::iedet_ui()
 {
+    qDebug() << " * ie --> iedet_ui";
     hC_IEDET* iedet = new hC_IEDET;
     iedet->iedet_setup();
 }
 
 void hC_IE::ie_view()
 {
-    qDebug()<<"ie view ";
+    qDebug()<<" -ie view ";
     IEtview->table->setModel(IEmodel);
     IEselectionMdl = IEtview->table->selectionModel();
 
     //// kullanıcı bu alanları görmesin
-    IEtview->table->setColumnHidden(IEmodel->fieldIndex("ie_mknstk_no"), true);
-    IEtview->table->setColumnHidden(IEmodel->fieldIndex("id_IE"), true);
-    IEtview->table->setColumnHidden(IEmodel->fieldIndex("ie_resim"), true);
+    IEtview->table->setColumnHidden(IEmodel->
+                                    fieldIndex("ie_mkn_id"), true);
+    IEtview->table->setColumnHidden(IEmodel->
+                                    fieldIndex("ie_ie_no"), true);
+
+    IEtview->table->setColumnHidden(IEmodel->
+                                    fieldIndex("ie_resim"), true);
+    IEtview->table->setColumnHidden(IEmodel->
+                                    fieldIndex("id_ie"), true);
 
     IEtview->table->setCurrentIndex(
                 IEmodel->index(0, 1)
@@ -130,10 +134,20 @@ void hC_IE::ie_view()
 
 void hC_IE::ie_map()
 {
+    qDebug()<<" -ie map ";
     /// mapper IE
     IEmapper = new QDataWidgetMapper(this);
     IEmapper->setModel(IEmodel);
-    //IEmapper->addMapping (lE_isim , IEmodel->fieldIndex("ie_isim"));
+
+    IEmapper->addMapping (lE_mkn , IEmodel->fieldIndex("ie_mkn_id"));
+    IEmapper->addMapping (lE_ieno , IEmodel->fieldIndex("ie_ie_no"));
+    IEmapper->addMapping (lE_geltar , IEmodel->fieldIndex("ie_tarih"));
+    IEmapper->addMapping (cbX_durum , IEmodel->fieldIndex("ie_durum"));
+    IEmapper->addMapping (lE_girtar , IEmodel->fieldIndex("ie_girtar"));
+    IEmapper->addMapping (lE_ciktar , IEmodel->fieldIndex("ie_ciktar"));
+    IEmapper->addMapping (lE_yetkili1 , IEmodel->fieldIndex("ie_yetkili1"));
+    IEmapper->addMapping (lE_yetkili2 , IEmodel->fieldIndex("ie_yetkili2"));
+
     IEmodel->select();
 
 }
@@ -142,7 +156,7 @@ void hC_IE::ie_map()
 
 void hC_IE::ie_kntrl()
 {
-
+    qDebug()<<" -ie kntrl";
 
     // pB 001 yeni ekle
     connect(IEtview->pB_ekle, &QPushButton::clicked ,
@@ -306,13 +320,21 @@ void hC_IE::ie_kntrl()
 
         }
         // 011-02 setfilter
-        // 011-02 filtrele
-        QSqlRecord record = IEmodel->record(Index.row ());
-        QString ie_mkn_no = record.value("ie_ie_no").toString ();
-        /// iş emri no her yılbaşında birden başlar
 
-        iedet->IEDETmodel->setFilter(
-                    QString("iedet_ie_id = %1").arg(ie_mkn_no) );
+
+        if (Index.isValid())
+        {
+            QSqlRecord record = IEmodel->record(Index.row());
+            QString ieno = record.value("ie_ie_no").toString() ;
+            qDebug() <<"selected ie no : "<< ieno;
+            iedet->IEDETmodel->setFilter
+                    (QString("iedet_ie_id = '%1'" ).arg(ieno));
+        }
+
+
+
+        // 011-02 filtrele
+        /// iş emri no her yılbaşında birden başlar
 
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
