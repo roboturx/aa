@@ -161,6 +161,7 @@ void hC_IEDET::iedet_map()
     IEDETmapper = new QDataWidgetMapper(this);
     IEDETmapper->setModel(IEDETmodel);
 
+<<<<<<< HEAD
     IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->
                             fieldIndex("iedet_aciklama"));
     IEDETmapper->addMapping(cbx_IEdettamiryeri , IEDETmodel->
@@ -173,6 +174,40 @@ void hC_IEDET::iedet_map()
                             fieldIndex("iedet_girtar"));
     IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->
                             fieldIndex("iedet_ciktar"));
+=======
+
+    IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->fieldIndex("iedet_aciklama"));
+    IEDETmapper->addMapping(cbx_IEdetkurumicdis, IEDETmodel->fieldIndex("iedet_kurumicdis"));
+    IEDETmapper->addMapping(cbx_IEdettamiryeri , IEDETmodel->fieldIndex("iedet_tamiryeri"));
+
+    IEDETmapper->addMapping(cbx_IEdetdurum, IEDETmodel->fieldIndex("iedet_yap"));
+    IEDETmapper->addMapping(dE_IEdetgirtarihi , IEDETmodel->fieldIndex("ie_gir_tar"));
+    IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->fieldIndex("ie_cik_tar"));
+  /*  qDebug ()<< "::::: 5" ;
+    //        IEmapper->addMapping(cbx_ykt, mdl_mkn->fieldIndex("ie_resim"));
+
+
+    QPushButton *pb_ilk = new QPushButton("İlk");
+    connect( pb_ilk, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toFirst );
+    IEDETwdlay->addWidget( pb_ilk   ,10,1,1,1);
+
+    QPushButton *pb_pr = new QPushButton("Önceki");
+    connect( pb_pr, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toPrevious );
+    IEDETwdlay->addWidget( pb_pr   ,10,2,1,1);
+
+    QPushButton *pb_lr = new QPushButton("Sonraki");
+    connect( pb_lr, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toNext );
+    IEDETwdlay->addWidget( pb_lr   ,10,3,1,1);
+
+    QPushButton *pb_ls = new QPushButton("Son");
+    connect( pb_ls, &QPushButton::clicked,
+             IEDETmapper, &QDataWidgetMapper::toLast );
+    IEDETwdlay->addWidget( pb_ls   ,10,4,1,1);
+*/
+>>>>>>> master
 
     IEDETmapper->toFirst ();
 }
@@ -451,7 +486,11 @@ QString hC_IEDET::iedet_VTd ()
 {
     QSqlQuery q;
     QString ct,
+<<<<<<< HEAD
             mesaj = { "OK - VTd - İş Emri Detay" } ,
+=======
+            mesaj = { "OK - İş Emri Detay" } ,
+>>>>>>> master
             IEDETtableName {"iedet__dbtb"};
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().

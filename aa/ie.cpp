@@ -12,7 +12,6 @@ void hC_IE::ie_setup()
     qDebug() << " -ie setup ";
     ie_VTd();
     ie_ui();
-    iedet_ui();
 
     IEmodel = new QSqlRelationalTableModel;
     ie_model( IEmodel ) ;
@@ -20,6 +19,8 @@ void hC_IE::ie_setup()
     ie_view();
     ie_map();
     ie_kntrl ();
+
+    iedet_ui();
 
 }
 
@@ -134,7 +135,11 @@ void hC_IE::ie_view()
 
 void hC_IE::ie_map()
 {
+<<<<<<< HEAD
     qDebug()<<" -ie map ";
+=======
+    qDebug()<<"ie mapper ";
+>>>>>>> master
     /// mapper IE
     IEmapper = new QDataWidgetMapper(this);
     IEmapper->setModel(IEmodel);
@@ -156,7 +161,11 @@ void hC_IE::ie_map()
 
 void hC_IE::ie_kntrl()
 {
+<<<<<<< HEAD
     qDebug()<<" -ie kntrl";
+=======
+    qDebug()<<" ie kontrol ";
+>>>>>>> master
 
     // pB 001 yeni ekle
     connect(IEtview->pB_ekle, &QPushButton::clicked ,
@@ -334,8 +343,32 @@ void hC_IE::ie_kntrl()
 
 
         // 011-02 filtrele
-        /// iş emri no her yılbaşında birden başlar
+<<<<<<< HEAD
+=======
 
+        //QSqlRecord record = IEmodel->record(Index.row ());
+        //QString ie_ie_no = record.value("ie_ie_no").toString ();
+
+>>>>>>> master
+        /// iş emri no her yılbaşında birden başlar
+       //qDebug()<<" : " <<record.field (0 )<<" - "<< record.value (0);
+   QModelIndex ie_indx = IEtview->table->currentIndex ();
+        QString ie_ie_no = IEmodel->data
+                (IEmodel->index
+                 (ie_indx.row (),
+                  IEmodel->fieldIndex ("ie_ie_no"))).toString ();
+
+qDebug()<<"ie_ie_no : " <<" - "<< ie_ie_no;
+
+
+<<<<<<< HEAD
+=======
+        iedet->IEDETmodel->setFilter(
+                    QString("iedet_ie_no = %1").arg(ie_ie_no) );
+        qDebug()<<" ie_ie_no    : " << ie_ie_no;
+        qDebug()<<" iedet_ie_id : ";
+
+>>>>>>> master
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
                           index( Index.row() ,
@@ -352,7 +385,7 @@ void hC_IE::ie_kntrl()
     });
 
 
-
+    qDebug()<<"ie kontrol sonu ";
 }
 
 
@@ -369,7 +402,7 @@ hC_IE::~hC_IE()
 QString hC_IE::ie_VTd ()
 {
     QSqlQuery q;
-    QString ct, mesaj = "OK - İş Emri";
+    QString ct, mesaj = "OK - VTd - İş Emri";
     QString IEtableName ("ie__dbtb");
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( IEtableName))
