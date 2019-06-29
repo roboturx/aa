@@ -21,14 +21,7 @@ void hC_IEDET::iedet_setup()
     iedet_map();
     iedet_kntrl ();
 
-    hC_IE* ie = new hC_IE;
-    connect (ie, &hC_IE::sgn,
-             [] (QString xx)
-    {
-        qDebug () <<"ie sgn :"<<xx  ;
-    }
 
-             );
   //  this->show ();
 
 }
@@ -212,9 +205,17 @@ void hC_IEDET::iedet_kntrl()
     });
 
     connect(IEDETtview->pB_ekle, &QPushButton::clicked ,
-            [this]()
+            []()
     {
+        hC_IE* ieekk = new hC_IE;
+        connect (ieekk, &hC_IE::sgn,
+                 [] (QString xx)
+        {
+            qDebug () <<"ie sgn :"<<xx  ;
+        });
 
+            qDebug()<<" ------- ieno "
+                   <<  ;
 /*        IEno = new QString;
 
         //QSqlQuery q;
@@ -485,13 +486,6 @@ QString hC_IEDET::iedet_VTd ()
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( IEDETtableName ))
     {
-
-        /// ie_no joins işemri with işemridetay
-        /// dbtb_IE <- dbtb_IEdet
-        ///
-        /// iedet_no = ie_no + iedet_no
-        ///
-        /// iedet_no used tasinir and iscilik relation
 
 
 

@@ -125,7 +125,7 @@ void hC_IE::ie_view()
                                     fieldIndex("ie_mkn_id"), true);
     //   IEtview->table->setColumnHidden(IEmodel->
     //           fieldIndex("ie_ie_no"), true);
-
+    qDebug()<<" -ietview "<< endl <<IEtview << endl;
     IEtview->table->setColumnHidden(IEmodel->
                                     fieldIndex("ie_resim"), true);
     IEtview->table->setColumnHidden(IEmodel->
@@ -340,7 +340,7 @@ void hC_IE::ie_kntrl()
                   IEmodel->fieldIndex ("ie_ie_no"))).toString ();
 
         iedet->IEDETmodel->setFilter(
-                    QString("iedet_ie_no = %1").arg(ie_ie_no) );
+                    QString("iedet_ie_id = %1").arg(ie_ie_no) );
         qDebug ()<<"iedet filter" << iedet->IEDETmodel->filter () ;
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
@@ -447,6 +447,7 @@ void hC_IE::ie_model(QSqlRelationalTableModel *model)
     fieldList->append("Yetkili");
     fieldList->append("Resim");
     fieldList->append("ID_IE");
+
 
     hC_Rm hC_Rm ( &IEtableName,
                   model,
