@@ -11,6 +11,7 @@ void hC_IE::ie_setup()
 {
     qDebug() << " -ie setup ";
 
+    iedet_show()  ;
 
     ie_VTd();
     ie_ui();
@@ -22,7 +23,7 @@ void hC_IE::ie_setup()
     ie_map();
     ie_kntrl ();
 
-        iedet_ui();
+
 
 }
 
@@ -32,28 +33,23 @@ void hC_IE::ie_ui()
     qDebug() << " -ie_ui";
     lB_ie  = new QLabel ("İŞ EMRİ");
     hC_IE::setWindowTitle (lB_ie->text());
-    hC_IE::setGeometry(10,10,800,400);
+    hC_IE::setGeometry(10,10,800,300);
     //    hC_IE::showMaximized ();
 
 
-    // ///////////////////////////////////////////////////////
-
-    lB_rsm = new QLabel ("Resim");
-    hC_Rs resim(lB_rsm);
 
     // ///////////////////////////////////////////////////////
-    // views
     IEtview = new hC_Tv();
 
-    /////*******************************************////////
-
-    auto* lB_mk = new QLabel("Araç");
+    // ///////////////////////////////////////////////////////
+    auto* lB_mk = new QLabel("Araç Kurum No");
     lE_mkn = new hC_Le;
+
     auto* lB_ie = new QLabel("İş Emri No");
     lE_ieno = new  QLineEdit;
-    auto* lB_tr = new QLabel("Geliş Tarihi");
-    lE_geltar = new QLineEdit;
 
+    auto* lB_tr = new QLabel("İş Emri Tarihi");
+    lE_geltar = new QLineEdit;
 
     auto *lB_dr = new QLabel("Araç Durumu ");
     QStringList lst{ "Sıra Bekliyor",
@@ -64,13 +60,20 @@ void hC_IE::ie_ui()
 
     auto lB_gt = new QLabel("Atölye Giriş Tarihi");
     lE_girtar = new QLineEdit;
+
     auto lB_ck = new QLabel("Atölye Çıkış Tarihi");
     lE_ciktar = new QLineEdit;
+
     auto lB_y1 = new QLabel("Yetkili - I ");
     lE_yetkili1 = new hC_Le;
+
     auto lB_y2 = new QLabel("Yetkili - II");
     lE_yetkili2 = new hC_Le;
 
+    lB_rsm = new QLabel ("Resim");
+    hC_Rs resim(lB_rsm);
+
+    // ///////////////////////////////////////////////////////
     auto IEwdlay = new QGridLayout;
     IEwdlay->addWidget (lB_mk   , 0, 0, 1, 4);
     IEwdlay->addWidget (lE_mkn  , 0, 4, 1, 6);
@@ -88,6 +91,7 @@ void hC_IE::ie_ui()
     IEwdlay->addWidget (lE_yetkili1 , 6, 4, 1, 6);
     IEwdlay->addWidget (lB_y2       , 7, 0, 1, 4);
     IEwdlay->addWidget (lE_yetkili2 , 7, 4, 1, 6);
+    IEwdlay->addWidget (new QLabel("Resim") , 8, 0, 1, 4);
     IEwdlay->addWidget (lB_rsm      , 8, 4, 1, 6);
 
 
@@ -102,11 +106,12 @@ void hC_IE::ie_ui()
 
 }
 
-void hC_IE::iedet_ui()
+void hC_IE::iedet_show()
 {
     qDebug() << " * ie --> iedet_ui";
     iedet = new hC_IEDET;
     iedet->iedet_setup();
+    iedet->show ();
 }
 
 void hC_IE::ie_view()
@@ -118,8 +123,8 @@ void hC_IE::ie_view()
     //// kullanıcı bu alanları görmesin
     IEtview->table->setColumnHidden(IEmodel->
                                     fieldIndex("ie_mkn_id"), true);
- //   IEtview->table->setColumnHidden(IEmodel->
-                         //           fieldIndex("ie_ie_no"), true);
+    //   IEtview->table->setColumnHidden(IEmodel->
+    //           fieldIndex("ie_ie_no"), true);
 
     IEtview->table->setColumnHidden(IEmodel->
                                     fieldIndex("ie_resim"), true);
@@ -152,7 +157,7 @@ void hC_IE::ie_map()
     IEmapper->addMapping (lE_ciktar , IEmodel->fieldIndex("ie_ciktar"));
     IEmapper->addMapping (lE_yetkili1 , IEmodel->fieldIndex("ie_yetkili1"));
     IEmapper->addMapping (lE_yetkili2 , IEmodel->fieldIndex("ie_yetkili2"));
-
+    //IEmapper->addMapping (lE_    , IEmodel->fieldIndex("ie_resim"));
     IEmodel->select();
 
 }
@@ -164,34 +169,29 @@ void hC_IE::ie_kntrl()
 
     qDebug()<<" -ie kntrl";
 
-    qDebug()<<" ie kontrol ";
-
-
     // pB 001 yeni ekle
     connect(IEtview->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
+    qDebug()<<" -ie ekle  ";
+        QString IEtableName{"ie__dbtb"};
+        QSqlQuery q;
+        QString qry, mesaj;
+        qry = "INSERT INTO " + IEtableName + " ( ie_ie_no )"
+                                             " values( '1111' )"  ;
 
-        QSqlRecord rec = IEmodel->record();
-        // insert a new record (-1) with null date
-
-        /// date does not take null value
-        /// line 126 at QDateEdit declaration
-        /// with the
-        /// dT_dotar->setSpecialValueText ("  ");
-        /// line
-        /// an invalid date value represents " "
-        ///
-        //  dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
-
-
-        if ( ! IEmodel->insertRecord(-1,rec))
+        if ( !q.exec(qry) )
         {
-            qDebug() << "100111 -  HATA - Çalışan kayıt eklenemedi ";
+            mesaj = mesaj + "<br>İLK İş Emri Eklenemedi"+
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text ()+
+                    "<br>------------------------------------<br>";
         }
         else
-            qDebug() << "100111 - Çalışan Kaydı eklendi ";
-        IEmodel->select();
+        {
+            mesaj = mesaj + "<br>İLK İş Emri eklendi.";
+        }
+            IEmodel->select();
 
     });
 
@@ -329,54 +329,25 @@ void hC_IE::ie_kntrl()
 
         }
         // 011-02 setfilter
-
-
-        if (Index.isValid())
-        {
-
-            QSqlRecord record = IEmodel->record(Index.row());
-            QString ieno = record.value("ie_ie_no").toString() ;
-            qDebug() <<"selected ie no : "<< ieno;
-            qDebug() <<"iemodel"
-                    <<IEmodel;
-            qDebug() <<"iedetmodel"
-                    <<iedet->IEDETmodel;
-
-            iedet->IEDETmodel->setFilter
-                    (QString("iedet_ie_id = '%1'" ).arg(ieno));
-            qDebug() <<"selected ie no 2: "<< ieno;
-        }
-
-
-
         // 011-02 filtrele
 
-
-        //QSqlRecord record = IEmodel->record(Index.row ());
-        //QString ie_ie_no = record.value("ie_ie_no").toString ();
-
         /// iş emri no her yılbaşında birden başlar
-       //qDebug()<<" : " <<record.field (0 )<<" - "<< record.value (0);
-   QModelIndex ie_indx = IEtview->table->currentIndex ();
+
+
         QString ie_ie_no = IEmodel->data
                 (IEmodel->index
-                 (ie_indx.row (),
+                 (Index.row (),
                   IEmodel->fieldIndex ("ie_ie_no"))).toString ();
-
-qDebug()<<"ie_ie_no : " <<" - "<< ie_ie_no;
-
 
         iedet->IEDETmodel->setFilter(
                     QString("iedet_ie_no = %1").arg(ie_ie_no) );
-        qDebug()<<" ie_ie_no    : " << ie_ie_no;
-        qDebug()<<" iedet_ie_id : ";
-
-
+        qDebug ()<<"iedet filter" << iedet->IEDETmodel->filter () ;
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
                           index( Index.row() ,
                                  IEmodel->fieldIndex ("ie_ie_no")
                                  ).data().toString() );
+
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
@@ -466,15 +437,17 @@ void hC_IE::ie_model(QSqlRelationalTableModel *model)
     QString indexField = "ie_----------soyad";
     auto *fieldList = new QStringList;
 
-    fieldList->append("Makina No");
+    fieldList->append("Mkn No");
     fieldList->append("İş Emri No");
-    fieldList->append("İş Emri Tarihi");
-
+    fieldList->append("Tarihi");
     fieldList->append("Durum");
-    fieldList->append("Araç Giriş Tarihi");
-    fieldList->append("Araç Çıkış Tarihi");
+    fieldList->append("Giriş Tarihi");
+    fieldList->append("Çıkış Tarihi");
     fieldList->append("Yetkili");
     fieldList->append("Yetkili");
+    fieldList->append("Resim");
+    fieldList->append("ID_IE");
+
     hC_Rm hC_Rm ( &IEtableName,
                   model,
                   &indexField ,

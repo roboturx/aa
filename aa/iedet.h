@@ -44,33 +44,15 @@ public:
 
     QLabel* lB_iedet ;
     QLabel* lB_rsm;
-    QWidget *wdgt_IEdetekle{};
-    QWidget *wdgt_TSekle{};
-    QWidget *wdgt_SCekle{};
 
-    QString *IEno{};
-    QString *IE_idno{};
-    QString *IEdetno{};
-    QLineEdit *lE_IEdetno{} ;
+    QLineEdit *lE_IEno ;
     QLineEdit *lE_IEdetaciklama{} ;
-
     QComboBox *cbx_IEdettamiryeri{} ;
-    QComboBox *cbx_IEdetkurumicdis{} ;      // dbtb_clsn
-
+    QComboBox *cbx_IEdettamirbolum{} ;
     QComboBox *cbx_IEdetdurum{} ;
-
     QDateTimeEdit *dE_IEdetgirtarihi{} ;
     QDateTimeEdit *dE_IEdetciktarihi{} ;
 
-    QComboBox *cbx_IEdetyapyer{} ;
-
-    QDateTimeEdit *dE_IEdettarih{};
-
-
 };
-
-
-
-
 
 #endif // HC_IEDET_H

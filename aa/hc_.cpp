@@ -16,7 +16,7 @@ hC_::hC_()
 
 // ////////////////////////////////////////////////////////// resim
 
-hC_Rs::hC_Rs (  QLabel *lB_resim,
+hC_Rs::hC_Rs (  QLabel *lB__resim,
                 hC_Tv *rsm_table,
                 QSqlRelationalTableModel *rsm_model,
                 QItemSelectionModel *rsm_selectionModel,
@@ -40,7 +40,7 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
             return ;
 
         QImage image(myfile);
-        lB_resim->setPixmap(QPixmap::fromImage(image));
+        lB__resim->setPixmap(QPixmap::fromImage(image));
         QByteArray inByteArray;
         QFile file(  myfile ); //dosyayı açmak için al
 
@@ -71,28 +71,28 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
         outPixmap.loadFromData( outByteArray  );
         if ( ! outByteArray.isNull ())
         {
-            lB_resim->setPixmap( outPixmap );
+            lB__resim->setPixmap( outPixmap );
         }
         else
         {
-            lB_resim->setPixmap (QPixmap (":/rsm/rsm_yok.png"));
-           // lB_resim->setPixmap (QPixmap (""));
+            lB__resim->setPixmap (QPixmap (":/rsm/rsm_yok.png"));
+           // lB__resim->setPixmap (QPixmap (""));
         }
 
-        lB_resim->setScaledContents( true );
-        lB_resim->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-        lB_resim->show();
+        lB__resim->setScaledContents( true );
+        lB__resim->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+        lB__resim->show();
 
     }
     else  if (rsm_new_upd == nullptr)  // resim büyük pencerede
     {
 
-        lB_resim->setScaledContents( true );
-        lB_resim->setSizePolicy( QSizePolicy::Preferred,
+        lB__resim->setScaledContents( true );
+        lB__resim->setSizePolicy( QSizePolicy::Preferred,
                                  QSizePolicy::Preferred );
-        lB_resim->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(lB_resim , &QLabel::customContextMenuRequested,
-                [ lB_resim]()
+        lB__resim->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(lB__resim , &QLabel::customContextMenuRequested,
+                [ lB__resim]()
         {
             //QLabel *x = lB_rsm;
             QDialog xx;
@@ -103,7 +103,7 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
             x->resize(QGuiApplication::primaryScreen()->
                       availableSize() * 10 / 16);
             x->setScaledContents(true);
-            x->setPixmap(QPixmap (*lB_resim->pixmap() ) );
+            x->setPixmap(QPixmap (*lB__resim->pixmap() ) );
             xx.setWindowTitle("RESİM GÖRÜNTÜLEME");
             xx.exec();
         });

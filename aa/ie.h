@@ -32,7 +32,7 @@ public:
 
 private:
     void ie_ui()   ;
-    void iedet_ui();
+    void iedet_show();
 
     void ie_view() ;
     void ie_map()  ;
