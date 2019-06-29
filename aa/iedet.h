@@ -23,7 +23,7 @@ public:
     void    iedet_model(QSqlRelationalTableModel * );
 
     hC_Tv*                    IEDETtview;
-    QSqlRelationalTableModel* IEDETmodel{};
+    QSqlRelationalTableModel* IEDETmodel;
     QItemSelectionModel*      IEDETselectionMdl;
     QDataWidgetMapper*        IEDETmapper;
 

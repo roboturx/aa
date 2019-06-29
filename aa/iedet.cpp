@@ -34,7 +34,8 @@ void hC_IEDET::iedet_ui()
     qDebug() << " -iedet_ui";
     lB_iedet  = new QLabel ("İŞ EMRİ DETAY");
     hC_IEDET::setWindowTitle (lB_iedet->text());
-    hC_IEDET::showMaximized ();
+ hC_IEDET::setGeometry(410,10,600,400);
+    //   hC_IEDET::showMaximized ();
 
 
     // ///////////////////////////////////////////////////////
@@ -156,12 +157,12 @@ void hC_IEDET::iedet_view()
 }
 void hC_IEDET::iedet_map()
 {
-    qDebug()<<" iedet map";
+    qDebug()<<" -iedet map";
     /// mapper IEdet
     IEDETmapper = new QDataWidgetMapper(this);
     IEDETmapper->setModel(IEDETmodel);
 
-<<<<<<< HEAD
+
     IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->
                             fieldIndex("iedet_aciklama"));
     IEDETmapper->addMapping(cbx_IEdettamiryeri , IEDETmodel->
@@ -174,7 +175,7 @@ void hC_IEDET::iedet_map()
                             fieldIndex("iedet_girtar"));
     IEDETmapper->addMapping(dE_IEdetciktarihi , IEDETmodel->
                             fieldIndex("iedet_ciktar"));
-=======
+
 
     IEDETmapper->addMapping(lE_IEdetaciklama , IEDETmodel->fieldIndex("iedet_aciklama"));
     IEDETmapper->addMapping(cbx_IEdetkurumicdis, IEDETmodel->fieldIndex("iedet_kurumicdis"));
@@ -207,7 +208,7 @@ void hC_IEDET::iedet_map()
              IEDETmapper, &QDataWidgetMapper::toLast );
     IEDETwdlay->addWidget( pb_ls   ,10,4,1,1);
 */
->>>>>>> master
+
 
     IEDETmapper->toFirst ();
 }
@@ -216,7 +217,7 @@ void hC_IEDET::iedet_map()
 void hC_IEDET::iedet_kntrl()
 {
 
-    qDebug()<<" iedet kntrl ";
+    qDebug()<<" -iedet kntrl ";
     // pB 001 yeni ekle
     connect(IEDETtview->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -486,11 +487,8 @@ QString hC_IEDET::iedet_VTd ()
 {
     QSqlQuery q;
     QString ct,
-<<<<<<< HEAD
+
             mesaj = { "OK - VTd - İş Emri Detay" } ,
-=======
-            mesaj = { "OK - İş Emri Detay" } ,
->>>>>>> master
             IEDETtableName {"iedet__dbtb"};
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().
@@ -557,7 +555,7 @@ QString hC_IEDET::iedet_VTd ()
 
 void hC_IEDET::iedet_model(QSqlRelationalTableModel* model)
 {
-    qDebug() << " iedet mdl";
+    qDebug() << " -iedet mdl";
     QString indexField = "iedet_aciklama";
     QString tableName ("iedet__dbtb");
     QStringList *tB_FieldList = new QStringList ;
@@ -577,5 +575,6 @@ void hC_IEDET::iedet_model(QSqlRelationalTableModel* model)
                   model,
                   &indexField ,
                   tB_FieldList) ;
+//    qDebug() <<"iedetmodel in içinde  " <<IEDETmodel;
 
 }
