@@ -1,6 +1,7 @@
 ﻿#include "mw_main.h" // main
 
 
+
 MW_main::MW_main( )
 = default;
 
@@ -222,9 +223,9 @@ void MW_main::cr_Actions()
     connect( act_ie , &QAction::triggered,
              [this]()
     {
-        mw_ie = new hC_IE ;
-        mw_ie->ie_setup ();
-        mw_ie->show ();
+        MW_main::mw_ie = new hC_IE;
+        MW_main::mw_ie->ie_setup ();
+        MW_main::mw_ie->show ();
     });
 
 

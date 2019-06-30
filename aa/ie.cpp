@@ -11,7 +11,7 @@ void hC_IE::ie_setup()
 {
     qDebug() << " -ie setup ";
 
-    iedet_show()  ;
+  // iedet_show()  ;
 
     ie_VTd();
     ie_ui();
@@ -105,14 +105,14 @@ void hC_IE::ie_ui()
     IEmainLay->addWidget ( IEwdmap  ,  0, 1, 1, 1 );
 
 }
-
+/*
 void hC_IE::iedet_show()
 {
     qDebug() << " * ie --> iedet_ui";
     iedet = new hC_IEDET;
     iedet->iedet_setup();
     iedet->show ();
-}
+}*/
 
 void hC_IE::ie_view()
 {
@@ -339,9 +339,9 @@ void hC_IE::ie_kntrl()
                  (Index.row (),
                   IEmodel->fieldIndex ("ie_ie_no"))).toString ();
 
-        iedet->IEDETmodel->setFilter(
-                    QString("iedet_ie_id = %1").arg(ie_ie_no) );
-        qDebug ()<<"iedet filter" << iedet->IEDETmodel->filter () ;
+    //    iedet->IEDETmodel->setFilter(
+      //              QString("iedet_ie_id = %1").arg(ie_ie_no) );
+        //qDebug ()<<"iedet filter" << iedet->IEDETmodel->filter () ;
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
                           index( Index.row() ,

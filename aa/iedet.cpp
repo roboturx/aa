@@ -1,5 +1,6 @@
 ﻿#include "iedet.h"
-#include "ie.h"
+//#include "ie.h"
+#include "mw_main.h"
 
 hC_IEDET::hC_IEDET(QWidget *parent) : QWidget (parent)
 {
@@ -10,6 +11,7 @@ hC_IEDET::hC_IEDET(QWidget *parent) : QWidget (parent)
 
 void hC_IEDET::iedet_setup()
 {
+
     qDebug() << " -iedet setup ";
     iedet_VTd();
     iedet_ui();
@@ -22,7 +24,7 @@ void hC_IEDET::iedet_setup()
     iedet_kntrl ();
 
 
-  //  this->show ();
+    //  this->show ();
 
 }
 
@@ -194,100 +196,66 @@ void hC_IEDET::iedet_kntrl()
 
     qDebug()<<" -iedet kntrl ";
 
+    /////////////////////////////////////////////////////
+    ie = new hC_IE;
+    ienoo = new QString;
+    ie->ie_setup();
+    ie->show();
+    // /// 12- set filter
 
-
-
+    connect(ie, &hC_IE::sgn,
+            [this ] (QString ie_ieno)
+    {
+        *ienoo = ie_ieno;
+        IEDETmodel->setFilter(
+                    QString("iedet_ie_id = %1").arg(ie_ieno) );
+    });
+    //////////////////////////////////////////////
+qDebug () <<"iedet ienoooowwwww " << *ienoo  ;
     // pB 001 yeni ekle
     connect(IEDETtview->pB_ekle, &QPushButton::clicked ,
-            []()
+            [this]()
     {
 
-    });
+            qDebug () <<"ie mwwwwwwwww sgn :"<<*ienoo  ;
 
-    connect(IEDETtview->pB_ekle, &QPushButton::clicked ,
-            []()
-    {
-        hC_IE* ieekk = new hC_IE;
-        connect (ieekk, &hC_IE::sgn,
-                 [] (QString xx)
-        {
-            qDebug () <<"ie sgn :"<<xx  ;
-        });
 
-            qDebug()<<" ------- ieno "
-                   <<  ;
-/*        IEno = new QString;
+            QSqlQuery q;
+            QString q_s;
+            q_s="INSERT INTO iedet__dbtb ( "
+                "iedet_ie_id, iedet_iedet_no, iedet_girtar "
+                " )"
+                " values( ?, ?, ? )";
+            q.prepare(q_s);
 
-        //QSqlQuery q;
-        //QVariant ino = " " ;
-        QModelIndex index = IEDETtview->table->currentIndex();
-        if (index.isValid())
-        {
-            // tv index i ile model de recordu bulduk
-            QSqlRecord record = IEDETmodel->record(index.row());
-            *IEno = record.value("ie_ie_no").toString();
-            *IE_idno = record.value("id_IE").toString();
+            q.bindValue(0, *ienoo  );
+            q.bindValue(1, "1" );
+            q.bindValue(2, "2" ); //QDate(QDate::currentDate()).toString());
+            // q.bindValue(3, dE_IEdetciktarihi->text());
 
-        }
-        else
-        {
-            QMessageBox msgBox;
-            QPushButton *pb_tmm = msgBox.addButton(tr("Tamam"), QMessageBox::ActionRole);
-            msgBox.setWindowTitle("İŞ EMRİ DETAY KAYIT EKLEME HATASI                               -");
-            msgBox.setText("İş Emri Detay kaydı \n"
-                           "Kayıt Eklenemedi ...");
-            msgBox.setInformativeText("tV_ie index is invalid");        msgBox.exec();
-            if (msgBox.clickedButton() == pb_tmm)
+            q.exec();
+
+            if (q.isActive())
             {
-                return;
+                qDebug () <<"İş Emri Detay Yeni Kayıt Eklendi - ";
             }
-        }
-
-        ////////////////////////////////
-        QSqlQuery q;
-        QString q_s;
-        q_s="INSERT INTO dbtb_IEdet ( "
-            "iedet_ie_id, iedet_iedet_no   , iedet_aciklama, iedet_tamiryeri, "
-            "iedet_durum, iedet_girtar , iedet_ciktar "
-            " )"
-            " values( ?, ?, ?, ?, ?, ?, ? )";
-        q.prepare(q_s);
-
-        q.bindValue(0, *IE_idno  );   //*IEno
-        q.bindValue(1, *IEdetno );
-        q.bindValue(2, lE_IEdetaciklama->text ());
-        q.bindValue(3, cbx_IEdettamiryeri->currentText ());
-        q.bindValue(4, cbx_IEdetkurumicdis->currentText ());
-
-        q.bindValue(5, cbx_IEdetdurum->currentText ());
-        q.bindValue(6, dE_IEdetgirtarihi->text());
-        q.bindValue(7, dE_IEdetciktarihi->text());
-
-        q.exec();
-
-        if (q.isActive())
-        {
-            qDebug () <<"İş Emri Detay Yeni Kayıt Eklendi - "<< lE_IEdetno->text() << " -   Eklendi";
-        }
-        else
-        {
-            qDebug () << "İş Emri Detay Yeni Kayıt Eklenemedi - " << q.lastError().text() ;
-        }
+            else
+            {
+                qDebug () << "İş Emri Detay Yeni Kayıt Eklenemedi - "
+                          << q.lastError().text();
+            }
 
 
 
 
-        IEDETmodel->select();
-        IEDETtview->table->setFocus();
+            IEDETmodel->select();
+            IEDETtview->table->setFocus();
 
-        // iş emri detay ekle
-        ///////////////////////////////////////////////////
+            // iş emri detay ekle
+            ///////////////////////////////////////////////////
 
 
-
-*/
     });
-
     // pB 002 yeni resim ekle
     connect(IEDETtview->pB_eklersm, &QPushButton::clicked,
             [this]()
@@ -466,6 +434,7 @@ void hC_IEDET::iedet_kntrl()
 //    //qDebug () <<"iedet row changggggedd 3";
 //*/
 //     IEDETtview->table->setFocus();
+//
 //}
 
 
@@ -560,6 +529,6 @@ void hC_IEDET::iedet_model(QSqlRelationalTableModel* model)
                   model,
                   &indexField ,
                   tB_FieldList) ;
-//    qDebug() <<"iedetmodel in içinde  " <<IEDETmodel;
+    //    qDebug() <<"iedetmodel in içinde  " <<IEDETmodel;
 
 }

@@ -3,6 +3,7 @@
 
 #include <globals.h>
 #include "hc_.h"
+#include "ie.h"
 
 namespace ns_IEDET {
 class hC_IEDET;
@@ -42,6 +43,8 @@ private:
 public:
     /// iedet variables
 
+    hC_IE* ie ;
+    QString* ienoo;
     QLabel* lB_iedet ;
     QLabel* lB_rsm;
 
