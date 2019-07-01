@@ -101,6 +101,9 @@ void hC_IEDET::iedet_ui()
     dE_IEdetciktarihi->setMaximumDate(QDate ( valiDDate ));
     dE_IEdetciktarihi->setCalendarPopup(true);
     lB_ct->setBuddy(dE_IEdetciktarihi);
+    // ///////////////////////////////////////////////////////
+    lB_rsm = new QLabel ("Resim");
+    hC_Rs resim(lB_rsm);
 
 
     auto IEDETwdlay = new QGridLayout;
@@ -116,10 +119,9 @@ void hC_IEDET::iedet_ui()
     IEDETwdlay->addWidget(dE_IEdetgirtarihi   ,7,1,1,3);
     IEDETwdlay->addWidget(lB_ct        ,8,0,1,1);
     IEDETwdlay->addWidget(dE_IEdetciktarihi   ,8,1,1,3);
-    // ///////////////////////////////////////////////////////
-    lB_rsm = new QLabel ("Resim");
-    hC_Rs resim(lB_rsm);
 
+    IEDETwdlay->addWidget (new QLabel("Resim") , 9, 0, 1, 1);
+    IEDETwdlay->addWidget (lB_rsm      , 9, 1, 1, 2);
 
     auto IEDETwdmap = new QWidget;
     IEDETwdmap->setLayout(IEDETwdlay);

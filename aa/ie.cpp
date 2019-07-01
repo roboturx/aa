@@ -92,10 +92,7 @@ void hC_IE::ie_ui()
     IEwdlay->addWidget (lB_y2       , 7, 0, 1, 4);
     IEwdlay->addWidget (lE_yetkili2 , 7, 4, 1, 6);
     IEwdlay->addWidget (new QLabel("Resim") , 8, 0, 1, 4);
-    IEwdlay->addWidget (lB_rsm      , 8, 4, 1, 6);
-
-
-
+    IEwdlay->addWidget (lB_rsm      , 8, 4, 3, 6);
 
     auto IEwdmap = new QWidget;
     IEwdmap->setLayout (IEwdlay);
@@ -173,10 +170,34 @@ void hC_IE::ie_kntrl()
     connect(IEtview->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-    qDebug()<<" -ie ekle  ";
         QString IEtableName{"ie__dbtb"};
         QSqlQuery q;
-        QString qry, mesaj;
+        QString qry, mesaj("İŞ EMRİ NO MAX VALUE -");
+
+        /// yeni iş emri numaasını bul
+        /// iş emri nosu ie__dbtb de
+        /// ie_ie_no alanındaki en büyük sayı
+        qry = "SELECT max(ie_ie_no) FROM " + IEtableName  ;
+
+        if ( !q.exec(qry) )
+        {
+            mesaj = mesaj + "İş Emri No bulunmadı \n"+
+                    "------------------------------------\n"+
+                    q.lastError().text ()+
+                    "------------------------------------\n";
+        }
+        else
+        {
+            q.next();
+            QString val=q.value(0).toString();
+            mesaj = mesaj + "MAX VAL =" + val ;
+        }
+        qDebug()<<mesaj;
+          //  IEmodel->select();
+
+
+
+        // yebi kaydı rklr
         qry = "INSERT INTO " + IEtableName + " ( ie_ie_no )"
                                              " values( '1111' )"  ;
 
