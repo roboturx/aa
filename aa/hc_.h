@@ -13,7 +13,7 @@
 /// 4- hC_Le            - sağda pushbutton olan lineedit
 /// 4- hC_Te            - sağda pushbutton olan textedit
 /// 5- hC_Tm            - QSqlRelationalTableModel
-
+/// 6- hC_Gz            - tarihi gizler ve açar
 
 
 namespace HC_ {
@@ -21,6 +21,8 @@ class hC_Rs;
 class hC_Tv;
 class hC_Le;
 class hC_Te;
+class hC_Tm;
+class hC_Gz;
 
 }
 // forward declaration
@@ -29,6 +31,8 @@ class hC_Rs;
 class hC_Tv;
 class hC_Le;
 class hC_Te;
+class hC_Tm;
+class hC_Gz;
 
 
 
@@ -195,6 +199,15 @@ class hC_Rm : public QSqlRelationalTableModel
      ~hC_Rm();
     // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
      //QSqlRelationalTableModel  *hC_rm;
+};
+
+
+
+class hC_Gz
+{
+public:
+
+hC_Gz(QDateTimeEdit *tarih, QString vsbl);
 };
 
 

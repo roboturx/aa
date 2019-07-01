@@ -111,9 +111,9 @@ void hC_IEDET::iedet_ui()
     IEDETwdlay->addWidget(lE_IEdetaciklama    ,1,1,1,3);
     IEDETwdlay->addWidget(lB_krm              ,2,0,1,1);
     IEDETwdlay->addWidget(cbx_IEdettamiryeri  ,2,1,1,3);
-    IEDETwdlay->addWidget(lB_dr               ,3,0,1,1);
+    IEDETwdlay->addWidget(lB_tm               ,3,0,1,1);
     IEDETwdlay->addWidget(cbx_IEdettamirbolum ,3,1,1,3);
-    IEDETwdlay->addWidget(lB_tm               ,4,0,1,1);
+    IEDETwdlay->addWidget(lB_dr               ,4,0,1,1);
     IEDETwdlay->addWidget(cbx_IEdetdurum      ,4,1,1,3);
     IEDETwdlay->addWidget(lB_gt               ,7,0,1,1);
     IEDETwdlay->addWidget(dE_IEdetgirtarihi   ,7,1,1,3);

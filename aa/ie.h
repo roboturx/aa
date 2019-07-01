@@ -43,10 +43,10 @@ public:
 
     hC_Le* lE_mkn;
     QLineEdit* lE_ieno;
-    QLineEdit* lE_geltar;
+    QDateTimeEdit* dE_geltar;
     QComboBox* cbX_durum;
-    QLineEdit* lE_girtar;
-    QLineEdit* lE_ciktar;
+    QDateTimeEdit* dE_girtar;
+    QDateTimeEdit* dE_ciktar;
     hC_Le* lE_yetkili1;
     hC_Le* lE_yetkili2;
 

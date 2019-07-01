@@ -436,3 +436,36 @@ hC_Rm::hC_Rm (QString *rm_Table,
 hC_Rm::~hC_Rm()
 = default;
 
+
+hC_Gz::hC_Gz(QDateTimeEdit *tarih, QString vsbl)
+{
+    if (vsbl == "0" )
+    {
+        tarih->setVisible (false);
+    }
+    else if (vsbl == "1" )
+    {
+        tarih->setVisible (true);
+    }
+    else if (vsbl == "currentdate")
+    {
+        tarih->setDate (QDate::currentDate ());
+        tarih->setVisible (true);
+        tarih->setDisplayFormat("dd.MM.yyyy");
+        tarih->setMinimumDate(QDate(01, 01, 1900));
+        tarih->setMaximumDate(QDate(valiDDate));
+        tarih->setCalendarPopup(true);
+
+
+    }
+    else if (vsbl == "nulldate")
+    {
+        tarih->setVisible (true);
+        tarih->setDisplayFormat("dd.MM.yyyy");
+        tarih->setMinimumDate(QDate(0, 0, 0));
+        tarih->setMaximumDate(QDate(valiDDate));
+        tarih->setCalendarPopup(true);
+
+
+    }
+}

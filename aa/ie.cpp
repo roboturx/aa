@@ -48,8 +48,14 @@ void hC_IE::ie_ui()
     auto* lB_ie = new QLabel("İş Emri No");
     lE_ieno = new  QLineEdit;
 
-    auto* lB_tr = new QLabel("İş Emri Tarihi");
-    lE_geltar = new QLineEdit;
+    auto *lB_get = new QLabel("Araç Geliş Tarihi");
+    dE_geltar = new QDateTimeEdit();
+    hC_Gz(dE_geltar,"currentdate");
+    //  dE_geltar->setDisplayFormat("dd.MM.yyyy");
+  //  dE_geltar->setMinimumDate(QDate(01, 01, 1900));
+  //  dE_geltar->setMaximumDate(QDate(valiDDate));
+  //  dE_geltar->setCalendarPopup(true);
+    lB_get->setBuddy(dE_geltar);
 
     auto *lB_dr = new QLabel("Araç Durumu ");
     QStringList lst{ "Sıra Bekliyor",
@@ -58,12 +64,26 @@ void hC_IE::ie_ui()
     cbX_durum = new QComboBox;
     cbX_durum->insertItems(0,lst);
 
-    auto lB_gt = new QLabel("Atölye Giriş Tarihi");
-    lE_girtar = new QLineEdit;
+    auto lB_git = new QLabel("Atölye Giriş Tarihi");
+    dE_girtar = new QDateTimeEdit();
+    hC_Gz(dE_girtar,"nulldate");
+   /* dE_girtar->setDisplayFormat("dd.MM.yyyy");
+    dE_girtar->setMinimumDate(QDate(01, 01, 1900));
+    dE_girtar->setMaximumDate(QDate(valiDDate));
+    dE_girtar->setCalendarPopup(true);
+   */
+    lB_git->setBuddy(dE_girtar);
 
-    auto lB_ck = new QLabel("Atölye Çıkış Tarihi");
-    lE_ciktar = new QLineEdit;
+    auto lB_cit = new QLabel("Atölye Çıkış Tarihi");
+    dE_ciktar = new QDateTimeEdit();
+    hC_Gz(dE_ciktar,"nulldate");
 
+   /* dE_ciktar->setDisplayFormat("dd.MM.yyyy");
+    dE_ciktar->setMinimumDate(QDate(01, 01, 1900));
+    dE_ciktar->setMaximumDate(QDate(valiDDate));
+    dE_ciktar->setCalendarPopup(true);
+    lB_cit->setBuddy(dE_ciktar);
+*/
     auto lB_y1 = new QLabel("Yetkili - I ");
     lE_yetkili1 = new hC_Le;
 
@@ -79,14 +99,14 @@ void hC_IE::ie_ui()
     IEwdlay->addWidget (lE_mkn  , 0, 4, 1, 6);
     IEwdlay->addWidget (lB_ie   , 1, 0, 1, 4);
     IEwdlay->addWidget (lE_ieno , 1, 4, 1, 6);
-    IEwdlay->addWidget (lB_tr     , 2, 0, 1, 4);
-    IEwdlay->addWidget (lE_geltar , 2, 4, 1, 6);
+    IEwdlay->addWidget (lB_get    , 2, 0, 1, 4);
+    IEwdlay->addWidget (dE_geltar , 2, 4, 1, 6);
     IEwdlay->addWidget (lB_dr     , 3, 0, 1, 4);
     IEwdlay->addWidget (cbX_durum , 3, 4, 1, 6);
-    IEwdlay->addWidget (lB_gt     , 4, 0, 1, 4);
-    IEwdlay->addWidget (lE_girtar , 4, 4, 1, 6);
-    IEwdlay->addWidget (lB_ck     , 5, 0, 1, 4);
-    IEwdlay->addWidget (lE_ciktar , 5, 4, 1, 6);
+    IEwdlay->addWidget (lB_git    , 4, 0, 1, 4);
+    IEwdlay->addWidget (dE_girtar , 4, 4, 1, 6);
+    IEwdlay->addWidget (lB_cit     , 5, 0, 1, 4);
+    IEwdlay->addWidget (dE_ciktar  , 5, 4, 1, 6);
     IEwdlay->addWidget (lB_y1       , 6, 0, 1, 4);
     IEwdlay->addWidget (lE_yetkili1 , 6, 4, 1, 6);
     IEwdlay->addWidget (lB_y2       , 7, 0, 1, 4);
@@ -148,10 +168,10 @@ void hC_IE::ie_map()
 
     IEmapper->addMapping (lE_mkn , IEmodel->fieldIndex("ie_mkn_id"));
     IEmapper->addMapping (lE_ieno , IEmodel->fieldIndex("ie_ie_no"));
-    IEmapper->addMapping (lE_geltar , IEmodel->fieldIndex("ie_tarih"));
+    IEmapper->addMapping (dE_geltar , IEmodel->fieldIndex("ie_tarih"));
     IEmapper->addMapping (cbX_durum , IEmodel->fieldIndex("ie_durum"));
-    IEmapper->addMapping (lE_girtar , IEmodel->fieldIndex("ie_girtar"));
-    IEmapper->addMapping (lE_ciktar , IEmodel->fieldIndex("ie_ciktar"));
+    IEmapper->addMapping (dE_girtar , IEmodel->fieldIndex("ie_girtar"));
+    IEmapper->addMapping (dE_ciktar , IEmodel->fieldIndex("ie_ciktar"));
     IEmapper->addMapping (lE_yetkili1 , IEmodel->fieldIndex("ie_yetkili1"));
     IEmapper->addMapping (lE_yetkili2 , IEmodel->fieldIndex("ie_yetkili2"));
     //IEmapper->addMapping (lE_    , IEmodel->fieldIndex("ie_resim"));
@@ -178,28 +198,29 @@ void hC_IE::ie_kntrl()
         /// iş emri nosu ie__dbtb de
         /// ie_ie_no alanındaki en büyük sayı
         qry = "SELECT max(ie_ie_no) FROM " + IEtableName  ;
-
+        QString val;
         if ( !q.exec(qry) )
         {
             mesaj = mesaj + "İş Emri No bulunmadı \n"+
                     "------------------------------------\n"+
                     q.lastError().text ()+
                     "------------------------------------\n";
+            return;
         }
         else
         {
             q.next();
-            QString val=q.value(0).toString();
+            val=q.value(0).toString();
             mesaj = mesaj + "MAX VAL =" + val ;
         }
         qDebug()<<mesaj;
           //  IEmodel->select();
 
 
-
-        // yebi kaydı rklr
+        val=QString::number (val.toInt ()+1);
+        // yeni kaydı ekle
         qry = "INSERT INTO " + IEtableName + " ( ie_ie_no )"
-                                             " values( '1111' )"  ;
+                            " values( '"+val+"' )" ;
 
         if ( !q.exec(qry) )
         {
@@ -273,13 +294,39 @@ void hC_IE::ie_kntrl()
             QSqlQuery q_qry;
             QString s_qry;
             QModelIndex ie_indx = IEtview->table->currentIndex ();
-            QString ino = IEmodel->data
+
+            // iedet sil
+            QString ieieno = IEmodel->data
+                    (IEmodel->index
+                     (ie_indx.row (),
+                      IEmodel->fieldIndex ("ie_ie_no"))).toString ();
+
+            s_qry = QString("DELETE FROM iedet__dbtb "
+                            "WHERE iedet_ie_id = %1").arg( ieieno );
+
+            q_qry.exec (s_qry);
+            if (q_qry.isActive ())
+            {
+                qDebug()<< " İş Emri Detay Kaydı Silindi ";
+                IEmodel->submitAll ();
+                IEmodel->select ();
+            }
+            else
+            {
+
+                qDebug()<< " HATA - İş Emri Detay Kaydı Silinemedi "
+                        << q_qry.lastError ().text ();
+
+            }
+            // ie sil
+            QString idie = IEmodel->data
                     (IEmodel->index
                      (ie_indx.row (),
                       IEmodel->fieldIndex ("id_IE"))).toString ();
 
-            s_qry = QString("DELETE FROM dbtb_IE "
-                            "WHERE id_IE = %1").arg( ino );
+
+            s_qry = QString("DELETE FROM ie__dbtb "
+                            "WHERE id_IE = %1").arg( idie );
 
             q_qry.exec (s_qry);
             if (q_qry.isActive ())
@@ -360,9 +407,6 @@ void hC_IE::ie_kntrl()
                  (Index.row (),
                   IEmodel->fieldIndex ("ie_ie_no"))).toString ();
 
-    //    iedet->IEDETmodel->setFilter(
-      //              QString("iedet_ie_id = %1").arg(ie_ie_no) );
-        //qDebug ()<<"iedet filter" << iedet->IEDETmodel->filter () ;
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
                           index( Index.row() ,
@@ -378,6 +422,25 @@ void hC_IE::ie_kntrl()
     {
         IEmapper->setCurrentModelIndex(Index);
     });
+
+    // --- 013-01 iş durumuna göre tarihleri gizle
+    connect(  cbX_durum , &QComboBox::currentTextChanged,
+                [this]( QString text )
+    {
+        if (text == "Sıra Bekliyor")
+        {
+            hC_Gz( dE_girtar, "0" );
+            hC_Gz( dE_ciktar, "0" );
+        }
+        else
+        {
+            hC_Gz( dE_girtar, "1" );
+            hC_Gz( dE_ciktar, "1" );
+        }
+    });
+
+
+
 
 
     qDebug()<<"ie kontrol sonu ";
