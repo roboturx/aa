@@ -183,7 +183,7 @@ void hC_IE::ie_kntrl()
     {
         QString IEtableName{"ie__dbtb"};
         QSqlQuery q;
-        QString qry, mesaj("İŞ EMRİ NO MAX VALUE -");
+        QString qry, mesaj("");
 
         /// yeni iş emri numaasını bul
         /// iş emri nosu ie__dbtb de
@@ -192,7 +192,7 @@ void hC_IE::ie_kntrl()
         int ieieno;
         if ( !q.exec(qry) )
         {
-            mesaj = mesaj + "İş Emri No bulunmadı \n"+
+            mesaj = mesaj + "İş Emri No bulunamadı \n"+
                     "------------------------------------\n"+
                     q.lastError().text ()+
                     "------------------------------------\n";
@@ -205,7 +205,7 @@ void hC_IE::ie_kntrl()
             mesaj = mesaj + "MAX VAL =" + QString::number(ieieno) ;
         }
 
-        qDebug()<< mesaj <<endl << endl << "last inserted id  : "
+        qDebug()<< endl << "last inserted id  : "
                 << q.lastInsertId ().toString ();
           //  IEmodel->select();
 
@@ -248,7 +248,7 @@ void hC_IE::ie_kntrl()
         }
         IEmodel->select();
         ////////////////////////////////////////////////
-        hC_Nr (IEtview, ieieno, 0);
+        hC_Nr (IEtview, ieieno, 1);
         ////////////////////////////////////////////////
         IEtview->table->setFocus ();
         // iş emri detay ekle
@@ -420,16 +420,16 @@ void hC_IE::ie_kntrl()
         /// iş emri no her yılbaşında birden başlar
 
 
-        QString ie_ie_no = IEmodel->data
+        int ie_ie_no = IEmodel->data
                 (IEmodel->index
                  (Index.row (),
-                  IEmodel->fieldIndex ("ie_ie_no"))).toString ();
+                  IEmodel->fieldIndex ("ie_ie_no"))).toInt ();
 
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
                           index( Index.row() ,
                                  IEmodel->fieldIndex ("ie_ie_no")
-                                 ).data().toString() );
+                                 ).data().toInt() );
 
     });
 

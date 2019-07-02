@@ -44,7 +44,7 @@ public:
     /// iedet variables
 
     hC_IE* ie ;
-    QString* ienoo;
+    int* ienoo;
     QLabel* lB_iedet ;
     QLabel* lB_rsm;
 

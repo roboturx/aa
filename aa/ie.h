@@ -51,7 +51,7 @@ public:
     hC_Le* hClE_yetkili2;
 
 public: signals:
-    void sgn (QString);
+    void sgn (int);
 
 };
 

@@ -197,13 +197,13 @@ void hC_IEDET::iedet_kntrl()
 
     /////////////////////////////////////////////////////
     ie = new hC_IE;
-    ienoo = new QString;
+    ienoo = new int;
     ie->ie_setup();
     ie->show();
     // /// 12- set filter
 
     connect(ie, &hC_IE::sgn,
-            [this ] (QString ie_ieno)
+            [this ] (int ie_ieno)
     {
         *ienoo = ie_ieno;
         IEDETmodel->setFilter(
@@ -226,7 +226,7 @@ void hC_IEDET::iedet_kntrl()
         int iedetno;
         if ( !q.exec(qry) )
         {
-            mesaj = mesaj + "İş Emri Detay No bulunmadı \n"+
+            mesaj = mesaj + "İş Emri Detay No bulunamadı \n"+
                     "------------------------------------\n"+
                     q.lastError().text ()+
                     "------------------------------------\n";
