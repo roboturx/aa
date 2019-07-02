@@ -214,7 +214,7 @@ void MW_main::cr_Actions()
         dia->exec ();
     });
 
-    /// iş emri
+/*    /// iş emri
     auto *act_ie = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("İş &Emri..."), this);
     act_ie->setShortcut(QKeySequence(tr("Ctrl+E")));
@@ -228,10 +228,10 @@ void MW_main::cr_Actions()
         MW_main::mw_ie->show ();
     });
 
-
+*/
     /// iş emri detay
     auto *act_iedet = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                tr("&İş Emri Detay..."), this);
+                                tr("&İş Emri"), this);
     act_iedet->setShortcut(QKeySequence(tr("Ctrl+P")));
     act_iedet->setStatusTip(tr("İş Emri Detay"));
     mn_atlye->addAction(act_iedet);

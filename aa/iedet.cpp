@@ -40,7 +40,9 @@ void hC_IEDET::iedet_ui()
     qDebug() << " -iedet_ui";
     lB_iedet  = new QLabel ("İŞ EMRİ DETAY");
     hC_IEDET::setWindowTitle (lB_iedet->text());
-    hC_IEDET::setGeometry(610,310,600,300);
+    hC_IEDET::setGeometry(10,
+                          qApp->screens()[0]->size ().rwidth ()/2,
+            600,300);
     //   hC_IEDET::showMaximized ();
 
 
@@ -59,7 +61,8 @@ void hC_IEDET::iedet_ui()
 
     QLabel *lB_krm = new QLabel("Tamir Yeri");
     cbx_IEdettamiryeri = new QComboBox;
-    QStringList tylist {"Atolye",
+    QStringList tylist {" ",
+                        "Atolye",
                         "Arazi",
                         "Yetkili Servis",
                         "Dış Servis"};
@@ -87,19 +90,13 @@ void hC_IEDET::iedet_ui()
     lB_dr->setBuddy(cbx_IEdetdurum);
 
     QLabel *lB_gt = new QLabel("Araç Giriş Tarihi");
-    dE_IEdetgirtarihi = new QDateTimeEdit(QDate::currentDate());
-    dE_IEdetgirtarihi->setDisplayFormat("dd.MM.yyyy");
-    dE_IEdetgirtarihi->setMinimumDate(QDate(01, 01, 1900));
-    dE_IEdetgirtarihi->setMaximumDate(QDate(valiDDate));
-    dE_IEdetgirtarihi->setCalendarPopup(true);
+    dE_IEdetgirtarihi = new QDateTimeEdit();
+    hC_Gz (dE_IEdetgirtarihi,"nulldate");
     lB_gt->setBuddy(dE_IEdetgirtarihi);
 
     QLabel *lB_ct = new QLabel("Araç Çıkış Tarihi");
-    dE_IEdetciktarihi = new QDateTimeEdit(QDate::currentDate());
-    dE_IEdetciktarihi->setDisplayFormat("dd.MM.yyyy");
-    dE_IEdetciktarihi->setMinimumDate(QDate (01, 01, 1900));
-    dE_IEdetciktarihi->setMaximumDate(QDate ( valiDDate ));
-    dE_IEdetciktarihi->setCalendarPopup(true);
+    dE_IEdetciktarihi = new QDateTimeEdit();
+    hC_Gz(dE_IEdetciktarihi,"nulldate");
     lB_ct->setBuddy(dE_IEdetciktarihi);
     // ///////////////////////////////////////////////////////
     lB_rsm = new QLabel ("Resim");
@@ -141,10 +138,10 @@ void hC_IEDET::iedet_view()
     IEDETtview->table->setModel(IEDETmodel);
     IEDETselectionMdl = IEDETtview->table->selectionModel();
     //// kullanıcı bu alanları görmesin
-    IEDETtview->table->setColumnHidden(
-                IEDETmodel->fieldIndex("iedet_ie_id"), true);
-    IEDETtview->table->setColumnHidden(
-                IEDETmodel->fieldIndex("iedet_iedet_no"), true);
+    // IEDETtview->table->setColumnHidden(
+    //           IEDETmodel->fieldIndex("iedet_ie_id"), true);
+    // IEDETtview->table->setColumnHidden(
+    //           IEDETmodel->fieldIndex("iedet_iedet_no"), true);
 
     IEDETtview->table->setColumnHidden(
                 IEDETmodel->fieldIndex("iedet_resim"), true);
@@ -158,7 +155,7 @@ void hC_IEDET::iedet_view()
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
     IEDETtview->table->setCurrentIndex(
-                IEDETmodel->index(0, 1)
+                IEDETmodel->index(1, 2)
                 );
     // with blue rect
     IEDETtview->table->setFocus();
@@ -213,50 +210,99 @@ void hC_IEDET::iedet_kntrl()
                     QString("iedet_ie_id = %1").arg(ie_ieno) );
     });
     //////////////////////////////////////////////
-qDebug () <<"iedet ienoooowwwww " << *ienoo  ;
+
     // pB 001 yeni ekle
     connect(IEDETtview->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
+        QString IEtableName{"iedet__dbtb"};
+        QSqlQuery q;
+        QString qry, mesaj("");
 
-            qDebug () <<"ie mwwwwwwwww sgn :"<<*ienoo  ;
+        /// yeni iş emri detay numaasını bul
+        /// iş emri detay nosu iedet__dbtb de
+        /// iedet_iedet_no alanındaki en büyük sayı
+        qry = "SELECT max(iedet_iedet_no) FROM " + IEtableName  ;
+        int iedetno;
+        if ( !q.exec(qry) )
+        {
+            mesaj = mesaj + "İş Emri Detay No bulunmadı \n"+
+                    "------------------------------------\n"+
+                    q.lastError().text ()+
+                    "------------------------------------\n";
+            return;
+        }
+        else
+        {
+            q.next();
+            iedetno = q.value(0).toInt();
+            mesaj = mesaj + "MAX VAL =" + QString::number(iedetno) ;
+        }
+
+        qDebug()<< endl << "last inserted id  : "
+                << q.lastInsertId ().toString ();
+        //  IEmodel->select();
+
+        qDebug()<< endl <<mesaj<<endl<< "iedetno    :"<< iedetno;
+        iedetno= iedetno + 1 ;
+        qDebug()<< endl << "iedetno +1 :"<< iedetno;
+        //// yeni kaydı ekle
+        //QSqlQuery q;
+        QString q_s;
+        q_s="INSERT INTO iedet__dbtb ( "
+            "iedet_ie_id     , "
+            "iedet_iedet_no  , "
+            "iedet_tamiryeri , "
+            "iedet_tamirbolum, "
+            "iedet_durum     , "
+            "iedet_girtar    , "
+            "iedet_ciktar      "
+            " )"
+            " values( ?, ?, ?, ?, ?, ?, ? )";
+        q.prepare(q_s);
+
+        q.bindValue(0, *ienoo  );
+        q.bindValue(1, iedetno );
+        q.bindValue(2, " " );
+        q.bindValue(3, " " );
+        q.bindValue(4, " " );
+        q.bindValue(5, " " );
+        q.bindValue(6, " " );
 
 
-            QSqlQuery q;
-            QString q_s;
-            q_s="INSERT INTO iedet__dbtb ( "
-                "iedet_ie_id, iedet_iedet_no, iedet_girtar "
-                " )"
-                " values( ?, ?, ? )";
-            q.prepare(q_s);
+        q.exec();
 
-            q.bindValue(0, *ienoo  );
-            q.bindValue(1, "1" );
-            q.bindValue(2, "2" ); //QDate(QDate::currentDate()).toString());
-            // q.bindValue(3, dE_IEdetciktarihi->text());
+        if (q.isActive())
+        {
+            qDebug () <<"İş Emri Detay Yeni Kayıt Eklendi - "+
+                        q.lastInsertId ().toString ();
 
-            q.exec();
 
-            if (q.isActive())
-            {
-                qDebug () <<"İş Emri Detay Yeni Kayıt Eklendi - ";
-            }
-            else
-            {
-                qDebug () << "İş Emri Detay Yeni Kayıt Eklenemedi - "
-                          << q.lastError().text();
-            }
+            //lE_IEno
+            lE_IEdetaciklama->setText ("");
+            cbx_IEdettamiryeri->setCurrentIndex (0);
+            cbx_IEdettamirbolum ->setCurrentIndex (0);
+
+            hC_Gz ( dE_IEdetgirtarihi, "nulldate");
+            hC_Gz ( dE_IEdetciktarihi, "nulldate");
+            cbx_IEdetdurum->setCurrentIndex (0);
 
 
 
 
-            IEDETmodel->select();
-            IEDETtview->table->setFocus();
 
-            // iş emri detay ekle
-            ///////////////////////////////////////////////////
-
-
+        }
+        else
+        {
+            qDebug () << "İş Emri Detay Yeni Kayıt Eklenemedi - "
+                      << q.lastError().text();
+        }
+        IEDETmodel->select ();
+        ////////////////////////////////////////////////
+        hC_Nr (IEDETtview, iedetno, 1);
+        ////////////////////////////////////////////////
+        IEDETtview->table->setFocus ();
+        // iş emri detay ekle
     });
     // pB 002 yeni resim ekle
     connect(IEDETtview->pB_eklersm, &QPushButton::clicked,
@@ -311,7 +357,7 @@ qDebug () <<"iedet ienoooowwwww " << *ienoo  ;
                      (iedet_indx.row (),
                       IEDETmodel->fieldIndex ("id_iedet"))).toString ();
 
-            s_qry = QString("DELETE FROM dbtb_iedet "
+            s_qry = QString("DELETE FROM iedet__dbtb "
                             "WHERE id_iedet = %1").arg( ino );
 
             q_qry.exec (s_qry);
@@ -333,6 +379,23 @@ qDebug () <<"iedet ienoooowwwww " << *ienoo  ;
         {
             msgBox.close(); // abort
         }
+
+
+        IEDETmodel->select ();
+        IEDETtview->table->setCurrentIndex(
+                    IEDETmodel->index(0
+                                      , 2)
+                    );
+
+
+        //        IEDETmodel->select();  //q.lastInsertId ().toInt ()
+        /*     IEDETselectionMdl->setCurrentIndex (
+                    IEDETmodel->index (q.lastInsertId ().toInt () , 3 ) ,
+                    QItemSelectionModel::ClearAndSelect
+                    );
+*/
+        IEDETtview->table->setFocus ();
+
     });
 
     // pB 006 ilk
@@ -394,7 +457,32 @@ qDebug () <<"iedet ienoooowwwww " << *ienoo  ;
         IEDETmapper->setCurrentModelIndex(Index);
     });
 
+    // --- 013-01 iş durumuna göre tarihleri gizle
+    connect(  cbx_IEdetdurum , &QComboBox::currentTextChanged,
+              [this]( QString text )
+    {
+        if (text == " ")
+        {
+            hC_Gz ( dE_IEdetgirtarihi, "0" );
+            hC_Gz ( dE_IEdetciktarihi, "0" );
+        }
+        else if (text == "Parça Bekliyor")
+        {
+            hC_Gz ( dE_IEdetgirtarihi, "1" );
+            hC_Gz ( dE_IEdetciktarihi, "0" );
+        }
+        else if (text == "Usta Bekliyor")
+        {
 
+            hC_Gz ( dE_IEdetgirtarihi, "1" );
+            hC_Gz ( dE_IEdetciktarihi, "0" );
+        }
+        else if (text == "Tamamlandı")
+        {
+            hC_Gz ( dE_IEdetgirtarihi, "1" );
+            hC_Gz ( dE_IEdetciktarihi, "1" );
+        }
+    });
 
 }
 
@@ -463,10 +551,10 @@ QString hC_IEDET::iedet_VTd ()
         ct = "CREATE TABLE IF NOT EXISTS " +IEDETtableName +
                 "("
                 "iedet_ie_id	    TEXT, "
-                "iedet_iedet_no	TEXT, "
+                "iedet_iedet_no	INTEGER, "
                 "iedet_aciklama	TEXT, "
                 "iedet_tamiryeri TEXT, "
-                "iedet_tamirbölum TEXT, "
+                "iedet_tamirbolum TEXT, "
                 "iedet_durum     TEXT, "
                 "iedet_girtar    TEXT, "
                 "iedet_ciktar    TEXT, "
@@ -516,8 +604,8 @@ void hC_IEDET::iedet_model(QSqlRelationalTableModel* model)
     QString tableName ("iedet__dbtb");
     QStringList *tB_FieldList = new QStringList ;
 
-    tB_FieldList->append("İş Emri No");
-    tB_FieldList->append("Detay no");
+    tB_FieldList->append("İENo");
+    tB_FieldList->append("IEDETNo");
     tB_FieldList->append("Açıklama");
     tB_FieldList->append("Tamir Yeri");
     tB_FieldList->append("Tamir Bölüm");

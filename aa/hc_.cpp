@@ -134,10 +134,9 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
 
     // //////////////////////////////////////////////
     QIcon icon;
-    int x=30*renk,y=30;
+    int x=20*renk,y=20;
 
     pB_ekle = new QPushButton;
-    //pB_ekle->setGeometry (0,0,x,y );
     pB_ekle->setMaximumSize (x,y);
     icon.addPixmap(QPixmap (":/rsm/nv_ekle.svg") ,
                    QIcon::Normal, QIcon::On);
@@ -162,15 +161,6 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     pB_camera->setIconSize(QSize(x,y));
     pB_camera->setToolTip ("Kameradan RESİM ekle-değiştir");
 
-
- /*   pB_grscks = new QPushButton;
-    pB_grscks->setMaximumSize (x,y );
-    icon.addPixmap(QPixmap (":/rsm/nv_eklesil2.svg") ,
-                   QIcon::Normal, QIcon::On);
-    pB_grscks->setIcon(icon);
-    pB_grscks->setIconSize(QSize(x, y));
-    pB_grscks->setAutoFillBackground (true);
-*/
     pB_sil= new QPushButton();
     pB_sil->setMaximumSize (x,y );
     icon.addPixmap(QPixmap (":/rsm/nv_sil.svg") ,
@@ -227,15 +217,15 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     Layout_buttonz->addWidget (pB_ekle );
     Layout_buttonz->addWidget (pB_eklersm );
    // Layout_buttonz->addWidget (pB_camera );
-    Layout_buttonz->addStretch (1);
+    //Layout_buttonz->addStretch (1);
     Layout_buttonz->addWidget (pB_sil  );
     Layout_buttonz->addWidget (pB_ilk  );
     Layout_buttonz->addWidget (pB_ncki );
     Layout_buttonz->addWidget (pB_snrki);
     Layout_buttonz->addWidget (pB_son  );
-    Layout_buttonz->addStretch (1);
+  //  Layout_buttonz->addStretch (1);
     //Layout_buttonz->addWidget (pB_grscks );
-    Layout_buttonz->addStretch (4);
+    //Layout_buttonz->addStretch (4);
     // //////////////////////////////////////////////
 
     // //////////////////////////////////////////////
@@ -264,8 +254,9 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
 
     // //////////////////////////////////////////////
     auto *Layout_all = new QGridLayout(this);
+    Layout_all->addWidget (table         , 0, 0 );
     Layout_all->addWidget (widget_buttonz, 0, 1 );
-    Layout_all->addWidget (table  , 0, 0 );
+
     // //////////////////////////////////////////////
 
     /*
@@ -344,12 +335,17 @@ hC_Tv::~hC_Tv()
 
 hC_Le::hC_Le( QWidget *parent ) : QWidget (parent)
 {
-    lineEdit = new QLineEdit;
-    pushButton= new QPushButton(QIcon(":/rsm/ex.ico"),nullptr );
+    lineEdit    = new QLineEdit;
+    pushButton  = new QPushButton(QIcon(":/rsm/ex.ico"),nullptr );
+    pushButton2 = new QPushButton(QIcon(":/rsm/sil.ico"),nullptr );
+
     auto *Layout_all = new QGridLayout(this);
 
-    Layout_all->addWidget (lineEdit   , 0, 0, 1, 4);
+    Layout_all->addWidget (lineEdit    , 0, 0, 1, 4);
     Layout_all->addWidget (pushButton , 0, 5, 1, 1);
+    Layout_all->addWidget (pushButton2 , 0, 6, 1, 1);
+    connect (pushButton2, &QPushButton::clicked,
+             lineEdit,    &QLineEdit::clear );
     // //////////////////////////////////////////////
 
     /*
@@ -452,7 +448,7 @@ hC_Gz::hC_Gz(QDateTimeEdit *tarih, QString vsbl)
         tarih->setDate (QDate::currentDate ());
         tarih->setVisible (true);
         tarih->setDisplayFormat("dd.MM.yyyy");
-        tarih->setMinimumDate(QDate(01, 01, 1900));
+        tarih->setMinimumDate(QDate::currentDate ());
         tarih->setMaximumDate(QDate(valiDDate));
         tarih->setCalendarPopup(true);
 
@@ -460,12 +456,68 @@ hC_Gz::hC_Gz(QDateTimeEdit *tarih, QString vsbl)
     }
     else if (vsbl == "nulldate")
     {
+        tarih->setSpecialValueText( " " );
+        tarih->setDate(
+            QDate::fromString( "01/01/0001", "dd/MM/yyyy"));
         tarih->setVisible (true);
         tarih->setDisplayFormat("dd.MM.yyyy");
-        tarih->setMinimumDate(QDate(0, 0, 0));
+        tarih->setDate(QDate::currentDate () );
         tarih->setMaximumDate(QDate(valiDDate));
+
         tarih->setCalendarPopup(true);
 
 
     }
+}
+
+hC_Nr::hC_Nr(hC_Tv* searchingTable, int aranan, int kolon )
+{
+    /// SEARCHINGTABLE table view ine eklenen son kaydı,
+    /// KOLON da
+    /// ARANAN ı bulur
+    ///
+    /// aranan iedet de olduğu gibi iedet no dur ve
+    /// kayıt eklenirken oluşturulur.
+    /// sonra bu classa parametreler yollanır
+    ///
+    QModelIndex searchStartIndex;
+    //if(!IEDETtview->table->currentIndex().isValid())
+        searchStartIndex = searchingTable->table->
+                model()->index( 0, kolon ) ;   //root item
+    //else
+      //  searchStartIndex = IEDETtview->table->
+        //        currentIndex();
+
+    QModelIndexList nextMatches = searchingTable->table->
+            model()->match(searchStartIndex,
+            Qt::DisplayRole, aranan, 1,
+                           Qt::MatchExactly |
+                           Qt::MatchWrap |
+                           Qt::MatchRecursive);
+
+    if(nextMatches.size() == 1)
+    {
+        //first result might be the currently selected item
+        if(nextMatches.at(0) == searchingTable->table->
+                currentIndex())
+        {
+            nextMatches = searchingTable->table->
+                    model()->match(searchStartIndex,
+                                   Qt::DisplayRole, aranan, 2,
+                                                  Qt::MatchExactly |
+                                                  Qt::MatchWrap |
+                                                  Qt::MatchRecursive);
+
+            if(nextMatches.size() == 2)
+            {
+                searchingTable->table->
+                        setCurrentIndex(nextMatches.at(1));
+            }
+        }
+        else
+            searchingTable->table->
+                    setCurrentIndex(nextMatches.at(0));
+    }
+
+
 }

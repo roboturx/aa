@@ -14,7 +14,7 @@
 /// 4- hC_Te            - sağda pushbutton olan textedit
 /// 5- hC_Tm            - QSqlRelationalTableModel
 /// 6- hC_Gz            - tarihi gizler ve açar
-
+/// 7- hC_Nr            - tableview da yeni eklenen kaydı bul
 
 namespace HC_ {
 class hC_Rs;
@@ -23,7 +23,7 @@ class hC_Le;
 class hC_Te;
 class hC_Tm;
 class hC_Gz;
-
+class hC_Nr;
 }
 // forward declaration
 
@@ -33,7 +33,7 @@ class hC_Le;
 class hC_Te;
 class hC_Tm;
 class hC_Gz;
-
+class hC_Nr;
 
 
 class hC_
@@ -151,7 +151,8 @@ class hC_Le : public QWidget
      explicit hC_Le(QWidget *parent = nullptr);
      ~hC_Le();
      QLineEdit  *lineEdit;
-      QPushButton *pushButton;
+     QPushButton *pushButton;
+     QPushButton *pushButton2;
 };
 
 
@@ -210,6 +211,12 @@ public:
 hC_Gz(QDateTimeEdit *tarih, QString vsbl);
 };
 
+
+class hC_Nr
+{
+public:
+    explicit hC_Nr(hC_Tv *searchingTable, int aranan, int kolon);
+};
 
 
 

@@ -33,32 +33,32 @@ void hC_IE::ie_ui()
     qDebug() << " -ie_ui";
     lB_ie  = new QLabel ("İŞ EMRİ");
     hC_IE::setWindowTitle (lB_ie->text());
-    hC_IE::setGeometry(10,10,800,300);
+    hC_IE::setGeometry(20,20,
+            qApp->screens()[0]->size ().rwidth (),
+            qApp->screens()[0]->size ().rheight ()/4);
     //    hC_IE::showMaximized ();
 
-
+qApp->beep ();
 
     // ///////////////////////////////////////////////////////
     IEtview = new hC_Tv();
 
     // ///////////////////////////////////////////////////////
     auto* lB_mk = new QLabel("Araç Kurum No");
-    lE_mkn = new hC_Le;
+    hClE_mkn = new hC_Le;
 
     auto* lB_ie = new QLabel("İş Emri No");
     lE_ieno = new  QLineEdit;
+    lE_ieno->setReadOnly (true);
 
     auto *lB_get = new QLabel("Araç Geliş Tarihi");
     dE_geltar = new QDateTimeEdit();
-    hC_Gz(dE_geltar,"currentdate");
-    //  dE_geltar->setDisplayFormat("dd.MM.yyyy");
-  //  dE_geltar->setMinimumDate(QDate(01, 01, 1900));
-  //  dE_geltar->setMaximumDate(QDate(valiDDate));
-  //  dE_geltar->setCalendarPopup(true);
+    hC_Gz(dE_geltar,"nulldate");
     lB_get->setBuddy(dE_geltar);
 
     auto *lB_dr = new QLabel("Araç Durumu ");
-    QStringList lst{ "Sıra Bekliyor",
+    QStringList lst{ " ",
+                     "Sıra Bekliyor",
                      "Bakıma Alındı",
                      "Tamamlandı"};
     cbX_durum = new QComboBox;
@@ -67,52 +67,42 @@ void hC_IE::ie_ui()
     auto lB_git = new QLabel("Atölye Giriş Tarihi");
     dE_girtar = new QDateTimeEdit();
     hC_Gz(dE_girtar,"nulldate");
-   /* dE_girtar->setDisplayFormat("dd.MM.yyyy");
-    dE_girtar->setMinimumDate(QDate(01, 01, 1900));
-    dE_girtar->setMaximumDate(QDate(valiDDate));
-    dE_girtar->setCalendarPopup(true);
-   */
     lB_git->setBuddy(dE_girtar);
 
     auto lB_cit = new QLabel("Atölye Çıkış Tarihi");
     dE_ciktar = new QDateTimeEdit();
     hC_Gz(dE_ciktar,"nulldate");
 
-   /* dE_ciktar->setDisplayFormat("dd.MM.yyyy");
-    dE_ciktar->setMinimumDate(QDate(01, 01, 1900));
-    dE_ciktar->setMaximumDate(QDate(valiDDate));
-    dE_ciktar->setCalendarPopup(true);
-    lB_cit->setBuddy(dE_ciktar);
-*/
     auto lB_y1 = new QLabel("Yetkili - I ");
-    lE_yetkili1 = new hC_Le;
+    hClE_yetkili1 = new hC_Le;
 
     auto lB_y2 = new QLabel("Yetkili - II");
-    lE_yetkili2 = new hC_Le;
+    hClE_yetkili2 = new hC_Le;
 
     lB_rsm = new QLabel ("Resim");
     hC_Rs resim(lB_rsm);
 
     // ///////////////////////////////////////////////////////
     auto IEwdlay = new QGridLayout;
-    IEwdlay->addWidget (lB_mk   , 0, 0, 1, 4);
-    IEwdlay->addWidget (lE_mkn  , 0, 4, 1, 6);
-    IEwdlay->addWidget (lB_ie   , 1, 0, 1, 4);
-    IEwdlay->addWidget (lE_ieno , 1, 4, 1, 6);
-    IEwdlay->addWidget (lB_get    , 2, 0, 1, 4);
-    IEwdlay->addWidget (dE_geltar , 2, 4, 1, 6);
-    IEwdlay->addWidget (lB_dr     , 3, 0, 1, 4);
-    IEwdlay->addWidget (cbX_durum , 3, 4, 1, 6);
-    IEwdlay->addWidget (lB_git    , 4, 0, 1, 4);
-    IEwdlay->addWidget (dE_girtar , 4, 4, 1, 6);
-    IEwdlay->addWidget (lB_cit     , 5, 0, 1, 4);
-    IEwdlay->addWidget (dE_ciktar  , 5, 4, 1, 6);
-    IEwdlay->addWidget (lB_y1       , 6, 0, 1, 4);
-    IEwdlay->addWidget (lE_yetkili1 , 6, 4, 1, 6);
-    IEwdlay->addWidget (lB_y2       , 7, 0, 1, 4);
-    IEwdlay->addWidget (lE_yetkili2 , 7, 4, 1, 6);
-    IEwdlay->addWidget (new QLabel("Resim") , 8, 0, 1, 4);
-    IEwdlay->addWidget (lB_rsm      , 8, 4, 3, 6);
+    IEwdlay->addWidget (lB_ie   , 0,  0, 1, 4);
+    IEwdlay->addWidget (lE_ieno , 0,  4, 1, 6);
+    IEwdlay->addWidget (lB_mk   , 0, 10, 1, 4);
+    IEwdlay->addWidget (hClE_mkn  , 0, 14, 1, 6);
+
+    IEwdlay->addWidget (lB_get    , 1, 0, 1, 4);
+    IEwdlay->addWidget (dE_geltar , 1, 4, 1, 6);
+    IEwdlay->addWidget (lB_dr     , 2, 0, 1, 4);
+    IEwdlay->addWidget (cbX_durum , 2, 4, 1, 6);
+    IEwdlay->addWidget (lB_git    , 3, 0, 1, 4);
+    IEwdlay->addWidget (dE_girtar , 3, 4, 1, 6);
+    IEwdlay->addWidget (lB_cit     , 4, 0, 1, 4);
+    IEwdlay->addWidget (dE_ciktar  , 4, 4, 1, 6);
+    IEwdlay->addWidget (lB_y1       , 1, 10, 1, 4);
+    IEwdlay->addWidget (hClE_yetkili1 , 1, 14, 1, 6);
+    IEwdlay->addWidget (lB_y2       , 2, 10, 1, 4);
+    IEwdlay->addWidget (hClE_yetkili2 , 2, 14, 1, 6);
+    IEwdlay->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
+    IEwdlay->addWidget (lB_rsm      , 3, 14, 2, 6);
 
     auto IEwdmap = new QWidget;
     IEwdmap->setLayout (IEwdlay);
@@ -149,7 +139,7 @@ void hC_IE::ie_view()
                                     fieldIndex("id_ie"), true);
 
     IEtview->table->setCurrentIndex(
-                IEmodel->index(0, 1)
+                IEmodel->index(1, 1)
                 );
     // with blue rect
     IEtview->table->setFocus();
@@ -166,17 +156,18 @@ void hC_IE::ie_map()
     IEmapper = new QDataWidgetMapper(this);
     IEmapper->setModel(IEmodel);
 
-    IEmapper->addMapping (lE_mkn , IEmodel->fieldIndex("ie_mkn_id"));
+    IEmapper->addMapping (hClE_mkn->lineEdit , IEmodel->fieldIndex("ie_mkn_id"));
     IEmapper->addMapping (lE_ieno , IEmodel->fieldIndex("ie_ie_no"));
-    IEmapper->addMapping (dE_geltar , IEmodel->fieldIndex("ie_tarih"));
+    IEmapper->addMapping (dE_geltar, IEmodel->fieldIndex("ie_tarih"));
     IEmapper->addMapping (cbX_durum , IEmodel->fieldIndex("ie_durum"));
     IEmapper->addMapping (dE_girtar , IEmodel->fieldIndex("ie_girtar"));
     IEmapper->addMapping (dE_ciktar , IEmodel->fieldIndex("ie_ciktar"));
-    IEmapper->addMapping (lE_yetkili1 , IEmodel->fieldIndex("ie_yetkili1"));
-    IEmapper->addMapping (lE_yetkili2 , IEmodel->fieldIndex("ie_yetkili2"));
+    IEmapper->addMapping (hClE_yetkili1->lineEdit , IEmodel->fieldIndex("ie_yetkili1"));
+    IEmapper->addMapping (hClE_yetkili2->lineEdit , IEmodel->fieldIndex("ie_yetkili2"));
     //IEmapper->addMapping (lE_    , IEmodel->fieldIndex("ie_resim"));
     IEmodel->select();
 
+    IEmapper->toFirst ();
 }
 
 
@@ -198,7 +189,7 @@ void hC_IE::ie_kntrl()
         /// iş emri nosu ie__dbtb de
         /// ie_ie_no alanındaki en büyük sayı
         qry = "SELECT max(ie_ie_no) FROM " + IEtableName  ;
-        QString val;
+        int ieieno;
         if ( !q.exec(qry) )
         {
             mesaj = mesaj + "İş Emri No bulunmadı \n"+
@@ -210,17 +201,26 @@ void hC_IE::ie_kntrl()
         else
         {
             q.next();
-            val=q.value(0).toString();
-            mesaj = mesaj + "MAX VAL =" + val ;
+            ieieno = q.value(0).toInt ();
+            mesaj = mesaj + "MAX VAL =" + QString::number(ieieno) ;
         }
-        qDebug()<<mesaj;
+
+        qDebug()<< mesaj <<endl << endl << "last inserted id  : "
+                << q.lastInsertId ().toString ();
           //  IEmodel->select();
 
 
-        val=QString::number (val.toInt ()+1);
+        ieieno = ieieno + 1  ;
         // yeni kaydı ekle
-        qry = "INSERT INTO " + IEtableName + " ( ie_ie_no )"
-                            " values( '"+val+"' )" ;
+        qry = "INSERT INTO " + IEtableName + " ( "
+                    "ie_ie_no, "
+                    "ie_durum"
+                                             ")"
+
+                    " values( "
+                        "'"+QString::number(ieieno)+"' , "
+                        "' '"
+                                ")" ;
 
         if ( !q.exec(qry) )
         {
@@ -232,8 +232,26 @@ void hC_IE::ie_kntrl()
         else
         {
             mesaj = mesaj + "<br>İLK İş Emri eklendi.";
+
+            hClE_mkn->lineEdit->setText ("");
+            hC_Gz (dE_geltar , "nulldate");
+            hC_Gz (dE_girtar , "nulldate");
+            hC_Gz (dE_ciktar , "nulldate");
+            cbX_durum->setCurrentIndex (0);
+            hClE_yetkili1->lineEdit->setText ("");
+            hClE_yetkili2->lineEdit->setText ("");
+
+       // QLineEdit f;
+
+
+
         }
-            IEmodel->select();
+        IEmodel->select();
+        ////////////////////////////////////////////////
+        hC_Nr (IEtview, ieieno, 0);
+        ////////////////////////////////////////////////
+        IEtview->table->setFocus ();
+        // iş emri detay ekle
 
     });
 
@@ -427,15 +445,40 @@ void hC_IE::ie_kntrl()
     connect(  cbX_durum , &QComboBox::currentTextChanged,
                 [this]( QString text )
     {
-        if (text == "Sıra Bekliyor")
+        if (text == " ")
         {
-            hC_Gz( dE_girtar, "0" );
-            hC_Gz( dE_ciktar, "0" );
+            hC_Gz ( dE_geltar, "0" );
+            hC_Gz ( dE_girtar, "0" );
+            hC_Gz ( dE_ciktar, "0" );
+
+
+
         }
-        else
+        else if (text == "Sıra Bekliyor")
         {
-            hC_Gz( dE_girtar, "1" );
-            hC_Gz( dE_ciktar, "1" );
+            hC_Gz ( dE_geltar, "1" );
+          //  dE_geltar->setFocusPolicy (Qt::StrongFocus);
+          //  dE_geltar->setFocus () ;
+            //cbX_durum->setFocus ();
+            hC_Gz ( dE_girtar, "0" );
+            hC_Gz ( dE_ciktar, "0" );
+        }
+        else if (text == "Bakıma Alındı")
+        {
+            hC_Gz ( dE_geltar, "1" );
+            hC_Gz ( dE_girtar, "1" );
+            //dE_girtar->setFocus () ;
+          //  cbX_durum->setFocus ();
+            hC_Gz ( dE_ciktar, "0" );
+        }
+        else if (text == "Tamamlandı")
+        {
+            hC_Gz ( dE_geltar, "1" );
+            hC_Gz ( dE_girtar, "1" );
+            hC_Gz ( dE_ciktar, "1" );
+         //   dE_ciktar->setFocus () ;
+           // cbX_durum->setFocus ();
+
         }
     });
 
@@ -467,8 +510,8 @@ QString hC_IE::ie_VTd ()
     {
         ct ="CREATE TABLE IF NOT EXISTS "+ IEtableName +
                 "("
-                "ie_mkn_id        TEXT, "
-                "ie_ie_no         TEXT, "
+                "ie_mkn_id        INTEGER, "
+                "ie_ie_no         INTEGER, "
                 "ie_tarih         TEXT, "
                 "ie_durum         TEXT, "
                 "ie_girtar        TEXT, "
@@ -476,7 +519,7 @@ QString hC_IE::ie_VTd ()
                 "ie_yetkili1      TEXT, "
                 "ie_yetkili2      TEXT, "
                 "ie_resim         BLOB, "
-                "id_IE integer primary key  )"  ;
+                "id_IE INTEGER primary key  )"  ;
 
 
 

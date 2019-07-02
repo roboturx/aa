@@ -35,7 +35,7 @@ DBase::~DBase()
 bool DBase::setupDBase()
 {
 
-    qDebug()<<"setupDbase ";
+    //qDebug()<<"setupDbase ";
     //durum = new QTextEdit(this);
     /// veritabanini kontrol et yoksa olustur
     VTKontrolEt::instance()->SetupDB();

@@ -41,14 +41,14 @@ private:
 public:
     //hC_IEDET* iedet;
 
-    hC_Le* lE_mkn;
+    hC_Le* hClE_mkn;
     QLineEdit* lE_ieno;
     QDateTimeEdit* dE_geltar;
     QComboBox* cbX_durum;
     QDateTimeEdit* dE_girtar;
     QDateTimeEdit* dE_ciktar;
-    hC_Le* lE_yetkili1;
-    hC_Le* lE_yetkili2;
+    hC_Le* hClE_yetkili1;
+    hC_Le* hClE_yetkili2;
 
 public: signals:
     void sgn (QString);
