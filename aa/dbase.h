@@ -1,8 +1,10 @@
 ﻿#ifndef DBASE_H
 #define DBASE_H
 
-#include "globals.h"
-#include "hc_.h"
+//#include "globals.h"
+//#include "hc_.h"
+
+#include <QWidget>
 
 namespace Ui {
 class DBase;

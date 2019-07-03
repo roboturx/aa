@@ -1,9 +1,5 @@
 ﻿#include "ftr.h"
-#include "frm.h"
-#include "mlzm.h"
-#include "ftr_frmekle.h"
 
-#include "globals.h"
 
 
 
@@ -1290,4 +1286,92 @@ void hC_FTR::ftrdet_model (QSqlRelationalTableModel *model)
 
 }///fatura detasy Model
 
+
+
+
+
+// ////////////////////////////////////////
+// / \brief Ftr_FrmEkle::Ftr_FrmEkle
+// / \param parent
+// /
+// / faturaya firma ekle
+
+Ftr_FrmEkle::Ftr_FrmEkle(QDialog *parent) : QDialog(parent)
+{
+    this->setModal (true);
+    auto layout_diafr = new QGridLayout(this);
+    this->setLayout (layout_diafr);
+    // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
+    this->setGeometry (100,220,800,500);
+
+    this->setWhatsThis ("<br>"
+                        "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                        "<br> Firma ünvanı girmek için seçim yapın "
+                        "<br> "
+                        "<br> Eğer aradığınız firma listede yoksa yeni  "
+                        "<br> firma girişi yaparak işlemi tamamlayın"
+                        "<br>");
+    this->setToolTipDuration (5000);
+    this->setToolTip ("<br>"
+                      "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                      "<br> Firma ünvanı girmek için seçim yapın "
+                      "<br> "
+                      "<br> Eğer aradığınız firma listede yoksa yeni  "
+                      "<br> firma girişi yaparak işlemi tamamlayın"
+                      "<br>");
+
+
+    // firma class ımızı getirelim
+    firma = new hC_FRM;
+    firma->frm_setup ();
+    layout_diafr->addWidget (firma ,0 ,0 ,1, 1);
+    //diafr->show();
+
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // ----------------------------------------------------
+    // firma tableviewinde gezinirken firma adımız
+    // seçim yapılan lineedit e aktaralım
+    // ----------------------------------------------------
+    connect (firma->FRMselectionMdl,
+             &QItemSelectionModel::currentChanged  ,
+             [ this ] (QModelIndex Index )
+
+    {
+
+        //QModelIndex firmandx = firma->FRMtview->table->currentIndex ()  ;
+        int fr_row = Index.row ();
+        this->setFirma (firma->FRMmodel->data(
+                            firma->FRMmodel->index
+                            (fr_row,firma->FRMmodel->fieldIndex ("frm_unvan"))
+                            ).toString () )  ;
+
+    });
+
+    this->show ();
+}
+
+void Ftr_FrmEkle::reject()
+{
+    qDebug()<<"rejected";
+
+    QDialog::reject();
+}
+
+
+
+Ftr_FrmEkle::~Ftr_FrmEkle()
+{
+}
+
+QString Ftr_FrmEkle::getFirma() const
+{
+    qDebug()<<"return from getfirma"<<m_firma;
+    return m_firma;
+}
+
+void Ftr_FrmEkle::setFirma(const QString &value)
+{
+    m_firma = value;
+}
 

@@ -1,7 +1,7 @@
 #include "tamamla.h"
-#include "globals.h"
-#include <QMessageBox>
-#include <QPushButton>
+//#include "globals.h"
+//#include <QMessageBox>
+//#include <QPushButton>
 
 
 

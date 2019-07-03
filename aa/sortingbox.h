@@ -2,7 +2,8 @@
 #ifndef SORTINGBOX_H
 #define SORTINGBOX_H
 
-#include <QWidget>
+#include "globals.h"
+//#include <QWidget>
 
 #include "shapeitem.h"
 

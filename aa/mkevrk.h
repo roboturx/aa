@@ -1,8 +1,9 @@
 #ifndef mkevrk_H
 #define mkevrk_H
 
-#include <QWidget>
+//#include <QWidget>
 #include "globals.h"
+//#include "mkn.h"
 namespace Ui {
 class _Evr;
 }

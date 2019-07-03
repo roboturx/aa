@@ -2,9 +2,9 @@
 #define CW_FR_H
 
 #include "globals.h"
-#include "hc_.h"
-#include "dbase.h"
-
+//#include "hc_.h"
+//#include "dbase.h"
+////#include "ftr_frmekle.h"
 
 
 namespace ns_FRM {
@@ -25,7 +25,7 @@ public:
 
     QString *FRMtableName {};
 
-    //DBase *dbase;
+
     hC_Tv*                    FRMtview ;
     QSqlRelationalTableModel* FRMmodel {} ;
     QItemSelectionModel*      FRMselectionMdl;

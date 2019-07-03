@@ -48,10 +48,10 @@
 **
 ****************************************************************************/
 
-#include <QtWidgets>
-
+#include "globals.h"
+//#include <QtWidgets>
 #include "shapeitem.h"
-#include <QLabel>
+//#include <QLabel>
 
 //! [0]
 

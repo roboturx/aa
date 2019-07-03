@@ -2,8 +2,10 @@
 #define MKN_MARKA_H
 
 #include "globals.h"
-#include "hc_.h"
-#include "dbase.h"
+//#include "hc_.h"
+//#include "dbase.h"
+//#include "ftr_frmekle.h"
+
 namespace Ui {
     class hC_MKMARK;
 }
@@ -24,7 +26,7 @@ public:
     void mkmark_model(QSqlRelationalTableModel *model);
 
     QLabel *lB_rsm;
-    DBase *dbase;
+    //DBase *dbase;
     hC_Tv             *MRKtview{};
     QSqlRelationalTableModel *MRKmodel{} ;
     QItemSelectionModel      *MRKselectionMdl;

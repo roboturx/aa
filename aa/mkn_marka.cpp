@@ -1,8 +1,5 @@
 ﻿#include "mkn_marka.h"
-//#include "cw_mkcins.h"
-#include "ftr_frmekle.h"
-#include "globals.h"
-#include "dbase.h"
+
 
 hC_MKMARK::hC_MKMARK(QDialog *parent) : QDialog(parent)
 {

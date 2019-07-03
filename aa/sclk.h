@@ -1,8 +1,8 @@
 ﻿#ifndef SCLK_H
 #define SCLK_H
 
-#include <globals.h>
-#include "hc_.h"
+#include "globals.h"
+//#include "hc_.h"
 
 namespace ns_SCLK {
 class hC_SCLK;

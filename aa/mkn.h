@@ -2,11 +2,22 @@
 #define hC_MKN_H
 
 #include "globals.h"
-#include "hc_.h"
-#include "cw_grs.h"
-#include "ie.h"
-#include "dbase.h"
-#include "mkevrk.h"
+//#include "hc_.h"
+//#include "dbase.h"
+
+//#include "clsn.h"
+//#include "cw_grs.h"
+
+//#include "dlgt_mkstok.h"
+////#include "ftr_frmekle.h"
+
+//#include "ie.h"
+#include "mkn_cinsi.h"
+#include "mkn_marka.h"
+#include "mkn_modeli.h"
+//#include "mkevrk.h"
+//#include "tamamla.h"
+
 
 
 class SKGComboBox;
@@ -29,7 +40,7 @@ public:
     //void set_mkn();
 
 
-    DBase *dbase;
+//    DBase *dbase;
     QLabel *lB_rsm;
     hC_Tv             *MKNtview ;
     QSqlRelationalTableModel *MKNmodel {} ;
@@ -257,8 +268,8 @@ public:
     QToolBox *tbx_clsm{};
     QToolBox *tbx_arz{};
 
-    Evr_Sgrt *evrk_sgrt{};
-    Evr_Mua *evrk_mua{};
+    //Evr_Sgrt *evrk_sgrt{};
+    //Evr_Mua *evrk_mua{};
 
     int idx_mkcins{};	//
     int idx_mkmark{};	//
@@ -273,6 +284,11 @@ public:
 
     //    QPushButton *getPb_mknByer() const;
     //  void setPb_mknByer(QPushButton *value);
+
+
+
+signals:
+    void sgnMkn (const QString);
 };
 
 

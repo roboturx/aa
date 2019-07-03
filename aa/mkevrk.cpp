@@ -1,6 +1,6 @@
 #include "mkevrk.h"
-#include "mkn.h"
-#include "globals.h"
+
+
 
 _Evr::_Evr()
 

@@ -2,8 +2,8 @@
 #define hC_IE_H
 
 #include <globals.h>
-#include "hc_.h"
-//#include "iedet.h"
+//#include "hc_.h"
+
 
 namespace ns_IE {
 class hC_IE;

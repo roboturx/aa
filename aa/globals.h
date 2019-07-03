@@ -85,7 +85,47 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-extern QString GLB_yetki;
+#include <QAbstractItemModel>
+#include <QCompleter>
 
+
+
+extern QString GLB_yetki;
+//////////////////////
+#include "hc_.h"
+/*
+
+#include "dbase.h"
+//#include "ftr_frmekle.h"
+
+#include "clsn.h"
+#include "cw_grs.h"
+#include "cw_hkk.h"
+#include "dlgt_mkstok.h"
+#include "form.h"
+#include "frm.h"
+#include "ftr.h"
+#include "ie.h"
+#include "iedet.h"
+#include "login.h"
+#include "mkn.h"
+//#include "mkevrk.h"
+#include "mkn_cinsi.h"
+#include "mkn_marka.h"
+#include "mkn_modeli.h"
+#include "mlzm.h"
+//#include "mw_main.h"
+#include "sclk.h"
+#include "shapeitem.h"
+#include "tamamla.h"
+#include "tsnr.h"
+//#include "wd_login.h"
+
+#include <sortingbox.h>
+
+
+*/
+
+//////////////////////////
 
 #endif // GLOBALS_H

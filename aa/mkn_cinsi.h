@@ -3,8 +3,9 @@
 
 
 #include "globals.h"
-#include "hc_.h"
-#include "dbase.h"
+//#include "hc_.h"
+//#include "dbase.h"
+//#include "ftr_frmekle.h"
 namespace Ui {
     class hC_MKCINS;
 }
@@ -26,7 +27,7 @@ public:
     QString mkcins_VTd();
     void mkcins_model(QSqlRelationalTableModel *model);
 
-    DBase *dbase;
+    //DBase *dbase;
 
     QLabel *lB_rsm;
     hC_Tv             *CNStview{};

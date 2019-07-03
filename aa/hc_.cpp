@@ -1,5 +1,5 @@
-﻿#include "hc_.h"
-
+﻿//#include "hc_.h"
+#include "globals.h"
 hC_::hC_()
 {
 
@@ -163,7 +163,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
 
     pB_sil= new QPushButton();
     pB_sil->setMaximumSize (x,y );
-    icon.addPixmap(QPixmap (":/rsm/nv_sil.svg") ,
+    icon.addPixmap(QPixmap (":/rsm/delete.png") ,
                    QIcon::Normal, QIcon::On);
     pB_sil->setIcon(icon);
     pB_sil->setIconSize(QSize(x,y));
@@ -337,7 +337,7 @@ hC_Le::hC_Le( QWidget *parent ) : QWidget (parent)
 {
     lineEdit    = new QLineEdit;
     pushButton  = new QPushButton(QIcon(":/rsm/ex.ico"),nullptr );
-    pushButton2 = new QPushButton(QIcon(":/rsm/sil.ico"),nullptr );
+    pushButton2 = new QPushButton(QIcon(":/rsm/Erase.ico"),nullptr );
 
     auto *Layout_all = new QGridLayout(this);
 

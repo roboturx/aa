@@ -146,14 +146,15 @@ void MW_main::cr_Actions()
     //////// G İ R İ Ş
     connect( act_main , &QAction::triggered,
 
-             [this]()
+             []()
     {
-        mw_mkk = new Form();
+      /*  mw_mkk = new Form();
         statusBar()->showMessage( "Kontrol Merkezi" );
         mw_mkk->setWindowTitle ( GLB_yetki );
         mw_mkk->resize(qApp->screens()[0]->size()*.6);
         mw_mkk ->show ();
-    });
+*/
+});
 
 
 
@@ -191,7 +192,7 @@ void MW_main::cr_Actions()
     connect( act_mkc , &QAction::triggered,
              []()
     {
-        auto *dia = new QDialog();
+/*        auto *dia = new QDialog();
         dia->setModal (true);
         dia->setGeometry ( 50, //lE_cins->pushButton->pos ().rx (),
                           400, //lE_cins->pushButton->pos ().ry (),
@@ -212,6 +213,7 @@ void MW_main::cr_Actions()
         layout->addWidget (cmm,0 ,2 );
 
         dia->exec ();
+        */
     });
 
 /*    /// iş emri
@@ -433,7 +435,7 @@ MW_main::~MW_main()
     delete stw;
     delete act_main;
     delete mw_per;
-    delete mw_mkk;
+//    delete mw_mkk;
     delete mw_mkn;
     //  delete mw_Mlzm;
 }

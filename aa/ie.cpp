@@ -1,4 +1,5 @@
 ﻿#include "ie.h"
+#include "mkn.h"
 
 hC_IE::hC_IE(QWidget *parent) : QWidget (parent)
 {
@@ -46,6 +47,46 @@ qApp->beep ();
     // ///////////////////////////////////////////////////////
     auto* lB_mk = new QLabel("Araç Kurum No");
     hClE_mkn = new hC_Le;
+    hClE_mkn->lineEdit->setReadOnly (true);
+
+
+
+    connect(hClE_mkn->pushButton2 , &QPushButton::clicked,
+            [this ]()
+    {
+            hClE_mkn->lineEdit->clear () ;
+    });
+    connect(hClE_mkn->pushButton , &QPushButton::clicked,
+            [this ]()
+    {
+        // seçebilmek için pencere
+        auto *dia = new QDialog();
+        dia->setModal (true);
+        dia->setGeometry ( 50, 400, 900, 200 );
+        dia->setWindowTitle ( "Araç Seçimi" );
+
+        auto *mkn = new hC_MKN ;
+        mkn->mkn_setup ();
+        // ----------------------------------------------------
+        // tableviewinde gezinirken
+        // mkn
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan textedit e aktaralım
+        // ----------------------------------------------------
+        connect (mkn , &hC_MKN::sgnMkn ,
+                 [ this ] ( QString sgnText )
+        {
+            hClE_mkn->lineEdit->setText ( sgnText );
+            hClE_mkn->lineEdit->setFocus();
+        });
+        ////////////////////////////////////////////************
+        auto *layout = new QGridLayout;
+        dia->setLayout (layout);
+        layout->addWidget (mkn  ,0 ,0 );
+        dia->exec ();
+    });
+
+
 
     auto* lB_ie = new QLabel("İş Emri No");
     lE_ieno = new  QLineEdit;
@@ -237,7 +278,7 @@ void hC_IE::ie_kntrl()
             hC_Gz (dE_geltar , "nulldate");
             hC_Gz (dE_girtar , "nulldate");
             hC_Gz (dE_ciktar , "nulldate");
-            cbX_durum->setCurrentIndex (0);
+            cbX_durum->setCurrentText (" ");
             hClE_yetkili1->lineEdit->setText ("");
             hClE_yetkili2->lineEdit->setText ("");
 
@@ -420,11 +461,11 @@ void hC_IE::ie_kntrl()
         /// iş emri no her yılbaşında birden başlar
 
 
-        int ie_ie_no = IEmodel->data
+ /*       int ie_ie_no = IEmodel->data
                 (IEmodel->index
                  (Index.row (),
                   IEmodel->fieldIndex ("ie_ie_no"))).toInt ();
-
+*/
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgn ( IEtview->table->model()->
                           index( Index.row() ,
@@ -457,9 +498,6 @@ void hC_IE::ie_kntrl()
         else if (text == "Sıra Bekliyor")
         {
             hC_Gz ( dE_geltar, "1" );
-          //  dE_geltar->setFocusPolicy (Qt::StrongFocus);
-          //  dE_geltar->setFocus () ;
-            //cbX_durum->setFocus ();
             hC_Gz ( dE_girtar, "0" );
             hC_Gz ( dE_ciktar, "0" );
         }
@@ -467,8 +505,6 @@ void hC_IE::ie_kntrl()
         {
             hC_Gz ( dE_geltar, "1" );
             hC_Gz ( dE_girtar, "1" );
-            //dE_girtar->setFocus () ;
-          //  cbX_durum->setFocus ();
             hC_Gz ( dE_ciktar, "0" );
         }
         else if (text == "Tamamlandı")
@@ -476,9 +512,6 @@ void hC_IE::ie_kntrl()
             hC_Gz ( dE_geltar, "1" );
             hC_Gz ( dE_girtar, "1" );
             hC_Gz ( dE_ciktar, "1" );
-         //   dE_ciktar->setFocus () ;
-           // cbX_durum->setFocus ();
-
         }
     });
 

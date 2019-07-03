@@ -1,5 +1,5 @@
 #include "mknnn.h"
-#include "globals.h"
+//#include "globals.h"
 
 //! [Set up widgets]
 mknnn::mknnn(QWidget *parent)

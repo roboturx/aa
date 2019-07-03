@@ -2,9 +2,9 @@
 #define HC_IEDET_H
 
 #include <globals.h>
-#include "hc_.h"
+//#include "hc_.h"
 #include "ie.h"
-
+//#include "mw_main.h"
 namespace ns_IEDET {
 class hC_IEDET;
 }

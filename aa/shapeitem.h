@@ -51,11 +51,12 @@
 #ifndef SHAPEITEM_H
 #define SHAPEITEM_H
 
-#include <QColor>
-#include <QPainterPath>
-#include <QPoint>
-#include <QLabel>
-#include <QTextEdit>
+#include "globals.h"
+//#include <QColor>
+//#include <QPainterPath>
+//#include <QPoint>
+//#include <QLabel>
+//#include <QTextEdit>
 
 //! [0]
 class ShapeItem

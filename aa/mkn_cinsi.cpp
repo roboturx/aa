@@ -1,7 +1,6 @@
 ﻿#include "mkn_cinsi.h"
-#include "ftr_frmekle.h"
-#include "globals.h"
-#include "dbase.h"
+
+
 
 hC_MKCINS::hC_MKCINS(QDialog *parent) : QDialog(parent)
 {

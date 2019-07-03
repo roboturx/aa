@@ -3,10 +3,13 @@
 
 
 #include "globals.h"
-#include "hc_.h"
-#include "mkn.h"
-#include "dbase.h"
+//#include "hc_.h"
+//#include "dbase.h"
+////#include "ftr_frmekle.h"
 
+#include "mkn.h"
+#include "mlzm.h"
+#include "frm.h"
 
 namespace Ui {
 class hC_FTR;
@@ -111,5 +114,27 @@ public:
     ~hC_FTR() ;
 
 };
+
+
+
+// //////////////////////////////////////////// faturaya firma ekle
+class Ftr_FrmEkle : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit Ftr_FrmEkle(QDialog *parent = nullptr);
+    ~Ftr_FrmEkle();
+
+    QString getFirma() const;
+    hC_FRM *firma;
+protected:
+    void reject() ;
+private:
+    QString m_firma;
+    void setFirma(const QString &value);
+};
+
+
 
 #endif // CW_FTR_H

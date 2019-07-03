@@ -2,8 +2,10 @@
 #define CW_CLSN_H
 
 #include "globals.h"
-#include "hc_.h"
-#include "dbase.h"
+
+//#include "hc_.h"
+//#include "dbase.h"
+//#include <QtWidgets>
 
 namespace ns_CLSN
 {

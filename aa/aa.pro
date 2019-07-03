@@ -28,19 +28,16 @@ SOURCES += main.cpp\
     cw_grs.cpp \
     mkevrk.cpp \
     dlgt_mkstok.cpp \
-    cw_gelir.cpp \
     VTKontrol.cpp \
     cw_hkk.cpp \
     mw_main.cpp \
     wd_dptlp.cpp \
     tamamla.cpp \
     mknnn.cpp \
-    form.cpp \
     login.cpp \
     dbase.cpp \
     shapeitem.cpp \
     sortingbox.cpp \
-    ftr_frmekle.cpp \
     mkn_cinsi.cpp \
     mkn_marka.cpp \
     mkn_modeli.cpp \
@@ -61,7 +58,6 @@ HEADERS  += \
     dlgt_mkstok.h \
     cw_grs.h \
     mkevrk.h \
-    cw_gelir.h \
     VTKontrol.h \
     VTKontTekkere.h \
     VTTekton.h \    
@@ -71,12 +67,10 @@ HEADERS  += \
     wd_dptlp.h \
     tamamla.h \
     mknnn.h \
-    form.h \
     login.h \
     dbase.h \
     shapeitem.h \
     sortingbox.h \
-    ftr_frmekle.h \
     mkn_cinsi.h \
     mkn_marka.h \
     mkn_modeli.h \

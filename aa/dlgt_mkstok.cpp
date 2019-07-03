@@ -1,7 +1,7 @@
 ﻿
 #include "dlgt_mkstok.h"
 
-#include <QtWidgets>
+//#include <QtWidgets>
 
 MakinaDelegate::MakinaDelegate(QObject *parent)
     : QSqlRelationalDelegate(parent), star(QPixmap(":images/star.png"))

@@ -1,6 +1,6 @@
 ﻿#include "mw_main.h"
 #include "globals.h"
-#include "main.h"
+//#include "main.h"
 #include <QTextCodec>
 
 //#include <QZXing.h>

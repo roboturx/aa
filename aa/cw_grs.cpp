@@ -1,5 +1,5 @@
 ﻿#include "cw_grs.h"
-#include "globals.h"
+//#include "globals.h"
 
 Cw_Grs::Cw_Grs(QWidget *parent) : QWidget(parent) //:
 {

@@ -1,6 +1,5 @@
 ﻿#include "iedet.h"
-//#include "ie.h"
-#include "mw_main.h"
+
 
 hC_IEDET::hC_IEDET(QWidget *parent) : QWidget (parent)
 {

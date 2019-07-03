@@ -1,8 +1,4 @@
 ﻿#include "mlzm.h"
-#include "ftr.h"
-#include "globals.h"
-#include "dbase.h"
-#include "ftr_frmekle.h"
 
 hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
 {
@@ -1143,5 +1139,91 @@ void hC_MLZM::mlzmdet_model (QSqlRelationalTableModel *model)
                  tB_FieldList) ;
 
 }///fsturs detsy Model
+
+
+
+
+
+
+
+// //////////////////////////////////////// Fatura Detaya malzeme ekle
+// FtrDet_MlzEkle
+
+
+FtrDet_MlzEkle::FtrDet_MlzEkle(QDialog *parent) : QDialog(parent)
+{
+    this->setModal (true);
+    auto layout_diafr = new QGridLayout(this);
+    this->setLayout (layout_diafr);
+    // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
+    this->setGeometry (100,220,800,500);
+
+    this->setWhatsThis ("<br>"
+                        "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                        "<br> Firma ünvanı girmek için seçim yapın "
+                        "<br> "
+                        "<br> Eğer aradığınız firma listede yoksa yeni  "
+                        "<br> firma girişi yaparak işlemi tamamlayın"
+                        "<br>");
+    this->setToolTipDuration (5000);
+    this->setToolTip ("<br>"
+                      "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                      "<br> Firma ünvanı girmek için seçim yapın "
+                      "<br> "
+                      "<br> Eğer aradığınız firma listede yoksa yeni  "
+                      "<br> firma girişi yaparak işlemi tamamlayın"
+                      "<br>");
+
+
+    // firma class ımızı getirelim
+    malzeme = new hC_MLZM ;
+    malzeme->setup_mlzm ();
+    layout_diafr->addWidget (malzeme ,0 ,0 ,1, 1);
+    //diafr->show();
+
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // ----------------------------------------------------
+    // firma tableviewinde gezinirken firma adımız
+    // seçim yapılan lineedit e aktaralım
+    // ----------------------------------------------------
+    connect (malzeme->MLZMselectionMdl,
+             &QItemSelectionModel::currentChanged  ,
+             [ this ] (QModelIndex Index )
+
+    {
+
+        //QModelIndex firmandx = firma->FRMtview->table->currentIndex ()  ;
+        int fr_row = Index.row ();
+        this->setMalzeme (malzeme->MLZMmodel->data(
+                              malzeme->MLZMmodel->index
+                              (fr_row,malzeme->MLZMmodel->fieldIndex ("mlzm_malzeme"))
+                              ).toString () )  ;
+
+    });
+
+    this->show ();
+}
+
+void FtrDet_MlzEkle::reject()
+{
+    QDialog::reject();
+}
+
+
+FtrDet_MlzEkle::~FtrDet_MlzEkle()
+{
+}
+
+QString FtrDet_MlzEkle::getMalzeme() const
+{
+    return m_malzeme;
+}
+
+void FtrDet_MlzEkle::setMalzeme(const QString &value)
+{
+    m_malzeme = value;
+}
+
 
 

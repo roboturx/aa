@@ -2,8 +2,9 @@
 #define MKN_MODELI_H
 
 #include "globals.h"
-#include "hc_.h"
-#include "dbase.h"
+//#include "hc_.h"
+//#include "dbase.h"
+//#include "ftr_frmekle.h"
 namespace Ui {
     class hC_MKMODL;
 }
@@ -19,7 +20,7 @@ public:
 
     QString sgnText{};
 
-    DBase *dbase;
+    //DBase *dbase;
     QString mkmodl_VTd();
     void mkmodl_setup();
     void mkmodl_model(QSqlRelationalTableModel *model) ;

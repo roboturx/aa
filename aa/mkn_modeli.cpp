@@ -1,8 +1,5 @@
 ﻿#include "mkn_modeli.h"
-//#include "cw_mkcins.h"
-#include "ftr_frmekle.h"
-#include "globals.h"
-#include "dbase.h"
+
 
 hC_MKMODL::hC_MKMODL(QDialog *parent) : QDialog(parent)
 {

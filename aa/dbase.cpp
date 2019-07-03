@@ -1,4 +1,5 @@
-﻿#include "dbase.h"
+﻿#include "globals.h"
+#include "dbase.h"
 #include "ui_dbase.h"
 
 #include "clsn.h"

@@ -1,7 +1,7 @@
 #ifndef MKNNN_H
 #define MKNNN_H
 
-#include <QWidget>
+#include "globals.h"
 
 
 QT_BEGIN_NAMESPACE

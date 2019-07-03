@@ -3,10 +3,12 @@
 
 
 #include "globals.h"
-#include "hc_.h"
-#include "mkn.h"
-#include "dbase.h"
+//#include "hc_.h"
+//#include "dbase.h"
+//#include "mkn.h"
+#include "ftr.h"
 
+//#include "ftr_frmekle.h"
 
 namespace Ui {
 class hC_MLZM;
@@ -127,6 +129,30 @@ public:
     explicit hC_MLZM(QWidget *parent = nullptr);
     ~hC_MLZM();
 };
+
+
+
+
+// ////////////////////////////////////////////// Fatura detaya malzeme ekle
+class FtrDet_MlzEkle : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit FtrDet_MlzEkle(QDialog *parent = nullptr);
+    ~FtrDet_MlzEkle();
+
+    QString getMalzeme() const;
+    hC_MLZM  *malzeme;
+protected:
+    void reject() ;
+private:
+    QString m_malzeme;
+    void setMalzeme(const QString &value);
+};
+
+
+
 
 
 #endif // HC_MLZM_H

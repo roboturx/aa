@@ -1,7 +1,17 @@
 ﻿#ifndef HC_H
 #define HC_H
 
-#include "globals.h"
+//#include "globals.h"
+#include <QWidget>
+#include <QSqlRelationalTableModel>
+#include <QItemSelectionModel>
+#include <QLabel>
+#include <QPushButton>
+#include <QDataWidgetMapper>
+#include <QTableView>
+#include <QTextEdit>
+#include <QDateTimeEdit>
+
 
 // /// hC_ bana ait tüm sınıflar
 

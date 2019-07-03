@@ -1,7 +1,5 @@
 ﻿#include "frm.h"
-//#include "dbase.h"
-//#include "globals.h"
-#include "ftr_frmekle.h"
+
 
 
 

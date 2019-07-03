@@ -1,14 +1,4 @@
 ﻿#include "mkn.h"
-#include "ie.h"
-#include "clsn.h"
-#include "mkevrk.h"
-#include "dlgt_mkstok.h"
-#include "mkn_cinsi.h"
-#include "mkn_marka.h"
-#include "mkn_modeli.h"
-#include "globals.h"
-#include "tamamla.h"
-#include "ftr_frmekle.h"
 
 hC_MKN::hC_MKN(QWidget *parent) : QWidget(parent)
 {
@@ -960,7 +950,7 @@ void hC_MKN::onmnMKN_yeniEklE_sgrtSLOT()
         id = record.value("id_mkn").toInt();
     }
     // sigorta  ekle
-    QSqlQuery q;
+  /*  QSqlQuery q;
     if (q.exec("INSERT INTO dbtb_mksigorta ( mknstk_id )"
                " values("  + QString::number(id) +   ")"  ))
         qDebug () <<"SİGORTA Yeni Kayıt - "<< id << " -   Eklendi";
@@ -970,6 +960,8 @@ void hC_MKN::onmnMKN_yeniEklE_sgrtSLOT()
     wtab->setCurrentIndex(wtab->indexOf(wdgt_evrk));
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_sgrt));
     evrk_sgrt->tV_evr_sgrt->setFocus();
+
+*/
 }                                           ///     onmnMKN_yeniEklE_sgrt
 
 void hC_MKN::onmnMKN_yeniEklE_muaSLOT()
@@ -982,7 +974,7 @@ void hC_MKN::onmnMKN_yeniEklE_muaSLOT()
         id = record.value("id_mkn").toInt();
     }
     // muayene ekle
-    QSqlQuery q;
+/*    QSqlQuery q;
     if (q.exec("INSERT INTO dbtb_mkmuayene ( mknstk_id )"
                " values("  + QString::number(id) +   ")"  ))
         qDebug () <<"MUAYENE Yeni Kayıt - "<< id << " -   Eklendi";
@@ -993,7 +985,7 @@ void hC_MKN::onmnMKN_yeniEklE_muaSLOT()
     wtab->setCurrentIndex(wtab->indexOf(wdgt_evrk));
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
-
+*/
 }       ///      onmnMKN_yeniEklE_mua
 
 

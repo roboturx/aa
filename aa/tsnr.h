@@ -2,7 +2,7 @@
 #define TSNR_H
 
 #include <globals.h>
-#include "hc_.h"
+//#include "hc_.h"
 
 
 namespace ns_TSNR {
