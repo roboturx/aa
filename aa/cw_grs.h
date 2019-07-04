@@ -5,7 +5,7 @@
 #include <globals.h>
 
 
-namespace Ui {
+namespace nSGrs {
 class Cw_Grs;
 }
 

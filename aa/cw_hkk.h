@@ -12,7 +12,7 @@ class CW_hkk : public QDialog
     Q_OBJECT
 
 public:
-    explicit CW_hkk(QWidget *parent = 0);
+    explicit CW_hkk(QWidget *parent = nullptr);
     ~CW_hkk();
 
 private slots:

@@ -7,7 +7,7 @@
 ////#include "ftr_frmekle.h"
 
 
-namespace ns_FRM {
+namespace nSFrm {
 class hC_FRM;
 }
 

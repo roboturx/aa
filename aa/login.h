@@ -3,7 +3,7 @@
 
 #include "globals.h"
 
-namespace Ui {
+namespace nSLogin {
 class Login;
 }
 

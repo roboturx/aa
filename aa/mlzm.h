@@ -3,16 +3,9 @@
 
 
 #include "globals.h"
-//#include "hc_.h"
-//#include "dbase.h"
-//#include "mkn.h"
-#include "ftr.h"
 
-//#include "ftr_frmekle.h"
-
-namespace Ui {
+namespace nSMlzm {
 class hC_MLZM;
-class Kontrol;
 }
 
 class hC_MLZM : public QWidget
@@ -20,139 +13,58 @@ class hC_MLZM : public QWidget
 
 public:
 
-    void    mlzm_setup();
-    QString mlzm_VTd();
-    void    mlzm_model(QSqlRelationalTableModel * );
-
-    hC_Tv             *MLZMtview{};
-    QSqlRelationalTableModel *MLZMmodel{};
-    QItemSelectionModel      *MLZMselectionMdl{} ;
-    QDataWidgetMapper        *MLZMmapper{};
-    void setup_mlzm();
+    void    mlzm_setup () ;
+    QString mlzm_VTd   () ;
+    void    mlzm_model () ;
 
 
-    QWidget     *wdgt_mapMlzm{}    ;
-    QLabel      *lB_gt2{};
-    QComboBox   *cbx_grs_tipi{};
+    hC_Tv                    *MLZMtview    {} ;
+    QSqlRelationalTableModel *MLZMmodel    {} ;
+    QItemSelectionModel      *MLZMslctnMdl {} ;
+    QDataWidgetMapper        *MLZMmapper   {} ;
 
-    QGridLayout *LyG_Mlzm{}    ;
-    QGridLayout *LyG_Mlzm_dty{};
-
-    QGroupBox   *gB_map{}  ;
-    QLabel      *lB_rsm;
-    QLabel      *lB_brkd{} ;
-    QLabel      *lB_Mlzm{} ;
-    QLabel      *lB_mlzrsm{}  ;
-
-    QLineEdit   *lE_barkod{}  ;
-    QLineEdit   *lE_malzeme{} ;
-    QLineEdit   *lE_aciklama{};
-    QLineEdit   *lE_marka{}   ;
-    QLineEdit   *lE_model{}   ;
-    QLineEdit   *lE_cins{}    ;
-    QComboBox   *cbx_birim{}   ;
-    QLineEdit   *lE_giris{}   ;
-    QLineEdit   *lE_cikis{}   ;
-    QLineEdit   *lE_mevcut{}  ;
+    QWidget * mlzmWdgt {} ;
+    QLabel  * lB_mlzm     {} ;
+    QLabel  * lB_mlzmrsm  {} ;
 
 
-
-
-    // Mlzm detay
-
-
-
-    void    mlzmdet_setup();
-    QString mlzmdet_VTd();
-    void    mlzmdet_model(QSqlRelationalTableModel * );
-
-
-    QWidget     *wdgt_mapMlzm_dty{};
-
-    hC_Tv        *MLZMDETtview{};
-    QItemSelectionModel *MLZMDETselectionMdl{} ;
-    QSqlRelationalTableModel      *MLZMDETmodel{} ;
-    QDataWidgetMapper   *MLZMDETmapper{} ;
-
-
-    QLabel      *lB_Mlzmdet{}  ;
-
-    QLineEdit   *lE_d_barkod{}  ;
-    QLineEdit   *lE_d_malzeme{} ;
-
-    QLineEdit   *lE_d_tarih{}  ;
-    QComboBox   *cbx_d_grs_cks{} ;
-    QLineEdit   *lE_d_miktar{}  ;
-    QLineEdit   *lE_d_fiyat{}   ;
-    QLineEdit   *lE_d_aciklama{};
-
+    QComboBox   *cbx_grs_tipi{} ;
+    QLineEdit   *lE_barkod   {} ;
+    QLineEdit   *lE_malzeme  {} ;
+    QLineEdit   *lE_aciklama {} ;
+    QLineEdit   *lE_marka    {} ;
+    QLineEdit   *lE_model    {} ;
+    QLineEdit   *lE_cins     {} ;
+    QComboBox   *cbx_birim   {} ;
+    QLineEdit   *lE_giris    {} ;
+    QLineEdit   *lE_cikis    {} ;
+    QLineEdit   *lE_mevcut   {} ;
 
 
 private:
-
-    void setup_uiMlzm() ;
-    void wd_Mlzm()      ; //Mlzm ui devamı
-    void wd_Mlzmdet()   ;
-
-    void setup_modelMlzm()    ;
-    void setup_viewMlzm()    ;
-    void setup_mapMlzm()    ;
-
-    void setup_viewMlzmdet() ;
-    void setup_modelMlzmdet() ;
-    void setup_mapMlzmdet() ;
-
-    void setup_kontrol();
+    void mlzm_ui    () ;
+    void mlzm_Wdgt  () ;
+    void mlzm_view  () ;
+    void mlzm_map   () ;
+    void mlzm_kntrl () ;
 
 
 private slots:
-
-    //Mlzm
-
     void slt_Mlzm_hesap(QModelIndex Index);
-
 
 protected:
     void showEvent(QShowEvent *);
 
 signals:
-
-    void sgnMalzeme (const QString sgnKod,
-                     const QString sgnBarkod,
-                     const QString sgnMalzeme,
-                     const QString sgnBirim
+    void sgnMalzeme (const QString* sgnKod,
+                     const QString* sgnBarkod,
+                     const QString* sgnMalzeme,
+                     const QString* sgnBirim
                      ); //malzeme ismini yayınla
-
-
 
 public:
     explicit hC_MLZM(QWidget *parent = nullptr);
     ~hC_MLZM();
 };
-
-
-
-
-// ////////////////////////////////////////////// Fatura detaya malzeme ekle
-class FtrDet_MlzEkle : public QDialog
-{
-    Q_OBJECT
-
-public:
-    explicit FtrDet_MlzEkle(QDialog *parent = nullptr);
-    ~FtrDet_MlzEkle();
-
-    QString getMalzeme() const;
-    hC_MLZM  *malzeme;
-protected:
-    void reject() ;
-private:
-    QString m_malzeme;
-    void setMalzeme(const QString &value);
-};
-
-
-
-
 
 #endif // HC_MLZM_H

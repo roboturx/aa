@@ -4,7 +4,7 @@
 CW_hkk::CW_hkk (QWidget *parent) : QDialog(parent),
     ui(new Ui::CW_hkk){
 
-    ui->setupUi(this);
+    ui-> setupUi(this);
     this->setWindowTitle("Uygulama Hakkında");
     this->setFixedSize(this->maximumSize());
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);

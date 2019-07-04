@@ -226,6 +226,9 @@ class hC_Nr
 {
 public:
     explicit hC_Nr(hC_Tv *searchingTable, int aranan, int kolon);
+
+private:
+    QModelIndex hC_NrSetCurrentIndex(QModelIndex Index);
 };
 
 

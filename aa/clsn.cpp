@@ -35,7 +35,7 @@ void hC_CLSN::clsn_ui()
 
     qDebug() << "  clsn_ui";
     hC_CLSN::setWindowTitle ("ÇALIŞAN");
-    hC_CLSN::showMaximized ();
+   // hC_CLSN::showMaximized ();
 
 
     // ///////////////////////////////////////////////////////
@@ -58,6 +58,10 @@ void hC_CLSN::clsn_ui()
     QLabel *lB_soyad = new QLabel("S&oyad"       );
     lE_soyad = new QLineEdit();
     lB_soyad->setBuddy(lE_soyad);
+
+    qDebug()<<" height "<<lE_soyad->height ()
+           <<" mm : "<<lE_soyad->heightMM ();
+    qDebug()<<" widht  "<<lE_soyad->width ();
 
     QLabel *lB_tc    = new QLabel("TC Kimlik No" );
     lE_tc = new QLineEdit();
@@ -101,6 +105,7 @@ void hC_CLSN::clsn_ui()
     lE_sehir = new QLineEdit();
     lB_sehir->setBuddy(lE_sehir);
 
+
     QLabel *lB_tel_cep  = new QLabel("Tel &1"  );
     lE_tel_cep = new QLineEdit();
     lB_tel_cep->setBuddy(lE_tel_cep);
@@ -111,6 +116,12 @@ void hC_CLSN::clsn_ui()
     QLabel *lB_yetki    = new QLabel("&Yetki"  ); lE_yetki = new QLineEdit(); lB_yetki->setBuddy(lE_yetki);
 
     auto *clsn_mly = new QGridLayout();
+
+    CLSNtview->table->setMinimumWidth (200);
+    lB_isim->setMinimumSize (100,25);
+    lE_isim->setMinimumSize (100,25);
+    lB_sehir->setMinimumSize (100,25);
+    lE_sehir->setMinimumSize (150,25);
 
 
     clsn_mly->addWidget(lB_isim      , 0, 0, 1, 1);
@@ -147,11 +158,12 @@ void hC_CLSN::clsn_ui()
     clsn_mly->addWidget(lE_password  , 5, 4, 1, 2);
     clsn_mly->addWidget(lB_yetki     , 6, 3, 1, 1);
     clsn_mly->addWidget(lE_yetki     , 6, 4, 1, 2);
+    clsn_mly->addWidget(lB_rsm       , 7, 4, 3, 2);
 
     auto *clsn_mainlay = new QGridLayout(this);
-    clsn_mainlay->addWidget (CLSNtview  , 0, 0, 9, 5);
-    clsn_mainlay->addLayout (clsn_mly   , 0, 5, 9, 5);
-    clsn_mainlay->addWidget (lB_rsm     , 6, 8, 3, 2);
+    clsn_mainlay->addWidget (CLSNtview  , 0, 0, 1, 3);
+    clsn_mainlay->addLayout (clsn_mly   , 0, 3, 1, 7);
+    //clsn_mainlay->addWidget (lB_rsm     , 6, 8, 3, 2);
 
 }
 void hC_CLSN::clsn_view()

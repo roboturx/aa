@@ -21,7 +21,7 @@
 
 
 class SKGComboBox;
-namespace Ui {
+namespace nSMkn {
 class hC_MKN;
 }
 

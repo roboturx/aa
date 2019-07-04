@@ -7,58 +7,53 @@ hC_FTR::hC_FTR(QWidget *parent) :  QWidget(parent)
 {
     //************************************************************
     //*****************  F A T U R A  ****************************
+    qDebug() << "Ftr Cnstrctr";
 }
 
 
 
 void hC_FTR::ftr_setup()
 {
-    qDebug() << "FATURA";
+    qDebug() << "  ftr_setup ";
 
 
-    ftr_VTd();
-    setup_uiFtr();
-
-    qDebug() << "  setupmodelfatura";
-    FTRmodel = new QSqlRelationalTableModel ;
-    ftr_model ( FTRmodel ) ;
-
-
-
-    setup_viewFtr () ;
-    setup_mapFtr ()  ;
-    setup_kntrlFtr ();
-
-
-    qDebug() << "  setup_modelFtrDet";
-    FTRDETmodel = new QSqlRelationalTableModel;
+    ftr_VTd   () ;
+    ftr_ui    () ;
+    ftr_model () ;
+    ftr_view  () ;
+    ftr_map   () ;
+    ftr_kntrl () ;
+    /*FTRDETmodel = new QSqlRelationalTableModel;
     ftrdet_model ( FTRDETmodel );
 
     setup_viewFtrDet () ;
     setup_mapFtrDet ()  ;
     setup_kntrlFtrDet ();
-
+*/
 
 
 }
 
 
-void hC_FTR::setup_uiFtr()
+void hC_FTR::ftr_ui()
 {
-    qDebug() << "  setup_uiFtr";
+    qDebug() << "  ftr_ui";
 
-    hC_FTR::setWindowTitle("FATURA");
-    this->setMinimumSize (800,400);
-    hC_FTR::showMaximized();
-
+    ////////////////////////////////////////// window
+    lB_ftr = new QLabel("FATURA BAŞLIK BİLGİ GİRİŞ");
+    hC_FTR::setWindowTitle(lB_ftr->text ());
+    //hC_FTR::setMinimumSize (800,400);
+    //hC_FTR::showMaximized();
 
     ////////////////////////////////////////// widgets
-    wd_FTR();
-    wd_FTRdet();
+    ftr_wdgt ();
+    //wd_FTRdet();
+
     //////////////////////////////////// depo tableview
     FTRtview = new hC_Tv;
-    FTRtview->setMinimumSize (160,60);
-    //////////////////////////////////// depodet
+    //FTRtview->setMinimumSize (160,60);
+
+    /*/////////////////////////////////// depodet
     ///  aslında malzemedet tableview
     FTRDETtview = new hC_Tv;
     FTRDETtview->setMinimumSize (160,60);
@@ -67,13 +62,14 @@ void hC_FTR::setup_uiFtr()
 
     auto  frame1 = new QFrame;
     frame1->setFrameStyle(QFrame::Box | QFrame::Raised);
-    auto *grid1 = new QGridLayout;
-    frame1->setLayout (grid1);
+    */
+    auto *gridFtr = new QGridLayout;
 
-    grid1->addWidget (FTRtview    , 1, 0, 1, 1);
-    grid1->addWidget (wdgt_mapFTR , 1, 1, 1, 1);
-    //grid1->addWidget (wdgt_rsm    , 1, 2, 1, 1);
 
+    gridFtr->addWidget (FTRtview  , 1, 0, 1, 1);
+    gridFtr->addWidget (ftrWdgt   , 1, 1, 1, 1);
+
+/*
     auto frame2 = new QFrame;
     auto *grid2 = new QGridLayout;
     frame2->setLayout (grid2);
@@ -81,26 +77,24 @@ void hC_FTR::setup_uiFtr()
     grid2->addWidget (wdgt_mapFTR_dty, 1, 1 );
 
     ////////////////////////////////////////////// layout
-    auto *LyG_FTR = new QGridLayout(this);
-    LyG_FTR->addWidget (frame1 , 0, 0, 1, 1);
-    LyG_FTR->addWidget (frame2 , 1, 0, 1, 1);
-
+    auto *ftrGrid = new QGridLayout(this);
+    ftrGrid->addWidget (frame1 , 0, 0, 1, 1);
+    ftrGrid->addWidget (frame2 , 1, 0, 1, 1);
+*/
 
 }
 
-void hC_FTR::wd_FTR()
+void hC_FTR::ftr_wdgt()
 {
-    qDebug() << "  wd_FTR";
+    qDebug() << "  ftr_wdgt";
 
-    lB_FTR = new QLabel ("Fatura");
-
-    QLabel *lB_faturano = new QLabel(tr("Fatura &No"));
+    auto *lB_faturano = new QLabel(tr("Fatura &No"));
     lE_faturano = new QLineEdit();
     lE_faturano->setReadOnly (true);
     //lE_faturano->setPlaceholderText ("Fatura No ");
     lB_faturano->setBuddy(lE_faturano);
 
-    QLabel *lB_firma = new QLabel(tr("Firma Ünvanı "));
+    auto *lB_firma = new QLabel(tr("Firma Ünvanı "));
     lE_firma = new hC_Le ;
     lE_firma->lineEdit->setReadOnly(true);
 
@@ -109,7 +103,35 @@ void hC_FTR::wd_FTR()
             [this]()
     {
         // firma seçebilmek için firma penceresi
-        auto *ftr = new Ftr_FrmEkle;
+        auto diafrm = new QDialog;
+        diafrm->setModal (true);
+        auto layout_diafr = new QGridLayout;
+        diafrm->setLayout (layout_diafr);
+        // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
+        diafrm->setGeometry (100,220,800,500);
+
+        this->setWhatsThis ("<br>"
+                            "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                            "<br> Firma ünvanı girmek için seçim yapın "
+                            "<br> "
+                            "<br> Eğer aradığınız firma listede yoksa yeni  "
+                            "<br> firma girişi yaparak işlemi tamamlayın"
+                            "<br>");
+        this->setToolTipDuration (5000);
+        this->setToolTip ("<br>"
+                          "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                          "<br> Firma ünvanı girmek için seçim yapın "
+                          "<br> "
+                          "<br> Eğer aradığınız firma listede yoksa yeni  "
+                          "<br> firma girişi yaparak işlemi tamamlayın"
+                          "<br>");
+
+
+        // firma class ımızı getirelim
+        auto firma = new hC_FRM;
+        firma->frm_setup ();
+        layout_diafr->addWidget (firma ,0 ,0 ,1, 1);
+        //diafrm->show();
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -119,20 +141,24 @@ void hC_FTR::wd_FTR()
         // seçim yapılan lineedit e aktaralım
         // ----------------------------------------------------
 
-        connect (ftr->firma, &hC_FRM::sgnfirma,
+        connect (firma, &hC_FRM::sgnfirma,
                  [ this ] (QString secfirma )
         {
             this->lE_firma->lineEdit->setText (secfirma);
             this->lE_firma->lineEdit->setFocus();
         });
-        ftr->exec ();
+        diafrm->exec ();
+
+
+
+
     });
 
-    QLabel *lB_tarih = new QLabel(tr("Fatura &Tarihi"));
+    auto *lB_tarih = new QLabel(tr("Fatura &Tarihi"));
     lE_tarih = new QLineEdit();
     lB_tarih->setBuddy(lE_tarih);
 
-    QLabel *lB_ack = new QLabel(tr("&Açıklama"));
+    auto *lB_ack = new QLabel(tr("&Açıklama"));
     lE_aciklama = new QLineEdit();
     lB_ack->setBuddy(lE_aciklama);
 
@@ -148,79 +174,65 @@ void hC_FTR::wd_FTR()
     lE_ftrGenelToplam = new QLineEdit();
     lB_ftrGenelToplam->setBuddy(lE_ftrGenelToplam);
 
-    ///////////////////////////////////////  mapper buttonz
+    lB_ftrrsm = new QLabel;
+    hC_Rs resim(lB_ftrrsm);
 
-    LyG_FTR = new QGridLayout();
+
+    ///////////////////////////////////////
+    ftrWdgt = new QWidget;
+    ftrWdgt->setGeometry (0,0,800,300);
+    auto ftrGrid = new QGridLayout();
+    ftrWdgt->setLayout(ftrGrid);
+
+    ///////////////////////////////////////
+    lE_faturano->setMinimumSize (200,25);
+
     int str{};
-    LyG_FTR ->addWidget (new QLabel("<b>Fatura Başlık Bilgileri</b>"),str,0);
-    LyG_FTR ->addWidget(lB_faturano, ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_faturano,   str, 1, 1, 4);
-    LyG_FTR ->addWidget(lB_firma   , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_firma   ,   str, 1, 1, 4);
-    LyG_FTR ->addWidget(lB_ack     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_aciklama,   str, 1, 1, 4);
-    LyG_FTR ->addWidget(lB_tarih   , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_tarih   ,   str, 1, 1, 4);
-    LyG_FTR ->addWidget(lB_ftrToplam     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_ftrToplam     ,   str, 1, 1, 2);
-    LyG_FTR ->addWidget(lB_ftrKdv     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_ftrKdv     ,   str, 1, 1, 2);
-    LyG_FTR ->addWidget(lB_ftrGenelToplam     , ++str, 0, 1, 1);
-    LyG_FTR ->addWidget(lE_ftrGenelToplam     ,   str, 1, 1, 2);
-
-    lB_rsm = new QLabel ("Resim");
-    hC_Rs resim(lB_rsm);
-    LyG_FTR ->addWidget(lB_rsm  , str-2, 3, 3, 3);
-
-    wdgt_mapFTR = new QWidget;
-    wdgt_mapFTR->setLayout(LyG_FTR);
+    ftrGrid ->addWidget (new QLabel("<b>Fatura Başlık Bilgileri</b>"),str,0);
+    ftrGrid ->addWidget(lB_faturano, ++str, 0, 1, 1);
+    ftrGrid ->addWidget(lE_faturano,   str, 1, 1, 4);
+    ftrGrid ->addWidget(lB_firma   , ++str, 0, 1, 1);
+    ftrGrid ->addWidget(lE_firma   ,   str, 1, 1, 4);
+    ftrGrid ->addWidget(lB_ack     , ++str, 0, 1, 1);
+    ftrGrid ->addWidget(lE_aciklama,   str, 1, 1, 4);
+    ftrGrid ->addWidget(lB_tarih   , ++str, 0, 1, 1);
+    ftrGrid ->addWidget(lE_tarih   ,   str, 1, 1, 4);
+    ftrGrid ->addWidget(lB_ftrToplam     , ++str, 0, 1, 1);
+    ftrGrid ->addWidget(lE_ftrToplam     ,   str, 1, 1, 2);
+    ftrGrid ->addWidget(lB_ftrKdv     , ++str, 0, 1, 1);
+    ftrGrid ->addWidget(lE_ftrKdv     ,   str, 1, 1, 2);
+    ftrGrid ->addWidget(lB_ftrGenelToplam     , ++str, 0, 1, 1);
+    ftrGrid ->addWidget(lE_ftrGenelToplam     ,   str, 1, 1, 2);
+    ftrGrid ->addWidget(lB_ftrrsm  , str-2, 3, 3, 3);
 
 }
 
 
-void hC_FTR::setup_viewFtr()
+void hC_FTR::ftr_view()
 {
-    qDebug() << "  setup_viewFtr";
+    qDebug() << "  ftr_view";
 
+    //////////////////////////////////////////////////////////
     FTRtview->table->setModel ( FTRmodel );
-    FTRtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
-    FTRtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-    FTRselectionMdl = FTRtview->table->selectionModel ();
+    FTRslctMdl = FTRtview->table->selectionModel ();
 
+    //////////////////////////////////////////////////////////
     //// kullanıcı bu alanları görmesin
     FTRtview->table->setColumnHidden(FTRmodel->fieldIndex("ftr_kod"), true);
     FTRtview->table->setColumnHidden(FTRmodel->fieldIndex("ftr_resim"), true);
 
-
-    FTRtview->table->setEditTriggers
-            (QAbstractItemView::DoubleClicked |
-             QAbstractItemView::SelectedClicked |
-             QAbstractItemView::EditKeyPressed);
-    FTRtview->table->horizontalHeader()->setStretchLastSection(true);
-    FTRtview->table->horizontalHeader()->resizeContentsPrecision();
-    FTRtview->table->resizeRowsToContents ();
-    FTRtview->table->resizeColumnsToContents();
-
-
-    // select first item
-    // selection model does not hide the frm_kod
-    // so index 0,1 must be select
-    //    FTRtview->table->setCurrentIndex(
-    //                FTRmodel->index(0, 1)
-    //                );
+    //////////////////////////////////////////////////////////
     // with blue rect
-    //    FTRtview->table->setFocus();
-    //   QTimer::singleShot(0, FRMtview->table, SLOT(setFocus()));
-
-
-
-
+    FTRtview->table->setCurrentIndex(
+                FTRmodel->index(1, 1) );
+    FTRtview->table->setFocus();
 
 }
 
-void hC_FTR::setup_mapFtr()
+void hC_FTR::ftr_map()
 {
     qDebug() << "  setup_mapFtr";
+
     FTRmapper = new QDataWidgetMapper(this);
     FTRmapper->setModel(FTRmodel);
 
@@ -229,14 +241,21 @@ void hC_FTR::setup_mapFtr()
     FTRmapper->addMapping(lE_tarih, FTRmodel->fieldIndex("ftr_tarih"));
     FTRmapper->addMapping(lE_aciklama, FTRmodel->fieldIndex("ftr_aciklama"));
     /// fatura ilk kayıda
+    ///
+    hC_FTR::FTRmodel->select ();
     hC_FTR::FTRmapper->toFirst ();
 }
 
-void hC_FTR::setup_kntrlFtr()
+void hC_FTR::ftr_kntrl()
 {
     ///// tableview kontrol connectleri
     ///
     ///
+    qDebug() << "  ftr_kntrl";
+
+    üst pencerede mlzm cpp yi aç
+            satır 203 e git
+
     // //////////////////////// yeni fatura ekle
     // pB 001 yeni ekle
     connect(FTRtview->pB_ekle, &QPushButton::clicked ,
@@ -818,9 +837,10 @@ void hC_FTR::setup_kntrlFtrDet()
 
         ///  malzemeden malzeme kod - barkod - birim
         // sgn ile gelen kod barkod ve birim için değişken
-        auto *mlzmKod= new QString{};
-        auto *mlzmBarkod= new QString{};
-        auto *mlzmBirim= new QString{};
+        //auto *mlzmKod     = new QString{};
+        //auto *mlzmMalzeme = new QString{};
+        ///auto *mlzmBarkod  = new QString{};
+        //auto *mlzmBirim   = new QString{};
         /////////////////////////////////////////////////////////////////
         /// malzeme adını almak için class devrede
         /// class ın içinden malzeme detay bilgilerine
@@ -828,10 +848,10 @@ void hC_FTR::setup_kntrlFtrDet()
         /// ama sinyal yoluyla alıyoruz ve classın içeriği hakkında
         /// bişey bilmemiz gerekmiyor...
         ///
-        auto *mlz = new FtrDet_MlzEkle;
+        auto *mlz = new hC_MLZM;
         mlz->hide();
         connect (lE_mlzdetmlzm->pushButton, &QPushButton::clicked,
-                 [this, mlz, mlzmKod, mlzmBarkod, mlzmBirim ] ()
+                 [this, mlz ] ()
         {
             mlz->show();
             /// malzeme detay seçebilmek için pencere
@@ -851,23 +871,25 @@ void hC_FTR::setup_kntrlFtrDet()
             /// seçim yapılan lineedit e aktaralım
             /// ----------------------------------------------------
 
-            connect (mlz->malzeme, &hC_MLZM::sgnMalzeme,
-                     [ this, mlzmKod, mlzmBarkod, mlzmBirim ] (QString secKod,
-                     QString secBarkod,
-                     QString secMalzeme,
-                     QString secBirim )
+            connect (mlz, &hC_MLZM::sgnMalzeme,
+                     [this]
+                     ( QString* secKod,
+                       QString* secBarkod,
+                       QString* secMalzeme,
+                       QString* secBirim )
             {
 
-                *mlzmKod = secKod;
-                *mlzmBarkod = secBarkod;
-                *mlzmBirim = secBirim;
+                mlzmKod     = secKod;
+                mlzmMalzeme = secMalzeme;
+                mlzmBarkod  = secBarkod;
+                mlzmBirim   = secBirim;
                 this->lE_mlzdetbarkod->setText(secBarkod);
                 this->lE_mlzdetmlzm->lineEdit->setText (secMalzeme);
                 this->lE_mlzdetmlzm->lineEdit->setFocus();
                 qDebug()<<"signal cathed = "<< secMalzeme ;
             });   /// signal
-            mlz->exec ();
-            qDebug()<<"selected malzeme = "<< mlz->getMalzeme ();
+            //dia_ftrmlzmekle->exec ();
+//            qDebug()<<"selected malzeme = "<< mlz->getMalzeme ();
 
         });  /// HC_LE pushbutton
 
@@ -1236,7 +1258,7 @@ QString hC_FTR::ftr_VTd ()
     return mesaj;
 }
 
-void hC_FTR::ftr_model(QSqlRelationalTableModel *model)
+void hC_FTR::ftr_model()
 {
     qDebug() << " mdlftr";
     QString indexField = "ftr_tarih";
@@ -1249,8 +1271,9 @@ void hC_FTR::ftr_model(QSqlRelationalTableModel *model)
     tB_FieldList->append("Açıklama");
     tB_FieldList->append("Resim");
 
+    FTRmodel = new QSqlRelationalTableModel ;
     hC_Rm hC_Rm (&tableName,
-                 model,
+                 FTRmodel,
                  &indexField ,
                  tB_FieldList) ;
 

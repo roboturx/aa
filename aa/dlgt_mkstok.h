@@ -4,7 +4,7 @@
 
 #include "globals.h"
 
-//QT_FORWARD_DECLARE_CLASS(QPainter)
+
 
 class MakinaDelegate : public QSqlRelationalDelegate
 {

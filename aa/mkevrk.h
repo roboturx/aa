@@ -4,7 +4,7 @@
 //#include <QWidget>
 #include "globals.h"
 //#include "mkn.h"
-namespace Ui {
+namespace nSMkn {
 class _Evr;
 }
 

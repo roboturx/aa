@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     iedet.cpp \
     tsnr.cpp \
     sclk.cpp \
-    ie.cpp
+    ie.cpp \
+    mlzm_gc.cpp
 
 
 HEADERS  += \
@@ -83,7 +84,8 @@ HEADERS  += \
     iedet.h \
     tsnr.h \
     sclk.h \
-    ie.h
+    ie.h \
+    mlzm_gc.h
     # cw_cns.h
 
 FORMS    += \

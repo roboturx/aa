@@ -5,7 +5,7 @@
 //#include "hc_.h"
 
 
-namespace ns_TSNR {
+namespace nSTsnr {
 class hC_TSNR;
 }
 

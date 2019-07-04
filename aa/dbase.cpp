@@ -6,6 +6,7 @@
 #include "frm.h"
 #include "ftr.h"
 #include "mlzm.h"
+#include "mlzm_gc.h"
 #include "mkn.h"
 #include "mkn_cinsi.h"
 #include "mkn_marka.h"
@@ -15,7 +16,7 @@
 
 DBase::DBase(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DBase)
+    ui( new Ui::DBase )
 {
     ui->setupUi(this);
     ui->durum->append("Veri tabanı dosysalrı kontrol ediliyor...");
@@ -69,7 +70,9 @@ void DBase::VTDosyaKontrol()
 
     hC_MLZM malzeme;
     yaz(malzeme.mlzm_VTd() );
-    yaz(malzeme.mlzmdet_VTd());
+
+    hC_MLZMGC malzemeGc;
+    yaz(malzemeGc.mlzmGc_VTd());
 
     hC_MKN makina;
     yaz(makina.mkn_VTd());

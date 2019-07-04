@@ -6,9 +6,6 @@ hC_::hC_()
 }
 
 
-
-
-
 /// 2- hC_Resim         - etiket üzerine diskten resim ekler,
 ///                         resmi değiştirir, pencerede gösterir
 ///
@@ -24,6 +21,10 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
                 QString rsm_new_upd
                 )
 {
+
+    lB__resim->setMinimumSize (80,50);
+    lB__resim->setMaximumSize (160,100);
+
     if (rsm_new_upd == "ekle") // yeni kayıt
     {
         // view row unu tespit et
@@ -235,6 +236,10 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     // widget_table->setLayout (Layout_table);
 
     table = new QTableView;
+
+    table->setMinimumWidth (240);
+    table->setMinimumHeight (150);
+
 
     table->setSelectionMode(QAbstractItemView::SingleSelection);
     table->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -511,13 +516,24 @@ hC_Nr::hC_Nr(hC_Tv* searchingTable, int aranan, int kolon )
             if(nextMatches.size() == 2)
             {
                 searchingTable->table->
-                        setCurrentIndex(nextMatches.at(1));
+                        setCurrentIndex ( hC_NrSetCurrentIndex(
+                                nextMatches.at(1)));
             }
         }
         else
             searchingTable->table->
-                    setCurrentIndex(nextMatches.at(0));
+                    setCurrentIndex ( hC_NrSetCurrentIndex(
+                                        nextMatches.at(0)));
     }
 
 
+}
+QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index)
+{
+
+    if (Index.column () == 0 )
+    {
+        Index = (Index.sibling( Index.row (), 1 ));
+    }
+    return Index;
 }

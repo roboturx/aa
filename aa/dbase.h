@@ -6,77 +6,25 @@
 
 #include <QWidget>
 
-namespace Ui {
-class DBase;
+namespace Ui
+{
+    class DBase;
 }
 
 class DBase : public QWidget
-{
-    Q_OBJECT
+{    Q_OBJECT
 
 public:
     explicit DBase(QWidget *parent = nullptr);
     ~DBase();
-
-//    void modelCalisan(QSqlRelationalTableModel *model);
-//    QString *CLSNtableName{};
-
-//    void modelMeslek(QSqlRelationalTableModel *model);
-//    QString *MSLKtableName{};
-
-//    void modelFatura(QSqlRelationalTableModel *model);
-//    QString *FTRtableName{};
-
-//    void modelMalzeme(QSqlRelationalTableModel *model);
-//    QString *MLZMtableName{};
-
-//    void modelMalzemeDetay(QSqlRelationalTableModel *model);
-//    QString *MLZDETtableName{};
-
-//    void modelFirma(QSqlRelationalTableModel *model);
-//    QString *FRMtableName{};
-
-//    void modelMakina(QSqlRelationalTableModel *model);
-//    QString *MKNtableName{};
-
-//    void modelCinsi(QSqlRelationalTableModel *model);
-//    QString *CNStableName{};
-
-//    void modelMarka(QSqlRelationalTableModel *model);
-//    QString *MRKtableName{};
-
-//    void modelModeli(QSqlRelationalTableModel *model);
-//    QString* MDLtableName;
-
-
-
     bool setupDBase();
     void yaz(const QString& z);
-    //    QTextEdit *durum;
 private:
     Ui::DBase *ui;
 
-
-    //    void dbcontrol();
-    // veritabanı yoksa oluştur, bağlan
+// veritabanı yoksa oluştur, bağlan
     void VTDosyaKontrol();
 
-//    QString VTd_CLSN();
-//    QString VTd_MSLK();
-
-//    QString VTd_FRMA();
-//    QString VTd_FTRA();
-//    QString VTd_Mlzm ();
-//    QString VTd_MlzmDETAY();
-
-//    QString VTd_mkn ();
-//    QString VTd_CINS ();
-//    QString VTd_MARKA ();
-//    QString VTd_MODEL ();
-
-
-//    void VTd_ISEMRI ();
-  //  void VTd_ISEMRIDETAY ();
     void VTd_IEDTAMIRYERI ();
     void VTd_IEDTYDETAY ();
     void VTd_ISCILIK ();

@@ -5,7 +5,7 @@
 //#include "hc_.h"
 //#include "dbase.h"
 //#include "ftr_frmekle.h"
-namespace Ui {
+namespace nSMkn {
     class hC_MKMODL;
 }
 

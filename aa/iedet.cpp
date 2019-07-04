@@ -201,7 +201,7 @@ void hC_IEDET::iedet_kntrl()
     ie->show();
     // /// 12- set filter
 
-    connect(ie, &hC_IE::sgn,
+    connect(ie, &hC_IE::sgnIsEmri ,
             [this ] (int ie_ieno)
     {
         *ienoo = ie_ieno;

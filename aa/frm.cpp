@@ -35,7 +35,7 @@ void hC_FRM::frm_ui()
     qDebug() << "  frm_ui";
 
     hC_FRM::setWindowTitle ("FİRMA");
-    hC_FRM::showMaximized ();
+  //  hC_FRM::showMaximized ();
 
 
     // ///////////////////////////////////////////////////////
@@ -86,6 +86,12 @@ void hC_FRM::frm_ui()
 
     auto *frm_mly = new QGridLayout;
 
+
+ //   FRMtview->table->setMinimumWidth (200);
+    lB_sehir->setMinimumSize (100,25);
+    lE_sehir->setMinimumSize (150,25);
+
+
     frm_mly->addWidget(lB_unvan   , 0, 0, 1, 1);
     frm_mly->addWidget(lE_unvan   , 0, 1, 1, 2);
     frm_mly->addWidget(lB_adres   , 1, 0, 1, 1);
@@ -106,14 +112,14 @@ void hC_FRM::frm_ui()
     frm_mly->addWidget(lE_ysoyad  , 8, 1, 1, 2);
     frm_mly->addWidget(lB_ytel    , 9, 0, 1, 1);
     frm_mly->addWidget(lE_ytel    , 9, 1, 1, 2);
-    //frm_mly->addWidget(lB_rsm    , 9, 1, 1, 2);
+    frm_mly->addWidget(lB_rsm     ,10, 1, 2, 2);
     // /////////////////////////////////////
     // main layout
 
     auto *lYG_per = new QGridLayout(this);
-    lYG_per->addWidget ( FRMtview ,0 ,0 ,2 ,1 );
-    lYG_per->addLayout ( frm_mly   ,0 ,1 ,1 ,1);
-    lYG_per->addWidget ( lB_rsm   ,1 ,1 ,1 ,1);
+    lYG_per->addWidget ( FRMtview ,0 ,0 ,1 ,3 );
+    lYG_per->addLayout ( frm_mly  ,0 ,3 ,1 ,7 );
+ //   lYG_per->addWidget ( lB_rsm   ,1 ,3 ,1 ,7 );
 
 }
 

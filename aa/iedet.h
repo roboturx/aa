@@ -2,10 +2,9 @@
 #define HC_IEDET_H
 
 #include <globals.h>
-//#include "hc_.h"
 #include "ie.h"
-//#include "mw_main.h"
-namespace ns_IEDET {
+
+namespace nSIedet {
 class hC_IEDET;
 }
 
@@ -14,11 +13,7 @@ class hC_IEDET : public QWidget
     Q_OBJECT
 
 public:
-    explicit hC_IEDET(QWidget *parent = nullptr);
-    ~hC_IEDET();
-
-public:
-
+    // iedet
     void    iedet_setup();
     QString iedet_VTd();
     void    iedet_model(QSqlRelationalTableModel * );
@@ -27,6 +22,20 @@ public:
     QSqlRelationalTableModel* IEDETmodel;
     QItemSelectionModel*      IEDETselectionMdl;
     QDataWidgetMapper*        IEDETmapper;
+
+    hC_IE* ie ;
+    int* ienoo;
+    QLabel* lB_iedet ;
+    QLabel* lB_rsm;
+
+    QLineEdit *lE_IEno ;
+    QLineEdit *lE_IEdetaciklama{} ;
+    QComboBox *cbx_IEdettamiryeri{} ;
+    QComboBox *cbx_IEdettamirbolum{} ;
+    QComboBox *cbx_IEdetdurum{} ;
+    QDateTimeEdit *dE_IEdetgirtarihi{} ;
+    QDateTimeEdit *dE_IEdetciktarihi{} ;
+
 
 private:
     void iedet_ui()   ;
@@ -41,20 +50,8 @@ private:
 
 
 public:
-    /// iedet variables
-
-    hC_IE* ie ;
-    int* ienoo;
-    QLabel* lB_iedet ;
-    QLabel* lB_rsm;
-
-    QLineEdit *lE_IEno ;
-    QLineEdit *lE_IEdetaciklama{} ;
-    QComboBox *cbx_IEdettamiryeri{} ;
-    QComboBox *cbx_IEdettamirbolum{} ;
-    QComboBox *cbx_IEdetdurum{} ;
-    QDateTimeEdit *dE_IEdetgirtarihi{} ;
-    QDateTimeEdit *dE_IEdetciktarihi{} ;
+    explicit hC_IEDET(QWidget *parent = nullptr);
+    ~hC_IEDET();
 
 };
 

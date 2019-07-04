@@ -7,7 +7,7 @@
 //#include "dbase.h"
 //#include <QtWidgets>
 
-namespace ns_CLSN
+namespace nSClsn
 {
 class hC_CLSN;
 }

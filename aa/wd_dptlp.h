@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-namespace Ui {
+namespace vgf{
 class wd_dptlp;
 }
 

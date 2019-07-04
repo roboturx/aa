@@ -5,7 +5,7 @@
 //#include "hc_.h"
 
 
-namespace ns_IE {
+namespace nSIe {
 class hC_IE;
 }
 
@@ -17,26 +17,25 @@ public:
     explicit hC_IE(QWidget *parent = nullptr);
     ~hC_IE();
 
-    void    ie_setup();
-    QString ie_VTd();
-    void    ie_model(QSqlRelationalTableModel * );
+    void    ie_setup () ;
+    QString ie_VTd   () ;
+    void    ie_model () ;
 
+    hC_Tv                    * IEtview        {} ;
+    QSqlRelationalTableModel * IEmodel        {} ;
+    QItemSelectionModel      * IEselectionMdl {} ;
+    QDataWidgetMapper        * IEmapper       {} ;
 
-    hC_Tv*                    IEtview;
-    QSqlRelationalTableModel* IEmodel{};
-    QItemSelectionModel*      IEselectionMdl;
-    QDataWidgetMapper*        IEmapper;
-
-    QLabel *lB_ie{};
-    QLabel *lB_rsm{};
+    QWidget * ieWdgt   {} ;
+    QLabel  * lB_ie    {} ;
+    QLabel  * lB_iersm {} ;
 
 private:
-    void ie_ui()   ;
-    void iedet_show();
-
-    void ie_view() ;
-    void ie_map()  ;
-    void ie_kntrl();
+    void ie_ui    () ;
+    void ie_wdgt  () ;
+    void ie_view  () ;
+    void ie_map   () ;
+    void ie_kntrl () ;
 
 public:
     //hC_IEDET* iedet;
@@ -51,7 +50,7 @@ public:
     hC_Le* hClE_yetkili2;
 
 public: signals:
-    void sgn (int);
+    void sgnIsEmri (int);
 
 };
 

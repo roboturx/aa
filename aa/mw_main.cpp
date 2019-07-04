@@ -306,9 +306,9 @@ void MW_main::cr_Actions()
              [this]()
     {
         statusBar()->showMessage(tr("Mlzm "));
-        mwMLZM = new hC_MLZM;
-        mwMLZM->setup_mlzm ();
-        mwMLZM->show ();
+        mw_mlzmGc = new hC_MLZMGC;
+        mw_mlzmGc->mlzmGc_setup ();
+        mw_mlzmGc->show ();
     });
 
 

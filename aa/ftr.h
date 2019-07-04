@@ -3,15 +3,8 @@
 
 
 #include "globals.h"
-//#include "hc_.h"
-//#include "dbase.h"
-////#include "ftr_frmekle.h"
 
-#include "mkn.h"
-#include "mlzm.h"
-#include "frm.h"
-
-namespace Ui {
+namespace nSFtr {
 class hC_FTR;
 }
 
@@ -21,46 +14,47 @@ class hC_FTR : public QWidget
 
 public:
 
-    void    ftr_setup();
-    QString ftr_VTd();
-    void    ftr_model(QSqlRelationalTableModel * );
+    void    ftr_setup () ;
+    QString ftr_VTd   () ;
+    void    ftr_model () ;
 
 
+    hC_Tv                    * FTRtview   {} ;
+    QSqlRelationalTableModel * FTRmodel   {} ;
+    QItemSelectionModel      * FTRslctMdl {} ;
+    QDataWidgetMapper        * FTRmapper  {} ;
 
-    hC_Tv             *FTRtview{};
-    QSqlRelationalTableModel *FTRmodel{};
-    QItemSelectionModel      *FTRselectionMdl{} ;
-    QDataWidgetMapper        *FTRmapper{};
+    QWidget * ftrWdgt {} ;
+    QLabel  * lB_ftr     {} ;
+    QLabel  * lB_ftrrsm  {} ;
 
-    QSqlRelationalTableModel *mdlFtr{};
-
-
-
-    QWidget     *wdgt_rsm;
-    QWidget     *wdgt_mapFTR{}    ;
-
-    QGridLayout *LyG_FTR{}    ;
-    QGridLayout *LyG_FTR_dty{};
-    QHBoxLayout *wrsm_ly ;
-
-    QGroupBox   *gB_map{}  ;
     QLabel      *lB_brkd{} ;
-    QLabel      *lB_FTR{} ;
-    QLabel      *lB_rsm{}  ;
-
-
     QLineEdit   *lE_faturano{}  ;
     hC_Le   *lE_firma{} ;
     QLineEdit   *lE_tarih{};
     QLineEdit   *lE_aciklama{};
 
 
+private:
+    void ftr_ui () ;
+    void ftr_wdgt  () ;
+    void ftr_view  () ;
+    void ftr_map   () ;
+    void ftr_kntrl () ;
+
+
+signals:
+    void sgnFtr (const QString* sgnKod,
+                     const QString* sgnBarkod,
+                     const QString* sgnMalzeme,
+                     const QString* sgnBirim
+                     ); // ftr bilgisi yayınla
+
     // depo detay
 
     void    ftrdet_setup();
     QString ftrdet_VTd();
     void    ftrdet_model(QSqlRelationalTableModel * );
-
 
 
     hC_Tv             *FTRDETtview{};
@@ -88,15 +82,7 @@ public:
 
 
 
-private:
-    void setup_uiFtr() ;
-
-    void wd_FTR()        ; //depo ui devamı
-    void setup_viewFtr() ;
-    void setup_modelFtr();
-    void setup_mapFtr()  ;
-    void setup_kntrlFtr();
-
+    private:
     void wd_FTRdet()        ;
     void setup_viewFtrDet() ;
     void setup_modelFtrDet();

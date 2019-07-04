@@ -4,7 +4,7 @@
 #include "globals.h"
 //#include "hc_.h"
 
-namespace ns_SCLK {
+namespace nSSclk {
 class hC_SCLK;
 }
 
