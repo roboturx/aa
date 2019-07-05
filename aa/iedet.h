@@ -13,20 +13,18 @@ class hC_IEDET : public QWidget
     Q_OBJECT
 
 public:
-    // iedet
-    void    iedet_setup();
-    QString iedet_VTd();
-    void    iedet_model(QSqlRelationalTableModel * );
 
-    hC_Tv*                    IEDETtview;
-    QSqlRelationalTableModel* IEDETmodel;
-    QItemSelectionModel*      IEDETselectionMdl;
-    QDataWidgetMapper*        IEDETmapper;
+    hC_Tv                    * IEDETtview    {} ;
+    QSqlRelationalTableModel * IEDETmodel    {} ;
+    QItemSelectionModel      * IEDETslctnMdl {} ;
+    QDataWidgetMapper        * IEDETmapper   {} ;
 
-    hC_IE* ie ;
-    int* ienoo;
-    QLabel* lB_iedet ;
-    QLabel* lB_rsm;
+    QWidget * iedetWdgt {} ;
+    QLabel  * iedetLb   {} ;
+    QLabel  * iedetRsm  {} ;
+
+    hC_IE* ie  {} ;
+    int* ienoo {} ;
 
     QLineEdit *lE_IEno ;
     QLineEdit *lE_IEdetaciklama{} ;
@@ -36,12 +34,16 @@ public:
     QDateTimeEdit *dE_IEdetgirtarihi{} ;
     QDateTimeEdit *dE_IEdetciktarihi{} ;
 
+    void    iedet_setup () ;
+    QString iedet_VTd   () ;
+    void    iedet_model () ;
 
 private:
-    void iedet_ui()   ;
-    void iedet_view() ;
-    void iedet_map()  ;
-    void iedet_kntrl();
+    void iedet_wdgt  () ;
+    void iedet_map   () ;
+    void iedet_ui    () ;
+    void iedet_view  () ;
+    void iedet_kntrl () ;
 
     void clk_IEdetkaydet();
     void clk_IEdetdurum();

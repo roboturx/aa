@@ -107,7 +107,7 @@ void hC_MLZMGC::mlzmGc_view()
     qDebug() << "  mlzmGc_view";
 
     MLZMGCtview->table->setModel(MLZMGCmodel);
-    MLZMGCselectionMdl = MLZMGCtview->table->selectionModel();
+    MLZMGCslctnMdl = MLZMGCtview->table->selectionModel();
 
     //////////////////////////////////////////////////////////
     //// kullanıcı bu alanları görmesin
@@ -177,7 +177,7 @@ void hC_MLZMGC::mlzmGc_kntrl()
     /////////////////////////////////////////////////////
 
     /// MlzmGc table da koon değiştiğnde index değişsin
-    connect(  MLZMGCselectionMdl, &QItemSelectionModel::currentRowChanged,
+    connect(  MLZMGCslctnMdl, &QItemSelectionModel::currentRowChanged,
               MLZMGCmapper,       &QDataWidgetMapper::setCurrentModelIndex);
 
 
@@ -259,7 +259,7 @@ void hC_MLZMGC::mlzmGc_kntrl()
             }
         }
     });
-
+/*
     connect(MLZMGCtview->pB_ilk, &QPushButton::clicked ,
             [this] ()
     {
@@ -292,7 +292,7 @@ void hC_MLZMGC::mlzmGc_kntrl()
     {
         MLZMGCtview->hC_TvPb ("yenile", MLZMGCmodel, MLZMGCmapper);
     });
-
+*/
 
 }
 
@@ -459,7 +459,7 @@ FtrDet_MlzEkle::FtrDet_MlzEkle(QDialog *parent) : QDialog(parent)
     // firma tableviewinde gezinirken firma adımız
     // seçim yapılan lineedit e aktaralım
     // ----------------------------------------------------
-    connect (malzeme->MLZMselectionMdl,
+    connect (malzeme->MLZMslctnMdl,
              &QItemSelectionModel::currentChanged  ,
              [ this ] (QModelIndex Index )
 

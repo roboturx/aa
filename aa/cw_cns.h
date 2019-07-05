@@ -39,7 +39,7 @@ public:
 
     HC_TableView             *MKNtview ;
     QSqlRelationalTableModel *MKNmodel {} ;
-    QItemSelectionModel      *MKNselectionMdl;
+    QItemSelectionModel      *MKNslctnMdl;
     QDataWidgetMapper        *MKNmapper {};
 
 private:

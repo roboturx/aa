@@ -277,7 +277,7 @@ void hC_MLZM::mlzm_kntrl()
     connect(MLZMtview->pB_eklersm, &QPushButton::clicked,
             [this] ()
     {
-        hC_Rs resim (lB_mlzmrsm, MLZMtview, MLZMmodel, MLZMselectionMdl,
+        hC_Rs resim (lB_mlzmrsm, MLZMtview, MLZMmodel, MLZMslctnMdl,
                      "mlzm_resim","ekle");
 
     });
@@ -398,7 +398,7 @@ void hC_MLZM::mlzm_kntrl()
         }
     });
 
-
+/*
     connect(MLZMtview->pB_ilk, &QPushButton::clicked ,
             [this] ()
     {
@@ -432,20 +432,20 @@ void hC_MLZM::mlzm_kntrl()
     {
         MLZMtview->hC_TvPb ("yenile", MLZMmodel, MLZMmapper);
     });
-
+*/
     /// Mlzm da kolon değiştiğinde indexte değişsin
-    connect(  MLZMselectionMdl, &QItemSelectionModel::currentColumnChanged,
+    connect(  MLZMslctnMdl, &QItemSelectionModel::currentColumnChanged,
               MLZMmapper, &QDataWidgetMapper::setCurrentModelIndex);
 
     /// Mlzm da row değiştiğinde indexte değişsin
-    connect(  MLZMselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  MLZMslctnMdl , &QItemSelectionModel::currentRowChanged,
               MLZMmapper, &QDataWidgetMapper::setCurrentModelIndex);
 
     // malzemede row değiştiğnde 3 şeyi değiştirelim
     // 1 map indexi
     // 2 malzeme kodunu ve ismini yayalım
     // 3 resim
-    connect( MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
+    connect( MLZMslctnMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index)
     {
 
@@ -474,7 +474,7 @@ void hC_MLZM::mlzm_kntrl()
         emit hC_MLZM::sgnMalzeme( kd, brkd, mlzm, brm);
 ////////////////////////////////////////////////////////////////
         // 3 resimi değiştirelim
-        hC_Rs resim ( lB_mlzmrsm, MLZMtview, MLZMmodel, MLZMselectionMdl,
+        hC_Rs resim ( lB_mlzmrsm, MLZMtview, MLZMmodel, MLZMslctnMdl,
                       "mlzm_resim", "değiştir" ) ;
 
 
@@ -487,7 +487,7 @@ void hC_MLZM::mlzm_kntrl()
 
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
 
-    connect(MLZMselectionMdl, &QItemSelectionModel::currentRowChanged,
+    connect(MLZMslctnMdl, &QItemSelectionModel::currentRowChanged,
             this, &hC_MLZM::slt_Mlzm_hesap);
 
 

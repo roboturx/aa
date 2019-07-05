@@ -54,7 +54,7 @@ void hC_MKMARK::set_viewMRK()
     MRKtview-> table-> setModel(MRKmodel);
     MRKtview-> table-> setSelectionMode(QAbstractItemView::SingleSelection);
     MRKtview-> table-> setSelectionBehavior(QAbstractItemView::SelectItems);
-    MRKselectionMdl = MRKtview-> table-> selectionModel();
+    MRKslctnMdl = MRKtview-> table-> selectionModel();
 
     MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("id_mkmark"), true);
     MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("resim"), true);
@@ -129,15 +129,15 @@ void hC_MKMARK::set_kntrlMRK()
     connect(MRKtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKselectionMdl,
+        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKslctnMdl,
                            "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  MRKselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  MRKslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKselectionMdl,
+        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKslctnMdl,
                            "resim", "değiştir" ) ;
     });
 
@@ -171,7 +171,7 @@ void hC_MKMARK::set_kntrlMRK()
             }
         }
     });
-
+/*
     // pB 006 ilk
     connect(MRKtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -205,10 +205,10 @@ void hC_MKMARK::set_kntrlMRK()
             [this]( )
     {
         MRKtview->hC_TvPb ("yenile", MRKmodel, MRKmapper);
-    });
+    });*/
 
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  MRKselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  MRKslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         if (Index.isValid())
@@ -242,7 +242,7 @@ void hC_MKMARK::set_kntrlMRK()
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  MRKselectionMdl ,
+    connect(  MRKslctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {

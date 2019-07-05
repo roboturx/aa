@@ -137,7 +137,7 @@ void hC_SCLK::sclk_view()
 {
     qDebug()<<"sclk view ";
     SCLKtview->table->setModel(SCLKmodel);
-    SCLKselectionMdl = SCLKtview->table->selectionModel();
+    SCLKslctnMdl = SCLKtview->table->selectionModel();
     SCLKtview->table->setColumnHidden(
                 SCLKmodel->fieldIndex("id_iscilik"), true);
     SCLKtview->table->setColumnHidden(
@@ -263,15 +263,15 @@ void hC_SCLK::sclk_kntrl()
     connect(SCLKtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(lB_rsm, SCLKtview, SCLKmodel, SCLKselectionMdl,
+        hC_Rs resim(lB_rsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  SCLKselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  SCLKslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, SCLKtview, SCLKmodel, SCLKselectionMdl,
+        hC_Rs resim ( lB_rsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -333,7 +333,7 @@ void hC_SCLK::sclk_kntrl()
             msgBox.close(); // abort
         }
     });
-
+/*
     // pB 006 ilk
     connect(SCLKtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -369,9 +369,9 @@ void hC_SCLK::sclk_kntrl()
     {SCLKtview->hC_TvPb ("yenile", SCLKmodel, SCLKmapper);
 
     });
-
+*/
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  SCLKselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  SCLKslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
@@ -386,7 +386,7 @@ void hC_SCLK::sclk_kntrl()
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  SCLKselectionMdl ,
+    connect(  SCLKslctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {

@@ -14,17 +14,13 @@ void hC_FRM::frm_setup()
 {
     qDebug() << "setup FİRMA";
 
-    frm_VTd();
-    frm_ui();
-
-    qDebug()<<"setup model fr";
-    FRMmodel = new QSqlRelationalTableModel;
-    frm_model ( FRMmodel );
-
-    qDebug() << "setup_Firma END";
-    frm_view();
-    frm_map();
-    frm_kntrl();
+    frm_VTd   () ;
+    frm_model () ;
+    frm_wdgt  () ;
+    frm_map   () ;
+    frm_ui    () ;
+    frm_view  () ;
+    frm_kntrl () ;
 }
 
 
@@ -33,24 +29,29 @@ void hC_FRM::frm_ui()
 {
 
     qDebug() << "  frm_ui";
+    frmLb = new QLabel("FİRMA BİLGİLERİ");
+    hC_FRM::setWindowTitle ( frmLb->text ());
 
-    hC_FRM::setWindowTitle ("FİRMA");
-  //  hC_FRM::showMaximized ();
-
-
-    // ///////////////////////////////////////////////////////
-
-    lB_fr  = new QLabel ("Firma");
-    lB_rsm = new QLabel ("Resim");
-    hC_Rs resim(lB_rsm);
-
-    // ///////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     // views
-    FRMtview = new hC_Tv();
+    FRMtview = new hC_Tv( FRMmodel, FRMmapper, frmWdgt);
 
+    // /////////////////////////////////////
+    // main layout
+
+    auto *frmGrid = new QGridLayout(this);
+    frmGrid->addWidget ( FRMtview ,0 ,0 ,1 ,3 );
+    frmGrid->addLayout ( frmGrid  ,0 ,3 ,1 ,7 );
+ //   lYG_per->addWidget ( lB_rsm   ,1 ,3 ,1 ,7 );
+
+}
+
+void hC_FRM::frm_wdgt()
+{
     // ///////////////////////////////////////////////////////
     // wdgt lbls
     //
+    qDebug() << "  frm_wdgt";
 
     auto *lB_unvan  = new QLabel(tr("Unvan"        ));
     lE_unvan = new QLineEdit() ;
@@ -84,42 +85,44 @@ void hC_FRM::frm_ui()
     lB_ytel->setBuddy(lE_ytel);
 
 
-    auto *frm_mly = new QGridLayout;
+    frmRsm = new QLabel ("Resim");
+    hC_Rs resim(frmRsm);
 
 
- //   FRMtview->table->setMinimumWidth (200);
+    ///////////////////////////////////////
+    frmWdgt = new QWidget;
+    frmWdgt->setGeometry (0,0,800,300);
+    auto frmGrid = new QGridLayout();
+    frmWdgt->setLayout(frmGrid);
+
+    ///////////////////////////////////////
+
+
     lB_sehir->setMinimumSize (100,25);
     lE_sehir->setMinimumSize (150,25);
 
 
-    frm_mly->addWidget(lB_unvan   , 0, 0, 1, 1);
-    frm_mly->addWidget(lE_unvan   , 0, 1, 1, 2);
-    frm_mly->addWidget(lB_adres   , 1, 0, 1, 1);
-    frm_mly->addWidget(lE_adres   , 1, 1, 1, 2);
-    frm_mly->addWidget(lB_sehir   , 2, 0, 1, 1);
-    frm_mly->addWidget(lE_sehir   , 2, 1, 1, 2);
-    frm_mly->addWidget(lB_vd      , 3, 0, 1, 1);
-    frm_mly->addWidget(lE_vd      , 3, 1, 1, 2);
-    frm_mly->addWidget(lB_vdno    , 4, 0, 1, 1);
-    frm_mly->addWidget(lE_vdno    , 4, 1, 1, 2);
-    frm_mly->addWidget(lB_tel     , 5, 0, 1, 1);
-    frm_mly->addWidget(lE_tel     , 5, 1, 1, 2);
-    frm_mly->addWidget(lB_eposta  , 6, 0, 1, 1);
-    frm_mly->addWidget(lE_eposta  , 6, 1, 1, 2);
-    frm_mly->addWidget(lB_yisim   , 7, 0, 1, 1);
-    frm_mly->addWidget(lE_yisim   , 7, 1, 1, 2);
-    frm_mly->addWidget(lB_ysoyad  , 8, 0, 1, 1);
-    frm_mly->addWidget(lE_ysoyad  , 8, 1, 1, 2);
-    frm_mly->addWidget(lB_ytel    , 9, 0, 1, 1);
-    frm_mly->addWidget(lE_ytel    , 9, 1, 1, 2);
-    frm_mly->addWidget(lB_rsm     ,10, 1, 2, 2);
-    // /////////////////////////////////////
-    // main layout
-
-    auto *lYG_per = new QGridLayout(this);
-    lYG_per->addWidget ( FRMtview ,0 ,0 ,1 ,3 );
-    lYG_per->addLayout ( frm_mly  ,0 ,3 ,1 ,7 );
- //   lYG_per->addWidget ( lB_rsm   ,1 ,3 ,1 ,7 );
+    frmGrid->addWidget(lB_unvan   , 0, 0, 1, 1);
+    frmGrid->addWidget(lE_unvan   , 0, 1, 1, 2);
+    frmGrid->addWidget(lB_adres   , 1, 0, 1, 1);
+    frmGrid->addWidget(lE_adres   , 1, 1, 1, 2);
+    frmGrid->addWidget(lB_sehir   , 2, 0, 1, 1);
+    frmGrid->addWidget(lE_sehir   , 2, 1, 1, 2);
+    frmGrid->addWidget(lB_vd      , 3, 0, 1, 1);
+    frmGrid->addWidget(lE_vd      , 3, 1, 1, 2);
+    frmGrid->addWidget(lB_vdno    , 4, 0, 1, 1);
+    frmGrid->addWidget(lE_vdno    , 4, 1, 1, 2);
+    frmGrid->addWidget(lB_tel     , 5, 0, 1, 1);
+    frmGrid->addWidget(lE_tel     , 5, 1, 1, 2);
+    frmGrid->addWidget(lB_eposta  , 6, 0, 1, 1);
+    frmGrid->addWidget(lE_eposta  , 6, 1, 1, 2);
+    frmGrid->addWidget(lB_yisim   , 7, 0, 1, 1);
+    frmGrid->addWidget(lE_yisim   , 7, 1, 1, 2);
+    frmGrid->addWidget(lB_ysoyad  , 8, 0, 1, 1);
+    frmGrid->addWidget(lE_ysoyad  , 8, 1, 1, 2);
+    frmGrid->addWidget(lB_ytel    , 9, 0, 1, 1);
+    frmGrid->addWidget(lE_ytel    , 9, 1, 1, 2);
+    frmGrid->addWidget(frmRsm     ,10, 1, 2, 2);
 
 }
 
@@ -128,22 +131,12 @@ void hC_FRM::frm_view()
     qDebug()<<"setup view fr";
 
     FRMtview->table->setModel(FRMmodel);
-    FRMtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
-    FRMtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-    FRMselectionMdl = FRMtview->table->selectionModel();
+    FRMslctnMdl = FRMtview->table->selectionModel();
 
     //// kullanıcı bu alanları görmesin
     FRMtview->table->setColumnHidden(FRMmodel->fieldIndex("frm_kod"), true);
     FRMtview->table->setColumnHidden(FRMmodel->fieldIndex("frm_resim"), true);
 
-    FRMtview->table->setEditTriggers
-            (QAbstractItemView::DoubleClicked |
-             QAbstractItemView::SelectedClicked |
-             QAbstractItemView::EditKeyPressed);
-    FRMtview->table->horizontalHeader()->setStretchLastSection(true);
-    FRMtview->table->horizontalHeader()->resizeContentsPrecision();
-    FRMtview->table->resizeRowsToContents ();
-    FRMtview->table->resizeColumnsToContents();
 
     // select first item
     // selection model does not hide the frm_kod
@@ -160,7 +153,7 @@ void hC_FRM::frm_view()
 /* user interface */
 void hC_FRM::frm_map()
 {
-    qDebug()<<"setup mapfr";
+    qDebug()<<"  frm_map";
     FRMmapper = new QDataWidgetMapper(this);
     FRMmapper->setModel(FRMmodel);
 
@@ -203,15 +196,15 @@ void hC_FRM::frm_kntrl()
     connect(FRMtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(lB_rsm, FRMtview, FRMmodel, FRMselectionMdl,
+        hC_Rs resim(lB_rsm, FRMtview, FRMmodel, FRMslctnMdl,
                            "frm_resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  FRMselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  FRMslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, FRMtview, FRMmodel, FRMselectionMdl,
+        hC_Rs resim ( lB_rsm, FRMtview, FRMmodel, FRMslctnMdl,
                            "frm_resim", "değiştir" ) ;
     });
 
@@ -244,7 +237,7 @@ void hC_FRM::frm_kntrl()
             }
         }
     });
-
+/*
     // pB 006 ilk
     connect(FRMtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -279,9 +272,9 @@ void hC_FRM::frm_kntrl()
     {
         FRMtview->hC_TvPb ("yenile", FRMmodel, FRMmapper);
     });
-
+*/
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  FRMselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  FRMslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
@@ -296,7 +289,7 @@ void hC_FRM::frm_kntrl()
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  FRMselectionMdl ,
+    connect(  FRMslctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
@@ -336,7 +329,7 @@ hC_FRM::~hC_FRM()
 QString hC_FRM::frm_VTd()
 {
     QSqlQuery   q;
-    QString     ct, mesaj ="OK - Firma";
+    QString     ct, mesaj ="  OK - Firma";
     QStringList inserts;
     QString FRMtableName ( "frm__dbtb");
 
@@ -405,9 +398,9 @@ QString hC_FRM::frm_VTd()
 
 
 
-void hC_FRM::frm_model(QSqlRelationalTableModel *model)
+void hC_FRM::frm_model()
 {
-    qDebug() << " frm model";
+    qDebug() << "  frm model";
     QString indexField = "frm_unvan";
     QString FRMtableName ("frm__dbtb");
 
@@ -425,133 +418,11 @@ void hC_FRM::frm_model(QSqlRelationalTableModel *model)
     tB_FieldList->append("Yetkili Telefon");
     // tB_FieldList->append("resim");
 
-
+    FRMmodel = new QSqlRelationalTableModel;
      hC_Rm hC_Rm ( &FRMtableName,
-                  model,
+                  FRMmodel,
                   &indexField ,
                   tB_FieldList) ;
 
 }///FİRMA
-
-
-
-
-
-//QString DBase::VTd_FRMA()
-//{
-//    QSqlQuery   q;
-//    QString     ct, mesaj ="OK - Firma";
-//    QStringList inserts;
-//    FRMtableName = new QString( "frm__dbtb");
-
-//    if ( ! VTKontrolEt::instance()->
-//         GetDB().tables().contains( *FRMtableName ))
-//    {
-//        ct = "CREATE TABLE IF NOT EXISTS " + *FRMtableName +
-//             "("
-//             "  frm_kod    INTEGER PRIMARY KEY  , "
-//             "  frm_unvan	TEXT ,"
-//             "  frm_adres	TEXT ,"
-//             "  frm_sehir    TEXT ,"
-//             "  frm_vd       TEXT ,"
-//             "  frm_vdno     TEXT ,"
-//             "  frm_tel 	    TEXT ,"
-//             "  frm_eposta   TEXT ,"
-//             "  frm_yisim	TEXT ,"
-//             "  frm_ysoyad	TEXT ,"
-//             "  frm_ytel 	TEXT ,"
-//             "  frm_resim    BLOB  )" ;
-
-//        if (!q.exec( ct ))
-//        {
-//            mesaj = "<br>HATA - Firma Dosyası Oluşturulamadı - "
-//                    "<br>------------------------------------<br>"+
-//                    q.lastError().text()+
-//                    "<br>------------------------------------<br>";
-//        }
-//        else
-//        {
-//            mesaj = "OK - FİRMA Dosyası YENİ Oluşturuldu ";
-//            inserts << "INSERT INTO " + *FRMtableName +
-//                       "( "
-//                       "frm_unvan , frm_adres, frm_sehir , "
-//                       "frm_vd    , frm_vdno , frm_tel   , "
-//                       "frm_eposta, frm_yisim, frm_ysoyad, "
-//                       "frm_ytel  , frm_resim  "
-//                       ") "
-//                       "VALUES "
-//                       "("
-//                       "'-', '-', ' ', "
-//                       "' ', ' ', ' ', "
-//                       "' ', ' ', ' ', "
-//                       "' ', ' ' "
-//                       " )" ;
-
-
-//            foreach (QString qry , inserts)
-//            {
-//                if ( !q.exec(qry) )
-//                {
-//                    mesaj = mesaj + "<br>İLK Firma Kaydı Eklenemedi "
-//                                    "<br>------------------------------------<br>"+
-//                            q.lastError().text ()+
-//                            "<br>------------------------------------<br>";
-//                }
-//                else{
-//                    mesaj = mesaj + "<br>İLK Firma Eklendi ";
-//                }
-//            } // foreach
-//        }
-//    }
-//    qDebug()  << mesaj ;
-//    return mesaj ;
-//}   /// FİRMA
-
-
-
-//void DBase::modelFirma(QSqlRelationalTableModel *model)
-//{
-//    qDebug() << " mdlfrm";
-//    QString indexField = "frm_unvan";
-//    FRMtableName = new QString("frm__dbtb");
-
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Firma Kod");
-//    tB_FieldList->append("Firma Unvanı");
-//    tB_FieldList->append("Adres");
-//    tB_FieldList->append("Şehir");
-//    tB_FieldList->append("Vergi Dairesi");
-//    tB_FieldList->append("VD No");
-//    tB_FieldList->append("Telefon");
-//    tB_FieldList->append("e-posta");
-//    tB_FieldList->append("Yetkili İsim");
-//    tB_FieldList->append("Yetkili Soyad");
-//    tB_FieldList->append("Yetkili Telefon");
-//    // tB_FieldList->append("resim");
-
-
-//     hC_Rm hC_Rm (FRMtableName,
-//                  model,
-//                  &indexField ,
-//                  tB_FieldList) ;
-
-//      //FRMmodel = new QSqlRelationalTableModel;
-//     //    mdlfrm->setTable( "frm_dbtb" );
-////    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
-////    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
-
-////    for(int i = 0, j = 0; i < tB_FieldList->size (); i++, j++)
-////    {
-////        mdlfrm->setHeaderData(i,Qt::Horizontal,tB_FieldList->value (j));
-////    }
-
-////    // Populate the model_mkstok
-////    if (!mdlfrm->select())
-////    {
-////        qDebug () <<  " HATA - Model firma select "
-////                   <<mdlfrm->lastError();
-////    }
-
-
-//}///FİRMA
 

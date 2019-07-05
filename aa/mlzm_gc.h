@@ -20,7 +20,7 @@ public:
     void    mlzmGc_model () ;
 
     hC_Tv                    *MLZMGCtview        {} ;
-    QItemSelectionModel      *MLZMGCselectionMdl {} ;
+    QItemSelectionModel      *MLZMGCslctnMdl {} ;
     QSqlRelationalTableModel *MLZMGCmodel        {} ;
     QDataWidgetMapper        *MLZMGCmapper       {} ;
 

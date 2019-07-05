@@ -11,6 +11,7 @@
 #include <QTableView>
 #include <QTextEdit>
 #include <QDateTimeEdit>
+#include <QCheckBox>
 
 
 // /// hC_ bana ait tüm sınıflar
@@ -122,16 +123,16 @@ class hC_Tv : public QWidget
 
 public:
 
-    explicit hC_Tv(int renk=1, QWidget *parent = nullptr);
+    explicit hC_Tv(QSqlRelationalTableModel *model = nullptr,
+                   QDataWidgetMapper *map = nullptr,
+                   QWidget *wdgt = nullptr );
     ~hC_Tv();
 
-    void hC_TvPb(QString Key,
-                 QSqlRelationalTableModel *model= nullptr,
-                 QDataWidgetMapper *map = nullptr);
-    QTableView *table;
-    QPushButton *pB_ekle   ;
-    QPushButton *pB_eklersm;
-    QPushButton *pB_grscks;
+    QTableView  * table;
+    QCheckBox   * cB_map;
+    QPushButton * pB_ekle   ;
+    QPushButton * pB_eklersm;
+    QPushButton * pB_grscks;
 
     QPushButton *pB_sil;
 

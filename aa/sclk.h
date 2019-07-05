@@ -24,7 +24,7 @@ public:
 
     hC_Tv*                    SCLKtview;
     QSqlRelationalTableModel* SCLKmodel{};
-    QItemSelectionModel*      SCLKselectionMdl;
+    QItemSelectionModel*      SCLKslctnMdl;
     QDataWidgetMapper*        SCLKmapper;
 
 private:

@@ -128,14 +128,18 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
 /// 3- hC_Tv     - menu eklenmiş tableview
 
 
-hC_Tv::hC_Tv (int renk, QWidget *parent ) :
-    QWidget (parent)
+hC_Tv::hC_Tv (QSqlRelationalTableModel *model,
+              QDataWidgetMapper *map,
+              QWidget *wdgt )
 {
-
 
     // //////////////////////////////////////////////
     QIcon icon;
-    int x=20*renk,y=20;
+    int x=20, y=20;
+
+    cB_map = new QCheckBox;
+    cB_map->setMaximumSize (x,y);
+    cB_map->setCheckState (Qt::Checked);
 
     pB_ekle = new QPushButton;
     pB_ekle->setMaximumSize (x,y);
@@ -224,6 +228,7 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     Layout_buttonz->addWidget (pB_ncki );
     Layout_buttonz->addWidget (pB_snrki);
     Layout_buttonz->addWidget (pB_son  );
+    Layout_buttonz->addWidget (cB_map  );
   //  Layout_buttonz->addStretch (1);
     //Layout_buttonz->addWidget (pB_grscks );
     //Layout_buttonz->addStretch (4);
@@ -273,51 +278,73 @@ hC_Tv::hC_Tv (int renk, QWidget *parent ) :
     pntr.fillRect (rec,grd);
 */
 
-}
-
-void hC_Tv::hC_TvPb(QString Key,
-                    QSqlRelationalTableModel *model,
-                    QDataWidgetMapper *map)
-{
-    if ( Key == "yenile")
+    connect(map, &QDataWidgetMapper::currentIndexChanged,
+            [this, map, model]( )
     {
         int map_row = map->currentIndex ();
         this->pB_ilk->setEnabled (map_row>0);
         this->pB_ncki->setEnabled(map_row > 0);
         this->pB_snrki->setEnabled(map_row < model->rowCount() - 1);
         this->pB_son->setEnabled(map_row < model->rowCount() - 1);
-    }
-    else if ( Key == "ilk")
+    });
+
+    connect(pB_ilk, &QPushButton::clicked ,
+            [this,model,map]()
     {
         map->toFirst ();
         int map_row = map->currentIndex ();
         this->pB_ilk->setEnabled (map_row>0);
         this->table->setCurrentIndex( model->index( 0  ,0));
-    }
-    else if ( Key == "ncki")
+    });
+
+    connect(pB_ncki, &QPushButton::clicked ,
+            [this,model,map]()
     {
         map->toPrevious ();
         int map_row = map->currentIndex ();
         this->pB_ncki->setEnabled(map_row > 0);
         this->table->setCurrentIndex( model->index( map_row  ,0));
-    }
-    else if ( Key == "snrki")
+    });
+
+    connect(pB_snrki, &QPushButton::clicked ,
+            [this,model,map]()
     {
         map->toNext ();
         int map_row = map->currentIndex ();
         this->pB_snrki->setEnabled(map_row < model->rowCount() - 1);
         this->table->setCurrentIndex(model->index( map_row  ,0));
-    }
-    else if ( Key == "son")
+    });
+
+    connect(pB_son, &QPushButton::clicked ,
+            [this,model,map]()
     {
         map->toLast ();
         int map_row = map->currentIndex ();
         this->pB_son->setEnabled(map_row < model->rowCount() - 1);
         this->table->setCurrentIndex(
-            model->index( model->rowCount() - 1  ,0));
-    }
+        model->index( model->rowCount() - 1  ,0));
+    });
+
+
+
+    connect (cB_map, &QCheckBox::stateChanged,
+             [this, wdgt]()
+     {
+        if (cB_map->isChecked ())
+        {
+            wdgt->show ();
+
+        }
+        else
+        {
+            wdgt->hide ();
+        }
+      });
 
 }
+
+
+
 hC_Tv::~hC_Tv()
 = default;
 

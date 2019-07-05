@@ -30,7 +30,7 @@ public:
 
     hC_Tv            *MDLtview{};
     QSqlRelationalTableModel *MDLmodel{} ;
-    QItemSelectionModel      *MDLselectionMdl;
+    QItemSelectionModel      *MDLslctnMdl;
     QDataWidgetMapper        *MDLmapper;
 
 private:

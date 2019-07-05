@@ -266,7 +266,7 @@ void Cw_mkn::set_viewMKN()
     MKNtview->table->setModel(MKNmodel);
     MKNtview->table->setSelectionMode(QAbstractItemView::SingleSelection);
     MKNtview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-    MKNselectionMdl = MKNtview->table->selectionModel ();
+    MKNslctnMdl = MKNtview->table->selectionModel ();
 
     // sağ tuş menusu
     MKNtview->table->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -387,7 +387,7 @@ void Cw_mkn::set_kntrlMKN()
             this, SLOT(onMKNtview_sagmenuSLOT(QPoint)));
 
     /// mkn değiştiğnde iş emri (ie) detaylarını değiştirelim
-    connect(MKNselectionMdl,
+    connect(MKNslctnMdl,
             SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
             this,  SLOT( onMKNtview_IE_filterSLOT(QModelIndex) ));
 
@@ -395,12 +395,12 @@ void Cw_mkn::set_kntrlMKN()
 
     /// mkn değiştiğnde resmide değiştirelim
 
-    connect(MKNselectionMdl,
+    connect(MKNslctnMdl,
             SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
             this,  SLOT(onMKNtview_resimGosterSLOT (QModelIndex) ));
 
     /// mkn değiştiğinde cins e bağlı marka ve modelde değişsin    ??????
-    connect(MKNselectionMdl,
+    connect(MKNslctnMdl,
             SIGNAL( currentRowChanged(QModelIndex,QModelIndex)),
             this,  SLOT( onMKNtview_cmm_filterSLOT(QModelIndex) ));
 
@@ -413,7 +413,7 @@ void Cw_mkn::set_kntrlMKN()
 
 
     /// mkn row değiştiğinde modelindex de değişsin
-    connect(MKNselectionMdl,
+    connect(MKNslctnMdl,
             SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             MKNmapper, SLOT(setCurrentModelIndex(QModelIndex)));
 
@@ -1546,7 +1546,7 @@ void Cw_mkn::onMKNtview_resimGosterSLOT(QModelIndex)
     // makina stok tablosundan resim gösterme
 
     // view row unu tespit et
-    int rowidx = MKNselectionMdl->currentIndex().row();
+    int rowidx = MKNslctnMdl->currentIndex().row();
     //int rowidx = index.row (); //MKNtview->selectionModel()->currentIndex().row();
 
     // row, xolumn daki veriyi bytearray a at

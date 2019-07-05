@@ -10,16 +10,14 @@ hC_IE::hC_IE(QWidget *parent) : QWidget (parent)
 
 void hC_IE::ie_setup()
 {
-    qDebug() << " -ie setup ";
+    qDebug() << "  ie setup ";
     ie_VTd   () ;
-    ie_ui    () ;
     ie_model () ;
-    ie_view  () ;
+    ie_wdgt  () ;
     ie_map   () ;
+    ie_ui    () ;
+    ie_view  () ;
     ie_kntrl () ;
-
-
-
 }
 
 
@@ -27,23 +25,20 @@ void hC_IE::ie_ui()
 {
     qDebug() << "  ie_ui";
     ////////////////////////////////////////// window
-    lB_ie  = new QLabel ("İŞ EMRİ");
-    hC_IE::setWindowTitle (lB_ie->text());
+    ieLb  = new QLabel ("İŞ EMRİ");
+    hC_IE::setWindowTitle (ieLb->text());
     hC_IE::setGeometry(20,20,
                        qApp->screens()[0]->size ().rwidth (),
             qApp->screens()[0]->size ().rheight ()/4);
 
 
-    /////////////////////////////////////////// wdgt
-    ie_wdgt();
-
     /////////////////////////////////////////// tview
-    IEtview = new hC_Tv();
+    IEtview = new hC_Tv( IEmodel, IEmapper, ieWdgt );
 
     ///////////////
-    auto *ieMainGrid = new QGridLayout(this);
-    ieMainGrid->addWidget ( IEtview ,  0, 0, 1, 1 );
-    ieMainGrid->addWidget ( ieWdgt  ,  0, 1, 1, 1 );
+    auto *ieGrid = new QGridLayout(this);
+    ieGrid->addWidget ( IEtview ,  0, 0, 1, 1 );
+    ieGrid->addWidget ( ieWdgt  ,  0, 1, 1, 1 );
 
 }
 
@@ -124,8 +119,8 @@ void hC_IE::ie_wdgt ()
     auto lB_y2 = new QLabel("Yetkili - II");
     hClE_yetkili2 = new hC_Le;
 
-    lB_iersm = new QLabel ("Resim");
-    hC_Rs resim(lB_iersm);
+    ieRsm = new QLabel ("Resim");
+    hC_Rs resim(ieRsm);
 
     //////////////////////////////////////////////
     ieWdgt = new QWidget;
@@ -151,7 +146,7 @@ void hC_IE::ie_wdgt ()
     ieGrid->addWidget (lB_y2       , 2, 10, 1, 4);
     ieGrid->addWidget (hClE_yetkili2 , 2, 14, 1, 6);
     ieGrid->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
-    ieGrid->addWidget (lB_iersm      , 3, 14, 2, 6);
+    ieGrid->addWidget (ieRsm      , 3, 14, 2, 6);
 
 
 }
@@ -160,7 +155,7 @@ void hC_IE::ie_view()
 {
     qDebug()<<"  ie view ";
     IEtview->table->setModel(IEmodel);
-    IEselectionMdl = IEtview->table->selectionModel();
+    IEslctnMdl = IEtview->table->selectionModel();
 
     //////////////////////////////////////////////////////////
     //// kullanıcı bu alanları görmesin
@@ -198,7 +193,6 @@ void hC_IE::ie_map()
     IEmapper->addMapping (hClE_yetkili2->lineEdit , IEmodel->fieldIndex("ie_yetkili2"));
     //IEmapper->addMapping (lE_    , IEmodel->fieldIndex("ie_resim"));
 
-    IEmodel->select();
     IEmapper->toFirst ();
 }
 
@@ -291,15 +285,15 @@ void hC_IE::ie_kntrl()
     connect(IEtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(lB_iersm, IEtview, IEmodel, IEselectionMdl,
+        hC_Rs resim(ieRsm, IEtview, IEmodel, IEslctnMdl,
                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  IEselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  IEslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_iersm, IEtview, IEmodel, IEselectionMdl,
+        hC_Rs resim ( ieRsm, IEtview, IEmodel, IEslctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -399,7 +393,7 @@ void hC_IE::ie_kntrl()
         }
 
     });
-
+/*
     // pB 006 ilk
     connect(IEtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -435,9 +429,9 @@ void hC_IE::ie_kntrl()
     {IEtview->hC_TvPb ("yenile", IEmodel, IEmapper);
 
     });
-
+*/
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  IEselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  IEslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
@@ -466,7 +460,7 @@ void hC_IE::ie_kntrl()
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  IEselectionMdl ,
+    connect(  IEslctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
@@ -527,7 +521,7 @@ hC_IE::~hC_IE()
 QString hC_IE::ie_VTd ()
 {
     QSqlQuery q;
-    QString ct, mesaj = "OK - VTd - İş Emri";
+    QString ct, mesaj = "  OK - VTd - İş Emri";
     QString IEtableName ("ie__dbtb");
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( IEtableName))

@@ -2,10 +2,6 @@
 #define CW_FR_H
 
 #include "globals.h"
-//#include "hc_.h"
-//#include "dbase.h"
-////#include "ftr_frmekle.h"
-
 
 namespace nSFrm {
 class hC_FRM;
@@ -19,17 +15,14 @@ public:
     explicit hC_FRM(QWidget *parent = nullptr);
     ~hC_FRM();
 
-    void    frm_setup();
-    QString frm_VTd();
-    void    frm_model(QSqlRelationalTableModel * );
+    hC_Tv                    * FRMtview    {} ;
+    QSqlRelationalTableModel * FRMmodel    {} ;
+    QItemSelectionModel      * FRMslctnMdl {} ;
+    QDataWidgetMapper        * FRMmapper   {} ;
 
-    QString *FRMtableName {};
-
-
-    hC_Tv*                    FRMtview ;
-    QSqlRelationalTableModel* FRMmodel {} ;
-    QItemSelectionModel*      FRMselectionMdl;
-    QDataWidgetMapper*        FRMmapper {};
+    QWidget * frmWdgt  {} ;
+    QLabel  * frmLb    {} ;
+    QLabel  * frmRsm   {} ;
 
     int       meslekIndex{} ;
     QComboBox   *cb_meslek{};
@@ -47,19 +40,18 @@ public:
     QLineEdit   *lE_ysoyad{};
     QLineEdit   *lE_ytel{}  ;
 
-   // QPushButton *pB_rsm{}     ;
-  //  QPushButton *pB_ekle{}    ;
-  //  QPushButton *pB_sil{}     ;
+    void    frm_setup();
+    QString frm_VTd();
+    void    frm_model();
 
-  //  QPushButton *pB_ara{}     ;
-  //  QPushButton *pB_yaz{}     ;
-  //  QPushButton *pB_kpt{}     ;
+    //QString *FRMtableName {};
 
 private:
-    void frm_ui()   ;
-    void frm_view() ;
-    void frm_map()  ;
-    void frm_kntrl();
+    void frm_wdgt  () ;
+    void frm_map   () ;
+    void frm_ui    () ;
+    void frm_view  () ;
+    void frm_kntrl () ;
 
 signals:
     void sgnfirma (const QString sgnfirma); //firma ismini

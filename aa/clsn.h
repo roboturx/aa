@@ -21,30 +21,14 @@ public:
     explicit hC_CLSN(QWidget *parent = nullptr);
     ~hC_CLSN();
 
-    void    clsn_setup();
-    QString clsn_VTd();
-    void    clsn_model(QSqlRelationalTableModel * );
+    hC_Tv                    * CLSNtview    {} ;
+    QSqlRelationalTableModel * CLSNmodel    {} ;
+    QItemSelectionModel      * CLSNslctnMdl {} ;
+    QDataWidgetMapper        * CLSNmapper   {} ;
 
-    hC_Tv*                    CLSNtview;
-    QSqlRelationalTableModel* CLSNmodel;
-    QItemSelectionModel*      CLSNselectionMdl;
-    QDataWidgetMapper*        CLSNmapper;
-
-
-private:
-    void clsn_ui()   ;
-    void clsn_view() ;
-    void clsn_map()  ;
-    void clsn_kntrl();
-
-protected:
-    void showEvent(QShowEvent *);
-
-public:
-    QLabel      *lB_clsn =nullptr    ;
-    QLabel      *lB_rsm  =nullptr    ;
-
-    QGroupBox   *gB_map=nullptr     ;
+    QWidget * clsnWdgt   {} ;
+    QLabel  * lB_clsn    {} ;
+    QLabel  * lB_clsnrsm {} ;
 
     QLineEdit   *lE_isim=nullptr    ;
     QLineEdit   *lE_soyad=nullptr   ;
@@ -65,6 +49,20 @@ public:
     QLineEdit   *lE_password{};
     QLineEdit   *lE_yetki{}   ;
 
+
+    void    clsn_setup () ;
+    QString clsn_VTd   () ;
+    void    clsn_model () ;
+
+private:
+    void clsn_wdgt  () ;
+    void clsn_map   () ;
+    void clsn_ui    () ;
+    void clsn_view  () ;
+    void clsn_kntrl () ;
+
+protected:
+    void showEvent(QShowEvent *);
 
 };
 

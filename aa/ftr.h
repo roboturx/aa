@@ -14,42 +14,51 @@ class hC_FTR : public QWidget
 
 public:
 
+    hC_Tv                    * FTRtview    {} ;
+    QSqlRelationalTableModel * FTRmodel    {} ;
+    QItemSelectionModel      * FTRslctnMdl {} ;
+    QDataWidgetMapper        * FTRmapper   {} ;
+
+    QWidget * ftrWdgt {} ;
+    QLabel  * ftrLb   {} ;
+    QLabel  * ftrRsm  {} ;
+
+    QLabel      * lB_brkd{} ;
+    QLineEdit   * lE_faturano{}  ;
+    hC_Le       * lE_firma{} ;
+    QLineEdit   * lE_tarih{};
+    QLineEdit   * lE_aciklama{};
+
+
     void    ftr_setup () ;
     QString ftr_VTd   () ;
     void    ftr_model () ;
 
-
-    hC_Tv                    * FTRtview   {} ;
-    QSqlRelationalTableModel * FTRmodel   {} ;
-    QItemSelectionModel      * FTRslctMdl {} ;
-    QDataWidgetMapper        * FTRmapper  {} ;
-
-    QWidget * ftrWdgt {} ;
-    QLabel  * lB_ftr     {} ;
-    QLabel  * lB_ftrrsm  {} ;
-
-    QLabel      *lB_brkd{} ;
-    QLineEdit   *lE_faturano{}  ;
-    hC_Le   *lE_firma{} ;
-    QLineEdit   *lE_tarih{};
-    QLineEdit   *lE_aciklama{};
-
-
 private:
-    void ftr_ui () ;
     void ftr_wdgt  () ;
-    void ftr_view  () ;
     void ftr_map   () ;
+    void ftr_ui    () ;
+    void ftr_view  () ;
     void ftr_kntrl () ;
 
-
 signals:
-    void sgnFtr (const QString* sgnKod,
-                     const QString* sgnBarkod,
-                     const QString* sgnMalzeme,
-                     const QString* sgnBirim
-                     ); // ftr bilgisi yayınla
+    void sgnFtr ( QString* sgnFtrNo ); // ftr bilgisi yayınla
 
+
+private slots:
+    void slt_ftr_hesap();
+
+protected:
+    void showEvent(QShowEvent *);
+
+public:
+    explicit hC_FTR(QWidget *parent = nullptr);
+    ~hC_FTR() ;
+
+
+//////////////////////////////////////////////////////////////////
+
+public:
     // depo detay
 
     void    ftrdet_setup();
@@ -57,10 +66,10 @@ signals:
     void    ftrdet_model(QSqlRelationalTableModel * );
 
 
-    hC_Tv             *FTRDETtview{};
-    QSqlRelationalTableModel *FTRDETmodel{} ;
-    QItemSelectionModel      *FTRDETselectionMdl{} ;
-    QDataWidgetMapper        *FTRDETmapper{} ;
+    hC_Tv                    * FTRDETtview{};
+    QSqlRelationalTableModel * FTRDETmodel{} ;
+    QItemSelectionModel      * FTRDETslctnMdl{} ;
+    QDataWidgetMapper        * FTRDETmapper{} ;
 
     QWidget     *wdgt_mapFTR_dty{};
 
@@ -82,27 +91,18 @@ signals:
 
 
 
-    private:
+private:
     void wd_FTRdet()        ;
     void setup_viewFtrDet() ;
     void setup_modelFtrDet();
     void setup_mapFtrDet()  ;
     void setup_kntrlFtrDet();
 
-private slots:
-    void slt_ftr_hesap();
-
-protected:
-    void showEvent(QShowEvent *);
-
-public:
-    explicit hC_FTR(QWidget *parent = nullptr);
-    ~hC_FTR() ;
 
 };
 
 
-
+/*
 // //////////////////////////////////////////// faturaya firma ekle
 class Ftr_FrmEkle : public QDialog
 {
@@ -121,6 +121,6 @@ private:
     void setFirma(const QString &value);
 };
 
-
+*/
 
 #endif // CW_FTR_H

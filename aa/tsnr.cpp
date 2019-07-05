@@ -128,7 +128,7 @@ void hC_TSNR::tsnr_view()
 {
     qDebug()<<"tsnr view ";
     TSNRtview->table->setModel(TSNRmodel);
-    TSNRselectionMdl = TSNRtview->table->selectionModel();
+    TSNRslctnMdl = TSNRtview->table->selectionModel();
 
     TSNRtview->table->setColumnHidden(TSNRmodel->fieldIndex("tsnr_mknstk_no"), true);
     TSNRtview->table->setColumnHidden(TSNRmodel->fieldIndex("id_tsnr"), true);
@@ -269,15 +269,15 @@ void hC_TSNR::tsnr_kntrl()
             [this]()
     {
         qDebug() << "new resim";
-        hC_Rs resim(lB_rsm, TSNRtview, TSNRmodel, TSNRselectionMdl,
+        hC_Rs resim(lB_rsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  TSNRselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  TSNRslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, TSNRtview, TSNRmodel, TSNRselectionMdl,
+        hC_Rs resim ( lB_rsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -340,7 +340,7 @@ void hC_TSNR::tsnr_kntrl()
             msgBox.close(); // abort
         }
     });
-
+/*
     // pB 006 ilk
     connect(TSNRtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -376,9 +376,9 @@ void hC_TSNR::tsnr_kntrl()
     {TSNRtview->hC_TvPb ("yenile", TSNRmodel, TSNRmapper);
 
     });
-
+*/
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  TSNRselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  TSNRslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
@@ -393,7 +393,7 @@ void hC_TSNR::tsnr_kntrl()
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  TSNRselectionMdl ,
+    connect(  TSNRslctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {

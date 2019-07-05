@@ -56,10 +56,10 @@ protected:
     void showEvent(QShowEvent *);
 
 signals:
-    void sgnMalzeme (const QString* sgnKod,
-                     const QString* sgnBarkod,
-                     const QString* sgnMalzeme,
-                     const QString* sgnBirim
+    void sgnMalzeme (QString* sgnKod,
+                     QString* sgnBarkod,
+                     QString* sgnMalzeme,
+                     QString* sgnBirim
                      ); //malzeme ismini yayınla
 
 public:

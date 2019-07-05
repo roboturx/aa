@@ -53,7 +53,7 @@ void hC_MKCINS::set_viewCNS()
     CNStview-> table-> setModel(CNSmodel);
     CNStview->table->setSelectionMode(QAbstractItemView::SingleSelection);
     CNStview->table->setSelectionBehavior(QAbstractItemView::SelectItems);
-    CNSselectionMdl = CNStview->table->selectionModel();
+    CNSslctnMdl = CNStview->table->selectionModel();
 
     CNStview-> table-> setColumnHidden(CNSmodel->fieldIndex("id_mkcins"), true);
     CNStview-> table-> setColumnHidden(CNSmodel->fieldIndex("resim"), true);
@@ -120,15 +120,15 @@ void hC_MKCINS::set_kntrlCNS()
     connect(CNStview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim ( lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+        hC_Rs resim ( lB_rsm, CNStview, CNSmodel, CNSslctnMdl,
                            "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  CNSselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  CNSslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, CNStview, CNSmodel, CNSselectionMdl,
+        hC_Rs resim ( lB_rsm, CNStview, CNSmodel, CNSslctnMdl,
                            "resim", "değiştir" );
     });
 
@@ -145,7 +145,7 @@ void hC_MKCINS::set_kntrlCNS()
         QModelIndex sample = CNStview->table->currentIndex();
         if( sample.row() >= 0 )
         {
-            CNSselectionMdl->
+            CNSslctnMdl->
                     setCurrentIndex(sample,QItemSelectionModel::NoUpdate);
 
             QSqlRecord rec = CNSmodel->record();
@@ -169,7 +169,7 @@ void hC_MKCINS::set_kntrlCNS()
             }
         }
     });
-
+/*
     // pB 006 ilk
     connect(CNStview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -204,9 +204,9 @@ void hC_MKCINS::set_kntrlCNS()
     {
         CNStview->hC_TvPb ("yenile", CNSmodel, CNSmapper);
     });
-
+*/
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  CNSselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  CNSslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
 
@@ -237,7 +237,7 @@ void hC_MKCINS::set_kntrlCNS()
     });
     qDebug ()<<"cins pB 010 nav 3";
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  CNSselectionMdl ,
+    connect(  CNSslctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {

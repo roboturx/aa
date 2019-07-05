@@ -29,7 +29,7 @@ public:
     //DBase *dbase;
     hC_Tv             *MRKtview{};
     QSqlRelationalTableModel *MRKmodel{} ;
-    QItemSelectionModel      *MRKselectionMdl;
+    QItemSelectionModel      *MRKslctnMdl;
     QDataWidgetMapper        *MRKmapper;
 
 private:

@@ -32,7 +32,7 @@ public:
     QLabel *lB_rsm;
     hC_Tv             *CNStview{};
     QSqlRelationalTableModel *CNSmodel{} ;
-    QItemSelectionModel      *CNSselectionMdl;
+    QItemSelectionModel      *CNSslctnMdl;
     QDataWidgetMapper        *CNSmapper;
 
 private:

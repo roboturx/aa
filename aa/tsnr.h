@@ -27,7 +27,7 @@ public:
 
     hC_Tv*                    TSNRtview;
     QSqlRelationalTableModel* TSNRmodel{};
-    QItemSelectionModel*      TSNRselectionMdl;
+    QItemSelectionModel*      TSNRslctnMdl;
     QDataWidgetMapper*        TSNRmapper;
 
 

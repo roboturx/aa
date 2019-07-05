@@ -53,7 +53,7 @@ void hC_MKMODL::set_viewMDL()
     MDLtview-> table-> setModel(MDLmodel);
     MDLtview-> table-> setSelectionMode(QAbstractItemView::SingleSelection);
     MDLtview-> table-> setSelectionBehavior(QAbstractItemView::SelectItems);
-    MDLselectionMdl = MDLtview-> table-> selectionModel();
+    MDLslctnMdl = MDLtview-> table-> selectionModel();
 
 
     MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("resim"), true);
@@ -131,16 +131,16 @@ qDebug()<<"kntrl mdl ";
     connect(MDLtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLselectionMdl,
+        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLslctnMdl,
                            "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  MDLselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  MDLslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
         qDebug()<<"kntrl mdl11111 ";
-        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLselectionMdl,
+        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLslctnMdl,
                            "resim", "değiştir" ) ;
     });
 
@@ -174,7 +174,7 @@ qDebug()<<"kntrl mdl ";
             }
         }
     });
-
+/*
     // pB 006 ilk
     connect(MDLtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -217,9 +217,9 @@ qDebug()<<"kntrl mdl ";
         MDLtview->hC_TvPb ("yenile", MDLmodel, MDLmapper);
 
     });
-
+*/
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  MDLselectionMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  MDLslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
@@ -245,7 +245,7 @@ qDebug()<<"kntrl mdl ";
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  MDLselectionMdl ,
+    connect(  MDLslctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
