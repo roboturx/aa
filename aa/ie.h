@@ -22,9 +22,9 @@ public:
     QItemSelectionModel      * IEslctnMdl {} ;
     QDataWidgetMapper        * IEmapper   {} ;
 
-    QWidget * ieWdgt {} ;
-    QLabel  * ieLb   {} ;
-    QLabel  * ieRsm  {} ;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm    {} ;
 
 
     hC_Le* hClE_mkn;

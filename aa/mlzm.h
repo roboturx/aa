@@ -13,20 +13,16 @@ class hC_MLZM : public QWidget
 
 public:
 
-    void    mlzm_setup () ;
-    QString mlzm_VTd   () ;
-    void    mlzm_model () ;
-
-
     hC_Tv                    *MLZMtview    {} ;
     QSqlRelationalTableModel *MLZMmodel    {} ;
     QItemSelectionModel      *MLZMslctnMdl {} ;
     QDataWidgetMapper        *MLZMmapper   {} ;
 
-    QWidget * mlzmWdgt {} ;
-    QLabel  * lB_mlzm     {} ;
-    QLabel  * lB_mlzmrsm  {} ;
-
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
+    QVector<QString> * fields ;
+    QVector<QWidget*> * edits  ;
 
     QComboBox   *cbx_grs_tipi{} ;
     QLineEdit   *lE_barkod   {} ;
@@ -40,12 +36,15 @@ public:
     QLineEdit   *lE_cikis    {} ;
     QLineEdit   *lE_mevcut   {} ;
 
+    void    mlzm_setup () ;
+    QString mlzm_VTd   () ;
+    void    mlzm_model () ;
 
 private:
-    void mlzm_ui    () ;
-    void mlzm_Wdgt  () ;
-    void mlzm_view  () ;
+    void mlzm_wdgt  () ;
     void mlzm_map   () ;
+    void mlzm_ui    () ;
+    void mlzm_view  () ;
     void mlzm_kntrl () ;
 
 

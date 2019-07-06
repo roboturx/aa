@@ -18,33 +18,30 @@ public:
     explicit hC_MKCINS(QDialog *parent = nullptr);
     ~hC_MKCINS();
 
+    hC_Tv                    * CNStview    {} ;
+    QSqlRelationalTableModel * CNSmodel    {} ;
+    QItemSelectionModel      * CNSslctnMdl {} ;
+    QDataWidgetMapper        * CNSmapper   {} ;
 
+    QWidget * winWdgt    {} ;
+    QLabel  * winLabel   {} ;
+    QLabel  * winRsm     {} ;
+    QString * sgnText    {} ;
 
-
-    QString sgnText ;
-
-    void mkcins_setup();
-    QString mkcins_VTd();
-    void mkcins_model(QSqlRelationalTableModel *model);
-
-    //DBase *dbase;
-
-    QLabel *lB_rsm;
-    hC_Tv             *CNStview{};
-    QSqlRelationalTableModel *CNSmodel{} ;
-    QItemSelectionModel      *CNSslctnMdl;
-    QDataWidgetMapper        *CNSmapper;
+    void    mkCins_setup () ;
+    QString mkCins_VTd   () ;
+    void    mkCins_model () ;
 
 private:
+    void mkCins_wdgt  () ;
+    void mkCins_map   () ;
+    void mkCins_ui    () ;
+    void mkCins_view  () ;
+    void mkCins_kntrl () ;
 
-    void set_uiCNS();
-    //void modelCinsi();
-    void set_viewCNS();
-    void set_mapCNS();
-    void set_kntrlCNS();
 
 signals:
-    void sgnCmmy (const QString);
+    void sgnCmmy (QString* sgnCmm);
 };
 
 #endif // MKN_CINSI_H

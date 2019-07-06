@@ -25,20 +25,20 @@ void hC_IE::ie_ui()
 {
     qDebug() << "  ie_ui";
     ////////////////////////////////////////// window
-    ieLb  = new QLabel ("İŞ EMRİ");
-    hC_IE::setWindowTitle (ieLb->text());
+    winLabel  = new QLabel ("İŞ EMRİ");
+    hC_IE::setWindowTitle (winLabel->text());
     hC_IE::setGeometry(20,20,
                        qApp->screens()[0]->size ().rwidth (),
             qApp->screens()[0]->size ().rheight ()/4);
 
 
     /////////////////////////////////////////// tview
-    IEtview = new hC_Tv( IEmodel, IEmapper, ieWdgt );
+    IEtview = new hC_Tv( IEmodel, IEmapper, winWdgt );
 
     ///////////////
-    auto *ieGrid = new QGridLayout(this);
-    ieGrid->addWidget ( IEtview ,  0, 0, 1, 1 );
-    ieGrid->addWidget ( ieWdgt  ,  0, 1, 1, 1 );
+    auto *winGrid = new QGridLayout(this);
+    winGrid->addWidget ( IEtview ,  0, 0, 1, 1 );
+    winGrid->addWidget ( winWdgt  ,  0, 1, 1, 1 );
 
 }
 
@@ -119,34 +119,34 @@ void hC_IE::ie_wdgt ()
     auto lB_y2 = new QLabel("Yetkili - II");
     hClE_yetkili2 = new hC_Le;
 
-    ieRsm = new QLabel ("Resim");
-    hC_Rs resim(ieRsm);
+    winRsm = new QLabel ("Resim");
+    hC_Rs resim(winRsm);
 
     //////////////////////////////////////////////
-    ieWdgt = new QWidget;
-    ieWdgt->setGeometry (0,0,100,300);
-    auto ieGrid = new QGridLayout;
-    ieWdgt->setLayout (ieGrid);
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,100,300);
+    auto wdgtGrid = new QGridLayout;
+    winWdgt->setLayout (wdgtGrid);
 
-    ieGrid->addWidget (lB_ie   , 0,  0, 1, 4);
-    ieGrid->addWidget (lE_ieno , 0,  4, 1, 6);
-    ieGrid->addWidget (lB_mk   , 0, 10, 1, 4);
-    ieGrid->addWidget (hClE_mkn  , 0, 14, 1, 6);
+    wdgtGrid->addWidget (lB_ie   , 0,  0, 1, 4);
+    wdgtGrid->addWidget (lE_ieno , 0,  4, 1, 6);
+    wdgtGrid->addWidget (lB_mk   , 0, 10, 1, 4);
+    wdgtGrid->addWidget (hClE_mkn  , 0, 14, 1, 6);
 
-    ieGrid->addWidget (lB_get    , 1, 0, 1, 4);
-    ieGrid->addWidget (dE_geltar , 1, 4, 1, 6);
-    ieGrid->addWidget (lB_dr     , 2, 0, 1, 4);
-    ieGrid->addWidget (cbX_durum , 2, 4, 1, 6);
-    ieGrid->addWidget (lB_git    , 3, 0, 1, 4);
-    ieGrid->addWidget (dE_girtar , 3, 4, 1, 6);
-    ieGrid->addWidget (lB_cit     , 4, 0, 1, 4);
-    ieGrid->addWidget (dE_ciktar  , 4, 4, 1, 6);
-    ieGrid->addWidget (lB_y1       , 1, 10, 1, 4);
-    ieGrid->addWidget (hClE_yetkili1 , 1, 14, 1, 6);
-    ieGrid->addWidget (lB_y2       , 2, 10, 1, 4);
-    ieGrid->addWidget (hClE_yetkili2 , 2, 14, 1, 6);
-    ieGrid->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
-    ieGrid->addWidget (ieRsm      , 3, 14, 2, 6);
+    wdgtGrid->addWidget (lB_get    , 1, 0, 1, 4);
+    wdgtGrid->addWidget (dE_geltar , 1, 4, 1, 6);
+    wdgtGrid->addWidget (lB_dr     , 2, 0, 1, 4);
+    wdgtGrid->addWidget (cbX_durum , 2, 4, 1, 6);
+    wdgtGrid->addWidget (lB_git    , 3, 0, 1, 4);
+    wdgtGrid->addWidget (dE_girtar , 3, 4, 1, 6);
+    wdgtGrid->addWidget (lB_cit     , 4, 0, 1, 4);
+    wdgtGrid->addWidget (dE_ciktar  , 4, 4, 1, 6);
+    wdgtGrid->addWidget (lB_y1       , 1, 10, 1, 4);
+    wdgtGrid->addWidget (hClE_yetkili1 , 1, 14, 1, 6);
+    wdgtGrid->addWidget (lB_y2       , 2, 10, 1, 4);
+    wdgtGrid->addWidget (hClE_yetkili2 , 2, 14, 1, 6);
+    wdgtGrid->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
+    wdgtGrid->addWidget (winRsm      , 3, 14, 2, 6);
 
 
 }
@@ -285,7 +285,7 @@ void hC_IE::ie_kntrl()
     connect(IEtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(ieRsm, IEtview, IEmodel, IEslctnMdl,
+        hC_Rs resim(winRsm, IEtview, IEmodel, IEslctnMdl,
                     "resim", "ekle");
     });
 
@@ -293,7 +293,7 @@ void hC_IE::ie_kntrl()
     connect(  IEslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( ieRsm, IEtview, IEmodel, IEslctnMdl,
+        hC_Rs resim ( winRsm, IEtview, IEmodel, IEslctnMdl,
                       "resim", "değiştir" ) ;
     });
 

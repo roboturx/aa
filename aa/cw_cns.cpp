@@ -2389,7 +2389,7 @@ void Cw_mkn::onmnMKN_IEekle()
     IEL->addWidget(pb_yy   ,9,4,1,1,nullptr);
     connect (pb_yy, &QPushButton::clicked, this, &Cw_mkn::clk_IEyyer);
 */
-    //QLabel *lB_rsm = new QLabel("Resim");
+    //QLabel *winRsm = new QLabel("Resim");
 
 
     QPushButton *pb_kaydetIE = new QPushButton("Yeni Ekle");

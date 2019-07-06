@@ -26,9 +26,9 @@ public:
     QItemSelectionModel      * CLSNslctnMdl {} ;
     QDataWidgetMapper        * CLSNmapper   {} ;
 
-    QWidget * clsnWdgt   {} ;
-    QLabel  * lB_clsn    {} ;
-    QLabel  * lB_clsnrsm {} ;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
 
     QLineEdit   *lE_isim=nullptr    ;
     QLineEdit   *lE_soyad=nullptr   ;

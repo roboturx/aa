@@ -19,9 +19,9 @@ public:
     QItemSelectionModel      * IEDETslctnMdl {} ;
     QDataWidgetMapper        * IEDETmapper   {} ;
 
-    QWidget * iedetWdgt {} ;
-    QLabel  * iedetLb   {} ;
-    QLabel  * iedetRsm  {} ;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm {} ;
 
     hC_IE* ie  {} ;
     int* ienoo {} ;

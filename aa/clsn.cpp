@@ -27,20 +27,18 @@ void hC_CLSN::clsn_ui()
 
     qDebug() << "  clsn_ui";
     ////////////////////////////////////////// window
-    lB_clsn = new QLabel("ÇALIŞAN BİLGİLERİ");
-    hC_CLSN::setWindowTitle (lB_clsn->text ());
+    winLabel = new QLabel("ÇALIŞAN BİLGİLERİ");
+    hC_CLSN::setWindowTitle (winLabel->text ());
 
-    lB_clsnrsm = new QLabel ("Resim");
-    hC_Rs resim(lB_clsnrsm);
 
     // ///////////////////////////////////////////////////////
     // views
-    CLSNtview = new hC_Tv(CLSNmodel, CLSNmapper, clsnWdgt);
+    CLSNtview = new hC_Tv(CLSNmodel, CLSNmapper, winWdgt);
 
     /////*******************************************////////
     auto *gridClsn = new QGridLayout(this);
     gridClsn->addWidget (CLSNtview  , 0, 0, 1, 1);
-    gridClsn->addWidget (clsnWdgt   , 0, 1, 1, 1);
+    gridClsn->addWidget (winWdgt   , 0, 1, 1, 1);
 }
 void hC_CLSN::clsn_wdgt()
 {
@@ -111,56 +109,60 @@ void hC_CLSN::clsn_wdgt()
     auto *lB_password = new QLabel("Şi&fre"  ); lE_password = new QLineEdit(); lB_password->setBuddy(lE_password);
     auto *lB_yetki    = new QLabel("&Yetki"  ); lE_yetki = new QLineEdit(); lB_yetki->setBuddy(lE_yetki);
 
+    winRsm = new QLabel ("Resim");
+    hC_Rs resim(winRsm);
+
+
     ///////////////////////////////////////
-    clsnWdgt = new QWidget;
-    clsnWdgt->setGeometry (0,0,800,300);
-    auto clsnGrid = new QGridLayout();
-    clsnWdgt->setLayout(clsnGrid);
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto winGrid = new QGridLayout();
+    winWdgt->setLayout(winGrid);
 
     ///////////////////////////////////////
 
-    CLSNtview->table->setMinimumWidth (200);
+    //CLSNtview->table->setMinimumWidth (200);
     lB_isim->setMinimumSize (100,25);
     lE_isim->setMinimumSize (100,25);
     lB_sehir->setMinimumSize (100,25);
     lE_sehir->setMinimumSize (150,25);
 
 
-    clsnGrid->addWidget(lB_isim      , 0, 0, 1, 1);
-    clsnGrid->addWidget(lE_isim      , 0, 1, 1, 2);
-    clsnGrid->addWidget(lB_soyad     , 1, 0, 1, 1);
-    clsnGrid->addWidget(lE_soyad     , 1, 1, 1, 2);
-    clsnGrid->addWidget(lB_tc        , 2, 0, 1, 1);
-    clsnGrid->addWidget(lE_tc        , 2, 1, 1, 2);
-    clsnGrid->addWidget(lB_doyer     , 3, 0, 1, 1);
-    clsnGrid->addWidget(lE_doyer     , 3, 1, 1, 2);
-    clsnGrid->addWidget(lB_dotar     , 4, 0, 1, 1);
-    clsnGrid->addWidget(dT_dotar     , 4, 1, 1, 2);
-    clsnGrid->addWidget(lB_baba      , 5, 0, 1, 1);
-    clsnGrid->addWidget(lE_baba      , 5, 1, 1, 2);
-    clsnGrid->addWidget(lB_meslek    , 6, 0, 1, 1);
-    clsnGrid->addWidget(lE_meslek    , 6, 1, 1, 2);
-    clsnGrid->addWidget(lB_bolum     , 7, 0, 1, 1);
-    clsnGrid->addWidget(lE_bolum     , 7, 1, 1, 2);
-    clsnGrid->addWidget(lB_gorev     , 8, 0, 1, 1);
-    clsnGrid->addWidget(lE_gorev     , 8, 1, 1, 2);
-    clsnGrid->addWidget(lB_adres     , 9, 0, 1, 1);
-    clsnGrid->addWidget(lE_adres     , 9, 1, 1, 2);
-    clsnGrid->addWidget(lB_sehir     , 0, 3, 1, 1);
-    clsnGrid->addWidget(lE_sehir     , 0, 4, 1, 2);
-    clsnGrid->addWidget(lB_tel_cep   , 1, 3, 1, 1);
-    clsnGrid->addWidget(lE_tel_cep   , 1, 4, 1, 2);
-    clsnGrid->addWidget(lB_tel_ev    , 2, 3, 1, 1);
-    clsnGrid->addWidget(lE_tel_ev    , 2, 4, 1, 2);
-    clsnGrid->addWidget(lB_eposta    , 3, 3, 1, 1);
-    clsnGrid->addWidget(lE_eposta    , 3, 4, 1, 2);
-    clsnGrid->addWidget(lB_username  , 4, 3, 1, 1);
-    clsnGrid->addWidget(lE_username  , 4, 4, 1, 2);
-    clsnGrid->addWidget(lB_password  , 5, 3, 1, 1);
-    clsnGrid->addWidget(lE_password  , 5, 4, 1, 2);
-    clsnGrid->addWidget(lB_yetki     , 6, 3, 1, 1);
-    clsnGrid->addWidget(lE_yetki     , 6, 4, 1, 2);
-    clsnGrid->addWidget(lB_clsnrsm       , 7, 4, 3, 2);
+    winGrid->addWidget(lB_isim      , 0, 0, 1, 1);
+    winGrid->addWidget(lE_isim      , 0, 1, 1, 2);
+    winGrid->addWidget(lB_soyad     , 1, 0, 1, 1);
+    winGrid->addWidget(lE_soyad     , 1, 1, 1, 2);
+    winGrid->addWidget(lB_tc        , 2, 0, 1, 1);
+    winGrid->addWidget(lE_tc        , 2, 1, 1, 2);
+    winGrid->addWidget(lB_doyer     , 3, 0, 1, 1);
+    winGrid->addWidget(lE_doyer     , 3, 1, 1, 2);
+    winGrid->addWidget(lB_dotar     , 4, 0, 1, 1);
+    winGrid->addWidget(dT_dotar     , 4, 1, 1, 2);
+    winGrid->addWidget(lB_baba      , 5, 0, 1, 1);
+    winGrid->addWidget(lE_baba      , 5, 1, 1, 2);
+    winGrid->addWidget(lB_meslek    , 6, 0, 1, 1);
+    winGrid->addWidget(lE_meslek    , 6, 1, 1, 2);
+    winGrid->addWidget(lB_bolum     , 7, 0, 1, 1);
+    winGrid->addWidget(lE_bolum     , 7, 1, 1, 2);
+    winGrid->addWidget(lB_gorev     , 8, 0, 1, 1);
+    winGrid->addWidget(lE_gorev     , 8, 1, 1, 2);
+    winGrid->addWidget(lB_adres     , 9, 0, 1, 1);
+    winGrid->addWidget(lE_adres     , 9, 1, 1, 2);
+    winGrid->addWidget(lB_sehir     , 0, 3, 1, 1);
+    winGrid->addWidget(lE_sehir     , 0, 4, 1, 2);
+    winGrid->addWidget(lB_tel_cep   , 1, 3, 1, 1);
+    winGrid->addWidget(lE_tel_cep   , 1, 4, 1, 2);
+    winGrid->addWidget(lB_tel_ev    , 2, 3, 1, 1);
+    winGrid->addWidget(lE_tel_ev    , 2, 4, 1, 2);
+    winGrid->addWidget(lB_eposta    , 3, 3, 1, 1);
+    winGrid->addWidget(lE_eposta    , 3, 4, 1, 2);
+    winGrid->addWidget(lB_username  , 4, 3, 1, 1);
+    winGrid->addWidget(lE_username  , 4, 4, 1, 2);
+    winGrid->addWidget(lB_password  , 5, 3, 1, 1);
+    winGrid->addWidget(lE_password  , 5, 4, 1, 2);
+    winGrid->addWidget(lB_yetki     , 6, 3, 1, 1);
+    winGrid->addWidget(lE_yetki     , 6, 4, 1, 2);
+    winGrid->addWidget(winRsm       , 7, 4, 3, 2);
 
 }
 void hC_CLSN::clsn_view()
@@ -211,7 +213,7 @@ void hC_CLSN::clsn_map()
     CLSNmapper->addMapping (lE_username, CLSNmodel->fieldIndex("clsn_username"));
     CLSNmapper->addMapping (lE_password, CLSNmodel->fieldIndex("clsn_password"));
     CLSNmapper->addMapping (lE_yetki, CLSNmodel->fieldIndex("clsn_yetki"));
-    CLSNmapper->addMapping (lB_rsm, CLSNmodel->fieldIndex("resim"));
+    //CLSNmapper->addMapping (winRsm, CLSNmodel->fieldIndex("resim"));
     qDebug()<<"clsn view son";
     CLSNmapper->toFirst ();
 }
@@ -254,7 +256,7 @@ void hC_CLSN::clsn_kntrl()
             [this]()
     {
         qDebug() << "new resim";
-        hC_Rs resim(lB_clsnrsm, CLSNtview, CLSNmodel, CLSNslctnMdl,
+        hC_Rs resim( winRsm, CLSNtview, CLSNmodel, CLSNslctnMdl,
                     "resim", "ekle");
     });
 
@@ -262,7 +264,7 @@ void hC_CLSN::clsn_kntrl()
     connect(  CLSNslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_clsnrsm, CLSNtview, CLSNmodel, CLSNslctnMdl,
+        hC_Rs resim ( winRsm, CLSNtview, CLSNmodel, CLSNslctnMdl,
                       "resim", "değiştir" ) ;
     });
 

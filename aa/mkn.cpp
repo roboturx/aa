@@ -27,14 +27,14 @@ void hC_MKN::mkn_ui()
 {
     qDebug ()  <<"mkn ui";
 
-    mknLb = new QLabel("ARAÇ BİLGİLERİ");
-    this->setWindowTitle (mknLb->text ());
+    winLabel = new QLabel("ARAÇ BİLGİLERİ");
+    this->setWindowTitle (winLabel->text ());
 
-    MKNtview    = new hC_Tv (MKNmodel, MKNmapper, mknWdgt);
+    MKNtview    = new hC_Tv (MKNmodel, MKNmapper, winWdgt);
 
     auto *mkn_l = new QGridLayout;
     mkn_l->addWidget ( MKNtview   , 0, 0, 1, 1 );
-    mkn_l->addWidget ( mknWdgt  , 0, 1, 1, 1 );
+    mkn_l->addWidget ( winWdgt  , 0, 1, 1, 1 );
     //mkn_l->addWidget(wdgt_mppr  , 3, 6, 3, 5 );
 
     this->setLayout (mkn_l);
@@ -84,7 +84,7 @@ void hC_MKN::mkn_wdgt()
 
         auto *c = new hC_MKCINS ;
 
-        c->mkcins_setup ();
+        c->mkCins_setup ();
 
 
 
@@ -97,9 +97,9 @@ void hC_MKN::mkn_wdgt()
         // ----------------------------------------------------
 
         connect (c , &hC_MKCINS::sgnCmmy ,
-                 [ this ] ( QString sgnText )
+                 [ this ] ( QString * sgnText )
         {
-            lE_cins->lineEdit->setText ( sgnText );
+            lE_cins->lineEdit->setText ( *sgnText );
             lE_cins->lineEdit->setFocus();
         });
 
@@ -107,7 +107,7 @@ void hC_MKN::mkn_wdgt()
 
         // seçebilmek için pencere
         auto *cm = new hC_MKMARK ;
-        cm->mkmark_setup ();
+        cm->mkMark_setup ();
 
         /////////////////////////////////////////////////////////////////////////////////
         // ----------------------------------------------------
@@ -117,10 +117,10 @@ void hC_MKN::mkn_wdgt()
         // seçim yapılan textedit e aktaralım
         // ----------------------------------------------------
 
-        connect (cm , &hC_MKMARK::sgnCmmy ,
-                 [ this ] ( QString sgnText )
+        connect (cm , &hC_MKMARK::sgnmkMark ,
+                 [ this ] ( QString* sgnText )
         {
-            lE_mark->lineEdit->setText ( sgnText );
+            lE_mark->lineEdit->setText ( *sgnText );
             lE_mark->lineEdit->setFocus();
         });
         //cm->show ();
@@ -128,7 +128,7 @@ void hC_MKN::mkn_wdgt()
 
         // seçebilmek için pencere
         auto *cmm = new hC_MKMODL ;
-        cmm->mkmodl_setup ();
+        cmm->mkModl_setup ();
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -139,10 +139,10 @@ void hC_MKN::mkn_wdgt()
         // seçim yapılan textedit e aktaralım
         // ----------------------------------------------------
 
-        connect (cmm , &hC_MKMODL::sgnCmmy ,
-                 [ this ] ( QString sgnText )
+        connect (cmm , &hC_MKMODL::sgnmkModl ,
+                 [ this ] ( QString* sgnText )
         {
-            lE_modl->lineEdit->setText ( sgnText );
+            lE_modl->lineEdit->setText (* sgnText );
             lE_modl->lineEdit->setFocus();
         });
         //cmmy->show ();
@@ -280,7 +280,7 @@ void hC_MKN::mkn_wdgt()
 
     QLabel *lB_mknBirim = new QLabel("Birim   ");
     cbx_mknBirim  = new QComboBox;
-    pb_mknBirim = new QPushButton;
+    //pb_mknBirim = new QPushButton;
    // connect( pb_mknBirim, &QPushButton::clicked, this, &hC_MKN::birim);
    // lB_mknBirim->setBuddy(cbx_mknBirim);
 
@@ -297,15 +297,15 @@ void hC_MKN::mkn_wdgt()
     lB_mknAcklm->setBuddy(ted_mknAcklm);
 
 
-    mknRsm = new QLabel;
-    hC_Rs resim(mknRsm);
+    winRsm = new QLabel;
+    hC_Rs resim(winRsm);
 
 
     ///////////////////////////////////////
-    mknWdgt = new QWidget;
-    mknWdgt->setGeometry (0,0,800,300);
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
     auto mknGrid = new QGridLayout();
-    mknWdgt->setLayout(mknGrid);
+    winWdgt->setLayout(mknGrid);
 
     ///////////////////////////////////////
     led_mknPlaka->setMinimumSize (200,25);
@@ -504,7 +504,7 @@ void hC_MKN::mkn_kntrl()
     connect(MKNtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(mknRsm, MKNtview, MKNmodel, MKNslctnMdl,
+        hC_Rs resim(winRsm, MKNtview, MKNmodel, MKNslctnMdl,
                            "mkn_resim", "ekle");
     });
 
@@ -512,7 +512,7 @@ void hC_MKN::mkn_kntrl()
     connect(  MKNslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( mknRsm, MKNtview, MKNmodel, MKNslctnMdl,
+        hC_Rs resim ( winRsm, MKNtview, MKNmodel, MKNslctnMdl,
                            "mkn_resim","değiştir" ) ;
     });
 
@@ -1061,9 +1061,9 @@ hC_MKN::~hC_MKN()
 
 
 
-
-void hC_MKN::mknKurumno_ara()
-{
+//
+//void hC_MKN::mknKurumno_ara()
+//{
 
 
 
@@ -1098,7 +1098,7 @@ void hC_MKN::mknKurumno_ara()
 
 
 
-}
+//}
 
 
 ///

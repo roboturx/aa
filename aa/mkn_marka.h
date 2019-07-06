@@ -18,31 +18,30 @@ public:
     explicit hC_MKMARK(QDialog *parent = nullptr);
     ~hC_MKMARK();
 
+    hC_Tv                    * MRKtview    {} ;
+    QSqlRelationalTableModel * MRKmodel    {} ;
+    QItemSelectionModel      * MRKslctnMdl {} ;
+    QDataWidgetMapper        * MRKmapper   {} ;
 
-    QString sgnText{};
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
+    QString * sgnText  {} ;
 
-    void mkmark_setup();
-    QString mkmark_VTd();
-    void mkmark_model(QSqlRelationalTableModel *model);
+    void    mkMark_setup () ;
+    QString mkMark_VTd   () ;
+    void    mkMark_model () ;
 
-    QLabel *lB_rsm;
-    //DBase *dbase;
-    hC_Tv             *MRKtview{};
-    QSqlRelationalTableModel *MRKmodel{} ;
-    QItemSelectionModel      *MRKslctnMdl;
-    QDataWidgetMapper        *MRKmapper;
 
 private:
-
-    void set_uiMRK();
-
-    void set_modelMRK();
-    void set_viewMRK();
-    void set_mapMRK();
-    void set_kntrlMRK();
+    void mkMark_wdgt  () ;
+    void mkMark_map   () ;
+    void mkMark_ui    () ;
+    void mkMark_view  () ;
+    void mkMark_kntrl () ;
 
 signals:
-    void sgnCmmy (const QString);
+    void sgnmkMark (QString*);
 };
 
 #endif // MKN_MARKA_H

@@ -3,71 +3,75 @@
 
 hC_MKMODL::hC_MKMODL(QDialog *parent) : QDialog(parent)
 {
+
+    //************************************************************
+    //*****************  M K  M O D L ****************************
+    qDebug() << "Cnstrctr mkmodl";
 }
 
-void hC_MKMODL::mkmodl_setup()
+void hC_MKMODL::mkModl_setup()
 {
 
     qDebug ()  <<"MODEL ";
-    set_uiMDL();
-
-    qDebug() << "  set_modelmdl";
-    MDLmodel = new QSqlRelationalTableModel ;
-    mkmodl_model ( MDLmodel ) ;
-
-    set_viewMDL ();
-    set_mapMDL ();
-    set_kntrlMDL ();
+    mkModl_VTd   () ;
+    mkModl_model () ;
+    mkModl_wdgt  () ;
+    mkModl_map   () ;
+    mkModl_ui    () ;
+    mkModl_view  () ;
+    mkModl_kntrl () ;
 }
 
 
-void hC_MKMODL::set_uiMDL()
+void hC_MKMODL::mkModl_ui()
 {
-    qDebug() << "  set_uimodl";
+    qDebug() << "  mkModl_ui";
 
-    this->setWindowTitle ("Model Giriş");
+    winLabel = new QLabel("ARAÇ MODEL");
+    this->setWindowTitle (winLabel->text ());
     this->setGeometry(500,50,300,600);
     // this->showMaximized ();
 
-    //auto *pnc = new QWidget(this);
+    MDLtview = new hC_Tv (MDLmodel, MDLmapper, winWdgt);
 
-    lB_rsm = new QLabel ("Resim");
-    lB_rsm->setMinimumSize(60,100);
-    hC_Rs resim (lB_rsm);
+    auto *winGrid = new QGridLayout();
 
-    MDLtview = new hC_Tv;
+    winGrid->addWidget( winRsm     , 0,   0 , 1, 1);
+    winGrid->addWidget( MDLtview   , 1,   0 , 4, 1);
 
-    auto *gL = new QGridLayout();
-
-    gL->addWidget( lB_rsm     , 0,   0 , 1, 1);
-    gL->addWidget( MDLtview   , 1,   0 , 4, 1);
-
-    this->setLayout(gL);
+    this->setLayout(winGrid);
 
 }
 
-void hC_MKMODL::set_viewMDL()
+void hC_MKMODL::mkModl_wdgt()
+{
+    winRsm = new QLabel ("Resim");
+    winRsm->setMinimumSize(60,100);
+    hC_Rs resim (winRsm);
+
+    ///////////////////////////////////////
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto wdgtGrid = new QGridLayout();
+    winWdgt->setLayout(wdgtGrid);
+
+    ///////////////////////////////////////
+
+    wdgtGrid ->addWidget(winRsm  , 0, 0, 1, 1);
+}
+
+
+void hC_MKMODL::mkModl_view()
 {
 
     // Set the model and hide the ID column
     MDLtview-> table-> setModel(MDLmodel);
-    MDLtview-> table-> setSelectionMode(QAbstractItemView::SingleSelection);
-    MDLtview-> table-> setSelectionBehavior(QAbstractItemView::SelectItems);
     MDLslctnMdl = MDLtview-> table-> selectionModel();
 
 
     MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("resim"), true);
     MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("mkmark_no"), true);
     MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("id_mkmodl"), true);
-
-    MDLtview->table->setEditTriggers
-            (QAbstractItemView::DoubleClicked |
-             QAbstractItemView::SelectedClicked |
-             QAbstractItemView::EditKeyPressed);
-    MDLtview->table->horizontalHeader()->setStretchLastSection(true);
-    MDLtview->table->horizontalHeader()->resizeContentsPrecision();
-    MDLtview->table->resizeRowsToContents ();
-    MDLtview->table->resizeColumnsToContents();
 
     // select first item
     // selection model does not hide the frm_kod
@@ -82,10 +86,10 @@ void hC_MKMODL::set_viewMDL()
 
 }
 
-void hC_MKMODL::set_mapMDL()
+void hC_MKMODL::mkModl_map()
 {
 
-    qDebug()<<"setup mapmodeli";
+    qDebug()<<"  mkModl map";
     MDLmapper = new QDataWidgetMapper(this);
     MDLmapper->setModel(MDLmodel);
 
@@ -95,9 +99,9 @@ void hC_MKMODL::set_mapMDL()
 
 }
 
-void hC_MKMODL::set_kntrlMDL()
+void hC_MKMODL::mkModl_kntrl()
 {
-qDebug()<<"kntrl mdl ";
+qDebug()<<"  mkModl kntrl";
     // pB 001 yeni ekle
     connect(MDLtview->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -114,7 +118,7 @@ qDebug()<<"kntrl mdl ";
         }
 */
         QSqlQuery *q = new QSqlQuery;
-        if (q->exec("INSERT INTO mkmodl__dbtb ( mkmark_no )"
+        if (q->exec("INSERT INTO mkModl__dbtb ( mkmark_no )"
                     " values(" + QString::number( 1 ) +   ")"   ))
             qDebug () <<"Yeni Kayıt - "<< 1 << " -   Eklendi";
         else
@@ -131,7 +135,7 @@ qDebug()<<"kntrl mdl ";
     connect(MDLtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLslctnMdl,
+        hC_Rs resim ( winRsm, MDLtview, MDLmodel, MDLslctnMdl,
                            "resim", "ekle");
     });
 
@@ -139,8 +143,7 @@ qDebug()<<"kntrl mdl ";
     connect(  MDLslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        qDebug()<<"kntrl mdl11111 ";
-        hC_Rs resim ( lB_rsm, MDLtview, MDLmodel, MDLslctnMdl,
+        hC_Rs resim ( winRsm, MDLtview, MDLmodel, MDLslctnMdl,
                            "resim", "değiştir" ) ;
     });
 
@@ -229,14 +232,14 @@ qDebug()<<"kntrl mdl ";
 
             // 011-02 marka row değiştiğinde cmmy etrafa yayınlayalım
             QModelIndex Index = MDLtview->table->currentIndex ();
-
-            sgnText = MDLtview->table->model()->index( Index.row() ,
+            sgnText = new QString;
+            *sgnText = MDLtview->table->model()->index( Index.row() ,
                                                      MDLmodel->fieldIndex
                                                      ("modeli") ).data().toString() ;
 
 
 
-            emit hC_MKMODL::sgnCmmy (sgnText);
+            emit hC_MKMODL::sgnmkModl (sgnText);
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
@@ -269,10 +272,10 @@ hC_MKMODL::~hC_MKMODL()
 ///// MODEL
 ///
 ///
-QString hC_MKMODL::mkmodl_VTd()
+QString hC_MKMODL::mkModl_VTd()
 {
     //qDebug() << " db Modeli CREATE  ";
-    QString ct, mesaj = "OK - Model";
+    QString ct, mesaj = "  OK - Model";
     QSqlQuery q;
     QString MDLtableName ( "mkmodl__dbtb");
 
@@ -342,9 +345,9 @@ QString hC_MKMODL::mkmodl_VTd()
 
 
 
-void hC_MKMODL::mkmodl_model ( QSqlRelationalTableModel *model)
+void hC_MKMODL::mkModl_model ()
 {
-    qDebug() << " db model"<< model;
+    qDebug() << "  db model";
 
     QStringList *tB_FieldList = new QStringList ;
     tB_FieldList->append("Model");
@@ -352,11 +355,11 @@ void hC_MKMODL::mkmodl_model ( QSqlRelationalTableModel *model)
     tB_FieldList->append("Marka Nosu");
     tB_FieldList->append("Model kodu");
 
-    QString MODLtableName{"mkmodl__dbtb"} ;
+    QString MODLtableName{"mkModl__dbtb"} ;
     QString indexField = "modeli";
-
+    MDLmodel = new QSqlRelationalTableModel ;
     hC_Rm hC_Rm ( &MODLtableName,
-                  model,
+                  MDLmodel,
                   &indexField ,
                   tB_FieldList) ;
 

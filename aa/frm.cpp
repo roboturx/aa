@@ -29,21 +29,21 @@ void hC_FRM::frm_ui()
 {
 
     qDebug() << "  frm_ui";
-    frmLb = new QLabel("FİRMA BİLGİLERİ");
-    hC_FRM::setWindowTitle ( frmLb->text ());
+    winLabel = new QLabel("FİRMA BİLGİLERİ");
+    hC_FRM::setWindowTitle ( winLabel->text ());
 
     /////////////////////////////////////////////////////////
     // views
-    FRMtview = new hC_Tv( FRMmodel, FRMmapper, frmWdgt);
+    FRMtview = new hC_Tv( FRMmodel, FRMmapper, winWdgt);
 
     // /////////////////////////////////////
     // main layout
 
-    auto *frmGrid = new QGridLayout(this);
-    frmGrid->addWidget ( FRMtview ,0 ,0 ,1 ,3 );
-    frmGrid->addLayout ( frmGrid  ,0 ,3 ,1 ,7 );
- //   lYG_per->addWidget ( lB_rsm   ,1 ,3 ,1 ,7 );
-
+    auto *winGrid = new QGridLayout;
+    winGrid->addWidget ( FRMtview  ,0 ,0 ,1 ,3 );
+    winGrid->addWidget ( winWdgt  ,0 ,3 ,1 ,7 );
+ //   lYG_per->addWidget ( winRsm   ,1 ,3 ,1 ,7 );
+    this->setLayout (winGrid);
 }
 
 void hC_FRM::frm_wdgt()
@@ -85,15 +85,15 @@ void hC_FRM::frm_wdgt()
     lB_ytel->setBuddy(lE_ytel);
 
 
-    frmRsm = new QLabel ("Resim");
-    hC_Rs resim(frmRsm);
+    winRsm = new QLabel ("Resim");
+    hC_Rs resim(winRsm);
 
 
     ///////////////////////////////////////
-    frmWdgt = new QWidget;
-    frmWdgt->setGeometry (0,0,800,300);
-    auto frmGrid = new QGridLayout();
-    frmWdgt->setLayout(frmGrid);
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto wdgtGrid = new QGridLayout();
+    winWdgt->setLayout(wdgtGrid);
 
     ///////////////////////////////////////
 
@@ -102,27 +102,27 @@ void hC_FRM::frm_wdgt()
     lE_sehir->setMinimumSize (150,25);
 
 
-    frmGrid->addWidget(lB_unvan   , 0, 0, 1, 1);
-    frmGrid->addWidget(lE_unvan   , 0, 1, 1, 2);
-    frmGrid->addWidget(lB_adres   , 1, 0, 1, 1);
-    frmGrid->addWidget(lE_adres   , 1, 1, 1, 2);
-    frmGrid->addWidget(lB_sehir   , 2, 0, 1, 1);
-    frmGrid->addWidget(lE_sehir   , 2, 1, 1, 2);
-    frmGrid->addWidget(lB_vd      , 3, 0, 1, 1);
-    frmGrid->addWidget(lE_vd      , 3, 1, 1, 2);
-    frmGrid->addWidget(lB_vdno    , 4, 0, 1, 1);
-    frmGrid->addWidget(lE_vdno    , 4, 1, 1, 2);
-    frmGrid->addWidget(lB_tel     , 5, 0, 1, 1);
-    frmGrid->addWidget(lE_tel     , 5, 1, 1, 2);
-    frmGrid->addWidget(lB_eposta  , 6, 0, 1, 1);
-    frmGrid->addWidget(lE_eposta  , 6, 1, 1, 2);
-    frmGrid->addWidget(lB_yisim   , 7, 0, 1, 1);
-    frmGrid->addWidget(lE_yisim   , 7, 1, 1, 2);
-    frmGrid->addWidget(lB_ysoyad  , 8, 0, 1, 1);
-    frmGrid->addWidget(lE_ysoyad  , 8, 1, 1, 2);
-    frmGrid->addWidget(lB_ytel    , 9, 0, 1, 1);
-    frmGrid->addWidget(lE_ytel    , 9, 1, 1, 2);
-    frmGrid->addWidget(frmRsm     ,10, 1, 2, 2);
+    wdgtGrid->addWidget(lB_unvan   , 0, 0, 1, 1);
+    wdgtGrid->addWidget(lE_unvan   , 0, 1, 1, 2);
+    wdgtGrid->addWidget(lB_adres   , 1, 0, 1, 1);
+    wdgtGrid->addWidget(lE_adres   , 1, 1, 1, 2);
+    wdgtGrid->addWidget(lB_sehir   , 2, 0, 1, 1);
+    wdgtGrid->addWidget(lE_sehir   , 2, 1, 1, 2);
+    wdgtGrid->addWidget(lB_vd      , 3, 0, 1, 1);
+    wdgtGrid->addWidget(lE_vd      , 3, 1, 1, 2);
+    wdgtGrid->addWidget(lB_vdno    , 4, 0, 1, 1);
+    wdgtGrid->addWidget(lE_vdno    , 4, 1, 1, 2);
+    wdgtGrid->addWidget(lB_tel     , 5, 0, 1, 1);
+    wdgtGrid->addWidget(lE_tel     , 5, 1, 1, 2);
+    wdgtGrid->addWidget(lB_eposta  , 6, 0, 1, 1);
+    wdgtGrid->addWidget(lE_eposta  , 6, 1, 1, 2);
+    wdgtGrid->addWidget(lB_yisim   , 7, 0, 1, 1);
+    wdgtGrid->addWidget(lE_yisim   , 7, 1, 1, 2);
+    wdgtGrid->addWidget(lB_ysoyad  , 8, 0, 1, 1);
+    wdgtGrid->addWidget(lE_ysoyad  , 8, 1, 1, 2);
+    wdgtGrid->addWidget(lB_ytel    , 9, 0, 1, 1);
+    wdgtGrid->addWidget(lE_ytel    , 9, 1, 1, 2);
+    wdgtGrid->addWidget(winRsm     ,10, 1, 2, 2);
 
 }
 
@@ -167,7 +167,7 @@ void hC_FRM::frm_map()
     FRMmapper->addMapping(lE_yisim, FRMmodel->fieldIndex("frm_yisim"));
     FRMmapper->addMapping(lE_ysoyad, FRMmodel->fieldIndex("frm_ysoyad"));
     FRMmapper->addMapping(lE_ytel, FRMmodel->fieldIndex("frm_ytel"));
-    FRMmapper->addMapping(lB_rsm, FRMmodel->fieldIndex("frm_resim"));
+    //FRMmapper->addMapping(winRsm, FRMmodel->fieldIndex("frm_resim"));
 
     /// firma ilk kayıda
     hC_FRM::FRMmapper->toFirst ();
@@ -196,7 +196,7 @@ void hC_FRM::frm_kntrl()
     connect(FRMtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(lB_rsm, FRMtview, FRMmodel, FRMslctnMdl,
+        hC_Rs resim(winRsm, FRMtview, FRMmodel, FRMslctnMdl,
                            "frm_resim", "ekle");
     });
 
@@ -204,7 +204,7 @@ void hC_FRM::frm_kntrl()
     connect(  FRMslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, FRMtview, FRMmodel, FRMslctnMdl,
+        hC_Rs resim ( winRsm, FRMtview, FRMmodel, FRMslctnMdl,
                            "frm_resim", "değiştir" ) ;
     });
 

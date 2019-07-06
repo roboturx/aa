@@ -17,32 +17,29 @@ public:
     explicit hC_TSNR(QWidget *parent = nullptr);
     ~hC_TSNR();
 
-public:
+    hC_Tv                    * TSNRtview    {} ;
+    QSqlRelationalTableModel * TSNRmodel    {} ;
+    QItemSelectionModel      * TSNRslctnMdl {} ;
+    QDataWidgetMapper        * TSNRmapper   {} ;
 
-    // TS    -  Taşınır
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
+
 
     void    tsnr_setup();
     QString tsnr_VTd();
-    void    tsnr_model(QSqlRelationalTableModel * );
+    void    tsnr_model();
 
-    hC_Tv*                    TSNRtview;
-    QSqlRelationalTableModel* TSNRmodel{};
-    QItemSelectionModel*      TSNRslctnMdl;
-    QDataWidgetMapper*        TSNRmapper;
 
 
 private:
-    void tsnr_ui()   ;
-    void tsnr_view() ;
-    void tsnr_map()  ;
-    void tsnr_kntrl();
-
+    void tsnr_wdgt  () ;
+    void tsnr_map   () ;
+    void tsnr_ui    () ;
+    void tsnr_view  () ;
+    void tsnr_kntrl () ;
 public:
-
-    // TS variable
-    QLabel* lB_rsm ;
-    QLabel* lB_tsnr;
-
 
 
     QComboBox *cbx_TSmlzm{};

@@ -20,15 +20,15 @@ public:
     QItemSelectionModel      * FRMslctnMdl {} ;
     QDataWidgetMapper        * FRMmapper   {} ;
 
-    QWidget * frmWdgt  {} ;
-    QLabel  * frmLb    {} ;
-    QLabel  * frmRsm   {} ;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel    {} ;
+    QLabel  * winRsm   {} ;
 
     int       meslekIndex{} ;
     QComboBox   *cb_meslek{};
     QGroupBox   *gB_map{}   ;
     QLabel      *lB_fr{}    ;
-    QLabel      *lB_rsm{}   ;
+
     QLineEdit   *lE_unvan{} ;
     QLineEdit   *lE_adres{} ;
     QLineEdit   *lE_sehir{} ;

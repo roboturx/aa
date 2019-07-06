@@ -2,125 +2,138 @@
 
 hC_TSNR::hC_TSNR(QWidget *parent) : QWidget (parent)
 {
-    qDebug ()<<"Taşınır İstek Constructor";
+    qDebug ()<<"cnstrct Taşınır İstek ";
     //************************************************************
     //************  T A Ş I N I R   İ S T E K  *******************
 }
 
 void hC_TSNR::tsnr_setup()
 {
-    qDebug() << "tsnr setup ";
-    tsnr_VTd();
-    tsnr_ui();
-
-    TSNRmodel = new QSqlRelationalTableModel;
-    tsnr_model( TSNRmodel ) ;
-
-    tsnr_view();
-    tsnr_map();
-    tsnr_kntrl ();
-
+    qDebug() << "  tsnr setup ";
+    tsnr_VTd   () ;
+    tsnr_model () ;
+    tsnr_wdgt  () ;
+    tsnr_map   () ;
+    tsnr_ui    () ;
+    tsnr_view  () ;
+    tsnr_kntrl () ;
 }
 
 
 void hC_TSNR::tsnr_ui()
 {
     qDebug() << "  TSNR_ui";
-    hC_TSNR::setWindowTitle ("TAŞINIR İSTEK");
-    hC_TSNR::showMaximized ();
-    auto *gLl = new QGridLayout(this);
+    winLabel = new QLabel("TAŞINIR İSTEK");
+    hC_TSNR::setWindowTitle (winLabel->text ());
 
-    lB_rsm = new QLabel("Resim ");
-    lB_tsnr = new QLabel("Taşınır İstek");
+
+
 
     // ///////////////////////////////////////////////////////
     // views
-    TSNRtview = new hC_Tv;
-
-    /////*******************************************////////
-
-    QWidget *wdgt_TSekle = new QWidget;
-    wdgt_TSekle->setWindowTitle("Taşınır Yeni Kayıt");
-    wdgt_TSekle->setVisible(false);
-    wdgt_TSekle->show();
-
-    auto *TsL = new QGridLayout;
-    wdgt_TSekle->setLayout(TsL);
+    TSNRtview = new hC_Tv (TSNRmodel, TSNRmapper, winWdgt);
 
 
-    QLabel *lB_tsno = new QLabel("Taşınır No");
-    TsL->addWidget(lB_tsno        ,0,0,1,1,nullptr);
+    auto *winGrid = new QGridLayout(this);
+    winGrid->addWidget (TSNRtview  , 0, 0, 1, 1);
+    winGrid->addWidget (winWdgt   , 0, 1, 1, 1);
+}
+
+void hC_TSNR::tsnr_wdgt()
+{
+
+    auto *lB_tsno = new QLabel("Taşınır No");
+
     lE_TSno = new QLineEdit;
     lE_TSno->setText (*TSdetno);
     lE_TSno->setReadOnly (true);
-    TsL->addWidget(lE_TSno   ,0,1,1,3,nullptr);
+
     lB_tsno->setBuddy(lE_TSno);
 
     qDebug ()<<"ts 142";
     QLabel *lB_gt = new QLabel("Tarih");
-    TsL->addWidget(lB_gt        ,1,0,1,1,nullptr);
+
     dE_TStarih = new QDateTimeEdit(QDate::currentDate());
     dE_TStarih->setDisplayFormat("dd.MM.yyyy");
     dE_TStarih->setMinimumDate(QDate(01, 01, 1900));
     dE_TStarih->setMaximumDate(QDate(valiDDate));
     dE_TStarih->setCalendarPopup(true);
-    TsL->addWidget(dE_TStarih   ,1,1,1,3,nullptr);
+
     lB_gt->setBuddy(dE_TStarih);
 
 
     QLabel *lB_us = new QLabel("İstenen Malzeme Adı");
-    TsL->addWidget(lB_us        ,2,0,1,1,nullptr);
+
     cbx_TSmalzeme = new QComboBox;                    //dbtb_TSNR
-    TsL->addWidget(cbx_TSmalzeme   ,2,1,1,3,nullptr);
     lB_us->setBuddy(cbx_TSmalzeme);
-
-
-
 
 
     qDebug ()<<"ts 143";
 
 
     QLabel *lB_tm = new QLabel("Miktar");
-    TsL->addWidget(lB_tm        ,3,0,1,1,nullptr);
+
     lE_TSmiktar = new QLineEdit;
 
     lB_tm->setBuddy(lE_TSmiktar );
 
     QLabel *lB_usb = new QLabel("Birim");
-    TsL->addWidget(lB_usb        ,4,0,1,1,nullptr);
+
     cbx_TSbirim = new QComboBox;                    //dbtb_TSNR
-    TsL->addWidget(cbx_TSbirim   ,4,1,1,3,nullptr);
+
     lB_usb->setBuddy(cbx_TSbirim);
 
     QLabel *lB_bf = new QLabel("Birim Fiyat");
-    TsL->addWidget(lB_bf        ,5,0,1,1,nullptr);
+
     lE_TSbfiyat = new QLineEdit;
-    TsL->addWidget(lE_TSbfiyat   ,5,1,1,3,nullptr);
     lB_bf->setBuddy(lE_TSbfiyat);
 
 
     QLabel *lB_dr = new QLabel("Durum");
-    TsL->addWidget(lB_dr        ,6,0,1,1,nullptr);
     cbx_TSdurum = new QComboBox;                    // dbtb_durum
     cbx_TSdurum->addItem ("-");
     cbx_TSdurum->addItem ("Parça Bekliyor");
     cbx_TSdurum->addItem ("Usta Bekliyor");
     cbx_TSdurum->addItem ("Tamamlandı");
-    TsL->addWidget(cbx_TSdurum   ,6,1,1,3,nullptr);
+
     lB_dr->setBuddy(cbx_TSdurum);
 
     QLabel *lB_acklm = new QLabel("Açıklama");
-    TsL->addWidget(lB_acklm        ,7,0,1,1,nullptr);
+
     lE_TSaciklama = new QLineEdit;
-    TsL->addWidget(lE_TSaciklama   ,7,1,1,3,nullptr);
     lB_acklm->setBuddy(lE_TSaciklama);
 
 
+    winRsm = new QLabel("Resim ");
+    winRsm = new QLabel("Taşınır İstek");
+
+    ///////////////////////////////////////
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto wdgtGrid = new QGridLayout();
+    winWdgt->setLayout(wdgtGrid);
+
+    ///////////////////////////////////////
+    lE_TSaciklama->setMinimumSize (200,25);
 
 
+    wdgtGrid->addWidget(lB_tsno        ,0,0,1,1,nullptr);
+    wdgtGrid->addWidget(lE_TSno   ,0,1,1,3,nullptr);
+    wdgtGrid->addWidget(lB_gt        ,1,0,1,1,nullptr);
+    wdgtGrid->addWidget(dE_TStarih   ,1,1,1,3,nullptr);
+    wdgtGrid->addWidget(lB_us        ,2,0,1,1,nullptr);
+    wdgtGrid->addWidget(cbx_TSmalzeme   ,2,1,1,3,nullptr);
+    wdgtGrid->addWidget(lB_tm        ,3,0,1,1,nullptr);
+    wdgtGrid->addWidget(lB_usb        ,4,0,1,1,nullptr);
+    wdgtGrid->addWidget(cbx_TSbirim   ,4,1,1,3,nullptr);
+    wdgtGrid->addWidget(lB_bf        ,5,0,1,1,nullptr);
+    wdgtGrid->addWidget(lE_TSbfiyat   ,5,1,1,3,nullptr);
 
-    gLl->addWidget(TSNRtview->table,      0, 0, 1, 1 );
+    wdgtGrid->addWidget(lB_dr        ,6,0,1,1,nullptr);
+    wdgtGrid->addWidget(cbx_TSdurum   ,6,1,1,3,nullptr);
+    wdgtGrid->addWidget(lB_acklm        ,7,0,1,1,nullptr);
+    wdgtGrid->addWidget(lE_TSaciklama   ,7,1,1,3,nullptr);
+
 
 }
 
@@ -164,8 +177,6 @@ void hC_TSNR::tsnr_map()
     TSNRmapper->addMapping(cbx_TSdurum, TSNRmodel->fieldIndex("ts_durum"));
     TSNRmapper->addMapping(lE_TSaciklama , TSNRmodel->fieldIndex("ts_aciklama"));
 
-
-    qDebug()<<"TSNR view son";
     TSNRmapper->toFirst ();
 }
 
@@ -178,7 +189,7 @@ void hC_TSNR::tsnr_map()
 void hC_TSNR::tsnr_kntrl()
 {
 
-    qDebug()<<"kontroltsnr ";
+    qDebug()<<"  kontroltsnr ";
 
     // pB 001 yeni ekle
     connect(TSNRtview->pB_ekle, &QPushButton::clicked ,
@@ -269,7 +280,7 @@ void hC_TSNR::tsnr_kntrl()
             [this]()
     {
         qDebug() << "new resim";
-        hC_Rs resim(lB_rsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
+        hC_Rs resim( winRsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
                     "resim", "ekle");
     });
 
@@ -277,7 +288,7 @@ void hC_TSNR::tsnr_kntrl()
     connect(  TSNRslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
+        hC_Rs resim ( winRsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -479,7 +490,7 @@ QString hC_TSNR::tsnr_VTd ()
 
 
 
-void hC_TSNR::tsnr_model(QSqlRelationalTableModel* model)
+void hC_TSNR::tsnr_model()
 {
     qDebug() << " tsnr mdl";
     QString indexField = "tsnr";
@@ -495,8 +506,9 @@ void hC_TSNR::tsnr_model(QSqlRelationalTableModel* model)
     tB_FieldList->append("Yetkili");
     tB_FieldList->append("Yetkili");
 
+    TSNRmodel = new QSqlRelationalTableModel;
     hC_Rm hC_Rm ( &tB_Name,
-                 model,
+                 TSNRmodel,
                  &indexField ,
                  tB_FieldList) ;
 

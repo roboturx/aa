@@ -19,15 +19,17 @@ public:
     QItemSelectionModel      * FTRslctnMdl {} ;
     QDataWidgetMapper        * FTRmapper   {} ;
 
-    QWidget * ftrWdgt {} ;
-    QLabel  * ftrLb   {} ;
-    QLabel  * ftrRsm  {} ;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
+
 
     QLabel      * lB_brkd{} ;
     QLineEdit   * lE_faturano{}  ;
     hC_Le       * lE_firma{} ;
     QLineEdit   * lE_tarih{};
     QLineEdit   * lE_aciklama{};
+
 
 
     void    ftr_setup () ;
@@ -40,6 +42,7 @@ private:
     void ftr_ui    () ;
     void ftr_view  () ;
     void ftr_kntrl () ;
+
 
 signals:
     void sgnFtr ( QString* sgnFtrNo ); // ftr bilgisi yayınla

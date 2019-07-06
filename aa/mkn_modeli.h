@@ -2,9 +2,7 @@
 #define MKN_MODELI_H
 
 #include "globals.h"
-//#include "hc_.h"
-//#include "dbase.h"
-//#include "ftr_frmekle.h"
+
 namespace nSMkn {
     class hC_MKMODL;
 }
@@ -17,35 +15,30 @@ public:
     explicit hC_MKMODL(QDialog *parent = nullptr);
     ~hC_MKMODL();
 
-
-    QString sgnText{};
-
-    //DBase *dbase;
-    QString mkmodl_VTd();
-    void mkmodl_setup();
-    void mkmodl_model(QSqlRelationalTableModel *model) ;
-
-
-    QLabel *lB_rsm;
-
     hC_Tv            *MDLtview{};
     QSqlRelationalTableModel *MDLmodel{} ;
     QItemSelectionModel      *MDLslctnMdl;
     QDataWidgetMapper        *MDLmapper;
 
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
+    QString * sgnText  {} ;
+
+
+    void    mkModl_setup () ;
+    QString mkModl_VTd   () ;
+    void    mkModl_model () ;
+
 private:
-
-    void set_uiMDL();
-
-    void set_modelMDL();
-    void set_viewMDL();
-    void set_mapMDL();
-    void set_kntrlMDL();
-
-
+    void mkModl_wdgt  () ;
+    void mkModl_map   () ;
+    void mkModl_ui    () ;
+    void mkModl_view  () ;
+    void mkModl_kntrl () ;
 
 signals:
-    void sgnCmmy (const QString);
+    void sgnmkModl (QString*);
 };
 
 

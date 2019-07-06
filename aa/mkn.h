@@ -24,9 +24,9 @@ public:
     QItemSelectionModel      * MKNslctnMdl {} ;
     QDataWidgetMapper        * MKNmapper   {} ;
 
-    QWidget * mknWdgt {} ;
-    QLabel  * mknLb   {} ;
-    QLabel  * mknRsm  {} ;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
 
     /// mkn variables
     // QString *processMKN;

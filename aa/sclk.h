@@ -18,26 +18,16 @@ public:
 
 public:
 
-    void    sclk_setup();
-    QString sclk_VTd();
-    void    sclk_model(QSqlRelationalTableModel * );
+    hC_Tv                    * SCLKtview    {} ;
+    QSqlRelationalTableModel * SCLKmodel    {} ;
+    QItemSelectionModel      * SCLKslctnMdl {} ;
+    QDataWidgetMapper        * SCLKmapper   {} ;
 
-    hC_Tv*                    SCLKtview;
-    QSqlRelationalTableModel* SCLKmodel{};
-    QItemSelectionModel*      SCLKslctnMdl;
-    QDataWidgetMapper*        SCLKmapper;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
 
-private:
-    void sclk_ui()   ;
-    void sclk_view() ;
-    void sclk_map()  ;
-    void sclk_kntrl();
-
-
-public:
     // SC variable
-    QLabel *lB_sclk ;
-    QLabel *lB_rsm ;
 
     QLineEdit *lE_SCno{};
     QDateTimeEdit *dE_SCtarih{};
@@ -51,18 +41,20 @@ public:
     QString *SCdetno{};
     QString *SCno{};
 
-    QGridLayout *gL{};
-    QGridLayout *gLdet{};
-    QHBoxLayout *hL1{} ;
-    QHBoxLayout *hL2{} ;
-    QPushButton *pB1{} ;
-    QPushButton *pB2{} ;
-    QPushButton *pB3{} ;
-    QPushButton *pB4{} ;
-    QPushButton *pB5{} ;
-    QPushButton *pB6{} ;
-    QPushButton *pB7{} ;
+    void    sclk_setup () ;
+    QString sclk_VTd   () ;
+    void    sclk_model () ;
 
+
+private:
+    void sclk_wdgt()  ;
+    void sclk_map()  ;
+    void sclk_ui()   ;
+    void sclk_view() ;
+    void sclk_kntrl();
+
+
+public:
 
 
 };

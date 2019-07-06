@@ -3,7 +3,7 @@
 
 hC_SCLK::hC_SCLK ( QWidget *parent) : QWidget (parent)
 {
-    qDebug ()<<"İşçilik Constructor";
+    qDebug ()<<"cnstrctr İşçilik ";
     //************************************************************
     //*****************  İ Ş Ç İ L İ K  **************************
 }
@@ -12,120 +12,128 @@ void hC_SCLK::sclk_setup()
 {
     qDebug() << "sclk setup ";
     sclk_VTd();
-    sclk_ui();
-
-    SCLKmodel = new QSqlRelationalTableModel;
-    sclk_model( SCLKmodel ) ;
-
-    sclk_view();
+    sclk_model() ;
+    sclk_wdgt();
     sclk_map();
+    sclk_ui();
+    sclk_view();
     sclk_kntrl ();
-
 }
 
 
 void hC_SCLK::sclk_ui()
 {
     qDebug() << "  sclk_ui";
-    hC_SCLK::setWindowTitle ("İŞÇİLİK");
-    hC_SCLK::showMaximized ();
+    winLabel = new QLabel("İŞÇİLİK");
+    hC_SCLK::setWindowTitle (winLabel->text ());
+    //hC_SCLK::showMaximized ();
 
 
     // ///////////////////////////////////////////////////////
-
-    lB_sclk  = new QLabel ("İşçilik");
-    lB_rsm = new QLabel ("Resim");
-    hC_Rs resim(lB_rsm);
 
     // ///////////////////////////////////////////////////////
     // views
-    SCLKtview = new hC_Tv();
+    SCLKtview = new hC_Tv (SCLKmodel, SCLKmapper, winWdgt );
 
     /////*******************************************////////
 
 
-    QWidget *wdgt_SCekle = new QWidget;
-    wdgt_SCekle->setWindowTitle("İşçilik Yeni Kayıt");
-    wdgt_SCekle->setVisible(false);
-    wdgt_SCekle->show();
-
-    auto *SCL = new QGridLayout;
-    wdgt_SCekle->setLayout(SCL);
+    auto *winGrid = new QGridLayout(this);
+    winGrid->addWidget (SCLKtview  , 0, 0, 1, 1);
+    winGrid->addWidget (winWdgt   , 0, 1, 1, 1);
 
 
-    QLabel *lB_SCno = new QLabel("İşçilik No");
-    SCL->addWidget(lB_SCno        ,0,0,1,1,nullptr);
+}
+
+void hC_SCLK::sclk_wdgt()
+{
+
+    auto *lB_SCno = new QLabel("İşçilik No");
+
     lE_SCno = new QLineEdit;
     lE_SCno->setText (*SCdetno);
     lE_SCno->setReadOnly (true);
-    SCL->addWidget(lE_SCno   ,0,1,1,3,nullptr);
     lB_SCno->setBuddy(lE_SCno);
 
     qDebug ()<<"SC 142";
-    QLabel *lB_gt = new QLabel("Tarih");
-    SCL->addWidget(lB_gt        ,1,0,1,1,nullptr);
+    auto *lB_gt = new QLabel("Tarih");
     dE_SCtarih = new QDateTimeEdit(QDate::currentDate());
     dE_SCtarih->setDisplayFormat("dd.MM.yyyy");
     dE_SCtarih->setMinimumDate(QDate(01, 01, 1900));
     dE_SCtarih->setMaximumDate(QDate(valiDDate));
     dE_SCtarih->setCalendarPopup(true);
-    SCL->addWidget(dE_SCtarih   ,1,1,1,3,nullptr);
     lB_gt->setBuddy(dE_SCtarih);
 
-    QLabel *lB_usb2 = new QLabel("Birim");
-    SCL->addWidget(lB_usb2        ,4,0,1,1,nullptr);
+    auto *lB_usb2 = new QLabel("Birim");
     cbx_SCbirim = new QComboBox;                    //dbtb_SCLK
-    SCL->addWidget(cbx_SCbirim   ,4,1,1,3,nullptr);
     lB_usb2->setBuddy(cbx_SCbirim);
 
-    QLabel *lB_usb = new QLabel("Usta");
-    SCL->addWidget(lB_usb        ,4,0,1,1,nullptr);
-    cbx_SCusta = new QComboBox;                    //dbtb_SCLK
-    SCL->addWidget(cbx_SCusta   ,4,1,1,3,nullptr);
+    auto *lB_usb = new QLabel("Usta");
+    cbx_SCusta = new QComboBox;
     lB_usb->setBuddy(cbx_SCusta);
 
-    QLabel *lB_tm = new QLabel("Saat");
-    SCL->addWidget(lB_tm        ,3,0,1,1,nullptr);
+    auto *lB_tm = new QLabel("Saat");
+
+
+
     lE_SCsaat = new QLineEdit;
     QPushButton *pb_SCmk= new QPushButton("+");
-    SCL->addWidget(lE_SCsaat  ,3,1,1,3,nullptr);
-    SCL->addWidget(pb_SCmk   ,3,4,1,1,nullptr);
+
+
     lB_tm->setBuddy(lE_SCsaat );
 
-    QLabel *lB_bf = new QLabel("Ücret");
-    SCL->addWidget(lB_bf        ,5,0,1,1,nullptr);
+    auto *lB_bf = new QLabel("Ücret");
+
     lE_SCucret = new QLineEdit;
-    SCL->addWidget(lE_SCucret   ,5,1,1,3,nullptr);
     lB_bf->setBuddy(lE_SCucret);
 
+    auto *lB_dr = new QLabel("Ücret Tipi");
 
-    qDebug ()<<"SC 144";
-    QLabel *lB_dr = new QLabel("Ücret Tipi");
-    SCL->addWidget(lB_dr        ,6,0,1,1,nullptr);
     cbx_SCucrettip = new QComboBox;                    // dbtb_durum
     cbx_SCucrettip->addItem ("-");
     cbx_SCucrettip->addItem ("ücret tip 1");
     cbx_SCucrettip->addItem ("ücret tip 2");
     cbx_SCucrettip->addItem ("ücret tip 3");
-    SCL->addWidget(cbx_SCucrettip   ,6,1,1,3,nullptr);
     lB_dr->setBuddy(cbx_SCucrettip);
 
-    QLabel *lB_acklm = new QLabel("Açıklama");
-    SCL->addWidget(lB_acklm        ,7,0,1,1,nullptr);
+    auto *lB_acklm = new QLabel("Açıklama");
+
     lE_SCaciklama = new QLineEdit;
-    SCL->addWidget(lE_SCaciklama   ,7,1,1,3,nullptr);
     lB_acklm->setBuddy(lE_SCaciklama);
 
-    qDebug ()<<"SC 145";
 
-    //QLabel *lB_rsm = new QLabel("Resim");
+    winRsm = new QLabel ("Resim");
+    hC_Rs resim(winRsm);
+
+
+    ///////////////////////////////////////
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto wdgtGrid = new QGridLayout();
+    winWdgt->setLayout(wdgtGrid);
+
+    ///////////////////////////////////////
+    lE_SCaciklama->setMinimumSize (200,25);
 
 
 
-    auto *gLl = new QGridLayout(this);
-
-    gLl->addWidget(SCLKtview->table,      0, 0, 1, 1 );
-    gLl->addWidget(SCLKtview,   0, 1, 1, 1 );
+    wdgtGrid->addWidget(lB_SCno        ,0,0,1,1);
+    wdgtGrid->addWidget(lE_SCno   ,0,1,1,3);
+    wdgtGrid->addWidget(lB_gt        ,1,0,1,1);
+    wdgtGrid->addWidget(dE_SCtarih   ,1,1,1,3);
+    wdgtGrid->addWidget(lB_usb2        ,4,0,1,1);
+    wdgtGrid->addWidget(cbx_SCbirim   ,4,1,1,3);
+    wdgtGrid->addWidget(lB_usb        ,4,0,1,1);//dbtb_SCLK
+    wdgtGrid->addWidget(cbx_SCusta   ,4,1,1,3);
+    wdgtGrid->addWidget(lB_tm        ,3,0,1,1);
+    wdgtGrid->addWidget(lE_SCsaat  ,3,1,1,3);
+    wdgtGrid->addWidget(pb_SCmk   ,3,4,1,1);
+    wdgtGrid->addWidget(lB_bf        ,5,0,1,1);
+    wdgtGrid->addWidget(lE_SCucret   ,5,1,1,3);
+    wdgtGrid->addWidget(lB_dr        ,6,0,1,1);
+    wdgtGrid->addWidget(cbx_SCucrettip   ,6,1,1,3);
+    wdgtGrid->addWidget(lB_acklm        ,7,0,1,1);
+    wdgtGrid->addWidget(lE_SCaciklama   ,7,1,1,3);
 
 
 
@@ -263,7 +271,7 @@ void hC_SCLK::sclk_kntrl()
     connect(SCLKtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(lB_rsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
+        hC_Rs resim(winRsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
                     "resim", "ekle");
     });
 
@@ -271,7 +279,7 @@ void hC_SCLK::sclk_kntrl()
     connect(  SCLKslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
+        hC_Rs resim ( winRsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -307,8 +315,8 @@ void hC_SCLK::sclk_kntrl()
             QString s_qry;
             QModelIndex iscilik_indx = SCLKtview->table->currentIndex ();
             QString ino = SCLKmodel->data (SCLKmodel->index
-                     (iscilik_indx.row (), SCLKmodel->fieldIndex
-                      ("id_iscilik"))).toString ();
+                                           (iscilik_indx.row (), SCLKmodel->fieldIndex
+                                            ("id_iscilik"))).toString ();
 
             s_qry = QString("DELETE FROM sclk__dbtb "
                             "WHERE id_iscilik = %1").arg( ino );
@@ -333,7 +341,7 @@ void hC_SCLK::sclk_kntrl()
             msgBox.close(); // abort
         }
     });
-/*
+    /*
     // pB 006 ilk
     connect(SCLKtview->pB_ilk, &QPushButton::clicked ,
             [this]()
@@ -396,39 +404,39 @@ void hC_SCLK::sclk_kntrl()
 
 
 
-        SCLKtview->setContextMenuPolicy(Qt::CustomContextMenu);
+    SCLKtview->setContextMenuPolicy(Qt::CustomContextMenu);
 
-        connect(SCLKtview, &QTableView::customContextMenuRequested,
-        [this]()
+    connect(SCLKtview, &QTableView::customContextMenuRequested,
+            [this]()
+    {
+
+        //qDebug ()  <<"  cw iscilik view sağ tuş 001";
+        auto *menuis = new QMenu(this);
+
+        // iscilik ayar ekle
+        const QIcon ekleIc_is = QIcon(":/rsm/Add.ico");
+        QAction* ekleAct_is = new QAction(ekleIc_is, tr("İşçilik Ücretleri..."), this);
+        ekleAct_is->setShortcuts (QKeySequence::New);
+        ekleAct_is->setStatusTip ("İşçilik Ücretleri");
+        connect (ekleAct_is, &QAction::triggered,
+                 []()
         {
-
-            //qDebug ()  <<"  cw iscilik view sağ tuş 001";
-            auto *menuis = new QMenu(this);
-
-            // iscilik ayar ekle
-            const QIcon ekleIc_is = QIcon(":/rsm/Add.ico");
-            QAction* ekleAct_is = new QAction(ekleIc_is, tr("İşçilik Ücretleri..."), this);
-            ekleAct_is->setShortcuts (QKeySequence::New);
-            ekleAct_is->setStatusTip ("İşçilik Ücretleri");
-            connect (ekleAct_is, &QAction::triggered,
-                     []()
-            {
-            });
-            menuis->addAction(ekleAct_is);
-
-//            //  iscilik sil
-//            const QIcon silIc_ts = QIcon(":/rsm/Add.ico");
-//            QAction* silAct_ts = new QAction(silIc_ts, tr("Taşınır Sil..."), this);
-//            silAct_ts->setShortcuts (QKeySequence::New);
-//            silAct_ts->setStatusTip ("Taşınır Sil");
-//            connect (silAct_ts, &QAction::triggered, this,
-//                     &hC_SCLK::sil_ISCILIK );
-//            menuis->addAction(silAct_ts);
-
-            menuis->popup(SCLKtview->table->viewport()->mapToGlobal(pos()));
-
-
         });
+        menuis->addAction(ekleAct_is);
+
+        //            //  iscilik sil
+        //            const QIcon silIc_ts = QIcon(":/rsm/Add.ico");
+        //            QAction* silAct_ts = new QAction(silIc_ts, tr("Taşınır Sil..."), this);
+        //            silAct_ts->setShortcuts (QKeySequence::New);
+        //            silAct_ts->setStatusTip ("Taşınır Sil");
+        //            connect (silAct_ts, &QAction::triggered, this,
+        //                     &hC_SCLK::sil_ISCILIK );
+        //            menuis->addAction(silAct_ts);
+
+        menuis->popup(SCLKtview->table->viewport()->mapToGlobal(pos()));
+
+
+    });
 }
 
 
@@ -448,18 +456,18 @@ QString hC_SCLK::sclk_VTd ()
          contains( tName ))
     {
         ct ="CREATE TABLE IF NOT EXISTS " + tName +
-            "("
-            "sc_iedet_id   INTEGER, "
-            "sc_no         TEXT, "
-            "sc_tarih      TEXT, "
-            "sc_Birim      TEXT, "
-            "sc_usta       TEXT, "
-            "sc_saat       TEXT, "
-            "sc_ucret      TEXT, "
-            "sc_ucrettip   TEXT,"
-            "sc_aciklama   TEXT,"
-            "sc_resim         BLOB, "
-            "id_sc integer primary key  )"  ;
+                "("
+                "sc_iedet_id   INTEGER, "
+                "sc_no         TEXT, "
+                "sc_tarih      TEXT, "
+                "sc_Birim      TEXT, "
+                "sc_usta       TEXT, "
+                "sc_saat       TEXT, "
+                "sc_ucret      TEXT, "
+                "sc_ucrettip   TEXT,"
+                "sc_aciklama   TEXT,"
+                "sc_resim         BLOB, "
+                "id_sc integer primary key  )"  ;
 
 
         if (!q.exec( ct ))
@@ -500,7 +508,7 @@ QString hC_SCLK::sclk_VTd ()
 
 
 
-void hC_SCLK::sclk_model(QSqlRelationalTableModel *model)
+void hC_SCLK::sclk_model()
 {
     qDebug() << " sclk mdl";
     QString indexField = "sclk";
@@ -518,10 +526,11 @@ void hC_SCLK::sclk_model(QSqlRelationalTableModel *model)
     tFieldList->append("Resim");
     tFieldList->append("İŞÇİLİK-ID");
 
+    SCLKmodel = new QSqlRelationalTableModel;
     hC_Rm hC_Rm ( &tName,
-                 model,
-                 &indexField ,
-                 tFieldList) ;
+                  SCLKmodel,
+                  &indexField ,
+                  tFieldList) ;
 
 } /// İŞÇİLİK MODEL
 

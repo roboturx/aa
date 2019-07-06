@@ -13,10 +13,11 @@ void hC_MLZMGC::mlzmGc_setup()
     qDebug() << "  mlzmGc_setup";
 
     mlzmGc_VTd   () ;
-    mlzmGc_ui    () ;
     mlzmGc_model () ;
-    mlzmGc_view  () ;
+    mlzmGc_wdgt  () ;
     mlzmGc_map   () ;
+    mlzmGc_ui    () ;
+    mlzmGc_view  () ;
     mlzmGc_kntrl () ;
 }
 
@@ -28,21 +29,18 @@ void hC_MLZMGC::mlzmGc_ui()
 
     qDebug() << "  MlzmGc_ui";
     ////////////////////////////////////////// window
-    lB_mlzmGc = new QLabel("AMBAR MALZEME GİRİŞ-ÇIKIŞ KONTROL");
-    hC_MLZMGC::setWindowTitle (lB_mlzmGc->text ());
-    hC_MLZMGC::showMaximized ();
-
-    ////////////////////////////////////////// widgets
-    mlzmGc_wdgt ();
+    winLabel = new QLabel("AMBAR MALZEME GİRİŞ-ÇIKIŞ KONTROL");
+    hC_MLZMGC::setWindowTitle (winLabel->text ());
+    //hC_MLZMGC::showMaximized ();
 
     //////////////////////////////////// mlzmGc tableview
-    MLZMGCtview = new hC_Tv;
+    MLZMGCtview = new hC_Tv (MLZMGCmodel, MLZMGCmapper, winWdgt );
 
     ////////////////////////////////////////////// layout
-    auto *gridMlzmGc = new QGridLayout(this);  // 100150
+    auto *mlzmGcGrid = new QGridLayout(this);  // 100150
 
-    gridMlzmGc->addWidget (MLZMGCtview , 0, 0, 1, 6);
-    gridMlzmGc->addWidget (mlzmGcWdgt  , 0, 6, 1, 4);
+    mlzmGcGrid->addWidget (MLZMGCtview , 0, 0, 1, 6);
+    mlzmGcGrid->addWidget (mlzmGcWdgt  , 0, 6, 1, 4);
 }
 
 
@@ -75,8 +73,8 @@ void hC_MLZMGC::mlzmGc_wdgt()
     lE_aciklama = new QLineEdit();
     lB_aciklama->setBuddy(lE_aciklama);
 
-    lB_mlzmGcrsm  = new QLabel (tr("Resim"));
-    hC_Rs resim(lB_mlzmGcrsm);
+    winRsm  = new QLabel (tr("Resim"));
+    hC_Rs resim(winRsm);
 
     ///////////////////////////////////////
     mlzmGcWdgt = new QWidget;
@@ -138,7 +136,6 @@ void hC_MLZMGC::mlzmGc_map()
     MLZMGCmapper->addMapping(lE_fiyat, MLZMGCmodel->fieldIndex("mlzmDet_fiyat"));
     MLZMGCmapper->addMapping(lE_aciklama, MLZMGCmodel->fieldIndex("mlzmDet_aciklama"));
 
-    MLZMGCmodel->select ();
     hC_MLZMGC::MLZMGCmapper->toFirst() ;
 }
 
@@ -326,7 +323,7 @@ void hC_MLZMGC::showEvent(QShowEvent *)
 ///
 QString hC_MLZMGC::mlzmGc_VTd ()
 {
-    QString ct, mesaj = "OK - Malzeme Detay";
+    QString ct, mesaj = "  OK - Malzeme Detay";
     QSqlQuery q;
     QString MLZDETtableName ( "mlzmGc__dbtb");
 

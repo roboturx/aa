@@ -13,16 +13,14 @@ class hC_MLZMGC : public QWidget
 {   Q_OBJECT
 
 public:
+    hC_Tv                    * MLZMGCtview    {} ;
+    QItemSelectionModel      * MLZMGCslctnMdl {} ;
+    QSqlRelationalTableModel * MLZMGCmodel    {} ;
+    QDataWidgetMapper        * MLZMGCmapper   {} ;
 
-    // MlzmGc
-    void    mlzmGc_setup () ;
-    QString mlzmGc_VTd   () ;
-    void    mlzmGc_model () ;
-
-    hC_Tv                    *MLZMGCtview        {} ;
-    QItemSelectionModel      *MLZMGCslctnMdl {} ;
-    QSqlRelationalTableModel *MLZMGCmodel        {} ;
-    QDataWidgetMapper        *MLZMGCmapper       {} ;
+    QWidget * winWdgt  {} ;
+    QLabel  * winLabel {} ;
+    QLabel  * winRsm   {} ;
 
     hC_MLZM     *mlzm         {} ;
     QString     *mlzmKod      {} ;
@@ -31,7 +29,6 @@ public:
     QString     *mlzmBirim    {} ;
 
     QWidget     *mlzmGcWdgt   {} ;
-    QLabel      *lB_mlzmGc    {} ;
 
     QLineEdit   *lE_barkod    {} ;
     QLineEdit   *lE_malzeme   {} ;
@@ -40,16 +37,18 @@ public:
     QLineEdit   *lE_miktar    {} ;
     QLineEdit   *lE_fiyat     {} ;
     QLineEdit   *lE_aciklama  {} ;
-    QLabel      *lB_mlzmGcrsm {} ;
 
+
+    void    mlzmGc_setup () ;
+    QString mlzmGc_VTd   () ;
+    void    mlzmGc_model () ;
 
 private:
-
-    void mlzmGc_ui() ;
-    void mlzmGc_wdgt()   ;
-    void mlzmGc_view() ;
-    void mlzmGc_map() ;
-    void mlzmGc_kntrl();
+    void mlzmGc_wdgt  () ;
+    void mlzmGc_map   () ;
+    void mlzmGc_ui    () ;
+    void mlzmGc_view  () ;
+    void mlzmGc_kntrl () ;
 
 
 protected:

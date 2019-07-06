@@ -25,8 +25,8 @@ void hC_IEDET::iedet_setup()
 void hC_IEDET::iedet_ui()
 {
     qDebug() << "  iedet_ui";
-    iedetLb  = new QLabel ("İŞ EMRİ DETAY");
-    hC_IEDET::setWindowTitle (iedetLb->text());
+    winLabel  = new QLabel ("İŞ EMRİ DETAY");
+    hC_IEDET::setWindowTitle (winLabel->text());
     hC_IEDET::setGeometry(10,
                           qApp->screens()[0]->size ().rwidth ()/2,
             600,300);
@@ -35,13 +35,13 @@ void hC_IEDET::iedet_ui()
 
 
     // ///////////////////////////////////////////////////////
-    IEDETtview = new hC_Tv (IEDETmodel, IEDETmapper, iedetWdgt);
+    IEDETtview = new hC_Tv (IEDETmodel, IEDETmapper, winWdgt);
 
     // ///////////////////////////////////////////////////////
 
-    auto *iedetGrid = new QGridLayout(this);
-    iedetGrid->addWidget ( IEDETtview ,  0, 0, 1, 1 );
-    iedetGrid->addWidget ( iedetWdgt  ,  0, 1, 1, 1 );
+    auto *winGrid = new QGridLayout(this);
+    winGrid->addWidget ( IEDETtview ,  0, 0, 1, 1 );
+    winGrid->addWidget ( winWdgt  ,  0, 1, 1, 1 );
 }
 
 void hC_IEDET::iedet_wdgt ()
@@ -94,34 +94,34 @@ void hC_IEDET::iedet_wdgt ()
     hC_Gz(dE_IEdetciktarihi,"nulldate");
     lB_ct->setBuddy(dE_IEdetciktarihi);
     // ///////////////////////////////////////////////////////
-    iedetRsm = new QLabel ("Resim");
-    hC_Rs resim(iedetRsm);
+    winRsm = new QLabel ("Resim");
+    hC_Rs resim(winRsm);
 
 
     ///////////////////////////////////////
-    iedetWdgt = new QWidget;
-    iedetWdgt->setGeometry (0,0,800,300);
-    auto iedetGrid = new QGridLayout();
-    iedetWdgt->setLayout(iedetGrid);
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto wdgtGrid = new QGridLayout();
+    winWdgt->setLayout(wdgtGrid);
 
     ///////////////////////////////////////
     lE_IEdetaciklama->setMinimumSize (200,25);
 
-    iedetGrid->addWidget(lB_acklm            ,1,0,1,1);
-    iedetGrid->addWidget(lE_IEdetaciklama    ,1,1,1,3);
-    iedetGrid->addWidget(lB_krm              ,2,0,1,1);
-    iedetGrid->addWidget(cbx_IEdettamiryeri  ,2,1,1,3);
-    iedetGrid->addWidget(lB_tm               ,3,0,1,1);
-    iedetGrid->addWidget(cbx_IEdettamirbolum ,3,1,1,3);
-    iedetGrid->addWidget(lB_dr               ,4,0,1,1);
-    iedetGrid->addWidget(cbx_IEdetdurum      ,4,1,1,3);
-    iedetGrid->addWidget(lB_gt               ,7,0,1,1);
-    iedetGrid->addWidget(dE_IEdetgirtarihi   ,7,1,1,3);
-    iedetGrid->addWidget(lB_ct        ,8,0,1,1);
-    iedetGrid->addWidget(dE_IEdetciktarihi   ,8,1,1,3);
+    wdgtGrid->addWidget(lB_acklm            ,1,0,1,1);
+    wdgtGrid->addWidget(lE_IEdetaciklama    ,1,1,1,3);
+    wdgtGrid->addWidget(lB_krm              ,2,0,1,1);
+    wdgtGrid->addWidget(cbx_IEdettamiryeri  ,2,1,1,3);
+    wdgtGrid->addWidget(lB_tm               ,3,0,1,1);
+    wdgtGrid->addWidget(cbx_IEdettamirbolum ,3,1,1,3);
+    wdgtGrid->addWidget(lB_dr               ,4,0,1,1);
+    wdgtGrid->addWidget(cbx_IEdetdurum      ,4,1,1,3);
+    wdgtGrid->addWidget(lB_gt               ,7,0,1,1);
+    wdgtGrid->addWidget(dE_IEdetgirtarihi   ,7,1,1,3);
+    wdgtGrid->addWidget(lB_ct        ,8,0,1,1);
+    wdgtGrid->addWidget(dE_IEdetciktarihi   ,8,1,1,3);
 
-    iedetGrid->addWidget (new QLabel("Resim") , 9, 0, 1, 1);
-    iedetGrid->addWidget (iedetRsm      , 9, 1, 1, 2);
+    wdgtGrid->addWidget (new QLabel("Resim") , 9, 0, 1, 1);
+    wdgtGrid->addWidget (winRsm      , 9, 1, 1, 2);
 
 }
 
@@ -303,7 +303,7 @@ void hC_IEDET::iedet_kntrl()
     connect(IEDETtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(iedetRsm, IEDETtview, IEDETmodel, IEDETslctnMdl,
+        hC_Rs resim(winRsm, IEDETtview, IEDETmodel, IEDETslctnMdl,
                     "resim", "ekle");
     });
 
@@ -311,7 +311,7 @@ void hC_IEDET::iedet_kntrl()
     connect(  IEDETslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( iedetRsm, IEDETtview, IEDETmodel, IEDETslctnMdl,
+        hC_Rs resim ( winRsm, IEDETtview, IEDETmodel, IEDETslctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -394,28 +394,28 @@ void hC_IEDET::iedet_kntrl()
     });
 /*
     // pB 006 ilk
-    connect(IEDETtview->pB_ilk, &QPushButton::clicked ,
+    connect(IEDETtview->pB_ilk, &winWdgt::clicked ,
             [this]()
     {
         IEDETtview->hC_TvPb ("ilk", IEDETmodel, IEDETmapper);
     });
 
     // pB 007 önceki
-    connect(IEDETtview->pB_ncki, &QPushButton::clicked,
+    connect(IEDETtview->pB_ncki, &winWdgt::clicked,
             [this]()
     {
         IEDETtview->hC_TvPb ("ncki", IEDETmodel, IEDETmapper);
     });
 
     // pB 008 sonraki
-    connect(IEDETtview->pB_snrki, &QPushButton::clicked,
+    connect(IEDETtview->pB_snrki, &winWdgt::clicked,
             [this]()
     {
         IEDETtview->hC_TvPb ("snrki", IEDETmodel, IEDETmapper);
     });
 
     // pB 009 son
-    connect(IEDETtview->pB_son, &QPushButton::clicked,
+    connect(IEDETtview->pB_son, &winWdgt::clicked,
             [this]()
     {IEDETtview->hC_TvPb ("son", IEDETmodel, IEDETmapper);
     });

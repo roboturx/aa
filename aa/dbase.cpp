@@ -78,11 +78,11 @@ void DBase::VTDosyaKontrol()
     yaz(makina.mkn_VTd());
 
     hC_MKCINS mkcins;
-    yaz(mkcins.mkcins_VTd());
+    yaz(mkcins.mkCins_VTd());
     hC_MKMARK mkmark;
-    yaz(mkmark.mkmark_VTd());
+    yaz(mkmark.mkMark_VTd());
     hC_MKMODL mkmodl;
-    yaz(mkmodl.mkmodl_VTd());
+    yaz(mkmodl.mkModl_VTd());
     //hC_IE ie;
     //yaz(ie.ie_VTd());
     hC_IEDET iedet;

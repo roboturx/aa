@@ -39,8 +39,8 @@ void hC_FTR::ftr_ui()
     qDebug() << "  ftr_ui";
 
     ////////////////////////////////////////// window
-    ftrLb = new QLabel("FATURA BAŞLIK BİLGİ GİRİŞ");
-    hC_FTR::setWindowTitle(ftrLb->text ());
+    winLabel = new QLabel("FATURA BAŞLIK BİLGİ GİRİŞ");
+    hC_FTR::setWindowTitle(winLabel->text ());
     //hC_FTR::setMinimumSize (800,400);
     //hC_FTR::showMaximized();
 
@@ -49,7 +49,7 @@ void hC_FTR::ftr_ui()
     //wd_FTRdet();
 
     //////////////////////////////////// depo tableview
-    FTRtview = new hC_Tv (FTRmodel, FTRmapper, ftrWdgt ) ;
+    FTRtview = new hC_Tv (FTRmodel, FTRmapper, winWdgt ) ;
     //FTRtview->setMinimumSize (160,60);
 
     /*/////////////////////////////////// depodet
@@ -62,9 +62,9 @@ void hC_FTR::ftr_ui()
     auto  frame1 = new QFrame;
     frame1->setFrameStyle(QFrame::Box | QFrame::Raised);
     */
-    auto *gridFtr = new QGridLayout(this);
-    gridFtr->addWidget (FTRtview  , 0, 0, 1, 1);
-    gridFtr->addWidget (ftrWdgt   , 0, 1, 1, 1);
+    auto *winGrid = new QGridLayout(this);
+    winGrid->addWidget (FTRtview  , 0, 0, 1, 1);
+    winGrid->addWidget (winWdgt   , 0, 1, 1, 1);
 
 /*
     auto frame2 = new QFrame;
@@ -74,9 +74,9 @@ void hC_FTR::ftr_ui()
     grid2->addWidget (wdgt_mapFTR_dty, 1, 1 );
 
     ////////////////////////////////////////////// layout
-    auto *ftrGrid = new QGridLayout(this);
-    ftrGrid->addWidget (frame1 , 0, 0, 1, 1);
-    ftrGrid->addWidget (frame2 , 1, 0, 1, 1);
+    auto *wdgtGrid = new QGridLayout(this);
+    wdgtGrid->addWidget (frame1 , 0, 0, 1, 1);
+    wdgtGrid->addWidget (frame2 , 1, 0, 1, 1);
 */
 
 }
@@ -174,36 +174,36 @@ void hC_FTR::ftr_wdgt()
     lE_ftrGenelToplam = new QLineEdit();
     lB_ftrGenelToplam->setBuddy(lE_ftrGenelToplam);
 
-    ftrRsm = new QLabel;
-    hC_Rs resim(ftrRsm);
+    winRsm = new QLabel;
+    hC_Rs resim(winRsm);
 
 
     ///////////////////////////////////////
-    ftrWdgt = new QWidget;
-    ftrWdgt->setGeometry (0,0,800,300);
-    auto ftrGrid = new QGridLayout();
-    ftrWdgt->setLayout(ftrGrid);
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto wdgtGrid = new QGridLayout();
+    winWdgt->setLayout(wdgtGrid);
 
     ///////////////////////////////////////
     lE_faturano->setMinimumSize (200,25);
 
     int str{};
 
-    ftrGrid ->addWidget(lB_faturano, ++str, 0, 1, 1);
-    ftrGrid ->addWidget(lE_faturano,   str, 1, 1, 4);
-    ftrGrid ->addWidget(lB_firma   , ++str, 0, 1, 1);
-    ftrGrid ->addWidget(lE_firma   ,   str, 1, 1, 4);
-    ftrGrid ->addWidget(lB_ack     , ++str, 0, 1, 1);
-    ftrGrid ->addWidget(lE_aciklama,   str, 1, 1, 4);
-    ftrGrid ->addWidget(lB_tarih   , ++str, 0, 1, 1);
-    ftrGrid ->addWidget(lE_tarih   ,   str, 1, 1, 4);
-    ftrGrid ->addWidget(lB_ftrToplam     , ++str, 0, 1, 1);
-    ftrGrid ->addWidget(lE_ftrToplam     ,   str, 1, 1, 2);
-    ftrGrid ->addWidget(lB_ftrKdv     , ++str, 0, 1, 1);
-    ftrGrid ->addWidget(lE_ftrKdv     ,   str, 1, 1, 2);
-    ftrGrid ->addWidget(lB_ftrGenelToplam     , ++str, 0, 1, 1);
-    ftrGrid ->addWidget(lE_ftrGenelToplam     ,   str, 1, 1, 2);
-    ftrGrid ->addWidget(ftrRsm  , str-2, 3, 3, 3);
+    wdgtGrid ->addWidget(lB_faturano, ++str, 0, 1, 1);
+    wdgtGrid ->addWidget(lE_faturano,   str, 1, 1, 4);
+    wdgtGrid ->addWidget(lB_firma   , ++str, 0, 1, 1);
+    wdgtGrid ->addWidget(lE_firma   ,   str, 1, 1, 4);
+    wdgtGrid ->addWidget(lB_ack     , ++str, 0, 1, 1);
+    wdgtGrid ->addWidget(lE_aciklama,   str, 1, 1, 4);
+    wdgtGrid ->addWidget(lB_tarih   , ++str, 0, 1, 1);
+    wdgtGrid ->addWidget(lE_tarih   ,   str, 1, 1, 4);
+    wdgtGrid ->addWidget(lB_ftrToplam     , ++str, 0, 1, 1);
+    wdgtGrid ->addWidget(lE_ftrToplam     ,   str, 1, 1, 2);
+    wdgtGrid ->addWidget(lB_ftrKdv     , ++str, 0, 1, 1);
+    wdgtGrid ->addWidget(lE_ftrKdv     ,   str, 1, 1, 2);
+    wdgtGrid ->addWidget(lB_ftrGenelToplam     , ++str, 0, 1, 1);
+    wdgtGrid ->addWidget(lE_ftrGenelToplam     ,   str, 1, 1, 2);
+    wdgtGrid ->addWidget(winRsm  , str-2, 3, 3, 3);
 
 }
 
@@ -387,7 +387,7 @@ void hC_FTR::ftr_kntrl()
             [this]()
     {
 
-        hC_Rs resim (ftrRsm, FTRtview, FTRmodel, FTRslctnMdl,
+        hC_Rs resim (winRsm, FTRtview, FTRmodel, FTRslctnMdl,
                      "ftr_resim", "ekle");
     });
 
@@ -396,7 +396,7 @@ void hC_FTR::ftr_kntrl()
     connect( FTRslctnMdl , &QItemSelectionModel::currentRowChanged,
              [this ]()
     {
-        hC_Rs resim ( ftrRsm, FTRtview, FTRmodel, FTRslctnMdl,
+        hC_Rs resim ( winRsm, FTRtview, FTRmodel, FTRslctnMdl,
                       "ftr_resim", "değiştir" ) ;
     });
 
@@ -1243,7 +1243,7 @@ hC_FTR::~hC_FTR()
 QString hC_FTR::ftr_VTd ()
 {
     QSqlQuery   q;
-    QString     ct, mesaj = "OK - Fatura" ;
+    QString     ct, mesaj = "  OK - Fatura" ;
     QStringList inserts;
     QString FTRtableName( "ftr__dbtb");
 

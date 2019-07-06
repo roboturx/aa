@@ -1,73 +1,76 @@
-﻿#include "mkn_marka.h"
+#include "mkn_marka.h"
 
 
 hC_MKMARK::hC_MKMARK(QDialog *parent) : QDialog(parent)
 {
+    //************************************************************
+    //*****************  M K  M A R K ****************************
+    qDebug() << "Cnstrctr mkmark";
 }
 
-void hC_MKMARK::mkmark_setup()
+void hC_MKMARK::mkMark_setup()
 {
-    qDebug ()  <<"CİNS MARKA MODEL YIL ";
-    mkmark_VTd();
-    set_uiMRK();
-
-    MRKmodel = new QSqlRelationalTableModel ;
-    mkmark_model ( MRKmodel ) ;
-
-
-    //set_modelMRK ();
-    set_viewMRK ();
-    set_mapMRK ();
-    set_kntrlMRK ();
+    qDebug ()  <<"  mkMark_setup";
+    mkMark_VTd   () ;
+    mkMark_model () ;
+    mkMark_wdgt  () ;
+    mkMark_map   () ;
+    mkMark_ui    () ;
+    mkMark_view  () ;
+    mkMark_kntrl () ;
 }
 
 
-void hC_MKMARK::set_uiMRK()
+void hC_MKMARK::mkMark_ui()
 {
-    qDebug() << "  setup_uimrk";
+    qDebug() << "  mkmark_ui";
 
-    this->setWindowTitle ("Marka Giriş");
+    winLabel = new QLabel("ARAÇ MARKA");
+    this->setWindowTitle (winLabel->text ());
     this->setGeometry(500,50,300,600);
     // this->showMaximized ();
 
     //auto *pnc = new QWidget(this);
+    MRKtview = new hC_Tv (MRKmodel, MRKmapper, winWdgt);
 
-    lB_rsm = new QLabel ("Resim");
-    lB_rsm->setMinimumSize(60,100);
-    hC_Rs resim (lB_rsm);
+    auto *winGrid = new QGridLayout();
 
-    MRKtview = new hC_Tv;
+    winGrid->addWidget( winWdgt     , 0,   0 , 1, 1);
+    winGrid->addWidget( MRKtview   , 1,   0 , 4, 1);
+    this->setLayout(winGrid);
+}
 
-    auto *gL = new QGridLayout();
 
-    gL->addWidget( lB_rsm     , 0,   0 , 1, 1);
-    gL->addWidget( MRKtview   , 1,   0 , 4, 1);
-    this->setLayout(gL);
+void hC_MKMARK::mkMark_wdgt()
+{
+
+    winRsm = new QLabel ("Resim");
+    winRsm->setMinimumSize(60,100);
+    hC_Rs resim (winRsm);
+
+    ///////////////////////////////////////
+    winWdgt = new QWidget;
+    winWdgt->setGeometry (0,0,800,300);
+    auto wdgtGrid = new QGridLayout();
+    winWdgt->setLayout(wdgtGrid);
+
+    ///////////////////////////////////////
+
+    wdgtGrid ->addWidget(winRsm  , 0, 0, 1, 1);
 }
 
 
 
-void hC_MKMARK::set_viewMRK()
+void hC_MKMARK::mkMark_view()
 {
 
     // Set the model and hide the ID column
     MRKtview-> table-> setModel(MRKmodel);
-    MRKtview-> table-> setSelectionMode(QAbstractItemView::SingleSelection);
-    MRKtview-> table-> setSelectionBehavior(QAbstractItemView::SelectItems);
     MRKslctnMdl = MRKtview-> table-> selectionModel();
 
     MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("id_mkmark"), true);
     MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("resim"), true);
     MRKtview-> table-> setColumnHidden(MRKmodel->fieldIndex("mkcins_no"), true);
-
-    MRKtview->table->setEditTriggers
-            (QAbstractItemView::DoubleClicked |
-             QAbstractItemView::SelectedClicked |
-             QAbstractItemView::EditKeyPressed);
-    MRKtview->table->horizontalHeader()->setStretchLastSection(true);
-    MRKtview->table->horizontalHeader()->resizeContentsPrecision();
-    MRKtview->table->resizeRowsToContents ();
-    MRKtview->table->resizeColumnsToContents();
 
     // select first item
     // selection model does not hide the frm_kod
@@ -82,10 +85,10 @@ void hC_MKMARK::set_viewMRK()
 
 }
 
-void hC_MKMARK::set_mapMRK()
+void hC_MKMARK::mkMark_map()
 {
 
-    qDebug()<<"setup mapcns";
+    qDebug()<<"  setup mapcns";
     MRKmapper = new QDataWidgetMapper(this);
     MRKmapper->setModel(MRKmodel);
 
@@ -94,9 +97,9 @@ void hC_MKMARK::set_mapMRK()
     MRKmapper->toFirst ();
 }
 
-void hC_MKMARK::set_kntrlMRK()
+void hC_MKMARK::mkMark_kntrl()
 {
-
+    qDebug()<<"  setup mapcns";
     // pB 001 yeni ekle
     connect(MRKtview->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -129,7 +132,7 @@ void hC_MKMARK::set_kntrlMRK()
     connect(MRKtview->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKslctnMdl,
+        hC_Rs resim ( winRsm, MRKtview, MRKmodel, MRKslctnMdl,
                            "resim", "ekle");
     });
 
@@ -137,7 +140,7 @@ void hC_MKMARK::set_kntrlMRK()
     connect(  MRKslctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( lB_rsm, MRKtview, MRKmodel, MRKslctnMdl,
+        hC_Rs resim ( winRsm, MRKtview, MRKmodel, MRKslctnMdl,
                            "resim", "değiştir" ) ;
     });
 
@@ -226,12 +229,12 @@ void hC_MKMARK::set_kntrlMRK()
 
             // 011-03 marka row değiştiğinde cmmy etrafa yayınlayalım
             QModelIndex Index = MRKtview->table->currentIndex ();
-
-            sgnText = MRKtview->table->model()->index( Index.row() ,
+            sgnText = new QString;
+            *sgnText = MRKtview->table->model()->index( Index.row() ,
                                                      MRKmodel->fieldIndex
                                                      ("marka") ).data().toString();
 
-            emit hC_MKMARK::sgnCmmy (sgnText);
+            emit hC_MKMARK::sgnmkMark (sgnText);
         }
         else
         {
@@ -261,7 +264,7 @@ hC_MKMARK::~hC_MKMARK()
 ///// MARKA
 ///
 ///
-QString hC_MKMARK::mkmark_VTd()
+QString hC_MKMARK::mkMark_VTd()
 {
     //qDebug() << " db Marka CREATE  ";
     QString ct, mesaj = "OK - Marka";
@@ -345,9 +348,9 @@ QString hC_MKMARK::mkmark_VTd()
 }
 
 
-void hC_MKMARK::mkmark_model ( QSqlRelationalTableModel *model)
+void hC_MKMARK::mkMark_model ()
 {
-    qDebug() << " db modelmarka";
+    qDebug() << "  modelmarka";
     QString MRKtableName("mkmark__dbtb");
     QString indexField = "marka";
     QStringList *tB_FieldList = new QStringList ;
@@ -357,8 +360,9 @@ void hC_MKMARK::mkmark_model ( QSqlRelationalTableModel *model)
     tB_FieldList->append("Cinsi Nosu");
     tB_FieldList->append("Marka kodu");
 
+    MRKmodel = new QSqlRelationalTableModel ;
     hC_Rm hC_Rm (&MRKtableName,
-                 model,
+                 MRKmodel,
                  &indexField ,
                  tB_FieldList) ;
 
