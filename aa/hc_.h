@@ -214,6 +214,28 @@ class hC_Rm : public QSqlRelationalTableModel
 };
 
 
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+//    QSQLRELATIONATABLEMODEL    -----> hC_Rmx  QVector
+
+// rel model
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+class hC_RmX : public QSqlRelationalTableModel
+{    Q_OBJECT
+
+ public:
+     explicit hC_RmX (QString *rm_Table,
+           QSqlRelationalTableModel *rm_model,
+           QString *rm_IndexField,
+           QVector<QVector<QString> > *rm_List);
+     ~hC_RmX();
+    // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
+     //QSqlRelationalTableModel  *hC_rm;
+};
+
 
 class hC_Gz
 {

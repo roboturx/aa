@@ -14,14 +14,21 @@ class hC_MLZM : public QWidget
 public:
 
     hC_Tv                    *MLZMtview    {} ;
-    QSqlRelationalTableModel *MLZMmodel    {} ;
+    QSqlRelationalTableModel *tB_modl    {} ;
     QItemSelectionModel      *MLZMslctnMdl {} ;
     QDataWidgetMapper        *MLZMmapper   {} ;
 
     QWidget * winWdgt  {} ;
     QLabel  * winLabel {} ;
     QLabel  * winRsm   {} ;
-    QVector<QString> * fields ;
+    QVector < QVector < QString > > * fields ;
+    QStringList *tB_fieldList {} ;
+    QString *tB_name   {} ;
+    QString *tB_ndex   {} ;
+
+   // QVector<QStringList>* fields;
+
+    //QMap<QString,QString> * fields ;
     QVector<QWidget*> * edits  ;
 
     QComboBox   *cbx_grs_tipi{} ;

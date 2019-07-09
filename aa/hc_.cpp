@@ -446,7 +446,10 @@ hC_Rm::hC_Rm (QString *rm_Table,
 
     for(int i = 0, j = 0; i < rm_List->size (); i++, j++)
     {
-        rm_model->setHeaderData(i,Qt::Horizontal, rm_List->value (j));
+
+        rm_model->setHeaderData(i, 
+                                Qt::Horizontal, 
+                                rm_List [i] ) ;
     }
 
     // Populate the model
@@ -463,6 +466,53 @@ hC_Rm::hC_Rm (QString *rm_Table,
 
 hC_Rm::~hC_Rm()
 = default;
+
+
+
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+//    QSQLRELATIONATABLEMODEL    -----> hC_Rm
+
+// rel model
+// /////////////////////////////////////////////////////////////////////////////////
+
+/// 4- hC_Rm            - rel model
+
+hC_RmX::hC_RmX (QString *rm_Table,
+               QSqlRelationalTableModel *rm_model,
+               QString *rm_IndexField,
+               QVector<QVector<QString > > *rm_List )
+
+{
+    rm_model->setTable( *rm_Table );
+    rm_model->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    rm_model->setSort(rm_model->fieldIndex
+                      ( *rm_IndexField ),Qt::AscendingOrder );
+
+    for(int i = 0, j = 0; i < rm_List->size (); i++, j++)
+    {
+        /*QString *yy = rm_List [0][2];
+        rm_model->setHeaderData(i,
+                                Qt::Horizontal,
+                                yy ) ;*/
+    }
+
+    // Populate the model
+    if (!rm_model->select())
+    {
+        QString m("HATA - \n"
+                  "-*- Model Seçim   \n"
+                  "-*- class hC_Rm - \n"+
+                  *rm_Table + "   " +
+                  rm_model->lastError().text() ) ;
+        qDebug () <<  m ;
+    }
+}
+
+hC_RmX::~hC_RmX()
+= default;
+
 
 
 hC_Gz::hC_Gz(QDateTimeEdit *tarih, QString vsbl)
