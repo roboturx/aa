@@ -527,11 +527,11 @@ void hC_SCLK::sclk_model()
     tFieldList->append("İŞÇİLİK-ID");
 
     SCLKmodel = new QSqlRelationalTableModel;
-    hC_Rm hC_Rm ( &tName,
+  /*  hC_Rm hC_Rm ( &tName,
                   SCLKmodel,
                   &indexField ,
                   tFieldList) ;
-
+*/
 } /// İŞÇİLİK MODEL
 
 

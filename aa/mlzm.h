@@ -13,23 +13,19 @@ class hC_MLZM : public QWidget
 
 public:
 
-    hC_Tv                    *MLZMtview    {} ;
-    QSqlRelationalTableModel *tB_modl    {} ;
-    QItemSelectionModel      *MLZMslctnMdl {} ;
-    QDataWidgetMapper        *MLZMmapper   {} ;
+    hC_Tv                    * tB_view     {} ;
+    QSqlRelationalTableModel * tB_modl     {} ;
+    QItemSelectionModel      * tB_slctnMdl {} ;
+    QDataWidgetMapper        * tB_map      {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
-    QVector < QVector < QString > > * fields ;
-    QStringList *tB_fieldList {} ;
-    QString *tB_name   {} ;
-    QString *tB_ndex   {} ;
+    QString                  * tB_name     {} ;
+    hC_ArrD                  * tB_fields   {} ;
+    QString                  * tB_ndex     {} ;
 
-   // QVector<QStringList>* fields;
-
-    //QMap<QString,QString> * fields ;
-    QVector<QWidget*> * edits  ;
+    QVector<QWidget*>        * win_wdgts {} ;
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
 
     QComboBox   *cbx_grs_tipi{} ;
     QLineEdit   *lE_barkod   {} ;
@@ -43,16 +39,16 @@ public:
     QLineEdit   *lE_cikis    {} ;
     QLineEdit   *lE_mevcut   {} ;
 
-    void    mlzm_setup () ;
-    QString mlzm_VTd   () ;
-    void    mlzm_model () ;
+    void    setup () ;
+    QString VTd   (QString *tB_name, hC_ArrD *tB_fields  ) ;
+    void    model () ;
 
 private:
-    void mlzm_wdgt  () ;
-    void mlzm_map   () ;
-    void mlzm_ui    () ;
-    void mlzm_view  () ;
-    void mlzm_kntrl () ;
+    void wdgt  () ;
+    void map   () ;
+    void ui    () ;
+    void view  () ;
+    void kntrl () ;
 
 
 private slots:
@@ -73,4 +69,4 @@ public:
     ~hC_MLZM();
 };
 
-#endif // HC_MLZM_H
+#endif // HC__H

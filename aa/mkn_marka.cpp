@@ -361,10 +361,10 @@ void hC_MKMARK::mkMark_model ()
     tB_FieldList->append("Marka kodu");
 
     MRKmodel = new QSqlRelationalTableModel ;
-    hC_Rm hC_Rm (&MRKtableName,
+   /* hC_Rm hC_Rm (&MRKtableName,
                  MRKmodel,
                  &indexField ,
                  tB_FieldList) ;
-
+*/
 }///MRK
 

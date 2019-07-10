@@ -2,193 +2,83 @@
 
 hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
 {
+    qDebug() << "  cnstrct mlzm";
     //************************************************************
     //*****************  M A L Z E M E  **************************
-    qDebug() << "Mlzm Cnstrctr   ";
 
-
-    qDebug() << "  mlzm_setup";
-
-
+    win_Label = new QLabel ("AMBAR MALZEME");
+    tB_name = new QString ("_dbtb") ;
+    tB_ndex = new QString ("malzeme");
+    tB_modl = new QSqlRelationalTableModel;
     int* tB_fcnt = new int(13);
 
-    // Create
-    QVector< QVector < QString > >
-            fields (*tB_fcnt, QVector < QString > (4));
-
-    fields [0] = {"mlzm_kod"     ,"INTEGER", "MalzemeID", nullptr};
-    fields [1] = {"mlzm_barkod"  ,"TEXT"   , "Barkod"   , "lE_barkod" };
-    fields [2] = {"mlzm_malzeme" ,"TEXT"   , "Malzeme"  , "lE_malzeme" };
-    fields [3] = {"mlzm_aciklama","TEXT"   , "Açıklama" , "lE_aciklama"  };
-    fields [4] = {"mlzm_marka"   ,"TEXT"   , "Marka"    , "lE_marka" };
-    fields [5] = {"mlzm_model"   ,"TEXT"   , "Model"    , "lE_model" };
-    fields [6] = {"mlzm_cins"    ,"TEXT"   , "Cins"     , "lE_cins" };
-    fields [7] = {"mlzm_birim"   ,"TEXT"   , "Birim"    , "cbx_birim" };
-    fields [8] = {"mlzm_giris"   ,"TEXT"   , "Giriş Toplamı" , "lE_giris" };
-    fields [9] = {"mlzm_cikis"   ,"TEXT"   , "Çıkış Toplamı" , "lE_cikis" };
-    fields [10] = {"mlzm_mevcut"  ,"TEXT"   , "Ambar Mevcudu", "lE_mevcut" };
-    fields [11] = {"mlzm_makina"  ,"TEXT"   , "Makina"   , nullptr };
-    fields [12] = {"mlzm_resim"   ,"BLOB"   , "Resim"    , "winRsm" }     ;
+    tB_fields = new hC_ArrD (*tB_fcnt,4);
+    tB_fields->setValue (0, "kod"     , "INTEGER", "MalzemeID", "0" ) ;
+    tB_fields->setValue (1, "barkod"  , "TEXT"   , "Barkod"   );
+    tB_fields->setValue (2, "malzeme" , "TEXT"   , "Malzeme" );
+    tB_fields->setValue (3, "aciklama", "TEXT"   , "Açıklama", "1");
+    tB_fields->setValue (4, "marka"   , "TEXT"   , "Marka"   , "1");
+    tB_fields->setValue (5, "model"   , "TEXT"   , "Model"   , "1");
+    tB_fields->setValue (6, "cins"    , "TEXT"   , "Cins"    , "1");
+    tB_fields->setValue (7, "birim"   , "TEXT"   , "Birim"   , "1");
+    tB_fields->setValue (8, "giris"   , "TEXT"   , "Giriş Toplamı" , "1");
+    tB_fields->setValue (9 , "cikis"   , "TEXT"   , "Çıkış Toplamı", "1");
+    tB_fields->setValue (10, "mevcut"  , "TEXT"   , "Ambar Mevcudu", "1");
+    tB_fields->setValue (11, "makina"  , "TEXT"   , "Makina", "1" );
+    tB_fields->setValue (12, "resim"   , "BLOB"   , "Resim" , "0" );
 
 
-
-    edits = new QVector<QWidget*> ;
-    edits->append ( nullptr ) ;
-    edits->append ( lE_barkod ) ;
-    edits->append ( lE_malzeme ) ;
-    edits->append ( lE_aciklama ) ;
-    edits->append ( lE_marka ) ;
-    edits->append ( lE_model ) ;
-    edits->append ( lE_cins ) ;
-    edits->append ( cbx_birim ) ;
-    edits->append ( lE_giris ) ;
-    edits->append ( lE_cikis ) ;
-    edits->append ( lE_mevcut ) ;
-    edits->append ( nullptr ) ;
-    edits->append ( winRsm ) ;
-
-
-
-    tB_fieldList = new QStringList ;
-    tB_fieldList->append("Kod");
-    tB_fieldList->append("Barkod");
-    tB_fieldList->append("Malzeme");
-    tB_fieldList->append("Açıklama");
-    tB_fieldList->append("Marka");
-    tB_fieldList->append("Model");
-    tB_fieldList->append("Cins");
-    tB_fieldList->append("Birim");
-    tB_fieldList->append("Giriş");
-    tB_fieldList->append("Çıkış");
-    tB_fieldList->append("Mevcut");
-    tB_fieldList->append("Makina");
-    tB_fieldList->append("Resim");
-
-    winLabel = new QLabel("AMBAR MALZEME");
-    tB_name = new QString ("mlzm__dbtb") ;
-    tB_ndex = new QString ("mlzm_malzeme");
-    tB_modl = new QSqlRelationalTableModel;
-
-
-
-    ////////////////////////////////////////////////////////
-    /// Malzeme create
-    ///
-
-    QString ct, mesaj ="  OK - Malzeme";
-    QSqlQuery q;
-
-    if ( ! VTKontrolEt::instance()->GetDB().tables().
-         contains( *tB_name ))
-    {
-        ct = "CREATE TABLE IF NOT EXISTS " + *tB_name +
-                " ( ";
-
-        qDebug ()<< " dosya yokkkk " << tB_fieldList->length ();
-
-        for (int i=0 ; i < tB_fieldList->length () ; i++)
-        {
-            if ( i == 0 )
-            {
-                ct = ct + tB_fieldList->at (i) + " "+
-                        tB_fieldList-> at (i) +" PRIMARY KEY, ";
-            }
-            else if ( i > 0  &&
-                      i < tB_fieldList->length () -1 )
-            {
-                ct = ct + tB_fieldList-> at (i) + " "+
-                        tB_fieldList-> at (i) + ", ";
-            }
-            else if ( i == tB_fieldList->length () - 1 )
-            {
-                ct = ct + tB_fieldList-> at (i) + " "+
-                        tB_fieldList->at (i) + " ) ";
-            }
-
-            qDebug ()<< " ct = " << i <<" - "<<tB_fieldList->at (i);
-            qDebug ()<< "-------------------------- " ;
-            qDebug ()<< " ct = " << ct;
-        }
-
-
-
-        if (!q.exec( ct ))
-        {
-            mesaj="<br>HATA - Malzeme Dosyası Oluşturulamadı"
-                  "<br>------------------------------------<br>"+
-                    q.lastError().text()+
-                    "<br>------------------------------------<br>";
-        }
-        else /// dosya oluşturuldu
-        {
-            mesaj= "OK - Malzeme Dosyası YENİ Oluşturuldu ";
-            if (
-                    q.exec("INSERT INTO " + *tB_name +
-                           "( mlzm_barkod,mlzm_malzeme )"
-                           " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
-            {
-                mesaj= mesaj+"<br>İLK kayıt Eklendi";
-            }
-            else
-            {
-                mesaj= mesaj+"<br>İLK Malzeme kaydı eklenemdi "
-                             "<br>------------------------------------<br>"+
-                        q.lastError().text()+
-                        "<br>------------------------------------<br>";
-            }
-
-        }
-    }
-
-    else /// dosya var
-    {
-         qDebug ()<< " dosya varr mlzm " ;
-    }
-    qDebug() << mesaj;
-    ////////////////////////////////////////////////////////////
-
+    win_wdgts = new QVector<QWidget*> ;
+    win_wdgts->append ( nullptr ) ;
+    win_wdgts->append ( lE_barkod ) ;
+    win_wdgts->append ( lE_malzeme ) ;
+    win_wdgts->append ( lE_aciklama ) ;
+    win_wdgts->append ( lE_marka ) ;
+    win_wdgts->append ( lE_model ) ;
+    win_wdgts->append ( lE_cins ) ;
+    win_wdgts->append ( cbx_birim ) ;
+    win_wdgts->append ( lE_giris ) ;
+    win_wdgts->append ( lE_cikis ) ;
+    win_wdgts->append ( lE_mevcut ) ;
+    win_wdgts->append ( nullptr ) ;
+    win_wdgts->append ( win_Rsm ) ;
 
 }
 
 
-void hC_MLZM::mlzm_setup()
+void hC_MLZM::setup()
 {
 
+    hC_tBcreator tB_x;
+    tB_x.create (tB_name, tB_fields);
+    tB_x.model  (tB_name, tB_modl, tB_ndex, tB_fields) ;
 
-
-    //mlzm_VTd   () ;
-
-    hC_Rm hC_Rm (tB_name,
-                 tB_modl,
-                 tB_ndex ,
-                 tB_fieldList) ;
-
-    //    mlzm_model () ;
-    mlzm_wdgt  () ;
-    mlzm_map   () ;
-    mlzm_ui    () ;
-    mlzm_view  () ;
-    mlzm_kntrl () ;
+    wdgt  () ;
+    map   () ;
+    ui    () ;
+    view  () ;
+    kntrl () ;
 }
 
 
-void hC_MLZM::mlzm_ui()
+
+void hC_MLZM::ui()
 {
     qDebug() << "  Mlzm_ui";
 
-    setWindowTitle (winLabel->text());
-    MLZMtview = new hC_Tv (tB_modl, MLZMmapper, winWdgt);
+    setWindowTitle (win_Label->text());
+    tB_view = new hC_Tv (tB_modl, tB_map, win_Wdgt);
 
     ////////////////////////////////////////////// layout
     auto *mlzmGrid = new QGridLayout(this);  // 100150
-    mlzmGrid->addWidget (MLZMtview       , 0, 0, 1, 5);
-    mlzmGrid->addWidget (winWdgt        , 0, 5, 1, 5);
+    mlzmGrid->addWidget (tB_view       , 0, 0, 1, 5);
+    mlzmGrid->addWidget (win_Wdgt        , 0, 5, 1, 5);
 }
 
 
-void hC_MLZM::mlzm_wdgt()
+void hC_MLZM::wdgt()
 {
-    qDebug () << "  mlzm_wdgt";
+    qDebug () << "  wdgt";
 
     auto *lB_barkod = new QLabel(tr("&Barkod"));
     lE_barkod = new QLineEdit();
@@ -251,14 +141,14 @@ void hC_MLZM::mlzm_wdgt()
     lE_mevcut->setAlignment (Qt::AlignRight);
     lB_m->setBuddy(lE_mevcut);
 
-    winRsm = new QLabel;
-    hC_Rs resim(winRsm);
+    win_Rsm = new QLabel;
+    hC_Rs resim(win_Rsm);
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
     auto mlzmGrid = new QGridLayout();
-    winWdgt->setLayout(mlzmGrid);
+    win_Wdgt->setLayout(mlzmGrid);
 
     ///////////////////////////////////////
     lE_malzeme->setMinimumSize (200,25);
@@ -289,82 +179,98 @@ void hC_MLZM::mlzm_wdgt()
     mlzmGrid ->addWidget (lE_cikis  ,   str, 1, 1, 3);
     mlzmGrid ->addWidget (lB_m      , ++str, 0, 1, 1);
     mlzmGrid ->addWidget (lE_mevcut ,   str, 1, 1, 3);
-    mlzmGrid ->addWidget (winRsm, str-3, 4, 4, 6);
+    mlzmGrid ->addWidget (win_Rsm, str-3, 4, 4, 6);
 
 }
 
 
-void hC_MLZM::mlzm_view()
+void hC_MLZM::view()
 {
-    qDebug() << "  mlzm_view";
+    qDebug() << "  view";
 
     //////////////////////////////////////////////////////////
-    MLZMtview->table->setModel(tB_modl);
-    MLZMslctnMdl =   MLZMtview->table->selectionModel ();
+    tB_view->table->setModel(tB_modl);
+    tB_slctnMdl =   tB_view->table->selectionModel ();
 
+    for (int i = 1 ; i < tB_fields->length () ; i++ )
+    {
+        if (tB_fields->value (i,3) == "1")
+        {
+            tB_view->table->setColumnHidden( i , true);
+        }
+        else if (tB_fields->value (i,3) == "0")
+        {
+            tB_view->table->setColumnHidden( i , false);
+
+        }
+        else
+        {
+            qDebug ()<< *tB_name << " view colon hidden ERROR";
+        }
+    }
     //////////////////////////////////////////////////////////
     /// kullanıcı bu alanları görmesin
-    MLZMtview->table->setColumnHidden(tB_modl->fieldIndex("mlzm_kod"), true);
-    //    MLZMtview->table->setColumnHidden(tB_modl->fieldIndex("mlzm_giris"), true);
-    //    MLZMtview->table->setColumnHidden(tB_modl->fieldIndex("mlzm_cikis"), true);
-    //    MLZMtview->table->setColumnHidden(tB_modl->fieldIndex("mlzm_mevcut"), true);
-    MLZMtview->table->setColumnHidden(tB_modl->fieldIndex("mlzm_resim"), true);
-    MLZMtview->table->setColumnHidden(tB_modl->fieldIndex("mlzm_makina"), true);
+    /*tB_view->table->setColumnHidden(tB_modl->fieldIndex("kod"), true);
+    //    tB_view->table->setColumnHidden(tB_modl->fieldIndex("giris"), true);
+    //    tB_view->table->setColumnHidden(tB_modl->fieldIndex("cikis"), true);
+    //    tB_view->table->setColumnHidden(tB_modl->fieldIndex("mevcut"), true);
+    tB_view->table->setColumnHidden(tB_modl->fieldIndex("resim"), true);
+    tB_view->table->setColumnHidden(tB_modl->fieldIndex("makina"), true);
     //////////////////////////////////////////////////////////
     // with blue rect
-    MLZMtview->table->setCurrentIndex(
-                tB_modl->index(1, 1) );
-    MLZMtview->table->setFocus();
-}
-
-
-void hC_MLZM::mlzm_map()
-{
-    qDebug() << "  mlzm_map";
-
-    MLZMmapper = new QDataWidgetMapper(this);
-    MLZMmapper->setModel(tB_modl);
-
-    /*
-for (int i=0 ;  i < fields->length () ; i++ )
-{
-   MLZMmapper->addMapping( edits->value(i), i);
-}
 */
-    MLZMmapper->addMapping( lE_barkod, tB_modl->fieldIndex( "mlzm_barkod"));
-    MLZMmapper->addMapping(lE_malzeme, tB_modl->fieldIndex("mlzm_malzeme"));
-    MLZMmapper->addMapping(lE_aciklama, tB_modl->fieldIndex("mlzm_aciklama"));
-    MLZMmapper->addMapping(lE_marka, tB_modl->fieldIndex("mlzm_marka"));
-    MLZMmapper->addMapping(lE_model, tB_modl->fieldIndex("mlzm_model"));
-    MLZMmapper->addMapping(lE_cins, tB_modl->fieldIndex("mlzm_cins"));
-    MLZMmapper->addMapping( cbx_birim, tB_modl->fieldIndex( "mlzm_birim" ));
-    MLZMmapper->addMapping( lE_giris, tB_modl->fieldIndex("mlzm_giris"));
-    MLZMmapper->addMapping( lE_cikis, tB_modl->fieldIndex("mlzm_cikis"));
-    MLZMmapper->addMapping( lE_mevcut, tB_modl->fieldIndex("mlzm_mevcut"));
-    //MLZMmapper->addMapping( cX_mkn, tB_modl->fieldIndex("makina"));
+    tB_view->table->setCurrentIndex(tB_modl->index(1, 1) );
+    tB_view->table->setFocus();
+}
 
 
-    hC_MLZM::MLZMmapper->toFirst() ;
+void hC_MLZM::map()
+{
+    qDebug() << "  map";
+
+    tB_map = new QDataWidgetMapper(this);
+    tB_map->setModel(tB_modl);
+
+
+    for (int i=0 ;  i < tB_fields->length () ; i++ )
+    {
+        tB_map->addMapping( win_wdgts->value(i), i);
+    }
+/*
+    tB_map->addMapping( lE_barkod, tB_modl->fieldIndex( "barkod"));
+    tB_map->addMapping( lE_malzeme, tB_modl->fieldIndex("malzeme"));
+    tB_map->addMapping( lE_aciklama, tB_modl->fieldIndex("aciklama"));
+    tB_map->addMapping( lE_marka, tB_modl->fieldIndex("marka"));
+    tB_map->addMapping( lE_model, tB_modl->fieldIndex("model"));
+    tB_map->addMapping( lE_cins, tB_modl->fieldIndex("cins"));
+    tB_map->addMapping( cbx_birim, tB_modl->fieldIndex( "birim" ));
+    tB_map->addMapping( lE_giris, tB_modl->fieldIndex("giris"));
+    tB_map->addMapping( lE_cikis, tB_modl->fieldIndex("cikis"));
+    tB_map->addMapping( lE_mevcut, tB_modl->fieldIndex("mevcut"));
+    //tB_map->addMapping( cX_mkn, tB_modl->fieldIndex("makina"));
+
+*/
+    hC_MLZM::tB_map->toFirst() ;
 }
 
 
 
-void hC_MLZM::mlzm_kntrl()
+void hC_MLZM::kntrl()
 {
-    qDebug() << "  mlzm_kntrl";
+    qDebug() << "  kntrl";
 
 
     // /// yeni malzeme ekle
-    connect(MLZMtview->pB_ekle, &QPushButton::clicked ,
+    connect(tB_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-        QString IEtableName{"mlzm__dbtb"};
+        QString IEtableName{"_dbtb"};
         QSqlQuery q;
         QString qry, mesaj("");
         /// yeni barkod numarasını bul
-        /// barkod nosu mlzm__dbtb de
-        /// mlzm_barkod alanındaki en büyük sayı
-        qry = "SELECT max(mlzm_kod) FROM " + IEtableName  ;
+        /// barkod nosu _dbtb de
+        /// barkod alanındaki en büyük sayı
+        qry = "SELECT max(kod) FROM " + IEtableName  ;
         int mlzmno;
         if ( !q.exec(qry) )
         {
@@ -385,7 +291,7 @@ void hC_MLZM::mlzm_kntrl()
 
         // yeni kaydı ekle
         qry = "INSERT INTO " + IEtableName +
-                " ( mlzm_barkod) values( ' ' )" ;
+                " ( barkod) values( ' ' )" ;
 
         if ( !q.exec(qry) )
         {
@@ -412,35 +318,35 @@ void hC_MLZM::mlzm_kntrl()
         qDebug()<<mesaj;
         tB_modl->select();
         ////////////////////////////////////////////////
-        hC_Nr (MLZMtview, mlzmno, 0);
+        hC_Nr (tB_view, mlzmno, 0);
         ////////////////////////////////////////////////
-        MLZMtview->table->setFocus ();
+        tB_view->table->setFocus ();
         // mlzm  ekle
 
 
     });
 
     /// // malzeme resmi ekle
-    connect(MLZMtview->pB_eklersm, &QPushButton::clicked,
+    connect(tB_view->pB_eklersm, &QPushButton::clicked,
             [this] ()
     {
-        hC_Rs resim (winRsm, MLZMtview, tB_modl, MLZMslctnMdl,
-                     "mlzm_resim","ekle");
+        hC_Rs resim (win_Rsm, tB_view, tB_modl, tB_slctnMdl,
+                     "resim","ekle");
 
     });
 
-    connect(MLZMtview->pB_sil, &QPushButton::clicked,
+    connect(tB_view->pB_sil, &QPushButton::clicked,
             [this] ()
     {
         QSqlQuery q_qry;
         QString s_qry;
-        QModelIndex mlzmIndex =   MLZMtview->table->currentIndex();
+        QModelIndex mlzmIndex =   tB_view->table->currentIndex();
         if( mlzmIndex.row() >= 0 )
         {
             QSqlRecord rec = tB_modl->record(mlzmIndex.row ());
-            int Mlzm_no = rec.value ("mlzm_kod").toInt();
-            QString val = rec.value("mlzm_barkod").toString();
-            QString val2= rec.value("mlzm_malzeme").toString() ;
+            int Mlzm_no = rec.value ("kod").toInt();
+            QString val = rec.value("barkod").toString();
+            QString val2= rec.value("malzeme").toString() ;
 
 
             /// Mlzm detay kayıtlarını silelim
@@ -464,7 +370,7 @@ void hC_MLZM::mlzm_kntrl()
                     "\n\n  silinsin mi ?\n"+
                     "İşlemi onaylarsanız bu Mlzm kaydına ait\n " ;
 
-            int Mlzmdet_count = 10000000; // = MLZMDETmodel->rowCount () ;
+            int Mlzmdet_count = 10000000; // = DETmodel->rowCount () ;
             if ( Mlzmdet_count > 0 )
             {
                 mess +="\n"+ QString::number (Mlzmdet_count) + " adet DEPO GİRİŞ - ÇIKIŞ kaydı";
@@ -481,7 +387,7 @@ void hC_MLZM::mlzm_kntrl()
             if(dlg == QMessageBox::Yes)
             {
                 /// Mlzmya ait Mlzmdet giriş kayıtlarını sil
-                s_qry = QString("DELETE FROM mlzmDet__dbtb where mlzmDet_mlzm_kod = %1").arg (Mlzm_no);
+                s_qry = QString("DELETE FROM mlzmDet__dbtb where mlzmDet_kod = %1").arg (Mlzm_no);
                 q_qry.exec(s_qry);
                 if (q_qry.isActive ())
                 {
@@ -502,7 +408,7 @@ void hC_MLZM::mlzm_kntrl()
 
 
                 /// Mlzm kayıtlarını silelim
-                s_qry = QString("DELETE FROM mlzm__dbtb where mlzm_kod = %1").arg (Mlzm_no);
+                s_qry = QString("DELETE FROM _dbtb where kod = %1").arg (Mlzm_no);
                 q_qry.exec(s_qry);
                 if (q_qry.isActive ())
                 {
@@ -512,20 +418,20 @@ void hC_MLZM::mlzm_kntrl()
 
                     if (tB_modl->rowCount () == 1)
                     {
-                        MLZMtview->table->selectRow (0);
-                        MLZMtview->table->setCurrentIndex (tB_modl->index(0,1));
+                        tB_view->table->selectRow (0);
+                        tB_view->table->setCurrentIndex (tB_modl->index(0,1));
                     }
                     if (tB_modl->rowCount () > 1)
                     {
                         if (mlzmIndex.row () == 0)
                         {
-                            MLZMtview->table->selectRow (0);
-                            MLZMtview->table->setCurrentIndex (tB_modl->index(0,1));
+                            tB_view->table->selectRow (0);
+                            tB_view->table->setCurrentIndex (tB_modl->index(0,1));
                         }
                         else if (mlzmIndex.row () > 0)
                         {
-                            MLZMtview->table->selectRow (mlzmIndex.row()-1);
-                            MLZMtview->table->setCurrentIndex (tB_modl->index(mlzmIndex.row ()-1,1));
+                            tB_view->table->selectRow (mlzmIndex.row()-1);
+                            tB_view->table->setCurrentIndex (tB_modl->index(mlzmIndex.row ()-1,1));
                         }
 
 
@@ -546,83 +452,83 @@ void hC_MLZM::mlzm_kntrl()
     });
 
     /*
-    connect(MLZMtview->pB_ilk, &QPushButton::clicked ,
+    connect(tB_view->pB_ilk, &QPushButton::clicked ,
             [this] ()
     {
-     MLZMtview->hC_TvPb ("ilk", tB_modl, MLZMmapper);
+     tB_view->hC_MLZMTvPb ("ilk", tB_modl, tB_map);
     });
 
 
-    connect(MLZMtview->pB_ncki, &QPushButton::clicked,
+    connect(tB_view->pB_ncki, &QPushButton::clicked,
             [this] ()
     {
-        MLZMtview->hC_TvPb ("ncki", tB_modl, MLZMmapper);
+        tB_view->hC_MLZMTvPb ("ncki", tB_modl, tB_map);
     });
 
     //             &hC_MLZM::slt_Mlzm_toPrevious )) ;
-    connect(MLZMtview->pB_snrki, &QPushButton::clicked,
+    connect(tB_view->pB_snrki, &QPushButton::clicked,
             [this] ()
     {
-        MLZMtview->hC_TvPb ("snrki", tB_modl, MLZMmapper);
+        tB_view->hC_MLZMTvPb ("snrki", tB_modl, tB_map);
     });
 
     //             &hC_MLZM::slt_Mlzm_toNext )) ;
-    connect(MLZMtview->pB_son, &QPushButton::clicked,
+    connect(tB_view->pB_son, &QPushButton::clicked,
             [this] ()
     {
-        MLZMtview->hC_TvPb ("son", tB_modl, MLZMmapper);
+        tB_view->hC_MLZMTvPb ("son", tB_modl, tB_map);
     });
 
     /// mlzm nav tuslari kontrol
-    connect(MLZMmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tB_map, &QDataWidgetMapper::currentIndexChanged,
             [this]()
     {
-        MLZMtview->hC_TvPb ("yenile", tB_modl, MLZMmapper);
+        tB_view->hC_MLZMTvPb ("yenile", tB_modl, tB_map);
     });
 */
     /// Mlzm da kolon değiştiğinde indexte değişsin
-    connect(  MLZMslctnMdl, &QItemSelectionModel::currentColumnChanged,
-              MLZMmapper, &QDataWidgetMapper::setCurrentModelIndex);
+    connect(  tB_slctnMdl, &QItemSelectionModel::currentColumnChanged,
+              tB_map, &QDataWidgetMapper::setCurrentModelIndex);
 
     /// Mlzm da row değiştiğinde indexte değişsin
-    connect(  MLZMslctnMdl , &QItemSelectionModel::currentRowChanged,
-              MLZMmapper, &QDataWidgetMapper::setCurrentModelIndex);
+    connect(  tB_slctnMdl , &QItemSelectionModel::currentRowChanged,
+              tB_map, &QDataWidgetMapper::setCurrentModelIndex);
 
     // malzemede row değiştiğnde 3 şeyi değiştirelim
     // 1 map indexi
     // 2 malzeme kodunu ve ismini yayalım
     // 3 resim
-    connect( MLZMslctnMdl, &QItemSelectionModel::currentRowChanged,
+    connect( tB_slctnMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index)
     {
 
 
         // 1 map indexi değiştirelim
-        MLZMmapper->setCurrentModelIndex(Index);
+        tB_map->setCurrentModelIndex(Index);
 
         // 2 malzeme kod - barkod - isim ve birim yayalım
         ////////////////////////////////////////////////////////////////
         auto kd = new QString;
-        *kd = MLZMtview->table->model()->index( Index.row() ,
-                                                tB_modl->fieldIndex ("mlzm_kod") ).data().toString();
+        *kd = tB_view->table->model()->index( Index.row() ,
+                                                tB_modl->fieldIndex ("kod") ).data().toString();
 
         auto brkd = new QString;
-        *brkd = MLZMtview->table->model()->index( Index.row() ,
-                                                  tB_modl->fieldIndex ("mlzm_barkod") ).data().toString();
+        *brkd = tB_view->table->model()->index( Index.row() ,
+                                                  tB_modl->fieldIndex ("barkod") ).data().toString();
 
         auto mlzm = new QString;
-        *mlzm = MLZMtview->table->model()->index( Index.row() ,
-                                                  tB_modl->fieldIndex ("mlzm_malzeme") ).data().toString();
+        *mlzm = tB_view->table->model()->index( Index.row() ,
+                                                  tB_modl->fieldIndex ("malzeme") ).data().toString();
 
         auto brm = new QString;
-        *brm =  MLZMtview->table->model()->index( Index.row() ,
-                                                  tB_modl->fieldIndex ("mlzm_birim") ).data().toString();
+        *brm =  tB_view->table->model()->index( Index.row() ,
+                                                  tB_modl->fieldIndex ("birim") ).data().toString();
         ////////////////////////////////////////////////////////////////
         emit hC_MLZM::sgnMalzeme( kd, brkd, mlzm, brm);
         ////////////////////////////////////////////////////////////////
         // 3 resimi değiştirelim
-        hC_Rs resim ( winRsm, MLZMtview, tB_modl, MLZMslctnMdl,
-                      "mlzm_resim", "değiştir" ) ;
+        hC_Rs resim ( win_Rsm, tB_view, tB_modl, tB_slctnMdl,
+                      "resim", "değiştir" ) ;
 
 
     });
@@ -634,7 +540,7 @@ void hC_MLZM::mlzm_kntrl()
 
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
 
-    connect(MLZMslctnMdl, &QItemSelectionModel::currentRowChanged,
+    connect(tB_slctnMdl, &QItemSelectionModel::currentRowChanged,
             this, &hC_MLZM::slt_Mlzm_hesap);
 
 
@@ -656,12 +562,12 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
         int id = tB_modl->
                 data ( tB_modl->
                        index(Mlzm_row,tB_modl->
-                             fieldIndex("mlzm_kod"))).toInt () ;
+                             fieldIndex("kod"))).toInt () ;
         QSqlQuery q_qry;
         QString s_qry;
         s_qry = QString ("SELECT SUM(mlzmdet_miktar) "
                          "FROM mlzmdet__dbtb "
-                         "WHERE mlzmDet_mlzm_kod = %1 AND "
+                         "WHERE mlzmDet_kod = %1 AND "
                          "mlzmDet_gc = 'Faturalı Giriş'").arg(id);
         q_qry.exec (s_qry);
 
@@ -673,7 +579,7 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
             q_qry.next ();
             grs = q_qry.value(0).toDouble ();
             tB_modl->setData(tB_modl->index(Mlzm_row, tB_modl->
-                                            fieldIndex ("mlzm_giris")), grs);
+                                            fieldIndex ("giris")), grs);
         }
         else
         {
@@ -682,7 +588,7 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
         }
         s_qry = QString ("SELECT SUM(mlzmdet_miktar) "
                          "FROM mlzmdet__dbtb "
-                         "WHERE mlzmDet_mlzm_kod = %1 AND "
+                         "WHERE mlzmDet_kod = %1 AND "
                          "mlzmDet_gc = 'Çıkış'").arg(id);
         q_qry.exec (s_qry);
         if (q_qry.isActive ())
@@ -692,7 +598,7 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
             cks = q_qry.value(0).toDouble ();
             tB_modl->setData(tB_modl->
                              index(Mlzm_row, tB_modl->
-                                   fieldIndex ("mlzm_cikis")), cks);
+                                   fieldIndex ("cikis")), cks);
         }
         else
         {
@@ -702,7 +608,7 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
 
         tB_modl->setData(tB_modl->
                          index(Mlzm_row, tB_modl->
-                               fieldIndex ("mlzm_mevcut")), grs-cks);
+                               fieldIndex ("mevcut")), grs-cks);
         tB_modl->submitAll ();
         qDebug()<<"toplam mevcut    "<<grs-cks;
     }
@@ -738,78 +644,5 @@ void hC_MLZM::showEvent(QShowEvent *)
 
 
 
-
-
-
-///
-/// \brief DBase::VTd_Mlzm
-/// \return
-///
-QString hC_MLZM::mlzm_VTd ()
-{
-
-
-    /// Malzeme create
-    ///
-
-    QString ct, mesaj ="  OK - Malzeme";
-    QSqlQuery q;
-
-    qDebug() << " tableee  name " << *tB_name;
-    if ( ! VTKontrolEt::instance()->GetDB().tables().
-         contains( "mlzm_dbtb" ))
-    {
-        ct = "CREATE TABLE IF NOT EXISTS " + *tB_name +
-                "("
-                "mlzm_kod integer primary key, "
-                "mlzm_barkod	TEXT, "
-                "mlzm_malzeme  TEXT,"
-                "mlzm_aciklama TEXT,"
-                "mlzm_marka	TEXT, "
-                "mlzm_model	TEXT, "
-                "mlzm_cins	    TEXT,"
-                "mlzm_birim	TEXT,"
-                "mlzm_giris	TEXT, "
-                "mlzm_cikis	TEXT, "
-                "mlzm_mevcut   TEXT,"
-                "mlzm_makina   TEXT,"
-                "mlzm_resim	BLOB) "    ;
-
-        if (!q.exec( ct ))
-        {
-            mesaj="<br>HATA - Malzeme Dosyası Oluşturulamadı"
-                  "<br>------------------------------------<br>"+
-                    q.lastError().text()+
-                    "<br>------------------------------------<br>";
-        }
-        else /// dosya oluşturuldu
-        {
-            mesaj= "OK - Malzeme Dosyası YENİ Oluşturuldu ";
-            if (
-                    q.exec("INSERT INTO " + *tB_name +
-                           "( mlzm_barkod,mlzm_malzeme )"
-                           " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
-            {
-                mesaj= mesaj+"<br>İLK kayıt Eklendi";
-            }
-            else
-            {
-                mesaj= mesaj+"<br>İLK Malzeme kaydı eklenemdi "
-                             "<br>------------------------------------<br>"+
-                        q.lastError().text()+
-                        "<br>------------------------------------<br>";
-            }
-
-        }
-    }
-    else /// dosya var
-    {
-        //        mdlMlzm = new QSqlRelationalTableModel;
-        //      mdlMlzm = modelMalzeme();
-    }
-    qDebug() << mesaj;
-    return mesaj;
-
-}
 
 

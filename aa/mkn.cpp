@@ -1204,10 +1204,10 @@ void hC_MKN::mkn_model ()
     // tB_FieldList->append("resim");
 
     MKNmodel = new QSqlRelationalTableModel;
-    hC_Rm hC_Rm (&MKNtableName,
+  /*  hC_Rm hC_Rm (&MKNtableName,
                  MKNmodel,
                  &indexField ,
                  tB_FieldList) ;
-
+*/
 }///MKN
 

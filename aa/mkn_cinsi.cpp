@@ -343,11 +343,11 @@ void hC_MKCINS::mkCins_model ()
     tB_FieldList->append("Cinsi Kodu");
 
     CNSmodel = new QSqlRelationalTableModel ;
-    hC_Rm hC_Rm ( &CNStableName,
+  /*  hC_Rm hC_Rm ( &CNStableName,
                   CNSmodel,
                   &indexField ,
                   tB_FieldList) ;
-
+*/
 }///CNS
 
 

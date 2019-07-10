@@ -358,10 +358,10 @@ void hC_MKMODL::mkModl_model ()
     QString MODLtableName{"mkModl__dbtb"} ;
     QString indexField = "modeli";
     MDLmodel = new QSqlRelationalTableModel ;
-    hC_Rm hC_Rm ( &MODLtableName,
+  /*  hC_Rm hC_Rm ( &MODLtableName,
                   MDLmodel,
                   &indexField ,
                   tB_FieldList) ;
-
+*/
 }///MDLİ
 

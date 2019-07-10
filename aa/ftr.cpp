@@ -1318,11 +1318,11 @@ void hC_FTR::ftr_model()
     tB_FieldList->append("Resim");
 
     FTRmodel = new QSqlRelationalTableModel ;
-    hC_Rm hC_Rm (&tableName,
+  /*  hC_Rm hC_Rm (&tableName,
                  FTRmodel,
                  &indexField ,
                  tB_FieldList) ;
-
+*/
 }///FATURA
 
 void hC_FTR::ftrdet_model (QSqlRelationalTableModel *model)
@@ -1348,11 +1348,11 @@ void hC_FTR::ftrdet_model (QSqlRelationalTableModel *model)
     tB_FieldList->append("Açıklama");
     tB_FieldList->append("Resim");
 
-    hC_Rm hC_Rm (&tableName,
+  /*  hC_Rm hC_Rm (&tableName,
                  model,
                  &indexField ,
                  tB_FieldList) ;
-
+*/
 }///fatura detasy Model
 
 

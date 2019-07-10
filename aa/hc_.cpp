@@ -436,7 +436,7 @@ hC_Te::~hC_Te()
 hC_Rm::hC_Rm (QString *rm_Table,
                QSqlRelationalTableModel *rm_model,
                QString *rm_IndexField,
-               QStringList *rm_List )
+               hC_ArrD *rm_List )
 
 {
     rm_model->setTable( *rm_Table );
@@ -444,12 +444,12 @@ hC_Rm::hC_Rm (QString *rm_Table,
     rm_model->setSort(rm_model->fieldIndex
                       ( *rm_IndexField ),Qt::AscendingOrder );
 
-    for(int i = 0, j = 0; i < rm_List->size (); i++, j++)
+    for(int i = 0, j = 0; i < rm_List->length (); i++, j++)
     {
 
         rm_model->setHeaderData(i, 
                                 Qt::Horizontal, 
-                                rm_List [i] ) ;
+                                rm_List->value (i,2)) ;
     }
 
     // Populate the model
@@ -614,3 +614,97 @@ QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index)
     }
     return Index;
 }
+
+hC_tBcreator::hC_tBcreator ()
+{
+    this->_mesaj="";
+}
+
+QString hC_tBcreator::getMesaj ()
+{
+    return this->_mesaj;
+}
+
+QString hC_tBcreator::create (QString *tB_name, hC_ArrD *tB_fields)
+{
+    ////////////////////////////////////////////////////////
+    /// table creater
+    /// fields in içindeki değerlere göre table oluşturur
+    ///
+
+    QString ct(" ");
+    QSqlQuery q;
+
+    if ( ! VTKontrolEt::instance()->GetDB().tables().
+         contains( *tB_name ))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS " + *tB_name +
+                " ( ";
+
+        for (int i=0 ; i < tB_fields->length (); i++)
+        {
+            if ( i == 0 ) // ilk field
+            {
+                ct = ct + tB_fields->value(i,0) + " "+
+                        tB_fields->value(i,1) +" PRIMARY KEY, ";
+            }
+            else if ( i > 0  &&
+                      i < tB_fields->length () - 1 ) // other fields
+            {
+                ct = ct + tB_fields->value(i,0) + " "+
+                        tB_fields->value(i,1) + ", ";
+            }
+            else if ( i == tB_fields->length () - 1 ) // son field
+            {
+                ct = ct + tB_fields->value(i,0) + " "+
+                        tB_fields->value(i,1) + " ) ";
+            }
+
+            /* qDebug ()<< " ct = " << i <<" - "<<tB_fields->value (i,0);
+            qDebug ()<< "-------------------------- " ;
+            qDebug ()<< " ct = " << ct;*/
+
+        }
+
+
+
+        if (!q.exec( ct ))
+        {
+            this-> _mesaj = "HATA - Dosya Oluşturulamadı : " + *tB_name  +
+                    "\n------------------------------------\n"+
+                    q.lastError().text()+
+                    "\n------------------------------------\n";
+        }
+        else /// dosya oluşturuldu
+        {
+            this-> _mesaj = "OK   - YENİ Dosya Oluşturuldu : "+ *tB_name  ;
+            /*    if (
+                    q.exec("INSERT INTO " + *tB_name +
+                           "( mlzm_barkod,mlzm_malzeme )"
+                           " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
+            {
+                mesaj= mesaj+"<br>İLK kayıt Eklendi";
+            }
+            else
+            {
+                mesaj= mesaj+"<br>İLK Malzeme kaydı eklenemdi "
+                             "<br>------------------------------------<br>"+
+                        q.lastError().text()+
+                        "<br>------------------------------------<br>";
+            }*/
+        }
+    }
+
+    else /// dosya var
+    {
+        this-> _mesaj  = "OK   : " + *tB_name ;
+    }
+    qDebug() << this-> _mesaj ;
+    ////////////////////////////////////////////////////////////
+
+    return _mesaj;
+}
+
+
+
+

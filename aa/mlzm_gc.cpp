@@ -130,11 +130,11 @@ void hC_MLZMGC::mlzmGc_map()
 
     //MLZMGCmapper->addMapping(lE_barkod , MLZMGCmodel->fieldIndex("barkod"));
     //MLZMGCmapper->addMapping(lE_malzeme, MLZMGCmodel->fieldIndex("malzeme"));
-    MLZMGCmapper->addMapping(lE_tarih, MLZMGCmodel->fieldIndex("mlzmDet_tarih"));
-    MLZMGCmapper->addMapping(cbx_grscks, MLZMGCmodel->fieldIndex("mlzmDet_gc"));
-    MLZMGCmapper->addMapping(lE_miktar, MLZMGCmodel->fieldIndex("mlzmDet_miktar"));
-    MLZMGCmapper->addMapping(lE_fiyat, MLZMGCmodel->fieldIndex("mlzmDet_fiyat"));
-    MLZMGCmapper->addMapping(lE_aciklama, MLZMGCmodel->fieldIndex("mlzmDet_aciklama"));
+    MLZMGCmapper->addMapping(lE_tarih, MLZMGCmodel->fieldIndex("mlzmgc_tarih"));
+    MLZMGCmapper->addMapping(cbx_grscks, MLZMGCmodel->fieldIndex("mlzmgc_gc"));
+    MLZMGCmapper->addMapping(lE_miktar, MLZMGCmodel->fieldIndex("mlzmgc_miktar"));
+    MLZMGCmapper->addMapping(lE_fiyat, MLZMGCmodel->fieldIndex("mlzmgc_fiyat"));
+    MLZMGCmapper->addMapping(lE_aciklama, MLZMGCmodel->fieldIndex("mlzmgc_aciklama"));
 
     hC_MLZMGC::MLZMGCmapper->toFirst() ;
 }
@@ -332,19 +332,19 @@ QString hC_MLZMGC::mlzmGc_VTd ()
     {
         ct = "CREATE TABLE IF NOT EXISTS " + MLZDETtableName +
              "("
-             "mlzmDet_kod integer primary key, "
-             "mlzmDet_mlzm_kod	INTEGER, "
-             "mlzmDet_barkod	TEXT , "
-             "mlzmDet_malzeme	TEXT , "
-             "mlzmDet_tarih	    TEXT , "
-             "mlzmDet_gc        TEXT , "    // faturalı giriş vs.
-                "mlzmDet_gcno      TEXT , "    // fatura no  vs.
-                "mlzmDet_miktar    TEXT , "
-                "mlzmDet_birim     TEXT , "
-                "mlzmDet_fiyat     TEXT , "
-                "mlzmDet_kdv       TEXT , "
-                "mlzmDet_aciklama  TEXT ,  "
-                "mlzmDet_resim  BLOB  "
+             "mlzmgc_kod integer primary key, "
+             "mlzmgc_mlzm_kod	INTEGER, "
+             "mlzmgc_barkod	TEXT , "
+             "mlzmgc_malzeme	TEXT , "
+             "mlzmgc_tarih	    TEXT , "
+             "mlzmgc_gc        TEXT , "    // faturalı giriş vs.
+                "mlzmgc_gcno      TEXT , "    // fatura no  vs.
+                "mlzmgc_miktar    TEXT , "
+                "mlzmgc_birim     TEXT , "
+                "mlzmgc_fiyat     TEXT , "
+                "mlzmgc_kdv       TEXT , "
+                "mlzmgc_aciklama  TEXT ,  "
+                "mlzmgc_resim  BLOB  "
                 ")";
 
         if (!q.exec( ct ))
@@ -359,7 +359,7 @@ QString hC_MLZMGC::mlzmGc_VTd ()
             mesaj= "OK - Malzeme Detay Dosyası YENİ Oluşturuldu";
 
             if (q.exec("INSERT INTO " + MLZDETtableName +
-                       "( mlzmGc_malzeme, mlzmDet_gc, mlzmDet_gcno )"
+                       "( mlzmGc_malzeme, mlzmgc_gc, mlzmgc_gcno )"
                        " values( '1 nolu ürüne ait detay','Faturalı Giriş','1' )"  ))
             {
                 mesaj = mesaj + "<br>İLK kayıt eklendi";
@@ -402,11 +402,11 @@ void hC_MLZMGC::mlzmGc_model ()
     tB_FieldList->append("Resim");
 
     MLZMGCmodel = new QSqlRelationalTableModel ;
-    hC_Rm hC_Rm (&tableName,
+  /*  hC_Rm hC_Rm (&tableName,
                  MLZMGCmodel,
                  &indexField ,
                  tB_FieldList) ;
-
+*/
 }///fsturs detsy Model
 
 

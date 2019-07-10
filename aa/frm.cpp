@@ -419,10 +419,10 @@ void hC_FRM::frm_model()
     // tB_FieldList->append("resim");
 
     FRMmodel = new QSqlRelationalTableModel;
-     hC_Rm hC_Rm ( &FRMtableName,
+  /*   hC_Rm hC_Rm ( &FRMtableName,
                   FRMmodel,
                   &indexField ,
                   tB_FieldList) ;
-
+*/
 }///FİRMA
 

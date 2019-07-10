@@ -494,11 +494,11 @@ void hC_CLSN::clsn_model()
     tB_FieldList->append("resim");
 
     CLSNmodel = new QSqlRelationalTableModel;
-    hC_Rm hC_Rm ( &CLSNtableName,
+  /*  hC_Rm hC_Rm ( &CLSNtableName,
                  CLSNmodel,
                  &indexField ,
                  tB_FieldList) ;
-
+*/
 } /// ÇALIŞAN
 
 

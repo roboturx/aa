@@ -60,38 +60,39 @@ bool DBase::setupDBase()
 void DBase::VTDosyaKontrol()
 {
 
+    hC_tBcreator tB_x ;
+
     hC_CLSN clsn;
-    yaz(clsn.clsn_VTd());
+    yaz(tB_x.create (clsn.tB_name, clsn.tB_fields)) ;
+
     hC_FRM frm;
-    yaz(frm.frm_VTd());
-    //yaz(DBase::VTd_MSLK ());
+    yaz(tB_x.create (frm.tB_name, frm.tB_fields)) ;
+
     hC_FTR ftr;
-    yaz(ftr.ftr_VTd());
+    yaz(tB_x.create (ftr.tB_name, ftr.tB_fields)) ;
 
-    hC_MLZM malzeme;
-    yaz(malzeme.mlzm_VTd() );
+    hC_MLZM mlzm;
+    yaz(tB_x.create (mlzm.tB_name, mlzm.tB_fields)) ;
 
-    hC_MLZMGC malzemeGc;
-    yaz(malzemeGc.mlzmGc_VTd());
+    hC_MLZMGC malzemegc;
+    yaz(tB_x.create (mlzmgc.tB_name, mlzmgc.tB_fields)) ;
 
-    hC_MKN makina;
-    yaz(makina.mkn_VTd());
+    hC_MKN mkn;
+    yaz(tB_x.create (mkn.tB_name, mkn.tB_fields)) ;
 
     hC_MKCINS mkcins;
-    yaz(mkcins.mkCins_VTd());
+    yaz(tB_x.create (mkcins.tB_name, mkcins.tB_fields)) ;
     hC_MKMARK mkmark;
-    yaz(mkmark.mkMark_VTd());
+    yaz(tB_x.create (mkmark.tB_name, mkmark.tB_fields)) ;
     hC_MKMODL mkmodl;
-    yaz(mkmodl.mkModl_VTd());
-    //hC_IE ie;
-    //yaz(ie.ie_VTd());
+    yaz(tB_x.create (mkmodl.tB_name, mkmodl.tB_fields)) ;
     hC_IEDET iedet;
-    yaz(iedet.iedet_VTd());
+    yaz(tB_x.create (iedet.tB_name, iedet.tB_fields)) ;
 
-    DBase::VTd_IEDTAMIRYERI ();
+
+        DBase::VTd_IEDTAMIRYERI ();
     DBase::VTd_IEDTYDETAY ();
-    //DBase::VTd_ISCILIK ();
-    // DBase::VTd_TASINIR () ;
+
     DBase::VTd_MKYAG ();
     DBase::VTd_MKFILTRE ();
     DBase::VTd_MKAKU ();

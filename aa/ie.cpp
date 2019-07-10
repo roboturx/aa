@@ -594,9 +594,9 @@ void hC_IE::ie_model()
     fieldList->append("ID_IE");
 
     IEmodel = new QSqlRelationalTableModel;
-    hC_Rm hC_Rm ( &IEtableName,
+  /*  hC_Rm hC_Rm ( &IEtableName,
                   IEmodel,
                   &indexField ,
                   fieldList) ;
-
+*/
 } /// İŞ EMRİ

@@ -507,10 +507,10 @@ void hC_TSNR::tsnr_model()
     tB_FieldList->append("Yetkili");
 
     TSNRmodel = new QSqlRelationalTableModel;
-    hC_Rm hC_Rm ( &tB_Name,
+  /*  hC_Rm hC_Rm ( &tB_Name,
                  TSNRmodel,
                  &indexField ,
                  tB_FieldList) ;
-
+*/
 }
 

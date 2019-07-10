@@ -611,10 +611,11 @@ void hC_IEDET::iedet_model()
     tB_FieldList->append("Detay ID");
 
     IEDETmodel = new QSqlRelationalTableModel;
-    hC_Rm hC_Rm ( &tableName,
+   /* hC_Rm hC_Rm ( &tableName,
                   IEDETmodel,
                   &indexField ,
                   tB_FieldList) ;
+    */
     //    qDebug() <<"iedetmodel in içinde  " <<IEDETmodel;
 
 }

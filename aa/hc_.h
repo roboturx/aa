@@ -35,6 +35,7 @@ class hC_Te;
 class hC_Tm;
 class hC_Gz;
 class hC_Nr;
+class hC_ArrD;
 }
 // forward declaration
 
@@ -98,11 +99,11 @@ class hC_Rs : public QWidget
 public:
 
     explicit hC_Rs ( QLabel *rsm_updResim= nullptr,
-            hC_Tv *rsm_table= nullptr,
-            QSqlRelationalTableModel *rsm_model= nullptr,
-            QItemSelectionModel *rsm_selectionModel= nullptr,
-            QString rsm_field= nullptr,
-            QString rsm_new_upd = nullptr);
+                     hC_Tv *rsm_table= nullptr,
+                     QSqlRelationalTableModel *rsm_model= nullptr,
+                     QItemSelectionModel *rsm_selectionModel= nullptr,
+                     QString rsm_field= nullptr,
+                     QString rsm_new_upd = nullptr);
 
 };
 
@@ -162,8 +163,8 @@ class hC_Le : public QWidget
      explicit hC_Le(QWidget *parent = nullptr);
      ~hC_Le();
      QLineEdit  *lineEdit;
-     QPushButton *pushButton;
-     QPushButton *pushButton2;
+      QPushButton *pushButton;
+       QPushButton *pushButton2;
 };
 
 
@@ -190,6 +191,79 @@ class hC_Te : public QWidget
 
 
 
+template <typename T> class  hC_Arr2D
+{
+public:
+    hC_Arr2D(int n, int m)
+    {
+        _n = n;
+        _array = new T*[n];
+        for(int i = 0; i < n; i++)
+            _array[i]= new T[m];
+
+    }
+    void setValue(int n, int m, T v){_array[n][m]=v;}
+    T getValue(int n, int m){return _array[n][m];}
+    ~hC_Arr2D(){
+        for(int i=0; i < _n;i++)
+            delete [] _array[i];
+        delete [] _array;
+    }
+
+private:
+    T **_array;
+    int _n;
+
+};
+
+/// 2D array
+///
+/// ilk parametre arrayın boyunu gösterir
+/// 2.boyut 3 adet sabittir
+/// 2-3-4. parametreler QString leri alır
+
+class  hC_ArrD
+{
+public:
+    hC_ArrD(int n, int m )
+    {
+        _n = n;
+        _array = new QString* [n];
+        for(int i = 0; i < n; i++)
+            _array[i]= new QString [m];
+    }
+    void setValue(int n, QString s1, QString s2, QString s3, QString s4="1")
+    {
+        _array[n][0]=s1;
+        _array[n][1]=s2;
+        _array[n][2]=s3;
+        _array[n][3]=s4;
+    }
+
+    QString value(int n, int m)
+    {
+        return _array[n][m];
+    }
+
+    int length()
+    {
+        return _n ;
+    }
+
+    ~hC_ArrD(){
+        for(int i=0; i < _n;i++)
+            delete [] _array[i];
+        delete [] _array;
+    }
+
+private:
+    QString **_array;
+    int _n;
+
+};
+
+
+
 
 // /////////////////////////////////////////////////////////////////////////////////
 
@@ -205,11 +279,11 @@ class hC_Rm : public QSqlRelationalTableModel
 
  public:
      explicit hC_Rm (QString *rm_Table,
-           QSqlRelationalTableModel *rm_model,
-           QString *rm_IndexField,
-           QStringList *rm_List);
+                     QSqlRelationalTableModel *rm_model,
+                     QString *rm_IndexField,
+                     hC_ArrD *);
      ~hC_Rm();
-    // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
+     // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
      //QSqlRelationalTableModel  *hC_rm;
 };
 
@@ -228,11 +302,11 @@ class hC_RmX : public QSqlRelationalTableModel
 
  public:
      explicit hC_RmX (QString *rm_Table,
-           QSqlRelationalTableModel *rm_model,
-           QString *rm_IndexField,
-           QVector<QVector<QString> > *rm_List);
+                      QSqlRelationalTableModel *rm_model,
+                      QString *rm_IndexField,
+                      QVector<QVector<QString> > *rm_List);
      ~hC_RmX();
-    // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
+     // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
      //QSqlRelationalTableModel  *hC_rm;
 };
 
@@ -241,7 +315,7 @@ class hC_Gz
 {
 public:
 
-hC_Gz(QDateTimeEdit *tarih, QString vsbl);
+    hC_Gz(QDateTimeEdit *tarih, QString vsbl);
 };
 
 
@@ -254,6 +328,24 @@ private:
     QModelIndex hC_NrSetCurrentIndex(QModelIndex Index);
 };
 
+
+class hC_tBcreator
+{
+public:
+    explicit hC_tBcreator(tb_name,);
+    QString create( QString *tB_name, hC_ArrD *tB_fields);
+    void    model( QString *rm_Table,
+                   QSqlRelationalTableModel *rm_model,
+                   QString *rm_IndexField,
+                   hC_ArrD *tB_fields);
+    void tB_view( QSqlRelationalTableModel *rm_model,
+                  QItemSelectionModel tB_slctnMdl,
+                  QTableView tB_view,
+                  hC_ArrD *tB_fields);
+
+private:
+    QString _mesaj;
+};
 
 
 #endif // HC__H
