@@ -59,11 +59,11 @@ bool DBase::setupDBase()
 
 void DBase::VTDosyaKontrol()
 {
-
+/*
     hC_tBcreator tB_x ;
 
     hC_CLSN clsn;
-    yaz(tB_x.create (clsn.tB_name, clsn.tB_fields)) ;
+
 
     hC_FRM frm;
     yaz(tB_x.create (frm.tB_name, frm.tB_fields)) ;
@@ -88,6 +88,12 @@ void DBase::VTDosyaKontrol()
     yaz(tB_x.create (mkmodl.tB_name, mkmodl.tB_fields)) ;
     hC_IEDET iedet;
     yaz(tB_x.create (iedet.tB_name, iedet.tB_fields)) ;
+*/
+
+    hC_tBcreator tB_x ;
+    hC_MLZM mlzm;
+    yaz(tB_x.create (mlzm.tB_name, mlzm.tB_fields)) ;
+
 
 
         DBase::VTd_IEDTAMIRYERI ();

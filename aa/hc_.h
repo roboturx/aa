@@ -232,7 +232,8 @@ public:
         for(int i = 0; i < n; i++)
             _array[i]= new QString [m];
     }
-    void setValue(int n, QString s1, QString s2, QString s3, QString s4="1")
+
+    void setValue(int n, QString s1 = " ", QString s2 =" ", QString s3 = " ", QString s4="1")
     {
         _array[n][0]=s1;
         _array[n][1]=s2;
@@ -329,22 +330,55 @@ private:
 };
 
 
-class hC_tBcreator
+//////////////////////////////////////////////////////////
+/// \brief hC_tBcreator::hC_tBcreator
+///
+///   create table and others
+
+
+
+
+
+
+class hC_tBcreator : public QWidget
 {
+    Q_OBJECT
 public:
-    explicit hC_tBcreator(tb_name,);
+    explicit hC_tBcreator();
+    explicit hC_tBcreator(QString *tb_name,
+                          hC_ArrD *tb_fields,
+                          QString *tb_ndex,
+                          hC_Tv *tb_view,
+                          QSqlRelationalTableModel *tb_modl,
+                          QItemSelectionModel *tb_slctnmdl,
+                          QDataWidgetMapper *tb_map,
+                          QList<QWidget*> *win_wdgts);
+    ~hC_tBcreator();
+
     QString create( QString *tB_name, hC_ArrD *tB_fields);
-    void    model( QString *rm_Table,
+    void model( QString *rm_Table,
                    QSqlRelationalTableModel *rm_model,
                    QString *rm_IndexField,
                    hC_ArrD *tB_fields);
-    void tB_view( QSqlRelationalTableModel *rm_model,
-                  QItemSelectionModel tB_slctnMdl,
-                  QTableView tB_view,
-                  hC_ArrD *tB_fields);
+    void    view(QSqlRelationalTableModel *rm_model,
+                     QItemSelectionModel *tB_slctnMdl,
+                     hC_Tv *tB_view,
+                     hC_ArrD *tB_fields, QString *tB_name);
+    void    map(QDataWidgetMapper *tb_map,
+                 QSqlRelationalTableModel *tb_modl,
+                 hC_ArrD *tb_fields,
+                 QList<QWidget*> *win_wdgts,
+                 hC_Tv *tb_view, QString *tB_name);
 
 private:
-    QString _mesaj;
+    QString     _mesaj;
+    QString    * _tb_name;
+    hC_ArrD    * _tb_fields;
+    QString    * _tb_ndex;
+    QTableView * _tb_view;
+    QSqlRelationalTableModel * _tb_modl;
+    QItemSelectionModel      * _tb_slctnmdl;
+    QDataWidgetMapper        * _tb_map;
 };
 
 

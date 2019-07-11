@@ -150,7 +150,7 @@ void hC_MLZMGC::mlzmGc_kntrl()
 
     mlzm = new hC_MLZM;
     mlzmBarkod = new QString;
-    mlzm->mlzm_setup();
+    mlzm->setup();
     mlzm->show();
     // /// 12- set filter
 

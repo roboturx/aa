@@ -7,56 +7,65 @@ hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
     //*****************  M A L Z E M E  **************************
 
     win_Label = new QLabel ("AMBAR MALZEME");
-    tB_name = new QString ("_dbtb") ;
+
+    tB_name = new QString ("mlzm_dbtb") ;
+
+
+    tB_fields = new hC_ArrD (13, 4);
+    tB_fields->setValue ( 0, "mlzm_ID"      , "INTEGER", "MalzemeID", "0" ) ;
+    tB_fields->setValue ( 1, "mlzm_barkod"  , "TEXT"   , "Barkod" );
+    tB_fields->setValue ( 2, "mlzm_malzeme" , "TEXT"   , "Malzeme" );
+    tB_fields->setValue ( 3, "mlzm_aciklama", "TEXT"   , "Açıklama");
+    tB_fields->setValue ( 4, "mlzm_marka"   , "TEXT"   , "Marka"   );
+    tB_fields->setValue ( 5, "mlzm_model"   , "TEXT"   , "Model"   );
+    tB_fields->setValue ( 6, "mlzm_cins"    , "TEXT"   , "Cins"    );
+    tB_fields->setValue ( 7, "mlzm_birim"   , "TEXT"   , "Birim"   );
+    tB_fields->setValue ( 8, "mlzm_giris"   , "TEXT"   , "Giriş Toplamı");
+    tB_fields->setValue ( 9, "mlzm_cikis"   , "TEXT"   , "Çıkış Toplamı");
+    tB_fields->setValue (10, "mlzm_mevcut"  , "TEXT"   , "Ambar Mevcudu");
+    tB_fields->setValue (11, "mlzm_makina"  , "TEXT"   , "Makina", "0");
+    tB_fields->setValue (12, "mlzm_resim"   , "BLOB"   , "Resim" , "0" );
+
     tB_ndex = new QString ("malzeme");
+
+    tB_view = new hC_Tv;
     tB_modl = new QSqlRelationalTableModel;
-    int* tB_fcnt = new int(13);
+    tB_map = new QDataWidgetMapper;
 
-    tB_fields = new hC_ArrD (*tB_fcnt,4);
-    tB_fields->setValue (0, "kod"     , "INTEGER", "MalzemeID", "0" ) ;
-    tB_fields->setValue (1, "barkod"  , "TEXT"   , "Barkod"   );
-    tB_fields->setValue (2, "malzeme" , "TEXT"   , "Malzeme" );
-    tB_fields->setValue (3, "aciklama", "TEXT"   , "Açıklama", "1");
-    tB_fields->setValue (4, "marka"   , "TEXT"   , "Marka"   , "1");
-    tB_fields->setValue (5, "model"   , "TEXT"   , "Model"   , "1");
-    tB_fields->setValue (6, "cins"    , "TEXT"   , "Cins"    , "1");
-    tB_fields->setValue (7, "birim"   , "TEXT"   , "Birim"   , "1");
-    tB_fields->setValue (8, "giris"   , "TEXT"   , "Giriş Toplamı" , "1");
-    tB_fields->setValue (9 , "cikis"   , "TEXT"   , "Çıkış Toplamı", "1");
-    tB_fields->setValue (10, "mevcut"  , "TEXT"   , "Ambar Mevcudu", "1");
-    tB_fields->setValue (11, "makina"  , "TEXT"   , "Makina", "1" );
-    tB_fields->setValue (12, "resim"   , "BLOB"   , "Resim" , "0" );
+    tB_wdgts = new QList <QWidget*> ;
+    tB_wdgts->append ( nullptr    ) ;
+    tB_wdgts->append ( lE_barkod = new QLineEdit  ) ;
+    tB_wdgts->append ( lE_malzeme = new QLineEdit  ) ;
+    tB_wdgts->append ( lE_aciklama = new QLineEdit ) ;
+    tB_wdgts->append ( lE_marka = new QLineEdit    ) ;
+    tB_wdgts->append ( lE_model = new QLineEdit    ) ;
+    tB_wdgts->append ( lE_cins = new QLineEdit     ) ;
+    tB_wdgts->append ( cbx_birim = new QComboBox   ) ;
+    tB_wdgts->append ( lE_giris = new QLineEdit    ) ;
+    tB_wdgts->append ( lE_cikis  = new QLineEdit   ) ;
+    tB_wdgts->append ( lE_mevcut  = new QLineEdit  ) ;
+    tB_wdgts->append ( nullptr    ) ;
+    tB_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
-
-    win_wdgts = new QVector<QWidget*> ;
-    win_wdgts->append ( nullptr ) ;
-    win_wdgts->append ( lE_barkod ) ;
-    win_wdgts->append ( lE_malzeme ) ;
-    win_wdgts->append ( lE_aciklama ) ;
-    win_wdgts->append ( lE_marka ) ;
-    win_wdgts->append ( lE_model ) ;
-    win_wdgts->append ( lE_cins ) ;
-    win_wdgts->append ( cbx_birim ) ;
-    win_wdgts->append ( lE_giris ) ;
-    win_wdgts->append ( lE_cikis ) ;
-    win_wdgts->append ( lE_mevcut ) ;
-    win_wdgts->append ( nullptr ) ;
-    win_wdgts->append ( win_Rsm ) ;
-
+  qDebug() << "  cnstrct mlzm son";
 }
 
 
 void hC_MLZM::setup()
 {
 
-    hC_tBcreator tB_x;
-    tB_x.create (tB_name, tB_fields);
-    tB_x.model  (tB_name, tB_modl, tB_ndex, tB_fields) ;
+
+    hC_tBcreator (tB_name,
+                  tB_fields,
+                  tB_ndex,
+                  tB_view,
+                  tB_modl,
+                  tB_slctnMdl,
+                  tB_map,
+                  tB_wdgts) ;
 
     wdgt  () ;
-    map   () ;
     ui    () ;
-    view  () ;
     kntrl () ;
 }
 
@@ -81,7 +90,7 @@ void hC_MLZM::wdgt()
     qDebug () << "  wdgt";
 
     auto *lB_barkod = new QLabel(tr("&Barkod"));
-    lE_barkod = new QLineEdit();
+   // lE_barkod = new QLineEdit();
     lB_barkod->setBuddy(lE_barkod);
 
     auto lB_brkd = new QLabel();
@@ -89,27 +98,27 @@ void hC_MLZM::wdgt()
     lB_brkd->setText (lE_barkod->text ());
 
     auto *lB_malzeme = new QLabel(tr("&Malzeme"));
-    lE_malzeme = new QLineEdit();
+   // lE_malzeme = new QLineEdit();
     lB_malzeme->setBuddy(lE_malzeme);
 
     auto *lB_aciklama = new QLabel(tr("&Açıklama"));
-    lE_aciklama = new QLineEdit();
+    //lE_aciklama = new QLineEdit();
     lB_aciklama->setBuddy(lE_aciklama);
 
     auto *lB_marka = new QLabel(tr("Ma&rka"));
-    lE_marka = new QLineEdit();
+    //lE_marka = new QLineEdit();
     lB_marka->setBuddy(lE_marka);
 
     auto *lB_model = new QLabel(tr("Mo&del"));
-    lE_model = new QLineEdit();
+    //lE_model = new QLineEdit();
     lB_model->setBuddy(lE_model);
 
     auto *lB_cins = new QLabel(tr("&Cins"));
-    lE_cins = new QLineEdit();
+    ///lE_cins = new QLineEdit();
     lB_cins->setBuddy(lE_cins);
 
     auto *lB_birim = new QLabel(tr("&Birim"));
-    cbx_birim = new QComboBox;
+    //cbx_birim = new QComboBox;
 
     QStringList br = {"adet",
                       "takım",
@@ -121,27 +130,27 @@ void hC_MLZM::wdgt()
     lB_birim->setBuddy(cbx_birim);
 
     auto *lB_g = new QLabel(tr("Toplam Giriş"));
-    lE_giris = new QLineEdit();
+   // lE_giris = new QLineEdit();
     lE_giris->setAlignment (Qt::AlignRight);
     lE_giris->setValidator (
                 new QDoubleValidator(-999.0,999'999'999.0, 2, lE_giris)) ;
     lB_g->setBuddy(lE_giris);
 
     auto *lB_c = new QLabel(tr("Toplam Çıkış"));
-    lE_cikis = new QLineEdit();
+   // lE_cikis = new QLineEdit();
     lE_cikis->setValidator (
                 new QDoubleValidator(-999.0,999'999'999.0, 2, lE_cikis)) ;
-    lE_cikis->setAlignment (Qt::AlignRight);
+   // lE_cikis->setAlignment (Qt::AlignRight);
     lB_c->setBuddy(lE_cikis);
 
     auto *lB_m = new QLabel(tr("Ambar Mevcudu"));
-    lE_mevcut = new QLineEdit();
+   // lE_mevcut = new QLineEdit();
     lE_mevcut->setValidator (
                 new QDoubleValidator(-999.0,999'999'999.0, 2, lE_mevcut)) ;
-    lE_mevcut->setAlignment (Qt::AlignRight);
+   // lE_mevcut->setAlignment (Qt::AlignRight);
     lB_m->setBuddy(lE_mevcut);
 
-    win_Rsm = new QLabel;
+   // win_Rsm = new QLabel;
     hC_Rs resim(win_Rsm);
 
     ///////////////////////////////////////
@@ -183,7 +192,7 @@ void hC_MLZM::wdgt()
 
 }
 
-
+/*
 void hC_MLZM::view()
 {
     qDebug() << "  view";
@@ -210,7 +219,7 @@ void hC_MLZM::view()
     }
     //////////////////////////////////////////////////////////
     /// kullanıcı bu alanları görmesin
-    /*tB_view->table->setColumnHidden(tB_modl->fieldIndex("kod"), true);
+    tB_view->table->setColumnHidden(tB_modl->fieldIndex("kod"), true);
     //    tB_view->table->setColumnHidden(tB_modl->fieldIndex("giris"), true);
     //    tB_view->table->setColumnHidden(tB_modl->fieldIndex("cikis"), true);
     //    tB_view->table->setColumnHidden(tB_modl->fieldIndex("mevcut"), true);
@@ -218,46 +227,63 @@ void hC_MLZM::view()
     tB_view->table->setColumnHidden(tB_modl->fieldIndex("makina"), true);
     //////////////////////////////////////////////////////////
     // with blue rect
-*/
+
     tB_view->table->setCurrentIndex(tB_modl->index(1, 1) );
     tB_view->table->setFocus();
 }
-
-
-void hC_MLZM::map()
-{
-    qDebug() << "  map";
-
-    tB_map = new QDataWidgetMapper(this);
-    tB_map->setModel(tB_modl);
-
-
-    for (int i=0 ;  i < tB_fields->length () ; i++ )
-    {
-        tB_map->addMapping( win_wdgts->value(i), i);
-    }
-/*
-    tB_map->addMapping( lE_barkod, tB_modl->fieldIndex( "barkod"));
-    tB_map->addMapping( lE_malzeme, tB_modl->fieldIndex("malzeme"));
-    tB_map->addMapping( lE_aciklama, tB_modl->fieldIndex("aciklama"));
-    tB_map->addMapping( lE_marka, tB_modl->fieldIndex("marka"));
-    tB_map->addMapping( lE_model, tB_modl->fieldIndex("model"));
-    tB_map->addMapping( lE_cins, tB_modl->fieldIndex("cins"));
-    tB_map->addMapping( cbx_birim, tB_modl->fieldIndex( "birim" ));
-    tB_map->addMapping( lE_giris, tB_modl->fieldIndex("giris"));
-    tB_map->addMapping( lE_cikis, tB_modl->fieldIndex("cikis"));
-    tB_map->addMapping( lE_mevcut, tB_modl->fieldIndex("mevcut"));
-    //tB_map->addMapping( cX_mkn, tB_modl->fieldIndex("makina"));
-
 */
-    hC_MLZM::tB_map->toFirst() ;
-}
+
+//void hC_MLZM::map()
+//{
+//    qDebug() << "  map";
+
+//    tB_map = new QDataWidgetMapper(this);
+//    tB_map->setModel(tB_modl);
+
+
+//    for (int i=0 ;  i < tB_fields->length () ; i++ )
+//    {
+//        tB_map->addMapping( tB_wdgts->value(i), i);
+//    }
+///*
+//    tB_map->addMapping( lE_barkod, tB_modl->fieldIndex( "barkod"));
+//    tB_map->addMapping( lE_malzeme, tB_modl->fieldIndex("malzeme"));
+//    tB_map->addMapping( lE_aciklama, tB_modl->fieldIndex("aciklama"));
+//    tB_map->addMapping( lE_marka, tB_modl->fieldIndex("marka"));
+//    tB_map->addMapping( lE_model, tB_modl->fieldIndex("model"));
+//    tB_map->addMapping( lE_cins, tB_modl->fieldIndex("cins"));
+//    tB_map->addMapping( cbx_birim, tB_modl->fieldIndex( "birim" ));
+//    tB_map->addMapping( lE_giris, tB_modl->fieldIndex("giris"));
+//    tB_map->addMapping( lE_cikis, tB_modl->fieldIndex("cikis"));
+//    tB_map->addMapping( lE_mevcut, tB_modl->fieldIndex("mevcut"));
+//    //tB_map->addMapping( cX_mkn, tB_modl->fieldIndex("makina"));
+
+//*/
+
+//    connect(map, &QDataWidgetMapper::currentIndexChanged,
+//            [this, map, model]( )
+//    {
+//        int map_row = map->currentIndex ();
+//        this->pB_ilk->setEnabled (map_row>0);
+//        this->pB_ncki->setEnabled(map_row > 0);
+//        this->pB_snrki->setEnabled(map_row < model->rowCount() - 1);
+//        this->pB_son->setEnabled(map_row < model->rowCount() - 1);
+//    });
+
+
+
+//    hC_MLZM::tB_map->toFirst() ;
+//}
 
 
 
 void hC_MLZM::kntrl()
 {
     qDebug() << "  kntrl";
+
+
+
+
 
 
     // /// yeni malzeme ekle

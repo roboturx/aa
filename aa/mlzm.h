@@ -21,8 +21,8 @@ public:
     QString                  * tB_name     {} ;
     hC_ArrD                  * tB_fields   {} ;
     QString                  * tB_ndex     {} ;
+    QList <QWidget*>         * tB_wdgts    {} ;
 
-    QVector<QWidget*>        * win_wdgts {} ;
     QWidget                  * win_Wdgt  {} ;
     QLabel                   * win_Label {} ;
     QLabel                   * win_Rsm   {} ;
