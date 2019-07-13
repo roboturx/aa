@@ -33,7 +33,7 @@ void hC_SCLK::sclk_ui()
 
     // ///////////////////////////////////////////////////////
     // views
-    SCLKtview = new hC_Tv (SCLKmodel, SCLKmapper, winWdgt );
+    SCLKtview = new hC_Tv (this, SCLKmodel, SCLKmapper, winWdgt );
 
     /////*******************************************////////
 

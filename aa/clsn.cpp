@@ -2,9 +2,49 @@
 
 hC_CLSN::hC_CLSN ( QWidget *parent) : QWidget(parent)
 {
-    qDebug ()<<"Çalışan Constructor";
+    qDebug ()<<"Çalışan Constructor*******************************";
     //************************************************************
     //*****************  Ç A L I Ş A N  **************************
+    win_Label = new QLabel  ("AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI");
+    tb_name   = new QString ("mlzmgc_dbtb") ;
+
+    tb_flds = new hC_ArrD (13, 4);
+    tb_flds->setValue ( 0, "mlzmgc_ID"      , "INTEGER", "MalzemeGcID", "0" ) ;
+    tb_flds->setValue ( 1, "mlzmgc_mlzm_kod", "TEXT"   , "Malzeme Kod", "0" );
+    tb_flds->setValue ( 2, "mlzmgc_barkod"  , "TEXT"   , "Barkod", "0" );
+    tb_flds->setValue ( 3, "mlzmgc_malzeme" , "TEXT"   , "Malzeme", "0");
+    tb_flds->setValue ( 4, "mlzmgc_tarih"   , "TEXT"   , "Tarih"   );
+    tb_flds->setValue ( 5, "mlzmgc_gc"      , "TEXT"   , "İşlem Türü");
+    tb_flds->setValue ( 6, "mlzmgc_gcno"    , "TEXT"   , "İşlem No"  );
+    tb_flds->setValue ( 7, "mlzmgc_miktar"  , "TEXT"   , "Miktar"  );
+    tb_flds->setValue ( 8, "mlzmgc_birim"   , "TEXT"   , "Birim");
+    tb_flds->setValue ( 9, "mlzmgc_fiyat"   , "TEXT"   , "Fiyatı");
+    tb_flds->setValue (10, "mlzmgc_kdv"     , "TEXT"   , "KDV %");
+    tb_flds->setValue (11, "mlzmgc_aciklama", "TEXT"   , "Açıklama" );
+    tb_flds->setValue (12, "mlzmgc_resim"   , "BLOB"   , "Resim" , "0" );
+
+    tb_ndex     = new QString ("mlzmgc_tarih");
+    tb_model    = new QSqlRelationalTableModel;
+    tb_mapper   = new QDataWidgetMapper;
+    win_Wdgt    = new QWidget;
+    tb_view     = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
+    tb_slctnMdl = new QItemSelectionModel;
+
+    tb_wdgts = new QList <QWidget*> ;
+    tb_wdgts->append ( nullptr    ) ; // id
+    tb_wdgts->append ( nullptr    ) ; // mlzm_kod
+    tb_wdgts->append ( nullptr    ) ; // barkod
+    tb_wdgts->append ( nullptr    ) ; // malzeme
+    tb_wdgts->append ( lE_tarih = new QLineEdit  ) ;
+    tb_wdgts->append ( cbx_grscks = new QComboBox  ) ;
+    tb_wdgts->append ( nullptr    ) ; // gcno
+    tb_wdgts->append ( lE_miktar = new QLineEdit  ) ;
+    tb_wdgts->append ( nullptr    ) ; // birim
+    tb_wdgts->append ( lE_fiyat = new QLineEdit ) ;
+    tb_wdgts->append ( nullptr    ) ; // kdv
+    tb_wdgts->append ( lE_aciklama = new QLineEdit    ) ;
+    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
+
 }
 
 
@@ -33,7 +73,7 @@ void hC_CLSN::clsn_ui()
 
     // ///////////////////////////////////////////////////////
     // views
-    CLSNtview = new hC_Tv(CLSNmodel, CLSNmapper, winWdgt);
+    CLSNtview = new hC_Tv(this, CLSNmodel, CLSNmapper, winWdgt);
 
     /////*******************************************////////
     auto *gridClsn = new QGridLayout(this);

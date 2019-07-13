@@ -35,7 +35,7 @@ void hC_IEDET::iedet_ui()
 
 
     // ///////////////////////////////////////////////////////
-    IEDETtview = new hC_Tv (IEDETmodel, IEDETmapper, winWdgt);
+    IEDETtview = new hC_Tv (this, IEDETmodel, IEDETmapper, winWdgt);
 
     // ///////////////////////////////////////////////////////
 

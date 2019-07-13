@@ -30,7 +30,7 @@ void hC_MKN::mkn_ui()
     winLabel = new QLabel("ARAÇ BİLGİLERİ");
     this->setWindowTitle (winLabel->text ());
 
-    MKNtview    = new hC_Tv (MKNmodel, MKNmapper, winWdgt);
+    MKNtview    = new hC_Tv (this, MKNmodel, MKNmapper, winWdgt);
 
     auto *mkn_l = new QGridLayout;
     mkn_l->addWidget ( MKNtview   , 0, 0, 1, 1 );

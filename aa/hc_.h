@@ -124,8 +124,9 @@ class hC_Tv : public QWidget
 
 public:
 
-    explicit hC_Tv(QSqlRelationalTableModel *model = nullptr,
-                   QDataWidgetMapper *map = nullptr,
+    explicit hC_Tv(QWidget *that,
+                   QSqlRelationalTableModel *model = nullptr,
+                   QDataWidgetMapper *tb_mapper = nullptr,
                    QWidget *wdgt = nullptr );
     ~hC_Tv();
 
@@ -289,28 +290,6 @@ class hC_Rm : public QSqlRelationalTableModel
 };
 
 
-// /////////////////////////////////////////////////////////////////////////////////
-
-
-//    QSQLRELATIONATABLEMODEL    -----> hC_Rmx  QVector
-
-// rel model
-// /////////////////////////////////////////////////////////////////////////////////
-
-
-class hC_RmX : public QSqlRelationalTableModel
-{    Q_OBJECT
-
- public:
-     explicit hC_RmX (QString *rm_Table,
-                      QSqlRelationalTableModel *rm_model,
-                      QString *rm_IndexField,
-                      QVector<QVector<QString> > *rm_List);
-     ~hC_RmX();
-     // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
-     //QSqlRelationalTableModel  *hC_rm;
-};
-
 
 class hC_Gz
 {
@@ -346,39 +325,36 @@ class hC_tBcreator : public QWidget
 public:
     explicit hC_tBcreator();
     explicit hC_tBcreator(QString *tb_name,
-                          hC_ArrD *tb_fields,
+                          hC_ArrD *tb_flds,
                           QString *tb_ndex,
-                          hC_Tv *tb_view,
                           QSqlRelationalTableModel *tb_modl,
-                          QItemSelectionModel *tb_slctnmdl,
-                          QDataWidgetMapper *tb_map,
-                          QList<QWidget*> *win_wdgts);
+                          hC_Tv *tb_view,
+                          QDataWidgetMapper *tb_mapper,
+                          QList<QWidget*> *win_wdgts );
+
     ~hC_tBcreator();
 
-    QString create( QString *tB_name, hC_ArrD *tB_fields);
-    void model( QString *rm_Table,
-                   QSqlRelationalTableModel *rm_model,
-                   QString *rm_IndexField,
-                   hC_ArrD *tB_fields);
-    void    view(QSqlRelationalTableModel *rm_model,
-                     QItemSelectionModel *tB_slctnMdl,
-                     hC_Tv *tB_view,
-                     hC_ArrD *tB_fields, QString *tB_name);
-    void    map(QDataWidgetMapper *tb_map,
-                 QSqlRelationalTableModel *tb_modl,
-                 hC_ArrD *tb_fields,
-                 QList<QWidget*> *win_wdgts,
-                 hC_Tv *tb_view, QString *tB_name);
+    QString create( QString *tb_name, hC_ArrD *tb_flds);
+
+    void model( QString *tb_name,
+                hC_ArrD *tb_flds,
+                QString *tb_ndex,
+                QSqlRelationalTableModel *tb_modl );
+
+    void    view(QString *tb_name,
+                  hC_ArrD *tb_flds,
+                  QSqlRelationalTableModel *tb_modl,
+                  hC_Tv *tb_view);
+
+    void    map(QString *tb_name,
+                hC_ArrD *tb_flds,
+                QSqlRelationalTableModel *tb_modl,
+                QDataWidgetMapper *tb_mapper,
+                QList<QWidget*> *win_wdgts);
 
 private:
     QString     _mesaj;
-    QString    * _tb_name;
-    hC_ArrD    * _tb_fields;
-    QString    * _tb_ndex;
-    QTableView * _tb_view;
-    QSqlRelationalTableModel * _tb_modl;
-    QItemSelectionModel      * _tb_slctnmdl;
-    QDataWidgetMapper        * _tb_map;
+
 };
 
 

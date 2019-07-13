@@ -60,39 +60,40 @@ bool DBase::setupDBase()
 void DBase::VTDosyaKontrol()
 {
 /*
-    hC_tBcreator tB_x ;
+    hC_tBcreator tb_x ;
 
     hC_CLSN clsn;
 
 
     hC_FRM frm;
-    yaz(tB_x.create (frm.tB_name, frm.tB_fields)) ;
+    yaz(tb_x.create (frm.tb_name, frm.tb_fields)) ;
 
     hC_FTR ftr;
-    yaz(tB_x.create (ftr.tB_name, ftr.tB_fields)) ;
+    yaz(tb_x.create (ftr.tb_name, ftr.tb_fields)) ;
 
     hC_MLZM mlzm;
-    yaz(tB_x.create (mlzm.tB_name, mlzm.tB_fields)) ;
+    yaz(tb_x.create (mlzm.tb_name, mlzm.tb_fields)) ;
 
-    hC_MLZMGC malzemegc;
-    yaz(tB_x.create (mlzmgc.tB_name, mlzmgc.tB_fields)) ;
 
     hC_MKN mkn;
-    yaz(tB_x.create (mkn.tB_name, mkn.tB_fields)) ;
+    yaz(tb_x.create (mkn.tb_name, mkn.tb_fields)) ;
 
     hC_MKCINS mkcins;
-    yaz(tB_x.create (mkcins.tB_name, mkcins.tB_fields)) ;
+    yaz(tb_x.create (mkcins.tb_name, mkcins.tb_fields)) ;
     hC_MKMARK mkmark;
-    yaz(tB_x.create (mkmark.tB_name, mkmark.tB_fields)) ;
+    yaz(tb_x.create (mkmark.tb_name, mkmark.tb_fields)) ;
     hC_MKMODL mkmodl;
-    yaz(tB_x.create (mkmodl.tB_name, mkmodl.tB_fields)) ;
+    yaz(tb_x.create (mkmodl.tb_name, mkmodl.tb_fields)) ;
     hC_IEDET iedet;
-    yaz(tB_x.create (iedet.tB_name, iedet.tB_fields)) ;
+    yaz(tb_x.create (iedet.tb_name, iedet.tb_fields)) ;
 */
 
-    hC_tBcreator tB_x ;
+    hC_tBcreator tb_x ;
     hC_MLZM mlzm;
-    yaz(tB_x.create (mlzm.tB_name, mlzm.tB_fields)) ;
+    yaz(tb_x.create (mlzm.tb_name, mlzm.tb_flds)) ;
+
+    hC_MLZMGC mlzmgc;
+    yaz(tb_x.create (mlzmgc.tb_name, mlzmgc.tb_flds)) ;
 
 
 
@@ -260,32 +261,32 @@ void DBase::yaz(const QString& z)
 //    QString indexField = "clsn_soyad";
 //    CLSNtableName = new QString("clsn__dbtb");
 
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Çalışan Kod");
-//    tB_FieldList->append("İsim");
-//    tB_FieldList->append("Soyad");
-//    tB_FieldList->append("TC Kimlik No");
-//    tB_FieldList->append("Doğum Yeri");
-//    tB_FieldList->append("Doğum Tarihi");
-//    tB_FieldList->append("Baba Adı");
-//    tB_FieldList->append("Bölüm");
-//    tB_FieldList->append("Meslek");
-//    tB_FieldList->append("Gorev");
-//    tB_FieldList->append("Adres");
-//    tB_FieldList->append("Şehir");
-//    tB_FieldList->append("Telefon Cep");
-//    tB_FieldList->append("Telefon Ev");
-//    tB_FieldList->append("E-Poata");
-//    tB_FieldList->append("Kullanıcı Adı");
-//    tB_FieldList->append("Şifre");
-//    tB_FieldList->append("Yetki");
-//    tB_FieldList->append("resim");
+//    QStringList *tb_FieldList = new QStringList ;
+//    tb_FieldList->append("Çalışan Kod");
+//    tb_FieldList->append("İsim");
+//    tb_FieldList->append("Soyad");
+//    tb_FieldList->append("TC Kimlik No");
+//    tb_FieldList->append("Doğum Yeri");
+//    tb_FieldList->append("Doğum Tarihi");
+//    tb_FieldList->append("Baba Adı");
+//    tb_FieldList->append("Bölüm");
+//    tb_FieldList->append("Meslek");
+//    tb_FieldList->append("Gorev");
+//    tb_FieldList->append("Adres");
+//    tb_FieldList->append("Şehir");
+//    tb_FieldList->append("Telefon Cep");
+//    tb_FieldList->append("Telefon Ev");
+//    tb_FieldList->append("E-Poata");
+//    tb_FieldList->append("Kullanıcı Adı");
+//    tb_FieldList->append("Şifre");
+//    tb_FieldList->append("Yetki");
+//    tb_FieldList->append("resim");
 
 
 //     hC_Rm hC_Rm (CLSNtableName,
 //                  model,
 //                  &indexField ,
-//                  tB_FieldList) ;
+//                  tb_FieldList) ;
 //}
 
 
@@ -412,34 +413,34 @@ void DBase::yaz(const QString& z)
 //    QString indexField = "frm_unvan";
 //    FRMtableName = new QString("frm__dbtb");
 
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Firma Kod");
-//    tB_FieldList->append("Firma Unvanı");
-//    tB_FieldList->append("Adres");
-//    tB_FieldList->append("Şehir");
-//    tB_FieldList->append("Vergi Dairesi");
-//    tB_FieldList->append("VD No");
-//    tB_FieldList->append("Telefon");
-//    tB_FieldList->append("e-posta");
-//    tB_FieldList->append("Yetkili İsim");
-//    tB_FieldList->append("Yetkili Soyad");
-//    tB_FieldList->append("Yetkili Telefon");
-//    // tB_FieldList->append("resim");
+//    QStringList *tb_FieldList = new QStringList ;
+//    tb_FieldList->append("Firma Kod");
+//    tb_FieldList->append("Firma Unvanı");
+//    tb_FieldList->append("Adres");
+//    tb_FieldList->append("Şehir");
+//    tb_FieldList->append("Vergi Dairesi");
+//    tb_FieldList->append("VD No");
+//    tb_FieldList->append("Telefon");
+//    tb_FieldList->append("e-posta");
+//    tb_FieldList->append("Yetkili İsim");
+//    tb_FieldList->append("Yetkili Soyad");
+//    tb_FieldList->append("Yetkili Telefon");
+//    // tb_FieldList->append("resim");
 
 
 //     hC_Rm hC_Rm (FRMtableName,
 //                  model,
 //                  &indexField ,
-//                  tB_FieldList) ;
+//                  tb_FieldList) ;
 
 //      //FRMmodel = new QSqlRelationalTableModel;
 //     //    mdlfrm->setTable( "frm_dbtb" );
 ////    mdlfrm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
 ////    mdlfrm->setSort(mdlfrm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-////    for(int i = 0, j = 0; i < tB_FieldList->size (); i++, j++)
+////    for(int i = 0, j = 0; i < tb_FieldList->size (); i++, j++)
 ////    {
-////        mdlfrm->setHeaderData(i,Qt::Horizontal,tB_FieldList->value (j));
+////        mdlfrm->setHeaderData(i,Qt::Horizontal,tb_FieldList->value (j));
 ////    }
 
 ////    // Populate the model_mkstok
@@ -526,18 +527,18 @@ void DBase::yaz(const QString& z)
 //    qDebug() << " mdlftr";
 //    QString indexField = "ftr_tarih";
 //    QString *tableName = new QString("ftr__dbtb");
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Fatura Kod");
-//    tB_FieldList->append("Fatura No");
-//    tB_FieldList->append("Firma Unvanı");
-//    tB_FieldList->append("Fatura Tarihi");
-//    tB_FieldList->append("Açıklama");
-//    tB_FieldList->append("Resim");
+//    QStringList *tb_FieldList = new QStringList ;
+//    tb_FieldList->append("Fatura Kod");
+//    tb_FieldList->append("Fatura No");
+//    tb_FieldList->append("Firma Unvanı");
+//    tb_FieldList->append("Fatura Tarihi");
+//    tb_FieldList->append("Açıklama");
+//    tb_FieldList->append("Resim");
 
 //    hC_Rm hC_Rm (tableName,
 //                 model,
 //                 &indexField ,
-//                 tB_FieldList) ;
+//                 tb_FieldList) ;
 //    /*
 //    auto *mdlFtr = new QSqlRelationalTableModel;
 //    mdlFtr->setTable( "ftr__dbtb" );
@@ -547,9 +548,9 @@ void DBase::yaz(const QString& z)
 //    //qDebug() << "  tablename " << *tableName <<"  indexfield "<< *indexField ;
 //    // qDebug() << " view column count = i "<< FTRmodel->columnCount();
 
-//    for(int i = 0, j = 0; i < tB_FieldList->size (); i++, j++)
+//    for(int i = 0, j = 0; i < tb_FieldList->size (); i++, j++)
 //    {
-//        mdlFtr->setHeaderData(i,Qt::Horizontal,tB_FieldList->value (j));
+//        mdlFtr->setHeaderData(i,Qt::Horizontal,tb_FieldList->value (j));
 //    }
 
 //    // Populate the model_mkstok
@@ -639,33 +640,33 @@ void DBase::yaz(const QString& z)
 //    qDebug() << " mdlmlzm";
 //    QString *tableName = new QString("mlzm__dbtb");
 //    QString indexField = "mlzm_malzeme";
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Kod");
-//    tB_FieldList->append("Barkod");
-//    tB_FieldList->append("Malzeme");
-//    tB_FieldList->append("Açıklama");
-//    tB_FieldList->append("Marka");
-//    tB_FieldList->append("Model");
-//    tB_FieldList->append("Cins");
-//    tB_FieldList->append("Birim");
-//    tB_FieldList->append("Giriş");
-//    tB_FieldList->append("Çıkış");
-//    tB_FieldList->append("Mevcut");
-//    tB_FieldList->append("Makina");
-//    tB_FieldList->append("Resim");
+//    QStringList *tb_FieldList = new QStringList ;
+//    tb_FieldList->append("Kod");
+//    tb_FieldList->append("Barkod");
+//    tb_FieldList->append("Malzeme");
+//    tb_FieldList->append("Açıklama");
+//    tb_FieldList->append("Marka");
+//    tb_FieldList->append("Model");
+//    tb_FieldList->append("Cins");
+//    tb_FieldList->append("Birim");
+//    tb_FieldList->append("Giriş");
+//    tb_FieldList->append("Çıkış");
+//    tb_FieldList->append("Mevcut");
+//    tb_FieldList->append("Makina");
+//    tb_FieldList->append("Resim");
 //    hC_Rm hC_Rm (tableName,
 //                 model,
 //                 &indexField ,
-//                 tB_FieldList) ;
+//                 tb_FieldList) ;
 ///*
 //    auto *mdlMlzm = new QSqlRelationalTableModel;
 //    mdlMlzm->setTable( "mlzm__dbtb" );
 //    mdlMlzm->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
 //    mdlMlzm->setSort(mdlMlzm->fieldIndex ( indexField ),Qt::AscendingOrder );
 
-//    for(int i = 0, j = 0; i < tB_FieldList->size (); i++, j++)
+//    for(int i = 0, j = 0; i < tb_FieldList->size (); i++, j++)
 //    {
-//        mdlMlzm->setHeaderData(i,Qt::Horizontal,tB_FieldList->value (j));
+//        mdlMlzm->setHeaderData(i,Qt::Horizontal,tb_FieldList->value (j));
 //    }
 
 //    // Populate the model_mkstok
@@ -754,25 +755,25 @@ void DBase::yaz(const QString& z)
 //    QString *tableName = new QString("mlzmdet__dbtb");
 //    QString indexField = "mlzmdet_gcno";
 
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Detay Kod");
-//    tB_FieldList->append("Malzeme Kod");
-//    tB_FieldList->append("Barkod");
-//    tB_FieldList->append("Malzeme");
-//    tB_FieldList->append("Tarih");
-//    tB_FieldList->append("İşlem Türü");
-//    tB_FieldList->append("İşlem No");
-//    tB_FieldList->append("Miktar");
-//    tB_FieldList->append("Birim");
-//    tB_FieldList->append("Fiyat");
-//    tB_FieldList->append("KDV");
-//    tB_FieldList->append("Açıklama");
-//    tB_FieldList->append("Resim");
+//    QStringList *tb_FieldList = new QStringList ;
+//    tb_FieldList->append("Detay Kod");
+//    tb_FieldList->append("Malzeme Kod");
+//    tb_FieldList->append("Barkod");
+//    tb_FieldList->append("Malzeme");
+//    tb_FieldList->append("Tarih");
+//    tb_FieldList->append("İşlem Türü");
+//    tb_FieldList->append("İşlem No");
+//    tb_FieldList->append("Miktar");
+//    tb_FieldList->append("Birim");
+//    tb_FieldList->append("Fiyat");
+//    tb_FieldList->append("KDV");
+//    tb_FieldList->append("Açıklama");
+//    tb_FieldList->append("Resim");
 
 //    hC_Rm hC_Rm (tableName,
 //                 model,
 //                 &indexField ,
-//                 tB_FieldList) ;
+//                 tb_FieldList) ;
 
 //}///fsturs detsy Model
 
@@ -865,30 +866,30 @@ void DBase::yaz(const QString& z)
 //    MKNtableName = new QString("mkn__dbtb");
 
 
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Makina Kod");
-//    tB_FieldList->append("Kurum No");
-//    tB_FieldList->append("Plaka");
-//    tB_FieldList->append("Cinsi");
-//    tB_FieldList->append("Markası");
-//    tB_FieldList->append("Modeli");
-//    tB_FieldList->append("Model Yılı");
-//    tB_FieldList->append("Şase No");
-//    tB_FieldList->append("Motor No");
-//    tB_FieldList->append("Motor Tipi");
-//    tB_FieldList->append("Yakıt Türü");
-//    tB_FieldList->append("Sürücü Adı");
-//    tB_FieldList->append("İşe Başlama Tarihi");
-//    tB_FieldList->append("Birimi");
-//    tB_FieldList->append("Açıklama");
-//    tB_FieldList->append("Bulunduğu Yer");
-//    tB_FieldList->append("Resim");
-//    tB_FieldList->append("Rating");
-//    // tB_FieldList->append("resim");
+//    QStringList *tb_FieldList = new QStringList ;
+//    tb_FieldList->append("Makina Kod");
+//    tb_FieldList->append("Kurum No");
+//    tb_FieldList->append("Plaka");
+//    tb_FieldList->append("Cinsi");
+//    tb_FieldList->append("Markası");
+//    tb_FieldList->append("Modeli");
+//    tb_FieldList->append("Model Yılı");
+//    tb_FieldList->append("Şase No");
+//    tb_FieldList->append("Motor No");
+//    tb_FieldList->append("Motor Tipi");
+//    tb_FieldList->append("Yakıt Türü");
+//    tb_FieldList->append("Sürücü Adı");
+//    tb_FieldList->append("İşe Başlama Tarihi");
+//    tb_FieldList->append("Birimi");
+//    tb_FieldList->append("Açıklama");
+//    tb_FieldList->append("Bulunduğu Yer");
+//    tb_FieldList->append("Resim");
+//    tb_FieldList->append("Rating");
+//    // tb_FieldList->append("resim");
 //    hC_Rm hC_Rm (MKNtableName,
 //                 model,
 //                 &indexField ,
-//                 tB_FieldList) ;
+//                 tb_FieldList) ;
 
 //}///MKN
 
@@ -979,15 +980,15 @@ void DBase::yaz(const QString& z)
 //    qDebug() << " db model cns";
 //    CNStableName = new QString("mkcins__dbtb");
 //    QString indexField = "cinsi";
-//    QStringList *tB_FieldList = new QStringList ;
+//    QStringList *tb_FieldList = new QStringList ;
 
-//    tB_FieldList->append("Cinsi");
-//    tB_FieldList->append("Resim");
-//    tB_FieldList->append("Cinsi Kodu");
+//    tb_FieldList->append("Cinsi");
+//    tb_FieldList->append("Resim");
+//    tb_FieldList->append("Cinsi Kodu");
 //    hC_Rm hC_Rm (CNStableName,
 //                 model,
 //                 &indexField ,
-//                 tB_FieldList) ;
+//                 tb_FieldList) ;
 
 //}///CNS
 
@@ -1086,17 +1087,17 @@ void DBase::yaz(const QString& z)
 //    qDebug() << " db modelmarka";
 //    MRKtableName = new QString("mkmark__dbtb");
 //    QString indexField = "marka";
-//    QStringList *tB_FieldList = new QStringList ;
+//    QStringList *tb_FieldList = new QStringList ;
 
-//    tB_FieldList->append("Marka");
-//    tB_FieldList->append("Resim");
-//    tB_FieldList->append("Cinsi Nosu");
-//    tB_FieldList->append("Marka kodu");
+//    tb_FieldList->append("Marka");
+//    tb_FieldList->append("Resim");
+//    tb_FieldList->append("Cinsi Nosu");
+//    tb_FieldList->append("Marka kodu");
 
 //    hC_Rm hC_Rm (MRKtableName,
 //                 model,
 //                 &indexField ,
-//                 tB_FieldList) ;
+//                 tb_FieldList) ;
 //    /*
 //    auto *mdlmrk = new QSqlRelationalTableModel;
 //    mdlmrk->setTable( "mkmark__dbtb" );
@@ -1104,9 +1105,9 @@ void DBase::yaz(const QString& z)
 //    mdlmrk->setSort(mdlmrk->fieldIndex ( indexField ),Qt::AscendingOrder );
 //    mdlmrk->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 
-//    for(int i = 0, j = 0; i < tB_FieldList->size (); i++, j++)
+//    for(int i = 0, j = 0; i < tb_FieldList->size (); i++, j++)
 //    {
-//        mdlmrk->setHeaderData(i,Qt::Horizontal,tB_FieldList->value (j));
+//        mdlmrk->setHeaderData(i,Qt::Horizontal,tb_FieldList->value (j));
 //    }
 
 //    // Populate the model_mkstok
@@ -1201,11 +1202,11 @@ void DBase::yaz(const QString& z)
 //{
 //    qDebug() << " db model"<< model;
 
-//    QStringList *tB_FieldList = new QStringList ;
-//    tB_FieldList->append("Model");
-//    tB_FieldList->append("Resim");
-//    tB_FieldList->append("Marka Nosu");
-//    tB_FieldList->append("Model kodu");
+//    QStringList *tb_FieldList = new QStringList ;
+//    tb_FieldList->append("Model");
+//    tb_FieldList->append("Resim");
+//    tb_FieldList->append("Marka Nosu");
+//    tb_FieldList->append("Model kodu");
 
 //    QString MODLtableName{"mkmodl__dbtb"} ;
 //    QString indexField = "modeli";
@@ -1213,7 +1214,7 @@ void DBase::yaz(const QString& z)
 //    hC_Rm hC_Rm ( &MODLtableName,
 //                  model,
 //                  &indexField ,
-//                  tB_FieldList) ;
+//                  tb_FieldList) ;
 
 //}///MDLİ
 

@@ -49,7 +49,7 @@ void hC_FTR::ftr_ui()
     //wd_FTRdet();
 
     //////////////////////////////////// depo tableview
-    FTRtview = new hC_Tv (FTRmodel, FTRmapper, winWdgt ) ;
+    FTRtview = new hC_Tv (this, FTRmodel, FTRmapper, winWdgt ) ;
     //FTRtview->setMinimumSize (160,60);
 
     /*/////////////////////////////////// depodet

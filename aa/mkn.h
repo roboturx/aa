@@ -18,7 +18,22 @@ class hC_MKN : public QWidget
 public:
     explicit hC_MKN(QWidget *parent = nullptr);
     ~hC_MKN();
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
+
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
     hC_Tv                    * MKNtview    {} ;
     QSqlRelationalTableModel * MKNmodel    {} ;
     QItemSelectionModel      * MKNslctnMdl {} ;

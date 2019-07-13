@@ -17,15 +17,22 @@ public:
     explicit hC_IE(QWidget *parent = nullptr);
     ~hC_IE();
 
-    hC_Tv                    * IEtview    {} ;
-    QSqlRelationalTableModel * IEmodel    {} ;
-    QItemSelectionModel      * IEslctnMdl {} ;
-    QDataWidgetMapper        * IEmapper   {} ;
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm    {} ;
 
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
 
     hC_Le* hClE_mkn;
     QLineEdit* lE_ieno;
@@ -36,16 +43,12 @@ public:
     hC_Le* hClE_yetkili1;
     hC_Le* hClE_yetkili2;
 
-    void    ie_setup () ;
-    QString ie_VTd   () ;
-    void    ie_model () ;
+    void setup () ;
 
 private:
-    void ie_wdgt  () ;
-    void ie_map   () ;
-    void ie_ui    () ;
-    void ie_view  () ;
-    void ie_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 public: signals:
     void sgnIsEmri (int);

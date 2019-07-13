@@ -31,7 +31,7 @@ void hC_MKCINS::mkCins_ui()
     this->setWindowTitle (winLabel->text ());
     //this->setGeometry(500,50,300,600);
 
-    CNStview = new hC_Tv (CNSmodel, CNSmapper, winWdgt);
+    CNStview = new hC_Tv (this, CNSmodel, CNSmapper, winWdgt);
 
     auto *winGrid = new QGridLayout();
 

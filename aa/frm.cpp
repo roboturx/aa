@@ -34,7 +34,7 @@ void hC_FRM::frm_ui()
 
     /////////////////////////////////////////////////////////
     // views
-    FRMtview = new hC_Tv( FRMmodel, FRMmapper, winWdgt);
+    FRMtview = new hC_Tv(this, FRMmodel, FRMmapper, winWdgt);
 
     // /////////////////////////////////////
     // main layout

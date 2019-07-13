@@ -16,16 +16,22 @@ public:
     explicit hC_SCLK(QWidget *parent = nullptr);
     ~hC_SCLK();
 
-public:
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    hC_Tv                    * SCLKtview    {} ;
-    QSqlRelationalTableModel * SCLKmodel    {} ;
-    QItemSelectionModel      * SCLKslctnMdl {} ;
-    QDataWidgetMapper        * SCLKmapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
 
     // SC variable
 
@@ -42,22 +48,12 @@ public:
     QString *SCno{};
 
     void    sclk_setup () ;
-    QString sclk_VTd   () ;
-    void    sclk_model () ;
-
 
 private:
     void sclk_wdgt()  ;
-    void sclk_map()  ;
     void sclk_ui()   ;
-    void sclk_view() ;
     void sclk_kntrl();
 
-
-public:
-
-
 };
-
 
 #endif // SCLK_H

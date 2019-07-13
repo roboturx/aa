@@ -17,30 +17,21 @@ public:
     explicit hC_TSNR(QWidget *parent = nullptr);
     ~hC_TSNR();
 
-    hC_Tv                    * TSNRtview    {} ;
-    QSqlRelationalTableModel * TSNRmodel    {} ;
-    QItemSelectionModel      * TSNRslctnMdl {} ;
-    QDataWidgetMapper        * TSNRmapper   {} ;
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
 
-
-    void    tsnr_setup();
-    QString tsnr_VTd();
-    void    tsnr_model();
-
-
-
-private:
-    void tsnr_wdgt  () ;
-    void tsnr_map   () ;
-    void tsnr_ui    () ;
-    void tsnr_view  () ;
-    void tsnr_kntrl () ;
-public:
-
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
 
     QComboBox *cbx_TSmlzm{};
     QSqlTableModel *cbxTSmlzmModel{} ;
@@ -59,12 +50,13 @@ public:
 
 
 
+    void    tsnr_setup();
 
-
+private:
+    void tsnr_wdgt  () ;
+    void tsnr_ui    () ;
+    void tsnr_kntrl () ;
 
 };
-
-
-
 
 #endif // TSNR_H

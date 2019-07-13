@@ -33,7 +33,7 @@ void hC_IE::ie_ui()
 
 
     /////////////////////////////////////////// tview
-    IEtview = new hC_Tv( IEmodel, IEmapper, winWdgt );
+    IEtview = new hC_Tv( this, IEmodel, IEmapper, winWdgt );
 
     ///////////////
     auto *winGrid = new QGridLayout(this);

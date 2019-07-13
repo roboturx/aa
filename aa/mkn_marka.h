@@ -17,28 +17,30 @@ class hC_MKMARK : public QDialog
 public:
     explicit hC_MKMARK(QDialog *parent = nullptr);
     ~hC_MKMARK();
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    hC_Tv                    * MRKtview    {} ;
-    QSqlRelationalTableModel * MRKmodel    {} ;
-    QItemSelectionModel      * MRKslctnMdl {} ;
-    QDataWidgetMapper        * MRKmapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
     QString * sgnText  {} ;
 
     void    mkMark_setup () ;
-    QString mkMark_VTd   () ;
-    void    mkMark_model () ;
-
 
 private:
-    void mkMark_wdgt  () ;
-    void mkMark_map   () ;
-    void mkMark_ui    () ;
-    void mkMark_view  () ;
-    void mkMark_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 signals:
     void sgnmkMark (QString*);

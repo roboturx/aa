@@ -12,20 +12,21 @@ class hC_MLZM : public QWidget
 {   Q_OBJECT
 
 public:
+/////////////////////////////////////////////////
+    hC_Tv                    * tb_view     {} ;
+    QSqlRelationalTableModel * tb_modl     {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    hC_Tv                    * tB_view     {} ;
-    QSqlRelationalTableModel * tB_modl     {} ;
-    QItemSelectionModel      * tB_slctnMdl {} ;
-    QDataWidgetMapper        * tB_map      {} ;
-
-    QString                  * tB_name     {} ;
-    hC_ArrD                  * tB_fields   {} ;
-    QString                  * tB_ndex     {} ;
-    QList <QWidget*>         * tB_wdgts    {} ;
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds     {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
 
     QWidget                  * win_Wdgt  {} ;
     QLabel                   * win_Label {} ;
     QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
 
     QComboBox   *cbx_grs_tipi{} ;
     QLineEdit   *lE_barkod   {} ;
@@ -39,15 +40,11 @@ public:
     QLineEdit   *lE_cikis    {} ;
     QLineEdit   *lE_mevcut   {} ;
 
-    void    setup () ;
-    QString VTd   (QString *tB_name, hC_ArrD *tB_fields  ) ;
-    void    model () ;
+    void setup () ;
 
 private:
     void wdgt  () ;
-    void map   () ;
     void ui    () ;
-    void view  () ;
     void kntrl () ;
 
 

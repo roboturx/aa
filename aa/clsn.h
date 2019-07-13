@@ -21,14 +21,22 @@ public:
     explicit hC_CLSN(QWidget *parent = nullptr);
     ~hC_CLSN();
 
-    hC_Tv                    * CLSNtview    {} ;
-    QSqlRelationalTableModel * CLSNmodel    {} ;
-    QItemSelectionModel      * CLSNslctnMdl {} ;
-    QDataWidgetMapper        * CLSNmapper   {} ;
+    ////////////////////////////////////////////////
+        hC_Tv                    * tb_view    {} ;
+        QItemSelectionModel      * tb_slctnMdl {} ;
+        QSqlRelationalTableModel * tb_model    {} ;
+        QDataWidgetMapper        * tb_mapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
+
+        QString                  * tb_name     {} ;
+        hC_ArrD                  * tb_flds   {} ;
+        QString                  * tb_ndex     {} ;
+        QList <QWidget*>         * tb_wdgts    {} ;
+
+        QWidget                  * win_Wdgt  {} ;
+        QLabel                   * win_Label {} ;
+        QLabel                   * win_Rsm   {} ;
+    /////////////////////////////////////////////////
 
     QLineEdit   *lE_isim=nullptr    ;
     QLineEdit   *lE_soyad=nullptr   ;
@@ -51,14 +59,10 @@ public:
 
 
     void    clsn_setup () ;
-    QString clsn_VTd   () ;
-    void    clsn_model () ;
 
 private:
     void clsn_wdgt  () ;
-    void clsn_map   () ;
     void clsn_ui    () ;
-    void clsn_view  () ;
     void clsn_kntrl () ;
 
 protected:

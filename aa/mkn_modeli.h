@@ -14,28 +14,31 @@ class hC_MKMODL : public QDialog
 public:
     explicit hC_MKMODL(QDialog *parent = nullptr);
     ~hC_MKMODL();
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    hC_Tv            *MDLtview{};
-    QSqlRelationalTableModel *MDLmodel{} ;
-    QItemSelectionModel      *MDLslctnMdl;
-    QDataWidgetMapper        *MDLmapper;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
+
     QString * sgnText  {} ;
 
-
-    void    mkModl_setup () ;
-    QString mkModl_VTd   () ;
-    void    mkModl_model () ;
+    void setup () ;
 
 private:
-    void mkModl_wdgt  () ;
-    void mkModl_map   () ;
-    void mkModl_ui    () ;
-    void mkModl_view  () ;
-    void mkModl_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 signals:
     void sgnmkModl (QString*);

@@ -32,7 +32,7 @@ void hC_MKMODL::mkModl_ui()
     this->setGeometry(500,50,300,600);
     // this->showMaximized ();
 
-    MDLtview = new hC_Tv (MDLmodel, MDLmapper, winWdgt);
+    MDLtview = new hC_Tv (this, MDLmodel, MDLmapper, winWdgt);
 
     auto *winGrid = new QGridLayout();
 

@@ -31,7 +31,7 @@ void hC_TSNR::tsnr_ui()
 
     // ///////////////////////////////////////////////////////
     // views
-    TSNRtview = new hC_Tv (TSNRmodel, TSNRmapper, winWdgt);
+    TSNRtview = new hC_Tv (this, TSNRmodel, TSNRmapper, winWdgt);
 
 
     auto *winGrid = new QGridLayout(this);

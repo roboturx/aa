@@ -31,7 +31,7 @@ void hC_MKMARK::mkMark_ui()
     // this->showMaximized ();
 
     //auto *pnc = new QWidget(this);
-    MRKtview = new hC_Tv (MRKmodel, MRKmapper, winWdgt);
+    MRKtview = new hC_Tv (this, MRKmodel, MRKmapper, winWdgt);
 
     auto *winGrid = new QGridLayout();
 

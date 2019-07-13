@@ -6,21 +6,33 @@
 #include "ftr.h"
 #include "mlzm.h"
 namespace nSMlzmGC {
-class hC_MLZMGC;
+class hC_tb_;
 }
 
 class hC_MLZMGC : public QWidget
 {   Q_OBJECT
 
 public:
-    hC_Tv                    * MLZMGCtview    {} ;
-    QItemSelectionModel      * MLZMGCslctnMdl {} ;
-    QSqlRelationalTableModel * MLZMGCmodel    {} ;
-    QDataWidgetMapper        * MLZMGCmapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
+    explicit hC_MLZMGC(QWidget *parent = nullptr);
+    ~hC_MLZMGC();
+
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
+
+
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
 
     hC_MLZM     *mlzm         {} ;
     QString     *mlzmKod      {} ;
@@ -39,49 +51,18 @@ public:
     QLineEdit   *lE_aciklama  {} ;
 
 
-    void    mlzmGc_setup () ;
-    QString mlzmGc_VTd   () ;
-    void    mlzmGc_model () ;
+    void setup () ;
 
 private:
-    void mlzmGc_wdgt  () ;
-    void mlzmGc_map   () ;
-    void mlzmGc_ui    () ;
-    void mlzmGc_view  () ;
-    void mlzmGc_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 
 protected:
     void showEvent(QShowEvent *);
 
-public:
-    explicit hC_MLZMGC(QWidget *parent = nullptr);
-    ~hC_MLZMGC();
+
 };
-
-
-/*
-
-// ////////////////////////////////////////////// Fatura detaya malzeme ekle
-class FtrDet_MlzEkle : public QDialog
-{
-    Q_OBJECT
-
-public:
-    explicit FtrDet_MlzEkle(QDialog *parent = nullptr);
-    ~FtrDet_MlzEkle();
-
-    QString getMalzeme() const;
-    hC_MLZM  *malzeme;
-protected:
-    void reject() ;
-private:
-    QString m_malzeme;
-    void setMalzeme(const QString &value);
-};
-*/
-
-
-
 
 #endif // MLZM_GC_H

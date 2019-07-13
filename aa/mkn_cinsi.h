@@ -17,27 +17,31 @@ class hC_MKCINS : public QDialog
 public:
     explicit hC_MKCINS(QDialog *parent = nullptr);
     ~hC_MKCINS();
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view    {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    hC_Tv                    * CNStview    {} ;
-    QSqlRelationalTableModel * CNSmodel    {} ;
-    QItemSelectionModel      * CNSslctnMdl {} ;
-    QDataWidgetMapper        * CNSmapper   {} ;
 
-    QWidget * winWdgt    {} ;
-    QLabel  * winLabel   {} ;
-    QLabel  * winRsm     {} ;
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds   {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt  {} ;
+    QLabel                   * win_Label {} ;
+    QLabel                   * win_Rsm   {} ;
+/////////////////////////////////////////////////
+
     QString * sgnText    {} ;
 
     void    mkCins_setup () ;
-    QString mkCins_VTd   () ;
-    void    mkCins_model () ;
 
 private:
-    void mkCins_wdgt  () ;
-    void mkCins_map   () ;
-    void mkCins_ui    () ;
-    void mkCins_view  () ;
-    void mkCins_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 
 signals:

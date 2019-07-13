@@ -15,14 +15,21 @@ public:
     explicit hC_FRM(QWidget *parent = nullptr);
     ~hC_FRM();
 
-    hC_Tv                    * FRMtview    {} ;
-    QSqlRelationalTableModel * FRMmodel    {} ;
-    QItemSelectionModel      * FRMslctnMdl {} ;
-    QDataWidgetMapper        * FRMmapper   {} ;
+    ////////////////////////////////////////////////
+    hC_Tv                    * tb_view     {} ;
+    QItemSelectionModel      * tb_slctnMdl {} ;
+    QSqlRelationalTableModel * tb_model    {} ;
+    QDataWidgetMapper        * tb_mapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel    {} ;
-    QLabel  * winRsm   {} ;
+    QString                  * tb_name     {} ;
+    hC_ArrD                  * tb_flds     {} ;
+    QString                  * tb_ndex     {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
+
+    QWidget                  * win_Wdgt    {} ;
+    QLabel                   * win_Label   {} ;
+    QLabel                   * win_Rsm     {} ;
+/////////////////////////////////////////////////
 
     int       meslekIndex{} ;
     QComboBox   *cb_meslek{};
@@ -40,18 +47,12 @@ public:
     QLineEdit   *lE_ysoyad{};
     QLineEdit   *lE_ytel{}  ;
 
-    void    frm_setup();
-    QString frm_VTd();
-    void    frm_model();
-
-    //QString *FRMtableName {};
+    void setup();
 
 private:
-    void frm_wdgt  () ;
-    void frm_map   () ;
-    void frm_ui    () ;
-    void frm_view  () ;
-    void frm_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 signals:
     void sgnfirma (const QString sgnfirma); //firma ismini
