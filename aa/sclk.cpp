@@ -8,24 +8,23 @@ hC_SCLK::hC_SCLK ( QWidget *parent) : QWidget (parent)
     //*****************  İ Ş Ç İ L İ K  **************************
 }
 
-void hC_SCLK::sclk_setup()
+void hC_SCLK:: setup()
 {
     qDebug() << "sclk setup ";
-    sclk_VTd();
-    sclk_model() ;
-    sclk_wdgt();
-    sclk_map();
-    sclk_ui();
-    sclk_view();
-    sclk_kntrl ();
+
+     wdgt();
+
+     ui();
+
+     kntrl ();
 }
 
 
-void hC_SCLK::sclk_ui()
+void hC_SCLK:: ui()
 {
-    qDebug() << "  sclk_ui";
-    winLabel = new QLabel("İŞÇİLİK");
-    hC_SCLK::setWindowTitle (winLabel->text ());
+    qDebug() << "   ui";
+    win_Label = new QLabel("İŞÇİLİK");
+    hC_SCLK::setWindowTitle (win_Label->text ());
     //hC_SCLK::showMaximized ();
 
 
@@ -33,19 +32,19 @@ void hC_SCLK::sclk_ui()
 
     // ///////////////////////////////////////////////////////
     // views
-    SCLKtview = new hC_Tv (this, SCLKmodel, SCLKmapper, winWdgt );
+    tb_view = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt );
 
     /////*******************************************////////
 
 
     auto *winGrid = new QGridLayout(this);
-    winGrid->addWidget (SCLKtview  , 0, 0, 1, 1);
-    winGrid->addWidget (winWdgt   , 0, 1, 1, 1);
+    winGrid->addWidget (tb_view  , 0, 0, 1, 1);
+    winGrid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 
 
 }
 
-void hC_SCLK::sclk_wdgt()
+void hC_SCLK:: wdgt()
 {
 
     auto *lB_SCno = new QLabel("İşçilik No");
@@ -102,15 +101,15 @@ void hC_SCLK::sclk_wdgt()
     lB_acklm->setBuddy(lE_SCaciklama);
 
 
-    winRsm = new QLabel ("Resim");
-    hC_Rs resim(winRsm);
+    win_Rsm = new QLabel ("Resim");
+    hC_Rs resim(win_Rsm);
 
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
     auto wdgtGrid = new QGridLayout();
-    winWdgt->setLayout(wdgtGrid);
+    win_Wdgt->setLayout(wdgtGrid);
 
     ///////////////////////////////////////
     lE_SCaciklama->setMinimumSize (200,25);
@@ -140,65 +139,65 @@ void hC_SCLK::sclk_wdgt()
 
 }
 
-
-void hC_SCLK::sclk_view()
+/*
+void hC_SCLK:: view()
 {
     qDebug()<<"sclk view ";
-    SCLKtview->table->setModel(SCLKmodel);
-    SCLKslctnMdl = SCLKtview->table->selectionModel();
-    SCLKtview->table->setColumnHidden(
-                SCLKmodel->fieldIndex("id_iscilik"), true);
-    SCLKtview->table->setColumnHidden(
-                SCLKmodel->fieldIndex("resim"), true);
+    tb_view->table->setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel();
+    tb_view->table->setColumnHidden(
+                tb_model->fieldIndex("id_iscilik"), true);
+    tb_view->table->setColumnHidden(
+                tb_model->fieldIndex("resim"), true);
 
 
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
-    SCLKtview->table->setCurrentIndex(
-                SCLKmodel->index(0, 1)
+    tb_view->table->setCurrentIndex(
+                tb_model->index(0, 1)
                 );
     // with blue rect
-    SCLKtview->table->setFocus();
-    //   QTimer::singleShot(0, SCLKtview->table, SLOT(setFocus()));
+    tb_view->table->setFocus();
+    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
 
 }
 
 
-void hC_SCLK::sclk_map()
+void hC_SCLK:: map()
 {
     qDebug()<<"sclk map ";
 
 
     /// mapper iscilik
-    SCLKmapper = new QDataWidgetMapper(this);
-    SCLKmapper->setModel(SCLKmodel);
+    tb_mapper = new QDataWidgetMapper(this);
+    tb_mapper->setModel(tb_model);
 
 
-    SCLKmapper->addMapping(lE_SCno, SCLKmodel->fieldIndex("SC_no"));
-    SCLKmapper->addMapping(dE_SCtarih , SCLKmodel->fieldIndex("SC_tarih"));
-    SCLKmapper->addMapping(cbx_SCbirim , SCLKmodel->fieldIndex("SC_birim"));
-    SCLKmapper->addMapping(cbx_SCusta, SCLKmodel->fieldIndex("SC_usta"));
+    tb_mapper->addMapping(lE_SCno, tb_model->fieldIndex("SC_no"));
+    tb_mapper->addMapping(dE_SCtarih , tb_model->fieldIndex("SC_tarih"));
+    tb_mapper->addMapping(cbx_SCbirim , tb_model->fieldIndex("SC_birim"));
+    tb_mapper->addMapping(cbx_SCusta, tb_model->fieldIndex("SC_usta"));
 
-    SCLKmapper->addMapping(lE_SCsaat , SCLKmodel->fieldIndex("SC_saat"));
-    SCLKmapper->addMapping(lE_SCucret, SCLKmodel->fieldIndex("SC_ucret"));
-    SCLKmapper->addMapping(cbx_SCucrettip, SCLKmodel->fieldIndex("SC_ucrettip"));
-    SCLKmapper->addMapping(lE_SCaciklama , SCLKmodel->fieldIndex("SC_aciklama"));
+    tb_mapper->addMapping(lE_SCsaat , tb_model->fieldIndex("SC_saat"));
+    tb_mapper->addMapping(lE_SCucret, tb_model->fieldIndex("SC_ucret"));
+    tb_mapper->addMapping(cbx_SCucrettip, tb_model->fieldIndex("SC_ucrettip"));
+    tb_mapper->addMapping(lE_SCaciklama , tb_model->fieldIndex("SC_aciklama"));
 
-    SCLKmapper->toFirst ();
+    tb_mapper->toFirst ();
 }
+*/
 
-
-void hC_SCLK::sclk_kntrl()
+void hC_SCLK:: kntrl()
 {
 
 
     // pB 001 yeni ekle
-    connect(SCLKtview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
 
-        QSqlRecord rec = SCLKmodel->record();
+        QSqlRecord rec = tb_model->record();
         // insert a new record (-1) with null date
 
         /// date does not take null value
@@ -211,20 +210,20 @@ void hC_SCLK::sclk_kntrl()
         //dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
 
 
-        if ( ! SCLKmodel->insertRecord(-1,rec))
+        if ( ! tb_model->insertRecord(-1,rec))
         {
             qDebug() << "100111 -  HATA - Çalışan kayıt eklenemedi ";
         }
         else
             qDebug() << "100111 - Çalışan Kaydı eklendi ";
-        SCLKmodel->select();
+        tb_model->select();
 
 
         qDebug ()<<"SC 17";
         ////////////////////////////////
         QSqlQuery q;
         QString q_s;
-        q_s="INSERT INTO sclk__dbtb ( "
+        q_s="INSERT INTO  _dbtb ( "
             "SC_iedet_id, SC_no    , SC_tarih, SC_birim , SC_usta, "
             "SC_saat   , SC_ucret, SC_ucrettip, SC_aciklama  "
             " )"
@@ -256,8 +255,8 @@ void hC_SCLK::sclk_kntrl()
 
 
 
-        SCLKmodel->select();
-        SCLKtview->table->setFocus();
+        tb_model->select();
+        tb_view->table->setFocus();
 
         // işçilik ekle
         ///////////////////////////////////////////////////
@@ -268,18 +267,18 @@ void hC_SCLK::sclk_kntrl()
     });
 
     // pB 002 yeni resim ekle
-    connect(SCLKtview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(winRsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
+        hC_Rs resim(win_Rsm, tb_view, tb_model, tb_slctnMdl,
                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  SCLKslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, SCLKtview, SCLKmodel, SCLKslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -289,7 +288,7 @@ void hC_SCLK::sclk_kntrl()
 
     // pB 005 sil
 
-    connect(SCLKtview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
         // işçilik  kayıt sil
@@ -313,12 +312,12 @@ void hC_SCLK::sclk_kntrl()
             // şimdi işçilik silelim
             QSqlQuery q_qry;
             QString s_qry;
-            QModelIndex iscilik_indx = SCLKtview->table->currentIndex ();
-            QString ino = SCLKmodel->data (SCLKmodel->index
-                                           (iscilik_indx.row (), SCLKmodel->fieldIndex
+            QModelIndex iscilik_indx = tb_view->table->currentIndex ();
+            QString ino = tb_model->data (tb_model->index
+                                           (iscilik_indx.row (), tb_model->fieldIndex
                                             ("id_iscilik"))).toString ();
 
-            s_qry = QString("DELETE FROM sclk__dbtb "
+            s_qry = QString("DELETE FROM  _dbtb "
                             "WHERE id_iscilik = %1").arg( ino );
 
             q_qry.exec (s_qry);
@@ -326,7 +325,7 @@ void hC_SCLK::sclk_kntrl()
             {
                 qDebug()<< " İşçilik Kaydı Silindi ";
                 //  TSmodel->submitAll ();
-                SCLKmodel->select ();
+                tb_model->select ();
             }
             else
             {
@@ -343,70 +342,70 @@ void hC_SCLK::sclk_kntrl()
     });
     /*
     // pB 006 ilk
-    connect(SCLKtview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        SCLKtview->hC_TvPb ("ilk", SCLKmodel, SCLKmapper);
+        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(SCLKtview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        SCLKtview->hC_TvPb ("ncki", SCLKmodel, SCLKmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(SCLKtview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-      SCLKtview->hC_TvPb ("snrki", SCLKmodel, SCLKmapper);
+      tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(SCLKtview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
-    {SCLKtview->hC_TvPb ("son", SCLKmodel, SCLKmapper);
+    {tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
 
 
     // pB 010 nav tuslari kontrol
-    connect(SCLKmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]()
-    {SCLKtview->hC_TvPb ("yenile", SCLKmodel, SCLKmapper);
+    {tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
 
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  SCLKslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
-        SCLKmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-        //     emit hC_SCLK::sgn(SCLKtview->table->model()->index( Index.row() ,
-        //               SCLKmodel->fieldIndex ("frm_unvan") ).data().toString() );
+        //     emit hC_SCLK::sgn(tb_view->table->model()->index( Index.row() ,
+        //               tb_model->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  SCLKslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        SCLKmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
 
 
 
-    SCLKtview->setContextMenuPolicy(Qt::CustomContextMenu);
+    tb_view->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(SCLKtview, &QTableView::customContextMenuRequested,
+    connect(tb_view, &QTableView::customContextMenuRequested,
             [this]()
     {
 
@@ -433,7 +432,7 @@ void hC_SCLK::sclk_kntrl()
         //                     &hC_SCLK::sil_ISCILIK );
         //            menuis->addAction(silAct_ts);
 
-        menuis->popup(SCLKtview->table->viewport()->mapToGlobal(pos()));
+        menuis->popup(tb_view->table->viewport()->mapToGlobal(pos()));
 
 
     });
@@ -444,12 +443,12 @@ void hC_SCLK::sclk_kntrl()
 hC_SCLK::~hC_SCLK()
 = default;
 
-
-QString hC_SCLK::sclk_VTd ()
+/*
+QString hC_SCLK:: VTd ()
 {
     QString ct,
             mesaj = "OK - İŞÇİLİK" ,
-            tName = "sclk__dbtb";
+            tName = " _dbtb";
     QStringList inserts;
     QSqlQuery q;
     if ( ! VTKontrolEt::instance()->GetDB().tables().
@@ -508,11 +507,11 @@ QString hC_SCLK::sclk_VTd ()
 
 
 
-void hC_SCLK::sclk_model()
+void hC_SCLK:: model()
 {
     qDebug() << " sclk mdl";
     QString indexField = "sclk";
-    QString tName ("sclk__dbtb");
+    QString tName (" _dbtb");
     QStringList *tFieldList = new QStringList ;
     tFieldList->append("IEDET-SCLK ID ");
     tFieldList->append("İşçilik No");
@@ -526,14 +525,14 @@ void hC_SCLK::sclk_model()
     tFieldList->append("Resim");
     tFieldList->append("İŞÇİLİK-ID");
 
-    SCLKmodel = new QSqlRelationalTableModel;
-  /*  hC_Rm hC_Rm ( &tName,
-                  SCLKmodel,
+    tb_model = new QSqlRelationalTableModel;
+  hC_Rm hC_Rm ( &tName,
+                  tb_model,
                   &indexField ,
                   tFieldList) ;
-*/
-} /// İŞÇİLİK MODEL
 
+} /// İŞÇİLİK MODEL
+*/
 
 
 

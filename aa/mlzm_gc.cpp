@@ -55,13 +55,7 @@ void hC_MLZMGC::setup()
 
 
 
-    hC_tBcreator (tb_name,
-                  tb_flds,
-                  tb_ndex,
-                  tb_model,
-                  tb_view,
-                  tb_mapper,
-                  tb_wdgts ) ;
+    hC_tBcreator (this ) ;
     wdgt  () ;
     ui    () ;
     kntrl () ;
@@ -207,7 +201,7 @@ void hC_MLZMGC::kntrl()
         {
             auto *ftr = new hC_FTR;
             ftr->show ();
-            ftr->ftr_setup ();
+            ftr->setup ();
             dia->close ();
         });
 

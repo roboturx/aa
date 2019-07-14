@@ -47,12 +47,12 @@ public:
     QString *SCdetno{};
     QString *SCno{};
 
-    void    sclk_setup () ;
+    void    setup () ;
 
 private:
-    void sclk_wdgt()  ;
-    void sclk_ui()   ;
-    void sclk_kntrl();
+    void wdgt()  ;
+    void ui()   ;
+    void kntrl();
 
 };
 

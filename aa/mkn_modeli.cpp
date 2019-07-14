@@ -23,12 +23,12 @@ void hC_MKMODL::ui()
 {
     qDebug() << "  ui";
 
-   // winLabel = new QLabel("ARAÇ MODEL");
+   // win_Label = new QLabel("ARAÇ MODEL");
     this->setWindowTitle (win_Label->text ());
     this->setGeometry(500,50,300,600);
     // this->showMaximized ();
 
-   // tb_view = new hC_Tv (this, tb_model, tb_mapper, winWdgt);
+   // tb_view = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
 
     auto *winGrid = new QGridLayout();
 

@@ -50,12 +50,12 @@ public:
 
 
 
-    void    tsnr_setup();
+    void    setup();
 
 private:
-    void tsnr_wdgt  () ;
-    void tsnr_ui    () ;
-    void tsnr_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 };
 

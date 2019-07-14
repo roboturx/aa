@@ -151,19 +151,19 @@ void hC_CLSN::wdgt()
     auto *lB_password = new QLabel("Şi&fre"  ); lE_password = new QLineEdit(); lB_password->setBuddy(lE_password);
     auto *lB_yetki    = new QLabel("&Yetki"  ); lE_yetki = new QLineEdit(); lB_yetki->setBuddy(lE_yetki);
 
-    winRsm = new QLabel ("Resim");
-    hC_Rs resim(winRsm);
+    win_Rsm = new QLabel ("Resim");
+    hC_Rs resim(win_Rsm);
 
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
     auto winGrid = new QGridLayout();
-    winWdgt->setLayout(winGrid);
+    win_Wdgt->setLayout(winGrid);
 
     ///////////////////////////////////////
 
-    //CLSNtview->table->setMinimumWidth (200);
+    //tb_view->table->setMinimumWidth (200);
     lB_isim->setMinimumSize (100,25);
     lE_isim->setMinimumSize (100,25);
     lB_sehir->setMinimumSize (100,25);
@@ -204,73 +204,75 @@ void hC_CLSN::wdgt()
     winGrid->addWidget(lE_password  , 5, 4, 1, 2);
     winGrid->addWidget(lB_yetki     , 6, 3, 1, 1);
     winGrid->addWidget(lE_yetki     , 6, 4, 1, 2);
-    winGrid->addWidget(winRsm       , 7, 4, 3, 2);
+    winGrid->addWidget(win_Rsm       , 7, 4, 3, 2);
 
 }
+
+/*
 void hC_CLSN::view()
 {
     qDebug()<<"clsn view ";
-    CLSNtview->table->setModel(CLSNmodel);
-    CLSNslctnMdl = CLSNtview->table->selectionModel();
+    tb_view->table->setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel();
     //////////////////////////////////////////////////////////
     //// kullanıcı bu alanları görmesin
-    CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("clsn_kod"), true);
-    CLSNtview->table->setColumnHidden(CLSNmodel->fieldIndex("resim"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("clsn_kod"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("resim"), true);
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
-    CLSNtview->table->setCurrentIndex(
-                CLSNmodel->index(0, 1)
+    tb_view->table->setCurrentIndex(
+                tb_model->index(0, 1)
                 );
     // with blue rect
-    CLSNtview->table->setFocus();
-    //   QTimer::singleShot(0, CLSNtview->table, SLOT(setFocus()));
+    tb_view->table->setFocus();
+    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
 
 }
 
 
 
-/* user interface */
+
 void hC_CLSN::map()
 {
     qDebug()<<"clsn map ";
-    CLSNmapper = new QDataWidgetMapper(this);
-    CLSNmapper->setModel(CLSNmodel);
+    tb_mapper = new QDataWidgetMapper(this);
+    tb_mapper->setModel(tb_model);
 
-    CLSNmapper->addMapping (lE_isim , CLSNmodel->fieldIndex("clsn_isim"));
-    CLSNmapper->addMapping (lE_soyad, CLSNmodel->fieldIndex("clsn_soyad"));
-    CLSNmapper->addMapping (lE_tc, CLSNmodel->fieldIndex("clsn_tckimlik"));
-    CLSNmapper->addMapping (lE_doyer, CLSNmodel->fieldIndex("clsn_dogumyeri"));
-    CLSNmapper->addMapping (dT_dotar, CLSNmodel->fieldIndex("clsn_dogumtarihi"));
-    CLSNmapper->addMapping (lE_baba, CLSNmodel->fieldIndex("clsn_babaadi"));
+    tb_mapper->addMapping (lE_isim , tb_model->fieldIndex("clsn_isim"));
+    tb_mapper->addMapping (lE_soyad, tb_model->fieldIndex("clsn_soyad"));
+    tb_mapper->addMapping (lE_tc, tb_model->fieldIndex("clsn_tckimlik"));
+    tb_mapper->addMapping (lE_doyer, tb_model->fieldIndex("clsn_dogumyeri"));
+    tb_mapper->addMapping (dT_dotar, tb_model->fieldIndex("clsn_dogumtarihi"));
+    tb_mapper->addMapping (lE_baba, tb_model->fieldIndex("clsn_babaadi"));
 
-    CLSNmapper->addMapping (lE_bolum,    CLSNmodel->fieldIndex("clsn_bolum"));
-    CLSNmapper->addMapping (lE_meslek,   CLSNmodel->fieldIndex("clsn_meslek"));
-    CLSNmapper->addMapping (lE_gorev,    CLSNmodel->fieldIndex("clsn_gorev"));
-    CLSNmapper->addMapping (lE_adres,    CLSNmodel->fieldIndex("clsn_adres"));
-    CLSNmapper->addMapping (lE_sehir,    CLSNmodel->fieldIndex("clsn_sehir"));
-    CLSNmapper->addMapping (lE_tel_cep,  CLSNmodel->fieldIndex("clsn_tel_cep"));
-    CLSNmapper->addMapping (lE_tel_ev,   CLSNmodel->fieldIndex("clsn_tel_ev"));
-    CLSNmapper->addMapping (lE_eposta,   CLSNmodel->fieldIndex("clsn_eposta"));
-    CLSNmapper->addMapping (lE_username, CLSNmodel->fieldIndex("clsn_username"));
-    CLSNmapper->addMapping (lE_password, CLSNmodel->fieldIndex("clsn_password"));
-    CLSNmapper->addMapping (lE_yetki, CLSNmodel->fieldIndex("clsn_yetki"));
-    //CLSNmapper->addMapping (winRsm, CLSNmodel->fieldIndex("resim"));
+    tb_mapper->addMapping (lE_bolum,    tb_model->fieldIndex("clsn_bolum"));
+    tb_mapper->addMapping (lE_meslek,   tb_model->fieldIndex("clsn_meslek"));
+    tb_mapper->addMapping (lE_gorev,    tb_model->fieldIndex("clsn_gorev"));
+    tb_mapper->addMapping (lE_adres,    tb_model->fieldIndex("clsn_adres"));
+    tb_mapper->addMapping (lE_sehir,    tb_model->fieldIndex("clsn_sehir"));
+    tb_mapper->addMapping (lE_tel_cep,  tb_model->fieldIndex("clsn_tel_cep"));
+    tb_mapper->addMapping (lE_tel_ev,   tb_model->fieldIndex("clsn_tel_ev"));
+    tb_mapper->addMapping (lE_eposta,   tb_model->fieldIndex("clsn_eposta"));
+    tb_mapper->addMapping (lE_username, tb_model->fieldIndex("clsn_username"));
+    tb_mapper->addMapping (lE_password, tb_model->fieldIndex("clsn_password"));
+    tb_mapper->addMapping (lE_yetki, tb_model->fieldIndex("clsn_yetki"));
+    //tb_mapper->addMapping (win_Rsm, tb_model->fieldIndex("resim"));
     qDebug()<<"clsn view son";
-    CLSNmapper->toFirst ();
+    tb_mapper->toFirst ();
 }
 
-
+*/
 void hC_CLSN::kntrl()
 {
 
 
     // pB 001 yeni ekle
-    connect(CLSNtview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
 
-        QSqlRecord rec = CLSNmodel->record();
+        QSqlRecord rec = tb_model->record();
         // insert a new record (-1) with null date
 
         /// date does not take null value
@@ -283,30 +285,30 @@ void hC_CLSN::kntrl()
         dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
 
 
-        if ( ! CLSNmodel->insertRecord(-1,rec))
+        if ( ! tb_model->insertRecord(-1,rec))
         {
             qDebug() << "100111 -  HATA - Çalışan kayıt eklenemedi ";
         }
         else
             qDebug() << "100111 - Çalışan Kaydı eklendi ";
-        CLSNmodel->select();
+        tb_model->select();
 
     });
 
     // pB 002 yeni resim ekle
-    connect(CLSNtview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
         qDebug() << "new resim";
-        hC_Rs resim( winRsm, CLSNtview, CLSNmodel, CLSNslctnMdl,
+        hC_Rs resim( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  CLSNslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, CLSNtview, CLSNmodel, CLSNslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -316,17 +318,17 @@ void hC_CLSN::kntrl()
 
     // pB 005 sil
 
-    connect(CLSNtview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
-        QModelIndex sample =   CLSNtview->table->currentIndex();
+        QModelIndex sample =   tb_view->table->currentIndex();
         if( sample.row() >= 0 )
         {
 
-            //         CLSNtview->table->selectionModel()->setCurrentIndex
+            //         tb_view->table->selectionModel()->setCurrentIndex
             //             (sample,QItemSelectionModel::NoUpdate);
 
-            QSqlRecord rec = CLSNmodel->record();
+            QSqlRecord rec = tb_model->record();
             QString val = rec.value(1).toString();// +" "+
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question(this,
@@ -337,70 +339,70 @@ void hC_CLSN::kntrl()
             {
                 // remove the current index
                 // pmodel->beginRemoveColumn();
-                CLSNmodel->removeRow(sample.row());
+                tb_model->removeRow(sample.row());
                 //pmodel->endRemoveColumns();
-                CLSNmodel->select();
+                tb_model->select();
             }
         }
     });
 /*
     // pB 006 ilk
-    connect(CLSNtview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        CLSNtview->hC_TvPb ("ilk", CLSNmodel, CLSNmapper);
+        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(CLSNtview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        CLSNtview->hC_TvPb ("ncki", CLSNmodel, CLSNmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(CLSNtview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-      CLSNtview->hC_TvPb ("snrki", CLSNmodel, CLSNmapper);
+      tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(CLSNtview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
-    {CLSNtview->hC_TvPb ("son", CLSNmodel, CLSNmapper);
+    {tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
 
 
     // pB 010 nav tuslari kontrol
-    connect(CLSNmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]()
-    {CLSNtview->hC_TvPb ("yenile", CLSNmodel, CLSNmapper);
+    {tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
 
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  CLSNslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
-        CLSNmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-        //     emit hC_CLSN::sgn(CLSNtview->table->model()->index( Index.row() ,
-        //               CLSNmodel->fieldIndex ("frm_unvan") ).data().toString() );
+        //     emit hC_CLSN::sgn(tb_view->table->model()->index( Index.row() ,
+        //               tb_model->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  CLSNslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        CLSNmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
 
@@ -422,7 +424,7 @@ hC_CLSN::~hC_CLSN()
 = default;
 
 
-
+/*
 QString hC_CLSN::VTd()
 {
     QSqlQuery   q;
@@ -535,15 +537,15 @@ void hC_CLSN::clsn_model()
     tB_FieldList->append("Yetki");
     tB_FieldList->append("resim");
 
-    CLSNmodel = new QSqlRelationalTableModel;
-  /*  hC_Rm hC_Rm ( &CLSNtableName,
-                 CLSNmodel,
+    tb_model = new QSqlRelationalTableModel;
+  hC_Rm hC_Rm ( &CLSNtableName,
+                 tb_model,
                  &indexField ,
                  tB_FieldList) ;
-*/
+
 } /// ÇALIŞAN
 
-
+*/
 
 
 

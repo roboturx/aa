@@ -7,99 +7,83 @@ hC_MKCINS::hC_MKCINS(QDialog *parent) : QDialog(parent)
     qDebug() << "Cnstrctr mkcins";
 }
 
-void hC_MKCINS::mkCins_setup()
+void hC_MKCINS::setup()
 {
-    qDebug ()  <<"  mkcins_setup";
-    mkCins_VTd();
-    mkCins_model ();
-    mkCins_wdgt ();
-    mkCins_map ();
-    mkCins_ui();
-    mkCins_view ();
-    mkCins_kntrl ();
+    qDebug ()  <<"  setup";
+    wdgt ();
+    ui();
+    kntrl ();
 
 }
 
 
-void hC_MKCINS::mkCins_ui()
+void hC_MKCINS::ui()
 {
-    qDebug() << "  mkcins_ui";
-
-    ////////////////////////////////////////// window
-    winLabel = new QLabel("ARAÇ CİNSİ");
-
-    this->setWindowTitle (winLabel->text ());
-    //this->setGeometry(500,50,300,600);
-
-    CNStview = new hC_Tv (this, CNSmodel, CNSmapper, winWdgt);
-
-    auto *winGrid = new QGridLayout();
-
-    winGrid->addWidget( winRsm     , 0,   0 , 1, 1);
-    winGrid->addWidget( CNStview   , 1,   0 , 4, 1);
-
-    this->setLayout(winGrid);
-
+    qDebug() << "  ui";
+    this->setWindowTitle (win_Label->text ());
+    auto *winGrid = new QGridLayout(this);
+    winGrid->addWidget( win_Rsm     , 0,   0 , 1, 1);
+    winGrid->addWidget( tb_view   , 1,   0 , 4, 1);
 }
 
-void hC_MKCINS::mkCins_wdgt()
+void hC_MKCINS::wdgt()
 {
-    winRsm = new QLabel ("Resim");
-    winRsm->setMinimumSize(60,100);
-    hC_Rs resim (winRsm);
+    win_Rsm = new QLabel ("Resim");
+    win_Rsm->setMinimumSize(60,100);
+    hC_Rs resim (win_Rsm);
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
     auto wdgtGrid = new QGridLayout();
-    winWdgt->setLayout(wdgtGrid);
+    win_Wdgt->setLayout(wdgtGrid);
 
     ///////////////////////////////////////
 
-    wdgtGrid ->addWidget(winRsm  , 0, 0, 1, 1);
+    wdgtGrid ->addWidget(win_Rsm  , 0, 0, 1, 1);
 }
-
-void hC_MKCINS::mkCins_view()
+/*
+void hC_MKCINS::view()
 {
     // Set the model and hide the ID column
-    CNStview-> table-> setModel(CNSmodel);
-    CNSslctnMdl = CNStview->table->selectionModel();
+    tb_view-> table-> setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel();
 
-    CNStview-> table-> setColumnHidden(CNSmodel->fieldIndex("id_mkcins"), true);
-    CNStview-> table-> setColumnHidden(CNSmodel->fieldIndex("resim"), true);
+    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("id_mkcins"), true);
+    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("resim"), true);
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
-    CNStview->table->setCurrentIndex(
-                CNSmodel->index(0, 1)
+    tb_view->table->setCurrentIndex(
+                tb_model->index(0, 1)
                 );
     // with blue rect
-    CNStview->table->setFocus();
-    //   QTimer::singleShot(0, CNStview->table, SLOT(setFocus()));
+    tb_view->table->setFocus();
+    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
 
 }
 
-void hC_MKCINS::mkCins_map()
+void hC_MKCINS::map()
 {
     qDebug()<<"  mkcins map";
-    CNSmapper = new QDataWidgetMapper(this);
-    CNSmapper->setModel(CNSmodel);
+    tb_mapper = new QDataWidgetMapper(this);
+    tb_mapper->setModel(tb_model);
 
-    //CNSmapper->addMapping(lE_unvan , CNSmodel->fieldIndex("frm_unvan"));
+    //tb_mapper->addMapping(lE_unvan , tb_model->fieldIndex("frm_unvan"));
 
-    CNSmapper->toFirst ();
+    tb_mapper->toFirst ();
 }
 
-
-void hC_MKCINS::mkCins_kntrl()
+*/
+void hC_MKCINS::kntrl()
 {
     // pB 001 yeni ekle
-    connect(CNStview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-        QSqlRecord rec = CNSmodel->record();
+        QSqlRecord rec = tb_model->record();
         // insert a new record (-1) with null date
-        if ( ! CNSmodel->insertRecord(-1,rec))
+        if ( ! tb_model->insertRecord(-1,rec))
         {
             qDebug() << "HATA - Cinsi kaydı eklenemedi ";
         }
@@ -107,26 +91,26 @@ void hC_MKCINS::mkCins_kntrl()
         {
             qDebug() << "Cinsi Kaydı eklendi ";
         }
-        CNSmodel->submitAll();
-        CNSmodel->select();
-        CNStview->table->setCurrentIndex(CNSmodel->
-                                         index(0,CNSmodel->columnCount()));
+        tb_model->submitAll();
+        tb_model->select();
+        tb_view->table->setCurrentIndex(tb_model->
+                                         index(0,tb_model->columnCount()));
 
     });
 
     // pB 002 yeni resim ekle
-    connect(CNStview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim ( winRsm, CNStview, CNSmodel, CNSslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                       "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  CNSslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, CNStview, CNSmodel, CNSslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                       "resim", "değiştir" );
     });
 
@@ -136,17 +120,17 @@ void hC_MKCINS::mkCins_kntrl()
 
     // pB 005 sil
 
-    connect(CNStview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
         // sil currentrecord
-        QModelIndex sample = CNStview->table->currentIndex();
+        QModelIndex sample = tb_view->table->currentIndex();
         if( sample.row() >= 0 )
         {
-            CNSslctnMdl->
+            tb_slctnMdl->
                     setCurrentIndex(sample,QItemSelectionModel::NoUpdate);
 
-            QSqlRecord rec = CNSmodel->record();
+            QSqlRecord rec = tb_model->record();
 
             QString val = rec.value(1).toString();
             QMessageBox::StandardButton dlg;
@@ -160,71 +144,71 @@ void hC_MKCINS::mkCins_kntrl()
             {
                 // remove the current index
                 // model->beginRemoveColumn();
-                CNSmodel->removeRow(sample.row());
+                tb_model->removeRow(sample.row());
                 //model->endRemoveColumns();
-                CNSmodel->submitAll();
-                CNSmodel->select();
+                tb_model->submitAll();
+                tb_model->select();
             }
         }
     });
     /*
     // pB 006 ilk
-    connect(CNStview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-         CNStview->hC_TvPb ("ilk", CNSmodel, CNSmapper);
+         tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(CNStview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        CNStview->hC_TvPb ("ncki", CNSmodel, CNSmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(CNStview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        CNStview->hC_TvPb ("snrki", CNSmodel, CNSmapper);
+        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(CNStview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
     {
-        CNStview->hC_TvPb ("son", CNSmodel, CNSmapper);
+        tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
     // pB 010 nav tuslari kontrol
-    connect(CNSmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]()
     {
-        CNStview->hC_TvPb ("yenile", CNSmodel, CNSmapper);
+        tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  CNSslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
 
         if (Index.isValid())
         {
             // 011-01 mapper indexi ayarla
-            CNSmapper->setCurrentModelIndex(Index);
+            tb_mapper->setCurrentModelIndex(Index);
 
             // 011-02 filter
-            //            QSqlRecord record = CNSmodel->record(Index.row());
+            //            QSqlRecord record = tb_model->record(Index.row());
             //            int id = record.value("id_mkcins").toInt();
 
-            //            MRKmodel->setFilter(QString("mkcins_no = %1").arg(id));
+            //            MRKmodel->setFilter(QString("no = %1").arg(id));
             //            MRKmodel->select();
 
             // 011-03 cins row değiştiğinde cmmy etrafa yayınlayalım
-            QModelIndex Index  = CNStview->table->currentIndex ();
+            QModelIndex Index  = tb_view->table->currentIndex ();
             sgnText = new QString;
-            *sgnText = CNStview->table->model()->index( Index.row() ,
-                                  CNSmodel->fieldIndex
+            *sgnText = tb_view->table->model()->index( Index.row() ,
+                                  tb_model->fieldIndex
                                  ("cinsi") ).data().toString();
 
             emit hC_MKCINS::sgnCmmy (sgnText);
@@ -236,11 +220,11 @@ void hC_MKCINS::mkCins_kntrl()
     });
     qDebug ()<<"cins pB 010 nav 3";
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  CNSslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        CNSmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
     qDebug ()<<"cins pB 010 nav  sonnn";
@@ -252,16 +236,16 @@ hC_MKCINS::~hC_MKCINS()
 
 
 
-
+/*
 ///// CINS
 ///
 ///
-QString hC_MKCINS::mkCins_VTd()
+QString hC_MKCINS::VTd()
 {
     //qDebug() << "db Cinsi CREATE  ";
     QString ct, mesaj = "  OK - Cinsi";
     QSqlQuery q;
-    QString CNStableName ( "mkcins__dbtb");
+    QString CNStableName ( "_dbtb");
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( CNStableName ))
@@ -331,10 +315,10 @@ QString hC_MKCINS::mkCins_VTd()
 
 }
 
-void hC_MKCINS::mkCins_model ()
+void hC_MKCINS::model ()
 {
     qDebug() << "  mkcins model ";
-    QString CNStableName ("mkcins__dbtb");
+    QString CNStableName ("_dbtb");
     QString indexField = "cinsi";
     QStringList *tB_FieldList = new QStringList ;
 
@@ -342,13 +326,13 @@ void hC_MKCINS::mkCins_model ()
     tB_FieldList->append("Resim");
     tB_FieldList->append("Cinsi Kodu");
 
-    CNSmodel = new QSqlRelationalTableModel ;
-  /*  hC_Rm hC_Rm ( &CNStableName,
-                  CNSmodel,
+    tb_model = new QSqlRelationalTableModel ;
+   hC_Rm hC_Rm ( &CNStableName,
+                  tb_model,
                   &indexField ,
                   tB_FieldList) ;
-*/
-}///CNS
 
+}///CNS
+*/
 
 

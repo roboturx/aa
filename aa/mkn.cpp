@@ -8,44 +8,42 @@ hC_MKN::hC_MKN(QWidget *parent) : QWidget(parent)
     //*****************  M A K İ N A  ****************************
 }
 
-void hC_MKN::mkn_setup()
+void hC_MKN::setup()
 {
     qDebug ()<<"setup MKN";
 
-    hC_MKN::mkn_VTd   () ;
-    hC_MKN::mkn_model () ;
-    hC_MKN::mkn_wdgt  () ;
-    hC_MKN::mkn_map   () ;
-    hC_MKN::mkn_ui    () ;
-    hC_MKN::mkn_view  () ;
-    hC_MKN::mkn_kntrl () ;
+    hC_MKN::wdgt  () ;
+
+    hC_MKN::ui    () ;
+
+    hC_MKN::kntrl () ;
 
 }
 
 
-void hC_MKN::mkn_ui()
+void hC_MKN::ui()
 {
     qDebug ()  <<"mkn ui";
 
-    winLabel = new QLabel("ARAÇ BİLGİLERİ");
-    this->setWindowTitle (winLabel->text ());
+    win_Label = new QLabel("ARAÇ BİLGİLERİ");
+    this->setWindowTitle (win_Label->text ());
 
-    MKNtview    = new hC_Tv (this, MKNmodel, MKNmapper, winWdgt);
+    tb_view    = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
 
-    auto *mkn_l = new QGridLayout;
-    mkn_l->addWidget ( MKNtview   , 0, 0, 1, 1 );
-    mkn_l->addWidget ( winWdgt  , 0, 1, 1, 1 );
-    //mkn_l->addWidget(wdgt_mppr  , 3, 6, 3, 5 );
+    auto *l = new QGridLayout;
+    l->addWidget ( tb_view   , 0, 0, 1, 1 );
+    l->addWidget ( win_Wdgt  , 0, 1, 1, 1 );
+    //l->addWidget(wdgt_mppr  , 3, 6, 3, 5 );
 
-    this->setLayout (mkn_l);
+    this->setLayout (l);
     qDebug ()  <<"mkn ui sonu 1";
 
 }
 
-void hC_MKN::mkn_wdgt()
+void hC_MKN::wdgt()
 {
 
-    qDebug ()  <<"  mkn_wdgt";
+    qDebug ()  <<"  wdgt";
 
     auto *lB_kurumno = new QLabel("Kurum No");
     led_mknKurumno = new QLineEdit();
@@ -84,7 +82,7 @@ void hC_MKN::mkn_wdgt()
 
         auto *c = new hC_MKCINS ;
 
-        c->mkCins_setup ();
+        c->setup ();
 
 
 
@@ -128,7 +126,7 @@ void hC_MKN::mkn_wdgt()
 
         // seçebilmek için pencere
         auto *cmm = new hC_MKMODL ;
-        cmm->mkModl_setup ();
+        cmm->setup ();
 
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -297,15 +295,15 @@ void hC_MKN::mkn_wdgt()
     lB_mknAcklm->setBuddy(ted_mknAcklm);
 
 
-    winRsm = new QLabel;
-    hC_Rs resim(winRsm);
+    win_Rsm = new QLabel;
+    hC_Rs resim(win_Rsm);
 
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
     auto mknGrid = new QGridLayout();
-    winWdgt->setLayout(mknGrid);
+    win_Wdgt->setLayout(mknGrid);
 
     ///////////////////////////////////////
     led_mknPlaka->setMinimumSize (200,25);
@@ -346,80 +344,80 @@ void hC_MKN::mkn_wdgt()
    // mknGrid->addWidget(lB_foto      ,++satr,0,4,4 );
 
 }
-
-void hC_MKN::mkn_view()
+/*
+void hC_MKN::view()
 {
     qDebug()<<"  mkn view";
-    MKNtview->table->setModel(MKNmodel);
-    MKNslctnMdl = MKNtview->table->selectionModel ();
+    tb_view->table->setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel ();
 
     // sağ tuş menusu
-    MKNtview->table->setContextMenuPolicy(Qt::CustomContextMenu);
+    tb_view->table->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // tableview de comboboxları göster
-    //MKNtview->setItemDelegate(new MakinaDelegate(MKNtview));
-    MKNtview->table->setItemDelegate(new QSqlRelationalDelegate(this));
+    //tb_view->setItemDelegate(new MakinaDelegate(tb_view));
+    tb_view->table->setItemDelegate(new QSqlRelationalDelegate(this));
 
-    MKNtview->table->setColumnHidden(MKNmodel->fieldIndex("id_mkn"), true);
-    MKNtview->table->setColumnHidden(MKNmodel->fieldIndex("mkn_resim"), true);
-    MKNtview->table->setColumnHidden(MKNmodel->fieldIndex("mkn_rating"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("id_mkn"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("resim"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("rating"), true);
 
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
-    MKNtview->table->setCurrentIndex(
-                MKNmodel->index(0, 1)
+    tb_view->table->setCurrentIndex(
+                tb_model->index(0, 1)
                 );
     // with blue rect
-    MKNtview->table->setFocus();
-    //   QTimer::singleShot(0, MKNtview->table, SLOT(setFocus()));
+    tb_view->table->setFocus();
+    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
 }
 
-void hC_MKN::mkn_map()
+void hC_MKN::map()
 {
     qDebug()<<"set mapmkn";
-    hC_MKN::MKNmapper = new QDataWidgetMapper(this);
-    hC_MKN::MKNmapper->setModel(MKNmodel);
+    hC_MKN::tb_mapper = new QDataWidgetMapper(this);
+    hC_MKN::tb_mapper->setModel(tb_model);
 
     // mapperdaki comboboxları çalıştır
-    hC_MKN::MKNmapper->setItemDelegate(new QSqlRelationalDelegate(this));
+    hC_MKN::tb_mapper->setItemDelegate(new QSqlRelationalDelegate(this));
 
-    MKNmapper->addMapping(led_mknKurumno, MKNmodel->fieldIndex("mkn_kurumNo"));
-    MKNmapper->addMapping(led_mknPlaka, MKNmodel->fieldIndex("mkn_plaka"));
+    tb_mapper->addMapping(led_mknKurumno, tb_model->fieldIndex("kurumNo"));
+    tb_mapper->addMapping(led_mknPlaka, tb_model->fieldIndex("plaka"));
 
-    MKNmapper->addMapping(lE_cins->lineEdit , MKNmodel->fieldIndex("mkn_cinsi"));
-    MKNmapper->addMapping(lE_mark->lineEdit , MKNmodel->fieldIndex("mkn_marka"));
-    MKNmapper->addMapping(lE_modl->lineEdit , MKNmodel->fieldIndex("mkn_modeli"));
+    tb_mapper->addMapping(lE_cins->lineEdit , tb_model->fieldIndex("cinsi"));
+    tb_mapper->addMapping(lE_mark->lineEdit , tb_model->fieldIndex("marka"));
+    tb_mapper->addMapping(lE_modl->lineEdit , tb_model->fieldIndex("modeli"));
 
-    MKNmapper->addMapping(spn_mknYil, MKNmodel->fieldIndex("mkn_yil"));
-    MKNmapper->addMapping(led_mknSase, MKNmodel->fieldIndex("mkn_saseno"));
-    MKNmapper->addMapping(led_mknMotor, MKNmodel->fieldIndex("mkn_motorno"));
-    MKNmapper->addMapping(led_mknMtip, MKNmodel->fieldIndex("mkn_motortip"));
-    MKNmapper->addMapping(cbx_mknYkt, MKNmodel->fieldIndex("mkn_yakit"));
-    MKNmapper->addMapping(cbx_mknSurucu, MKNmodel->fieldIndex("mkn_surucu"));
-    MKNmapper->addMapping(clndr_mknSurucutar, MKNmodel->fieldIndex("mkn_surucu_tar"));
-    MKNmapper->addMapping(cbx_mknBirim, MKNmodel->fieldIndex("mkn_birim"));
-    MKNmapper->addMapping(cbx_mknByer, MKNmodel->fieldIndex("mkn_byer"));
-    MKNmapper->addMapping(ted_mknAcklm, MKNmodel->fieldIndex("mkn_aciklama"));
-    //MKNmapper->addMapping(lB_resim , MKNmodel->fieldIndex("mkn_resim"));
-    //MKNmapper->addMapping(led_rating, MKNmodel->fieldIndex("rating"));
-
-
+    tb_mapper->addMapping(spn_mknYil, tb_model->fieldIndex("yil"));
+    tb_mapper->addMapping(led_mknSase, tb_model->fieldIndex("saseno"));
+    tb_mapper->addMapping(led_mknMotor, tb_model->fieldIndex("motorno"));
+    tb_mapper->addMapping(led_mknMtip, tb_model->fieldIndex("motortip"));
+    tb_mapper->addMapping(cbx_mknYkt, tb_model->fieldIndex("yakit"));
+    tb_mapper->addMapping(cbx_mknSurucu, tb_model->fieldIndex("surucu"));
+    tb_mapper->addMapping(clndr_mknSurucutar, tb_model->fieldIndex("surucu_tar"));
+    tb_mapper->addMapping(cbx_mknBirim, tb_model->fieldIndex("birim"));
+    tb_mapper->addMapping(cbx_mknByer, tb_model->fieldIndex("byer"));
+    tb_mapper->addMapping(ted_mknAcklm, tb_model->fieldIndex("aciklama"));
+    //tb_mapper->addMapping(lB_resim , tb_model->fieldIndex("resim"));
+    //tb_mapper->addMapping(led_rating, tb_model->fieldIndex("rating"));
 
 
-    hC_MKN::MKNmapper->toFirst ();
+
+
+    hC_MKN::tb_mapper->toFirst ();
 
 }
 
-
+*/
 /////////////////////////////////     ekrandaki her şeyi kontrol edelim
-void hC_MKN::mkn_kntrl()
+void hC_MKN::kntrl()
 {
     qDebug ()  <<"cw mkn kontrol ";
     /// tüm işlemler tamam kontrol edelim
 
     // pB 001 yeni ekle
-    connect(MKNtview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
         auto *dia_kurumno =new QDialog(this);
@@ -474,26 +472,26 @@ void hC_MKN::mkn_kntrl()
             }
 
             // kayıt oluşturalım
-            QSqlRecord rec = MKNmodel->record();
-            rec.setValue ("mkn_kurumno"  , lE_krmno->text ());
-            rec.setValue ("mkn_yil"      , QDate::currentDate ().year ());
-            rec.setValue ("mkn_cinsi"     , " " );
-            rec.setValue ("mkn_marka"    , " " );
-            rec.setValue ("mkn_modeli"   , " " );
+            QSqlRecord rec = tb_model->record();
+            rec.setValue ("kurumno"  , lE_krmno->text ());
+            rec.setValue ("yil"      , QDate::currentDate ().year ());
+            rec.setValue ("cinsi"     , " " );
+            rec.setValue ("marka"    , " " );
+            rec.setValue ("modeli"   , " " );
 // QString date(QDate::currentDate().toString ( "dd-MM-yyyy" ));
 
 // rec.setValue ("ftr_tarih"   , date );
 
             // insert a new record (-1)
-            if ( ! MKNmodel->insertRecord(MKNmodel->rowCount (),rec))
+            if ( ! tb_model->insertRecord(tb_model->rowCount (),rec))
             {
                 qDebug() << " HATA - MAKİNA kaydı eklenemedi ";
             }
             else
             {
                 qDebug() << " - Kayıt MAKİNA ya eklendi ";
-                MKNmodel->submitAll ();
-                MKNmodel->select ();
+                tb_model->submitAll ();
+                tb_model->select ();
             }
             dia_kurumno->close ();
         });
@@ -501,19 +499,19 @@ void hC_MKN::mkn_kntrl()
     });
 
     // pB 002 yeni resim ekle
-    connect(MKNtview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(winRsm, MKNtview, MKNmodel, MKNslctnMdl,
-                           "mkn_resim", "ekle");
+        hC_Rs resim(win_Rsm, tb_view, tb_model, tb_slctnMdl,
+                           "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  MKNslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, MKNtview, MKNmodel, MKNslctnMdl,
-                           "mkn_resim","değiştir" ) ;
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
+                           "resim","değiştir" ) ;
     });
 
 
@@ -522,7 +520,7 @@ void hC_MKN::mkn_kntrl()
 
     // pB 005 sil
 
-    connect(MKNtview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
 
@@ -548,11 +546,11 @@ void hC_MKN::mkn_kntrl()
         {
             QSqlQuery q_qry;
             QString s_qry;
-            QModelIndex mkn_indx = MKNtview->table->currentIndex ();
-            QString ino = MKNmodel->data
-                    (MKNmodel->index
-                     (mkn_indx.row (),
-                      MKNmodel->fieldIndex ("id_mkn"))).toString ();
+            QModelIndex indx = tb_view->table->currentIndex ();
+            QString ino = tb_model->data
+                    (tb_model->index
+                     (indx.row (),
+                      tb_model->fieldIndex ("id_mkn"))).toString ();
 
             s_qry = QString("DELETE FROM dbtb_mkn "
                             "WHERE id_mkn = %1").arg( ino );
@@ -561,8 +559,8 @@ void hC_MKN::mkn_kntrl()
             if (q_qry.isActive ())
             {
                 qDebug()<< " Demirbaş Ambar Kaydı Silindi ";
-                MKNmodel->submitAll ();
-                MKNmodel->select ();
+                tb_model->submitAll ();
+                tb_model->select ();
             }
             else
             {
@@ -580,61 +578,61 @@ void hC_MKN::mkn_kntrl()
 
 /*
     // pB 006 ilk
-    connect(MKNtview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        MKNtview->hC_TvPb ("ilk", MKNmodel, MKNmapper);
+        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(MKNtview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        MKNtview->hC_TvPb ("ncki", MKNmodel, MKNmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(MKNtview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        MKNtview->hC_TvPb ("snrki", MKNmodel, MKNmapper);
+        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(MKNtview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
     {
-        MKNtview->hC_TvPb ("son", MKNmodel, MKNmapper);
+        tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
     // pB 010 nav tuslari kontrol
-    connect(MKNmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]()
     {
-        MKNtview->hC_TvPb ("yenile", MKNmodel, MKNmapper);
+        tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  MKNslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
-        MKNmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-       // emit Cw_fr::sgnfirma(MKNtview->table->model()->index( Index.row() ,
-         //           MKNmodel->fieldIndex ("frm_unvan") ).data().toString() );
+       // emit Cw_fr::sgnfirma(tb_view->table->model()->index( Index.row() ,
+         //           tb_model->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  MKNslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        MKNmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
 
@@ -644,7 +642,7 @@ void hC_MKN::mkn_kntrl()
     // bu fonksiyonun içinden kontrol edelim
 
     // --- 013 sağ tık menusu
-    connect(MKNtview->table, &QTableView::customContextMenuRequested,
+    connect(tb_view->table, &QTableView::customContextMenuRequested,
             [this]()
     {
 
@@ -657,7 +655,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_sgrt->setShortcuts (QKeySequence::New);
         ekleAct_sgrt->setStatusTip ("Sigorta Kaydı Ekle");
       //  connect (ekleAct_sgrt, &QAction::triggered, this,
-    //             &hC_MKN::onmnMKN_yeniEklE_sgrtSLOT );
+    //             &hC_MKN::onmnyeniEklE_sgrtSLOT );
         menu->addAction(ekleAct_sgrt);
 
         // muayene kaydı ekle
@@ -666,7 +664,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_mua->setShortcuts (QKeySequence::New);
         ekleAct_mua->setStatusTip ("Muayene Kaydı Ekle");
        // connect (ekleAct_mua, &QAction::triggered, this,
-         //        &hC_MKN::onmnMKN_yeniEklE_muaSLOT );
+         //        &hC_MKN::onmnyeniEklE_muaSLOT );
         menu->addAction(ekleAct_mua);
 
 
@@ -676,7 +674,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_yag->setShortcuts (QKeySequence::New);
         ekleAct_yag->setStatusTip ("Yağ Kaydı Ekle");
      //   connect (ekleAct_yag, &QAction::triggered, this,
-   //              &hC_MKN::onmnMKN_yeniEklE_yagSLOT );
+   //              &hC_MKN::onmnyeniEklE_yagSLOT );
         menu->addAction(ekleAct_yag);
 
 
@@ -686,7 +684,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_flt->setShortcuts (QKeySequence::New);
         ekleAct_flt->setStatusTip ("Filtre Kaydı Ekle");
        // connect (ekleAct_flt, &QAction::triggered, this,
-         //        &hC_MKN::onmnMKN_yeniEklE_fltSLOT );
+         //        &hC_MKN::onmnyeniEklE_fltSLOT );
         menu->addAction(ekleAct_flt);
 
         // akü
@@ -695,7 +693,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_aku->setShortcuts (QKeySequence::New);
         ekleAct_aku->setStatusTip ("Akü Kaydı Ekle");
   //      connect (ekleAct_aku, &QAction::triggered, this,
-    //             &hC_MKN::onmnMKN_yeniEklE_akuSLOT );
+    //             &hC_MKN::onmnyeniEklE_akuSLOT );
         menu->addAction(ekleAct_aku);
 
         // lastik
@@ -704,7 +702,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_lst->setShortcuts (QKeySequence::New);
         ekleAct_lst->setStatusTip ("Lastik Kaydı Ekle");
      //   connect (ekleAct_lst, &QAction::triggered, this,
-       //          &hC_MKN::onmnMKN_yeniEklE_lstSLOT );
+       //          &hC_MKN::onmnyeniEklE_lstSLOT );
         menu->addAction(ekleAct_lst);
 
         // yakıt
@@ -713,7 +711,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_mknYkt->setShortcuts (QKeySequence::New);
         ekleAct_mknYkt->setStatusTip ("Yakıt Kaydı Ekle");
   //      connect (ekleAct_mknYkt, &QAction::triggered, this,
-    //             &hC_MKN::onmnMKN_yeniEklE_mknYktSLOT );
+    //             &hC_MKN::onmnyeniEklE_mknYktSLOT );
         menu->addAction(ekleAct_mknYkt);
 
         // antifiriz
@@ -722,7 +720,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_afz->setShortcuts (QKeySequence::New);
         ekleAct_afz->setStatusTip ("Antifiriz Kaydı Ekle");
    //     connect (ekleAct_afz, &QAction::triggered, this,
-     //            &hC_MKN::onmnMKN_yeniEklE_afzSLOT );
+     //            &hC_MKN::onmnyeniEklE_afzSLOT );
         menu->addAction(ekleAct_afz);
 
         // zincir
@@ -731,7 +729,7 @@ void hC_MKN::mkn_kntrl()
         ekleAct_zcr->setShortcuts (QKeySequence::New);
         ekleAct_zcr->setStatusTip ("Zincir Kaydı Ekle");
  //       connect (ekleAct_zcr, &QAction::triggered, this,
-   //              &hC_MKN::onmnMKN_yeniEklE_zcrSLOT );
+   //              &hC_MKN::onmnyeniEklE_zcrSLOT );
         menu->addAction(ekleAct_zcr);
 
         // hgs
@@ -740,15 +738,15 @@ void hC_MKN::mkn_kntrl()
         ekleAct_hgs->setShortcuts (QKeySequence::New);
         ekleAct_hgs->setStatusTip ("HGS Kaydı Ekle");
   //      connect (ekleAct_hgs, &QAction::triggered, this,
-    //             &hC_MKN::onmnMKN_yeniEklE_hgsSLOT );
+    //             &hC_MKN::onmnyeniEklE_hgsSLOT );
         menu->addAction(ekleAct_hgs);
 
         menu->addSeparator();
-        menu->popup(MKNtview->table->viewport()->mapToGlobal(pos()));
+        menu->popup(tb_view->table->viewport()->mapToGlobal(pos()));
     });
 
 
-}       ///     mkn_kontrol
+}       ///     kontrol
 
 // ////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////
@@ -760,13 +758,13 @@ void hC_MKN::mkn_kntrl()
 
 
 /*
-void hC_MKN::onmnMKN_yeniEklE_sgrtSLOT()
+void hC_MKN::onmnyeniEklE_sgrtSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // sigorta  ekle
@@ -782,15 +780,15 @@ void hC_MKN::onmnMKN_yeniEklE_sgrtSLOT()
     evrk_sgrt->tV_evr_sgrt->setFocus();
 
 
-}                                           ///     onmnMKN_yeniEklE_sgrt
+}                                           ///     onmnyeniEklE_sgrt
 
-void hC_MKN::onmnMKN_yeniEklE_muaSLOT()
+void hC_MKN::onmnyeniEklE_muaSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // muayene ekle
@@ -806,17 +804,17 @@ void hC_MKN::onmnMKN_yeniEklE_muaSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_mua
+}       ///      onmnyeniEklE_mua
 
 
 
-void hC_MKN::onmnMKN_yeniEklE_yagSLOT()
+void hC_MKN::onmnyeniEklE_yagSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // yag ekle
@@ -832,17 +830,17 @@ void hC_MKN::onmnMKN_yeniEklE_yagSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_yag
+}       ///      onmnyeniEklE_yag
 
 
 
-void hC_MKN::onmnMKN_yeniEklE_fltSLOT()
+void hC_MKN::onmnyeniEklE_fltSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // flt ekle
@@ -858,17 +856,17 @@ void hC_MKN::onmnMKN_yeniEklE_fltSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_flt
+}       ///      onmnyeniEklE_flt
 
 
 
-void hC_MKN::onmnMKN_yeniEklE_akuSLOT()
+void hC_MKN::onmnyeniEklE_akuSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // aku ekle
@@ -884,17 +882,17 @@ void hC_MKN::onmnMKN_yeniEklE_akuSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_aku
+}       ///      onmnyeniEklE_aku
 
 
 
-void hC_MKN::onmnMKN_yeniEklE_lstSLOT()
+void hC_MKN::onmnyeniEklE_lstSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // lastik ekle
@@ -910,17 +908,17 @@ void hC_MKN::onmnMKN_yeniEklE_lstSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_lst
+}       ///      onmnyeniEklE_lst
 
 
 
-void hC_MKN::onmnMKN_yeniEklE_mknYktSLOT()
+void hC_MKN::onmnyeniEklE_mknYktSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // yakıt ekle
@@ -936,16 +934,16 @@ void hC_MKN::onmnMKN_yeniEklE_mknYktSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_mknYkt
+}       ///      onmnyeniEklE_mknYkt
 
 
-void hC_MKN::onmnMKN_yeniEklE_afzSLOT()
+void hC_MKN::onmnyeniEklE_afzSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // antifiriz ekle
@@ -961,17 +959,17 @@ void hC_MKN::onmnMKN_yeniEklE_afzSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_afz
+}       ///      onmnyeniEklE_afz
 
 
 
-void hC_MKN::onmnMKN_yeniEklE_zcrSLOT()
+void hC_MKN::onmnyeniEklE_zcrSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // zincir ekle1
@@ -987,17 +985,17 @@ void hC_MKN::onmnMKN_yeniEklE_zcrSLOT()
     tbx_evrk->setCurrentIndex(tbx_evrk->indexOf(evrk_mua));
     evrk_mua->tV_evrk_mua->setFocus();
 
-}       ///      onmnMKN_yeniEklE_zcr
+}       ///      onmnyeniEklE_zcr
 
 
 
-void hC_MKN::onmnMKN_yeniEklE_hgsSLOT()
+void hC_MKN::onmnyeniEklE_hgsSLOT()
 {
     int id=-1;
-    QModelIndex index = MKNtview->table->currentIndex();
+    QModelIndex index = tb_view->table->currentIndex();
     if (index.isValid())
     {
-        QSqlRecord record = MKNmodel->record(index.row());
+        QSqlRecord record = tb_model->record(index.row());
         id = record.value("id_mkn").toInt();
     }
     // hgs ekle
@@ -1026,7 +1024,7 @@ void hC_MKN::onmnMKN_yeniEklE_hgsSLOT()
     auto *w = new WW_Mkcins;
     //w->setModal(true);
     w->show();
-    MKNmodel->select();
+    tb_model->select();
 
 }       ///      ww_mkcins
 
@@ -1040,7 +1038,7 @@ hC_MKN::~hC_MKN()
 ///
 ///
 ///
-//// mkn_
+////
 ///
 ///
 ///
@@ -1071,7 +1069,7 @@ hC_MKN::~hC_MKN()
     QSqlQuery q;
     QString s_q;
     s_q = "select * from dbtb_mkn "
-          "where mkn_kurumNo = "+led_mknKurumno->text().trimmed() ;
+          "where kurumNo = "+led_mknKurumno->text().trimmed() ;
     q.prepare(s_q);
     if (q.exec())
 
@@ -1100,44 +1098,44 @@ hC_MKN::~hC_MKN()
 
 //}
 
-
+/*
 ///
 /// \brief DBase::VTd_mkn
 ///
-QString hC_MKN::mkn_VTd()
+QString hC_MKN::VTd()
 {
 
     /// MKSTOK create
     ///
     QString ct, mesaj = "  OK - Makina";
     QSqlQuery q;
-    QString MKNtableName ( "mkn__dbtb");
+    QString MKNtableName ( "_dbtb");
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( MKNtableName ))
     {
-        //mkn_kurumNo key used every table's relation
+        //kurumNo key used every table's relation
 
         ct =  "CREATE TABLE IF NOT EXISTS  " + MKNtableName +
               "("
               "id_mkn integer primary key, "
-              "mkn_kurumno       TEXT, "
-              "mkn_plaka         TEXT, "
-              "mkn_cinsi         TEXT, "
-              "mkn_Marka         TEXT,"
-              "mkn_modeli        TEXT,"
-              "mkn_Yil           INTEGER, "
-              "mkn_Saseno        TEXT, "
-              "mkn_Motorno       TEXT, "
-              "mkn_Motortip      TEXT, "
-              "mkn_yakit         TEXT, "
-              "mkn_surucu        integer, "
-              "mkn_surucutar     DATE, "
-              "mkn_Birim         TEXT, "
-              "mkn_aciklama      TEXT, "
-              "mkn_Byer          TEXT, "
-              "mkn_resim         BLOB, "
-              "mkn_rating        INTEGER)" ;
+              "kurumno       TEXT, "
+              "plaka         TEXT, "
+              "cinsi         TEXT, "
+              "Marka         TEXT,"
+              "modeli        TEXT,"
+              "Yil           INTEGER, "
+              "Saseno        TEXT, "
+              "Motorno       TEXT, "
+              "Motortip      TEXT, "
+              "yakit         TEXT, "
+              "surucu        integer, "
+              "surucutar     DATE, "
+              "Birim         TEXT, "
+              "aciklama      TEXT, "
+              "Byer          TEXT, "
+              "resim         BLOB, "
+              "rating        INTEGER)" ;
 
 
         if (!q.exec( ct ))
@@ -1151,8 +1149,8 @@ QString hC_MKN::mkn_VTd()
         {
             mesaj= "OK - Malzeme Detay Dosyası YENİ Oluşturuldu";
 
-            if ( q.exec("INSERT INTO " + MKNtableName + " ( mkn_kurumNo,mkn_cinsi,"
-                        "mkn_marka, mkn_modeli, mkn_surucu )"
+            if ( q.exec("INSERT INTO " + MKNtableName + " ( kurumNo,cinsi,"
+                        "marka, modeli, surucu )"
                         " values( '100001', 1 , 1 , 1 , 1 )"  ))
             {
                 mesaj = mesaj + "<br>İLK kayıt eklendi";
@@ -1175,11 +1173,11 @@ QString hC_MKN::mkn_VTd()
 
 
 
-void hC_MKN::mkn_model ()
+void hC_MKN::model ()
 {
     qDebug() << " modelmkn";
-    QString indexField = "mkn_kurumno";
-    QString MKNtableName ("mkn__dbtb");
+    QString indexField = "kurumno";
+    QString MKNtableName ("_dbtb");
 
 
     QStringList *tB_FieldList = new QStringList ;
@@ -1203,11 +1201,11 @@ void hC_MKN::mkn_model ()
     tB_FieldList->append("Rating");
     // tB_FieldList->append("resim");
 
-    MKNmodel = new QSqlRelationalTableModel;
-  /*  hC_Rm hC_Rm (&MKNtableName,
-                 MKNmodel,
+    tb_model = new QSqlRelationalTableModel;
+    hC_Rm hC_Rm (&MKNtableName,
+                 tb_model,
                  &indexField ,
                  tB_FieldList) ;
-*/
-}///MKN
 
+}///MKN
+*/

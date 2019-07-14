@@ -38,6 +38,10 @@ public:
     hC_Le       * lE_firma{} ;
     QLineEdit   * lE_tarih{};
     QLineEdit   * lE_aciklama{};
+QLineEdit   * lE_ftrToplam;
+QLineEdit   * lE_ftrKdv;
+QLineEdit   * lE_ftrGenelToplam;
+
 
     void setup () ;
 

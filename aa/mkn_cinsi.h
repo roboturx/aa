@@ -3,9 +3,7 @@
 
 
 #include "globals.h"
-//#include "hc_.h"
-//#include "dbase.h"
-//#include "ftr_frmekle.h"
+
 namespace nSMkn {
     class hC_MKCINS;
 }
@@ -36,7 +34,7 @@ public:
 
     QString * sgnText    {} ;
 
-    void    mkCins_setup () ;
+    void    setup () ;
 
 private:
     void wdgt  () ;

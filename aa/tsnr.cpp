@@ -7,39 +7,36 @@ hC_TSNR::hC_TSNR(QWidget *parent) : QWidget (parent)
     //************  T A Ş I N I R   İ S T E K  *******************
 }
 
-void hC_TSNR::tsnr_setup()
+void hC_TSNR:: setup()
 {
     qDebug() << "  tsnr setup ";
-    tsnr_VTd   () ;
-    tsnr_model () ;
-    tsnr_wdgt  () ;
-    tsnr_map   () ;
-    tsnr_ui    () ;
-    tsnr_view  () ;
-    tsnr_kntrl () ;
+      wdgt  () ;
+      ui    () ;
+
+     kntrl () ;
 }
 
 
-void hC_TSNR::tsnr_ui()
+void hC_TSNR:: ui()
 {
-    qDebug() << "  TSNR_ui";
-    winLabel = new QLabel("TAŞINIR İSTEK");
-    hC_TSNR::setWindowTitle (winLabel->text ());
+    qDebug() << "   ui";
+    win_Label = new QLabel("TAŞINIR İSTEK");
+    hC_TSNR::setWindowTitle (win_Label->text ());
 
 
 
 
     // ///////////////////////////////////////////////////////
     // views
-    TSNRtview = new hC_Tv (this, TSNRmodel, TSNRmapper, winWdgt);
+    tb_view = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
 
 
     auto *winGrid = new QGridLayout(this);
-    winGrid->addWidget (TSNRtview  , 0, 0, 1, 1);
-    winGrid->addWidget (winWdgt   , 0, 1, 1, 1);
+    winGrid->addWidget (tb_view  , 0, 0, 1, 1);
+    winGrid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 }
 
-void hC_TSNR::tsnr_wdgt()
+void hC_TSNR:: wdgt()
 {
 
     auto *lB_tsno = new QLabel("Taşınır No");
@@ -104,14 +101,14 @@ void hC_TSNR::tsnr_wdgt()
     lB_acklm->setBuddy(lE_TSaciklama);
 
 
-    winRsm = new QLabel("Resim ");
-    winRsm = new QLabel("Taşınır İstek");
+    win_Rsm = new QLabel("Resim ");
+    win_Rsm = new QLabel("Taşınır İstek");
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
     auto wdgtGrid = new QGridLayout();
-    winWdgt->setLayout(wdgtGrid);
+    win_Wdgt->setLayout(wdgtGrid);
 
     ///////////////////////////////////////
     lE_TSaciklama->setMinimumSize (200,25);
@@ -136,67 +133,67 @@ void hC_TSNR::tsnr_wdgt()
 
 
 }
-
-void hC_TSNR::tsnr_view()
+/*
+void hC_TSNR:: view()
 {
     qDebug()<<"tsnr view ";
-    TSNRtview->table->setModel(TSNRmodel);
-    TSNRslctnMdl = TSNRtview->table->selectionModel();
+    tb_view->table->setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel();
 
-    TSNRtview->table->setColumnHidden(TSNRmodel->fieldIndex("tsnr_mknstk_no"), true);
-    TSNRtview->table->setColumnHidden(TSNRmodel->fieldIndex("id_tsnr"), true);
-    TSNRtview->table->setColumnHidden(TSNRmodel->fieldIndex("tsnr_resim"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex(" mknstk_no"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("id_tsnr"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex(" resim"), true);
 
 
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
-    TSNRtview->table->setCurrentIndex(
-                TSNRmodel->index(0, 1)
+    tb_view->table->setCurrentIndex(
+                tb_model->index(0, 1)
                 );
     // with blue rect
-    TSNRtview->table->setFocus();
-    //   QTimer::singleShot(0, TSNRtview->table, SLOT(setFocus()));
+    tb_view->table->setFocus();
+    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
 
 }
 
-/* user interface */
-void hC_TSNR::tsnr_map()
+
+void hC_TSNR:: map()
 {
     qDebug()<<"tsnr map ";
-    TSNRmapper = new QDataWidgetMapper(this);
-    TSNRmapper->setModel(TSNRmodel);
+    tb_mapper = new QDataWidgetMapper(this);
+    tb_mapper->setModel(tb_model);
 
-    //TSNRmodelapper->addMapping(TSNRmodelapper, mdl_mkn->fieldIndex("tsnr_mknstk_no"));
-    TSNRmapper->addMapping(lE_TSno, TSNRmodel->fieldIndex("ts_no"));
-    TSNRmapper->addMapping(dE_TStarih , TSNRmodel->fieldIndex("ts_tarih"));
-    TSNRmapper->addMapping(cbx_TSmalzeme , TSNRmodel->fieldIndex("ts_malzeme"));
-    TSNRmapper->addMapping(lE_TSmiktar, TSNRmodel->fieldIndex("ts_miktar"));
-    TSNRmapper->addMapping(cbx_TSbirim , TSNRmodel->fieldIndex("ts_birim"));
-    TSNRmapper->addMapping(lE_TSbfiyat, TSNRmodel->fieldIndex("ts_bfiyat"));
-    TSNRmapper->addMapping(cbx_TSdurum, TSNRmodel->fieldIndex("ts_durum"));
-    TSNRmapper->addMapping(lE_TSaciklama , TSNRmodel->fieldIndex("ts_aciklama"));
+    //tb_modelapper->addMapping(tb_modelapper, mdl_mkn->fieldIndex(" mknstk_no"));
+    tb_mapper->addMapping(lE_TSno, tb_model->fieldIndex("ts_no"));
+    tb_mapper->addMapping(dE_TStarih , tb_model->fieldIndex("ts_tarih"));
+    tb_mapper->addMapping(cbx_TSmalzeme , tb_model->fieldIndex("ts_malzeme"));
+    tb_mapper->addMapping(lE_TSmiktar, tb_model->fieldIndex("ts_miktar"));
+    tb_mapper->addMapping(cbx_TSbirim , tb_model->fieldIndex("ts_birim"));
+    tb_mapper->addMapping(lE_TSbfiyat, tb_model->fieldIndex("ts_bfiyat"));
+    tb_mapper->addMapping(cbx_TSdurum, tb_model->fieldIndex("ts_durum"));
+    tb_mapper->addMapping(lE_TSaciklama , tb_model->fieldIndex("ts_aciklama"));
 
-    TSNRmapper->toFirst ();
+    tb_mapper->toFirst ();
 }
 
 
+*/
 
 
 
 
-
-void hC_TSNR::tsnr_kntrl()
+void hC_TSNR:: kntrl()
 {
 
     qDebug()<<"  kontroltsnr ";
 
     // pB 001 yeni ekle
-    connect(TSNRtview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
 
-        QSqlRecord rec = TSNRmodel->record();
+        QSqlRecord rec = tb_model->record();
         // insert a new record (-1) with null date
 
         /// date does not take null value
@@ -209,13 +206,13 @@ void hC_TSNR::tsnr_kntrl()
         //dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
 
 
-        if ( ! TSNRmodel->insertRecord(-1,rec))
+        if ( ! tb_model->insertRecord(-1,rec))
         {
             qDebug() << "100111 -  HATA - Çalışan kayıt eklenemedi ";
         }
         else
             qDebug() << "100111 - Çalışan Kaydı eklendi ";
-        TSNRmodel->select();
+        tb_model->select();
         qDebug ()<<"ts 17";
         ////////////////////////////////
         /*
@@ -265,8 +262,8 @@ void hC_TSNR::tsnr_kntrl()
 
 
 
-        TSNRmodel->select();
-        TSNRtview->setFocus();
+        tb_model->select();
+        tb_view->setFocus();
 
         // tasinir ekle
         ///////////////////////////////////////////////////
@@ -276,19 +273,19 @@ void hC_TSNR::tsnr_kntrl()
     });
 
     // pB 002 yeni resim ekle
-    connect(TSNRtview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
         qDebug() << "new resim";
-        hC_Rs resim( winRsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
+        hC_Rs resim( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  TSNRslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, TSNRtview, TSNRmodel, TSNRslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -298,7 +295,7 @@ void hC_TSNR::tsnr_kntrl()
 
     // pB 005 sil
 
-    connect(TSNRtview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
         // tasinir  kayıt sil
@@ -322,11 +319,11 @@ void hC_TSNR::tsnr_kntrl()
             // şimdi taşınır silelim
             QSqlQuery q_qry;
             QString s_qry;
-            QModelIndex tasinir_indx = TSNRtview->table->currentIndex ();
-            QString ino = TSNRmodel->data
-                    (TSNRmodel->index
+            QModelIndex tasinir_indx = tb_view->table->currentIndex ();
+            QString ino = tb_model->data
+                    (tb_model->index
                      (tasinir_indx.row (),
-                      TSNRmodel->fieldIndex ("id_tasinir"))).toString ();
+                      tb_model->fieldIndex ("id_tasinir"))).toString ();
 
             s_qry = QString("DELETE FROM dbtb_tasinir "
                             "WHERE id_tasinir = %1").arg( ino );
@@ -335,8 +332,8 @@ void hC_TSNR::tsnr_kntrl()
             if (q_qry.isActive ())
             {
                 qDebug()<< " Taşınır Kaydı Silindi ";
-                //  TSNRmodel->submitAll ();
-                TSNRmodel->select ();
+                //  tb_model->submitAll ();
+                tb_model->select ();
             }
             else
             {
@@ -353,62 +350,62 @@ void hC_TSNR::tsnr_kntrl()
     });
 /*
     // pB 006 ilk
-    connect(TSNRtview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        TSNRtview->hC_TvPb ("ilk", TSNRmodel, TSNRmapper);
+        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(TSNRtview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        TSNRtview->hC_TvPb ("ncki", TSNRmodel, TSNRmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(TSNRtview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        TSNRtview->hC_TvPb ("snrki", TSNRmodel, TSNRmapper);
+        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(TSNRtview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
-    {TSNRtview->hC_TvPb ("son", TSNRmodel, TSNRmapper);
+    {tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
 
 
     // pB 010 nav tuslari kontrol
-    connect(TSNRmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]()
-    {TSNRtview->hC_TvPb ("yenile", TSNRmodel, TSNRmapper);
+    {tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
 
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  TSNRslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
-        TSNRmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-        //     emit hC_TSNR::sgn(TSNRtview->table->model()->index( Index.row() ,
-        //               TSNRmodel->fieldIndex ("frm_unvan") ).data().toString() );
+        //     emit hC_TSNR::sgn(tb_view->table->model()->index( Index.row() ,
+        //               tb_model->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  TSNRslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        TSNRmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
 
@@ -422,8 +419,8 @@ hC_TSNR::~hC_TSNR()
 
 
 
-
-QString hC_TSNR::tsnr_VTd ()
+/*
+QString hC_TSNR:: VTd ()
 {
     QSqlQuery q;
     QString ct ,
@@ -490,11 +487,11 @@ QString hC_TSNR::tsnr_VTd ()
 
 
 
-void hC_TSNR::tsnr_model()
+void hC_TSNR:: model()
 {
     qDebug() << " tsnr mdl";
     QString indexField = "tsnr";
-    QString tB_Name = "tsnr__dbtb";
+    QString tB_Name = " _dbtb";
     QStringList *tB_FieldList = new QStringList;
 
     tB_FieldList->append("İş Emri No");
@@ -506,11 +503,11 @@ void hC_TSNR::tsnr_model()
     tB_FieldList->append("Yetkili");
     tB_FieldList->append("Yetkili");
 
-    TSNRmodel = new QSqlRelationalTableModel;
-  /*  hC_Rm hC_Rm ( &tB_Name,
-                 TSNRmodel,
+    tb_model = new QSqlRelationalTableModel;
+  hC_Rm hC_Rm ( &tB_Name,
+                 tb_model,
                  &indexField ,
                  tB_FieldList) ;
-*/
-}
 
+}
+*/

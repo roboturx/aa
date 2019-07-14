@@ -177,7 +177,7 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Demirbaş Mlzm"));
         auto *mw_mkn = new hC_MKN;
-        mw_mkn->mkn_setup ();
+        mw_mkn->setup ();
 
     });
 
@@ -255,7 +255,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_tsnr = new hC_TSNR ;
-        mw_tsnr->tsnr_setup ();
+        mw_tsnr->setup ();
         mw_tsnr->show ();
     });/// taşınır istek
 
@@ -269,7 +269,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_sclk = new hC_SCLK ;
-        mw_sclk->sclk_setup();
+        mw_sclk->setup();
         mw_sclk->show ();
     }); // işçilik
 

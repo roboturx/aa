@@ -51,14 +51,14 @@ hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
 
 void hC_MLZM::setup()
 {
-    hC_tBcreator x (tb_name,
+    hC_tBcreator x (this);/*tb_name,
                   tb_flds,
                   tb_ndex,
                   tb_model,
                   tb_view,
                   tb_mapper,
                   tb_wdgts );
-
+*/
     wdgt  () ;
     ui    () ;
     kntrl () ;
@@ -114,18 +114,21 @@ void hC_MLZM::wdgt()
 
     auto *lB_g = new QLabel(tr("Toplam Giriş"));
     lE_giris->setAlignment (Qt::AlignRight);
-    lE_giris->setValidator (
-                new QDoubleValidator(-999.0,999'999'999.0, 2, lE_giris)) ;
+/*    lE_giris->setValidator (
+                new QDoubleValidator(-999.0,999'999'999.0,
+                                     2, lE_giris)) ;*/
     lB_g->setBuddy(lE_giris);
 
     auto *lB_c = new QLabel(tr("Toplam Çıkış"));
-    lE_cikis->setValidator (
-                new QDoubleValidator(-999.0,999'999'999.0, 2, lE_cikis)) ;
+  /*  lE_cikis->setValidator (
+                new QDoubleValidator(-999.0,999'999'999.0,
+ 2, lE_cikis)) ;*/
     lB_c->setBuddy(lE_cikis);
 
     auto *lB_m = new QLabel(tr("Ambar Mevcudu"));
-    lE_mevcut->setValidator (
-                new QDoubleValidator(-999.0,999'999'999.0, 2, lE_mevcut)) ;
+ /*   lE_mevcut->setValidator (
+                new QDoubleValidator(-999.0,999'999'999.0,
+                                     2, lE_mevcut)) ;*/
     lB_m->setBuddy(lE_mevcut);
 
     hC_Rs resim(win_Rsm);

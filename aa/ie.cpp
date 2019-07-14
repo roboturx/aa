@@ -8,43 +8,42 @@ hC_IE::hC_IE(QWidget *parent) : QWidget (parent)
     qDebug() << "Ie Cnstrctr   ";
 }
 
-void hC_IE::ie_setup()
+void hC_IE::setup()
 {
     qDebug() << "  ie setup ";
-    ie_VTd   () ;
-    ie_model () ;
-    ie_wdgt  () ;
-    ie_map   () ;
-    ie_ui    () ;
-    ie_view  () ;
-    ie_kntrl () ;
+
+    wdgt  () ;
+
+    ui    () ;
+
+    kntrl () ;
 }
 
 
-void hC_IE::ie_ui()
+void hC_IE::ui()
 {
-    qDebug() << "  ie_ui";
+    qDebug() << "  ui";
     ////////////////////////////////////////// window
-    winLabel  = new QLabel ("İŞ EMRİ");
-    hC_IE::setWindowTitle (winLabel->text());
+    win_Label  = new QLabel ("İŞ EMRİ");
+    hC_IE::setWindowTitle (win_Label->text());
     hC_IE::setGeometry(20,20,
                        qApp->screens()[0]->size ().rwidth (),
             qApp->screens()[0]->size ().rheight ()/4);
 
 
     /////////////////////////////////////////// tview
-    IEtview = new hC_Tv( this, IEmodel, IEmapper, winWdgt );
+    tb_view = new hC_Tv( this, tb_model, tb_mapper, win_Wdgt );
 
     ///////////////
     auto *winGrid = new QGridLayout(this);
-    winGrid->addWidget ( IEtview ,  0, 0, 1, 1 );
-    winGrid->addWidget ( winWdgt  ,  0, 1, 1, 1 );
+    winGrid->addWidget ( tb_view ,  0, 0, 1, 1 );
+    winGrid->addWidget ( win_Wdgt  ,  0, 1, 1, 1 );
 
 }
 
-void hC_IE::ie_wdgt ()
+void hC_IE::wdgt ()
 {
-    qDebug () << "  ie_wdgt";
+    qDebug () << "  wdgt";
     /////////////////////////////
     auto* lB_mk = new QLabel("Araç Kurum No");
     hClE_mkn = new hC_Le;
@@ -65,7 +64,7 @@ void hC_IE::ie_wdgt ()
         dia->setWindowTitle ( "Araç Seçimi" );
 
         auto *mkn = new hC_MKN ;
-        mkn->mkn_setup ();
+        mkn->setup ();
         // ----------------------------------------------------
         // tableviewinde gezinirken
         // mkn
@@ -119,14 +118,14 @@ void hC_IE::ie_wdgt ()
     auto lB_y2 = new QLabel("Yetkili - II");
     hClE_yetkili2 = new hC_Le;
 
-    winRsm = new QLabel ("Resim");
-    hC_Rs resim(winRsm);
+    win_Rsm = new QLabel ("Resim");
+    hC_Rs resim(win_Rsm);
 
     //////////////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,100,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,100,300);
     auto wdgtGrid = new QGridLayout;
-    winWdgt->setLayout (wdgtGrid);
+    win_Wdgt->setLayout (wdgtGrid);
 
     wdgtGrid->addWidget (lB_ie   , 0,  0, 1, 4);
     wdgtGrid->addWidget (lE_ieno , 0,  4, 1, 6);
@@ -146,75 +145,75 @@ void hC_IE::ie_wdgt ()
     wdgtGrid->addWidget (lB_y2       , 2, 10, 1, 4);
     wdgtGrid->addWidget (hClE_yetkili2 , 2, 14, 1, 6);
     wdgtGrid->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
-    wdgtGrid->addWidget (winRsm      , 3, 14, 2, 6);
+    wdgtGrid->addWidget (win_Rsm      , 3, 14, 2, 6);
 
 
 }
-
-void hC_IE::ie_view()
+/*
+void hC_IE::view()
 {
     qDebug()<<"  ie view ";
-    IEtview->table->setModel(IEmodel);
-    IEslctnMdl = IEtview->table->selectionModel();
+    tb_view->table->setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel();
 
     //////////////////////////////////////////////////////////
     //// kullanıcı bu alanları görmesin
-    IEtview->table->setColumnHidden(IEmodel->
-                                    fieldIndex("ie_mkn_id"), true);
-    //   IEtview->table->setColumnHidden(IEmodel->
-    //           fieldIndex("ie_ie_no"), true);
-    IEtview->table->setColumnHidden(IEmodel->
-                                    fieldIndex("ie_resim"), true);
-    IEtview->table->setColumnHidden(IEmodel->
+    tb_view->table->setColumnHidden(tb_model->
+                                    fieldIndex("mkn_id"), true);
+    //   tb_view->table->setColumnHidden(tb_model->
+    //           fieldIndex("no"), true);
+    tb_view->table->setColumnHidden(tb_model->
+                                    fieldIndex("resim"), true);
+    tb_view->table->setColumnHidden(tb_model->
                                     fieldIndex("id_ie"), true);
     //////////////////////////////////////////////////////////
     // with blue rect
-    IEtview->table->setCurrentIndex(
-                IEmodel->index(1, 1) );
-    IEtview->table->setFocus();
+    tb_view->table->setCurrentIndex(
+                tb_model->index(1, 1) );
+    tb_view->table->setFocus();
 }
 
 
-void hC_IE::ie_map()
+void hC_IE::map()
 {
 
     qDebug()<<"  ie map ";
 
-    IEmapper = new QDataWidgetMapper(this);
-    IEmapper->setModel(IEmodel);
+    tb_mapper = new QDataWidgetMapper(this);
+    tb_mapper->setModel(tb_model);
 
-    IEmapper->addMapping (hClE_mkn->lineEdit , IEmodel->fieldIndex("ie_mkn_id"));
-    IEmapper->addMapping (lE_ieno , IEmodel->fieldIndex("ie_ie_no"));
-    IEmapper->addMapping (dE_geltar, IEmodel->fieldIndex("ie_tarih"));
-    IEmapper->addMapping (cbX_durum , IEmodel->fieldIndex("ie_durum"));
-    IEmapper->addMapping (dE_girtar , IEmodel->fieldIndex("ie_girtar"));
-    IEmapper->addMapping (dE_ciktar , IEmodel->fieldIndex("ie_ciktar"));
-    IEmapper->addMapping (hClE_yetkili1->lineEdit , IEmodel->fieldIndex("ie_yetkili1"));
-    IEmapper->addMapping (hClE_yetkili2->lineEdit , IEmodel->fieldIndex("ie_yetkili2"));
-    //IEmapper->addMapping (lE_    , IEmodel->fieldIndex("ie_resim"));
+    tb_mapper->addMapping (hClE_mkn->lineEdit , tb_model->fieldIndex("mkn_id"));
+    tb_mapper->addMapping (lE_ieno , tb_model->fieldIndex("no"));
+    tb_mapper->addMapping (dE_geltar, tb_model->fieldIndex("tarih"));
+    tb_mapper->addMapping (cbX_durum , tb_model->fieldIndex("durum"));
+    tb_mapper->addMapping (dE_girtar , tb_model->fieldIndex("girtar"));
+    tb_mapper->addMapping (dE_ciktar , tb_model->fieldIndex("ciktar"));
+    tb_mapper->addMapping (hClE_yetkili1->lineEdit , tb_model->fieldIndex("yetkili1"));
+    tb_mapper->addMapping (hClE_yetkili2->lineEdit , tb_model->fieldIndex("yetkili2"));
+    //tb_mapper->addMapping (lE_    , tb_model->fieldIndex("resim"));
 
-    IEmapper->toFirst ();
+    tb_mapper->toFirst ();
 }
 
 
-
-void hC_IE::ie_kntrl()
+*/
+void hC_IE::kntrl()
 {
 
     qDebug()<<"  ie kntrl";
 
     // pB 001 yeni ekle
-    connect(IEtview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-        QString IEtableName{"ie__dbtb"};
+        QString IEtableName{"_dbtb"};
         QSqlQuery q;
         QString qry, mesaj("");
 
         /// yeni iş emri numaasını bul
-        /// iş emri nosu ie__dbtb de
-        /// ie_ie_no alanındaki en büyük sayı
-        qry = "SELECT max(ie_ie_no) FROM " + IEtableName  ;
+        /// iş emri nosu _dbtb de
+        /// no alanındaki en büyük sayı
+        qry = "SELECT max(no) FROM " + IEtableName  ;
         int ieieno;
         if ( !q.exec(qry) )
         {
@@ -233,14 +232,14 @@ void hC_IE::ie_kntrl()
 
         qDebug()<< endl << "last inserted id  : "
                 << q.lastInsertId ().toString ();
-        //  IEmodel->select();
+        //  tb_model->select();
 
 
         ieieno = ieieno + 1  ;
         // yeni kaydı ekle
         qry = "INSERT INTO " + IEtableName + " ( "
-                                             "ie_ie_no, "
-                                             "ie_durum"
+                                             "no, "
+                                             "durum"
                                              ")"
 
                                              " values( "
@@ -272,28 +271,28 @@ void hC_IE::ie_kntrl()
 
 
         }
-        IEmodel->select();
+        tb_model->select();
         ////////////////////////////////////////////////
-        hC_Nr (IEtview, ieieno, 1);
+        hC_Nr (tb_view, ieieno, 1);
         ////////////////////////////////////////////////
-        IEtview->table->setFocus ();
+        tb_view->table->setFocus ();
         // iş emri detay ekle
 
     });
 
     // pB 002 yeni resim ekle
-    connect(IEtview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(winRsm, IEtview, IEmodel, IEslctnMdl,
+        hC_Rs resim(win_Rsm, tb_view, tb_model, tb_slctnMdl,
                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  IEslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, IEtview, IEmodel, IEslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                       "resim", "değiştir" ) ;
     });
 
@@ -303,7 +302,7 @@ void hC_IE::ie_kntrl()
 
     // pB 005 sil
 
-    connect(IEtview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
         // ie  kayıt sil
@@ -337,23 +336,23 @@ void hC_IE::ie_kntrl()
             // şimdi iş emrini silelim
             QSqlQuery q_qry;
             QString s_qry;
-            QModelIndex ie_indx = IEtview->table->currentIndex ();
+            QModelIndex indx = tb_view->table->currentIndex ();
 
             // iedet sil
-            QString ieieno = IEmodel->data
-                    (IEmodel->index
-                     (ie_indx.row (),
-                      IEmodel->fieldIndex ("ie_ie_no"))).toString ();
+            QString ieieno = tb_model->data
+                    (tb_model->index
+                     (indx.row (),
+                      tb_model->fieldIndex ("no"))).toString ();
 
             s_qry = QString("DELETE FROM iedet__dbtb "
-                            "WHERE iedet_ie_id = %1").arg( ieieno );
+                            "WHERE iedet_id = %1").arg( ieieno );
 
             q_qry.exec (s_qry);
             if (q_qry.isActive ())
             {
                 qDebug()<< " İş Emri Detay Kaydı Silindi ";
-                IEmodel->submitAll ();
-                IEmodel->select ();
+                tb_model->submitAll ();
+                tb_model->select ();
             }
             else
             {
@@ -363,21 +362,21 @@ void hC_IE::ie_kntrl()
 
             }
             // ie sil
-            QString idie = IEmodel->data
-                    (IEmodel->index
-                     (ie_indx.row (),
-                      IEmodel->fieldIndex ("id_IE"))).toString ();
+            QString idie = tb_model->data
+                    (tb_model->index
+                     (indx.row (),
+                      tb_model->fieldIndex ("id_IE"))).toString ();
 
 
-            s_qry = QString("DELETE FROM ie__dbtb "
+            s_qry = QString("DELETE FROM _dbtb "
                             "WHERE id_IE = %1").arg( idie );
 
             q_qry.exec (s_qry);
             if (q_qry.isActive ())
             {
                 qDebug()<< " İş Emri Kaydı Silindi ";
-                IEmodel->submitAll ();
-                IEmodel->select ();
+                tb_model->submitAll ();
+                tb_model->select ();
             }
             else
             {
@@ -395,47 +394,47 @@ void hC_IE::ie_kntrl()
     });
 /*
     // pB 006 ilk
-    connect(IEtview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        IEtview->hC_TvPb ("ilk", IEmodel, IEmapper);
+        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(IEtview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        IEtview->hC_TvPb ("ncki", IEmodel, IEmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(IEtview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        IEtview->hC_TvPb ("snrki", IEmodel, IEmapper);
+        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(IEtview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
-    {IEtview->hC_TvPb ("son", IEmodel, IEmapper);
+    {tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
 
 
     // pB 010 nav tuslari kontrol
-    connect(IEmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]()
-    {IEtview->hC_TvPb ("yenile", IEmodel, IEmapper);
+    {tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
 
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  IEslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
-        IEmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
 
@@ -446,25 +445,25 @@ void hC_IE::ie_kntrl()
         /// iş emri no her yılbaşında birden başlar
 
 
-        /*       int ie_ie_no = IEmodel->data
-                (IEmodel->index
+        /*       int no = tb_model->data
+                (tb_model->index
                  (Index.row (),
-                  IEmodel->fieldIndex ("ie_ie_no"))).toInt ();
+                  tb_model->fieldIndex ("no"))).toInt ();
 */
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
-        emit hC_IE::sgnIsEmri ( IEtview->table->model()->
+        emit hC_IE::sgnIsEmri ( tb_view->table->model()->
                           index( Index.row() ,
-                                 IEmodel->fieldIndex ("ie_ie_no")
+                                 tb_model->fieldIndex ("no")
                                  ).data().toInt() );
 
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  IEslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        IEmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
     // --- 013-01 iş durumuna göre tarihleri gizle
@@ -517,26 +516,26 @@ void hC_IE::ie_kntrl()
 hC_IE::~hC_IE()
 = default;
 
-
-QString hC_IE::ie_VTd ()
+/*
+QString hC_IE::VTd ()
 {
     QSqlQuery q;
     QString ct, mesaj = "  OK - VTd - İş Emri";
-    QString IEtableName ("ie__dbtb");
+    QString IEtableName ("_dbtb");
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( IEtableName))
     {
         ct ="CREATE TABLE IF NOT EXISTS "+ IEtableName +
                 "("
-                "ie_mkn_id        INTEGER, "
-                "ie_ie_no         INTEGER, "
-                "ie_tarih         TEXT, "
-                "ie_durum         TEXT, "
-                "ie_girtar        TEXT, "
-                "ie_ciktar        TEXT, "
-                "ie_yetkili1      TEXT, "
-                "ie_yetkili2      TEXT, "
-                "ie_resim         BLOB, "
+                "mkn_id        INTEGER, "
+                "no         INTEGER, "
+                "tarih         TEXT, "
+                "durum         TEXT, "
+                "girtar        TEXT, "
+                "ciktar        TEXT, "
+                "yetkili1      TEXT, "
+                "yetkili2      TEXT, "
+                "resim         BLOB, "
                 "id_IE INTEGER primary key  )"  ;
 
 
@@ -553,7 +552,7 @@ QString hC_IE::ie_VTd ()
         {
             mesaj = "OK - İşEmri Dosyası YENİ Oluşturuldu ";
             QString qry;
-            qry = "INSERT INTO " + IEtableName + " ( ie_mkn_id )"
+            qry = "INSERT INTO " + IEtableName + " ( mkn_id )"
                                                  " values( 1 )"  ;
 
             if ( !q.exec(qry) )
@@ -575,11 +574,11 @@ QString hC_IE::ie_VTd ()
 
 }
 
-void hC_IE::ie_model()
+void hC_IE::model()
 {
     qDebug() << " -ie mdl";
-    QString IEtableName = "ie__dbtb";
-    QString indexField = "ie_----------soyad";
+    QString IEtableName = "_dbtb";
+    QString indexField = "----------soyad";
     auto *fieldList = new QStringList;
 
     fieldList->append("Mkn No");
@@ -593,10 +592,11 @@ void hC_IE::ie_model()
     fieldList->append("Resim");
     fieldList->append("ID_IE");
 
-    IEmodel = new QSqlRelationalTableModel;
-  /*  hC_Rm hC_Rm ( &IEtableName,
-                  IEmodel,
+    tb_model = new QSqlRelationalTableModel;
+   hC_Rm hC_Rm ( &IEtableName,
+                  tb_model,
                   &indexField ,
                   fieldList) ;
-*/
+
 } /// İŞ EMRİ
+*/

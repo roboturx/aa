@@ -95,7 +95,7 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
         connect(lB__resim , &QLabel::customContextMenuRequested,
                 [ lB__resim]()
         {
-            //QLabel *x = winRsm;
+            //QLabel *x = win_Rsm;
             QDialog xx;
             xx.setModal(true);
             xx.setSizeGripEnabled(true);

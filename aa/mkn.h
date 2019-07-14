@@ -1,5 +1,5 @@
-﻿#ifndef hC_MKN_H
-#define hC_MKN_H
+﻿#ifndef hC_H
+#define hC_H
 
 #include "globals.h"
 #include "mkn_cinsi.h"
@@ -34,14 +34,8 @@ public:
     QLabel                   * win_Label {} ;
     QLabel                   * win_Rsm   {} ;
 /////////////////////////////////////////////////
-    hC_Tv                    * MKNtview    {} ;
-    QSqlRelationalTableModel * MKNmodel    {} ;
-    QItemSelectionModel      * MKNslctnMdl {} ;
-    QDataWidgetMapper        * MKNmapper   {} ;
 
-    QWidget * winWdgt  {} ;
-    QLabel  * winLabel {} ;
-    QLabel  * winRsm   {} ;
+
 
     /// mkn variables
     // QString *processMKN;
@@ -66,20 +60,17 @@ public:
     QDateTimeEdit *clndr_mknSurucutar{} ;
     QTextEdit *ted_mknAcklm{};
 
-    void    mkn_setup () ;
-    QString mkn_VTd   () ;
-    void    mkn_model () ;
+    void    setup () ;
+    QString VTd   () ;
+    void    model () ;
 
 private:
-    void mkn_wdgt  () ;
-    void mkn_map   () ;
-    void mkn_ui    () ;
-    void mkn_view  () ;
-    void mkn_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+     void kntrl () ;
 
 signals:
     void sgnMkn (QString);
 };
 
-
-#endif // hC_MKN_H
+#endif // hC_H

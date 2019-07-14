@@ -10,43 +10,43 @@ hC_FRM::hC_FRM(QWidget *parent) : QWidget(parent)
     //*****************  F İ R M A  ****************************
 }
 
-void hC_FRM::frm_setup()
+void hC_FRM::setup()
 {
     qDebug() << "setup FİRMA";
 
-    frm_VTd   () ;
-    frm_model () ;
-    frm_wdgt  () ;
-    frm_map   () ;
-    frm_ui    () ;
-    frm_view  () ;
-    frm_kntrl () ;
+
+
+   wdgt  () ;
+
+   ui    () ;
+
+   kntrl () ;
 }
 
 
 
-void hC_FRM::frm_ui()
+void hC_FRM::ui()
 {
 
     qDebug() << "  frm_ui";
-    winLabel = new QLabel("FİRMA BİLGİLERİ");
-    hC_FRM::setWindowTitle ( winLabel->text ());
+    win_Label = new QLabel("FİRMA BİLGİLERİ");
+    hC_FRM::setWindowTitle ( win_Label->text ());
 
     /////////////////////////////////////////////////////////
     // views
-    FRMtview = new hC_Tv(this, FRMmodel, FRMmapper, winWdgt);
+    tb_view = new hC_Tv(this, tb_model, tb_mapper, win_Wdgt);
 
     // /////////////////////////////////////
     // main layout
 
     auto *winGrid = new QGridLayout;
-    winGrid->addWidget ( FRMtview  ,0 ,0 ,1 ,3 );
-    winGrid->addWidget ( winWdgt  ,0 ,3 ,1 ,7 );
- //   lYG_per->addWidget ( winRsm   ,1 ,3 ,1 ,7 );
+    winGrid->addWidget ( tb_view  ,0 ,0 ,1 ,3 );
+    winGrid->addWidget ( win_Wdgt  ,0 ,3 ,1 ,7 );
+ //   lYG_per->addWidget ( win_Rsm   ,1 ,3 ,1 ,7 );
     this->setLayout (winGrid);
 }
 
-void hC_FRM::frm_wdgt()
+void hC_FRM::wdgt()
 {
     // ///////////////////////////////////////////////////////
     // wdgt lbls
@@ -85,15 +85,15 @@ void hC_FRM::frm_wdgt()
     lB_ytel->setBuddy(lE_ytel);
 
 
-    winRsm = new QLabel ("Resim");
-    hC_Rs resim(winRsm);
+    win_Rsm = new QLabel ("Resim");
+    hC_Rs resim(win_Rsm);
 
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
     auto wdgtGrid = new QGridLayout();
-    winWdgt->setLayout(wdgtGrid);
+    win_Wdgt->setLayout(wdgtGrid);
 
     ///////////////////////////////////////
 
@@ -122,89 +122,89 @@ void hC_FRM::frm_wdgt()
     wdgtGrid->addWidget(lE_ysoyad  , 8, 1, 1, 2);
     wdgtGrid->addWidget(lB_ytel    , 9, 0, 1, 1);
     wdgtGrid->addWidget(lE_ytel    , 9, 1, 1, 2);
-    wdgtGrid->addWidget(winRsm     ,10, 1, 2, 2);
+    wdgtGrid->addWidget(win_Rsm     ,10, 1, 2, 2);
 
 }
-
+/*
 void hC_FRM::frm_view()
 {
     qDebug()<<"setup view fr";
 
-    FRMtview->table->setModel(FRMmodel);
-    FRMslctnMdl = FRMtview->table->selectionModel();
+    tb_view->table->setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel();
 
     //// kullanıcı bu alanları görmesin
-    FRMtview->table->setColumnHidden(FRMmodel->fieldIndex("frm_kod"), true);
-    FRMtview->table->setColumnHidden(FRMmodel->fieldIndex("frm_resim"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("frm_kod"), true);
+    tb_view->table->setColumnHidden(tb_model->fieldIndex("frm_resim"), true);
 
 
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
-    FRMtview->table->setCurrentIndex(
-                FRMmodel->index(0, 1)
+    tb_view->table->setCurrentIndex(
+                tb_model->index(0, 1)
                 );
     // with blue rect
-    FRMtview->table->setFocus();
-    //   QTimer::singleShot(0, FRMtview->table, SLOT(setFocus()));
+    tb_view->table->setFocus();
+    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
 }
 
 
-/* user interface */
+
 void hC_FRM::frm_map()
 {
     qDebug()<<"  frm_map";
-    FRMmapper = new QDataWidgetMapper(this);
-    FRMmapper->setModel(FRMmodel);
+    tb_mapper = new QDataWidgetMapper(this);
+    tb_mapper->setModel(tb_model);
 
-    FRMmapper->addMapping(lE_unvan , FRMmodel->fieldIndex("frm_unvan"));
-    FRMmapper->addMapping(lE_adres, FRMmodel->fieldIndex("frm_adres"));
-    FRMmapper->addMapping(lE_sehir, FRMmodel->fieldIndex("frm_sehir"));
-    FRMmapper->addMapping(lE_vd, FRMmodel->fieldIndex("frm_vd"));
-    FRMmapper->addMapping(lE_vdno, FRMmodel->fieldIndex("frm_vdno"));
-    FRMmapper->addMapping(lE_tel, FRMmodel->fieldIndex("frm_tel"));
-    FRMmapper->addMapping(lE_eposta, FRMmodel->fieldIndex("frm_eposta"));
-    FRMmapper->addMapping(lE_yisim, FRMmodel->fieldIndex("frm_yisim"));
-    FRMmapper->addMapping(lE_ysoyad, FRMmodel->fieldIndex("frm_ysoyad"));
-    FRMmapper->addMapping(lE_ytel, FRMmodel->fieldIndex("frm_ytel"));
-    //FRMmapper->addMapping(winRsm, FRMmodel->fieldIndex("frm_resim"));
+    tb_mapper->addMapping(lE_unvan , tb_model->fieldIndex("frm_unvan"));
+    tb_mapper->addMapping(lE_adres, tb_model->fieldIndex("frm_adres"));
+    tb_mapper->addMapping(lE_sehir, tb_model->fieldIndex("frm_sehir"));
+    tb_mapper->addMapping(lE_vd, tb_model->fieldIndex("frm_vd"));
+    tb_mapper->addMapping(lE_vdno, tb_model->fieldIndex("frm_vdno"));
+    tb_mapper->addMapping(lE_tel, tb_model->fieldIndex("frm_tel"));
+    tb_mapper->addMapping(lE_eposta, tb_model->fieldIndex("frm_eposta"));
+    tb_mapper->addMapping(lE_yisim, tb_model->fieldIndex("frm_yisim"));
+    tb_mapper->addMapping(lE_ysoyad, tb_model->fieldIndex("frm_ysoyad"));
+    tb_mapper->addMapping(lE_ytel, tb_model->fieldIndex("frm_ytel"));
+    //tb_mapper->addMapping(win_Rsm, tb_model->fieldIndex("frm_resim"));
 
     /// firma ilk kayıda
-    hC_FRM::FRMmapper->toFirst ();
+    hC_FRM::tb_mapper->toFirst ();
 }
-
-void hC_FRM::frm_kntrl()
+*/
+void hC_FRM::kntrl()
 {
 
     // pB 001 yeni ekle
-    connect(FRMtview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-        QSqlRecord rec = FRMmodel->record();
+        QSqlRecord rec = tb_model->record();
 
         // insert a new record (-1) with null date
-        if ( ! FRMmodel->insertRecord(-1,rec))
+        if ( ! tb_model->insertRecord(-1,rec))
         {
             qDebug() << "HATA - Firma kaydı eklenemedi ";
         }
         else
             qDebug() << "Firma Kaydı eklendi ";
-        FRMmodel->select();
+        tb_model->select();
     });
 
     // pB 002 yeni resim ekle
-    connect(FRMtview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(winRsm, FRMtview, FRMmodel, FRMslctnMdl,
+        hC_Rs resim(win_Rsm, tb_view, tb_model, tb_slctnMdl,
                            "frm_resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  FRMslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, FRMtview, FRMmodel, FRMslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                            "frm_resim", "değiştir" ) ;
     });
 
@@ -214,13 +214,13 @@ void hC_FRM::frm_kntrl()
 
     // pB 005 sil
 
-    connect(FRMtview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
-        QModelIndex sample =   FRMtview->table->currentIndex();
+        QModelIndex sample =   tb_view->table->currentIndex();
         if( sample.row() >= 0 )
         {
-            QSqlRecord rec = FRMmodel->record();
+            QSqlRecord rec = tb_model->record();
             QString val = rec.value(1).toString();// +" "+
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question(this,
@@ -231,69 +231,69 @@ void hC_FRM::frm_kntrl()
             {
                 // remove the current index
                 // pmodel->beginRemoveColumn();
-                FRMmodel->removeRow(sample.row());
+                tb_model->removeRow(sample.row());
                 //pmodel->endRemoveColumns();
-                FRMmodel->select();
+                tb_model->select();
             }
         }
     });
 /*
     // pB 006 ilk
-    connect(FRMtview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        FRMtview->hC_TvPb ("ilk", FRMmodel, FRMmapper);
+        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(FRMtview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        FRMtview->hC_TvPb ("ncki", FRMmodel, FRMmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(FRMtview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-    FRMtview->hC_TvPb ("snrki", FRMmodel, FRMmapper);
+    tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(FRMtview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
     {
-        FRMtview->hC_TvPb ("son", FRMmodel, FRMmapper);
+        tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
     // pB 010 nav tuslari kontrol
-    connect(FRMmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]( )
     {
-        FRMtview->hC_TvPb ("yenile", FRMmodel, FRMmapper);
+        tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  FRMslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
-        FRMmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-        emit hC_FRM::sgnfirma(FRMtview->table->model()->index( Index.row() ,
-                    FRMmodel->fieldIndex ("frm_unvan") ).data().toString() );
+        emit hC_FRM::sgnfirma(tb_view->table->model()->index( Index.row() ,
+                    tb_model->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  FRMslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        FRMmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
 
@@ -325,7 +325,7 @@ hC_FRM::~hC_FRM()
 
 
 
-
+/*
 QString hC_FRM::frm_VTd()
 {
     QSqlQuery   q;
@@ -418,11 +418,11 @@ void hC_FRM::frm_model()
     tB_FieldList->append("Yetkili Telefon");
     // tB_FieldList->append("resim");
 
-    FRMmodel = new QSqlRelationalTableModel;
-  /*   hC_Rm hC_Rm ( &FRMtableName,
-                  FRMmodel,
+    tb_model = new QSqlRelationalTableModel;
+   hC_Rm hC_Rm ( &FRMtableName,
+                  tb_model,
                   &indexField ,
                   tB_FieldList) ;
-*/
-}///FİRMA
 
+}///FİRMA
+*/
