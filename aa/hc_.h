@@ -317,21 +317,22 @@ private:
 
 
 
-
+//#include "clsn.h"
 
 class hC_tBcreator : public QWidget
 {
     Q_OBJECT
 public:
     explicit hC_tBcreator();
-    explicit hC_tBcreator(QString *tb_name,
+    explicit hC_tBcreator(QWidget *that);
+    /*QString *tb_name,
                           hC_ArrD *tb_flds,
                           QString *tb_ndex,
                           QSqlRelationalTableModel *tb_modl,
                           hC_Tv *tb_view,
                           QDataWidgetMapper *tb_mapper,
                           QList<QWidget*> *win_wdgts );
-
+*/
     ~hC_tBcreator();
 
     QString create( QString *tb_name, hC_ArrD *tb_flds);

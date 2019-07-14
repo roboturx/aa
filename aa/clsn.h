@@ -58,12 +58,12 @@ public:
     QLineEdit   *lE_yetki{}   ;
 
 
-    void    clsn_setup () ;
+    void setup () ;
 
 private:
-    void clsn_wdgt  () ;
-    void clsn_ui    () ;
-    void clsn_kntrl () ;
+    void wdgt  () ;
+    void ui    () ;
+    void kntrl () ;
 
 protected:
     void showEvent(QShowEvent *);

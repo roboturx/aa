@@ -241,7 +241,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_iedet = new hC_IEDET ;
-        mw_iedet->iedet_setup ();
+        mw_iedet->setup ();
         mw_iedet->show ();
     });/// iş emri detay
 
@@ -284,7 +284,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_per = new hC_CLSN ;
-        mw_per->clsn_setup ();
+        mw_per->setup ();
         //statusBar()->showMessage(tr("Çalışan Bilgileri"));
         //mw_per->setWindowTitle ("ÇALIŞAN");
         //mw_per->resize(qApp->screens()[0]->size()*.8);
@@ -327,7 +327,7 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
         mw_ftr = new hC_FTR;
-        mw_ftr->ftr_setup ();
+        mw_ftr->setup ();
         mw_ftr->show ();
     });
     /// firma
@@ -341,7 +341,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_fr = new hC_FRM;
-        mw_fr->frm_setup ();
+        mw_fr->setup ();
         statusBar()->showMessage(tr("Firma Bilgileri"));
         mw_fr->show ();
     });

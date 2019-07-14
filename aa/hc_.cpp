@@ -594,28 +594,34 @@ hC_tBcreator::hC_tBcreator ()
 }
 
 
-hC_tBcreator::hC_tBcreator(QString *tb_name,
+hC_tBcreator::hC_tBcreator(QWidget *that)
+{
+
+        that->
+        /*QString *tb_name,
                            hC_ArrD *tb_flds,
                            QString *tb_ndex,
                            QSqlRelationalTableModel *tb_modl,
                            hC_Tv   *tb_view,
                            QDataWidgetMapper   *tb_mapper,
-                           QList<QWidget *> *win_wdgts)
-{
+                           QList<QWidget *> *win_wdgts)*/
+
+     qDebug() <<   that->tb_name;
+
     /// create table
     qDebug () <<endl<<"Preparing at hC_ ..."
-              <<endl<<"   Dosya : "<< *tb_name << " - " << tb_name
-              <<endl<<"   Index : "<< *tb_ndex << " - " << tb_ndex
-              <<endl<<"   Fields: "<< tb_flds
-              <<endl<<"   Model : "<< tb_modl
-              <<endl<<"   View  : "<< tb_view
-              <<endl<<"   Map   : "<< tb_mapper
-              <<endl<<"   Wdgts : "<< *win_wdgts << " - " << win_wdgts;  ;
+              <<endl<<"   Dosya : "<< *that->tb_name << " - " << that->tb_name
+              <<endl<<"   Index : "<< *that->tb_ndex << " - " << that->tb_ndex
+              <<endl<<"   Fields: "<< that->tb_flds
+              <<endl<<"   Model : "<< that->tb_model
+              <<endl<<"   View  : "<< that->tb_view
+              <<endl<<"   Map   : "<< that->tb_mapper
+              <<endl<<"   Wdgts : "<< *that->tb_wdgts << " - " << that->tb_wdgts;  ;
 
-    create (tb_name, tb_flds);
-    model  (tb_name, tb_flds, tb_ndex, tb_modl );
-    view   (tb_name, tb_flds, tb_modl, tb_view );
-    map    (tb_name, tb_flds, tb_modl, tb_mapper,  win_wdgts  );
+    create ( that-> tb_name, that->tb_flds);
+    model  (that->tb_name, that->tb_flds, that->tb_ndex, that->tb_model );
+    view   (that->tb_name, that->tb_flds, that->tb_model, that->tb_view );
+    map    (that->tb_name, that->tb_flds, that->tb_model, that->tb_mapper,  that->tb_wdgts  );
     qDebug () <<endl<<"   Prepared at hC_ ...";
 }
 

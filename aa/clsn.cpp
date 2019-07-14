@@ -5,25 +5,31 @@ hC_CLSN::hC_CLSN ( QWidget *parent) : QWidget(parent)
     qDebug ()<<"Çalışan Constructor*******************************";
     //************************************************************
     //*****************  Ç A L I Ş A N  **************************
-    win_Label = new QLabel  ("AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI");
-    tb_name   = new QString ("mlzmgc_dbtb") ;
+    win_Label = new QLabel  ("ÇALIŞAN KAYITLARI");
+    tb_name   = new QString ("clsn_dbtb") ;
 
-    tb_flds = new hC_ArrD (13, 4);
-    tb_flds->setValue ( 0, "mlzmgc_ID"      , "INTEGER", "MalzemeGcID", "0" ) ;
-    tb_flds->setValue ( 1, "mlzmgc_mlzm_kod", "TEXT"   , "Malzeme Kod", "0" );
-    tb_flds->setValue ( 2, "mlzmgc_barkod"  , "TEXT"   , "Barkod", "0" );
-    tb_flds->setValue ( 3, "mlzmgc_malzeme" , "TEXT"   , "Malzeme", "0");
-    tb_flds->setValue ( 4, "mlzmgc_tarih"   , "TEXT"   , "Tarih"   );
-    tb_flds->setValue ( 5, "mlzmgc_gc"      , "TEXT"   , "İşlem Türü");
-    tb_flds->setValue ( 6, "mlzmgc_gcno"    , "TEXT"   , "İşlem No"  );
-    tb_flds->setValue ( 7, "mlzmgc_miktar"  , "TEXT"   , "Miktar"  );
-    tb_flds->setValue ( 8, "mlzmgc_birim"   , "TEXT"   , "Birim");
-    tb_flds->setValue ( 9, "mlzmgc_fiyat"   , "TEXT"   , "Fiyatı");
-    tb_flds->setValue (10, "mlzmgc_kdv"     , "TEXT"   , "KDV %");
-    tb_flds->setValue (11, "mlzmgc_aciklama", "TEXT"   , "Açıklama" );
-    tb_flds->setValue (12, "mlzmgc_resim"   , "BLOB"   , "Resim" , "0" );
+    tb_flds = new hC_ArrD (17, 4);
+    tb_flds->setValue ( 0, "clsn_ID"      , "INTEGER", "ÇalışanID", "0" ) ;
+    tb_flds->setValue ( 1, "clsn_isim"    , "TEXT"   , "İsim" );
+    tb_flds->setValue ( 2, "clsn_soyad"   , "TEXT"   , "Soyad" );
+    tb_flds->setValue ( 3, "clsn_tc"      , "TEXT"   , "TC No");
+    tb_flds->setValue ( 4, "clsn_dyeri"   , "TEXT"   , "Doğum Yeri");
+    tb_flds->setValue ( 5, "clsn_dtarihi" , "TEXT"   , "Doğum Tarihi");
+    tb_flds->setValue ( 6, "clsn_baba"    , "TEXT"   , "Baba Adı");
+    tb_flds->setValue ( 7, "clsn_bolum"   , "TEXT"   , "Çalıştığı Birim");
+    tb_flds->setValue ( 8, "clsn_meslek"  , "TEXT"   , "Meslek");
+    tb_flds->setValue ( 9, "clsn_gorev"   , "TEXT"   , "Görev");
+    tb_flds->setValue (10, "clsn_adres"   , "TEXT"   , "Adres");
+    tb_flds->setValue (11, "clsn_sehir"   , "TEXT"   , "Şehir");
+    tb_flds->setValue (12, "clsn_tel_cep" , "TEXT"   , "Cep Tel");
+    tb_flds->setValue (13, "clsn_tel_ev"  , "TEXT"   , "Ev Tel");
+    tb_flds->setValue (14, "clsn_eposta"  , "TEXT"   , "E-posta");
+    tb_flds->setValue (15, "clsn_username", "TEXT"   , "Kullanıcı Adı");
+    tb_flds->setValue (16, "clsn_password", "TEXT"   , "Kullanıcı Şifre");
+    tb_flds->setValue (17, "clsn_yetki"   , "TEXT"   , "Kullanıcı Yetki");
+    tb_flds->setValue (17, "clsn_resim"   , "BLOB"   , "Resim");
 
-    tb_ndex     = new QString ("mlzmgc_tarih");
+    tb_ndex     = new QString ("clsn_soyad");
     tb_model    = new QSqlRelationalTableModel;
     tb_mapper   = new QDataWidgetMapper;
     win_Wdgt    = new QWidget;
@@ -32,81 +38,77 @@ hC_CLSN::hC_CLSN ( QWidget *parent) : QWidget(parent)
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
-    tb_wdgts->append ( nullptr    ) ; // mlzm_kod
-    tb_wdgts->append ( nullptr    ) ; // barkod
-    tb_wdgts->append ( nullptr    ) ; // malzeme
-    tb_wdgts->append ( lE_tarih = new QLineEdit  ) ;
-    tb_wdgts->append ( cbx_grscks = new QComboBox  ) ;
-    tb_wdgts->append ( nullptr    ) ; // gcno
-    tb_wdgts->append ( lE_miktar = new QLineEdit  ) ;
-    tb_wdgts->append ( nullptr    ) ; // birim
-    tb_wdgts->append ( lE_fiyat = new QLineEdit ) ;
-    tb_wdgts->append ( nullptr    ) ; // kdv
-    tb_wdgts->append ( lE_aciklama = new QLineEdit    ) ;
+    tb_wdgts->append ( lE_isim  = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_soyad = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_tc = new QLineEdit      ) ;
+    tb_wdgts->append ( lE_doyer = new QLineEdit  ) ;
+    tb_wdgts->append ( dT_dotar = new QDateEdit  ) ;
+    tb_wdgts->append ( lE_baba = new QLineEdit  ) ;
+    tb_wdgts->append ( lE_bolum = new QLineEdit  ) ;
+    tb_wdgts->append ( lE_meslek = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_gorev = new QLineEdit ) ;
+    tb_wdgts->append ( lE_adres = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_sehir = new QLineEdit    ) ;
+    tb_wdgts->append ( lE_tel_cep  = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_tel_ev  = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_eposta = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_username  = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_password  = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_yetki  = new QLineEdit   ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
 }
 
 
-void hC_CLSN::clsn_setup()
+void hC_CLSN::setup()
 {
     qDebug() << "clsn setup ";
 
-    clsn_VTd ();
-    clsn_model() ;
-    clsn_wdgt  ();
-    clsn_map();
-    clsn_ui();
-    clsn_view();
-    clsn_kntrl ();
+    hC_tBcreator x (this);
+
+                /*tb_name,
+                  tb_flds,
+                  tb_ndex,
+                  tb_model,
+                  tb_view,
+                  tb_mapper,
+                  tb_wdgts );*/
+
+    wdgt  ();
+    ui();
+    kntrl ();
 }
 
 
-void hC_CLSN::clsn_ui()
+void hC_CLSN::ui()
 {
 
-    qDebug() << "  clsn_ui";
-    ////////////////////////////////////////// window
-    winLabel = new QLabel("ÇALIŞAN BİLGİLERİ");
-    hC_CLSN::setWindowTitle (winLabel->text ());
+    qDebug() << "  ui";
 
-
-    // ///////////////////////////////////////////////////////
-    // views
-    CLSNtview = new hC_Tv(this, CLSNmodel, CLSNmapper, winWdgt);
-
-    /////*******************************************////////
-    auto *gridClsn = new QGridLayout(this);
-    gridClsn->addWidget (CLSNtview  , 0, 0, 1, 1);
-    gridClsn->addWidget (winWdgt   , 0, 1, 1, 1);
+    hC_CLSN::setWindowTitle (win_Label->text ());
+    auto *win_grid = new QGridLayout(this);
+    win_grid->addWidget (tb_view  , 0, 0, 1, 1);
+    win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 }
-void hC_CLSN::clsn_wdgt()
+void hC_CLSN::wdgt()
 {
-    qDebug() << "  clsn_wdgt";
+    qDebug() << "  wdgt";
 
     auto *lB_isim  = new QLabel("İ&sim"        );
-    lE_isim = new QLineEdit() ;
     lE_isim->setPlaceholderText ("Personel Adı");
     lB_isim->setBuddy(lE_isim);
 
     auto *lB_soyad = new QLabel("S&oyad"       );
-    lE_soyad = new QLineEdit();
     lB_soyad->setBuddy(lE_soyad);
 
-    qDebug()<<" height "<<lE_soyad->height ()
-           <<" mm : "<<lE_soyad->heightMM ();
-    qDebug()<<" widht  "<<lE_soyad->width ();
-
     auto *lB_tc    = new QLabel("TC Kimlik No" );
-    lE_tc = new QLineEdit();
     lB_tc->setBuddy(lE_tc);
 
     auto *lB_doyer = new QLabel("Doğum Yeri "  );
-    lE_doyer = new QLineEdit();
     lB_doyer->setBuddy(lE_doyer);
 
     auto *lB_dotar = new QLabel("Doğum Tarihi ");
-    dT_dotar = new QDateEdit(); //QDate::currentDate ());
+ //QDate::currentDate ());
     dT_dotar->setSpecialValueText ("  ");
     dT_dotar->setLocale (QLocale::Turkish);
     dT_dotar->setMinimumDate(QDate::currentDate().addYears (-65));
@@ -205,7 +207,7 @@ void hC_CLSN::clsn_wdgt()
     winGrid->addWidget(winRsm       , 7, 4, 3, 2);
 
 }
-void hC_CLSN::clsn_view()
+void hC_CLSN::view()
 {
     qDebug()<<"clsn view ";
     CLSNtview->table->setModel(CLSNmodel);
@@ -229,7 +231,7 @@ void hC_CLSN::clsn_view()
 
 
 /* user interface */
-void hC_CLSN::clsn_map()
+void hC_CLSN::map()
 {
     qDebug()<<"clsn map ";
     CLSNmapper = new QDataWidgetMapper(this);
@@ -259,7 +261,7 @@ void hC_CLSN::clsn_map()
 }
 
 
-void hC_CLSN::clsn_kntrl()
+void hC_CLSN::kntrl()
 {
 
 
@@ -421,7 +423,7 @@ hC_CLSN::~hC_CLSN()
 
 
 
-QString hC_CLSN::clsn_VTd()
+QString hC_CLSN::VTd()
 {
     QSqlQuery   q;
     QString     ct, mesaj = "  OK - Çalışan";

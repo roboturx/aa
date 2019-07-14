@@ -25,10 +25,10 @@ hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
     tb_flds->setValue (12, "mlzm_resim"   , "BLOB"   , "Resim" , "0" );
 
     tb_ndex     = new QString ("malzeme");
-    tb_modl     = new QSqlRelationalTableModel;
+    tb_model     = new QSqlRelationalTableModel;
     tb_mapper   = new QDataWidgetMapper;
     win_Wdgt    = new QWidget;
-    tb_view     = new hC_Tv (this,tb_modl, tb_mapper, win_Wdgt);
+    tb_view     = new hC_Tv (this,tb_model, tb_mapper, win_Wdgt);
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ;
@@ -54,7 +54,7 @@ void hC_MLZM::setup()
     hC_tBcreator x (tb_name,
                   tb_flds,
                   tb_ndex,
-                  tb_modl,
+                  tb_model,
                   tb_view,
                   tb_mapper,
                   tb_wdgts );
@@ -67,7 +67,7 @@ void hC_MLZM::setup()
 
 void hC_MLZM::ui()
 {
-    qDebug() << "  Mlzm_ui";
+    qDebug() << "  ui";
 
     setWindowTitle (win_Label->text());
     auto *win_Grid = new QGridLayout(this);
@@ -232,7 +232,7 @@ void hC_MLZM::kntrl()
             lE_mevcut ->setText ("");
         }
         qDebug()<<mesaj;
-        tb_modl->select();
+        tb_model->select();
         ////////////////////////////////////////////////
         hC_Nr (tb_view, mlzmno, 0);
         ////////////////////////////////////////////////
@@ -246,7 +246,7 @@ void hC_MLZM::kntrl()
     connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this] ()
     {
-        hC_Rs resim (win_Rsm, tb_view, tb_modl, tb_slctnMdl,
+        hC_Rs resim (win_Rsm, tb_view, tb_model, tb_slctnMdl,
                      "resim","ekle");
 
     });
@@ -259,7 +259,7 @@ void hC_MLZM::kntrl()
         QModelIndex mlzmIndex =   tb_view->table->currentIndex();
         if( mlzmIndex.row() >= 0 )
         {
-            QSqlRecord rec = tb_modl->record(mlzmIndex.row ());
+            QSqlRecord rec = tb_model->record(mlzmIndex.row ());
             int Mlzm_no = rec.value ("mlzm_id").toInt();
             QString val = rec.value("mlzm_barkod").toString();
             QString val2= rec.value("mlzm_malzeme").toString() ;
@@ -330,24 +330,24 @@ void hC_MLZM::kntrl()
                 {
                     qDebug()<< "1 adet Mlzm Kaydı Silindi";
 
-                    tb_modl->select ();
+                    tb_model->select ();
 
-                    if (tb_modl->rowCount () == 1)
+                    if (tb_model->rowCount () == 1)
                     {
                         tb_view->table->selectRow (0);
-                        tb_view->table->setCurrentIndex (tb_modl->index(0,1));
+                        tb_view->table->setCurrentIndex (tb_model->index(0,1));
                     }
-                    if (tb_modl->rowCount () > 1)
+                    if (tb_model->rowCount () > 1)
                     {
                         if (mlzmIndex.row () == 0)
                         {
                             tb_view->table->selectRow (0);
-                            tb_view->table->setCurrentIndex (tb_modl->index(0,1));
+                            tb_view->table->setCurrentIndex (tb_model->index(0,1));
                         }
                         else if (mlzmIndex.row () > 0)
                         {
                             tb_view->table->selectRow (mlzmIndex.row()-1);
-                            tb_view->table->setCurrentIndex (tb_modl->index(mlzmIndex.row ()-1,1));
+                            tb_view->table->setCurrentIndex (tb_model->index(mlzmIndex.row ()-1,1));
                         }
 
 
@@ -390,24 +390,24 @@ void hC_MLZM::kntrl()
         ////////////////////////////////////////////////////////////////
         auto kd = new QString;
         *kd = tb_view->table->model()->index( Index.row() ,
-                                                tb_modl->fieldIndex ("kod") ).data().toString();
+                                                tb_model->fieldIndex ("kod") ).data().toString();
 
         auto brkd = new QString;
         *brkd = tb_view->table->model()->index( Index.row() ,
-                                                  tb_modl->fieldIndex ("barkod") ).data().toString();
+                                                  tb_model->fieldIndex ("barkod") ).data().toString();
 
         auto mlzm = new QString;
         *mlzm = tb_view->table->model()->index( Index.row() ,
-                                                  tb_modl->fieldIndex ("malzeme") ).data().toString();
+                                                  tb_model->fieldIndex ("malzeme") ).data().toString();
 
         auto brm = new QString;
         *brm =  tb_view->table->model()->index( Index.row() ,
-                                                  tb_modl->fieldIndex ("birim") ).data().toString();
+                                                  tb_model->fieldIndex ("birim") ).data().toString();
         ////////////////////////////////////////////////////////////////
         emit hC_MLZM::sgnMalzeme( kd, brkd, mlzm, brm);
         ////////////////////////////////////////////////////////////////
         // 3 resimi değiştirelim
-        hC_Rs resim ( win_Rsm, tb_view, tb_modl, tb_slctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                       "resim", "değiştir" ) ;
 
 
@@ -433,9 +433,9 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
     if ( Index.row () >= 0 )
     {
         int Mlzm_row = Index.row ();
-        int id = tb_modl->
-                data ( tb_modl->
-                       index(Mlzm_row,tb_modl->
+        int id = tb_model->
+                data ( tb_model->
+                       index(Mlzm_row,tb_model->
                              fieldIndex("kod"))).toInt () ;
         QSqlQuery q_qry;
         QString s_qry;
@@ -452,7 +452,7 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
         {
             q_qry.next ();
             grs = q_qry.value(0).toDouble ();
-            tb_modl->setData(tb_modl->index(Mlzm_row, tb_modl->
+            tb_model->setData(tb_model->index(Mlzm_row, tb_model->
                                             fieldIndex ("giris")), grs);
         }
         else
@@ -470,8 +470,8 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
 
             q_qry.next ();
             cks = q_qry.value(0).toDouble ();
-            tb_modl->setData(tb_modl->
-                             index(Mlzm_row, tb_modl->
+            tb_model->setData(tb_model->
+                             index(Mlzm_row, tb_model->
                                    fieldIndex ("cikis")), cks);
         }
         else
@@ -480,10 +480,10 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
                         q_qry.lastError ().text()<<endl;
         }
 
-        tb_modl->setData(tb_modl->
-                         index(Mlzm_row, tb_modl->
+        tb_model->setData(tb_model->
+                         index(Mlzm_row, tb_model->
                                fieldIndex ("mevcut")), grs-cks);
-        tb_modl->submitAll ();
+        tb_model->submitAll ();
         qDebug()<<"toplam mevcut    "<<grs-cks;
     }
     else
@@ -506,7 +506,7 @@ hC_MLZM::~hC_MLZM()
 {
     qDebug() << "   destructor";
     delete tb_view     ;
-    delete tb_modl     ;
+    delete tb_model     ;
     delete tb_slctnMdl ;
     delete tb_mapper   ;
 

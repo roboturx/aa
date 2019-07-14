@@ -9,101 +9,97 @@ hC_MKMODL::hC_MKMODL(QDialog *parent) : QDialog(parent)
     qDebug() << "Cnstrctr mkmodl";
 }
 
-void hC_MKMODL::mkModl_setup()
+void hC_MKMODL::setup()
 {
 
     qDebug ()  <<"MODEL ";
-    mkModl_VTd   () ;
-    mkModl_model () ;
-    mkModl_wdgt  () ;
-    mkModl_map   () ;
-    mkModl_ui    () ;
-    mkModl_view  () ;
-    mkModl_kntrl () ;
+    wdgt  () ;
+    ui    () ;
+    kntrl () ;
 }
 
 
-void hC_MKMODL::mkModl_ui()
+void hC_MKMODL::ui()
 {
-    qDebug() << "  mkModl_ui";
+    qDebug() << "  ui";
 
-    winLabel = new QLabel("ARAÇ MODEL");
-    this->setWindowTitle (winLabel->text ());
+   // winLabel = new QLabel("ARAÇ MODEL");
+    this->setWindowTitle (win_Label->text ());
     this->setGeometry(500,50,300,600);
     // this->showMaximized ();
 
-    MDLtview = new hC_Tv (this, MDLmodel, MDLmapper, winWdgt);
+   // tb_view = new hC_Tv (this, tb_model, tb_mapper, winWdgt);
 
     auto *winGrid = new QGridLayout();
 
-    winGrid->addWidget( winRsm     , 0,   0 , 1, 1);
-    winGrid->addWidget( MDLtview   , 1,   0 , 4, 1);
+    winGrid->addWidget( win_Rsm     , 0,   0 , 1, 1);
+    winGrid->addWidget( tb_view   , 1,   0 , 4, 1);
 
     this->setLayout(winGrid);
 
 }
 
-void hC_MKMODL::mkModl_wdgt()
+void hC_MKMODL::wdgt()
 {
-    winRsm = new QLabel ("Resim");
-    winRsm->setMinimumSize(60,100);
-    hC_Rs resim (winRsm);
+    win_Rsm = new QLabel ("Resim");
+    win_Rsm->setMinimumSize(60,100);
+    hC_Rs resim (win_Rsm);
 
     ///////////////////////////////////////
-    winWdgt = new QWidget;
-    winWdgt->setGeometry (0,0,800,300);
-    auto wdgtGrid = new QGridLayout();
-    winWdgt->setLayout(wdgtGrid);
+    win_Wdgt = new QWidget;
+    win_Wdgt->setGeometry (0,0,800,300);
+    auto wdgt_Grid = new QGridLayout();
+    win_Wdgt->setLayout(wdgt_Grid);
 
     ///////////////////////////////////////
 
-    wdgtGrid ->addWidget(winRsm  , 0, 0, 1, 1);
+    wdgt_Grid ->addWidget(win_Rsm  , 0, 0, 1, 1);
 }
 
-
-void hC_MKMODL::mkModl_view()
+/*
+void hC_MKMODL::view()
 {
 
     // Set the model and hide the ID column
-    MDLtview-> table-> setModel(MDLmodel);
-    MDLslctnMdl = MDLtview-> table-> selectionModel();
+    tb_view-> table-> setModel(tb_model);
+    tb_slctnMdl = tb_view-> table-> selectionModel();
 
 
-    MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("resim"), true);
-    MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("mkmark_no"), true);
-    MDLtview-> table-> setColumnHidden(MDLmodel->fieldIndex("id_mkmodl"), true);
+    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("resim"), true);
+    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("mkmark_no"), true);
+    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("id"), true);
 
     // select first item
     // selection model does not hide the frm_kod
     // so index 0,1 must be select
-    MDLtview->table->setCurrentIndex(
-                MDLmodel->index(0, 0)
+    tb_view->table->setCurrentIndex(
+                tb_model->index(0, 0)
                 );
     // with blue rect
-    MDLtview->table->setFocus();
+    tb_view->table->setFocus();
     //   QTimer::singleShot(0, CNStview->table, SLOT(setFocus()));
 
 
 }
 
-void hC_MKMODL::mkModl_map()
+void hC_MKMODL::map()
 {
 
     qDebug()<<"  mkModl map";
-    MDLmapper = new QDataWidgetMapper(this);
-    MDLmapper->setModel(MDLmodel);
+    tb_mapper = new QDataWidgetMapper(this);
+    tb_mapper->setModel(tb_model);
 
-    //CNSmapper->addMapping(lE_unvan , MDLmodel->fieldIndex("frm_unvan"));
+    //CNSmapper->addMapping(lE_unvan , tb_model->fieldIndex("frm_unvan"));
 
-    MDLmapper->toFirst ();
+    tb_mapper->toFirst ();
 
 }
-
-void hC_MKMODL::mkModl_kntrl()
+*/
+void hC_MKMODL::kntrl()
 {
 qDebug()<<"  mkModl kntrl";
     // pB 001 yeni ekle
-    connect(MDLtview->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
         // ekle model
@@ -118,32 +114,32 @@ qDebug()<<"  mkModl kntrl";
         }
 */
         QSqlQuery *q = new QSqlQuery;
-        if (q->exec("INSERT INTO mkModl__dbtb ( mkmark_no )"
+        if (q->exec("INSERT INTO _dbtb ( mkmark_no )"
                     " values(" + QString::number( 1 ) +   ")"   ))
             qDebug () <<"Yeni Kayıt - "<< 1 << " -   Eklendi";
         else
             qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
 
-        MDLmodel->submitAll();
-        MDLtview->setFocus();
-        MDLmodel->select();
+        tb_model->submitAll();
+        tb_view->setFocus();
+        tb_model->select();
 
 
     });
 
     // pB 002 yeni resim ekle
-    connect(MDLtview->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim ( winRsm, MDLtview, MDLmodel, MDLslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                            "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  MDLslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( winRsm, MDLtview, MDLmodel, MDLslctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
                            "resim", "değiştir" ) ;
     });
 
@@ -153,13 +149,13 @@ qDebug()<<"  mkModl kntrl";
 
     // pB 005 sil
 
-    connect(MDLtview->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
-        QModelIndex sample =   MDLtview->table->currentIndex();
+        QModelIndex sample =   tb_view->table->currentIndex();
         if( sample.row() >= 0 )
         {
-            QSqlRecord rec = MDLmodel->record();
+            QSqlRecord rec = tb_model->record();
             QString val = rec.value(1).toString();// +" "+
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question (this,
@@ -171,39 +167,39 @@ qDebug()<<"  mkModl kntrl";
             {
                 // remove the current index
                 // pmodel->beginRemoveColumn();
-                MDLmodel->removeRow(sample.row());
+                tb_model->removeRow(sample.row());
                 //pmodel->endRemoveColumns();
-                MDLmodel->select();
+                tb_model->select();
             }
         }
     });
 /*
     // pB 006 ilk
-    connect(MDLtview->pB_ilk, &QPushButton::clicked ,
+    connect(tb_view->pB_ilk, &QPushButton::clicked ,
             [this]()
     {
-        MDLtview->hC_TvPb ("ilk", MDLmodel, MDLmapper);
+        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
     });
 
     // pB 007 önceki
-    connect(MDLtview->pB_ncki, &QPushButton::clicked,
+    connect(tb_view->pB_ncki, &QPushButton::clicked,
             [this]()
     {
-        MDLtview->hC_TvPb ("ncki", MDLmodel, MDLmapper);
+        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
     });
 
     // pB 008 sonraki
-    connect(MDLtview->pB_snrki, &QPushButton::clicked,
+    connect(tb_view->pB_snrki, &QPushButton::clicked,
             [this]()
     {
-        MDLtview->hC_TvPb ("snrki", MDLmodel, MDLmapper);
+        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
     });
 
     // pB 009 son
-    connect(MDLtview->pB_son, &QPushButton::clicked,
+    connect(tb_view->pB_son, &QPushButton::clicked,
             [this]()
     {
-        MDLtview->hC_TvPb ("son", MDLmodel, MDLmapper);
+        tb_view->hC_TvPb ("son", tb_model, tb_mapper);
     });
 
 
@@ -214,27 +210,27 @@ qDebug()<<"  mkModl kntrl";
 
 
     // pB 010 nav tuslari kontrol
-    connect(MDLmapper, &QDataWidgetMapper::currentIndexChanged,
+    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
             [this]()
     {
-        MDLtview->hC_TvPb ("yenile", MDLmodel, MDLmapper);
+        tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
 
     });
 */
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  MDLslctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
-        MDLmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
 
             // 011-02 marka row değiştiğinde cmmy etrafa yayınlayalım
-            QModelIndex Index = MDLtview->table->currentIndex ();
+            QModelIndex Index = tb_view->table->currentIndex ();
             sgnText = new QString;
-            *sgnText = MDLtview->table->model()->index( Index.row() ,
-                                                     MDLmodel->fieldIndex
+            *sgnText = tb_view->table->model()->index( Index.row() ,
+                                                     tb_model->fieldIndex
                                                      ("modeli") ).data().toString() ;
 
 
@@ -243,16 +239,16 @@ qDebug()<<"  mkModl kntrl";
 
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-        //  emit Cw_fr::sgnfirma(MDLtview->table->model()->index( Index.row() ,
-        //                                                      MDLmodel->fieldIndex ("frm_unvan") ).data().toString() );
+        //  emit Cw_fr::sgnfirma(tb_view->table->model()->index( Index.row() ,
+        //                                                      tb_model->fieldIndex ("frm_unvan") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  MDLslctnMdl ,
+    connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {
-        MDLmapper->setCurrentModelIndex(Index);
+        tb_mapper->setCurrentModelIndex(Index);
     });
 
 }
@@ -271,13 +267,14 @@ hC_MKMODL::~hC_MKMODL()
 
 ///// MODEL
 ///
-///
-QString hC_MKMODL::mkModl_VTd()
+///*
+/*
+QString hC_MKMODL::VTd()
 {
     //qDebug() << " db Modeli CREATE  ";
     QString ct, mesaj = "  OK - Model";
     QSqlQuery q;
-    QString MDLtableName ( "mkmodl__dbtb");
+    QString MDLtableName ( "_dbtb");
 
     if ( ! VTKontrolEt::instance()->GetDB().tables().
          contains( MDLtableName ))
@@ -287,7 +284,7 @@ QString hC_MKMODL::mkModl_VTd()
               "modeli TEXT, "
               "resim BLOB, "
               "mkmark_no INTEGER,"
-              "id_mkmodl INTEGER PRIMARY key )"  ;
+              "id INTEGER PRIMARY key )"  ;
 
 
         if (!q.exec( ct ))
@@ -345,7 +342,7 @@ QString hC_MKMODL::mkModl_VTd()
 
 
 
-void hC_MKMODL::mkModl_model ()
+void hC_MKMODL::model ()
 {
     qDebug() << "  db model";
 
@@ -355,13 +352,13 @@ void hC_MKMODL::mkModl_model ()
     tB_FieldList->append("Marka Nosu");
     tB_FieldList->append("Model kodu");
 
-    QString MODLtableName{"mkModl__dbtb"} ;
+    QString MODLtableName{"_dbtb"} ;
     QString indexField = "modeli";
-    MDLmodel = new QSqlRelationalTableModel ;
-  /*  hC_Rm hC_Rm ( &MODLtableName,
-                  MDLmodel,
+    tb_model = new QSqlRelationalTableModel ;
+  hC_Rm hC_Rm ( &MODLtableName,
+                  tb_model,
                   &indexField ,
                   tB_FieldList) ;
-*/
-}///MDLİ
 
+}///MDLİ
+*/

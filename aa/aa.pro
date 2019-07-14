@@ -89,6 +89,7 @@ HEADERS  += \
     # cw_cns.h
 
 FORMS    += \
+    forms/mainForm.ui \
     wd_login.ui \
     ww_mkcins.ui \
     cw_hkk.ui \
@@ -108,3 +109,7 @@ FORMS    += \
 RESOURCES += \
     src.qrc
 
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target

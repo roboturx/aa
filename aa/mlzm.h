@@ -14,7 +14,7 @@ class hC_MLZM : public QWidget
 public:
 /////////////////////////////////////////////////
     hC_Tv                    * tb_view     {} ;
-    QSqlRelationalTableModel * tb_modl     {} ;
+    QSqlRelationalTableModel * tb_model     {} ;
     QItemSelectionModel      * tb_slctnMdl {} ;
     QDataWidgetMapper        * tb_mapper   {} ;
 
