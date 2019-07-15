@@ -15,28 +15,13 @@ class hC_CLSN;
 class hC_CLSN : public hC_tBcreator
 {
     Q_OBJECT
-
 public:
 
     explicit hC_CLSN();
     ~hC_CLSN();
 
-    ////////////////////////////////////////////////
-        hC_Tv                    * tb_view    {} ;
-        QItemSelectionModel      * tb_slctnMdl {} ;
-        QSqlRelationalTableModel * tb_model    {} ;
-        QDataWidgetMapper        * tb_mapper   {} ;
-
-
-        QString                  * tb_name     {} ;
-        hC_ArrD                  * tb_flds   {} ;
-        QString                  * tb_ndex     {} ;
-        QList <QWidget*>         * tb_wdgts    {} ;
-
-        QWidget                  * win_Wdgt  {} ;
-        QLabel                   * win_Label {} ;
-        QLabel                   * win_Rsm   {} ;
-    /////////////////////////////////////////////////
+    hC_ArrD                  * tb_flds   {} ;
+    QList <QWidget*>         * tb_wdgts    {} ;
 
     QLineEdit   *lE_isim=nullptr    ;
     QLineEdit   *lE_soyad=nullptr   ;
@@ -58,12 +43,12 @@ public:
     QLineEdit   *lE_yetki{}   ;
 
 
-    void setup () ;
+    void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+    void tbwdgt  () ;
+    void tbui    () ;
+    void tbkntrl () ;
 
 protected:
     void showEvent(QShowEvent *);

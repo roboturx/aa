@@ -318,29 +318,19 @@ private:
 
 //#include "clsn.h"
 
-class hC_tBcreator : public QWidget
+class hC_tBcreator  : public QWidget
 {
     Q_OBJECT
 public:
     explicit hC_tBcreator( );
 
-    /*QString *tb_name,
-                          hC_ArrD *tb_flds,
-                          QString *tb_ndex,
-                          QSqlRelationalTableModel *tb_modl,
-                          hC_Tv *tb_view,
-                          QDataWidgetMapper *tb_mapper,
-                          QList<QWidget*> *win_wdgts );
-*/
     ~hC_tBcreator();
 
-    QString create(hC_ArrD *tb_flds);
+    QString tbCreate(hC_ArrD *tb_flds);
 
-    void model(hC_ArrD *tb_flds, QList<QWidget *> *tb_wdgts);
-
-    void    view(hC_ArrD *tb_flds, QList<QWidget *> *tb_wdgts);
-
-    void    map(hC_ArrD *tb_flds, QList<QWidget *> *tb_wdgts);
+    void tbModel(hC_ArrD *tb_flds);
+    void tbView(hC_ArrD *tb_flds);
+    void tbMap(hC_ArrD *tb_flds, QList<QWidget *> *tb_wdgts);
 
 private:
     QString     _mesaj;

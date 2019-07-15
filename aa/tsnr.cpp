@@ -1,112 +1,101 @@
 ﻿#include "tsnr.h"
 
-hC_TSNR::hC_TSNR(QWidget *parent) : QWidget (parent)
+hC_TSNR::hC_TSNR() : hC_tBcreator ()
 {
     qDebug ()<<"cnstrct Taşınır İstek ";
     //************************************************************
     //************  T A Ş I N I R   İ S T E K  *******************
+
+
+    win_Label->text ()= "TAŞINIR İSTEK";
+    *tb_name  = "tsnr_dbtb" ;
+    *tb_ndex  = "malzeme";
+
+    tb_flds = new hC_ArrD (8, 4);
+    tb_flds->setValue ( 0, "tsnr_id"      , "INTEGER", "TaşınırID", "0" ) ;
+    tb_flds->setValue ( 1, "tsnr_iedet_id", "INTEGER", "İEDetayID","0" );
+    tb_flds->setValue ( 2, "tsnr_no "     , "TEXT"   , "Taşınır No" );
+    tb_flds->setValue ( 3, "tsnr_tarih"   , "TEXT"   , "Tarih");
+    tb_flds->setValue ( 4, "tsnr_usta"    , "TEXT"   , "Usta"   );
+    tb_flds->setValue ( 5, "tsnr_durum"   , "TEXT"   , "Durum"    );
+    tb_flds->setValue ( 6, "tsnr_aciklama", "TEXT"   , "Açıklama"   );
+    tb_flds->setValue ( 7, "tsnr_resim"   , "BLOB"   , "Resim" , "0" );
+
+    tb_wdgts = new QList <QWidget*> ;
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( lE_TSno = new QLineEdit  ) ;
+    tb_wdgts->append ( dE_TStarih = new QDateTimeEdit(QDate::currentDate ())  ) ;
+    tb_wdgts->append ( lE_TSusta = new QLineEdit ) ;
+    tb_wdgts->append ( cbx_TSdurum = new QComboBox    ) ;
+    tb_wdgts->append ( lE_TSaciklama  = new QLineEdit  ) ;
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
+
+
+
 }
 
-void hC_TSNR:: setup()
+void hC_TSNR:: tbsetup()
 {
     qDebug() << "  tsnr setup ";
-      wdgt  () ;
-      ui    () ;
+    tbCreate ( tb_flds );
+    tbModel  ( tb_flds );
+    tbView   ( tb_flds );
+    tbMap    ( tb_flds, tb_wdgts );
 
-     kntrl () ;
+    tbwdgt  ();
+    tbui();
+    tbkntrl ();
 }
 
 
-void hC_TSNR:: ui()
+void hC_TSNR:: tbui()
 {
     qDebug() << "   ui";
-    win_Label = new QLabel("TAŞINIR İSTEK");
     hC_TSNR::setWindowTitle (win_Label->text ());
-
-
-
-
-    // ///////////////////////////////////////////////////////
-    // views
-    tb_view = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
-
-
-    auto *winGrid = new QGridLayout(this);
-    winGrid->addWidget (tb_view  , 0, 0, 1, 1);
-    winGrid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+    auto *win_Grid = new QGridLayout(this);
+    win_Grid->addWidget (tb_view  , 0, 0, 1, 1);
+    win_Grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 }
 
-void hC_TSNR:: wdgt()
+void hC_TSNR:: tbwdgt()
 {
 
     auto *lB_tsno = new QLabel("Taşınır No");
-
-    lE_TSno = new QLineEdit;
     lE_TSno->setText (*TSdetno);
     lE_TSno->setReadOnly (true);
-
     lB_tsno->setBuddy(lE_TSno);
 
-    qDebug ()<<"ts 142";
     QLabel *lB_gt = new QLabel("Tarih");
-
-    dE_TStarih = new QDateTimeEdit(QDate::currentDate());
     dE_TStarih->setDisplayFormat("dd.MM.yyyy");
     dE_TStarih->setMinimumDate(QDate(01, 01, 1900));
     dE_TStarih->setMaximumDate(QDate(valiDDate));
     dE_TStarih->setCalendarPopup(true);
-
     lB_gt->setBuddy(dE_TStarih);
 
 
     QLabel *lB_us = new QLabel("İstenen Malzeme Adı");
-
-    cbx_TSmalzeme = new QComboBox;                    //dbtb_TSNR
-    lB_us->setBuddy(cbx_TSmalzeme);
-
-
-    qDebug ()<<"ts 143";
-
-
-    QLabel *lB_tm = new QLabel("Miktar");
-
-    lE_TSmiktar = new QLineEdit;
-
-    lB_tm->setBuddy(lE_TSmiktar );
-
-    QLabel *lB_usb = new QLabel("Birim");
-
-    cbx_TSbirim = new QComboBox;                    //dbtb_TSNR
-
-    lB_usb->setBuddy(cbx_TSbirim);
-
-    QLabel *lB_bf = new QLabel("Birim Fiyat");
-
-    lE_TSbfiyat = new QLineEdit;
-    lB_bf->setBuddy(lE_TSbfiyat);
-
+    lB_us->setBuddy(lE_TSusta);
 
     QLabel *lB_dr = new QLabel("Durum");
-    cbx_TSdurum = new QComboBox;                    // dbtb_durum
     cbx_TSdurum->addItem ("-");
-    cbx_TSdurum->addItem ("Parça Bekliyor");
-    cbx_TSdurum->addItem ("Usta Bekliyor");
-    cbx_TSdurum->addItem ("Tamamlandı");
-
+    cbx_TSdurum->addItem ("Ambara Bildirildi");
+    cbx_TSdurum->addItem ("Satın Alınıyor");
+    cbx_TSdurum->addItem ("Atölyede İmal Ediliyor");
+    cbx_TSdurum->addItem ("Dış piyasada İmal Ettiriliyor");
+    cbx_TSdurum->addItem ("Tedarik Edildi");
+    cbx_TSdurum->addItem ("Teslim Edildi");
     lB_dr->setBuddy(cbx_TSdurum);
 
     QLabel *lB_acklm = new QLabel("Açıklama");
-
-    lE_TSaciklama = new QLineEdit;
     lB_acklm->setBuddy(lE_TSaciklama);
 
-
-    win_Rsm = new QLabel("Resim ");
     win_Rsm = new QLabel("Taşınır İstek");
 
     ///////////////////////////////////////
     win_Wdgt = new QWidget;
-    win_Wdgt->setGeometry (0,0,800,300);
+    win_Wdgt->adjustSize ();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);
 
@@ -114,76 +103,22 @@ void hC_TSNR:: wdgt()
     lE_TSaciklama->setMinimumSize (200,25);
 
 
-    wdgtGrid->addWidget(lB_tsno        ,0,0,1,1,nullptr);
-    wdgtGrid->addWidget(lE_TSno   ,0,1,1,3,nullptr);
-    wdgtGrid->addWidget(lB_gt        ,1,0,1,1,nullptr);
-    wdgtGrid->addWidget(dE_TStarih   ,1,1,1,3,nullptr);
-    wdgtGrid->addWidget(lB_us        ,2,0,1,1,nullptr);
-    wdgtGrid->addWidget(cbx_TSmalzeme   ,2,1,1,3,nullptr);
-    wdgtGrid->addWidget(lB_tm        ,3,0,1,1,nullptr);
-    wdgtGrid->addWidget(lB_usb        ,4,0,1,1,nullptr);
-    wdgtGrid->addWidget(cbx_TSbirim   ,4,1,1,3,nullptr);
-    wdgtGrid->addWidget(lB_bf        ,5,0,1,1,nullptr);
-    wdgtGrid->addWidget(lE_TSbfiyat   ,5,1,1,3,nullptr);
-
-    wdgtGrid->addWidget(lB_dr        ,6,0,1,1,nullptr);
-    wdgtGrid->addWidget(cbx_TSdurum   ,6,1,1,3,nullptr);
-    wdgtGrid->addWidget(lB_acklm        ,7,0,1,1,nullptr);
-    wdgtGrid->addWidget(lE_TSaciklama   ,7,1,1,3,nullptr);
-
-
-}
-/*
-void hC_TSNR:: view()
-{
-    qDebug()<<"tsnr view ";
-    tb_view->table->setModel(tb_model);
-    tb_slctnMdl = tb_view->table->selectionModel();
-
-    tb_view->table->setColumnHidden(tb_model->fieldIndex(" mknstk_no"), true);
-    tb_view->table->setColumnHidden(tb_model->fieldIndex("id_tsnr"), true);
-    tb_view->table->setColumnHidden(tb_model->fieldIndex(" resim"), true);
-
-
-    // select first item
-    // selection model does not hide the frm_kod
-    // so index 0,1 must be select
-    tb_view->table->setCurrentIndex(
-                tb_model->index(0, 1)
-                );
-    // with blue rect
-    tb_view->table->setFocus();
-    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
-
+    wdgtGrid->addWidget(lB_tsno      , 0, 0, 1, 1);
+    wdgtGrid->addWidget(lE_TSno      , 0, 1, 1, 3);
+    wdgtGrid->addWidget(lB_gt        , 1, 0, 1, 1);
+    wdgtGrid->addWidget(dE_TStarih   , 1, 1, 1, 3);
+    wdgtGrid->addWidget(lB_us        , 2, 0, 1, 1);
+    wdgtGrid->addWidget(lE_TSusta    , 2, 1, 1, 3);
+    wdgtGrid->addWidget(lB_dr        , 3, 0, 1, 1);
+    wdgtGrid->addWidget(cbx_TSdurum  , 3, 1, 1, 1);
+    wdgtGrid->addWidget(lB_acklm     , 4, 0, 1, 1);
+    wdgtGrid->addWidget(lE_TSaciklama, 4, 1, 1, 3);
+    wdgtGrid ->addWidget (win_Rsm    , 5, 1, 2, 3);
 }
 
 
-void hC_TSNR:: map()
-{
-    qDebug()<<"tsnr map ";
-    tb_mapper = new QDataWidgetMapper(this);
-    tb_mapper->setModel(tb_model);
 
-    //tb_modelapper->addMapping(tb_modelapper, mdl_mkn->fieldIndex(" mknstk_no"));
-    tb_mapper->addMapping(lE_TSno, tb_model->fieldIndex("ts_no"));
-    tb_mapper->addMapping(dE_TStarih , tb_model->fieldIndex("ts_tarih"));
-    tb_mapper->addMapping(cbx_TSmalzeme , tb_model->fieldIndex("ts_malzeme"));
-    tb_mapper->addMapping(lE_TSmiktar, tb_model->fieldIndex("ts_miktar"));
-    tb_mapper->addMapping(cbx_TSbirim , tb_model->fieldIndex("ts_birim"));
-    tb_mapper->addMapping(lE_TSbfiyat, tb_model->fieldIndex("ts_bfiyat"));
-    tb_mapper->addMapping(cbx_TSdurum, tb_model->fieldIndex("ts_durum"));
-    tb_mapper->addMapping(lE_TSaciklama , tb_model->fieldIndex("ts_aciklama"));
-
-    tb_mapper->toFirst ();
-}
-
-
-*/
-
-
-
-
-void hC_TSNR:: kntrl()
+void hC_TSNR:: tbkntrl()
 {
 
     qDebug()<<"  kontroltsnr ";
@@ -348,43 +283,6 @@ void hC_TSNR:: kntrl()
             msgBox.close(); // abort
         }
     });
-/*
-    // pB 006 ilk
-    connect(tb_view->pB_ilk, &QPushButton::clicked ,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
-    });
-
-    // pB 007 önceki
-    connect(tb_view->pB_ncki, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
-    });
-
-    // pB 008 sonraki
-    connect(tb_view->pB_snrki, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
-    });
-
-    // pB 009 son
-    connect(tb_view->pB_son, &QPushButton::clicked,
-            [this]()
-    {tb_view->hC_TvPb ("son", tb_model, tb_mapper);
-    });
-
-
-
-    // pB 010 nav tuslari kontrol
-    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
-            [this]()
-    {tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
-
-    });
-*/
     // --- 011 row değiştiğinde 2 şey olsun
     connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
@@ -417,97 +315,3 @@ void hC_TSNR:: kntrl()
 hC_TSNR::~hC_TSNR()
 = default;
 
-
-
-/*
-QString hC_TSNR:: VTd ()
-{
-    QSqlQuery q;
-    QString ct ,
-            mesaj = "OK - Taşınır İstek",
-            tB_Name = "sclk__dbtb";
-    QStringList inserts;
-
-    if ( ! VTKontrolEt::instance()->GetDB().tables().
-         contains( tB_Name ))
-    {
-        ct ="CREATE TABLE IF NOT EXISTS "+ tB_Name +
-                "("
-                "ts_iedet_id   TEXT, "
-                "ts_no   TEXT, "
-                "ts_tarih      TEXT, "
-                "ts_malzeme    INTEGER, "
-                "ts_miktar       TEXT, "
-                "ts_Birim       TEXT, "
-                "ts_bfiyat     TEXT, "
-                "ts_durum      TEXT, "
-                "ts_aciklama   TEXT, "
-                "ts_resim      BLOB, "
-                "id_tasinir integer primary key  )"  ;
-
-        if (!q.exec( ct ))
-        {
-            mesaj = "<br>HATA - Taşınır İstek Dosyası Oluşturulamadı  "
-                    "<br>------------------------------------<br>"+
-                    q.lastError().text() +
-                    "<br>------------------------------------<br>";
-        }
-        else
-        {
-            mesaj = "OK - Taşınır İstek Dosyası YENİ Oluşturuldu ";
-            inserts << "INSERT INTO " + tB_Name + " ( ts_iedet_id )"
-                                                  " values( 1 )";
-
-
-            foreach (QString qry , inserts)
-            {
-                if ( !q.exec(qry) )
-                {
-                    mesaj = mesaj + "<br>İLK Taşınır İstek Eklenemdi"+
-                            "<br>------------------------------------<br>"+
-                            q.lastError().text ()+
-                            "<br>------------------------------------<br>";
-                }
-                else
-                {
-                    mesaj = mesaj + "<br>İLK Taşınır İstek eklendi.";
-                }
-            } // foreach
-        }
-    }
-    qDebug ()<< mesaj;
-    return mesaj ;
-
-
-
-
-} //TAŞINIR
-
-
-
-
-
-void hC_TSNR:: model()
-{
-    qDebug() << " tsnr mdl";
-    QString indexField = "tsnr";
-    QString tB_Name = " _dbtb";
-    QStringList *tB_FieldList = new QStringList;
-
-    tB_FieldList->append("İş Emri No");
-    tB_FieldList->append("İş Emri Tarihi");
-    tB_FieldList->append("Bölüm");
-    tB_FieldList->append("Durum");
-    tB_FieldList->append("Araç Giriş Tarihi");
-    tB_FieldList->append("Araç Çıkış Tarihi");
-    tB_FieldList->append("Yetkili");
-    tB_FieldList->append("Yetkili");
-
-    tb_model = new QSqlRelationalTableModel;
-  hC_Rm hC_Rm ( &tB_Name,
-                 tb_model,
-                 &indexField ,
-                 tB_FieldList) ;
-
-}
-*/

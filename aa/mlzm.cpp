@@ -6,8 +6,9 @@ hC_MLZM::hC_MLZM() : hC_tBcreator ()
     //************************************************************
     //*****************  M A L Z E M E  **************************
 
-    win_Label->text ()= "AMBAR MALZEME";
-    *tb_name = "mlzm_dbtb" ;
+    win_Label->text ()= "AMBAR MALZEME KAYITLARI";
+    *tb_name  = "mlzm_dbtb" ;
+    *tb_ndex  = "malzeme";
 
     tb_flds = new hC_ArrD (13, 4);
     tb_flds->setValue ( 0, "mlzm_ID"      , "INTEGER", "MalzemeID", "0" ) ;
@@ -24,12 +25,6 @@ hC_MLZM::hC_MLZM() : hC_tBcreator ()
     tb_flds->setValue (11, "mlzm_makina"  , "TEXT"   , "Makina", "0");
     tb_flds->setValue (12, "mlzm_resim"   , "BLOB"   , "Resim" , "0" );
 
-    *tb_ndex     = "malzeme";
-//    tb_model     = new QSqlRelationalTableModel;
-//    tb_mapper   = new QDataWidgetMapper;
-//    win_Wdgt    = new QWidget;
-  //  tb_view     = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
-
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ;
     tb_wdgts->append ( lE_barkod = new QLineEdit  ) ;
@@ -44,25 +39,26 @@ hC_MLZM::hC_MLZM() : hC_tBcreator ()
     tb_wdgts->append ( lE_mevcut  = new QLineEdit  ) ;
     tb_wdgts->append ( nullptr    ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
-
-
 }
 
 
-void hC_MLZM::setup()
+void hC_MLZM::tbsetup()
 {
+    qDebug() << "  setup";
+    tbCreate ( tb_flds );
+    tbModel  ( tb_flds );
+    tbView   ( tb_flds );
+    tbMap    ( tb_flds, tb_wdgts );
+    tbwdgt  () ;
+    tbui    () ;
+    tbkntrl () ;
 
-    create ( tb_flds );
-    model  ( tb_flds, tb_wdgts );
-    view   ( tb_flds, tb_wdgts );
-    map    ( tb_flds, tb_wdgts );
-    wdgt  () ;
-    ui    () ;
-    kntrl () ;
+
+
 }
 
 
-void hC_MLZM::ui()
+void hC_MLZM::tbui()
 {
     qDebug() << "  ui";
 
@@ -73,7 +69,7 @@ void hC_MLZM::ui()
 }
 
 
-void hC_MLZM::wdgt()
+void hC_MLZM::tbwdgt()
 {
     qDebug () << "  wdgt";
 
@@ -131,7 +127,8 @@ void hC_MLZM::wdgt()
     hC_Rs resim(win_Rsm);
 
     ///////////////////////////////////////
-    win_Wdgt->setGeometry (0,0,800,300);
+    win_Wdgt = new QWidget;
+    win_Wdgt->adjustSize ();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);
 
@@ -169,7 +166,7 @@ void hC_MLZM::wdgt()
 }
 
 
-void hC_MLZM::kntrl()
+void hC_MLZM::tbkntrl()
 {
     qDebug() << "  kntrl";
 
@@ -390,11 +387,11 @@ void hC_MLZM::kntrl()
         ////////////////////////////////////////////////////////////////
         auto kd = new QString;
         *kd = tb_view->table->model()->index( Index.row() ,
-                                                tb_model->fieldIndex ("kod") ).data().toString();
+              tb_model->fieldIndex ("kod") ).data().toString();
 
         auto brkd = new QString;
         *brkd = tb_view->table->model()->index( Index.row() ,
-                                                  tb_model->fieldIndex ("barkod") ).data().toString();
+               tb_model->fieldIndex ("barkod") ).data().toString();
 
         auto mlzm = new QString;
         *mlzm = tb_view->table->model()->index( Index.row() ,
@@ -402,7 +399,7 @@ void hC_MLZM::kntrl()
 
         auto brm = new QString;
         *brm =  tb_view->table->model()->index( Index.row() ,
-                                                  tb_model->fieldIndex ("birim") ).data().toString();
+                  tb_model->fieldIndex ("birim") ).data().toString();
         ////////////////////////////////////////////////////////////////
         emit hC_MLZM::sgnMalzeme( kd, brkd, mlzm, brm);
         ////////////////////////////////////////////////////////////////
@@ -505,19 +502,9 @@ void hC_MLZM::showEvent(QShowEvent *)
 hC_MLZM::~hC_MLZM()
 {
     qDebug() << "   destructor";
-    delete tb_view     ;
-    delete tb_model     ;
-    delete tb_slctnMdl ;
-    delete tb_mapper   ;
-
-    delete tb_name     ;
     delete tb_flds     ;
-    delete tb_ndex     ;
     delete tb_wdgts    ;
 
-    delete win_Wdgt  ;
-    delete win_Label ;
-    delete win_Rsm   ;
 /////////////////////////////////////////////////
     delete cbx_grs_tipi;
     delete lE_barkod   ;

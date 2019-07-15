@@ -7,29 +7,16 @@ namespace nSFrm {
 class hC_FRM;
 }
 
-class hC_FRM : public QWidget
+class hC_FRM : public hC_tBcreator
 {
     Q_OBJECT
 
 public:
-    explicit hC_FRM(QWidget *parent = nullptr);
+    explicit hC_FRM();
     ~hC_FRM();
 
-    ////////////////////////////////////////////////
-    hC_Tv                    * tb_view     {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QSqlRelationalTableModel * tb_model    {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
-
-    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds     {} ;
-    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
-
-    QWidget                  * win_Wdgt    {} ;
-    QLabel                   * win_Label   {} ;
-    QLabel                   * win_Rsm     {} ;
-/////////////////////////////////////////////////
 
     int       meslekIndex{} ;
     QComboBox   *cb_meslek{};
@@ -47,12 +34,12 @@ public:
     QLineEdit   *lE_ysoyad{};
     QLineEdit   *lE_ytel{}  ;
 
-    void setup();
+    void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+    void tbwdgt  () ;
+    void tbui    () ;
+    void tbkntrl () ;
 
 signals:
     void sgnfirma (const QString sgnfirma); //firma ismini

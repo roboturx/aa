@@ -177,7 +177,7 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Demirbaş Mlzm"));
         auto *mw_mkn = new hC_MKN;
-        mw_mkn->setup ();
+        mw_mkn->tbsetup ();
 
     });
 
@@ -241,7 +241,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_iedet = new hC_IEDET ;
-        mw_iedet->setup ();
+        mw_iedet->tbsetup ();
         mw_iedet->show ();
     });/// iş emri detay
 
@@ -255,7 +255,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_tsnr = new hC_TSNR ;
-        mw_tsnr->setup ();
+        mw_tsnr->tbsetup ();
         mw_tsnr->show ();
     });/// taşınır istek
 
@@ -269,7 +269,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_sclk = new hC_SCLK ;
-        mw_sclk->setup();
+        mw_sclk->tbsetup();
         mw_sclk->show ();
     }); // işçilik
 
@@ -284,7 +284,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_per = new hC_CLSN ;
-        mw_per->setup ();
+        mw_per->tbsetup ();
         //statusBar()->showMessage(tr("Çalışan Bilgileri"));
         //mw_per->setWindowTitle ("ÇALIŞAN");
         //mw_per->resize(qApp->screens()[0]->size()*.8);
@@ -307,7 +307,7 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Mlzm "));
         mw_mlzmGc = new hC_MLZMGC;
-        mw_mlzmGc->setup ();
+        mw_mlzmGc->tbsetup ();
         mw_mlzmGc->show ();
     });
 
@@ -327,7 +327,7 @@ void MW_main::cr_Actions()
     {
         statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
         mw_ftr = new hC_FTR;
-        mw_ftr->setup ();
+        mw_ftr->tbsetup ();
         mw_ftr->show ();
     });
     /// firma
@@ -341,7 +341,7 @@ void MW_main::cr_Actions()
              [this]()
     {
         mw_fr = new hC_FRM;
-        mw_fr->setup ();
+        mw_fr->tbsetup ();
         statusBar()->showMessage(tr("Firma Bilgileri"));
         mw_fr->show ();
     });

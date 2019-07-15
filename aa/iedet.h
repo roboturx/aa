@@ -8,31 +8,17 @@ namespace nSIedet {
 class hC_IEDET;
 }
 
-class hC_IEDET : public QWidget
+class hC_IEDET : public hC_tBcreator
 {
     Q_OBJECT
 
 public:
 
-    explicit hC_IEDET(QWidget *parent = nullptr);
+    explicit hC_IEDET();
     ~hC_IEDET();
 
-    ////////////////////////////////////////////////
-    hC_Tv                    * tb_view    {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QSqlRelationalTableModel * tb_model    {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
-
-
-    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds   {} ;
-    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
-
-    QWidget                  * win_Wdgt  {} ;
-    QLabel                   * win_Label {} ;
-    QLabel                   * win_Rsm   {} ;
-/////////////////////////////////////////////////
 
     hC_IE* ie  {} ;
     int* ienoo {} ;
@@ -45,12 +31,12 @@ public:
     QDateTimeEdit *dE_IEdetgirtarihi{} ;
     QDateTimeEdit *dE_IEdetciktarihi{} ;
 
-    void setup () ;
+    void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+    void tbwdgt  () ;
+    void tbui    () ;
+    void tbkntrl () ;
 
     void clk_IEdetkaydet();
     void clk_IEdetdurum();

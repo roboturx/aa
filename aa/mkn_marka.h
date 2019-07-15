@@ -10,37 +10,25 @@ namespace nSMkn {
     class hC_MKMARK;
 }
 
-class hC_MKMARK : public QDialog
+class hC_MKMARK : public hC_tBcreator
 {
     Q_OBJECT
 
 public:
-    explicit hC_MKMARK(QDialog *parent = nullptr);
+    explicit hC_MKMARK();
     ~hC_MKMARK();
-    ////////////////////////////////////////////////
-    hC_Tv                    * tb_view    {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QSqlRelationalTableModel * tb_model    {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
 
-
-    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds   {} ;
-    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
-    QWidget                  * win_Wdgt  {} ;
-    QLabel                   * win_Label {} ;
-    QLabel                   * win_Rsm   {} ;
-/////////////////////////////////////////////////
     QString * sgnText  {} ;
 
-    void    mkMark_setup () ;
+    void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+    void tbwdgt  () ;
+    void tbui    () ;
+    void tbkntrl () ;
 
 signals:
     void sgnmkMark (QString*);

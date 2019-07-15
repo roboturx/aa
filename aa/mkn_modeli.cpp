@@ -1,53 +1,68 @@
 ﻿#include "mkn_modeli.h"
 
 
-hC_MKMODL::hC_MKMODL(QDialog *parent) : QDialog(parent)
+hC_MKMODL::hC_MKMODL()  : hC_tBcreator ()
 {
-
     //************************************************************
     //*****************  M K  M O D L ****************************
     qDebug() << "Cnstrctr mkmodl";
+
+    win_Label->text ()= "ARAÇ MODEL BİLGİLERİ";
+    *tb_name   = "mkmodl_dbtb" ;
+    *tb_ndex     = "mkmodl_modeli";
+
+    tb_flds = new hC_ArrD ( 4, 4);
+    tb_flds->setValue ( 0, "mkmodl_ID"       , "INTEGER", "ModeliID", "0" ) ;
+    tb_flds->setValue ( 1, "mkmodl_mkmark_no", "INTEGER", "Marka No", "0" );
+    tb_flds->setValue ( 2, "mkmodl_modeli"   , "TEXT"   , "Modeli" );
+    tb_flds->setValue ( 3, "mkmodl_resim"    , "BLOB"   , "Resim" , "0" );
+
+    tb_wdgts = new QList <QWidget*> ;
+    tb_wdgts->append ( nullptr    ) ; // id
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
+
+
+
+
 }
 
-void hC_MKMODL::setup()
+void hC_MKMODL::tbsetup()
 {
 
     qDebug ()  <<"MODEL ";
-    wdgt  () ;
-    ui    () ;
-    kntrl () ;
+    tbCreate ( tb_flds );
+    tbModel  ( tb_flds );
+    tbView   ( tb_flds );
+    tbMap    ( tb_flds, tb_wdgts );
+
+    tbwdgt  ();
+    tbui();
+    tbkntrl ();
 }
 
 
-void hC_MKMODL::ui()
+void hC_MKMODL::tbui()
 {
     qDebug() << "  ui";
 
-   // win_Label = new QLabel("ARAÇ MODEL");
     this->setWindowTitle (win_Label->text ());
-    this->setGeometry(500,50,300,600);
-    // this->showMaximized ();
-
-   // tb_view = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
-
-    auto *winGrid = new QGridLayout();
-
-    winGrid->addWidget( win_Rsm     , 0,   0 , 1, 1);
-    winGrid->addWidget( tb_view   , 1,   0 , 4, 1);
-
-    this->setLayout(winGrid);
+    auto *win_Grid = new QGridLayout();
+    win_Grid->addWidget( win_Rsm     , 0,   0 , 1, 1);
+    win_Grid->addWidget( tb_view   , 1,   0 , 4, 1);
+    this->setLayout(win_Grid);
 
 }
 
-void hC_MKMODL::wdgt()
+void hC_MKMODL::tbwdgt()
 {
-    win_Rsm = new QLabel ("Resim");
     win_Rsm->setMinimumSize(60,100);
     hC_Rs resim (win_Rsm);
 
     ///////////////////////////////////////
     win_Wdgt = new QWidget;
-    win_Wdgt->setGeometry (0,0,800,300);
+    win_Wdgt->adjustSize();
     auto wdgt_Grid = new QGridLayout();
     win_Wdgt->setLayout(wdgt_Grid);
 
@@ -56,46 +71,7 @@ void hC_MKMODL::wdgt()
     wdgt_Grid ->addWidget(win_Rsm  , 0, 0, 1, 1);
 }
 
-/*
-void hC_MKMODL::view()
-{
-
-    // Set the model and hide the ID column
-    tb_view-> table-> setModel(tb_model);
-    tb_slctnMdl = tb_view-> table-> selectionModel();
-
-
-    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("resim"), true);
-    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("mkmark_no"), true);
-    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("id"), true);
-
-    // select first item
-    // selection model does not hide the frm_kod
-    // so index 0,1 must be select
-    tb_view->table->setCurrentIndex(
-                tb_model->index(0, 0)
-                );
-    // with blue rect
-    tb_view->table->setFocus();
-    //   QTimer::singleShot(0, CNStview->table, SLOT(setFocus()));
-
-
-}
-
-void hC_MKMODL::map()
-{
-
-    qDebug()<<"  mkModl map";
-    tb_mapper = new QDataWidgetMapper(this);
-    tb_mapper->setModel(tb_model);
-
-    //CNSmapper->addMapping(lE_unvan , tb_model->fieldIndex("frm_unvan"));
-
-    tb_mapper->toFirst ();
-
-}
-*/
-void hC_MKMODL::kntrl()
+void hC_MKMODL::tbkntrl()
 {
 qDebug()<<"  mkModl kntrl";
     // pB 001 yeni ekle
@@ -114,7 +90,7 @@ qDebug()<<"  mkModl kntrl";
         }
 */
         QSqlQuery *q = new QSqlQuery;
-        if (q->exec("INSERT INTO _dbtb ( mkmark_no )"
+        if (q->exec("INSERT INTO _dbtb ( mkmodl_no )"
                     " values(" + QString::number( 1 ) +   ")"   ))
             qDebug () <<"Yeni Kayıt - "<< 1 << " -   Eklendi";
         else
@@ -173,50 +149,6 @@ qDebug()<<"  mkModl kntrl";
             }
         }
     });
-/*
-    // pB 006 ilk
-    connect(tb_view->pB_ilk, &QPushButton::clicked ,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
-    });
-
-    // pB 007 önceki
-    connect(tb_view->pB_ncki, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
-    });
-
-    // pB 008 sonraki
-    connect(tb_view->pB_snrki, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
-    });
-
-    // pB 009 son
-    connect(tb_view->pB_son, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("son", tb_model, tb_mapper);
-    });
-
-
-
-    ///// tableview kontrol connectleri
-    ///
-    ///
-
-
-    // pB 010 nav tuslari kontrol
-    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
-            [this]()
-    {
-        tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
-
-    });
-*/
     // --- 011 row değiştiğinde 2 şey olsun
     connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
@@ -283,7 +215,7 @@ QString hC_MKMODL::VTd()
               "("
               "modeli TEXT, "
               "resim BLOB, "
-              "mkmark_no INTEGER,"
+              "mkmodl_no INTEGER,"
               "id INTEGER PRIMARY key )"  ;
 
 
@@ -300,12 +232,12 @@ QString hC_MKMODL::VTd()
 
 
             QStringList inserts;
-            inserts << "INSERT INTO "+ MDLtableName +" ( modeli, mkmark_no ) values(' - '       ,1)"
-                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmark_no ) values('Fiesta 1.4',2)"
-                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmark_no ) values('Focus 1.6' ,2)"
-                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmark_no ) values('Mondeo 2.0',2)"
-                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmark_no ) values('Clio'      ,3)"
-                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmark_no ) values('Laguna'    ,3)" ;
+            inserts << "INSERT INTO "+ MDLtableName +" ( modeli, mkmodl_no ) values(' - '       ,1)"
+                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmodl_no ) values('Fiesta 1.4',2)"
+                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmodl_no ) values('Focus 1.6' ,2)"
+                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmodl_no ) values('Mondeo 2.0',2)"
+                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmodl_no ) values('Clio'      ,3)"
+                    << "INSERT INTO "+ MDLtableName +" ( modeli, mkmodl_no ) values('Laguna'    ,3)" ;
             int x{},y{};
             foreach (QString qry , inserts)
             {

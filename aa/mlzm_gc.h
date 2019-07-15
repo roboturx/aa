@@ -17,22 +17,8 @@ public:
     explicit hC_MLZMGC();
     ~hC_MLZMGC();
 
-    ////////////////////////////////////////////////
-    hC_Tv                    * tb_view    {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QSqlRelationalTableModel * tb_model    {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
-
-
-    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds   {} ;
-    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
-
-    QWidget                  * win_Wdgt  {} ;
-    QLabel                   * win_Label {} ;
-    QLabel                   * win_Rsm   {} ;
-/////////////////////////////////////////////////
 
     hC_MLZM     *mlzm         {} ;
     QString     *mlzmKod      {} ;
@@ -51,12 +37,12 @@ public:
     QLineEdit   *lE_aciklama  {} ;
 
 
-    void setup () ;
+    void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+    void tbwdgt  () ;
+    void tbui    () ;
+    void tbkntrl () ;
 
 
 protected:

@@ -1,55 +1,67 @@
 #include "mkn_marka.h"
 
 
-hC_MKMARK::hC_MKMARK(QDialog *parent) : QDialog(parent)
+hC_MKMARK::hC_MKMARK()  : hC_tBcreator ()
+
 {
     //************************************************************
     //*****************  M K  M A R K ****************************
     qDebug() << "Cnstrctr mkmark";
+
+
+    win_Label->text ()= "ARAÇ MARKA BİLGİLERİ";
+    *tb_name   = "mkmark_dbtb" ;
+    *tb_ndex     = "mkmark_marka";
+
+    tb_flds = new hC_ArrD ( 4, 4);
+    tb_flds->setValue ( 0, "mkmark_ID"       , "INTEGER", "MarkaID", "0" ) ;
+    tb_flds->setValue ( 1, "mkmark_mkcins_no", "INTEGER", "Cins No", "0" );
+    tb_flds->setValue ( 2, "mkmark_marka"    , "TEXT"   , "Marka" );
+    tb_flds->setValue ( 3, "mkmark_resim"   , "BLOB"   , "Resim" , "0" );
+
+    tb_wdgts = new QList <QWidget*> ;
+    tb_wdgts->append ( nullptr    ) ; // id
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 }
 
-void hC_MKMARK::mkMark_setup()
+void hC_MKMARK::tbsetup()
 {
     qDebug ()  <<"  mkMark_setup";
 
-wdgt  () ;
+    tbCreate ( tb_flds );
+    tbModel  ( tb_flds );
+    tbView   ( tb_flds );
+    tbMap    ( tb_flds, tb_wdgts );
 
-    ui    () ;
-
-   kntrl () ;
+    tbwdgt  ();
+    tbui();
+    tbkntrl ();
 }
 
 
-void hC_MKMARK::ui()
+void hC_MKMARK::tbui()
 {
     qDebug() << "  mkmark_ui";
 
-    win_Label = new QLabel("ARAÇ MARKA");
+
     this->setWindowTitle (win_Label->text ());
-    this->setGeometry(500,50,300,600);
-    // this->showMaximized ();
-
-    //auto *pnc = new QWidget(this);
-    tb_view = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
-
-    auto *winGrid = new QGridLayout();
-
-    winGrid->addWidget( win_Wdgt     , 0,   0 , 1, 1);
-    winGrid->addWidget( tb_view   , 1,   0 , 4, 1);
-    this->setLayout(winGrid);
+    auto *win_Grid = new QGridLayout(this);
+    win_Grid->addWidget( win_Wdgt     , 0,   0 , 1, 1);
+    win_Grid->addWidget( tb_view   , 1,   0 , 4, 1);
 }
 
 
-void hC_MKMARK::wdgt()
+void hC_MKMARK::tbwdgt()
 {
 
-    win_Rsm = new QLabel ("Resim");
     win_Rsm->setMinimumSize(60,100);
     hC_Rs resim (win_Rsm);
 
     ///////////////////////////////////////
     win_Wdgt = new QWidget;
-    win_Wdgt->setGeometry (0,0,800,300);
+    win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);
 
@@ -59,44 +71,7 @@ void hC_MKMARK::wdgt()
 }
 
 
-/*
-void hC_MKMARK::mkMark_view()
-{
-
-    // Set the model and hide the ID column
-    tb_view-> table-> setModel(tb_model);
-    tb_slctnMdl = tb_view-> table-> selectionModel();
-
-    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("id_mkmark"), true);
-    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("resim"), true);
-    tb_view-> table-> setColumnHidden(tb_model->fieldIndex("mkcins_no"), true);
-
-    // select first item
-    // selection model does not hide the frm_kod
-    // so index 0,1 must be select
-    tb_view->table->setCurrentIndex(
-                tb_model->index(0, 0)
-                );
-    // with blue rect
-    tb_view->table->setFocus();
-    //   QTimer::singleShot(0, CNStview->table, SLOT(setFocus()));
-
-
-}
-
-void hC_MKMARK::mkMark_map()
-{
-
-    qDebug()<<"  setup mapcns";
-    tb_mapper = new QDataWidgetMapper(this);
-    tb_mapper->setModel(tb_model);
-
-    //CNSmapper->addMapping(lE_unvan , tb_model->fieldIndex("frm_unvan"));
-
-    tb_mapper->toFirst ();
-}
-*/
-void hC_MKMARK::kntrl()
+void hC_MKMARK::tbkntrl()
 {
     qDebug()<<"  setup mapcns";
     // pB 001 yeni ekle
@@ -173,41 +148,6 @@ void hC_MKMARK::kntrl()
             }
         }
     });
-/*
-    // pB 006 ilk
-    connect(tb_view->pB_ilk, &QPushButton::clicked ,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
-    });
-
-    // pB 007 önceki
-    connect(tb_view->pB_ncki, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
-    });
-
-    // pB 008 sonraki
-    connect(tb_view->pB_snrki, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
-    });
-
-    // pB 009 son
-    connect(tb_view->pB_son, &QPushButton::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("son", tb_model, tb_mapper);
-    });
-
-    // pB 010 nav tuslari kontrol
-    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
-            [this]( )
-    {
-        tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
-    });*/
 
     // --- 011 row değiştiğinde 2 şey olsun
     connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,

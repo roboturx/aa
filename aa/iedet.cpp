@@ -1,60 +1,81 @@
 ﻿#include "iedet.h"
 
 
-hC_IEDET::hC_IEDET(QWidget *parent) : QWidget (parent)
+hC_IEDET::hC_IEDET()  : hC_tBcreator ()
 {
     qDebug ()<<"Cnstrctr İş Emri Detay";
     //************************************************************
     //*****************  İ Ş   E M R İ  **************************
+
+***
+    win_Label->text ()= "İŞ EMRİ DETAY KAYITLARI";
+    *tb_name  = "iedet_dbtb" ;
+    *tb_ndex  = "iedet_ie_no";
+
+    tb_flds = new hC_ArrD (8, 4);
+    tb_flds->setValue ( 0, "iedet_ID"       , "INTEGER", "IEdetayID", "0" ) ;
+    tb_flds->setValue ( 1, "iedet_ie_no"    , "INTEGER", "Iş Emri No");
+    tb_flds->setValue ( 2, "iedet_aciklama" , "TEXT"   , "Açıklama" );
+    tb_flds->setValue ( 3, "iedet_tamiryeri", "TEXT"   , "Tamir Yeri");
+    tb_flds->setValue ( 4, "iedet_tybolum"  ,"TEXT"    , "T.Y. Bölümü"   );
+    tb_flds->setValue ( 5, "iedet_durum"    , "TEXT"   , "İşin Durumu"   );
+    tb_flds->setValue ( 6, "iedet_girtar"   , "TEXT"   , "Araç Giriş Tarihi"    );
+    tb_flds->setValue ( 7, "iedet_ciktar"   , "TEXT"   , "Araç Çıkış Tarihi"   );
+    tb_flds->setValue ( 8, "iedet_resim"    , "BLOB"   , "Resim" , "0" );
+
+
+    tb_wdgts = new QList <QWidget*> ;
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( lE_IEno = new QLineEdit  ) ;
+    tb_wdgts->append ( lE_IEdetaciklama = new QLineEdit  ) ;
+    tb_wdgts->append ( cbx_IEdettamiryeri = new QComboBox ) ;
+    tb_wdgts->append ( cbx_IEdettamirbolum = new QComboBox    ) ;
+    tb_wdgts->append ( cbx_IEdetdurum = new QComboBox ) ;
+    tb_wdgts->append ( dE_IEdetgirtarihi = new QDateTimeEdit(QDate::currentDate ()) ) ;
+    tb_wdgts->append ( dE_IEdetciktarihi = new QDateTimeEdit(QDate::currentDate ()) ) ;
+    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
+
 }
 
-void hC_IEDET:: setup()
+void hC_IEDET:: tbsetup()
 {
 
     qDebug() << "  iedet setup ";
 
-     wdgt  () ;
+    tbCreate ( tb_flds );
+    tbModel  ( tb_flds );
+    tbView   ( tb_flds );
+    tbMap    ( tb_flds, tb_wdgts );
 
-     ui    () ;
-
-     kntrl () ;
+    tbwdgt  ();
+    tbui();
+    tbkntrl ();
 }
 
 
-void hC_IEDET:: ui()
+void hC_IEDET:: tbui()
 {
     qDebug() << "   ui";
-    win_Label  = new QLabel ("İŞ EMRİ DETAY");
+
     hC_IEDET::setWindowTitle (win_Label->text());
     hC_IEDET::setGeometry(10,
                           qApp->screens()[0]->size ().rwidth ()/2,
             600,300);
-    //   hC_IEDET::showMaximized ();
 
-
-
-    // ///////////////////////////////////////////////////////
-    tb_view = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
-
-    // ///////////////////////////////////////////////////////
-
-    auto *winGrid = new QGridLayout(this);
-    winGrid->addWidget ( tb_view ,  0, 0, 1, 1 );
-    winGrid->addWidget ( win_Wdgt  ,  0, 1, 1, 1 );
+    auto *win_Grid = new QGridLayout(this);
+    win_Grid->addWidget ( tb_view ,  0, 0, 1, 1 );
+    win_Grid->addWidget ( win_Wdgt  ,  0, 1, 1, 1 );
 }
 
-void hC_IEDET:: wdgt ()
+void hC_IEDET:: tbwdgt ()
 {
     auto *lB_ieno = new QLabel("İş Emri No");
-    lE_IEno = new QLineEdit;
     lB_ieno->setBuddy(lE_IEno);
 
     auto *lB_acklm = new QLabel("Açıklama");
-    lE_IEdetaciklama = new QLineEdit;
     lB_acklm->setBuddy(lE_IEdetaciklama);
 
     auto *lB_krm = new QLabel("Tamir Yeri");
-    cbx_IEdettamiryeri = new QComboBox;
     QStringList tylist {" ",
                         "Atolye",
                         "Arazi",
@@ -64,7 +85,6 @@ void hC_IEDET:: wdgt ()
     lB_krm->setBuddy(cbx_IEdettamiryeri);
 
     auto *lB_tm = new QLabel("Atolye Bolüm");
-    cbx_IEdettamirbolum = new QComboBox;
     QStringList ablist {" ",
                         "Boya",
                         "Kaporta",
@@ -75,7 +95,6 @@ void hC_IEDET:: wdgt ()
     lB_tm->setBuddy(cbx_IEdettamirbolum );
 
     auto *lB_dr = new QLabel("İş Durumu");
-    cbx_IEdetdurum = new QComboBox;                    // dbtb_durum
     QStringList drlist { " ",
                          "Parça Bekliyor",
                          "Usta Bekliyor",
@@ -84,22 +103,19 @@ void hC_IEDET:: wdgt ()
     lB_dr->setBuddy(cbx_IEdetdurum);
 
     auto *lB_gt = new QLabel("Araç Giriş Tarihi");
-    dE_IEdetgirtarihi = new QDateTimeEdit();
     hC_Gz (dE_IEdetgirtarihi,"nulldate");
     lB_gt->setBuddy(dE_IEdetgirtarihi);
 
     auto *lB_ct = new QLabel("Araç Çıkış Tarihi");
-    dE_IEdetciktarihi = new QDateTimeEdit();
     hC_Gz(dE_IEdetciktarihi,"nulldate");
     lB_ct->setBuddy(dE_IEdetciktarihi);
     // ///////////////////////////////////////////////////////
-    win_Rsm = new QLabel ("Resim");
     hC_Rs resim(win_Rsm);
 
 
     ///////////////////////////////////////
     win_Wdgt = new QWidget;
-    win_Wdgt->setGeometry (0,0,800,300);
+    win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);
 
@@ -118,72 +134,11 @@ void hC_IEDET:: wdgt ()
     wdgtGrid->addWidget(dE_IEdetgirtarihi   ,7,1,1,3);
     wdgtGrid->addWidget(lB_ct        ,8,0,1,1);
     wdgtGrid->addWidget(dE_IEdetciktarihi   ,8,1,1,3);
-
-    wdgtGrid->addWidget (new QLabel("Resim") , 9, 0, 1, 1);
     wdgtGrid->addWidget (win_Rsm      , 9, 1, 1, 2);
 
 }
 
-
-/*
-void hC_IEDET:: view()
-{
-    qDebug()<<" -iedet view ";
-    tb_view->table->setModel(tb_model);
-    tb_slctnMdl = tb_view->table->selectionModel();
-    //// kullanıcı bu alanları görmesin
-    // tb_view->table->setColumnHidden(
-    //           tb_model->fieldIndex(" ie_id"), true);
-    // tb_view->table->setColumnHidden(
-    //           tb_model->fieldIndex("  no"), true);
-
-    tb_view->table->setColumnHidden(
-                tb_model->fieldIndex(" resim"), true);
-
-    //tb_view->table->setColumnHidden(
-    //          tb_model->fieldIndex("  no"), true);
-    tb_view->table->setColumnHidden(
-                tb_model->fieldIndex("id_IEdet"), true);
-
-    // select first item
-    // selection model does not hide the frm_kod
-    // so index 0,1 must be select
-    tb_view->table->setCurrentIndex(
-                tb_model->index(1, 2)
-                );
-    // with blue rect
-    tb_view->table->setFocus();
-    //   QTimer::singleShot(0, tb_view->table, SLOT(setFocus()));
-}
-void hC_IEDET:: map()
-{
-    qDebug()<<" -iedet map";
-    /// mapper IEdet
-    tb_mapper = new QDataWidgetMapper(this);
-    tb_mapper->setModel(tb_model);
-
-
-    tb_mapper->addMapping(lE_IEno , tb_model->
-                            fieldIndex(" ie_id"));
-    tb_mapper->addMapping(lE_IEdetaciklama , tb_model->
-                            fieldIndex(" aciklama"));
-    tb_mapper->addMapping(cbx_IEdettamiryeri , tb_model->
-                            fieldIndex(" tamiryeri"));
-    tb_mapper->addMapping(cbx_IEdettamirbolum , tb_model->
-                            fieldIndex(" tamirbolum"));
-    tb_mapper->addMapping(cbx_IEdetdurum, tb_model->
-                            fieldIndex(" durum"));
-    tb_mapper->addMapping(dE_IEdetgirtarihi , tb_model->
-                            fieldIndex(" girtar"));
-    tb_mapper->addMapping(dE_IEdetciktarihi , tb_model->
-                            fieldIndex(" ciktar"));
-
-
-    tb_mapper->toFirst ();
-}
-
-*/
-void hC_IEDET:: kntrl()
+void hC_IEDET:: tbkntrl()
 {
 
 
@@ -192,7 +147,7 @@ void hC_IEDET:: kntrl()
     /////////////////////////////////////////////////////
     ie = new hC_IE;
     ienoo = new int;
-    ie->setup();
+    ie->tbsetup();
     ie->show();
     // /// 12- set filter
 
@@ -391,43 +346,6 @@ void hC_IEDET:: kntrl()
         tb_view->table->setFocus ();
 
     });
-/*
-    // pB 006 ilk
-    connect(tb_view->pB_ilk, &win_Wdgt::clicked ,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ilk", tb_model, tb_mapper);
-    });
-
-    // pB 007 önceki
-    connect(tb_view->pB_ncki, &win_Wdgt::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("ncki", tb_model, tb_mapper);
-    });
-
-    // pB 008 sonraki
-    connect(tb_view->pB_snrki, &win_Wdgt::clicked,
-            [this]()
-    {
-        tb_view->hC_TvPb ("snrki", tb_model, tb_mapper);
-    });
-
-    // pB 009 son
-    connect(tb_view->pB_son, &win_Wdgt::clicked,
-            [this]()
-    {tb_view->hC_TvPb ("son", tb_model, tb_mapper);
-    });
-
-
-
-    // pB 010 nav tuslari kontrol
-    connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
-            [this]()
-    {tb_view->hC_TvPb ("yenile", tb_model, tb_mapper);
-
-    });
-*/
     // --- 011 row değiştiğinde 2 şey olsun
     connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
@@ -482,140 +400,6 @@ void hC_IEDET:: kntrl()
 
 
 
-//void hC_IEDET::rowChanged_IEDET(QModelIndex IEDETindex)
-//{
-
-//    //QModelIndex index = tb_view->table->currentIndex();
-//    if (IEDETindex.isValid())
-//    {
-//        QSqlRecord record = tb_model->record(IEDETindex.row());
-//        QString ieno = record.value("id_iedet").toString() ;
-//        ///setfiltr to tasinir and iscilik
-//        TSmodel->setFilter (QString("ts_ id = '%1'" ).arg(ieno));
-//        TSmodel->select();
-//         TStview->setFocus();
-//        SCmodel->setFilter (QString("sc_ id = '%1'" ).arg(ieno));
-//        SCmodel->select();
-//SCtview->setFocus();
-
-//        /*lbl_IE->
-//                setText((record.value("mknstk_no").toString()+
-//                         " - " +
-//                         record.value("ie_no").toString() ));*/
-//    } else
-//    {
-////        TSmodel->setFilter("id_tasinir = -1");
-//  //      SCmodel->setFilter("id_iscilik = -1");
-//    }
-
-// /*   // qDebug () <<"iedet row changggggedd 2";
-//    //tb_model->select();
-//    TStview->setFocus();
-//    SCtview->setFocus();
-//    tb_model->select();
-
-
-//    //qDebug () <<"iedet row changggggedd 3";
-//*/
-//     tb_view->table->setFocus();
-//
-//}
-
-
-
-
 hC_IEDET::~hC_IEDET()
 = default;
 
-/*
-QString hC_IEDET:: VTd ()
-{
-    QSqlQuery q;
-    QString ct,
-
-            mesaj = { "  OK - VTd - İş Emri Detay" } ,
-            IEDETtableName {" _dbtb"};
-
-    if ( ! VTKontrolEt::instance()->GetDB().tables().
-         contains( IEDETtableName ))
-    {
-
-
-
-        ct = "CREATE TABLE IF NOT EXISTS " +IEDETtableName +
-                "("
-                " ie_id	    TEXT, "
-                "  no	INTEGER, "
-                " aciklama	TEXT, "
-                " tamiryeri TEXT, "
-                " tamirbolum TEXT, "
-                " durum     TEXT, "
-                " girtar    TEXT, "
-                " ciktar    TEXT, "
-                " resim     BLOB, "
-                "id_IEdet integer primary key  )"  ;
-
-
-        if (!q.exec( ct ))
-        {
-            mesaj = "<br>HATA - İş Emri Detay Dosyası Oluşturulamadı  "
-                    "<br>------------------------------------<br>"+
-                    q.lastError().text() +
-                    "<br>------------------------------------<br>";
-        }
-        else
-        {
-            mesaj = "OK - İş Emri Detay Dosyası YENİ Oluşturuldu ";
-
-            QString qry = "INSERT INTO "+IEDETtableName+""
-                                                        " (  ie_id ) values( 1 )"  ;
-
-            if ( !q.exec(qry) )
-            {
-                mesaj = mesaj + "<br>İLK İş Emri Detay kaydı Eklenemedi"+
-                        "<br>------------------------------------<br>"+
-                        q.lastError().text ()+
-                        "<br>------------------------------------<br>";
-            }
-            else
-            {
-                mesaj = mesaj + "<br>İLK İş Emri Detay kaydı eklendi.";
-            }
-        }
-    }
-    qDebug ()<< mesaj;
-    return mesaj ;
-
-}
-
-
-
-
-void hC_IEDET:: model()
-{
-    qDebug() << "  iedet mdl";
-    QString indexField = " aciklama";
-    QString tableName (" _dbtb");
-    QStringList *tB_FieldList = new QStringList ;
-
-    tB_FieldList->append("İENo");
-    tB_FieldList->append("IEDETNo");
-    tB_FieldList->append("Açıklama");
-    tB_FieldList->append("Tamir Yeri");
-    tB_FieldList->append("Tamir Bölüm");
-    tB_FieldList->append("Durum");
-    tB_FieldList->append("Giriş Tarihi");
-    tB_FieldList->append("Çıkış Tarihi");
-    tB_FieldList->append("Resim");
-    tB_FieldList->append("Detay ID");
-
-    tb_model = new QSqlRelationalTableModel;
-    hC_Rm hC_Rm ( &tableName,
-                  tb_model,
-                  &indexField ,
-                  tB_FieldList) ;
-
-    //    qDebug() <<"tb_model in içinde  " <<tb_model;
-
-}
-*/

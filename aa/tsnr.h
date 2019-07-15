@@ -9,29 +9,16 @@ namespace nSTsnr {
 class hC_TSNR;
 }
 
-class hC_TSNR : public QWidget
+class hC_TSNR : public  hC_tBcreator
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
-    explicit hC_TSNR(QWidget *parent = nullptr);
+    explicit hC_TSNR();
     ~hC_TSNR();
 
-    ////////////////////////////////////////////////
-    hC_Tv                    * tb_view    {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QSqlRelationalTableModel * tb_model    {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
-
-    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds   {} ;
-    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
-
-    QWidget                  * win_Wdgt  {} ;
-    QLabel                   * win_Label {} ;
-    QLabel                   * win_Rsm   {} ;
-/////////////////////////////////////////////////
 
     QComboBox *cbx_TSmlzm{};
     QSqlTableModel *cbxTSmlzmModel{} ;
@@ -39,8 +26,7 @@ public:
     QLineEdit *lE_TSno{};
     QDateTimeEdit *dE_TStarih{};
     QComboBox *cbx_TSmalzeme{};
-    QLineEdit *lE_TSmiktar{};
-    QComboBox *cbx_TSbirim{};
+    QLineEdit *lE_TSusta{};
     QLineEdit *lE_TSbfiyat{};
     QComboBox *cbx_TSdurum{};
     QLineEdit *lE_TSaciklama{};
@@ -50,12 +36,12 @@ public:
 
 
 
-    void    setup();
+    void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+    void tbwdgt  () ;
+    void tbui    () ;
+    void tbkntrl () ;
 
 };
 

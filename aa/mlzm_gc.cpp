@@ -2,9 +2,10 @@
 
 hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
 {
-    //************************************************************
-    //*****************  M A L Z E M E  **************************
     qDebug() << "Cnstrctr mlzmGc *********************************";
+    //************************************************************
+    //*****************  M A L Z E M E G C ***********************
+
 
     win_Label->text ()= "AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI";
     *tb_name   = "mlzmgc_dbtb" ;
@@ -49,25 +50,24 @@ hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
 }
 
 
-void hC_MLZMGC::setup()
+void hC_MLZMGC::tbsetup()
 {
     qDebug() << "  mlzmGc_setup";
 
-    create ( tb_flds );
-    model  ( tb_flds, tb_wdgts );
-    view   ( tb_flds, tb_wdgts );
-    map    ( tb_flds, tb_wdgts );
+    tbCreate ( tb_flds );
+    tbModel  ( tb_flds );
+    tbView   ( tb_flds );
+    tbMap    ( tb_flds, tb_wdgts );
 
-
-    wdgt  () ;
-    ui    () ;
-    kntrl () ;
+    tbwdgt  ();
+    tbui();
+    tbkntrl ();
 }
 
 
 
 
-void hC_MLZMGC::ui()
+void hC_MLZMGC::tbui()
 {
 
     qDebug() << "  MlzmGc_ui";
@@ -79,7 +79,7 @@ void hC_MLZMGC::ui()
 
 
 
-void hC_MLZMGC::wdgt()
+void hC_MLZMGC::tbwdgt()
 {
     qDebug() << "  mlzmGc_wdgt";
 
@@ -106,7 +106,7 @@ void hC_MLZMGC::wdgt()
 
     ///////////////////////////////////////
 
-    win_Wdgt->setGeometry (0,0,800,300);
+    win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);
 
@@ -127,7 +127,7 @@ void hC_MLZMGC::wdgt()
 }
 
 
-void hC_MLZMGC::kntrl()
+void hC_MLZMGC::tbkntrl()
 {
     qDebug() << "  mlzmGc_kntrl";
 
@@ -138,7 +138,7 @@ void hC_MLZMGC::kntrl()
 
     mlzm = new hC_MLZM;
     mlzmBarkod = new QString;
-    mlzm->setup();
+    mlzm->tbsetup();
     mlzm->show();
     // /// 12- set filter
 
@@ -204,7 +204,7 @@ void hC_MLZMGC::kntrl()
         {
             auto *ftr = new hC_FTR;
             ftr->show ();
-            ftr->setup ();
+            ftr->tbsetup ();
             dia->close ();
         });
 
@@ -253,14 +253,9 @@ void hC_MLZMGC::kntrl()
 hC_MLZMGC::~hC_MLZMGC()
 {
     qDebug() << "   destructor";
-    delete tb_view     ;
-    delete tb_model    ;
-    delete tb_slctnMdl ;
-    delete tb_mapper   ;
 
-    delete tb_name     ;
     delete tb_flds     ;
-    delete tb_ndex     ;
+
     delete tb_wdgts    ;
 
     delete win_Wdgt  ;
@@ -277,11 +272,11 @@ hC_MLZMGC::~hC_MLZMGC()
 
     delete lE_barkod    ;
     delete lE_malzeme   ;
-    delete lE_tarih     ;
-    delete cbx_grscks   ;
-    delete lE_miktar    ;
-    delete lE_fiyat     ;
-    delete lE_aciklama  ;
+    //delete lE_tarih     ;
+    //delete cbx_grscks   ;
+    //delete lE_miktar    ;
+  //  delete lE_fiyat     ;
+    //delete lE_aciklama  ;
 
 
 }

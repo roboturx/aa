@@ -8,38 +8,25 @@ namespace nSMkn {
     class hC_MKCINS;
 }
 
-class hC_MKCINS : public QDialog
+class hC_MKCINS : public hC_tBcreator
 {
     Q_OBJECT
 
 public:
-    explicit hC_MKCINS(QDialog *parent = nullptr);
+    explicit hC_MKCINS();
     ~hC_MKCINS();
-    ////////////////////////////////////////////////
-    hC_Tv                    * tb_view    {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QSqlRelationalTableModel * tb_model    {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
 
-
-    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds   {} ;
-    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
-
-    QWidget                  * win_Wdgt  {} ;
-    QLabel                   * win_Label {} ;
-    QLabel                   * win_Rsm   {} ;
-/////////////////////////////////////////////////
 
     QString * sgnText    {} ;
 
-    void    setup () ;
+    void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+    void tbwdgt  () ;
+    void tbui    () ;
+    void tbkntrl () ;
 
 
 signals:

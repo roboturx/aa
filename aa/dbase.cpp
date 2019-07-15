@@ -90,12 +90,12 @@ void DBase::VTDosyaKontrol()
 
 
     hC_MLZM mlzm;
-    mlzm.setup ();
-    yaz(mlzm.create (mlzm.tb_flds)) ;
+    mlzm.tbsetup ();
+    yaz(mlzm.tbCreate (mlzm.tb_flds)) ;
 
     hC_MLZMGC mlzmgc;
-    mlzmgc.setup ();
-    yaz(mlzm.create (mlzm.tb_flds)) ;
+    mlzmgc.tbsetup ();
+    yaz(mlzm.tbCreate (mlzm.tb_flds)) ;
 
 
 

@@ -589,37 +589,45 @@ QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index)
 
 hC_tBcreator::hC_tBcreator ()
 {
-    this->_mesaj = "";
-    qDebug() <<   tb_name;
+//    this->_mesaj = "";
 
     /// create table
     win_Label = new QLabel ;
     tb_name = new QString  ;
     tb_ndex     = new QString ("malzeme");
     tb_model     = new QSqlRelationalTableModel;
+  //  tb_slctnMdl = new QItemSelectionModel;
     tb_mapper   = new QDataWidgetMapper;
     win_Wdgt    = new QWidget;
 
     tb_view     = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
-//    create ( tb_flds );
-//    model  ( tb_flds, tb_wdgts );
-//    view   ( tb_flds, tb_wdgts );
-//    map    ( tb_flds, tb_wdgts );
-    /*   qDebug () <<endl<<"Preparing at hC_ ..."
+
+       qDebug () <<endl<<"Preparing at hC_ ..."
                  <<endl<<"   Dosya : "<< *tb_name << " - " << tb_name
                  <<endl<<"   Index : "<< *tb_ndex << " - " << tb_ndex
-                 <<endl<<"   Fields: "<< tb_flds
                  <<endl<<"   Model : "<< tb_model
                  <<endl<<"   View  : "<< tb_view
-                 <<endl<<"   Map   : "<< tb_mapper
-                 <<endl<<"   Wdgts : "<< *tb_wdgts << " - " << tb_wdgts;  ;
-   */
+                 <<endl<<"   Map   : "<< tb_mapper ;
+
     qDebug () <<endl<<"   Prepared at hC_ ...";
 }
 
 hC_tBcreator::~hC_tBcreator()
 {
 
+    delete tb_view     ;
+    delete tb_model     ;
+ //   delete tb_slctnMdl ;
+    delete tb_mapper   ;
+
+    delete tb_name     ;
+   // delete tb_flds     ;
+    delete tb_ndex     ;
+   // delete tb_wdgts    ;
+
+    //delete win_Wdgt  ;
+    //delete win_Label ;
+    //delete win_Rsm   ;
 
 
 
@@ -628,7 +636,7 @@ hC_tBcreator::~hC_tBcreator()
 
 
 
-QString hC_tBcreator::create (hC_ArrD * tb_flds)
+QString hC_tBcreator::tbCreate (hC_ArrD * tb_flds)
 {
     ////////////////////////////////////////////////////////
     /// table creater
@@ -715,12 +723,13 @@ QString hC_tBcreator::create (hC_ArrD * tb_flds)
 
 
 
-void hC_tBcreator::model (hC_ArrD *tb_flds,
-                          QList<QWidget *> *tb_wdgts)
+void hC_tBcreator::tbModel (hC_ArrD *tb_flds)
 
 {
     //   qDebug () <<"modelling "<< *tb_name <<" ..." ;
     tb_model->setTable( *tb_name );
+
+
     tb_model->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     tb_model->setSort(tb_model->fieldIndex
                       ( *tb_ndex ),Qt::AscendingOrder );
@@ -760,13 +769,14 @@ void hC_tBcreator::model (hC_ArrD *tb_flds,
 
 }
 
-void hC_tBcreator::view(hC_ArrD *tb_flds,
-                         QList <QWidget*> * tb_wdgts )
+void hC_tBcreator::tbView(hC_ArrD *tb_flds )
 {
 
     //////////////////////////////////////////////////////////
 
     tb_view->table->setModel(tb_model);
+    tb_slctnMdl = tb_view->table->selectionModel ();
+
 
     for (int i = 0 ; i < tb_flds->length () ; i++ )
     {
@@ -798,7 +808,7 @@ void hC_tBcreator::view(hC_ArrD *tb_flds,
 }
 
 
-void hC_tBcreator::map(hC_ArrD *tb_flds,
+void hC_tBcreator::tbMap(hC_ArrD *tb_flds,
                         QList <QWidget*> * tb_wdgts )
 {
     //qDebug () <<"mapping "<< *tb_name <<" ..." ;

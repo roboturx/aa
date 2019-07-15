@@ -8,30 +8,16 @@ namespace nSFtr {
 class hC_FTR;
 }
 
-class hC_FTR : public QWidget
+class hC_FTR : public hC_tBcreator
 {
     Q_OBJECT
 
 public:
-    explicit hC_FTR(QWidget *parent = nullptr);
+    explicit hC_FTR();
     ~hC_FTR() ;
 
-    ////////////////////////////////////////////////
-    hC_Tv                    * tb_view    {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QSqlRelationalTableModel * tb_model    {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
-
-
-    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds   {} ;
-    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
-
-    QWidget                  * win_Wdgt  {} ;
-    QLabel                   * win_Label {} ;
-    QLabel                   * win_Rsm   {} ;
-/////////////////////////////////////////////////
 
     QLabel      * lB_brkd{} ;
     QLineEdit   * lE_faturano{}  ;
@@ -43,12 +29,12 @@ QLineEdit   * lE_ftrKdv;
 QLineEdit   * lE_ftrGenelToplam;
 
 
-    void setup () ;
+void tbsetup () ;
 
 private:
-    void wdgt  () ;
-    void ui    () ;
-    void kntrl () ;
+void tbwdgt  () ;
+void tbui    () ;
+void tbkntrl () ;
 
 
 signals:
