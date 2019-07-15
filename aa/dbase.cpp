@@ -5,14 +5,16 @@
 #include "clsn.h"
 #include "frm.h"
 #include "ftr.h"
-#include "mlzm.h"
-#include "mlzm_gc.h"
+#include "ie.h"
+#include "iedet.h"
 #include "mkn.h"
 #include "mkn_cinsi.h"
 #include "mkn_marka.h"
 #include "mkn_modeli.h"
-#include "ie.h"
-#include "iedet.h"
+#include "mlzm.h"
+#include "mlzm_gc.h"
+#include "sclk.h"
+#include "tsnr.h"
 
 DBase::DBase(QWidget *parent) :
     QWidget(parent),
@@ -21,13 +23,6 @@ DBase::DBase(QWidget *parent) :
     ui->setupUi(this);
     ui->durum->append("Veri tabanı dosysalrı kontrol ediliyor...");
 }
-
-
-
-
-
-
-
 
 DBase::~DBase()
 {
@@ -59,35 +54,44 @@ bool DBase::setupDBase()
 
 void DBase::VTDosyaKontrol()
 {
-/*
-    hC_tBcreator tb_x ;
+
+
 
     hC_CLSN clsn;
-
+    clsn.tbsetup ();
+    yaz(clsn.tbCreate (clsn.tb_flds));
 
     hC_FRM frm;
-    yaz(tb_x.create (frm.tb_name, frm.tb_fields)) ;
+    frm.tbsetup ();
+    yaz(frm.tbCreate (frm.tb_flds));
 
     hC_FTR ftr;
-    yaz(tb_x.create (ftr.tb_name, ftr.tb_fields)) ;
+    ftr.tbsetup ();
+    yaz(ftr.tbCreate (ftr.tb_flds));
 
-    hC_MLZM mlzm;
-    yaz(tb_x.create (mlzm.tb_name, mlzm.tb_fields)) ;
+    hC_IE ie;
+    ie.tbsetup ();
+    yaz(ie.tbCreate (ie.tb_flds));
 
+    hC_IEDET iedet;
+    iedet.tbsetup ();
+    yaz(iedet.tbCreate (iedet.tb_flds));
 
     hC_MKN mkn;
-    yaz(tb_x.create (mkn.tb_name, mkn.tb_fields)) ;
+    mkn.tbsetup ();
+    yaz(mkn.tbCreate (mkn.tb_flds));
 
     hC_MKCINS mkcins;
-    yaz(tb_x.create (mkcins.tb_name, mkcins.tb_fields)) ;
-    hC_MKMARK mkmark;
-    yaz(tb_x.create (mkmark.tb_name, mkmark.tb_fields)) ;
-    hC_MKMODL mkmodl;
-    yaz(tb_x.create (mkmodl.tb_name, mkmodl.tb_fields)) ;
-    hC_IEDET iedet;
-    yaz(tb_x.create (iedet.tb_name, iedet.tb_fields)) ;
-*/
+    mkcins.tbsetup ();
+    yaz(mkcins.tbCreate (mkcins.tb_flds));
 
+    hC_MKMARK mkmark;
+    mkmark.tbsetup ();
+    yaz(mkmark.tbCreate (mkmark.tb_flds));
+
+    hC_MKMODL mkmodl;
+    mkmodl.tbsetup ();
+    yaz(mkmodl.tbCreate (mkmodl.tb_flds));
 
     hC_MLZM mlzm;
     mlzm.tbsetup ();
@@ -95,8 +99,15 @@ void DBase::VTDosyaKontrol()
 
     hC_MLZMGC mlzmgc;
     mlzmgc.tbsetup ();
-    yaz(mlzm.tbCreate (mlzm.tb_flds)) ;
+    yaz(mlzmgc.tbCreate (mlzmgc.tb_flds)) ;
 
+    hC_SCLK sclk;
+    sclk.tbsetup ();
+    yaz(sclk.tbCreate (sclk.tb_flds)) ;
+
+    hC_TSNR tsnr;
+    tsnr.tbsetup ();
+    yaz(tsnr.tbCreate (tsnr.tb_flds)) ;
 
 
         DBase::VTd_IEDTAMIRYERI ();

@@ -7,7 +7,7 @@ hC_IEDET::hC_IEDET()  : hC_tBcreator ()
     //************************************************************
     //*****************  İ Ş   E M R İ  **************************
 
-***
+
     win_Label->text ()= "İŞ EMRİ DETAY KAYITLARI";
     *tb_name  = "iedet_dbtb" ;
     *tb_ndex  = "iedet_ie_no";

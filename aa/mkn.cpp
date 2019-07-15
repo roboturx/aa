@@ -8,62 +8,49 @@ hC_MKN::hC_MKN() : hC_tBcreator ()
     //************************************************************
     //*****************  M A K İ N A  ****************************
 
-***
-    win_Label->text ()= "AMBAR MALZEME KAYITLARI";
-    *tb_name  = "mlzm_dbtb" ;
-    *tb_ndex  = "malzeme";
 
-    tb_flds = new hC_ArrD (13, 4);
-    tb_flds->setValue ( 0, "mlzm_ID"      , "INTEGER", "MalzemeID", "0" ) ;
-    tb_flds->setValue ( 1, "mlzm_barkod"  , "TEXT"   , "Barkod" );
-    tb_flds->setValue ( 2, "mlzm_malzeme" , "TEXT"   , "Malzeme" );
-    tb_flds->setValue ( 3, "mlzm_aciklama", "TEXT"   , "Açıklama");
-    tb_flds->setValue ( 4, "mlzm_marka"   , "TEXT"   , "Marka"   );
-    tb_flds->setValue ( 5, "mlzm_model"   , "TEXT"   , "Model"   );
-    tb_flds->setValue ( 6, "mlzm_cins"    , "TEXT"   , "Cins"    );
-    tb_flds->setValue ( 7, "mlzm_birim"   , "TEXT"   , "Birim"   );
-    tb_flds->setValue ( 8, "mlzm_giris"   , "TEXT"   , "Giriş Toplamı");
-    tb_flds->setValue ( 9, "mlzm_cikis"   , "TEXT"   , "Çıkış Toplamı");
-    tb_flds->setValue (10, "mlzm_mevcut"  , "TEXT"   , "Ambar Mevcudu");
-    tb_flds->setValue (11, "mlzm_makina"  , "TEXT"   , "Makina", "0");
-    tb_flds->setValue (12, "mlzm_resim"   , "BLOB"   , "Resim" , "0" );
+    win_Label->text ()= "ARAÇ BİLGİLERİ";
+    *tb_name  = "mkn_dbtb" ;
+    *tb_ndex  = "mkn_kurumno";
 
-
-
-    QStringList *tableFieldList = new QStringList ;
-    tableFieldList->append("Makina Kod");
-    tableFieldList->append("Kurum No");
-    tableFieldList->append("Plaka");
-    tableFieldList->append("Cinsi");
-    tableFieldList->append("Markası");
-    tableFieldList->append("Modeli");
-    tableFieldList->append("Model Yılı");
-    tableFieldList->append("Şase No");
-    tableFieldList->append("Motor No");
-    tableFieldList->append("Motor Tipi");
-    tableFieldList->append("Yakıt Türü");
-    tableFieldList->append("Sürücü Adı");
-    tableFieldList->append("İşe Başlama Tarihi");
-    tableFieldList->append("Birimi");
-    tableFieldList->append("Açıklama");
-    tableFieldList->append("Bulunduğu Yer");
-    tableFieldList->append("Resim");
-    tableFieldList->append("Rating");
-    // tableFieldList->append("resim");
+    tb_flds = new hC_ArrD (18, 4);
+    tb_flds->setValue ( 0, "mkn_ID"     , "INTEGER", "MakineID", "0" ) ;
+    tb_flds->setValue ( 1, "mkn_kurumno", "TEXT"   , "Kurum No" );
+    tb_flds->setValue ( 2, "mkn_plaka"  , "TEXT"   , "Plaka No" );
+    tb_flds->setValue ( 3, "mkn_cinsi"  , "TEXT"   , "Cinsi");
+    tb_flds->setValue ( 4, "mkn_marka"  , "TEXT"   , "Marka"   );
+    tb_flds->setValue ( 5, "mkn_modeli" , "TEXT"   , "Model"   );
+    tb_flds->setValue ( 6, "mkn_myili"  , "TEXT"   , "Model Yılı"    );
+    tb_flds->setValue ( 7, "mkn_sase"   , "TEXT"   , "Şase No"  );
+    tb_flds->setValue ( 8, "mkn_motorno", "TEXT"   , "Motor No" );
+    tb_flds->setValue ( 9, "mkn_motortipi", "TEXT" , "Motor Tipi");
+    tb_flds->setValue (10, "mkn_yakit"  , "TEXT"   , "Yakıt Türü");
+    tb_flds->setValue (11, "mkn_surucu" , "TEXT"   , "Sürücü"    );
+    tb_flds->setValue (12, "mkn_surtar" , "TEXT"   , "İşe Başlama Tarihi");
+    tb_flds->setValue (13, "mkn_birim"  , "TEXT"   , "Birimi");
+    tb_flds->setValue (14, "mkn_aciklama" , "TEXT"   , "Açıklama");
+    tb_flds->setValue (15, "mkn_bulyer" , "TEXT"   , "Bulunduğu Yer");
+    tb_flds->setValue (16, "mkn_rating" , "TEXT"   , "Rating", "0");
+    tb_flds->setValue (17, "mkn_resim"  , "BLOB"   , "Resim" , "0" );
 
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ;
-    tb_wdgts->append ( lE_barkod = new QLineEdit  ) ;
-    tb_wdgts->append ( lE_malzeme = new QLineEdit  ) ;
-    tb_wdgts->append ( lE_aciklama = new QLineEdit ) ;
-    tb_wdgts->append ( lE_marka = new QLineEdit    ) ;
-    tb_wdgts->append ( lE_model = new QLineEdit    ) ;
-    tb_wdgts->append ( lE_cins = new QLineEdit     ) ;
-    tb_wdgts->append ( cbx_birim = new QComboBox   ) ;
-    tb_wdgts->append ( lE_giris = new QLineEdit    ) ;
-    tb_wdgts->append ( lE_cikis  = new QLineEdit   ) ;
-    tb_wdgts->append ( lE_mevcut  = new QLineEdit  ) ;
+    tb_wdgts->append ( led_mknKurumno = new QLineEdit  ) ;
+    tb_wdgts->append ( led_mknPlaka = new QLineEdit  ) ;
+    tb_wdgts->append ( lE_cins = new hC_Le ) ;
+    tb_wdgts->append ( lE_mark = new hC_Le    ) ;
+    tb_wdgts->append ( lE_modl = new hC_Le    ) ;
+    tb_wdgts->append ( spn_mknYil = new QSpinBox     ) ;
+    tb_wdgts->append ( led_mknSase = new QLineEdit   ) ;
+    tb_wdgts->append ( led_mknMotor = new QLineEdit    ) ;
+    tb_wdgts->append ( led_mknMtip  = new QLineEdit   ) ;
+    tb_wdgts->append ( cbx_mknYkt  = new QComboBox ) ;
+    tb_wdgts->append (  cbx_mknSurucu  = new QComboBox   ) ;
+    tb_wdgts->append ( clndr_mknSurucutar = new QDateTimeEdit(QDate::currentDate())  ) ;
+    tb_wdgts->append ( cbx_mknBirim  = new QComboBox    ) ;
+    tb_wdgts->append ( ted_mknAcklm = new QTextEdit   ) ;
+    tb_wdgts->append ( cbx_mknByer  = new QComboBox    ) ;
     tb_wdgts->append ( nullptr    ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
@@ -87,17 +74,10 @@ void hC_MKN::tbsetup()
 void hC_MKN::tbui()
 {
     qDebug ()  <<"mkn ui";
-
-    win_Label->text ()= "ARAÇ BİLGİLERİ";
-    this->setWindowTitle (win_Label->text ());
-
-    auto *l = new QGridLayout;
-    l->addWidget ( tb_view   , 0, 0, 1, 1 );
-    l->addWidget ( win_Wdgt  , 0, 1, 1, 1 );
-    //l->addWidget(wdgt_mppr  , 3, 6, 3, 5 );
-
-    this->setLayout (l);
-    qDebug ()  <<"mkn ui sonu 1";
+    setWindowTitle (win_Label->text());
+    auto *win_Grid = new QGridLayout(this);
+    win_Grid->addWidget (tb_view       , 0, 0, 1, 5);
+    win_Grid->addWidget (win_Wdgt        , 0, 5, 1, 5);
 
 }
 
@@ -107,7 +87,7 @@ void hC_MKN::tbwdgt()
     qDebug ()  <<"  wdgt";
 
     auto *lB_kurumno = new QLabel("Kurum No");
-    led_mknKurumno = new QLineEdit();
+
   //  connect( led_mknKurumno, &QLineEdit::textChanged,
     //         this,  &hC_MKN::mknKurumno_ara);
     lB_kurumno->setBuddy(led_mknKurumno);
@@ -115,13 +95,11 @@ void hC_MKN::tbwdgt()
     led_mknKurumno->setReadOnly (true);
 
     auto *lB_plaka = new QLabel("Plaka ");
-    led_mknPlaka = new QLineEdit();
     lB_plaka->setBuddy(led_mknPlaka);
 
     // /////////////////////////////////////////////////////
     // cins
     auto *lB_cins = new QLabel("Cins");
-    lE_cins = new hC_Le ;
     lE_cins->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
@@ -220,7 +198,6 @@ void hC_MKN::tbwdgt()
     // /////////////////////////////////////////////////////
 
     auto *lB_mark = new QLabel("Marka");
-    lE_mark = new hC_Le ;
     lE_mark->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
@@ -254,7 +231,6 @@ void hC_MKN::tbwdgt()
     // /////////////////////////////////////////////////////
 
     auto *lB_modl = new QLabel("Model");
-    lE_modl = new hC_Le ;
     lE_modl->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
@@ -288,7 +264,6 @@ void hC_MKN::tbwdgt()
     });*/
 
     auto *lB_mknYil = new QLabel("Yıl ");
-    spn_mknYil = new QSpinBox();
     spn_mknYil->setMinimum (1900);
     spn_mknYil->setMaximum (2023);
     spn_mknYil->setValue ( QDate::currentDate ().year ());
@@ -300,20 +275,16 @@ void hC_MKN::tbwdgt()
 
 
     auto *lB_mknSase = new QLabel("Şase No   ");
-    led_mknSase = new QLineEdit();
     lB_mknSase->setBuddy(led_mknSase);
 
     auto *lB_mknMotor = new QLabel("Motor No ");
-    led_mknMotor = new QLineEdit();
     lB_mknMotor->setBuddy(led_mknMotor);
 
 
     auto *lB_mknMtip = new QLabel("Motor Tipi");
-    led_mknMtip = new QLineEdit();
     lB_mknMtip->setBuddy(led_mknMtip);
 
     QLabel *lB_mknYkt = new QLabel("Yakıt Türü");
-    cbx_mknYkt  = new QComboBox;
     cbx_mknYkt->insertItem(1,"Benzin");
     cbx_mknYkt->insertItem(2,"Dizel");
     cbx_mknYkt->insertItem(3,"LPG");
@@ -323,21 +294,18 @@ void hC_MKN::tbwdgt()
    // connect( pb_mknYkt, &QPushButton::clicked, this, &hC_MKN::ykt);
 
     auto *lB_mknSurucu = new QLabel("Sürücü  ");
-    cbx_mknSurucu = new QComboBox ;
    // pb_mknSurucu = new QPushButton;
     //connect( pb_mknSurucu, &QPushButton::clicked, this, &hC_MKN::src);
 
 
     QLabel *lB_mknSurucutar = new QLabel("Sürücü İşe Başlama");
 
-    clndr_mknSurucutar = new QDateTimeEdit(QDate::currentDate());
     clndr_mknSurucutar->setMinimumDate(QDate(1900, 1, 1));
     clndr_mknSurucutar->setMaximumDate(QDate(2023, 1, 1));
     clndr_mknSurucutar->setDisplayFormat("dd.MM.yyyy");
     clndr_mknSurucutar->setCalendarPopup(true);
 
     QLabel *lB_mknBirim = new QLabel("Birim   ");
-    cbx_mknBirim  = new QComboBox;
     //pb_mknBirim = new QPushButton;
    // connect( pb_mknBirim, &QPushButton::clicked, this, &hC_MKN::birim);
    // lB_mknBirim->setBuddy(cbx_mknBirim);
@@ -345,17 +313,13 @@ void hC_MKN::tbwdgt()
     QLabel *lB_mknByer = new QLabel("Bulunduğu Yer ");
     //pb_mknByer = new QPushButton;
     //connect( pb_mknByer, &QPushButton::clicked, this, &hC_MKN::byer);
-
-    cbx_mknByer  = new QComboBox;
     lB_mknByer->setBuddy(cbx_mknByer);
 
 
     QLabel *lB_mknAcklm = new QLabel("Açıklama   ");
-    ted_mknAcklm = new QTextEdit();
     lB_mknAcklm->setBuddy(ted_mknAcklm);
 
 
-    win_Rsm = new QLabel;
     hC_Rs resim(win_Rsm);
 
 

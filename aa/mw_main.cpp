@@ -42,7 +42,7 @@ void MW_main::login()
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase =new DBase();
-    dbase->setGeometry (600,300,300,480);
+    dbase->setGeometry (800,300,300,480);
     dbase->setWindowTitle("Veri Tabanı Kontrol");
     //dbase->yaz("dbase mw_main show");
     dbase->show();
