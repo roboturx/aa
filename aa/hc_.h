@@ -124,9 +124,8 @@ class hC_Tv : public QWidget
 
 public:
 
-    explicit hC_Tv(QWidget *that,
-                   QSqlRelationalTableModel *model = nullptr,
-                   QDataWidgetMapper *tb_mapper = nullptr,
+    explicit hC_Tv(QSqlRelationalTableModel *tb_model,
+                   QDataWidgetMapper *tb_mapper,
                    QWidget *wdgt = nullptr );
     ~hC_Tv();
 
@@ -323,8 +322,8 @@ class hC_tBcreator : public QWidget
 {
     Q_OBJECT
 public:
-    explicit hC_tBcreator();
-    explicit hC_tBcreator(QWidget *that);
+    explicit hC_tBcreator( );
+
     /*QString *tb_name,
                           hC_ArrD *tb_flds,
                           QString *tb_ndex,
@@ -335,26 +334,31 @@ public:
 */
     ~hC_tBcreator();
 
-    QString create( QString *tb_name, hC_ArrD *tb_flds);
+    QString create(hC_ArrD *tb_flds);
 
-    void model( QString *tb_name,
-                hC_ArrD *tb_flds,
-                QString *tb_ndex,
-                QSqlRelationalTableModel *tb_modl );
+    void model(hC_ArrD *tb_flds, QList<QWidget *> *tb_wdgts);
 
-    void    view(QString *tb_name,
-                  hC_ArrD *tb_flds,
-                  QSqlRelationalTableModel *tb_modl,
-                  hC_Tv *tb_view);
+    void    view(hC_ArrD *tb_flds, QList<QWidget *> *tb_wdgts);
 
-    void    map(QString *tb_name,
-                hC_ArrD *tb_flds,
-                QSqlRelationalTableModel *tb_modl,
-                QDataWidgetMapper *tb_mapper,
-                QList<QWidget*> *win_wdgts);
+    void    map(hC_ArrD *tb_flds, QList<QWidget *> *tb_wdgts);
 
 private:
     QString     _mesaj;
+
+public:
+    /////////////////////////////////////////////////
+        hC_Tv                    * tb_view     {} ;
+        QSqlRelationalTableModel * tb_model     {} ;
+        QItemSelectionModel      * tb_slctnMdl {} ;
+        QDataWidgetMapper        * tb_mapper   {} ;
+
+        QString                  * tb_name     {} ;
+
+        QString                  * tb_ndex     {} ;
+        QWidget                  * win_Wdgt  {} ;
+        QLabel                   * win_Label {} ;
+        QLabel                   * win_Rsm   {} ;
+    /////////////////////////////////////////////////
 
 };
 

@@ -28,7 +28,7 @@ void hC_TSNR:: ui()
 
     // ///////////////////////////////////////////////////////
     // views
-    tb_view = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
+    tb_view = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
 
 
     auto *winGrid = new QGridLayout(this);

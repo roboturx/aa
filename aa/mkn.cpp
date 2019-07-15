@@ -28,7 +28,7 @@ void hC_MKN::ui()
     win_Label = new QLabel("ARAÇ BİLGİLERİ");
     this->setWindowTitle (win_Label->text ());
 
-    tb_view    = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
+    tb_view    = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
 
     auto *l = new QGridLayout;
     l->addWidget ( tb_view   , 0, 0, 1, 1 );

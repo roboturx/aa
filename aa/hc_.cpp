@@ -128,10 +128,9 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
 /// 3- hC_Tv     - menu eklenmiş tableview
 
 
-hC_Tv::hC_Tv (QWidget *that,
-              QSqlRelationalTableModel *tb_model,
+hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
               QDataWidgetMapper *tb_mapper,
-              QWidget *wdgt )
+               QWidget *wdgt )
 {
 
     // //////////////////////////////////////////////
@@ -279,15 +278,15 @@ hC_Tv::hC_Tv (QWidget *that,
     pntr.fillRect (rec,grd);
 */
 
-//    connect(map, &QDataWidgetMapper::currentIndexChanged,
-//            [this, map, tb_model]( )
-//    {
-//        int map_row = map->currentIndex ();
-//        this->pB_ilk->setEnabled (map_row>0);
-//        this->pB_ncki->setEnabled(map_row > 0);
-//        this->pB_snrki->setEnabled(map_row < tb_model->rowCount() - 1);
-//        this->pB_son->setEnabled(map_row < tb_model->rowCount() - 1);
-//    });
+    //    connect(map, &QDataWidgetMapper::currentIndexChanged,
+    //            [this, map, tb_model]( )
+    //    {
+    //        int map_row = map->currentIndex ();
+    //        this->pB_ilk->setEnabled (map_row>0);
+    //        this->pB_ncki->setEnabled(map_row > 0);
+    //        this->pB_snrki->setEnabled(map_row < tb_model->rowCount() - 1);
+    //        this->pB_son->setEnabled(map_row < tb_model->rowCount() - 1);
+    //    });
 
     connect(pB_ilk, &QPushButton::clicked ,
             [this,tb_model,tb_mapper]()
@@ -329,7 +328,7 @@ hC_Tv::hC_Tv (QWidget *that,
 
 
     connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
-            [this, tb_mapper, tb_model ]( )   //tb_tb_mapper, tb_modl, tb_view
+            [this, tb_mapper, tb_model ]( )   //tb_tb_mapper, tb_model, tb_view
     {
         int tb_mapper_row = tb_mapper->currentIndex ();
         this->pB_ilk->setEnabled (tb_mapper_row>0);
@@ -340,17 +339,17 @@ hC_Tv::hC_Tv (QWidget *that,
 
 
     connect (cB_map, &QCheckBox::stateChanged,
-             [this, that, wdgt]()
+             [this, wdgt]()
     {
         if (cB_map->isChecked ())
         {
             wdgt->show ();
-            that->adjustSize ();
+            adjustSize ();
         }
         else
         {
             wdgt->hide ();
-            that->adjustSize ();
+            adjustSize ();
         }
     });
 
@@ -591,49 +590,45 @@ QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index)
 hC_tBcreator::hC_tBcreator ()
 {
     this->_mesaj = "";
-}
-
-
-hC_tBcreator::hC_tBcreator(QWidget *that)
-{
-
-        that->
-        /*QString *tb_name,
-                           hC_ArrD *tb_flds,
-                           QString *tb_ndex,
-                           QSqlRelationalTableModel *tb_modl,
-                           hC_Tv   *tb_view,
-                           QDataWidgetMapper   *tb_mapper,
-                           QList<QWidget *> *win_wdgts)*/
-
-     qDebug() <<   that->tb_name;
+    qDebug() <<   tb_name;
 
     /// create table
-    qDebug () <<endl<<"Preparing at hC_ ..."
-              <<endl<<"   Dosya : "<< *that->tb_name << " - " << that->tb_name
-              <<endl<<"   Index : "<< *that->tb_ndex << " - " << that->tb_ndex
-              <<endl<<"   Fields: "<< that->tb_flds
-              <<endl<<"   Model : "<< that->tb_model
-              <<endl<<"   View  : "<< that->tb_view
-              <<endl<<"   Map   : "<< that->tb_mapper
-              <<endl<<"   Wdgts : "<< *that->tb_wdgts << " - " << that->tb_wdgts;  ;
+    win_Label = new QLabel ;
+    tb_name = new QString  ;
+    tb_ndex     = new QString ("malzeme");
+    tb_model     = new QSqlRelationalTableModel;
+    tb_mapper   = new QDataWidgetMapper;
+    win_Wdgt    = new QWidget;
 
-    create ( that-> tb_name, that->tb_flds);
-    model  (that->tb_name, that->tb_flds, that->tb_ndex, that->tb_model );
-    view   (that->tb_name, that->tb_flds, that->tb_model, that->tb_view );
-    map    (that->tb_name, that->tb_flds, that->tb_model, that->tb_mapper,  that->tb_wdgts  );
+    tb_view     = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
+//    create ( tb_flds );
+//    model  ( tb_flds, tb_wdgts );
+//    view   ( tb_flds, tb_wdgts );
+//    map    ( tb_flds, tb_wdgts );
+    /*   qDebug () <<endl<<"Preparing at hC_ ..."
+                 <<endl<<"   Dosya : "<< *tb_name << " - " << tb_name
+                 <<endl<<"   Index : "<< *tb_ndex << " - " << tb_ndex
+                 <<endl<<"   Fields: "<< tb_flds
+                 <<endl<<"   Model : "<< tb_model
+                 <<endl<<"   View  : "<< tb_view
+                 <<endl<<"   Map   : "<< tb_mapper
+                 <<endl<<"   Wdgts : "<< *tb_wdgts << " - " << tb_wdgts;  ;
+   */
     qDebug () <<endl<<"   Prepared at hC_ ...";
 }
 
 hC_tBcreator::~hC_tBcreator()
 {
 
+
+
+
 }
 
 
 
 
-QString hC_tBcreator::create (QString *tb_name, hC_ArrD *tb_flds)
+QString hC_tBcreator::create (hC_ArrD * tb_flds)
 {
     ////////////////////////////////////////////////////////
     /// table creater
@@ -687,7 +682,7 @@ QString hC_tBcreator::create (QString *tb_name, hC_ArrD *tb_flds)
             qDebug ()<< " ct = " << ct;
             qDebug ()<< "-------------------------- " ;
             this-> _mesaj = "OK   - YENİ Dosya Oluşturuldu : "+ *tb_name  ;
-                if (
+            if (
                     q.exec("INSERT INTO " + *tb_name +
                            "( mlzm_barkod,mlzm_malzeme )"
                            " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
@@ -701,7 +696,7 @@ QString hC_tBcreator::create (QString *tb_name, hC_ArrD *tb_flds)
             else
             {
                 _mesaj= _mesaj+"<br>İLK Malzeme kaydı eklenemdi "
-                             "<br>------------------------------------<br>"+
+                               "<br>------------------------------------<br>"+
                         q.lastError().text()+
                         "<br>------------------------------------<br>";
             }
@@ -720,64 +715,58 @@ QString hC_tBcreator::create (QString *tb_name, hC_ArrD *tb_flds)
 
 
 
-void hC_tBcreator::model (QString *tb_name,
-                          hC_ArrD *tb_flds,
-                          QString *tb_ndex,
-              QSqlRelationalTableModel *tb_modl
-
-               )
+void hC_tBcreator::model (hC_ArrD *tb_flds,
+                          QList<QWidget *> *tb_wdgts)
 
 {
- //   qDebug () <<"modelling "<< *tb_name <<" ..." ;
-    tb_modl->setTable( *tb_name );
-    tb_modl->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
-    tb_modl->setSort(tb_modl->fieldIndex
+    //   qDebug () <<"modelling "<< *tb_name <<" ..." ;
+    tb_model->setTable( *tb_name );
+    tb_model->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
+    tb_model->setSort(tb_model->fieldIndex
                       ( *tb_ndex ),Qt::AscendingOrder );
 
     for(int i = 0; i < tb_flds->length (); i++)
     {
 
-        if ( tb_modl->setHeaderData(i, Qt::Horizontal,
-                                tb_flds->value (i,2)) )
+        if ( tb_model->setHeaderData(i, Qt::Horizontal,
+                                     tb_flds->value (i,2)) )
         {
-           // qDebug () <<"rm_List->value ("<<i<<",2)"
-               //      << tb_flds->value (i,2)<<"HEADED" ;
+            // qDebug () <<"rm_List->value ("<<i<<",2)"
+            //      << tb_flds->value (i,2)<<"HEADED" ;
         }
         else
         {
-             //   qDebug () <<"tb_flds->value ("<<i<<",2)"
-                 //        << tb_flds->value (i,2)<<"not HEADED" ;
+            //   qDebug () <<"tb_flds->value ("<<i<<",2)"
+            //        << tb_flds->value (i,2)<<"not HEADED" ;
 
         }
 
     }
 
     // Populate the model
-    if (!tb_modl->select())
+    if (!tb_model->select())
     {
         QString m("HATA - \n"
                   "Model Seçim   \n"
                   "class hC_Rm - \n"+
                   *tb_name + "   " +
-                  tb_modl->lastError().text() ) ;
+                  tb_model->lastError().text() ) ;
         qDebug () <<  m ;
     }
     else
     {
-        qDebug () <<"  "<< *tb_name << "modelled : " <<  tb_modl <<".";
+        qDebug () <<"  "<< *tb_name << "modelled : " <<  tb_model <<".";
     }
 
 }
 
-void hC_tBcreator::view(QString *tb_name,
-                        hC_ArrD *tb_flds,
-                        QSqlRelationalTableModel *tb_modl,
-                        hC_Tv *tb_view)
+void hC_tBcreator::view(hC_ArrD *tb_flds,
+                         QList <QWidget*> * tb_wdgts )
 {
 
     //////////////////////////////////////////////////////////
 
-    tb_view->table->setModel(tb_modl);
+    tb_view->table->setModel(tb_model);
 
     for (int i = 0 ; i < tb_flds->length () ; i++ )
     {
@@ -803,31 +792,28 @@ void hC_tBcreator::view(QString *tb_name,
             qDebug () <<"     NOT Hidden :" << tb_flds->value (i,0) ;
         }
     }
-    tb_view->table->setCurrentIndex(tb_modl->index(1, 1) );
+    tb_view->table->setCurrentIndex(tb_model->index(1, 1) );
     tb_view->table->setFocus();
     qDebug () <<"  "<< *tb_name << "viewed  : " <<  tb_view <<".";
 }
 
 
-void hC_tBcreator::map(QString *tb_name,
-                        hC_ArrD *tb_flds,
-                        QSqlRelationalTableModel *tb_modl,
-                        QDataWidgetMapper *tb_mapper,
-                        QList<QWidget *> *win_wdgts   )
+void hC_tBcreator::map(hC_ArrD *tb_flds,
+                        QList <QWidget*> * tb_wdgts )
 {
     //qDebug () <<"mapping "<< *tb_name <<" ..." ;
-    tb_mapper->setModel(tb_modl);
+    tb_mapper->setModel(tb_model);
     for (int i=0 ;  i < tb_flds->length () ; i++ )
     {
-        if ( win_wdgts->at (i) != nullptr)
+        if ( tb_wdgts->at (i) != nullptr)
         {
-            tb_mapper->addMapping ( win_wdgts->at (i), i);
+            tb_mapper->addMapping ( tb_wdgts->at (i), i);
         }
         //qDebug () <<"  win_wdgts->at("<<i<<") " << win_wdgts->at (i);
     }
-   tb_mapper->toFirst()  ;
+    tb_mapper->toFirst()  ;
 
-   qDebug () <<"  "<< *tb_name << "mapped  : " <<  tb_mapper <<".";
+    qDebug () <<"  "<< *tb_name << "mapped  : " <<  tb_mapper <<".";
 }
 
 

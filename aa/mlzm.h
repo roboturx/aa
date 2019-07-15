@@ -8,25 +8,27 @@ namespace nSMlzm {
 class hC_MLZM;
 }
 
-class hC_MLZM : public QWidget
+class hC_MLZM : public hC_tBcreator
 {   Q_OBJECT
-
 public:
-/////////////////////////////////////////////////
-    hC_Tv                    * tb_view     {} ;
-    QSqlRelationalTableModel * tb_model     {} ;
-    QItemSelectionModel      * tb_slctnMdl {} ;
-    QDataWidgetMapper        * tb_mapper   {} ;
+    explicit hC_MLZM();
+    ~hC_MLZM();
 
-    QString                  * tb_name     {} ;
+///////////////////////////////////////////////////
+//    hC_Tv                    * tb_view     {} ;
+//    QSqlRelationalTableModel * tb_model     {} ;
+//    QItemSelectionModel      * tb_slctnMdl {} ;
+//    QDataWidgetMapper        * tb_mapper   {} ;
+
+//    QString                  * tb_name     {} ;
     hC_ArrD                  * tb_flds     {} ;
-    QString                  * tb_ndex     {} ;
+//    QString                  * tb_ndex     {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
-    QWidget                  * win_Wdgt  {} ;
-    QLabel                   * win_Label {} ;
-    QLabel                   * win_Rsm   {} ;
-/////////////////////////////////////////////////
+//    QWidget                  * win_Wdgt  {} ;
+//    QLabel                   * win_Label {} ;
+//    QLabel                   * win_Rsm   {} ;
+///////////////////////////////////////////////////
 
     QComboBox   *cbx_grs_tipi{} ;
     QLineEdit   *lE_barkod   {} ;
@@ -61,9 +63,7 @@ signals:
                      QString* sgnBirim
                      ); //malzeme ismini yayınla
 
-public:
-    explicit hC_MLZM(QWidget *parent = nullptr);
-    ~hC_MLZM();
+
 };
 
 #endif // HC__H

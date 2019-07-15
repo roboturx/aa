@@ -34,7 +34,7 @@ void hC_IEDET:: ui()
 
 
     // ///////////////////////////////////////////////////////
-    tb_view = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
+    tb_view = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
 
     // ///////////////////////////////////////////////////////
 

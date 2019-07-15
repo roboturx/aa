@@ -30,7 +30,7 @@ void hC_MKMARK::ui()
     // this->showMaximized ();
 
     //auto *pnc = new QWidget(this);
-    tb_view = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
+    tb_view = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
 
     auto *winGrid = new QGridLayout();
 

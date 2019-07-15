@@ -1,12 +1,12 @@
 ﻿#include "clsn.h"
 
-hC_CLSN::hC_CLSN ( QWidget *parent) : QWidget(parent)
+hC_CLSN::hC_CLSN () : hC_tBcreator ()
 {
     qDebug ()<<"Çalışan Constructor*******************************";
     //************************************************************
     //*****************  Ç A L I Ş A N  **************************
-    win_Label = new QLabel  ("ÇALIŞAN KAYITLARI");
-    tb_name   = new QString ("clsn_dbtb") ;
+    win_Label->text () = "ÇALIŞAN KAYITLARI";
+    *tb_name   = "clsn_dbtb" ;
 
     tb_flds = new hC_ArrD (17, 4);
     tb_flds->setValue ( 0, "clsn_ID"      , "INTEGER", "ÇalışanID", "0" ) ;
@@ -30,11 +30,11 @@ hC_CLSN::hC_CLSN ( QWidget *parent) : QWidget(parent)
     tb_flds->setValue (17, "clsn_resim"   , "BLOB"   , "Resim");
 
     tb_ndex     = new QString ("clsn_soyad");
-    tb_model    = new QSqlRelationalTableModel;
-    tb_mapper   = new QDataWidgetMapper;
-    win_Wdgt    = new QWidget;
-    tb_view     = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
-    tb_slctnMdl = new QItemSelectionModel;
+//    tb_model    = new QSqlRelationalTableModel;
+//    tb_mapper   = new QDataWidgetMapper;
+//    win_Wdgt    = new QWidget;
+//    tb_view     = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
+//    tb_slctnMdl = new QItemSelectionModel;
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
@@ -63,16 +63,10 @@ hC_CLSN::hC_CLSN ( QWidget *parent) : QWidget(parent)
 void hC_CLSN::setup()
 {
     qDebug() << "clsn setup ";
-
-    hC_tBcreator x (this);
-
-                /*tb_name,
-                  tb_flds,
-                  tb_ndex,
-                  tb_model,
-                  tb_view,
-                  tb_mapper,
-                  tb_wdgts );*/
+    create ( tb_flds );
+    model  ( tb_flds, tb_wdgts );
+    view   ( tb_flds, tb_wdgts );
+    map    ( tb_flds, tb_wdgts );
 
     wdgt  ();
     ui();

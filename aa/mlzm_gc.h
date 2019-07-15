@@ -9,12 +9,12 @@ namespace nSMlzmGC {
 class hC_tb_;
 }
 
-class hC_MLZMGC : public QWidget
+class hC_MLZMGC : public hC_tBcreator
 {   Q_OBJECT
 
 public:
 
-    explicit hC_MLZMGC(QWidget *parent = nullptr);
+    explicit hC_MLZMGC();
     ~hC_MLZMGC();
 
     ////////////////////////////////////////////////

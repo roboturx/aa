@@ -88,12 +88,14 @@ void DBase::VTDosyaKontrol()
     yaz(tb_x.create (iedet.tb_name, iedet.tb_fields)) ;
 */
 
-    hC_tBcreator tb_x ;
+
     hC_MLZM mlzm;
-    yaz(tb_x.create (mlzm.tb_name, mlzm.tb_flds)) ;
+    mlzm.setup ();
+    yaz(mlzm.create (mlzm.tb_flds)) ;
 
     hC_MLZMGC mlzmgc;
-    yaz(tb_x.create (mlzmgc.tb_name, mlzmgc.tb_flds)) ;
+    mlzmgc.setup ();
+    yaz(mlzm.create (mlzm.tb_flds)) ;
 
 
 

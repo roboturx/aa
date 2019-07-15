@@ -1,13 +1,13 @@
 #include "mlzm_gc.h"
 
-hC_MLZMGC::hC_MLZMGC(QWidget *parent) : QWidget(parent)
+hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
 {
     //************************************************************
     //*****************  M A L Z E M E  **************************
     qDebug() << "Cnstrctr mlzmGc *********************************";
 
-    win_Label = new QLabel  ("AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI");
-    tb_name   = new QString ("mlzmgc_dbtb") ;
+    win_Label->text ()= "AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI";
+    *tb_name   = "mlzmgc_dbtb" ;
 
     tb_flds = new hC_ArrD (13, 4);
     tb_flds->setValue ( 0, "mlzmgc_ID"      , "INTEGER", "MalzemeGcID", "0" ) ;
@@ -24,12 +24,12 @@ hC_MLZMGC::hC_MLZMGC(QWidget *parent) : QWidget(parent)
     tb_flds->setValue (11, "mlzmgc_aciklama", "TEXT"   , "Açıklama" );
     tb_flds->setValue (12, "mlzmgc_resim"   , "BLOB"   , "Resim" , "0" );
 
-    tb_ndex     = new QString ("mlzmgc_tarih");
-    tb_model    = new QSqlRelationalTableModel;
-    tb_mapper   = new QDataWidgetMapper;
-    win_Wdgt    = new QWidget;
-    tb_view     = new hC_Tv (this, tb_model, tb_mapper, win_Wdgt);
-    tb_slctnMdl = new QItemSelectionModel;
+    *tb_ndex     = "mlzmgc_tarih";
+//    tb_model    = new QSqlRelationalTableModel;
+//    tb_mapper   = new QDataWidgetMapper;
+//    win_Wdgt    = new QWidget;
+//    tb_view     = new hC_Tv ();
+//    tb_slctnMdl = new QItemSelectionModel;
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
@@ -53,9 +53,12 @@ void hC_MLZMGC::setup()
 {
     qDebug() << "  mlzmGc_setup";
 
+    create ( tb_flds );
+    model  ( tb_flds, tb_wdgts );
+    view   ( tb_flds, tb_wdgts );
+    map    ( tb_flds, tb_wdgts );
 
 
-    hC_tBcreator (this ) ;
     wdgt  () ;
     ui    () ;
     kntrl () ;

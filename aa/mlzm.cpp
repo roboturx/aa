@@ -1,13 +1,13 @@
 ﻿#include "mlzm.h"
 
-hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
+hC_MLZM::hC_MLZM() : hC_tBcreator ()
 {
     qDebug() << "  cnstrct mlzm **********************************";
     //************************************************************
     //*****************  M A L Z E M E  **************************
 
-    win_Label = new QLabel ("AMBAR MALZEME");
-    tb_name = new QString ("mlzm_dbtb") ;
+    win_Label->text ()= "AMBAR MALZEME";
+    *tb_name = "mlzm_dbtb" ;
 
     tb_flds = new hC_ArrD (13, 4);
     tb_flds->setValue ( 0, "mlzm_ID"      , "INTEGER", "MalzemeID", "0" ) ;
@@ -24,11 +24,11 @@ hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
     tb_flds->setValue (11, "mlzm_makina"  , "TEXT"   , "Makina", "0");
     tb_flds->setValue (12, "mlzm_resim"   , "BLOB"   , "Resim" , "0" );
 
-    tb_ndex     = new QString ("malzeme");
-    tb_model     = new QSqlRelationalTableModel;
-    tb_mapper   = new QDataWidgetMapper;
-    win_Wdgt    = new QWidget;
-    tb_view     = new hC_Tv (this,tb_model, tb_mapper, win_Wdgt);
+    *tb_ndex     = "malzeme";
+//    tb_model     = new QSqlRelationalTableModel;
+//    tb_mapper   = new QDataWidgetMapper;
+//    win_Wdgt    = new QWidget;
+  //  tb_view     = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ;
@@ -51,14 +51,11 @@ hC_MLZM::hC_MLZM(QWidget *parent) : QWidget(parent)
 
 void hC_MLZM::setup()
 {
-    hC_tBcreator x (this);/*tb_name,
-                  tb_flds,
-                  tb_ndex,
-                  tb_model,
-                  tb_view,
-                  tb_mapper,
-                  tb_wdgts );
-*/
+
+    create ( tb_flds );
+    model  ( tb_flds, tb_wdgts );
+    view   ( tb_flds, tb_wdgts );
+    map    ( tb_flds, tb_wdgts );
     wdgt  () ;
     ui    () ;
     kntrl () ;

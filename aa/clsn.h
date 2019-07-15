@@ -12,13 +12,13 @@ namespace nSClsn
 class hC_CLSN;
 }
 
-class hC_CLSN : public QWidget
+class hC_CLSN : public hC_tBcreator
 {
     Q_OBJECT
 
 public:
 
-    explicit hC_CLSN(QWidget *parent = nullptr);
+    explicit hC_CLSN();
     ~hC_CLSN();
 
     ////////////////////////////////////////////////
