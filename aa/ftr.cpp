@@ -7,13 +7,13 @@ hC_FTR::hC_FTR() : hC_tBcreator ()
 {
     //************************************************************
     //*****************  F A T U R A  ****************************
-    qDebug() << "Ftr Cnstrctr";
+    qDebug() << "Ftr Cnstrctr ************************************";
 
     win_Label->text ()= "FATURA BAŞLIK BİLGİ GİRİŞ";
     *tb_name  = "ftr_dbtb" ;
     *tb_ndex  = "ftr_tarih";
 
-    tb_flds = new hC_ArrD ( 5, 4);
+    tb_flds = new hC_ArrD ( 6, 4);
     tb_flds->setValue ( 0, "ftr_ID"      , "INTEGER", "FaturaID", "0" ) ;
     tb_flds->setValue ( 1, "ftr_no"      , "TEXT"   , "Fatura No" );
     tb_flds->setValue ( 2, "ftr_frm"     , "TEXT"   , "Firma Unvanı" );
@@ -36,7 +36,7 @@ hC_FTR::hC_FTR() : hC_tBcreator ()
 
 void hC_FTR::tbsetup()
 {
-    qDebug() << "  ftr_setup ";
+    qDebug() << "   ftr_setup ";
 
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
@@ -51,7 +51,7 @@ void hC_FTR::tbsetup()
 
 void hC_FTR::tbui()
 {
-    qDebug() << "  ftr_ui";
+    qDebug() << "   ftr_ui";
 
     ////////////////////////////////////////// window
 
@@ -65,7 +65,7 @@ void hC_FTR::tbui()
 
 void hC_FTR::tbwdgt()
 {
-    qDebug() << "  ftr_wdgt";
+    qDebug() << "   ftr_wdgt";
 
     auto *lB_faturano = new QLabel("Fatura &No");
     lE_faturano->setReadOnly (true);
@@ -189,7 +189,7 @@ void hC_FTR::tbkntrl()
     ///// tableview kontrol connectleri
     ///
     ///
-    qDebug() << "  ftr_kntrl";
+    qDebug() << "   ftr_kntrl";
 
     // //////////////////////// yeni fatura ekle
     // pB 001 yeni ekle

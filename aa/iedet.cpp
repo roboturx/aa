@@ -3,16 +3,16 @@
 
 hC_IEDET::hC_IEDET()  : hC_tBcreator ()
 {
-    qDebug ()<<"Cnstrctr İş Emri Detay";
+    qDebug ()<<"Cnstrctr İş Emri Detay ***************************";
     //************************************************************
-    //*****************  İ Ş   E M R İ  **************************
+    //*****************  İ Ş   E M R İ D E T A Y *****************
 
 
     win_Label->text ()= "İŞ EMRİ DETAY KAYITLARI";
     *tb_name  = "iedet_dbtb" ;
     *tb_ndex  = "iedet_ie_no";
 
-    tb_flds = new hC_ArrD (8, 4);
+    tb_flds = new hC_ArrD (9, 4);
     tb_flds->setValue ( 0, "iedet_ID"       , "INTEGER", "IEdetayID", "0" ) ;
     tb_flds->setValue ( 1, "iedet_ie_no"    , "INTEGER", "Iş Emri No");
     tb_flds->setValue ( 2, "iedet_aciklama" , "TEXT"   , "Açıklama" );
@@ -40,7 +40,7 @@ hC_IEDET::hC_IEDET()  : hC_tBcreator ()
 void hC_IEDET:: tbsetup()
 {
 
-    qDebug() << "  iedet setup ";
+    qDebug() << "   iedet setup ";
 
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
@@ -69,6 +69,7 @@ void hC_IEDET:: tbui()
 
 void hC_IEDET:: tbwdgt ()
 {
+    qDebug() << "   WDGT";
     auto *lB_ieno = new QLabel("İş Emri No");
     lB_ieno->setBuddy(lE_IEno);
 
@@ -142,7 +143,7 @@ void hC_IEDET:: tbkntrl()
 {
 
 
-    qDebug()<<" -iedet kntrl ";
+    qDebug()<<"   iedet kntrl ";
 
     /////////////////////////////////////////////////////
     ie = new hC_IE;

@@ -593,23 +593,23 @@ hC_tBcreator::hC_tBcreator ()
 
     /// create table
     win_Label = new QLabel ;
-    tb_name = new QString  ;
-    tb_ndex     = new QString ("malzeme");
-    tb_model     = new QSqlRelationalTableModel;
-  //  tb_slctnMdl = new QItemSelectionModel;
-    tb_mapper   = new QDataWidgetMapper;
-    win_Wdgt    = new QWidget;
+    tb_name   = new QString  ;
+    tb_ndex   = new QString ();
+    tb_model  = new QSqlRelationalTableModel;
+    tb_slctnMdl = new QItemSelectionModel;
+    tb_mapper = new QDataWidgetMapper;
+    win_Wdgt  = new QWidget;
 
-    tb_view     = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
+    tb_view   = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
 
-       qDebug () <<endl<<"Preparing at hC_ ..."
+    /*   qDebug () <<endl<<"Preparing at hC_ ..."
                  <<endl<<"   Dosya : "<< *tb_name << " - " << tb_name
                  <<endl<<"   Index : "<< *tb_ndex << " - " << tb_ndex
                  <<endl<<"   Model : "<< tb_model
                  <<endl<<"   View  : "<< tb_view
                  <<endl<<"   Map   : "<< tb_mapper ;
-
-    qDebug () <<endl<<"   Prepared at hC_ ...";
+*/
+    qDebug () <<endl<<"tbCreator Construction ...";
 }
 
 hC_tBcreator::~hC_tBcreator()
@@ -617,7 +617,7 @@ hC_tBcreator::~hC_tBcreator()
 
     delete tb_view     ;
     delete tb_model     ;
- //   delete tb_slctnMdl ;
+    delete tb_slctnMdl ;
     delete tb_mapper   ;
 
     delete tb_name     ;
@@ -678,36 +678,38 @@ QString hC_tBcreator::tbCreate (hC_ArrD * tb_flds)
 
         if (!q.exec( ct ))
         {
-            this-> _mesaj = "HATA - Dosya Oluşturulamadı : " + *tb_name  +
+            this-> _mesaj = "xxx:xxx HATA - Dosya Oluşturulamadı : " + *tb_name  +
                     "\n------------------------------------\n"+
                     q.lastError().text()+
                     "\n------------------------------------\n";
+            qDebug ()<<endl<< "     xxx:xxx HATA - Dosya Oluşturulamadı : " << *tb_name
+                     <<endl<< "     ------------------------------------"
+                     <<endl<< "     "<< q.lastError().text()
+                     <<endl<< "     ------------------------------------";
         }
         else /// dosya oluşturuldu
         {
 
-            qDebug ()<< "-------------------------- " ;
-            qDebug ()<< " ct = " << ct;
-            qDebug ()<< "-------------------------- " ;
-            this-> _mesaj = "OK   - YENİ Dosya Oluşturuldu : "+ *tb_name  ;
-            if (
+        /*    qDebug ()<< "   -------------------------- " ;
+            qDebug ()<< "    ct = " << ct;
+            qDebug ()<< "   -------------------------- " ;*/
+            this-> _mesaj = "\nOK   - YENİ Dosya Oluşturuldu : "+ *tb_name  ;
+            qDebug ()<<"   OK   - YENİ Dosya Oluşturuldu : "+ *tb_name  ;
+            /*if (
                     q.exec("INSERT INTO " + *tb_name +
                            "( mlzm_barkod,mlzm_malzeme )"
                            " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
 
             {
-                _mesaj= _mesaj+"<br>İLK kayıt Eklendi";
-                q.exec("INSERT INTO " + *tb_name +
-                       "( mlzm_barkod,mlzm_malzeme )"
-                       " values( '1111','dfdfdfdfddfdfdfdfdfdffd alzeme' )"  );
+                _mesaj= _mesaj+"\n   İLK kayıt Eklendi";
             }
             else
             {
-                _mesaj= _mesaj+"<br>İLK Malzeme kaydı eklenemdi "
-                               "<br>------------------------------------<br>"+
+                _mesaj= _mesaj+"\n   İLK Malzeme kaydı eklenemedi "
+                               "\n   ------------------------------------ "+
                         q.lastError().text()+
-                        "<br>------------------------------------<br>";
-            }
+                        "\n    ------------------------------------ ";
+            }*/
         }
     }
 
@@ -715,7 +717,7 @@ QString hC_tBcreator::tbCreate (hC_ArrD * tb_flds)
     {
         this-> _mesaj  = "  OK          : " + *tb_name ;
     }
-    qDebug() << this-> _mesaj ;
+ //   qDebug() << this-> _mesaj ;
     ////////////////////////////////////////////////////////////
 
     return _mesaj;
@@ -751,21 +753,20 @@ void hC_tBcreator::tbModel (hC_ArrD *tb_flds)
         }
 
     }
-
+    QString mesaj;
     // Populate the model
     if (!tb_model->select())
     {
-        QString m("HATA - \n"
-                  "Model Seçim   \n"
-                  "class hC_Rm - \n"+
-                  *tb_name + "   " +
+        qDebug ()<< ("     xxx:xxx HATA - Model Seçim   \n"
+                  "class hC_tbcreator-tbmodel - \n"+
+                  *tb_name + " \n  " +
                   tb_model->lastError().text() ) ;
-        qDebug () <<  m ;
     }
     else
     {
-        qDebug () <<"  "<< *tb_name << "modelled : " <<  tb_model <<".";
+       qDebug ()<< "  " << *tb_name << "modelled: " << tb_model  ;
     }
+   // qDebug () <<  mesaj << tb_model;
 
 }
 
@@ -791,16 +792,16 @@ void hC_tBcreator::tbView(hC_ArrD *tb_flds )
         }
         else
         {
-            qDebug ()<<  " : view colon hidden ERROR";
+            qDebug ()<<  "     xxx:xxx view colon hidden ERROR";
         }
-        if (tb_view->table->isColumnHidden (i))
+     /*   if (tb_view->table->isColumnHidden (i))
         {
             qDebug () <<"         Hidden :" << tb_flds->value (i,0) ;
         }
         else
         {
             qDebug () <<"     NOT Hidden :" << tb_flds->value (i,0) ;
-        }
+        }*/
     }
     tb_view->table->setCurrentIndex(tb_model->index(1, 1) );
     tb_view->table->setFocus();

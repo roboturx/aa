@@ -69,9 +69,9 @@ void DBase::VTDosyaKontrol()
     ftr.tbsetup ();
     yaz(ftr.tbCreate (ftr.tb_flds));
 
-    hC_IE ie;
-    ie.tbsetup ();
-    yaz(ie.tbCreate (ie.tb_flds));
+//    hC_IE ie;
+//    ie.tbsetup ();
+//    yaz(ie.tbCreate (ie.tb_flds));
 
     hC_IEDET iedet;
     iedet.tbsetup ();
@@ -93,9 +93,9 @@ void DBase::VTDosyaKontrol()
     mkmodl.tbsetup ();
     yaz(mkmodl.tbCreate (mkmodl.tb_flds));
 
-    hC_MLZM mlzm;
-    mlzm.tbsetup ();
-    yaz(mlzm.tbCreate (mlzm.tb_flds)) ;
+//    hC_MLZM mlzm;
+//    mlzm.tbsetup ();
+//    yaz(mlzm.tbCreate (mlzm.tb_flds)) ;
 
     hC_MLZMGC mlzmgc;
     mlzmgc.tbsetup ();

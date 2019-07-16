@@ -3,7 +3,7 @@
 
 hC_SCLK::hC_SCLK () :  hC_tBcreator  ()
 {
-    qDebug ()<<"cnstrctr İşçilik ";
+    qDebug ()<<"cnstrctr İşçilik *********************************";
     //************************************************************
     //*****************  İ Ş Ç İ L İ K  **************************
 
@@ -11,7 +11,7 @@ hC_SCLK::hC_SCLK () :  hC_tBcreator  ()
     *tb_name  = "sclk_dbtb" ;
     *tb_ndex  = "sclk_tarih";
 
-    tb_flds = new hC_ArrD (13, 4);
+    tb_flds = new hC_ArrD (10, 4);
     tb_flds->setValue ( 0, "sclk_ID"      , "INTEGER", "İşçilikID", "0" ) ;
     tb_flds->setValue ( 1, "sclk_iedet_id", "TEXT"   , "İEDetayID", "0" );
     tb_flds->setValue ( 2, "sclk_tarih"   , "TEXT"   , "Tarih" );
@@ -39,7 +39,7 @@ hC_SCLK::hC_SCLK () :  hC_tBcreator  ()
 
 void hC_SCLK::tbsetup()
 {
-    qDebug() << "  setup";
+    qDebug() << "   setup";
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
@@ -68,11 +68,10 @@ void hC_SCLK:: tbwdgt()
 
     auto *lB_SCno = new QLabel("İşçilik No");
 
-    lE_SCno->setText (*SCdetno);
+    lE_SCno->setText ("*iedetno");
     lE_SCno->setReadOnly (true);
     lB_SCno->setBuddy(lE_SCno);
 
-    qDebug ()<<"SC 142";
     auto *lB_gt = new QLabel("Tarih");
     dE_SCtarih->setDisplayFormat("dd.MM.yyyy");
     dE_SCtarih->setMinimumDate(QDate(01, 01, 1900));
@@ -175,7 +174,7 @@ void hC_SCLK:: tbkntrl()
         ////////////////////////////////
         QSqlQuery q;
         QString q_s;
-        q_s="INSERT INTO  _dbtb ( "
+        q_s="INSERT INTO  sclk_dbtb ( "
             "SC_iedet_id, SC_no    , SC_tarih, SC_birim , SC_usta, "
             "SC_saat   , SC_ucret, SC_ucrettip, SC_aciklama  "
             " )"

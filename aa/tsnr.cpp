@@ -2,14 +2,14 @@
 
 hC_TSNR::hC_TSNR() : hC_tBcreator ()
 {
-    qDebug ()<<"cnstrct Taşınır İstek ";
+    qDebug ()<<"cnstrct Taşınır İstek ****************************";
     //************************************************************
     //************  T A Ş I N I R   İ S T E K  *******************
 
 
     win_Label->text ()= "TAŞINIR İSTEK";
     *tb_name  = "tsnr_dbtb" ;
-    *tb_ndex  = "malzeme";
+    *tb_ndex  = "tsnr_tarih";
 
     tb_flds = new hC_ArrD (8, 4);
     tb_flds->setValue ( 0, "tsnr_id"      , "INTEGER", "TaşınırID", "0" ) ;
@@ -38,7 +38,7 @@ hC_TSNR::hC_TSNR() : hC_tBcreator ()
 
 void hC_TSNR:: tbsetup()
 {
-    qDebug() << "  tsnr setup ";
+    qDebug() << "   tsnr setup ";
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
@@ -61,9 +61,9 @@ void hC_TSNR:: tbui()
 
 void hC_TSNR:: tbwdgt()
 {
-
+    qDebug() << "   WDGT";
     auto *lB_tsno = new QLabel("Taşınır No");
-    lE_TSno->setText (*TSdetno);
+    lE_TSno->setText ("*TSdetno");
     lE_TSno->setReadOnly (true);
     lB_tsno->setBuddy(lE_TSno);
 
@@ -121,7 +121,7 @@ void hC_TSNR:: tbwdgt()
 void hC_TSNR:: tbkntrl()
 {
 
-    qDebug()<<"  kontroltsnr ";
+    qDebug()<<"   tsnr kontrol ";
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,

@@ -5,7 +5,7 @@ hC_IE::hC_IE()  : hC_tBcreator ()
 {
     //************************************************************
     //*****************  İ Ş   E M R İ  **************************
-    qDebug() << "Ie Cnstrctr   ";
+    qDebug() << "Ie Cnstrctr *************************************  ";
 
     win_Label->text ()= "İŞ EMRİ KAYITLARI";
     *tb_name  = "ie_dbtb" ;
@@ -40,7 +40,7 @@ hC_IE::hC_IE()  : hC_tBcreator ()
 
 void hC_IE::tbsetup()
 {
-    qDebug() << "  ie setup ";
+    qDebug() << "   ie setup ";
 
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
@@ -55,7 +55,7 @@ void hC_IE::tbsetup()
 
 void hC_IE::tbui()
 {
-    qDebug() << "  ui";
+    qDebug() << "   ui";
 
     hC_IE::setWindowTitle (win_Label->text());
     hC_IE::setGeometry(20,20,
@@ -70,7 +70,7 @@ void hC_IE::tbui()
 
 void hC_IE::tbwdgt ()
 {
-    qDebug () << "  wdgt";
+    qDebug () << "   wdgt";
 
     auto* lB_mk = new QLabel("Araç Kurum No");
     hClE_mkn->lineEdit->setReadOnly (true);
@@ -171,7 +171,7 @@ void hC_IE::tbwdgt ()
 void hC_IE::tbkntrl()
 {
 
-    qDebug()<<"  ie kntrl";
+    qDebug()<<"   ie kntrl";
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
@@ -435,10 +435,6 @@ void hC_IE::tbkntrl()
     });
 
 
-
-
-
-    qDebug()<<"ie kontrol sonu ";
 }
 
 

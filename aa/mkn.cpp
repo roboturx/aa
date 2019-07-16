@@ -4,7 +4,7 @@ hC_MKN::hC_MKN() : hC_tBcreator ()
 {
 
 
-    qDebug ()<<"cnstrctr MAKİNA";
+    qDebug ()<<"cnstrctr MAKİNA **********************************";
     //************************************************************
     //*****************  M A K İ N A  ****************************
 
@@ -58,7 +58,7 @@ hC_MKN::hC_MKN() : hC_tBcreator ()
 
 void hC_MKN::tbsetup()
 {
-    qDebug ()<<"setup MKN";
+    qDebug ()<<"   mkn setup";
 
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
@@ -73,7 +73,7 @@ void hC_MKN::tbsetup()
 
 void hC_MKN::tbui()
 {
-    qDebug ()  <<"mkn ui";
+    qDebug ()  <<"   mkn ui";
     setWindowTitle (win_Label->text());
     auto *win_Grid = new QGridLayout(this);
     win_Grid->addWidget (tb_view       , 0, 0, 1, 5);
@@ -84,7 +84,7 @@ void hC_MKN::tbui()
 void hC_MKN::tbwdgt()
 {
 
-    qDebug ()  <<"  wdgt";
+    qDebug ()  <<"   wdgt";
 
     auto *lB_kurumno = new QLabel("Kurum No");
 
@@ -371,7 +371,7 @@ void hC_MKN::tbwdgt()
 /////////////////////////////////     ekrandaki her şeyi kontrol edelim
 void hC_MKN::tbkntrl()
 {
-    qDebug ()  <<"cw mkn kontrol ";
+    qDebug ()  <<"   mkn kontrol ";
     /// tüm işlemler tamam kontrol edelim
 
     // pB 001 yeni ekle

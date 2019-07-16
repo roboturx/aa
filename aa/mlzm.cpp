@@ -2,7 +2,7 @@
 
 hC_MLZM::hC_MLZM() : hC_tBcreator ()
 {
-    qDebug() << "  cnstrct mlzm **********************************";
+    qDebug() << "cnstrct mlzm **********************************";
     //************************************************************
     //*****************  M A L Z E M E  **************************
 
@@ -44,7 +44,7 @@ hC_MLZM::hC_MLZM() : hC_tBcreator ()
 
 void hC_MLZM::tbsetup()
 {
-    qDebug() << "  setup";
+    qDebug() << "   setup";
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
@@ -60,7 +60,7 @@ void hC_MLZM::tbsetup()
 
 void hC_MLZM::tbui()
 {
-    qDebug() << "  ui";
+    qDebug() << "   ui";
 
     setWindowTitle (win_Label->text());
     auto *win_Grid = new QGridLayout(this);
@@ -71,7 +71,7 @@ void hC_MLZM::tbui()
 
 void hC_MLZM::tbwdgt()
 {
-    qDebug () << "  wdgt";
+    qDebug () << "   wdgt";
 
     auto *lB_barkod = new QLabel(tr("&Barkod"));
     lB_barkod->setBuddy(lE_barkod);
@@ -168,10 +168,10 @@ void hC_MLZM::tbwdgt()
 
 void hC_MLZM::tbkntrl()
 {
-    qDebug() << "  kntrl";
+    qDebug() << "   kntrl";
 
-    tb_slctnMdl = tb_view->table->selectionModel();
-    qDebug () <<"  "<< *tb_name << "Selected: " <<  tb_slctnMdl <<".";
+  //  tb_slctnMdl = tb_view->table->selectionModel();
+  //  qDebug () <<"  "<< *tb_name << "Selected: " <<  tb_slctnMdl <<".";
     // /// yeni malzeme ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -373,7 +373,7 @@ void hC_MLZM::tbkntrl()
     // 1 map indexi
     // 2 malzeme kodunu ve ismini yayalım
     // 3 resim
-     qDebug() << " tb_slctnmdl connect 421 "<< tb_slctnMdl;
+    // qDebug() << " tb_slctnmdl connect 421 "<< tb_slctnMdl;
     connect( tb_slctnMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index)
     {
@@ -417,11 +417,10 @@ void hC_MLZM::tbkntrl()
 
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
 
-     qDebug() << "  kntrl 4";
+
     connect(tb_slctnMdl, &QItemSelectionModel::currentRowChanged,
             this, &hC_MLZM::slt_Mlzm_hesap);
 
- qDebug() << "  kntrl son";
 }
 
 
@@ -501,7 +500,7 @@ void hC_MLZM::showEvent(QShowEvent *)
 
 hC_MLZM::~hC_MLZM()
 {
-    qDebug() << "   destructor";
+    qDebug() << "   destructor MLZM";
     delete tb_flds     ;
     delete tb_wdgts    ;
 

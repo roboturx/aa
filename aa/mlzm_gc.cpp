@@ -52,7 +52,7 @@ hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
 
 void hC_MLZMGC::tbsetup()
 {
-    qDebug() << "  mlzmGc_setup";
+    qDebug() << "   mlzmGc_setup";
 
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
@@ -70,7 +70,7 @@ void hC_MLZMGC::tbsetup()
 void hC_MLZMGC::tbui()
 {
 
-    qDebug() << "  MlzmGc_ui";
+    qDebug() << "   MlzmGc_ui";
     setWindowTitle (win_Label->text ());
     auto *win_Grid = new QGridLayout(this);  // 100150
     win_Grid->addWidget (tb_view , 0, 0, 1, 6);
@@ -81,7 +81,7 @@ void hC_MLZMGC::tbui()
 
 void hC_MLZMGC::tbwdgt()
 {
-    qDebug() << "  mlzmGc_wdgt";
+    qDebug() << "   mlzmGc_wdgt";
 
     auto *lB_tarih = new QLabel(tr("&Tarih"));
     lB_tarih->setBuddy(lE_tarih);
@@ -129,7 +129,7 @@ void hC_MLZMGC::tbwdgt()
 
 void hC_MLZMGC::tbkntrl()
 {
-    qDebug() << "  mlzmGc_kntrl";
+    qDebug() << "   mlzmGc_kntrl";
 
     tb_slctnMdl = tb_view->table->selectionModel();
     qDebug () <<"  "<< *tb_name << "Selected: " <<  tb_slctnMdl <<".";

@@ -5,7 +5,7 @@ hC_MKMODL::hC_MKMODL()  : hC_tBcreator ()
 {
     //************************************************************
     //*****************  M K  M O D L ****************************
-    qDebug() << "Cnstrctr mkmodl";
+    qDebug() << "Cnstrctr mkmodl *********************************";
 
     win_Label->text ()= "ARAÇ MODEL BİLGİLERİ";
     *tb_name   = "mkmodl_dbtb" ;

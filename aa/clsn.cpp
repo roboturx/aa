@@ -56,7 +56,7 @@ hC_CLSN::hC_CLSN () : hC_tBcreator ()
 
 void hC_CLSN::tbsetup()
 {
-    qDebug() << "clsn setup ";
+    qDebug() << "   clsn setup ";
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
@@ -71,7 +71,7 @@ void hC_CLSN::tbsetup()
 void hC_CLSN::tbui()
 {
 
-    qDebug() << "  ui";
+    qDebug() << "   ui";
 
     hC_CLSN::setWindowTitle (win_Label->text ());
     auto *win_grid = new QGridLayout(this);
@@ -80,7 +80,7 @@ void hC_CLSN::tbui()
 }
 void hC_CLSN::tbwdgt()
 {
-    qDebug() << "  wdgt";
+    qDebug() << "   wdgt";
 
     auto *lB_isim  = new QLabel("İ&sim"        );
     lE_isim->setPlaceholderText ("Personel Adı");
@@ -198,7 +198,7 @@ void hC_CLSN::tbwdgt()
 void hC_CLSN::tbkntrl()
 {
 
-
+    qDebug() << "   KNTRL";
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()

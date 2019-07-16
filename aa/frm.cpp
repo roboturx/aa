@@ -2,7 +2,7 @@
 
 hC_FRM::hC_FRM() : hC_tBcreator ()
 {
-    qDebug ()<<"Firma Constructor";
+    qDebug ()<<"Firma Constructor ********************************";
     //************************************************************
     //*****************  F İ R M A  ****************************
 
@@ -45,7 +45,7 @@ hC_FRM::hC_FRM() : hC_tBcreator ()
 
 void hC_FRM::tbsetup()
 {
-    qDebug() << "setup FİRMA";
+    qDebug() << "   setup FİRMA";
 
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
@@ -62,7 +62,7 @@ void hC_FRM::tbsetup()
 void hC_FRM::tbui()
 {
 
-    qDebug() << "  frm_ui";
+    qDebug() << "   frm_ui";
 
     hC_FRM::setWindowTitle ( win_Label->text ());
     auto *win_Grid = new QGridLayout(this);
@@ -72,7 +72,7 @@ void hC_FRM::tbui()
 
 void hC_FRM::tbwdgt()
 {
-    qDebug() << "  frm_wdgt";
+    qDebug() << "   frm_wdgt";
 
     auto *lB_unvan  = new QLabel("Unvan"       );
     lB_unvan->setBuddy(lE_unvan);
@@ -147,7 +147,7 @@ void hC_FRM::tbwdgt()
 
 void hC_FRM::tbkntrl()
 {
-
+    qDebug() << "   KNTRL";
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()

@@ -6,7 +6,7 @@ hC_MKMARK::hC_MKMARK()  : hC_tBcreator ()
 {
     //************************************************************
     //*****************  M K  M A R K ****************************
-    qDebug() << "Cnstrctr mkmark";
+    qDebug() << "Cnstrctr mkmark *********************************";
 
 
     win_Label->text ()= "ARAÇ MARKA BİLGİLERİ";
@@ -28,7 +28,7 @@ hC_MKMARK::hC_MKMARK()  : hC_tBcreator ()
 
 void hC_MKMARK::tbsetup()
 {
-    qDebug ()  <<"  mkMark_setup";
+    qDebug ()  <<"   mkMark_setup";
 
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
@@ -43,7 +43,7 @@ void hC_MKMARK::tbsetup()
 
 void hC_MKMARK::tbui()
 {
-    qDebug() << "  mkmark_ui";
+    qDebug() << "   mkmark_ui";
 
 
     this->setWindowTitle (win_Label->text ());
@@ -55,7 +55,7 @@ void hC_MKMARK::tbui()
 
 void hC_MKMARK::tbwdgt()
 {
-
+    qDebug() << "   WDGT";
     win_Rsm->setMinimumSize(60,100);
     hC_Rs resim (win_Rsm);
 
@@ -73,7 +73,7 @@ void hC_MKMARK::tbwdgt()
 
 void hC_MKMARK::tbkntrl()
 {
-    qDebug()<<"  setup mapcns";
+    qDebug()<<"   KNTRL";
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()

@@ -4,15 +4,15 @@ hC_MKCINS::hC_MKCINS() : hC_tBcreator ()
 {
     //************************************************************
     //*****************  M K  C I N S ****************************
-    qDebug() << "Cnstrctr mkcins";
+    qDebug() << "Cnstrctr mkcins *********************************";
     win_Label->text ()= "ARAÇ CİNSİ";
     *tb_name   = "mkcins_dbtb" ;
     *tb_ndex     = "mkcins_cinsi";
 
-    tb_flds = new hC_ArrD (4, 4);
+    tb_flds = new hC_ArrD (3, 4);
     tb_flds->setValue ( 0, "mkcins_ID"   , "INTEGER", "CinsiID", "0" ) ;
-    tb_flds->setValue ( 2, "mkcins_cins" , "TEXT"   , "Cinsi" );
-    tb_flds->setValue ( 3, "mkcins_resim", "BLOB"   , "Resim" , "0" );
+    tb_flds->setValue ( 1, "mkcins_cins" , "TEXT"   , "Cinsi" );
+    tb_flds->setValue ( 2, "mkcins_resim", "BLOB"   , "Resim" , "0" );
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
@@ -38,7 +38,7 @@ void hC_MKCINS::tbsetup()
 
 void hC_MKCINS::tbui()
 {
-    qDebug() << "  ui";
+    qDebug() << "   UI";
     this->setWindowTitle (win_Label->text ());
     auto *win_Grid = new QGridLayout(this);
     win_Grid->addWidget( win_Rsm     , 0,   0 , 1, 1);
@@ -47,6 +47,7 @@ void hC_MKCINS::tbui()
 
 void hC_MKCINS::tbwdgt()
 {
+    qDebug() << "   WDGT";
     win_Rsm->setMinimumSize(60,100);
     hC_Rs resim (win_Rsm);
 
@@ -62,6 +63,7 @@ void hC_MKCINS::tbwdgt()
 }
 void hC_MKCINS::tbkntrl()
 {
+    qDebug() << "   KNTRL";
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -167,7 +169,7 @@ void hC_MKCINS::tbkntrl()
 
 
     });
-    qDebug ()<<"cins pB 010 nav 3";
+
     // --- 012 kolon değiştiğinde indexte değişsin
     connect(  tb_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
@@ -176,7 +178,7 @@ void hC_MKCINS::tbkntrl()
         tb_mapper->setCurrentModelIndex(Index);
     });
 
-    qDebug ()<<"cins pB 010 nav  sonnn";
+
 
 }
 
