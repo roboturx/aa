@@ -6,9 +6,9 @@ hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
     //************************************************************
     //*****************  M A L Z E M E G C ***********************
 
-
     win_Label->text ()= "AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI";
-    *tb_name   = "mlzmgc_dbtb" ;
+    *tb_name = "mlzmgc_dbtb" ;
+    *tb_ndex = "mlzmgc_tarih";
 
     tb_flds = new hC_ArrD (13, 4);
     tb_flds->setValue ( 0, "mlzmgc_ID"      , "INTEGER", "MalzemeGcID", "0" ) ;
@@ -24,13 +24,6 @@ hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
     tb_flds->setValue (10, "mlzmgc_kdv"     , "TEXT"   , "KDV %");
     tb_flds->setValue (11, "mlzmgc_aciklama", "TEXT"   , "Açıklama" );
     tb_flds->setValue (12, "mlzmgc_resim"   , "BLOB"   , "Resim" , "0" );
-
-    *tb_ndex     = "mlzmgc_tarih";
-//    tb_model    = new QSqlRelationalTableModel;
-//    tb_mapper   = new QDataWidgetMapper;
-//    win_Wdgt    = new QWidget;
-//    tb_view     = new hC_Tv ();
-//    tb_slctnMdl = new QItemSelectionModel;
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
@@ -131,8 +124,8 @@ void hC_MLZMGC::tbkntrl()
 {
     qDebug() << "   mlzmGc_kntrl";
 
-    tb_slctnMdl = tb_view->table->selectionModel();
-    qDebug () <<"  "<< *tb_name << "Selected: " <<  tb_slctnMdl <<".";
+   // tb_slc//tnMdl = tb_view->table->selectionModel();
+    qDebug () <<"  "<< *tb_name << "Selected: " <<  tbx_slctnMdl <<".";
     /////////////////////////////////////////////////////
     /// mlzm göster
 
@@ -164,7 +157,7 @@ void hC_MLZMGC::tbkntrl()
 
 
     /// MlzmGc table da koon değiştiğnde index değişsin
-    connect(  tb_slctnMdl, &QItemSelectionModel::currentRowChanged,
+    connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
               tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
 
 

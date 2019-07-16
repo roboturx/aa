@@ -129,8 +129,8 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
 
 
 hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
-              QDataWidgetMapper *tb_mapper,
-               QWidget *wdgt )
+              QDataWidgetMapper *tb_mapper ,
+              QWidget *win_Wdgt)
 {
 
     // //////////////////////////////////////////////
@@ -339,16 +339,17 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 
 
     connect (cB_map, &QCheckBox::stateChanged,
-             [this, wdgt]()
+             [this, win_Wdgt]()
     {
         if (cB_map->isChecked ())
         {
-            wdgt->show ();
+
+            win_Wdgt->show ();
             adjustSize ();
         }
         else
         {
-            wdgt->hide ();
+            win_Wdgt->hide ();
             adjustSize ();
         }
     });
@@ -596,7 +597,7 @@ hC_tBcreator::hC_tBcreator ()
     tb_name   = new QString  ;
     tb_ndex   = new QString ();
     tb_model  = new QSqlRelationalTableModel;
-    tb_slctnMdl = new QItemSelectionModel;
+    tbx_slctnMdl = new QItemSelectionModel;
     tb_mapper = new QDataWidgetMapper;
     win_Wdgt  = new QWidget;
 
@@ -617,7 +618,7 @@ hC_tBcreator::~hC_tBcreator()
 
     delete tb_view     ;
     delete tb_model     ;
-    delete tb_slctnMdl ;
+  //  delete tbx_slctnMdl ;
     delete tb_mapper   ;
 
     delete tb_name     ;
@@ -776,7 +777,7 @@ void hC_tBcreator::tbView(hC_ArrD *tb_flds )
     //////////////////////////////////////////////////////////
 
     tb_view->table->setModel(tb_model);
-    tb_slctnMdl = tb_view->table->selectionModel ();
+    tbx_slctnMdl = tb_view->table->selectionModel ();
 
 
     for (int i = 0 ; i < tb_flds->length () ; i++ )

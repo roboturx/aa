@@ -125,8 +125,7 @@ class hC_Tv : public QWidget
 public:
 
     explicit hC_Tv(QSqlRelationalTableModel *tb_model,
-                   QDataWidgetMapper *tb_mapper,
-                   QWidget *wdgt = nullptr );
+                   QDataWidgetMapper *tb_mapper, QWidget *win_Wdgt);
     ~hC_Tv();
 
     QTableView  * table;
@@ -339,7 +338,7 @@ public:
     /////////////////////////////////////////////////
         hC_Tv                    * tb_view     {} ;
         QSqlRelationalTableModel * tb_model     {} ;
-        QItemSelectionModel      * tb_slctnMdl {} ;
+        QItemSelectionModel      * tbx_slctnMdl {} ;
         QDataWidgetMapper        * tb_mapper   {} ;
 
         QString                  * tb_name     {} ;

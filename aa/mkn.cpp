@@ -460,15 +460,15 @@ void hC_MKN::tbkntrl()
     connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
     {
-        hC_Rs resim(win_Rsm, tb_view, tb_model, tb_slctnMdl,
+        hC_Rs resim(win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                            "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
-    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]()
     {
-        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                            "resim","değiştir" ) ;
     });
 
@@ -535,7 +535,7 @@ void hC_MKN::tbkntrl()
     });
 
     // --- 011 row değiştiğinde 2 şey olsun
-    connect(  tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
@@ -550,7 +550,7 @@ void hC_MKN::tbkntrl()
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  tb_slctnMdl ,
+    connect(  tbx_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
               [this]( QModelIndex Index )
     {

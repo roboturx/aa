@@ -170,8 +170,8 @@ void hC_MLZM::tbkntrl()
 {
     qDebug() << "   kntrl";
 
-  //  tb_slctnMdl = tb_view->table->selectionModel();
-  //  qDebug () <<"  "<< *tb_name << "Selected: " <<  tb_slctnMdl <<".";
+  //  tbx_slctnMdl = tb_view->table->selectionModel();
+  //  qDebug () <<"  "<< *tb_name << "Selected: " <<  tbx_slctnMdl <<".";
     // /// yeni malzeme ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -243,7 +243,7 @@ void hC_MLZM::tbkntrl()
     connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this] ()
     {
-        hC_Rs resim (win_Rsm, tb_view, tb_model, tb_slctnMdl,
+        hC_Rs resim (win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                      "resim","ekle");
 
     });
@@ -366,15 +366,15 @@ void hC_MLZM::tbkntrl()
 
 
     /// Mlzm da kolon değiştiğinde indexte değişsin
-    connect(  tb_slctnMdl, &QItemSelectionModel::currentColumnChanged,
+    connect(  tbx_slctnMdl, &QItemSelectionModel::currentColumnChanged,
               tb_mapper, &QDataWidgetMapper::setCurrentModelIndex);
 
     // malzemede row değiştiğnde 3 şeyi değiştirelim
     // 1 map indexi
     // 2 malzeme kodunu ve ismini yayalım
     // 3 resim
-    // qDebug() << " tb_slctnmdl connect 421 "<< tb_slctnMdl;
-    connect( tb_slctnMdl, &QItemSelectionModel::currentRowChanged,
+    // qDebug() << " tb_slctnmdl connect 421 "<< tbx_slctnMdl;
+    connect( tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index)
     {
 
@@ -404,7 +404,7 @@ void hC_MLZM::tbkntrl()
         emit hC_MLZM::sgnMalzeme( kd, brkd, mlzm, brm);
         ////////////////////////////////////////////////////////////////
         // 3 resimi değiştirelim
-        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                       "resim", "değiştir" ) ;
 
 
@@ -418,7 +418,7 @@ void hC_MLZM::tbkntrl()
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
 
 
-    connect(tb_slctnMdl, &QItemSelectionModel::currentRowChanged,
+    connect(tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
             this, &hC_MLZM::slt_Mlzm_hesap);
 
 }

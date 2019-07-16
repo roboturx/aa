@@ -325,16 +325,16 @@ void hC_FTR::tbkntrl()
             [this]()
     {
 
-        hC_Rs resim (win_Rsm, tb_view, tb_model, tb_slctnMdl,
+        hC_Rs resim (win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                      "ftr_resim", "ekle");
     });
 
     // row değiştiğnde resmide değiştirelim
     // -- 003   row değiştiğinde resmide değiştirelim
-    connect( tb_slctnMdl , &QItemSelectionModel::currentRowChanged,
+    connect( tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
              [this ]()
     {
-        hC_Rs resim ( win_Rsm, tb_view, tb_model, tb_slctnMdl,
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                       "ftr_resim", "değiştir" ) ;
     });
 
@@ -458,7 +458,7 @@ void hC_FTR::tbkntrl()
 
     /// row değiştiğinde
     // --- 011
-    connect (tb_slctnMdl, &QItemSelectionModel::currentRowChanged,
+    connect (tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index )
     {
 
@@ -468,7 +468,7 @@ void hC_FTR::tbkntrl()
 
     /// depo da kolon değiştiğinde mapper index te değişsin
     // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  tb_slctnMdl, &QItemSelectionModel::currentColumnChanged,
+    connect(  tbx_slctnMdl, &QItemSelectionModel::currentColumnChanged,
               tb_mapper, &QDataWidgetMapper::setCurrentModelIndex);
 }
 
