@@ -7,7 +7,7 @@ hC_MKMODL::hC_MKMODL()  : hC_tBcreator ()
     //*****************  M K  M O D L ****************************
     qDebug() << "Cnstrctr mkmodl *********************************";
 
-    win_Label->text ()= "ARAÇ MODEL BİLGİLERİ";
+    win_Label->setText ( "ARAÇ MODEL BİLGİLERİ");
     *tb_name   = "mkmodl_dbtb" ;
     *tb_ndex     = "mkmodl_modeli";
 
@@ -61,7 +61,7 @@ void hC_MKMODL::tbwdgt()
     hC_Rs resim (win_Rsm);
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto wdgt_Grid = new QGridLayout();
     win_Wdgt->setLayout(wdgt_Grid);

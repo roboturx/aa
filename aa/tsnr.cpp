@@ -7,7 +7,7 @@ hC_TSNR::hC_TSNR() : hC_tBcreator ()
     //************  T A Ş I N I R   İ S T E K  *******************
 
 
-    win_Label->text ()= "TAŞINIR İSTEK";
+    win_Label->setText ( "TAŞINIR İSTEK");
     *tb_name  = "tsnr_dbtb" ;
     *tb_ndex  = "tsnr_tarih";
 
@@ -94,7 +94,7 @@ void hC_TSNR:: tbwdgt()
     win_Rsm = new QLabel("Taşınır İstek");
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize ();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);

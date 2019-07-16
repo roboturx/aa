@@ -7,7 +7,7 @@ hC_FRM::hC_FRM() : hC_tBcreator ()
     //*****************  F İ R M A  ****************************
 
 
-    win_Label->text () = "FİRMA BİLGİLERİ";
+    win_Label->setText ( "FİRMA BİLGİLERİ");
     *tb_name  = "frm_dbtb" ;
     *tb_ndex  = "frm_unvan";
 
@@ -109,7 +109,7 @@ void hC_FRM::tbwdgt()
 
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);

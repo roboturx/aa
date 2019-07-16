@@ -6,7 +6,7 @@ hC_MLZM::hC_MLZM() : hC_tBcreator ()
     //************************************************************
     //*****************  M A L Z E M E  **************************
 
-    win_Label->text ()= "AMBAR MALZEME KAYITLARI";
+    win_Label->setText ( "AMBAR MALZEME KAYITLARI");
     *tb_name  = "mlzm_dbtb" ;
     *tb_ndex  = "malzeme";
 
@@ -127,7 +127,7 @@ void hC_MLZM::tbwdgt()
     hC_Rs resim(win_Rsm);
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize ();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);

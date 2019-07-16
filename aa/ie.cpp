@@ -7,7 +7,7 @@ hC_IE::hC_IE()  : hC_tBcreator ()
     //*****************  İ Ş   E M R İ  **************************
     qDebug() << "Ie Cnstrctr *************************************  ";
 
-    win_Label->text ()= "İŞ EMRİ KAYITLARI";
+    win_Label->setText ( "İŞ EMRİ KAYITLARI");
     *tb_name  = "ie_dbtb" ;
     *tb_ndex  = "ie_no";
 
@@ -140,7 +140,7 @@ void hC_IE::tbwdgt ()
     hC_Rs resim(win_Rsm);
 
     //////////////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize ();
     auto wdgtGrid = new QGridLayout;
     win_Wdgt->setLayout (wdgtGrid);

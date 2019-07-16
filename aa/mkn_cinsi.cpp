@@ -5,7 +5,7 @@ hC_MKCINS::hC_MKCINS() : hC_tBcreator ()
     //************************************************************
     //*****************  M K  C I N S ****************************
     qDebug() << "Cnstrctr mkcins *********************************";
-    win_Label->text ()= "ARAÇ CİNSİ";
+    win_Label->setText ( "ARAÇ CİNSİ");
     *tb_name   = "mkcins_dbtb" ;
     *tb_ndex     = "mkcins_cinsi";
 
@@ -52,7 +52,7 @@ void hC_MKCINS::tbwdgt()
     hC_Rs resim (win_Rsm);
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);

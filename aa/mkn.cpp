@@ -9,7 +9,7 @@ hC_MKN::hC_MKN() : hC_tBcreator ()
     //*****************  M A K İ N A  ****************************
 
 
-    win_Label->text ()= "ARAÇ BİLGİLERİ";
+    win_Label->setText ( "ARAÇ BİLGİLERİ");
     *tb_name  = "mkn_dbtb" ;
     *tb_ndex  = "mkn_kurumno";
 
@@ -324,7 +324,7 @@ void hC_MKN::tbwdgt()
 
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto mknGrid = new QGridLayout();
     win_Wdgt->setLayout(mknGrid);

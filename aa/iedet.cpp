@@ -8,7 +8,7 @@ hC_IEDET::hC_IEDET()  : hC_tBcreator ()
     //*****************  İ Ş   E M R İ D E T A Y *****************
 
 
-    win_Label->text ()= "İŞ EMRİ DETAY KAYITLARI";
+    win_Label->setText ( "İŞ EMRİ DETAY KAYITLARI");
     *tb_name  = "iedet_dbtb" ;
     *tb_ndex  = "iedet_ie_no";
 
@@ -115,7 +115,7 @@ void hC_IEDET:: tbwdgt ()
 
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);

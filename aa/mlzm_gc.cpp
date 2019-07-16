@@ -6,7 +6,7 @@ hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
     //************************************************************
     //*****************  M A L Z E M E G C ***********************
 
-    win_Label->text ()= "AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI";
+    win_Label->setText ( "AMBAR MALZEME GİRİŞ-ÇIKIŞ KAYITLARI");
     *tb_name = "mlzmgc_dbtb" ;
     *tb_ndex = "mlzmgc_tarih";
 

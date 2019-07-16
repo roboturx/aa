@@ -349,6 +349,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
         }
         else
         {
+
             win_Wdgt->hide ();
             adjustSize ();
         }

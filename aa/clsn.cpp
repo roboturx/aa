@@ -5,7 +5,7 @@ hC_CLSN::hC_CLSN () : hC_tBcreator ()
     qDebug ()<<"Çalışan Constructor*******************************";
     //************************************************************
     //*****************  Ç A L I Ş A N  **************************
-    win_Label->text () = "ÇALIŞAN KAYITLARI";
+    win_Label->setText ( "ÇALIŞAN KAYITLARI");
     *tb_name   = "clsn_dbtb" ;
     *tb_ndex  = "clsn_soyad";
 
@@ -143,7 +143,7 @@ void hC_CLSN::tbwdgt()
 
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+
     win_Wdgt->adjustSize ();
     auto win_Grid = new QGridLayout();
     win_Wdgt->setLayout(win_Grid);

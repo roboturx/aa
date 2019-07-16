@@ -9,7 +9,7 @@ hC_FTR::hC_FTR() : hC_tBcreator ()
     //*****************  F A T U R A  ****************************
     qDebug() << "Ftr Cnstrctr ************************************";
 
-    win_Label->text ()= "FATURA BAŞLIK BİLGİ GİRİŞ";
+    win_Label->setText ("FATURA BAŞLIK BİLGİ GİRİŞ") ;
     *tb_name  = "ftr_dbtb" ;
     *tb_ndex  = "ftr_tarih";
 
@@ -29,7 +29,9 @@ hC_FTR::hC_FTR() : hC_tBcreator ()
     tb_wdgts->append ( lE_aciklama = new QLineEdit    ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
+    qDebug() << "   ftr_ui wlbl "<< win_Label->text ();
 
+     setWindowTitle(win_Label->text ());
 }
 
 
@@ -51,11 +53,9 @@ void hC_FTR::tbsetup()
 
 void hC_FTR::tbui()
 {
-    qDebug() << "   ftr_ui";
+    qDebug() << "   ftr_ui  "<< win_Label->text ();
 
-    ////////////////////////////////////////// window
-
-    hC_FTR::setWindowTitle(win_Label->text ());
+     setWindowTitle(win_Label->text ());
 
     auto *win_Grid = new QGridLayout(this);
     win_Grid->addWidget (tb_view  , 0, 0, 1, 1);
@@ -156,7 +156,7 @@ void hC_FTR::tbwdgt()
 
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);
@@ -252,14 +252,14 @@ void hC_FTR::tbkntrl()
 
             QString ftrNo = lE_fno->text ();
 
-            QString IEtableName{"ftr__dbtb"};
+           // QString IEtableName{"ftr_dbtb"};
             QSqlQuery q;
             QString qry, mesaj("");
 
             /// yeni barkod numarasını bul
             /// barkod nosu ftr__dbtb de
             /// ftr_barkod alanındaki en büyük sayı
-            qry = "SELECT max(ftr_kod) FROM " + IEtableName  ;
+            qry = "SELECT max(ftr_id) FROM " + *tb_name  ;
             int ftrkod{};
             if ( !q.exec(qry) )
             {
@@ -271,6 +271,7 @@ void hC_FTR::tbkntrl()
             }
             else
             {
+                qDebug() << "  yeni fatura";
                 q.next();
                 ftrkod = q.value(0).toInt ();
                 mesaj = mesaj + "MAX VAL =" +
@@ -284,7 +285,7 @@ void hC_FTR::tbkntrl()
             QString date(QDate::currentDate().
                          toString ( "dd-MM-yyyy" ));
 
-            qry = "INSERT INTO " + IEtableName +
+            qry = "INSERT INTO " + *tb_name +
                     " ( ftr_no,ftr_tarih) "
                     " values ( '"+ftrNo+
                     "' , '"+date+

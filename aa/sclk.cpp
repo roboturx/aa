@@ -7,7 +7,7 @@ hC_SCLK::hC_SCLK () :  hC_tBcreator  ()
     //************************************************************
     //*****************  İ Ş Ç İ L İ K  **************************
 
-    win_Label->text ()= "İŞÇİLİK KAYITLARI";
+    win_Label->setText ( "İŞÇİLİK KAYITLARI");
     *tb_name  = "sclk_dbtb" ;
     *tb_ndex  = "sclk_tarih";
 
@@ -105,7 +105,7 @@ void hC_SCLK:: tbwdgt()
     hC_Rs resim(win_Rsm);
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);

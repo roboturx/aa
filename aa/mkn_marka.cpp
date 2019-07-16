@@ -9,7 +9,7 @@ hC_MKMARK::hC_MKMARK()  : hC_tBcreator ()
     qDebug() << "Cnstrctr mkmark *********************************";
 
 
-    win_Label->text ()= "ARAÇ MARKA BİLGİLERİ";
+    win_Label->setText ( "ARAÇ MARKA BİLGİLERİ");
     *tb_name   = "mkmark_dbtb" ;
     *tb_ndex     = "mkmark_marka";
 
@@ -60,7 +60,7 @@ void hC_MKMARK::tbwdgt()
     hC_Rs resim (win_Rsm);
 
     ///////////////////////////////////////
-    win_Wdgt = new QWidget;
+    
     win_Wdgt->adjustSize();
     auto wdgtGrid = new QGridLayout();
     win_Wdgt->setLayout(wdgtGrid);
