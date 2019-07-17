@@ -6,7 +6,7 @@ hC_MKMARK::hC_MKMARK()  : hC_tBcreator ()
 {
     //************************************************************
     //*****************  M K  M A R K ****************************
-    qDebug() << "Cnstrctr mkmark *********************************";
+    qDebug() << "Constructor MAKİNA MARKA *********************************";
 
 
     win_Label->setText ( "ARAÇ MARKA BİLGİLERİ");
@@ -195,7 +195,9 @@ void hC_MKMARK::tbkntrl()
 }
 
 hC_MKMARK::~hC_MKMARK()
-= default;
+{
+    qDebug() << "*********** destructor MAKİNA MARKA";//    delete ui;
+}
 
 
    /*

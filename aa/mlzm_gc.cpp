@@ -2,7 +2,7 @@
 
 hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
 {
-    qDebug() << "Cnstrctr mlzmGc *********************************";
+    qDebug() << "Constructor MALZEME GİRİŞ ÇIKIŞ *********************************";
     //************************************************************
     //*****************  M A L Z E M E G C ***********************
 
@@ -27,16 +27,16 @@ hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
-    tb_wdgts->append ( nullptr    ) ; // mlzm_kod
-    tb_wdgts->append ( nullptr    ) ; // barkod
-    tb_wdgts->append ( nullptr    ) ; // malzeme
+    tb_wdgts->append ( lE_kod = new QLineEdit   ) ; // mlzm_kod
+    tb_wdgts->append ( hClE_barkod = new hC_Le    ) ; // barkod
+    tb_wdgts->append ( hClE_malzeme = new hC_Le   ) ; // malzeme
     tb_wdgts->append ( lE_tarih = new QLineEdit  ) ;
     tb_wdgts->append ( cbx_grscks = new QComboBox  ) ;
-    tb_wdgts->append ( nullptr    ) ; // gcno
+    tb_wdgts->append ( hCle_gcno = new hC_Le ) ; // gcno
     tb_wdgts->append ( lE_miktar = new QLineEdit  ) ;
-    tb_wdgts->append ( nullptr    ) ; // birim
+    tb_wdgts->append ( cbx_birim = new QComboBox  ) ; // birim
     tb_wdgts->append ( lE_fiyat = new QLineEdit ) ;
-    tb_wdgts->append ( nullptr    ) ; // kdv
+    tb_wdgts->append ( spn_kdv = new QSpinBox  ) ; // kdv
     tb_wdgts->append ( lE_aciklama = new QLineEdit    ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
@@ -76,6 +76,80 @@ void hC_MLZMGC::tbwdgt()
 {
     qDebug() << "   mlzmGc_wdgt";
 
+    auto *lB_kd = new QLabel("Malzeme Kodu");
+    lB_kd->setBuddy(lE_kod);
+
+    auto *lB_bk = new QLabel("Barkod");
+    lB_bk->setBuddy(hClE_barkod);
+
+
+    // malzeme ismini fatyraya ekle
+    connect(hClE_barkod->pushButton , &QPushButton::clicked,
+            [this]()
+    {
+        // malzeme seçebilmek için malzeme penceresi
+        auto diabarkod = new QDialog;
+        diabarkod->setModal (true);
+        auto barkodGrid = new QGridLayout;
+        diabarkod->setLayout (barkodGrid);
+        // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
+        diabarkod->setGeometry (100,220,800,500);
+
+        QString* mess = new QString( "<br>"
+                                     "<br> Lütfen Girişi yapılan Malzeme bilgilerine "
+                                     "<br> Barkod girmek için seçim yapın "
+                                     "<br> "
+                                     "<br> Eğer aradığınız Barkod listede yoksa yeni  "
+                                     "<br> malzeme girişi yaparak işlemi tamamlayın"
+                                     "<br>");
+
+        this->setWhatsThis ( *mess);
+        this->setToolTipDuration (5000);
+        this->setToolTip (*mess);
+
+
+        // malzeme class ımızı getirelim
+        auto malzeme = new hC_MLZM;
+        malzeme->tbsetup ();
+        barkodGrid->addWidget (malzeme ,0 ,0 ,1, 1);
+        //diabarkod->show();
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // malzeme tableviewinde gezinirken malzeme adımız
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan lineedit e aktaralım
+        // ----------------------------------------------------
+
+
+        connect (malzeme, &hC_MLZM::sgnMalzeme,
+                 [ this ] ( QString* seckod,
+                            QString* secbarkod,
+                            QString* secmalzeme,
+                            QString* secbirim)
+        {
+            qDebug ()<< "kod " <<seckod<< secmalzeme<<secbarkod;
+
+            this->lE_kod->setText (*seckod);
+            this->hClE_malzeme->lineEdit->setText (*secmalzeme);
+            this->hClE_barkod->lineEdit->setText (*secbarkod);
+            this->cbx_birim->setCurrentText (*secbirim);
+
+            this->hClE_malzeme->lineEdit->setFocus();
+        });
+        diabarkod->exec ();
+    });
+
+
+    auto *lB_ml = new QLabel("Malzeme");
+    lB_ml->setBuddy(hClE_malzeme);
+    connect(hClE_malzeme->pushButton , &QPushButton::clicked,
+            [this]()
+    {
+        hClE_barkod->pushButton->clicked ();
+    });
+
     auto *lB_tarih = new QLabel(tr("&Tarih"));
     lB_tarih->setBuddy(lE_tarih);
 
@@ -85,11 +159,21 @@ void hC_MLZMGC::tbwdgt()
     cbx_grscks->insertItems (0,  GC );
     lB_grs_cks->setBuddy(cbx_grscks);
 
+    auto *lB_gcno = new QLabel(tr("İşlem No"));
+    lB_gcno->setBuddy(hCle_gcno);
+
     auto *lB_miktar = new QLabel(tr("&Miktar"));
     lB_miktar->setBuddy(lE_miktar);
 
+    auto *lB_birim = new QLabel(tr("&Birim"));
+    lB_birim->setBuddy(cbx_birim);
+
+
     auto *lB_fiyat = new QLabel(tr("&Fiyat"));
     lB_fiyat->setBuddy(lE_fiyat);
+
+    auto *lB_kdv = new QLabel(tr("&KDV"));
+    lB_kdv->setBuddy(spn_kdv);
 
     auto *lB_aciklama = new QLabel(tr("&Açıklama"));
     lB_aciklama->setBuddy(lE_aciklama);
@@ -106,16 +190,31 @@ void hC_MLZMGC::tbwdgt()
     ///////////////////////////////////////
     lE_aciklama->setMinimumSize (200,25);
 
-    wdgtGrid->addWidget(lB_tarih   , 0, 0, 1, 1);
-    wdgtGrid->addWidget(lE_tarih   , 0, 1, 1, 1);
-    wdgtGrid->addWidget(lB_grs_cks , 1, 0, 1, 1);
-    wdgtGrid->addWidget(cbx_grscks , 1, 1, 1, 1);
-    wdgtGrid->addWidget(lB_miktar  , 2, 0, 1, 1);
-    wdgtGrid->addWidget(lE_miktar  , 2, 1, 1, 1);
-    wdgtGrid->addWidget(lB_fiyat   , 3, 0, 1, 1);
-    wdgtGrid->addWidget(lE_fiyat   , 3, 1, 1, 1);
-    wdgtGrid->addWidget(lB_aciklama, 4, 0, 1, 1);
-    wdgtGrid->addWidget(lE_aciklama, 4, 1, 1, 1);
+    int str = 0;
+    wdgtGrid->addWidget(lB_kd        , str, 0, 1, 1);
+    wdgtGrid->addWidget(lE_kod       , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_bk        , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(hClE_barkod  , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_ml        , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(hClE_malzeme , str, 1, 1, 1);
+
+    wdgtGrid->addWidget(lB_tarih   , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(lE_tarih   , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_grs_cks , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(cbx_grscks , str, 1, 1, 1);
+
+    wdgtGrid->addWidget(lB_gcno    , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(hCle_gcno  , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_miktar  , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(lE_miktar  , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_birim   , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(cbx_birim  , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_fiyat   , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(lE_fiyat   , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_kdv     , ++str, 0, 1, 1);
+    wdgtGrid->addWidget(spn_kdv    , str, 1, 1, 1);
+    wdgtGrid->addWidget(lB_aciklama, ++str, 0, 1, 1);
+    wdgtGrid->addWidget(lE_aciklama, str, 1, 1, 1);
 
 }
 
@@ -124,7 +223,7 @@ void hC_MLZMGC::tbkntrl()
 {
     qDebug() << "   mlzmGc_kntrl";
 
-   // tb_slc//tnMdl = tb_view->table->selectionModel();
+    // tb_slc//tnMdl = tb_view->table->selectionModel();
     qDebug () <<"  "<< *tb_name << "Selected: " <<  tbx_slctnMdl <<".";
     /////////////////////////////////////////////////////
     /// mlzm göster
@@ -137,9 +236,9 @@ void hC_MLZMGC::tbkntrl()
 
     connect(mlzm, &hC_MLZM::sgnMalzeme ,
             [this ] (QString* sgnKod,
-                     QString* sgnBarkod,
-                     QString* sgnMalzeme,
-                     QString* sgnBirim)
+            QString* sgnBarkod,
+            QString* sgnMalzeme,
+            QString* sgnBirim)
     {
         mlzmKod     = sgnKod ;
         mlzmBarkod  = sgnBarkod ;
@@ -245,7 +344,8 @@ void hC_MLZMGC::tbkntrl()
 
 hC_MLZMGC::~hC_MLZMGC()
 {
-    qDebug() << "   destructor";
+    qDebug() << "*********** destructor MALZEME GİRİŞ ÇIKIŞ ";//    delete ui;
+
 
     delete tb_flds     ;
 
@@ -254,21 +354,21 @@ hC_MLZMGC::~hC_MLZMGC()
     delete win_Wdgt  ;
     delete win_Label ;
     delete win_Rsm   ;
-/////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     delete mlzm         ;
     delete mlzmKod      ;
     delete mlzmBarkod   ;
     delete mlzmMalzeme  ;
     delete mlzmBirim    ;
 
-    delete mlzmGcWdgt   ;
+    //   delete mlzmGcWdgt   ;
 
-    delete lE_barkod    ;
-    delete lE_malzeme   ;
+    //delete hClE_barkod   ;
+    //  delete hClE_malzeme   ;
     //delete lE_tarih     ;
     //delete cbx_grscks   ;
     //delete lE_miktar    ;
-  //  delete lE_fiyat     ;
+    //  delete lE_fiyat     ;
     //delete lE_aciklama  ;
 
 

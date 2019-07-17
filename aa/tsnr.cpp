@@ -2,7 +2,7 @@
 
 hC_TSNR::hC_TSNR() : hC_tBcreator ()
 {
-    qDebug ()<<"cnstrct Taşınır İstek ****************************";
+    qDebug ()<<"Constructor TAŞINIR İSTEK ****************************";
     //************************************************************
     //************  T A Ş I N I R   İ S T E K  *******************
 
@@ -313,5 +313,6 @@ void hC_TSNR:: tbkntrl()
 
 
 hC_TSNR::~hC_TSNR()
-= default;
-
+{
+    qDebug() << "*********** destructor TAŞINIR İSTEK";
+}

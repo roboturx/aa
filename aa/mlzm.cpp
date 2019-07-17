@@ -2,7 +2,7 @@
 
 hC_MLZM::hC_MLZM() : hC_tBcreator ()
 {
-    qDebug() << "cnstrct mlzm **********************************";
+    qDebug() << "Constructor MALZEME **********************************";
     //************************************************************
     //*****************  M A L Z E M E  **************************
 
@@ -300,7 +300,7 @@ void hC_MLZM::tbkntrl()
             if(dlg == QMessageBox::Yes)
             {
                 /// Mlzmya ait Mlzmdet giriş kayıtlarını sil
-                s_qry = QString("DELETE FROM mzgc__dbtb where mzgc_kod = %1").arg (Mlzm_no);
+                s_qry = QString("DELETE FROM mlzmgc_dbtb where mlzmgc_id = %1").arg (Mlzm_no);
                 q_qry.exec(s_qry);
                 if (q_qry.isActive ())
                 {
@@ -321,7 +321,7 @@ void hC_MLZM::tbkntrl()
 
 
                 /// Mlzm kayıtlarını silelim
-                s_qry = QString("DELETE FROM mzgc_dbtb where kod = %1").arg (Mlzm_no);
+                s_qry = QString("DELETE FROM mlzmgc_dbtb where mlzmgc_id = %1").arg (Mlzm_no);
                 q_qry.exec(s_qry);
                 if (q_qry.isActive ())
                 {
@@ -401,7 +401,7 @@ void hC_MLZM::tbkntrl()
         *brm =  tb_view->table->model()->index( Index.row() ,
                   tb_model->fieldIndex ("birim") ).data().toString();
         ////////////////////////////////////////////////////////////////
-        emit hC_MLZM::sgnMalzeme( kd, brkd, mlzm, brm);
+        emit hC_MLZM::sgnMalzeme( *kd, *brkd, *mlzm, *brm);
         ////////////////////////////////////////////////////////////////
         // 3 resimi değiştirelim
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
@@ -435,10 +435,10 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
                              fieldIndex("kod"))).toInt () ;
         QSqlQuery q_qry;
         QString s_qry;
-        s_qry = QString ("SELECT SUM(mzgc_miktar) "
-                         "FROM mzgc__dbtb "
-                         "WHERE mzgc_kod = %1 AND "
-                         "mzgc_gc = 'Faturalı Giriş'").arg(id);
+        s_qry = QString ("SELECT SUM(mlzmgc_miktar) "
+                         "FROM mlzmgc_dbtb "
+                         "WHERE mlzmgc_id = %1 AND "
+                         "mlzmgc_gc = 'Faturalı Giriş'").arg(id);
         q_qry.exec (s_qry);
 
 
@@ -456,10 +456,10 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
             qDebug() << "qury not active"<<endl<<
                         q_qry.lastError ().text()<<endl;
         }
-        s_qry = QString ("SELECT SUM(mzgc_miktar) "
-                         "FROM mzgc__dbtb "
-                         "WHERE mzgc_kod = %1 AND "
-                         "mzgc_gc = 'Çıkış'").arg(id);
+        s_qry = QString ("SELECT SUM(mlzmgc_miktar) "
+                         "FROM mlzmgc_dbtb "
+                         "WHERE mlzmgc_id = %1 AND "
+                         "mlzmgc_gc = 'Çıkış'").arg(id);
         q_qry.exec (s_qry);
         if (q_qry.isActive ())
         {
@@ -500,7 +500,7 @@ void hC_MLZM::showEvent(QShowEvent *)
 
 hC_MLZM::~hC_MLZM()
 {
-    qDebug() << "   destructor MLZM";
+    qDebug() << "*********** destructor MALZEME ";
     delete tb_flds     ;
     delete tb_wdgts    ;
 

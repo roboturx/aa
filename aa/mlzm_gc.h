@@ -21,19 +21,24 @@ public:
     QList <QWidget*>         * tb_wdgts    {} ;
 
     hC_MLZM     *mlzm         {} ;
+
     QString     *mlzmKod      {} ;
     QString     *mlzmBarkod   {} ;
     QString     *mlzmMalzeme  {} ;
     QString     *mlzmBirim    {} ;
 
-    QWidget     *mlzmGcWdgt   {} ;
+    //QWidget     *mlzmGcWdgt   {} ;
 
-    QLineEdit   *lE_barkod    {} ;
-    QLineEdit   *lE_malzeme   {} ;
+    QLineEdit   *lE_kod       {} ;
+    hC_Le       *hClE_barkod  {} ;
+    hC_Le       *hClE_malzeme {} ;
     QLineEdit   *lE_tarih     {} ;
     QComboBox   *cbx_grscks   {} ;
+    hC_Le       *hCle_gcno    {} ;
     QLineEdit   *lE_miktar    {} ;
+    QComboBox   *cbx_birim    {} ;
     QLineEdit   *lE_fiyat     {} ;
+    QSpinBox    *spn_kdv      {} ;
     QLineEdit   *lE_aciklama  {} ;
 
 

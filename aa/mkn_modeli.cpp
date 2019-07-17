@@ -5,7 +5,7 @@ hC_MKMODL::hC_MKMODL()  : hC_tBcreator ()
 {
     //************************************************************
     //*****************  M K  M O D L ****************************
-    qDebug() << "Cnstrctr mkmodl *********************************";
+    qDebug() << "Constructor MAKİNA MODELİ *********************************";
 
     win_Label->setText ( "ARAÇ MODEL BİLGİLERİ");
     *tb_name   = "mkmodl_dbtb" ;
@@ -191,7 +191,9 @@ qDebug()<<"  mkModl kntrl";
 
 
 hC_MKMODL::~hC_MKMODL()
-= default;
+{
+    qDebug() << "*********** destructor MAKİNA MODELİ";//    delete ui;
+}
 
 
 

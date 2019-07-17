@@ -5,7 +5,7 @@ hC_IE::hC_IE()  : hC_tBcreator ()
 {
     //************************************************************
     //*****************  İ Ş   E M R İ  **************************
-    qDebug() << "Ie Cnstrctr *************************************  ";
+    qDebug() << "Constructor İŞ EMRİ *************************************  ";
 
     win_Label->setText ( "İŞ EMRİ KAYITLARI");
     *tb_name  = "ie_dbtb" ;
@@ -439,5 +439,8 @@ void hC_IE::tbkntrl()
 
 
 hC_IE::~hC_IE()
-= default;
+{
+    qDebug() << "*********** destructor İŞ EMRİ " ;
+}
+
 

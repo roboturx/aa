@@ -265,27 +265,27 @@ private:
 
 
 
-// /////////////////////////////////////////////////////////////////////////////////
+//// /////////////////////////////////////////////////////////////////////////////////
 
 
-//    QSQLRELATIONATABLEMODEL    -----> hC_Rm
+////    QSQLRELATIONATABLEMODEL    -----> hC_Rm
 
-// rel model
-// /////////////////////////////////////////////////////////////////////////////////
+//// rel model
+//// /////////////////////////////////////////////////////////////////////////////////
 
 
-class hC_Rm : public QSqlRelationalTableModel
-{    Q_OBJECT
+//class hC_Rm : public QSqlRelationalTableModel
+//{    Q_OBJECT
 
- public:
-     explicit hC_Rm (QString *rm_Table,
-                     QSqlRelationalTableModel *rm_model,
-                     QString *rm_IndexField,
-                     hC_ArrD *);
-     ~hC_Rm();
-     // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
-     //QSqlRelationalTableModel  *hC_rm;
-};
+// public:
+//     explicit hC_Rm (QString *rm_Table,
+//                     QSqlRelationalTableModel *rm_model,
+//                     QString *rm_IndexField,
+//                     hC_ArrD *);
+//     ~hC_Rm();
+//     // QSqlRelationalTableModel *model(QSqlRelationalTableModel *model);
+//     //QSqlRelationalTableModel  *hC_rm;
+//};
 
 
 
@@ -314,8 +314,6 @@ private:
 
 
 
-
-//#include "clsn.h"
 
 class hC_tBcreator  : public QWidget
 {

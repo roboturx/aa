@@ -3,7 +3,7 @@
 
 hC_IEDET::hC_IEDET()  : hC_tBcreator ()
 {
-    qDebug ()<<"Cnstrctr İş Emri Detay ***************************";
+    qDebug ()<<"Constructor İŞ EMRİ DETAY ***************************";
     //************************************************************
     //*****************  İ Ş   E M R İ D E T A Y *****************
 
@@ -402,5 +402,8 @@ void hC_IEDET:: tbkntrl()
 
 
 hC_IEDET::~hC_IEDET()
-= default;
+{
+    qDebug() << "*********** destructor İŞ EMRİ DETAY ";//    delete ui;
+}
+
 

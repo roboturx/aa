@@ -4,7 +4,7 @@ hC_MKCINS::hC_MKCINS() : hC_tBcreator ()
 {
     //************************************************************
     //*****************  M K  C I N S ****************************
-    qDebug() << "Cnstrctr mkcins *********************************";
+    qDebug() << "Constructor MAKİNA CİNSİ *********************************";
     win_Label->setText ( "ARAÇ CİNSİ");
     *tb_name   = "mkcins_dbtb" ;
     *tb_ndex     = "mkcins_cinsi";
@@ -183,5 +183,7 @@ void hC_MKCINS::tbkntrl()
 }
 
 hC_MKCINS::~hC_MKCINS()
-= default;
+{
+    qDebug() << "*********** destructor MAKİNA CİNSİ ";//    delete ui;
+}
 

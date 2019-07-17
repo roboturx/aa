@@ -4,7 +4,7 @@ hC_MKN::hC_MKN() : hC_tBcreator ()
 {
 
 
-    qDebug ()<<"cnstrctr MAKİNA **********************************";
+    qDebug ()<<"Constructor MAKİNA **********************************";
     //************************************************************
     //*****************  M A K İ N A  ****************************
 
@@ -953,8 +953,9 @@ void hC_MKN::onmnyeniEklE_hgsSLOT()
 */
 
 hC_MKN::~hC_MKN()
-= default;       ///      ~hC_MKN
-
+{
+    qDebug() << "*********** destructor MAKİNA ";//    delete ui;
+}
 
 ////////////////////////////////////////////
 ///

@@ -7,7 +7,7 @@ hC_FTR::hC_FTR() : hC_tBcreator ()
 {
     //************************************************************
     //*****************  F A T U R A  ****************************
-    qDebug() << "Ftr Cnstrctr ************************************";
+    qDebug() << "Constructor FATURA ************************************";
 
     win_Label->setText ("FATURA BAŞLIK BİLGİ GİRİŞ") ;
     *tb_name  = "ftr_dbtb" ;
@@ -21,17 +21,7 @@ hC_FTR::hC_FTR() : hC_tBcreator ()
     tb_flds->setValue ( 4, "ftr_aciklama", "TEXT"   , "Açıklama"   );
     tb_flds->setValue ( 5, "ftr_resim"   , "BLOB"   , "Resim" , "0" );
 
-    tb_wdgts = new QList <QWidget*> ;
-    tb_wdgts->append ( nullptr    ) ;
-    tb_wdgts->append ( lE_faturano = new QLineEdit  ) ;
-    tb_wdgts->append ( lE_firma = new hC_Le  ) ;
-    tb_wdgts->append ( lE_tarih = new QLineEdit ) ;
-    tb_wdgts->append ( lE_aciklama = new QLineEdit    ) ;
-    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
-
-    qDebug() << "   ftr_ui wlbl "<< win_Label->text ();
-
-     setWindowTitle(win_Label->text ());
+    setWindowTitle(win_Label->text ());
 }
 
 
@@ -43,7 +33,20 @@ void hC_FTR::tbsetup()
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
+
+
+    tb_wdgts = new QList <QWidget*> ;
+    tb_wdgts->append ( nullptr    ) ;
+    tb_wdgts->append ( lE_faturano = new QLineEdit  ) ;
+    tb_wdgts->append ( hClE_firma = new hC_Le  ) ;
+    tb_wdgts->append ( lE_tarih = new QLineEdit ) ;
+    tb_wdgts->append ( lE_aciklama = new QLineEdit    ) ;
+    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
+
+
     tbMap    ( tb_flds, tb_wdgts );
+
+    tb_mapper->addMapping (hClE_firma->lineEdit ,tb_model->fieldIndex ("ftr_frm"));
 
     tbwdgt  ();
     tbui();
@@ -73,12 +76,12 @@ void hC_FTR::tbwdgt()
     lB_faturano->setBuddy(lE_faturano);
 
     auto *lB_firma = new QLabel("Firma Ünvanı ");
-    lE_firma->lineEdit->setReadOnly(true);
+    hClE_firma->lineEdit->setReadOnly(true);
 
 
 
     // firma ismini fatyraya ekle
-    connect(lE_firma->pushButton , &QPushButton::clicked,
+    connect(hClE_firma->pushButton , &QPushButton::clicked,
             [this]()
     {
         // firma seçebilmek için firma penceresi
@@ -124,8 +127,8 @@ void hC_FTR::tbwdgt()
         connect (firma, &hC_FRM::sgnfirma,
                  [ this ] (QString secfirma )
         {
-            this->lE_firma->lineEdit->setText (secfirma);
-            this->lE_firma->lineEdit->setFocus();
+            this->hClE_firma->lineEdit->setText (secfirma);
+            this->hClE_firma->lineEdit->setFocus();
         });
         diafrm->exec ();
 
@@ -169,7 +172,7 @@ void hC_FTR::tbwdgt()
     wdgtGrid ->addWidget(lB_faturano, ++str, 0, 1, 1);
     wdgtGrid ->addWidget(lE_faturano,   str, 1, 1, 4);
     wdgtGrid ->addWidget(lB_firma   , ++str, 0, 1, 1);
-    wdgtGrid ->addWidget(lE_firma   ,   str, 1, 1, 4);
+    wdgtGrid ->addWidget(hClE_firma   ,   str, 1, 1, 4);
     wdgtGrid ->addWidget(lB_ack     , ++str, 0, 1, 1);
     wdgtGrid ->addWidget(lE_aciklama,   str, 1, 1, 4);
     wdgtGrid ->addWidget(lB_tarih   , ++str, 0, 1, 1);
@@ -302,7 +305,7 @@ void hC_FTR::tbkntrl()
             {
                 mesaj = mesaj + "Fatura kaydı eklendi.";
 
-                lE_firma ->lineEdit-> setText ("");
+                hClE_firma ->lineEdit-> setText ("");
                 lE_aciklama ->setText ("");
            }
             qDebug()<<mesaj;
@@ -567,6 +570,6 @@ void hC_FTR::showEvent(QShowEvent *)
 
 hC_FTR::~hC_FTR()
 {
-    //    delete ui;
+    qDebug() << "*********** destructor FATURA ";//    delete ui;
 }
 

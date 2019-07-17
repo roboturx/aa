@@ -2,7 +2,7 @@
 
 hC_FRM::hC_FRM() : hC_tBcreator ()
 {
-    qDebug ()<<"Firma Constructor ********************************";
+    qDebug ()<<"Constructor FİRMA ********************************";
     //************************************************************
     //*****************  F İ R M A  ****************************
 
@@ -244,5 +244,7 @@ void hC_FRM::showEvent(QShowEvent *)
 
 
 hC_FRM::~hC_FRM()
-= default;
+{
+    qDebug() << "*********** destructor FIRMA ";
+}
 

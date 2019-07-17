@@ -21,7 +21,7 @@ public:
 
     QLabel      * lB_brkd{} ;
     QLineEdit   * lE_faturano{}  ;
-    hC_Le       * lE_firma{} ;
+    hC_Le       * hClE_firma{} ;
     QLineEdit   * lE_tarih{};
     QLineEdit   * lE_aciklama{};
 QLineEdit   * lE_ftrToplam;

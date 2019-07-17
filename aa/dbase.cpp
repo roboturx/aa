@@ -57,60 +57,59 @@ void DBase::VTDosyaKontrol()
 
 
 
-    hC_CLSN clsn;
-    clsn.tbsetup ();
-    yaz(clsn.tbCreate (clsn.tb_flds));
+    hC_CLSN* clsn = new hC_CLSN;
+    yaz(clsn->tbCreate (clsn->tb_flds));
+    delete clsn ;
 
-    hC_FRM frm;
-    frm.tbsetup ();
-    yaz(frm.tbCreate (frm.tb_flds));
+    hC_FRM* frm = new hC_FRM;
+    yaz(frm->tbCreate (frm->tb_flds));
+    delete frm ;
 
-    hC_FTR ftr;
-    ftr.tbsetup ();
-    yaz(ftr.tbCreate (ftr.tb_flds));
+    hC_FTR* ftr = new hC_FTR;
+    yaz(ftr->tbCreate (ftr->tb_flds));
+    delete ftr ;
 
-//    hC_IE ie;
-//    ie.tbsetup ();
-//    yaz(ie.tbCreate (ie.tb_flds));
+    hC_IE* ie = new hC_IE;
+    yaz(ie->tbCreate (ie->tb_flds));
+    delete ie ;
 
-    hC_IEDET iedet;
-    iedet.tbsetup ();
-    yaz(iedet.tbCreate (iedet.tb_flds));
+    hC_IEDET* iedet = new hC_IEDET;
+    yaz(iedet->tbCreate (iedet->tb_flds));
+    delete iedet ;
 
-    hC_MKN mkn;
-    mkn.tbsetup ();
-    yaz(mkn.tbCreate (mkn.tb_flds));
+    hC_MKN* mkn = new hC_MKN;
+    yaz(mkn->tbCreate (mkn->tb_flds));
+    delete mkn ;
 
-    hC_MKCINS mkcins;
-    mkcins.tbsetup ();
-    yaz(mkcins.tbCreate (mkcins.tb_flds));
+    hC_MKCINS* mkcins = new hC_MKCINS;
+    yaz(mkcins->tbCreate (mkcins->tb_flds));
+    delete mkcins ;
 
-    hC_MKMARK mkmark;
-    mkmark.tbsetup ();
-    yaz(mkmark.tbCreate (mkmark.tb_flds));
+    hC_MKMARK* mkmark = new hC_MKMARK;
+    yaz(mkmark->tbCreate (mkmark->tb_flds));
+    delete mkmark ;
 
-    hC_MKMODL mkmodl;
-    mkmodl.tbsetup ();
-    yaz(mkmodl.tbCreate (mkmodl.tb_flds));
+    hC_MKMODL* mkmodl = new hC_MKMODL;
+    yaz(mkmodl->tbCreate (mkmodl->tb_flds));
+    delete mkmodl ;
 
-//    hC_MLZM mlzm;
-//    mlzm.tbsetup ();
-//    yaz(mlzm.tbCreate (mlzm.tb_flds)) ;
+    hC_MLZM* mlzm = new hC_MLZM;
+    yaz(mlzm->tbCreate (mlzm->tb_flds)) ;
+    delete mlzm ;
 
-    hC_MLZMGC mlzmgc;
-    mlzmgc.tbsetup ();
-    yaz(mlzmgc.tbCreate (mlzmgc.tb_flds)) ;
+    hC_MLZMGC* mlzmgc = new hC_MLZMGC;
+    yaz(mlzmgc->tbCreate (mlzmgc->tb_flds)) ;
+    delete mlzmgc ;
 
-    hC_SCLK sclk;
-    sclk.tbsetup ();
-    yaz(sclk.tbCreate (sclk.tb_flds)) ;
+    hC_SCLK* sclk = new hC_SCLK;
+    yaz(sclk->tbCreate (sclk->tb_flds)) ;
+    delete sclk ;
 
-    hC_TSNR tsnr;
-    tsnr.tbsetup ();
-    yaz(tsnr.tbCreate (tsnr.tb_flds)) ;
+    hC_TSNR* tsnr = new hC_TSNR;
+    yaz(tsnr->tbCreate (tsnr->tb_flds)) ;
+    delete tsnr ;
 
-
-        DBase::VTd_IEDTAMIRYERI ();
+    DBase::VTd_IEDTAMIRYERI ();
     DBase::VTd_IEDTYDETAY ();
 
     DBase::VTd_MKYAG ();
@@ -131,14 +130,14 @@ void DBase::VTDosyaKontrol()
 
 void DBase::yaz(const QString& z)
 {
-   // qDebug ()<<"yaz - 1";
+    // qDebug ()<<"yaz - 1";
     QString x,y;
     x = z.left(z.indexOf("-"));
     y = z.right(z.length() - z.indexOf("-"));
     //    qDebug()<<"x= "<< x <<"   y= "<<y;
     if (x.contains("OK"))
     {
-       // qDebug ()<<"yaz - 11";
+        // qDebug ()<<"yaz - 11";
         ui->durum->append("<span style='color:green;font-size:15px' > "
                           + x +" < /span> "
                                "<span style='color:darkblue;font-size:15px' > "
@@ -146,7 +145,7 @@ void DBase::yaz(const QString& z)
     }
     else if  (x.contains("HATA"))
     {
-      //  qDebug ()<<"yaz - 12";
+        //  qDebug ()<<"yaz - 12";
         ui->durum->append("<span style='color:red;font-size:15px' > "
                           + x +" < /span> "
                                "<span style='color:darkblue;font-size:15px' > "
@@ -154,7 +153,7 @@ void DBase::yaz(const QString& z)
     }
     else
     {
-      //  qDebug ()<<"yaz - 13";
+        //  qDebug ()<<"yaz - 13";
         ui->durum->append("<span style='color:darkyellow;font-size:15px' > "
                           + x +" < /span> "
                                "<span style='color:darkyellow;font-size:15px' > "

@@ -44,10 +44,10 @@ protected:
     void showEvent(QShowEvent *);
 
 signals:
-    void sgnMalzeme (QString* sgnKod,
-                     QString* sgnBarkod,
-                     QString* sgnMalzeme,
-                     QString* sgnBirim
+    void sgnMalzeme (const QString sgnKod,
+                     const QString sgnBarkod,
+                     const QString sgnMalzeme,
+                     const QString sgnBirim
                      ); //malzeme ismini yayınla
 
 
