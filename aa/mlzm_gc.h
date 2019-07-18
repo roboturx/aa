@@ -20,12 +20,12 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
-    hC_MLZM     *mlzm         {} ;
+    hC_MLZM     *SGNmalzeme        {} ;
 
-    QString     *mlzmKod      {} ;
-    QString     *mlzmBarkod   {} ;
-    QString     *mlzmMalzeme  {} ;
-    QString     *mlzmBirim    {} ;
+    int     *SGNEDmlzmKod      {} ;
+    QString     *SGNEDmlzmBarkod   {} ;
+    QString     *SGNEDmlzmMalzeme  {} ;
+    QString     *SGNEDmlzmBirim    {} ;
 
     //QWidget     *mlzmGcWdgt   {} ;
 

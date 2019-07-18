@@ -1,7 +1,7 @@
 ﻿#include "ftr.h"
 #include "mlzm.h"
 #include "frm.h"
-
+#include "mlzm_gc.h"
 
 hC_FTR::hC_FTR() : hC_tBcreator ()
 {
@@ -70,6 +70,10 @@ void hC_FTR::tbwdgt()
 {
     qDebug() << "   ftr_wdgt";
 
+    hC_MLZMGC* SGNmalzemegc = new hC_MLZMGC;
+    SGNmalzemegc->tbsetup();
+    SGNmalzemegc->show();
+
     auto *lB_faturano = new QLabel("Fatura &No");
     lE_faturano->setReadOnly (true);
     //lE_faturano->setPlaceholderText ("Fatura No ");
@@ -77,8 +81,6 @@ void hC_FTR::tbwdgt()
 
     auto *lB_firma = new QLabel("Firma Ünvanı ");
     hClE_firma->lineEdit->setReadOnly(true);
-
-
 
     // firma ismini fatyraya ekle
     connect(hClE_firma->pushButton , &QPushButton::clicked,

@@ -12,7 +12,7 @@ hC_MLZMGC::hC_MLZMGC() : hC_tBcreator ()
 
     tb_flds = new hC_ArrD (13, 4);
     tb_flds->setValue ( 0, "mlzmgc_ID"      , "INTEGER", "MalzemeGcID", "0" ) ;
-    tb_flds->setValue ( 1, "mlzmgc_mlzm_kod", "TEXT"   , "Malzeme Kod", "0" );
+    tb_flds->setValue ( 1, "mlzmgc_mlzm_kod", "INTEGER", "Malzeme Kod", "0" );
     tb_flds->setValue ( 2, "mlzmgc_barkod"  , "TEXT"   , "Barkod", "0" );
     tb_flds->setValue ( 3, "mlzmgc_malzeme" , "TEXT"   , "Malzeme", "0");
     tb_flds->setValue ( 4, "mlzmgc_tarih"   , "TEXT"   , "Tarih"   );
@@ -76,6 +76,17 @@ void hC_MLZMGC::tbwdgt()
 {
     qDebug() << "   mlzmGc_wdgt";
 
+
+    SGNmalzeme = new hC_MLZM;
+    SGNEDmlzmKod = new int {};
+    SGNEDmlzmBarkod = new QString {};
+    SGNEDmlzmMalzeme = new QString {};
+    SGNEDmlzmBirim = new QString {};
+    SGNmalzeme->tbsetup();
+    SGNmalzeme->show();
+
+
+
     auto *lB_kd = new QLabel("Malzeme Kodu");
     lB_kd->setBuddy(lE_kod);
 
@@ -109,9 +120,9 @@ void hC_MLZMGC::tbwdgt()
 
 
         // malzeme class ımızı getirelim
-        auto malzeme = new hC_MLZM;
-        malzeme->tbsetup ();
-        barkodGrid->addWidget (malzeme ,0 ,0 ,1, 1);
+        //auto malzeme = new hC_MLZM;
+        //malzeme->tbsetup ();
+        barkodGrid->addWidget (SGNmalzeme ,0 ,0 ,1, 1);
         //diabarkod->show();
 
 
@@ -123,18 +134,27 @@ void hC_MLZMGC::tbwdgt()
         // ----------------------------------------------------
 
 
-        connect (malzeme, &hC_MLZM::sgnMalzeme,
-                 [ this ] ( QString* seckod,
-                            QString* secbarkod,
-                            QString* secmalzeme,
-                            QString* secbirim)
+        connect (SGNmalzeme, &hC_MLZM::sgnMalzeme,
+                 [ this ] ( int* sgnKod,
+                            QString* sgnBarkod,
+                            QString* sgnMalzeme,
+                            QString* sgnBirim)
         {
-            qDebug ()<< "kod " <<seckod<< secmalzeme<<secbarkod;
 
-            this->lE_kod->setText (*seckod);
-            this->hClE_malzeme->lineEdit->setText (*secmalzeme);
-            this->hClE_barkod->lineEdit->setText (*secbarkod);
-            this->cbx_birim->setCurrentText (*secbirim);
+            *SGNEDmlzmKod     = *sgnKod ;
+            *SGNEDmlzmBarkod  = *sgnBarkod ;
+            *SGNEDmlzmMalzeme = *sgnMalzeme ;
+            *SGNEDmlzmBirim   = *sgnBirim ;
+
+            qDebug ()<< "kod " <<*SGNEDmlzmKod
+                     << *SGNEDmlzmBarkod
+                     << *SGNEDmlzmMalzeme;
+
+
+            this->lE_kod->setText ( QString::number (*SGNEDmlzmKod) );
+            this->hClE_malzeme->lineEdit->setText (*SGNEDmlzmBarkod);
+            this->hClE_barkod->lineEdit->setText (*SGNEDmlzmMalzeme);
+            this->cbx_birim->setCurrentText (*SGNEDmlzmBirim);
 
             this->hClE_malzeme->lineEdit->setFocus();
         });
@@ -154,7 +174,8 @@ void hC_MLZMGC::tbwdgt()
     lB_tarih->setBuddy(lE_tarih);
 
     auto *lB_grs_cks = new QLabel(tr("İşlem Türü"));
-    QStringList GC = {"Faturalı Giriş",
+    QStringList GC = {"Envanter Girişi",
+                      "Faturalı Giriş",
                       "Çıkış" };
     cbx_grscks->insertItems (0,  GC );
     lB_grs_cks->setBuddy(cbx_grscks);
@@ -228,26 +249,22 @@ void hC_MLZMGC::tbkntrl()
     /////////////////////////////////////////////////////
     /// mlzm göster
 
-    mlzm = new hC_MLZM;
-    mlzmBarkod = new QString;
-    mlzm->tbsetup();
-    mlzm->show();
     // /// 12- set filter
 
-    connect(mlzm, &hC_MLZM::sgnMalzeme ,
-            [this ] (QString* sgnKod,
-            QString* sgnBarkod,
-            QString* sgnMalzeme,
-            QString* sgnBirim)
+    connect(SGNmalzeme, &hC_MLZM::sgnMalzeme ,
+            [this ] ( int* sgnKod,
+                      QString* sgnBarkod,
+                      QString* sgnMalzeme,
+                      QString* sgnBirim)
     {
-        mlzmKod     = sgnKod ;
-        mlzmBarkod  = sgnBarkod ;
-        mlzmMalzeme = sgnMalzeme ;
-        mlzmBirim   = sgnBirim ;
+        *SGNEDmlzmKod     = *sgnKod ;
+        *SGNEDmlzmBarkod  = *sgnBarkod ;
+        *SGNEDmlzmMalzeme = *sgnMalzeme ;
+        *SGNEDmlzmBirim   = *sgnBirim ;
         // malzeme kod a göre filtrele
         tb_model->setFilter(
                     QString("mlzmdet_mlzm_kod = %1")
-                    .arg(*mlzmKod) );
+                    .arg(*SGNEDmlzmKod) );
     });
 
 
@@ -256,16 +273,76 @@ void hC_MLZMGC::tbkntrl()
 
 
     /// MlzmGc table da koon değiştiğnde index değişsin
-    connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
-              tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
+//    connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
+//              tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
+
+
+
 
 
 
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
-            //this , &hC_MLZMGC::slt_Mlzmd_pB_EKLE_clicked  )) ;
-            [] ()
+            [this ] ()
     {
 
+        QString tableName{"mlzmgc_dbtb"};
+        QSqlQuery q;
+        QString qry, mesaj("");
+
+        int xx = *SGNEDmlzmKod ;
+        QString xx1 = *SGNEDmlzmBarkod;
+        QString xx2 = *SGNEDmlzmMalzeme;
+        QString xx3 = *SGNEDmlzmBirim;
+        qDebug ()<< "xx            xxxx "<< xx;
+
+        // yeni kaydı ekle
+        qry = QString("INSERT INTO " + tableName +
+                " ( mlzmgc_mlzm_kod, "
+                "   mlzmgc_barkod  , "
+                "   mlzmgc_malzeme , "
+                "   mlzmgc_birim    ) "
+                "values( %1, %2, %3, %4 )")
+                .arg (xx )
+                .arg (xx1)
+                .arg (xx2)
+                .arg (xx3);
+        qDebug () << "qey" << qry;
+        if ( !q.exec(qry) )
+        {
+            mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı Eklenemedi"+
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text ()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı eklendi.";
+
+        /*    lE_barkod->setText ("");
+            lE_malzeme->setText ("");
+            lE_marka->setText ("");
+            lE_aciklama ->setText ("");
+            lE_model ->setText ("");
+            lE_cins ->setText ("");
+            cbx_birim ->setCurrentText (" ");
+            lE_giris ->setText ("");
+            lE_cikis ->setText ("");
+            lE_mevcut ->setText ("");
+            */
+        }
+        qDebug()<<mesaj;
+        tb_model->select();
+        ////////////////////////////////////////////////
+      //  hC_Nr (tb_view, mlzmno, 0);
+        ////////////////////////////////////////////////
+        tb_view->table->setFocus ();
+        // mlzm  ekle
+
+
+
+
+
+        /*
         QWidget *dia = new QWidget();
         auto *gg = new QGridLayout;
         dia->setLayout (gg);
@@ -273,16 +350,16 @@ void hC_MLZMGC::tbkntrl()
         dia->setWindowTitle ("Giriş Tipi");
         dia->setMinimumSize (250,200);
 
-        QPushButton* fat = new QPushButton("Faturalı Malzeme Girişi",dia);
-        QPushButton* fat1 = new QPushButton("Hibe Giriş",dia);
+        QPushButton* faturaliGiris = new QPushButton("Faturalı Malzeme Girişi",dia);
+        QPushButton* envanterGiris = new QPushButton("Hibe Giriş",dia);
         QPushButton* fat2 = new QPushButton("Envanter Giriş",dia);
         QPushButton* fat3 = new QPushButton("Malzeme Teslim Fişi ile Çıkış",dia);
-        fat->setDefault (true) ;
+        faturaliGiris->setDefault (true) ;
 
         QGroupBox *ft = new QGroupBox("Mlzm Malzeme Giriş Tipi",dia);
         auto *ff = new QVBoxLayout();
-        ff->addWidget (fat);
-        ff->addWidget (fat1);
+        ff->addWidget (faturaliGiris);
+        ff->addWidget (envanterGiris);
         ff->addWidget (fat2);
         ff->addWidget (fat3);
         ft->setLayout (ff);
@@ -291,7 +368,7 @@ void hC_MLZMGC::tbkntrl()
         /////////////////////////////////////////////
         /// Faturalı Giriş
 
-        connect(fat, &QPushButton::clicked,
+        connect(faturaliGiris, &QPushButton::clicked,
                 [dia]()
         {
             auto *ftr = new hC_FTR;
@@ -310,7 +387,7 @@ void hC_MLZMGC::tbkntrl()
         /////////////////////////////////////////////
         /// Malzeme Teslim Fişi ile Çıkış
 
-        dia->show ();
+        dia->show ();*/
     });
 
     connect(tb_view->pB_sil, &QPushButton::clicked,
@@ -355,11 +432,11 @@ hC_MLZMGC::~hC_MLZMGC()
     delete win_Label ;
     delete win_Rsm   ;
     /////////////////////////////////////////////////
-    delete mlzm         ;
-    delete mlzmKod      ;
-    delete mlzmBarkod   ;
-    delete mlzmMalzeme  ;
-    delete mlzmBirim    ;
+    delete SGNmalzeme        ;
+    delete SGNEDmlzmKod      ;
+    delete SGNEDmlzmBarkod   ;
+    delete SGNEDmlzmMalzeme  ;
+    delete SGNEDmlzmBirim    ;
 
     //   delete mlzmGcWdgt   ;
 

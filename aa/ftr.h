@@ -4,6 +4,7 @@
 
 #include "globals.h"
 
+
 namespace nSFtr {
 class hC_FTR;
 }

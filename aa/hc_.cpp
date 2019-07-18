@@ -568,6 +568,9 @@ void hC_tBcreator::tbMap(hC_ArrD *tb_flds,
         }
     }
     tb_mapper->toFirst()  ;
+    connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
+              tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
+
 
     qDebug () <<"  "<< *tb_name << "mapped  : " <<  tb_mapper <<".";
 }

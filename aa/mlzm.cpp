@@ -385,23 +385,32 @@ void hC_MLZM::tbkntrl()
 
         // 2 malzeme kod - barkod - isim ve birim yayalım
         ////////////////////////////////////////////////////////////////
-        auto kd = new QString;
+        auto kd = new int;
         *kd = tb_view->table->model()->index( Index.row() ,
-              tb_model->fieldIndex ("kod") ).data().toString();
+              tb_model->fieldIndex ("mlzm_id") ).data().toInt();
 
         auto brkd = new QString;
         *brkd = tb_view->table->model()->index( Index.row() ,
-               tb_model->fieldIndex ("barkod") ).data().toString();
+               tb_model->fieldIndex ("mlzm_barkod") ).data().toString();
 
         auto mlzm = new QString;
         *mlzm = tb_view->table->model()->index( Index.row() ,
-                                                  tb_model->fieldIndex ("malzeme") ).data().toString();
+               tb_model->fieldIndex ("mlzm_malzeme") ).data().toString();
 
         auto brm = new QString;
         *brm =  tb_view->table->model()->index( Index.row() ,
-                  tb_model->fieldIndex ("birim") ).data().toString();
+                tb_model->fieldIndex ("mlzm_birim") ).data().toString();
+
+        qDebug() << tb_view->table->model()->index( Index.row() ,
+                                                    tb_model->fieldIndex ("mlzm_birim") ).data().toString();
+
+
+        qDebug() <<"mlzmkod-br-ml-br * :"<< *kd << *brkd <<*mlzm<<*brm;
+        qDebug() <<"mlzmkod-br-ml-br   :"<< kd << brkd <<mlzm<<brm;
+
+
         ////////////////////////////////////////////////////////////////
-        emit hC_MLZM::sgnMalzeme( *kd, *brkd, *mlzm, *brm);
+        emit hC_MLZM::sgnMalzeme( kd, brkd, mlzm, brm);
         ////////////////////////////////////////////////////////////////
         // 3 resimi değiştirelim
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
