@@ -388,7 +388,7 @@ void hC_IE::tbkntrl()
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgnIsEmri ( tb_view->table->model()->
                           index( Index.row() ,
-                                 tb_model->fieldIndex ("no")
+                                 tb_model->fieldIndex ("ie_no")
                                  ).data().toInt() );
 
     });

@@ -107,19 +107,19 @@ void hC_MLZM::tbwdgt()
 
     auto *lB_g = new QLabel(tr("Toplam Giriş"));
     lE_giris->setAlignment (Qt::AlignRight);
-/*    lE_giris->setValidator (
+    /*    lE_giris->setValidator (
                 new QDoubleValidator(-999.0,999'999'999.0,
                                      2, lE_giris)) ;*/
     lB_g->setBuddy(lE_giris);
 
     auto *lB_c = new QLabel(tr("Toplam Çıkış"));
-  /*  lE_cikis->setValidator (
+    /*  lE_cikis->setValidator (
                 new QDoubleValidator(-999.0,999'999'999.0,
  2, lE_cikis)) ;*/
     lB_c->setBuddy(lE_cikis);
 
     auto *lB_m = new QLabel(tr("Ambar Mevcudu"));
- /*   lE_mevcut->setValidator (
+    /*   lE_mevcut->setValidator (
                 new QDoubleValidator(-999.0,999'999'999.0,
                                      2, lE_mevcut)) ;*/
     lB_m->setBuddy(lE_mevcut);
@@ -170,8 +170,8 @@ void hC_MLZM::tbkntrl()
 {
     qDebug() << "   kntrl";
 
-  //  tbx_slctnMdl = tb_view->table->selectionModel();
-  //  qDebug () <<"  "<< *tb_name << "Selected: " <<  tbx_slctnMdl <<".";
+    //  tbx_slctnMdl = tb_view->table->selectionModel();
+    //  qDebug () <<"  "<< *tb_name << "Selected: " <<  tbx_slctnMdl <<".";
     // /// yeni malzeme ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -381,32 +381,32 @@ void hC_MLZM::tbkntrl()
 
         // 1 map indexi değiştirelim
         tb_mapper->setCurrentModelIndex(Index);
-        qDebug() << "  tb map index changed";
+        qDebug() << "    *** ** *tb map index changed";
 
         // 2 malzeme kod - barkod - isim ve birim yayalım
         ////////////////////////////////////////////////////////////////
         auto kd = new int;
         *kd = tb_view->table->model()->index( Index.row() ,
-              tb_model->fieldIndex ("mlzm_id") ).data().toInt();
+                tb_model->fieldIndex ("mlzm_id") ).data().toInt();
 
         auto brkd = new QString;
         *brkd = tb_view->table->model()->index( Index.row() ,
-               tb_model->fieldIndex ("mlzm_barkod") ).data().toString();
+              tb_model->fieldIndex ("mlzm_barkod") ).data().toString();
 
         auto mlzm = new QString;
         *mlzm = tb_view->table->model()->index( Index.row() ,
-               tb_model->fieldIndex ("mlzm_malzeme") ).data().toString();
+          tb_model->fieldIndex ("mlzm_malzeme") ).data().toString();
 
         auto brm = new QString;
         *brm =  tb_view->table->model()->index( Index.row() ,
-                tb_model->fieldIndex ("mlzm_birim") ).data().toString();
+                 tb_model->fieldIndex ("mlzm_birim") ).data().toString();
 
-        qDebug() << tb_view->table->model()->index( Index.row() ,
-                                                    tb_model->fieldIndex ("mlzm_birim") ).data().toString();
+        qDebug() <<"    mlzm *** 1   --- " << tb_view->table->model()->index( Index.row() ,
+         tb_model->fieldIndex ("mlzm_birim") ).data().toString();
 
 
-        qDebug() <<"mlzmkod-br-ml-br * :"<< *kd << *brkd <<*mlzm<<*brm;
-        qDebug() <<"mlzmkod-br-ml-br   :"<< kd << brkd <<mlzm<<brm;
+        qDebug() <<"    mlzm *** 2 * --- :"<< *kd << *brkd <<*mlzm<<*brm;
+        qDebug() <<"    mlzm *** 3   --- :"<< kd << brkd <<mlzm<<brm;
 
 
         ////////////////////////////////////////////////////////////////
@@ -427,8 +427,9 @@ void hC_MLZM::tbkntrl()
     //tableviewde miktar ve grs cks değştiğinde hsap yapılsın
 
 
-    connect(tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
-            this, &hC_MLZM::slt_Mlzm_hesap);
+
+
+    //            this, &hC_MLZM::slt_Mlzm_hesap);
 
 }
 
@@ -458,7 +459,7 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
             q_qry.next ();
             grs = q_qry.value(0).toDouble ();
             tb_model->setData(tb_model->index(Mlzm_row, tb_model->
-                                            fieldIndex ("giris")), grs);
+                                              fieldIndex ("giris")), grs);
         }
         else
         {
@@ -476,8 +477,8 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
             q_qry.next ();
             cks = q_qry.value(0).toDouble ();
             tb_model->setData(tb_model->
-                             index(Mlzm_row, tb_model->
-                                   fieldIndex ("cikis")), cks);
+                              index(Mlzm_row, tb_model->
+                                    fieldIndex ("cikis")), cks);
         }
         else
         {
@@ -486,8 +487,8 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
         }
 
         tb_model->setData(tb_model->
-                         index(Mlzm_row, tb_model->
-                               fieldIndex ("mevcut")), grs-cks);
+                          index(Mlzm_row, tb_model->
+                                fieldIndex ("mevcut")), grs-cks);
         tb_model->submitAll ();
         qDebug()<<"toplam mevcut    "<<grs-cks;
     }
@@ -513,7 +514,7 @@ hC_MLZM::~hC_MLZM()
     delete tb_flds     ;
     delete tb_wdgts    ;
 
-/////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     delete cbx_grs_tipi;
     delete lE_barkod   ;
     delete lE_malzeme  ;

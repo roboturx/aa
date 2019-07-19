@@ -79,15 +79,15 @@ void hC_MLZMGC::tbwdgt()
 
     SGNmalzeme = new hC_MLZM;
     IndxKod = new int {};
-//    SGNEDmlzmBarkod = new QString {};
-//    SGNEDmlzmMalzeme = new QString {};
-//    SGNEDmlzmBirim = new QString {};
+    //    SGNEDmlzmBarkod = new QString {};
+    //    SGNEDmlzmMalzeme = new QString {};
+    //    SGNEDmlzmBirim = new QString {};
     SGNmalzeme->tbsetup();
     SGNmalzeme->show();
     QModelIndex Index = tb_view->table->currentIndex ();
 
     *IndxKod = tb_view->table->model()->index( Index.row() ,
-          tb_model->fieldIndex ("mlzm_id") ).data().toInt();
+                                               tb_model->fieldIndex ("mlzm_id") ).data().toInt();
     setWindowTitle (this->windowTitle ()+
                     +" : "+QString::number (*IndxKod));
 
@@ -141,16 +141,16 @@ void hC_MLZMGC::tbwdgt()
 
         connect (SGNmalzeme, &hC_MLZM::sgnMalzeme,
                  [ this ] ( int* sgnKod,
-                            QString* sgnBarkod,
-                            QString* sgnMalzeme,
-                            QString* sgnBirim)
+                 QString* sgnBarkod,
+                 QString* sgnMalzeme,
+                 QString* sgnBirim)
         {
 
-//            *SGNEDmlzmKod     = *sgnKod ;
-//            *SGNEDmlzmBarkod  = *sgnBarkod ;
-//            *SGNEDmlzmMalzeme = *sgnMalzeme ;
-//            *SGNEDmlzmBirim   = *sgnBirim ;
-*IndxKod = * sgnKod;
+            //            *SGNEDmlzmKod     = *sgnKod ;
+            //            *SGNEDmlzmBarkod  = *sgnBarkod ;
+            //            *SGNEDmlzmMalzeme = *sgnMalzeme ;
+            //            *SGNEDmlzmBirim   = *sgnBirim ;
+            *IndxKod = * sgnKod;
             *IndxKod++;
             qDebug ()<< "kod " <<*IndxKod
                      << *sgnBarkod
@@ -251,35 +251,64 @@ void hC_MLZMGC::tbkntrl()
 {
     qDebug() << "   mlzmGc_kntrl";
 
-    // tb_slc//tnMdl = tb_view->table->selectionModel();
-    qDebug () <<"  "<< *tb_name << "Selected: " <<  tbx_slctnMdl <<".";
-    /////////////////////////////////////////////////////
-    /// mlzm göster
+    /// bu değişkenler mlzm bilgilerinin içerir
+    SGNEDmlzmKod = new int;
+    SGNEDmlzmBarkod = new QString;
+    SGNEDmlzmMalzeme = new QString;
+    SGNEDmlzmBirim = new QString;
+
+    /// malzeme gc ilk açıldığında malzemedeki
+    /// bilgileri ilk olarak aktaralım
+    /// bu değişkenler sonrasında
+    /// her mlzm row değiştiğinde signal ile değşştirilecek
+
+    QModelIndex Index = SGNmalzeme->tb_view->table->currentIndex ();
+    SGNmalzeme->tb_view->table->setCurrentIndex (Index);
+
+    *SGNEDmlzmKod = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
+            tb_model->fieldIndex ("mlzm_id") ).data().toInt();
+
+    *SGNEDmlzmBarkod = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
+          tb_model->fieldIndex ("mlzm_barkod") ).data().toString();
+
+    *SGNEDmlzmMalzeme = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
+      tb_model->fieldIndex ("mlzm_malzeme") ).data().toString();
+
+    *SGNEDmlzmBirim =  SGNmalzeme->tb_view->table->model()->index( Index.row() ,
+             tb_model->fieldIndex ("mlzm_birim") ).data().toString();
+
+
+    qDebug () <<"    mlzmgc *** index     :"<< Index;
+    qDebug () <<"    mlzmgc *** SGNED k   :"<< *SGNEDmlzmKod;
+    qDebug () <<"    mlzmgc ***       bk  :"<< *SGNEDmlzmBarkod;
+    qDebug () <<"    mlzmgc ***       mlz :"<< *SGNEDmlzmMalzeme;
+    qDebug () <<"    mlzmgc ***       brm :"<< *SGNEDmlzmBirim;
 
     // /// 12- set filter
 
-    connect(SGNmalzeme, &hC_MLZM::sgnMalzeme ,
-            [this ] ( int* sgnKod )
-    {
-//        *SGNEDmlzmKod     = *sgnKod ;
-//        *SGNEDmlzmBarkod  = *sgnBarkod ;
-//        *SGNEDmlzmMalzeme = *sgnMalzeme ;
-//        *SGNEDmlzmBirim   = *sgnBirim ;
-        // malzeme kod a göre filtrele
-        *IndxKod = * sgnKod;
-        tb_model->setFilter(
-                    QString("mlzmdet_mlzm_kod = %1")
-                    .arg(*IndxKod) );
-    });
+    connect( SGNmalzeme, & hC_MLZM::sgnMalzeme ,
+             [this]( int* sgnKod,
+             QString* sgnBarkod,
+             QString* sgnMalzeme,
+             QString* sgnBirim )
 
+    {
+        /// malzemede row depiştiğinde bunlarda değişir
+        *SGNEDmlzmKod = *sgnKod;
+        *SGNEDmlzmBarkod = *sgnBarkod;
+        *SGNEDmlzmMalzeme = *sgnMalzeme;
+        *SGNEDmlzmBirim = *sgnBirim;
+
+        tb_model->setFilter(
+                    QString("mlzmgc_mlzm_kod = %1").arg (*sgnKod) );
+    });
 
     /////////////////////////////////////////////////////
 
 
-
     /// MlzmGc table da koon değiştiğnde index değişsin
-//    connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
-//              tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
+    //    connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
+    //              tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
 
 
 
@@ -287,67 +316,67 @@ void hC_MLZMGC::tbkntrl()
 
 
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
-            [this ] ()
+            [this] ()
     {
-
-        QString tableName{"mlzmgc_dbtb"};
-        QSqlQuery q;
-        QString qry, mesaj("");
-
-////        int xx = *SGNEDmlzmKod ;
-////        QString xx1 = *SGNEDmlzmBarkod;
-////        QString xx2 = *SGNEDmlzmMalzeme;
-////        QString xx3 = *SGNEDmlzmBirim;
-////        qDebug ()<< "xx            xxxx "<< xx;
-
-        // yeni kaydı ekle
-        qry = QString("INSERT INTO " + tableName +
-                " ( mlzmgc_mlzm_kod, "
-                "   mlzmgc_barkod  , "
-                "   mlzmgc_malzeme , "
-                "   mlzmgc_birim    ) "
-                "values( %1, '%2', '%3', '%4' )")
-                .arg (*IndxKod )
-                .arg ("xx1")
-                .arg ("xx2")
-                .arg ("xx3");
-        qDebug () << "qey" << qry;
-        if ( !q.exec(qry) )
+        qDebug () <<"    mlzmgc *** 1  ekle pushed giriş şekili "<<cbx_grscks->currentText ();
+        qDebug () <<"    mlzmgc *** 1  ekle pshd  SGNEDmko   "<< * SGNEDmlzmKod;
+        if ( cbx_grscks->currentText () == "Envanter Girişi")
         {
-            mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı Eklenemedi"+
-                    "<br>------------------------------------<br>"+
-                    q.lastError().text ()+
-                    "<br>------------------------------------<br>";
-        }
-        else
-        {
-            mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı eklendi.";
 
-        /*    lE_barkod->setText ("");
-            lE_malzeme->setText ("");
-            lE_marka->setText ("");
-            lE_aciklama ->setText ("");
-            lE_model ->setText ("");
-            lE_cins ->setText ("");
-            cbx_birim ->setCurrentText (" ");
-            lE_giris ->setText ("");
-            lE_cikis ->setText ("");
-            lE_mevcut ->setText ("");
-            */
-        }
-        qDebug()<<mesaj;
-        tb_model->select();
-        ////////////////////////////////////////////////
-      //  hC_Nr (tb_view, mlzmno, 0);
-        ////////////////////////////////////////////////
-        tb_view->table->setFocus ();
-        // mlzm  ekle
+            qDebug () <<"    mlzmgc *** 2   giriş şekili "<<cbx_grscks->currentText ();
+                qDebug () <<"    mlzmgc *** connect  "<<cbx_grscks->currentText ();
+                QSqlQuery q;
+                QString qry, mesaj("");
+
+                // yeni kaydı ekle
+                qry = QString("INSERT INTO " + *tb_name +
+                              " ( mlzmgc_mlzm_kod, "
+                              "   mlzmgc_barkod  , "
+                              "   mlzmgc_malzeme , "
+                              "   mlzmgc_birim    ) "
+                              "values( %1, '%2', '%3', '%4' )")
+                        .arg (*SGNEDmlzmKod )
+                        .arg (*SGNEDmlzmBarkod)
+                        .arg (*SGNEDmlzmMalzeme)
+                        .arg (*SGNEDmlzmBirim);
+
+                if ( !q.exec(qry) )
+                {
+                    mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı Eklenemedi"+
+                            "<br>------------------------------------<br>"+
+                            q.lastError().text ()+
+                            "<br>------------------------------------<br>";
+                }
+                else
+                {
+                    mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı eklendi.";
+
+                    lE_kod->setText (QString::number (*SGNEDmlzmKod));
+                    hClE_barkod->lineEdit->setText (*SGNEDmlzmBarkod );
+                    hClE_malzeme->lineEdit->setText (*SGNEDmlzmMalzeme);
+                    lE_tarih->setText (
+                                QDate::currentDate ().toString ("dd-mm-yyyy"));
+                    cbx_grscks->setCurrentText ("");
+                    hCle_gcno->lineEdit->setText ("");
+                    lE_miktar ->setText ("");
+                    cbx_birim ->setCurrentText (*SGNEDmlzmBirim);
+                    lE_fiyat ->setText ("");
+                    spn_kdv ->setValue (18);
+                    lE_aciklama ->setText ("");
+                }
+                qDebug()<<mesaj;
+                tb_model->select();
+                ////////////////////////////////////////////////
+                //  hC_Nr (tb_view, mlzmno, 0);
+                ////////////////////////////////////////////////
+                tb_view->table->setFocus ();
+                // mlzm  ekle
 
 
 
 
 
-        /*
+                /*
         QWidget *dia = new QWidget();
         auto *gg = new QGridLayout;
         dia->setLayout (gg);
@@ -393,6 +422,12 @@ void hC_MLZMGC::tbkntrl()
         /// Malzeme Teslim Fişi ile Çıkış
 
         dia->show ();*/
+
+        }
+        else if (cbx_grscks->currentText () == "Faturalı Giriş")
+        {
+            qDebug ()<< "    mlzmgc *** Faturalı Giriş selected";
+        }
     });
 
     connect(tb_view->pB_sil, &QPushButton::clicked,
