@@ -78,13 +78,18 @@ void hC_MLZMGC::tbwdgt()
 
 
     SGNmalzeme = new hC_MLZM;
-    SGNEDmlzmKod = new int {};
-    SGNEDmlzmBarkod = new QString {};
-    SGNEDmlzmMalzeme = new QString {};
-    SGNEDmlzmBirim = new QString {};
+    IndxKod = new int {};
+//    SGNEDmlzmBarkod = new QString {};
+//    SGNEDmlzmMalzeme = new QString {};
+//    SGNEDmlzmBirim = new QString {};
     SGNmalzeme->tbsetup();
     SGNmalzeme->show();
+    QModelIndex Index = tb_view->table->currentIndex ();
 
+    *IndxKod = tb_view->table->model()->index( Index.row() ,
+          tb_model->fieldIndex ("mlzm_id") ).data().toInt();
+    setWindowTitle (this->windowTitle ()+
+                    +" : "+QString::number (*IndxKod));
 
 
     auto *lB_kd = new QLabel("Malzeme Kodu");
@@ -141,27 +146,29 @@ void hC_MLZMGC::tbwdgt()
                             QString* sgnBirim)
         {
 
-            *SGNEDmlzmKod     = *sgnKod ;
-            *SGNEDmlzmBarkod  = *sgnBarkod ;
-            *SGNEDmlzmMalzeme = *sgnMalzeme ;
-            *SGNEDmlzmBirim   = *sgnBirim ;
+//            *SGNEDmlzmKod     = *sgnKod ;
+//            *SGNEDmlzmBarkod  = *sgnBarkod ;
+//            *SGNEDmlzmMalzeme = *sgnMalzeme ;
+//            *SGNEDmlzmBirim   = *sgnBirim ;
+*IndxKod = * sgnKod;
+            *IndxKod++;
+            qDebug ()<< "kod " <<*IndxKod
+                     << *sgnBarkod
+                     << *sgnMalzeme;
 
-            qDebug ()<< "kod " <<*SGNEDmlzmKod
-                     << *SGNEDmlzmBarkod
-                     << *SGNEDmlzmMalzeme;
 
-
-            this->lE_kod->setText ( QString::number (*SGNEDmlzmKod) );
-            this->hClE_malzeme->lineEdit->setText (*SGNEDmlzmBarkod);
-            this->hClE_barkod->lineEdit->setText (*SGNEDmlzmMalzeme);
-            this->cbx_birim->setCurrentText (*SGNEDmlzmBirim);
+            this->lE_kod->setText ( QString::number (*IndxKod) );
+            this->hClE_malzeme->lineEdit->setText (*sgnBarkod);
+            this->hClE_barkod->lineEdit->setText (*sgnMalzeme);
+            this->cbx_birim->setCurrentText (*sgnBirim);
 
             this->hClE_malzeme->lineEdit->setFocus();
         });
         diabarkod->exec ();
     });
 
-
+    setWindowTitle (this->windowTitle ()+
+                    +" : "+QString::number (*IndxKod));
     auto *lB_ml = new QLabel("Malzeme");
     lB_ml->setBuddy(hClE_malzeme);
     connect(hClE_malzeme->pushButton , &QPushButton::clicked,
@@ -252,19 +259,17 @@ void hC_MLZMGC::tbkntrl()
     // /// 12- set filter
 
     connect(SGNmalzeme, &hC_MLZM::sgnMalzeme ,
-            [this ] ( int* sgnKod,
-                      QString* sgnBarkod,
-                      QString* sgnMalzeme,
-                      QString* sgnBirim)
+            [this ] ( int* sgnKod )
     {
-        *SGNEDmlzmKod     = *sgnKod ;
-        *SGNEDmlzmBarkod  = *sgnBarkod ;
-        *SGNEDmlzmMalzeme = *sgnMalzeme ;
-        *SGNEDmlzmBirim   = *sgnBirim ;
+//        *SGNEDmlzmKod     = *sgnKod ;
+//        *SGNEDmlzmBarkod  = *sgnBarkod ;
+//        *SGNEDmlzmMalzeme = *sgnMalzeme ;
+//        *SGNEDmlzmBirim   = *sgnBirim ;
         // malzeme kod a göre filtrele
+        *IndxKod = * sgnKod;
         tb_model->setFilter(
                     QString("mlzmdet_mlzm_kod = %1")
-                    .arg(*SGNEDmlzmKod) );
+                    .arg(*IndxKod) );
     });
 
 
@@ -289,11 +294,11 @@ void hC_MLZMGC::tbkntrl()
         QSqlQuery q;
         QString qry, mesaj("");
 
-        int xx = *SGNEDmlzmKod ;
-        QString xx1 = *SGNEDmlzmBarkod;
-        QString xx2 = *SGNEDmlzmMalzeme;
-        QString xx3 = *SGNEDmlzmBirim;
-        qDebug ()<< "xx            xxxx "<< xx;
+////        int xx = *SGNEDmlzmKod ;
+////        QString xx1 = *SGNEDmlzmBarkod;
+////        QString xx2 = *SGNEDmlzmMalzeme;
+////        QString xx3 = *SGNEDmlzmBirim;
+////        qDebug ()<< "xx            xxxx "<< xx;
 
         // yeni kaydı ekle
         qry = QString("INSERT INTO " + tableName +
@@ -301,11 +306,11 @@ void hC_MLZMGC::tbkntrl()
                 "   mlzmgc_barkod  , "
                 "   mlzmgc_malzeme , "
                 "   mlzmgc_birim    ) "
-                "values( %1, %2, %3, %4 )")
-                .arg (xx )
-                .arg (xx1)
-                .arg (xx2)
-                .arg (xx3);
+                "values( %1, '%2', '%3', '%4' )")
+                .arg (*IndxKod )
+                .arg ("xx1")
+                .arg ("xx2")
+                .arg ("xx3");
         qDebug () << "qey" << qry;
         if ( !q.exec(qry) )
         {

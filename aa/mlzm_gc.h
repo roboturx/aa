@@ -27,6 +27,8 @@ public:
     QString     *SGNEDmlzmMalzeme  {} ;
     QString     *SGNEDmlzmBirim    {} ;
 
+    int* IndxKod;
+
     //QWidget     *mlzmGcWdgt   {} ;
 
     QLineEdit   *lE_kod       {} ;
