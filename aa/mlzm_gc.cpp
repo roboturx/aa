@@ -60,37 +60,9 @@ void hC_MLZMGC::tbsetup()
 
 
 
-void hC_MLZMGC::tbui()
-{
-
-    qDebug() << "   MlzmGc_ui";
-    setWindowTitle (win_Label->text ());
-    auto *win_Grid = new QGridLayout(this);  // 100150
-    win_Grid->addWidget (tb_view , 0, 0, 1, 6);
-    win_Grid->addWidget (win_Wdgt  , 0, 6, 1, 4);
-}
-
-
-
 void hC_MLZMGC::tbwdgt()
 {
     qDebug() << "   mlzmGc_wdgt";
-
-
-    SGNmalzeme = new hC_MLZM;
-    IndxKod = new int {};
-    //    SGNEDmlzmBarkod = new QString {};
-    //    SGNEDmlzmMalzeme = new QString {};
-    //    SGNEDmlzmBirim = new QString {};
-    SGNmalzeme->tbsetup();
-    SGNmalzeme->show();
-    QModelIndex Index = tb_view->table->currentIndex ();
-
-    *IndxKod = tb_view->table->model()->index( Index.row() ,
-                                               tb_model->fieldIndex ("mlzm_id") ).data().toInt();
-    setWindowTitle (this->windowTitle ()+
-                    +" : "+QString::number (*IndxKod));
-
 
     auto *lB_kd = new QLabel("Malzeme Kodu");
     lB_kd->setBuddy(lE_kod);
@@ -146,29 +118,29 @@ void hC_MLZMGC::tbwdgt()
                  QString* sgnBirim)
         {
 
-            //            *SGNEDmlzmKod     = *sgnKod ;
-            //            *SGNEDmlzmBarkod  = *sgnBarkod ;
-            //            *SGNEDmlzmMalzeme = *sgnMalzeme ;
-            //            *SGNEDmlzmBirim   = *sgnBirim ;
-            *IndxKod = * sgnKod;
-            *IndxKod++;
-            qDebug ()<< "kod " <<*IndxKod
-                     << *sgnBarkod
-                     << *sgnMalzeme;
+            *SGNEDmlzmKod     = *sgnKod ;
+            *SGNEDmlzmBarkod  = *sgnBarkod ;
+            *SGNEDmlzmMalzeme = *sgnMalzeme ;
+            *SGNEDmlzmBirim   = *sgnBirim ;
+
+            qDebug ()<< "SGNED barkod pb "
+                     << *SGNEDmlzmKod
+                     << *SGNEDmlzmBarkod
+                     << *SGNEDmlzmMalzeme
+                     << *SGNEDmlzmBirim;
 
 
-            this->lE_kod->setText ( QString::number (*IndxKod) );
-            this->hClE_malzeme->lineEdit->setText (*sgnBarkod);
-            this->hClE_barkod->lineEdit->setText (*sgnMalzeme);
-            this->cbx_birim->setCurrentText (*sgnBirim);
+            this->lE_kod->setText ( QString::number (*SGNEDmlzmKod) );
+            this->hClE_malzeme->lineEdit->setText (*SGNEDmlzmBarkod);
+            this->hClE_barkod->lineEdit->setText (*SGNEDmlzmMalzeme);
+            this->cbx_birim->setCurrentText (*SGNEDmlzmBirim);
 
             this->hClE_malzeme->lineEdit->setFocus();
         });
         diabarkod->exec ();
     });
 
-    setWindowTitle (this->windowTitle ()+
-                    +" : "+QString::number (*IndxKod));
+
     auto *lB_ml = new QLabel("Malzeme");
     lB_ml->setBuddy(hClE_malzeme);
     connect(hClE_malzeme->pushButton , &QPushButton::clicked,
@@ -247,44 +219,84 @@ void hC_MLZMGC::tbwdgt()
 }
 
 
+void hC_MLZMGC::tbui()
+{
+
+    qDebug() << "   MlzmGc_ui";
+    setWindowTitle (win_Label->text ());
+    auto *win_Grid = new QGridLayout(this);  // 100150
+    win_Grid->addWidget (tb_view , 0, 0, 1, 6);
+    win_Grid->addWidget (win_Wdgt  , 0, 6, 1, 4);
+
+
+
+}
+
+
+
 void hC_MLZMGC::tbkntrl()
 {
     qDebug() << "   mlzmGc_kntrl";
+this->setObjectName ("MLZMGCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
 
-    /// bu değişkenler mlzm bilgilerinin içerir
-    SGNEDmlzmKod = new int;
-    SGNEDmlzmBarkod = new QString;
-    SGNEDmlzmMalzeme = new QString;
-    SGNEDmlzmBirim = new QString;
+    SGNEDmlzmKod = new int {};
+    SGNEDmlzmBarkod = new QString {};
+    SGNEDmlzmMalzeme = new QString {};
+    SGNEDmlzmBirim = new QString {};
+
+    /// malzeme penceresini açalım "Envanter Giriş" için
+    SGNmalzeme = new hC_MLZM;
+    SGNmalzeme->tbsetup();
+    SGNmalzeme->show();
+
+    /// fatura penceresini açalım "Faturalı Giriş" için
+    SGNfatura = new hC_FTR;
+    SGNfatura->tbsetup ();
+
+
+
+    /// mlzm kod indexi nedir
+    /// pencere ilk açıldığında gürüş öıkışta
+    /// yeni kayıt eklenmek isterse
+    QModelIndex Index = SGNmalzeme-> tb_view->table->currentIndex ();
+
+    *SGNEDmlzmKod = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
+                     tb_model->fieldIndex ("mlzm_id") ).data().toInt();
+
+
+
 
     /// malzeme gc ilk açıldığında malzemedeki
     /// bilgileri ilk olarak aktaralım
     /// bu değişkenler sonrasında
     /// her mlzm row değiştiğinde signal ile değşştirilecek
 
-    QModelIndex Index = SGNmalzeme->tb_view->table->currentIndex ();
-    SGNmalzeme->tb_view->table->setCurrentIndex (Index);
+ //   Index = SGNmalzeme->tb_model->sibling (2,2,Index);
+  //  SGNmalzeme->tb_view->table->setCurrentIndex (Index);
+    qDebug() << "innndexxx "<<SGNmalzeme->tb_view->table->currentIndex ();;
 
-    *SGNEDmlzmKod = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
-            tb_model->fieldIndex ("mlzm_id") ).data().toInt();
+    *SGNEDmlzmKod = SGNmalzeme->tb_view->table->model()->
+            index( Index.row(), SGNmalzeme->tb_model->
+                   fieldIndex ("mlzm_id") ).data().toInt();
 
-    *SGNEDmlzmBarkod = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
-          tb_model->fieldIndex ("mlzm_barkod") ).data().toString();
+    *SGNEDmlzmBarkod = SGNmalzeme->tb_view->table->model()->
+            index( Index.row(), SGNmalzeme->tb_model->
+                   fieldIndex ("mlzm_barkod") ).data().toString();
 
-    *SGNEDmlzmMalzeme = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
-      tb_model->fieldIndex ("mlzm_malzeme") ).data().toString();
+    *SGNEDmlzmMalzeme = SGNmalzeme->tb_view->table->model()->
+            index( Index.row(), SGNmalzeme->tb_model->
+                   fieldIndex ("mlzm_malzeme") ).data().toString();
 
-    *SGNEDmlzmBirim =  SGNmalzeme->tb_view->table->model()->index( Index.row() ,
-             tb_model->fieldIndex ("mlzm_birim") ).data().toString();
+    *SGNEDmlzmBirim =  SGNmalzeme->tb_view->table->model()->
+            index( Index.row(), SGNmalzeme->tb_model->
+                   fieldIndex ("mlzm_birim") ).data().toString();
 
+    setWindowTitle (QString::number (*SGNEDmlzmKod)+" - "+
+                                     *SGNEDmlzmBarkod+" - "+
+                                     *SGNEDmlzmMalzeme+" - "+
+                    "GİRİŞ ÇIKIŞ KAYITLARI");
 
-    qDebug () <<"    mlzmgc *** index     :"<< Index;
-    qDebug () <<"    mlzmgc *** SGNED k   :"<< *SGNEDmlzmKod;
-    qDebug () <<"    mlzmgc ***       bk  :"<< *SGNEDmlzmBarkod;
-    qDebug () <<"    mlzmgc ***       mlz :"<< *SGNEDmlzmMalzeme;
-    qDebug () <<"    mlzmgc ***       brm :"<< *SGNEDmlzmBirim;
-
-    // /// 12- set filter
+       // /// 12- set filter
 
     connect( SGNmalzeme, & hC_MLZM::sgnMalzeme ,
              [this]( int* sgnKod,
@@ -299,21 +311,31 @@ void hC_MLZMGC::tbkntrl()
         *SGNEDmlzmMalzeme = *sgnMalzeme;
         *SGNEDmlzmBirim = *sgnBirim;
 
+        setWindowTitle (QString::number (*SGNEDmlzmKod)+" - "+
+                                         *SGNEDmlzmBarkod+" - "+
+                                         *SGNEDmlzmMalzeme+" - "+
+                        "GİRİŞ ÇIKIŞ KAYITLARI");
+
+
         tb_model->setFilter(
                     QString("mlzmgc_mlzm_kod = %1").arg (*sgnKod) );
     });
 
     /////////////////////////////////////////////////////
 
-
-    /// MlzmGc table da koon değiştiğnde index değişsin
-    //    connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
-    //              tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
-
-
-
-
-
+    connect(cbx_grscks, &QComboBox::currentTextChanged ,
+            [this] (QString comboText)
+    {
+        if ( comboText == "Envanter Girişi")
+        {
+            SGNmalzeme->show ();
+            SGNmalzeme->hide ();
+        }
+        if ( comboText == "Faturalı Giriş")
+        {
+            SGNfatura->show ();
+        }
+    });
 
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this] ()
@@ -324,59 +346,59 @@ void hC_MLZMGC::tbkntrl()
         {
 
             qDebug () <<"    mlzmgc *** 2   giriş şekili "<<cbx_grscks->currentText ();
-                qDebug () <<"    mlzmgc *** connect  "<<cbx_grscks->currentText ();
-                QSqlQuery q;
-                QString qry, mesaj("");
+            qDebug () <<"    mlzmgc *** connect  "<<cbx_grscks->currentText ();
+            QSqlQuery q;
+            QString qry, mesaj("");
 
-                // yeni kaydı ekle
-                qry = QString("INSERT INTO " + *tb_name +
-                              " ( mlzmgc_mlzm_kod, "
-                              "   mlzmgc_barkod  , "
-                              "   mlzmgc_malzeme , "
-                              "   mlzmgc_birim    ) "
-                              "values( %1, '%2', '%3', '%4' )")
-                        .arg (*SGNEDmlzmKod )
-                        .arg (*SGNEDmlzmBarkod)
-                        .arg (*SGNEDmlzmMalzeme)
-                        .arg (*SGNEDmlzmBirim);
+            // yeni kaydı ekle
+            qry = QString("INSERT INTO " + *tb_name +
+                          " ( mlzmgc_mlzm_kod, "
+                          "   mlzmgc_barkod  , "
+                          "   mlzmgc_malzeme , "
+                          "   mlzmgc_birim    ) "
+                          "values( %1, '%2', '%3', '%4' )")
+                    .arg (*SGNEDmlzmKod )
+                    .arg (*SGNEDmlzmBarkod)
+                    .arg (*SGNEDmlzmMalzeme)
+                    .arg (*SGNEDmlzmBirim);
 
-                if ( !q.exec(qry) )
-                {
-                    mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı Eklenemedi"+
-                            "<br>------------------------------------<br>"+
-                            q.lastError().text ()+
-                            "<br>------------------------------------<br>";
-                }
-                else
-                {
-                    mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı eklendi.";
+            if ( !q.exec(qry) )
+            {
+                mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı Eklenemedi"+
+                        "<br>------------------------------------<br>"+
+                        q.lastError().text ()+
+                        "<br>------------------------------------<br>";
+            }
+            else
+            {
+                mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı eklendi.";
 
-                    lE_kod->setText (QString::number (*SGNEDmlzmKod));
-                    hClE_barkod->lineEdit->setText (*SGNEDmlzmBarkod );
-                    hClE_malzeme->lineEdit->setText (*SGNEDmlzmMalzeme);
-                    lE_tarih->setText (
-                                QDate::currentDate ().toString ("dd-mm-yyyy"));
-                    cbx_grscks->setCurrentText ("");
-                    hCle_gcno->lineEdit->setText ("");
-                    lE_miktar ->setText ("");
-                    cbx_birim ->setCurrentText (*SGNEDmlzmBirim);
-                    lE_fiyat ->setText ("");
-                    spn_kdv ->setValue (18);
-                    lE_aciklama ->setText ("");
-                }
-                qDebug()<<mesaj;
-                tb_model->select();
-                ////////////////////////////////////////////////
-                //  hC_Nr (tb_view, mlzmno, 0);
-                ////////////////////////////////////////////////
-                tb_view->table->setFocus ();
-                // mlzm  ekle
-
-
+                lE_kod->setText (QString::number (*SGNEDmlzmKod));
+                hClE_barkod->lineEdit->setText (*SGNEDmlzmBarkod );
+                hClE_malzeme->lineEdit->setText (*SGNEDmlzmMalzeme);
+                lE_tarih->setText (
+                            QDate::currentDate ().toString ("dd-mm-yyyy"));
+                cbx_grscks->setCurrentText ("");
+                hCle_gcno->lineEdit->setText ("");
+                lE_miktar ->setText ("");
+                cbx_birim ->setCurrentText (*SGNEDmlzmBirim);
+                lE_fiyat ->setText ("");
+                spn_kdv ->setValue (18);
+                lE_aciklama ->setText ("");
+            }
+            qDebug()<<mesaj;
+            tb_model->select();
+            ////////////////////////////////////////////////
+            //  hC_Nr (tb_view, mlzmno, 0);
+            ////////////////////////////////////////////////
+            tb_view->table->setFocus ();
+            // mlzm  ekle
 
 
 
-                /*
+
+
+            /*
         QWidget *dia = new QWidget();
         auto *gg = new QGridLayout;
         dia->setLayout (gg);

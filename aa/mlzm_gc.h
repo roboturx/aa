@@ -22,12 +22,13 @@ public:
 
     hC_MLZM     *SGNmalzeme        {} ;
 
-    int     *SGNEDmlzmKod      {} ;
+    int         *SGNEDmlzmKod      {} ;
     QString     *SGNEDmlzmBarkod   {} ;
     QString     *SGNEDmlzmMalzeme  {} ;
     QString     *SGNEDmlzmBirim    {} ;
 
-    int* IndxKod;
+    hC_FTR     *SGNfatura        {} ;
+    QString    *SGNfaturaNo      {} ;
 
     //QWidget     *mlzmGcWdgt   {} ;
 

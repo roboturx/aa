@@ -401,8 +401,11 @@ void hC_MLZM::tbkntrl()
         *brm =  tb_view->table->model()->index( Index.row() ,
                  tb_model->fieldIndex ("mlzm_birim") ).data().toString();
 
+
+        qDebug() << "innndexxx mlzm "<<tb_view->table->currentIndex ();;
+
         qDebug() <<"    mlzm *** 1   --- " << tb_view->table->model()->index( Index.row() ,
-         tb_model->fieldIndex ("mlzm_birim") ).data().toString();
+         tb_model->fieldIndex ("mlzm_barkod") ).data().toString();
 
 
         qDebug() <<"    mlzm *** 2 * --- :"<< *kd << *brkd <<*mlzm<<*brm;

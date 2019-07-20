@@ -70,14 +70,27 @@ void hC_FTR::tbwdgt()
 {
     qDebug() << "   ftr_wdgt";
 
-    hC_MLZMGC* SGNmalzemegc = new hC_MLZMGC;
-    SGNmalzemegc->tbsetup();
-    SGNmalzemegc->show();
+    QWidgetList lst = qApp->allWidgets ();
+
+    qDebug () <<"------------------------------:" <<lst;
+    qDebug () <<" lst size    :" <<lst;
+
+
+//    hC_MLZMGC* SGNmalzemegc = new hC_MLZMGC;
+//    SGNmalzemegc->tbsetup();
+//    SGNmalzemegc->show();
+
+
+
+
+
 
     auto *lB_faturano = new QLabel("Fatura &No");
     lE_faturano->setReadOnly (true);
     //lE_faturano->setPlaceholderText ("Fatura No ");
     lB_faturano->setBuddy(lE_faturano);
+
+
 
     auto *lB_firma = new QLabel("Firma Ünvanı ");
     hClE_firma->lineEdit->setReadOnly(true);
