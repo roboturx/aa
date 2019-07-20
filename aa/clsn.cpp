@@ -204,8 +204,18 @@ void hC_CLSN::tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
+        ////////////////////////////////////////////////
+
+
+        qDebug ()<<"00000000000000000" <<tb_flds->value (0,0);
+
 
         QSqlRecord rec = tb_model->record();
+
         // insert a new record (-1) with null date
 
         /// date does not take null value
@@ -226,7 +236,9 @@ void hC_CLSN::tbkntrl()
             qDebug() << "100111 - Çalışan Kaydı eklendi ";
         tb_model->submitAll ();
         tb_model->select();
-
+        ////////////////////////////////////////////////
+        maxID.hC_NrGo (tb_view, *max_id , 0);
+        ////////////////////////////////////////////////
     });
 
     // pB 002 yeni resim ekle

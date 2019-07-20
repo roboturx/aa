@@ -177,46 +177,23 @@ void hC_IE::tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-        QString IEtableName{"_dbtb"};
         QSqlQuery q;
         QString qry, mesaj("");
+
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                        tb_flds->value (0,0));
+        ////////////////////////////////////////////////
 
         /// yeni iş emri numaasını bul
         /// iş emri nosu _dbtb de
         /// no alanındaki en büyük sayı
-        qry = "SELECT max(no) FROM " + IEtableName  ;
-        int ieieno;
-        if ( !q.exec(qry) )
-        {
-            mesaj = mesaj + "İş Emri No bulunamadı \n"+
-                    "------------------------------------\n"+
-                    q.lastError().text ()+
-                    "------------------------------------\n";
-            return;
-        }
-        else
-        {
-            q.next();
-            ieieno = q.value(0).toInt ();
-            mesaj = mesaj + "MAX VAL =" + QString::number(ieieno) ;
-        }
-
-        qDebug()<< endl << "last inserted id  : "
-                << q.lastInsertId ().toString ();
-        //  tb_model->select();
-
-
-        ieieno = ieieno + 1  ;
         // yeni kaydı ekle
-        qry = "INSERT INTO " + IEtableName + " ( "
-                                             "no, "
-                                             "durum"
-                                             ")"
-
-                                             " values( "
-                                             "'"+QString::number(ieieno)+"' , "
-                                                                         "' '"
-                                                                         ")" ;
+        qry = "INSERT INTO " +  *tb_name  + " ( "
+                           "ie_no)"
+             " values( '"+QString::number( *max_id)+"' )" ;
 
         if ( !q.exec(qry) )
         {
@@ -244,7 +221,7 @@ void hC_IE::tbkntrl()
         }
         tb_model->select();
         ////////////////////////////////////////////////
-        hC_Nr (tb_view, ieieno, 1);
+        maxID.hC_NrGo (tb_view, *max_id , 0);
         ////////////////////////////////////////////////
         tb_view->table->setFocus ();
         // iş emri detay ekle

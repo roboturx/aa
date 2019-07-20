@@ -257,8 +257,41 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 hC_Tv::~hC_Tv()
 = default;
 
+hC_Nr::hC_Nr()
+{
 
-hC_Nr::hC_Nr(hC_Tv* searchingTable, int aranan, int kolon )
+}
+
+int hC_Nr::hC_NrMax(QString *tb_name, QString tb_id)
+{
+    QSqlQuery q;
+    QString qry, mesaj("");
+    /// yeni kayıt id bul
+    /// barkod nosu _dbtb de
+    /// id de en büyük sayı
+    qry = "SELECT max("+ tb_id +") FROM " + *tb_name  ;
+    int maxID;
+    if ( !q.exec(qry) )
+    {
+        mesaj = mesaj + "Malzeme No bulunamadı \n"+
+                "------------------------------------\n"+
+                q.lastError().text ()+
+                "------------------------------------\n";
+        return -1;
+    }
+    else
+    {
+        q.next();
+        maxID = q.value(0).toInt ();
+        mesaj = mesaj + "MAX VAL = " + QString::number(maxID) ;
+    }
+
+    return maxID = maxID + 1  ;
+
+}
+
+
+bool hC_Nr::hC_NrGo(hC_Tv* searchingTable, int aranan, int kolon )
 {
     /// SEARCHINGTABLE table view ine eklenen son kaydı,
     /// KOLON da
@@ -268,6 +301,7 @@ hC_Nr::hC_Nr(hC_Tv* searchingTable, int aranan, int kolon )
     /// kayıt eklenirken oluşturulur.
     /// sonra bu classa parametreler yollanır
     ///
+    bool boole = false;
     QModelIndex searchStartIndex;
     //if(!IEDETtview->table->currentIndex().isValid())
     searchStartIndex = searchingTable->table->
@@ -302,14 +336,15 @@ hC_Nr::hC_Nr(hC_Tv* searchingTable, int aranan, int kolon )
                         setCurrentIndex ( hC_NrSetCurrentIndex(
                                               nextMatches.at(1)));
             }
+            boole = true;
         }
         else
             searchingTable->table->
                     setCurrentIndex ( hC_NrSetCurrentIndex(
                                           nextMatches.at(0)));
+        boole = true;
     }
-
-
+    return boole;
 }
 
 QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index)
@@ -838,7 +873,38 @@ hC_Gz::hC_Gz(QDateTimeEdit *tarih, QString vsbl)
 
         tarih->setCalendarPopup(true);
 
-
     }
+
 }
 
+
+objectIsThere::objectIsThere()
+{
+}
+
+objectIsThere::~objectIsThere()
+{
+
+}
+
+bool objectIsThere::ovarmi(QString *oName)
+{
+
+    QWidgetList lst = qApp->allWidgets ();
+    bool boole = false;
+
+    foreach (QWidget *widget, QApplication::allWidgets())
+    {
+        if (widget->objectName () == *oName )
+        {
+            boole = true;
+            widget->show ();
+            widget->setWindowTitle (" 111111  "+widget->objectName());
+            //oVar = widget;
+            //oVar->show ();
+            //oVar->setWindowTitle (" 111111  "+widget->objectName());
+        }
+    }
+
+    return boole;
+}

@@ -5,56 +5,16 @@
 mknnn::mknnn(QWidget *parent)
     : QWidget(parent)
 {
-    setupModel();
 
-    nameLabel = new QLabel(tr("isim:"));
-    nameEdit = new QLineEdit();
-    addressLabel = new QLabel(tr("kod"));
-    addressEdit = new QTextEdit();
-    typeLabel = new QLabel(tr("&Type:"));
-    typeComboBox = new QComboBox();
-    nextButton = new QPushButton(tr("&Next"));
-    previousButton = new QPushButton(tr("&Previous"));
+    tree = new QTreeView;
 
-    nameLabel->setBuddy(nameEdit);
-    addressLabel->setBuddy(addressEdit);
-    typeLabel->setBuddy(typeComboBox);
-//! [Set up widgets]
+    QList<QString >x;
+    x.append ("22");
+    x.append ("33");
+    x.append ("44");
+    x.append ("55");
 
-//! [Set up the mapper]
-    QSqlTableModel *relModel = model->relationModel(typeIndex);
-    typeComboBox->setModel(relModel);
-    typeComboBox->setModelColumn(relModel->fieldIndex("soyad"));
 
-    mapper = new QDataWidgetMapper(this);
-    mapper->setModel(model);
-    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
-    mapper->addMapping(nameEdit, model->fieldIndex("isim"));
-    mapper->addMapping(addressEdit, model->fieldIndex("kod"));
-    mapper->addMapping(typeComboBox, typeIndex);
-//! [Set up the mapper]
-
-//! [Set up connections and layouts]
-    connect(previousButton, &QPushButton::clicked,
-            mapper, &QDataWidgetMapper::toPrevious);
-    connect(nextButton, &QPushButton::clicked,
-            mapper, &QDataWidgetMapper::toNext);
-    connect(mapper, &QDataWidgetMapper::currentIndexChanged,
-            this, &mknnn::updateButtons);
-
-    auto *layout = new QGridLayout();
-    layout->addWidget(nameLabel, 0, 0, 1, 1);
-    layout->addWidget(nameEdit, 0, 1, 1, 1);
-    layout->addWidget(previousButton, 0, 2, 1, 1);
-    layout->addWidget(addressLabel, 1, 0, 1, 1);
-    layout->addWidget(addressEdit, 1, 1, 2, 1);
-    layout->addWidget(nextButton, 1, 2, 1, 1);
-    layout->addWidget(typeLabel, 3, 0, 1, 1);
-    layout->addWidget(typeComboBox, 3, 1, 1, 1);
-    setLayout(layout);
-
-    setWindowTitle(tr("SQL Widget Mapper"));
-    mapper->toFirst();
 }
 //! [Set up connections and layouts]
 

@@ -58,7 +58,7 @@ void hC_FTR::tbui()
 {
     qDebug() << "   ftr_ui  "<< win_Label->text ();
 
-     setWindowTitle(win_Label->text ());
+    setWindowTitle(win_Label->text ());
 
     auto *win_Grid = new QGridLayout(this);
     win_Grid->addWidget (tb_view  , 0, 0, 1, 1);
@@ -69,17 +69,25 @@ void hC_FTR::tbui()
 void hC_FTR::tbwdgt()
 {
     qDebug() << "   ftr_wdgt";
+    objectIsThere x;
+    if ( x.ovarmi (new QString("oMLZMGC")) == 0)
+    {
+        qDebug() << " fatura içinden ::: "
+                 << " objectMLZMGC  "
+                 << " kontrol edildi ve YOK"  ;
+        //hC_MLZMGC* SGNmalzemegc = new hC_MLZMGC;
+        //SGNmalzemegc->tbsetup();
+        //SGNmalzemegc->show();
+    }
+    else
+    {
+        qDebug() << " fatura içinden ::: "
+                 << " objectMLZMGC  "
+                 << " kontrol edildi ve VARrrrrrrrrrrrrr";
+        //xxx->show ();
+        ///xxx->setWindowTitle (" 222222  "+xxx->objectName());
 
-    QWidgetList lst = qApp->allWidgets ();
-
-    qDebug () <<"------------------------------:" <<lst;
-    qDebug () <<" lst size    :" <<lst;
-
-
-//    hC_MLZMGC* SGNmalzemegc = new hC_MLZMGC;
-//    SGNmalzemegc->tbsetup();
-//    SGNmalzemegc->show();
-
+    }
 
 
 
@@ -256,7 +264,7 @@ void hC_FTR::tbkntrl()
 
         // ///////////////// yeni fatura no ekle
         connect(pB_ok, &QPushButton::clicked ,
-                [this,lE_fno, dia_fno ]()
+                [this,lE_fno, dia_fno]()
         {
 
             //  qDebug()<<"fatura no boş geçilemez";
@@ -267,42 +275,23 @@ void hC_FTR::tbkntrl()
             }
 
             // kayıt oluşturalım
-
             QString ftrNo = lE_fno->text ();
 
-           // QString IEtableName{"ftr_dbtb"};
-            QSqlQuery q;
-            QString qry, mesaj("");
-
+            ////////////////////////////////////////////////
+            hC_Nr maxID;
+            int* max_id = new int{};
+            *max_id     = maxID.hC_NrMax ( tb_name,
+                           tb_flds->value (0,0));
+            ////////////////////////////////////////////////
             /// yeni barkod numarasını bul
             /// barkod nosu ftr__dbtb de
             /// ftr_barkod alanındaki en büyük sayı
-            qry = "SELECT max(ftr_id) FROM " + *tb_name  ;
-            int ftrkod{};
-            if ( !q.exec(qry) )
-            {
-                mesaj = mesaj + "Fatura Kod bulunamadı \n"+
-                        "------------------------------------\n"+
-                        q.lastError().text ()+
-                        "------------------------------------\n";
-                return;
-            }
-            else
-            {
-                qDebug() << "  yeni fatura";
-                q.next();
-                ftrkod = q.value(0).toInt ();
-                mesaj = mesaj + "MAX VAL =" +
-                        QString::number(ftrkod) ;
-            }
-
-            ftrkod = ftrkod + 1  ; /// ftr_id
-
-            // yeni kaydı ekle
-
             QString date(QDate::currentDate().
                          toString ( "dd-MM-yyyy" ));
 
+            // yeni kaydı ekle
+            QSqlQuery q;
+            QString qry, mesaj("");
             qry = "INSERT INTO " + *tb_name +
                     " ( ftr_no,ftr_tarih) "
                     " values ( '"+ftrNo+
@@ -319,16 +308,18 @@ void hC_FTR::tbkntrl()
             else
             {
                 mesaj = mesaj + "Fatura kaydı eklendi.";
+                tb_model->select();
+                ////////////////////////////////////////////////
+                maxID.hC_NrGo (tb_view, *max_id , 0);
+                ////////////////////////////////////////////////
 
                 hClE_firma ->lineEdit-> setText ("");
                 lE_aciklama ->setText ("");
-           }
+            }
             qDebug()<<mesaj;
-            tb_model->select();
-            ////////////////////////////////////////////////
-            hC_Nr (tb_view, ftrkod, 0);
-            ////////////////////////////////////////////////
-            tb_view->table->setFocus ();
+
+
+            //tb_view->table->setFocus ();
             /// ftr  ekle
             /// pb_ok sonu
             ///////////////////////////////////////
@@ -400,8 +391,8 @@ void hC_FTR::tbkntrl()
                             "\n  silinsin mi ?\n"+
                     "İşlemi onaylarsanız bu fatura kaydına ait\n " ;
 
-          //  int mlzdet_count = FTRDETmodel->rowCount () ;
-         /*   if ( mlzdet_count > 0 )
+            //  int mlzdet_count = FTRDETmodel->rowCount () ;
+            /*   if ( mlzdet_count > 0 )
             {
                 mess +=QString::number (mlzdet_count) +
                         " adet Ambar GİRİŞ kaydı da SİLİNECEK";
@@ -480,15 +471,25 @@ void hC_FTR::tbkntrl()
     connect (tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
              [this] (QModelIndex Index )
     {
+        // 1 map indexi değiştirelim
+        tb_mapper->setCurrentModelIndex(Index);
 
-        // 011-01 mapper indexi ayarla
-        tb_mapper->setCurrentModelIndex (Index);
+        // 2 fatura no yayalım
+        ////////////////////////////////////////////////////////////////
+        auto fno = new QString;
+        *fno = tb_view->table->model()->index( Index.row() ,
+                                               tb_model->fieldIndex ("ftr_no") ).data().toString();
+
+        ////////////////////////////////////////////////////////////////
+        emit hC_FTR::sgnFtr ( fno );
+        ////////////////////////////////////////////////////////////////
+        // 3 resimi değiştirelim
+        hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
+                      "resim", "değiştir" ) ;
+
+
     });
 
-    /// depo da kolon değiştiğinde mapper index te değişsin
-    // --- 012 kolon değiştiğinde indexte değişsin
-    connect(  tbx_slctnMdl, &QItemSelectionModel::currentColumnChanged,
-              tb_mapper, &QDataWidgetMapper::setCurrentModelIndex);
 }
 
 ///************************************************************

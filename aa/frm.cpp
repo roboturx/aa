@@ -152,16 +152,27 @@ void hC_FRM::tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
         QSqlRecord rec = tb_model->record();
-
         // insert a new record (-1) with null date
         if ( ! tb_model->insertRecord(-1,rec))
-        {
-            qDebug() << "HATA - Firma kaydı eklenemedi ";
-        }
-        else
+        {           qDebug() << "HATA - Firma kaydı eklenemedi "; }
+        else           {
             qDebug() << "Firma Kaydı eklendi ";
-        tb_model->select();
+            tb_model->submitAll ();
+            tb_model->select();
+            ////////////////////////////////////////////////
+            maxID.hC_NrGo (tb_view, *max_id , 0);
+            ////////////////////////////////////////////////
+        }
+
+
+
     });
 
     // pB 002 yeni resim ekle

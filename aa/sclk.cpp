@@ -147,9 +147,12 @@ void hC_SCLK:: tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-
-        QSqlRecord rec = tb_model->record();
-        // insert a new record (-1) with null date
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
 
         /// date does not take null value
         /// line 126 at QDateEdit declaration
@@ -160,18 +163,6 @@ void hC_SCLK:: tbkntrl()
         ///
         //dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
 
-
-        if ( ! tb_model->insertRecord(-1,rec))
-        {
-            qDebug() << "100111 -  HATA - Çalışan kayıt eklenemedi ";
-        }
-        else
-            qDebug() << "100111 - Çalışan Kaydı eklendi ";
-        tb_model->select();
-
-
-        qDebug ()<<"SC 17";
-        ////////////////////////////////
         QSqlQuery q;
         QString q_s;
         q_s="INSERT INTO  sclk_dbtb ( "
@@ -182,8 +173,7 @@ void hC_SCLK:: tbkntrl()
         q.prepare(q_s);
 
 
-        qDebug ()<<"SC 17***** " <<  *SCdet_idno  << " *****" << q.lastError();
-        q.bindValue(0, *SCdet_idno  );
+        q.bindValue(0, *max_id  );
         q.bindValue(1, lE_SCno->text() );
         q.bindValue(2, dE_SCtarih->text ());
         q.bindValue(3, lE_SCbirim->text ());
@@ -194,27 +184,24 @@ void hC_SCLK:: tbkntrl()
         q.bindValue(8, lE_SCaciklama->text() );
 
         q.exec();
-        qDebug ()<<"SC 18";
         if (q.isActive())
         {
             qDebug () <<"İşçilik Yeni Kayıt Eklendi - "<< lE_SCno->text() << " -   Eklendi";
+
+            ////////////////////////////////////////////////
+            maxID.hC_NrGo (tb_view, *max_id , 0);
+            ////////////////////////////////////////////////
+
         }
         else
         {
             qDebug () << "İşçilik Yeni Kayıt Eklenemedi - " << q.lastError().text() ;
         }
 
-
-
         tb_model->select();
         tb_view->table->setFocus();
-
         // işçilik ekle
         ///////////////////////////////////////////////////
-
-        qDebug ()<<"SC 19";
-
-
     });
 
     // pB 002 yeni resim ekle

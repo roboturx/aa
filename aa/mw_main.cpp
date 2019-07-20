@@ -178,12 +178,13 @@ void MW_main::cr_Actions()
         statusBar()->showMessage(tr("Demirbaş Mlzm"));
         auto *mw_mkn = new hC_MKN;
         mw_mkn->tbsetup ();
+        mw_mkn->show ();
 
     });
 
 
     /// mkn cmm
-    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
+/*    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Makina &Cinsi..."), this);
     act_mkc->setStatusTip(tr("Makina Cinsi"));
     act_mkc->setShortcut(QKeySequence(tr("Ctrl+C")));
@@ -192,7 +193,7 @@ void MW_main::cr_Actions()
     connect( act_mkc , &QAction::triggered,
              []()
     {
-/*        auto *dia = new QDialog();
+        auto *dia = new QDialog();
         dia->setModal (true);
         dia->setGeometry ( 50, //lE_cins->pushButton->pos ().rx (),
                           400, //lE_cins->pushButton->pos ().ry (),
@@ -213,9 +214,9 @@ void MW_main::cr_Actions()
         layout->addWidget (cmm,0 ,2 );
 
         dia->exec ();
-        */
-    });
 
+    });
+      */
 /*    /// iş emri
     auto *act_ie = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("İş &Emri..."), this);

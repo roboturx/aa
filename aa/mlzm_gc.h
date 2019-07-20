@@ -20,7 +20,8 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
-    hC_MLZM     *SGNmalzeme        {} ;
+    hC_MLZM     *win_hC_MLZM        {} ;
+    hC_FTR      *win_hC_FTR         {} ;
 
     int         *SGNEDmlzmKod      {} ;
     QString     *SGNEDmlzmBarkod   {} ;
@@ -28,7 +29,7 @@ public:
     QString     *SGNEDmlzmBirim    {} ;
 
     hC_FTR     *SGNfatura        {} ;
-    QString    *SGNfaturaNo      {} ;
+    QString    *SGNEDfaturaNo      {} ;
 
     //QWidget     *mlzmGcWdgt   {} ;
 

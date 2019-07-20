@@ -127,54 +127,22 @@ void hC_TSNR:: tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-
-        QSqlRecord rec = tb_model->record();
-        // insert a new record (-1) with null date
-
-        /// date does not take null value
-        /// line 126 at QDateEdit declaration
-        /// with the
-        /// dT_dotar->setSpecialValueText ("  ");
-        /// line
-        /// an invalid date value represents " "
-        ///
-        //dT_dotar->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
-
-
-        if ( ! tb_model->insertRecord(-1,rec))
-        {
-            qDebug() << "100111 -  HATA - Çalışan kayıt eklenemedi ";
-        }
-        else
-            qDebug() << "100111 - Çalışan Kaydı eklendi ";
-        tb_model->select();
-        qDebug ()<<"ts 17";
-        ////////////////////////////////
-        /*
-        q.bindValue(0, *TSdet_idno  );
-        q.bindValue(1, lE_TSno->text() );
-        q.bindValue(2, dE_TStarih->text ());
-        q.bindValue(3, cbx_TSmalzeme->currentText ());
-        q.bindValue(4, lE_TSmiktar->text() );
-        q.bindValue(5, cbx_TSbirim->currentText ());
-        q.bindValue(6, lE_TSbfiyat->text() );
-        q.bindValue(7, cbx_TSdurum->currentText ());
-        q.bindValue(8, lE_TSaciklama->text() );
-        */
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
         QSqlQuery q;
         QString q_s;
-        q_s="INSERT INTO dbtb_tasinir ( "
+        q_s="INSERT INTO "+ *tb_name +" ( "
             "ts_tsnrdet_id, ts_no    , ts_tarih, ts_malzeme , ts_miktar, "
             "ts_birim   , ts_bfiyat, ts_durum, ts_aciklama  "
             " )"
             " values(?, ?, ?, ?, ?, ?, ?, ?, ? )";
         q.prepare(q_s);
 
-
-        qDebug ()<<"ts 17***** " <<  *TSdet_idno  << " *****" << q.lastError();
-
-
-        q.bindValue(0, *TSdet_idno  );
+        q.bindValue(0, *max_id ); // iedet no
         q.bindValue(1, lE_TSno->text() );
         q.bindValue(2, dE_TStarih->text ());
         q.bindValue(3, 0 );
@@ -189,22 +157,19 @@ void hC_TSNR:: tbkntrl()
         if (q.isActive())
         {
             qDebug () <<"Taşınır Yeni Kayıt Eklendi - "<< lE_TSno->text() << " -   Eklendi";
+            ////////////////////////////////////////////////
+            maxID.hC_NrGo (tb_view, *max_id , 0);
+            ////////////////////////////////////////////////
+
         }
         else
         {
             qDebug () << "Taşınır Yeni Kayıt Eklenemedi - " << q.lastError().text() ;
         }
-
-
-
         tb_model->select();
         tb_view->setFocus();
 
         // tasinir ekle
-        ///////////////////////////////////////////////////
-
-        qDebug ()<<"ts 19";
-
     });
 
     // pB 002 yeni resim ekle

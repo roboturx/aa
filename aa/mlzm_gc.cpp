@@ -52,6 +52,14 @@ void hC_MLZMGC::tbsetup()
     tbView   ( tb_flds );
     tbMap    ( tb_flds, tb_wdgts );
 
+    tb_mapper->addMapping (hClE_barkod->lineEdit ,
+                           tb_model->fieldIndex ("mlzmgc_barkod"));
+    tb_mapper->addMapping (hClE_malzeme->lineEdit ,
+                           tb_model->fieldIndex ("mlzmgc_malzeme"));
+    tb_mapper->addMapping (hCle_gcno->lineEdit ,
+                           tb_model->fieldIndex ("mlzmgc_gcno"));
+    //tb_mapper->addMapping (cbx_grscks,
+      //                     tb_model->fieldIndex ("mlzmgc_barkod"));
     tbwdgt  ();
     tbui();
     tbkntrl ();
@@ -63,6 +71,19 @@ void hC_MLZMGC::tbsetup()
 void hC_MLZMGC::tbwdgt()
 {
     qDebug() << "   mlzmGc_wdgt";
+
+    win_hC_MLZM = new hC_MLZM;
+    win_hC_MLZM->tbsetup();
+    /// malzeme penceresini açalım "Envanter Giriş" için
+    win_hC_MLZM->setVisible (false);
+    /// saklamıyoruz çünkü ilk önce
+    /// envanter giriş modunda işlem yapacak
+
+    win_hC_FTR = new hC_FTR;
+    win_hC_FTR->tbsetup ();
+    win_hC_FTR->setVisible (false);
+    /// sakladık "faturalı giriş" modunda ortaya çıkacak
+
 
     auto *lB_kd = new QLabel("Malzeme Kodu");
     lB_kd->setBuddy(lE_kod);
@@ -99,7 +120,8 @@ void hC_MLZMGC::tbwdgt()
         // malzeme class ımızı getirelim
         //auto malzeme = new hC_MLZM;
         //malzeme->tbsetup ();
-        barkodGrid->addWidget (SGNmalzeme ,0 ,0 ,1, 1);
+        win_hC_MLZM->setVisible (true);
+        barkodGrid->addWidget (win_hC_MLZM ,0 ,0 ,1, 1);
         //diabarkod->show();
 
 
@@ -111,7 +133,7 @@ void hC_MLZMGC::tbwdgt()
         // ----------------------------------------------------
 
 
-        connect (SGNmalzeme, &hC_MLZM::sgnMalzeme,
+        connect (win_hC_MLZM, &hC_MLZM::sgnMalzeme,
                  [ this ] ( int* sgnKod,
                  QString* sgnBarkod,
                  QString* sgnMalzeme,
@@ -147,9 +169,12 @@ void hC_MLZMGC::tbwdgt()
             [this]()
     {
         hClE_barkod->pushButton->clicked ();
+        /// mlzm pushbuttonu ile aynı işe yarıyor
     });
 
     auto *lB_tarih = new QLabel(tr("&Tarih"));
+    lE_tarih->setText (QDate::currentDate ().
+                       toString ("dd/mm/yy"));
     lB_tarih->setBuddy(lE_tarih);
 
     auto *lB_grs_cks = new QLabel(tr("İşlem Türü"));
@@ -160,6 +185,57 @@ void hC_MLZMGC::tbwdgt()
     lB_grs_cks->setBuddy(cbx_grscks);
 
     auto *lB_gcno = new QLabel(tr("İşlem No"));
+
+    connect(hCle_gcno->pushButton, &QPushButton::clicked,
+            [this]()
+    {
+        // fatura seçebilmek için fatura penceresi
+        auto ftr_dia = new QDialog;
+        ftr_dia->setModal (true);
+        auto layout_diafr = new QGridLayout;
+        ftr_dia->setLayout (layout_diafr);
+        // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
+        ftr_dia->setGeometry (100,220,800,500);
+
+        this->setWhatsThis ("<br>"
+                            "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                            "<br> Firma ünvanı girmek için seçim yapın "
+                            "<br> "
+                            "<br> Eğer aradığınız firma listede yoksa yeni  "
+                            "<br> firma girişi yaparak işlemi tamamlayın"
+                            "<br>");
+        this->setToolTipDuration (5000);
+        this->setToolTip ("<br>"
+                          "<br> Lütfen Girişi yapılan fatura bilgilerine "
+                          "<br> Firma ünvanı girmek için seçim yapın "
+                          "<br> "
+                          "<br> Eğer aradığınız firma listede yoksa yeni  "
+                          "<br> firma girişi yaparak işlemi tamamlayın"
+                          "<br>");
+
+
+        // fatura  class ımızı getirelim
+        win_hC_FTR->setVisible (true);
+        layout_diafr->addWidget (win_hC_FTR ,0 ,0 ,1, 1);
+        //diafrm->show();
+
+
+        /////////////////////////////////////////////////////////////////////////////////
+        // ----------------------------------------------------
+        // fatura tableviewinde gezinirken fatura no muz
+        // signal ediliyor onu yakalayalım
+        // seçim yapılan lineedit e aktaralım
+        // ----------------------------------------------------
+
+
+        connect (win_hC_FTR, &hC_FTR::sgnFtr ,
+                 [ this ] (QString* secfatura )
+        {
+            this->hCle_gcno->lineEdit->setText (*secfatura);
+            this->hCle_gcno->lineEdit->setFocus();
+        });
+        ftr_dia->exec ();
+    } );
     lB_gcno->setBuddy(hCle_gcno);
 
     auto *lB_miktar = new QLabel(tr("&Miktar"));
@@ -237,30 +313,24 @@ void hC_MLZMGC::tbui()
 void hC_MLZMGC::tbkntrl()
 {
     qDebug() << "   mlzmGc_kntrl";
-this->setObjectName ("MLZMGCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+this->setObjectName ("oMLZMGC");
 
     SGNEDmlzmKod = new int {};
     SGNEDmlzmBarkod = new QString {};
     SGNEDmlzmMalzeme = new QString {};
     SGNEDmlzmBirim = new QString {};
 
-    /// malzeme penceresini açalım "Envanter Giriş" için
-    SGNmalzeme = new hC_MLZM;
-    SGNmalzeme->tbsetup();
-    SGNmalzeme->show();
+    SGNEDfaturaNo = new QString{};
+
 
     /// fatura penceresini açalım "Faturalı Giriş" için
-    SGNfatura = new hC_FTR;
-    SGNfatura->tbsetup ();
-
-
 
     /// mlzm kod indexi nedir
     /// pencere ilk açıldığında gürüş öıkışta
     /// yeni kayıt eklenmek isterse
-    QModelIndex Index = SGNmalzeme-> tb_view->table->currentIndex ();
+    QModelIndex Index = win_hC_MLZM-> tb_view->table->currentIndex ();
 
-    *SGNEDmlzmKod = SGNmalzeme->tb_view->table->model()->index( Index.row() ,
+    *SGNEDmlzmKod = win_hC_MLZM->tb_view->table->model()->index( Index.row() ,
                      tb_model->fieldIndex ("mlzm_id") ).data().toInt();
 
 
@@ -271,24 +341,20 @@ this->setObjectName ("MLZMGCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
     /// bu değişkenler sonrasında
     /// her mlzm row değiştiğinde signal ile değşştirilecek
 
- //   Index = SGNmalzeme->tb_model->sibling (2,2,Index);
-  //  SGNmalzeme->tb_view->table->setCurrentIndex (Index);
-    qDebug() << "innndexxx "<<SGNmalzeme->tb_view->table->currentIndex ();;
-
-    *SGNEDmlzmKod = SGNmalzeme->tb_view->table->model()->
-            index( Index.row(), SGNmalzeme->tb_model->
+    *SGNEDmlzmKod = win_hC_MLZM->tb_view->table->model()->
+            index( Index.row(), win_hC_MLZM->tb_model->
                    fieldIndex ("mlzm_id") ).data().toInt();
 
-    *SGNEDmlzmBarkod = SGNmalzeme->tb_view->table->model()->
-            index( Index.row(), SGNmalzeme->tb_model->
+    *SGNEDmlzmBarkod = win_hC_MLZM->tb_view->table->model()->
+            index( Index.row(), win_hC_MLZM->tb_model->
                    fieldIndex ("mlzm_barkod") ).data().toString();
 
-    *SGNEDmlzmMalzeme = SGNmalzeme->tb_view->table->model()->
-            index( Index.row(), SGNmalzeme->tb_model->
+    *SGNEDmlzmMalzeme = win_hC_MLZM->tb_view->table->model()->
+            index( Index.row(), win_hC_MLZM->tb_model->
                    fieldIndex ("mlzm_malzeme") ).data().toString();
 
-    *SGNEDmlzmBirim =  SGNmalzeme->tb_view->table->model()->
-            index( Index.row(), SGNmalzeme->tb_model->
+    *SGNEDmlzmBirim =  win_hC_MLZM->tb_view->table->model()->
+            index( Index.row(), win_hC_MLZM->tb_model->
                    fieldIndex ("mlzm_birim") ).data().toString();
 
     setWindowTitle (QString::number (*SGNEDmlzmKod)+" - "+
@@ -298,7 +364,7 @@ this->setObjectName ("MLZMGCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
 
        // /// 12- set filter
 
-    connect( SGNmalzeme, & hC_MLZM::sgnMalzeme ,
+    connect( win_hC_MLZM, & hC_MLZM::sgnMalzeme ,
              [this]( int* sgnKod,
              QString* sgnBarkod,
              QString* sgnMalzeme,
@@ -316,50 +382,55 @@ this->setObjectName ("MLZMGCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
                                          *SGNEDmlzmMalzeme+" - "+
                         "GİRİŞ ÇIKIŞ KAYITLARI");
 
-
+        // malzeme değiştiği için maşlzemeye göre filtrele
         tb_model->setFilter(
                     QString("mlzmgc_mlzm_kod = %1").arg (*sgnKod) );
+    });
+    connect( win_hC_FTR, & hC_FTR::sgnFtr ,
+             [this]( QString* sgnGcno )
+
+    {
+        /// malzemede row depiştiğinde bunlarda değişir
+        *SGNEDfaturaNo = *sgnGcno;
+
+        setWindowTitle (*SGNEDfaturaNo+" - nolu faturaya ait "+
+                        "GİRİŞ ÇIKIŞ KAYITLARI");
+
+
+        tb_model->setFilter(
+                    QString("mlzmgc_gcno = %1").arg (*SGNEDfaturaNo) );
     });
 
     /////////////////////////////////////////////////////
 
-    connect(cbx_grscks, &QComboBox::currentTextChanged ,
-            [this] (QString comboText)
-    {
-        if ( comboText == "Envanter Girişi")
-        {
-            SGNmalzeme->show ();
-            SGNmalzeme->hide ();
-        }
-        if ( comboText == "Faturalı Giriş")
-        {
-            SGNfatura->show ();
-        }
-    });
 
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this] ()
     {
-        qDebug () <<"    mlzmgc *** 1  ekle pushed giriş şekili "<<cbx_grscks->currentText ();
-        qDebug () <<"    mlzmgc *** 1  ekle pshd  SGNEDmko   "<< * SGNEDmlzmKod;
-        if ( cbx_grscks->currentText () == "Envanter Girişi")
-        {
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
 
-            qDebug () <<"    mlzmgc *** 2   giriş şekili "<<cbx_grscks->currentText ();
-            qDebug () <<"    mlzmgc *** connect  "<<cbx_grscks->currentText ();
             QSqlQuery q;
             QString qry, mesaj("");
-
             // yeni kaydı ekle
             qry = QString("INSERT INTO " + *tb_name +
                           " ( mlzmgc_mlzm_kod, "
                           "   mlzmgc_barkod  , "
                           "   mlzmgc_malzeme , "
+                          "   mlzmgc_tarih , "
+                          "   mlzmgc_gc , "
                           "   mlzmgc_birim    ) "
-                          "values( %1, '%2', '%3', '%4' )")
+                          "values( %1, '%2', '%3', '%4', '%5', "
+                          "       '%6' )")
                     .arg (*SGNEDmlzmKod )
                     .arg (*SGNEDmlzmBarkod)
                     .arg (*SGNEDmlzmMalzeme)
+                    .arg (lE_tarih->text ())
+                    .arg ("Envanter Girişi")
                     .arg (*SGNEDmlzmBirim);
 
             if ( !q.exec(qry) )
@@ -372,13 +443,15 @@ this->setObjectName ("MLZMGCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
             else
             {
                 mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı eklendi.";
-
-                lE_kod->setText (QString::number (*SGNEDmlzmKod));
-                hClE_barkod->lineEdit->setText (*SGNEDmlzmBarkod );
-                hClE_malzeme->lineEdit->setText (*SGNEDmlzmMalzeme);
-                lE_tarih->setText (
-                            QDate::currentDate ().toString ("dd-mm-yyyy"));
-                cbx_grscks->setCurrentText ("");
+                ////////////////////////////////////////////////
+                maxID.hC_NrGo (tb_view, *max_id , 0);
+                ////////////////////////////////////////////////
+                //lE_kod->setText (QString::number (*SGNEDmlzmKod));
+                //hClE_barkod->lineEdit->setText (*SGNEDmlzmBarkod );
+                //hClE_malzeme->lineEdit->setText (*SGNEDmlzmMalzeme);
+                //lE_tarih->setText (
+                  //          QDate::currentDate ().toString ("dd-mm-yyyy"));
+                //cbx_grscks->setCurrentText ("");
                 hCle_gcno->lineEdit->setText ("");
                 lE_miktar ->setText ("");
                 cbx_birim ->setCurrentText (*SGNEDmlzmBirim);
@@ -388,68 +461,10 @@ this->setObjectName ("MLZMGCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
             }
             qDebug()<<mesaj;
             tb_model->select();
-            ////////////////////////////////////////////////
-            //  hC_Nr (tb_view, mlzmno, 0);
-            ////////////////////////////////////////////////
             tb_view->table->setFocus ();
             // mlzm  ekle
 
 
-
-
-
-            /*
-        QWidget *dia = new QWidget();
-        auto *gg = new QGridLayout;
-        dia->setLayout (gg);
-
-        dia->setWindowTitle ("Giriş Tipi");
-        dia->setMinimumSize (250,200);
-
-        QPushButton* faturaliGiris = new QPushButton("Faturalı Malzeme Girişi",dia);
-        QPushButton* envanterGiris = new QPushButton("Hibe Giriş",dia);
-        QPushButton* fat2 = new QPushButton("Envanter Giriş",dia);
-        QPushButton* fat3 = new QPushButton("Malzeme Teslim Fişi ile Çıkış",dia);
-        faturaliGiris->setDefault (true) ;
-
-        QGroupBox *ft = new QGroupBox("Mlzm Malzeme Giriş Tipi",dia);
-        auto *ff = new QVBoxLayout();
-        ff->addWidget (faturaliGiris);
-        ff->addWidget (envanterGiris);
-        ff->addWidget (fat2);
-        ff->addWidget (fat3);
-        ft->setLayout (ff);
-
-        gg->addWidget (ft);
-        /////////////////////////////////////////////
-        /// Faturalı Giriş
-
-        connect(faturaliGiris, &QPushButton::clicked,
-                [dia]()
-        {
-            auto *ftr = new hC_FTR;
-            ftr->show ();
-            ftr->tbsetup ();
-            dia->close ();
-        });
-
-        /////////////////////////////////////////////
-        /// Hibe Giriş
-
-        /////////////////////////////////////////////
-        /// Envanter Giriş
-
-
-        /////////////////////////////////////////////
-        /// Malzeme Teslim Fişi ile Çıkış
-
-        dia->show ();*/
-
-        }
-        else if (cbx_grscks->currentText () == "Faturalı Giriş")
-        {
-            qDebug ()<< "    mlzmgc *** Faturalı Giriş selected";
-        }
     });
 
     connect(tb_view->pB_sil, &QPushButton::clicked,
@@ -494,7 +509,7 @@ hC_MLZMGC::~hC_MLZMGC()
     delete win_Label ;
     delete win_Rsm   ;
     /////////////////////////////////////////////////
-    delete SGNmalzeme        ;
+    delete win_hC_MLZM        ;
     delete SGNEDmlzmKod      ;
     delete SGNEDmlzmBarkod   ;
     delete SGNEDmlzmMalzeme  ;

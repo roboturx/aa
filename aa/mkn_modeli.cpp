@@ -89,10 +89,21 @@ qDebug()<<"  mkModl kntrl";
             id = record.value("id_mkmark").toInt();
         }
 */
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
         QSqlQuery *q = new QSqlQuery;
         if (q->exec("INSERT INTO _dbtb ( mkmodl_no )"
                     " values(" + QString::number( 1 ) +   ")"   ))
+        {
             qDebug () <<"Yeni Kayıt - "<< 1 << " -   Eklendi";
+            ////////////////////////////////////////////////
+            maxID.hC_NrGo (tb_view, *max_id , 0);
+            ////////////////////////////////////////////////
+        }
         else
             qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
 

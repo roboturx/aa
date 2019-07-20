@@ -300,7 +300,9 @@ public:
 class hC_Nr
 {
 public:
-    explicit hC_Nr(hC_Tv *searchingTable, int aranan, int kolon);
+    explicit hC_Nr();
+    int hC_NrMax(QString *tb_name, QString tb_id);
+    bool hC_NrGo(hC_Tv *searchingTable, int aranan, int kolon);
 
 private:
     QModelIndex hC_NrSetCurrentIndex(QModelIndex Index);
@@ -347,6 +349,17 @@ public:
         QLabel                   * win_Rsm   {} ;
     /////////////////////////////////////////////////
 
+};
+
+
+class objectIsThere : QObject
+{
+    Q_OBJECT
+public:
+    explicit objectIsThere();
+    ~objectIsThere();
+
+    bool ovarmi (QString* oName);
 };
 
 

@@ -46,7 +46,7 @@ hC_MKN::hC_MKN() : hC_tBcreator ()
     tb_wdgts->append ( led_mknMotor = new QLineEdit    ) ;
     tb_wdgts->append ( led_mknMtip  = new QLineEdit   ) ;
     tb_wdgts->append ( cbx_mknYkt  = new QComboBox ) ;
-    tb_wdgts->append (  cbx_mknSurucu  = new QComboBox   ) ;
+    tb_wdgts->append ( cbx_mknSurucu  = new QComboBox   ) ;
     tb_wdgts->append ( clndr_mknSurucutar = new QDateTimeEdit(QDate::currentDate())  ) ;
     tb_wdgts->append ( cbx_mknBirim  = new QComboBox    ) ;
     tb_wdgts->append ( ted_mknAcklm = new QTextEdit   ) ;
@@ -336,6 +336,9 @@ void hC_MKN::tbwdgt()
 
     mknGrid->addWidget(lB_kurumno    ,  satr,0,1,1 );
     mknGrid->addWidget(led_mknKurumno,  satr,1,1,2 );
+
+    mknGrid->addWidget(win_Rsm       ,  satr,3,4,4 );
+
     mknGrid->addWidget(lB_plaka      ,++satr,0,1,1 );
     mknGrid->addWidget(led_mknPlaka  ,  satr,1,1,2 );
     mknGrid->addWidget(lB_cins       ,++satr,0,1,1 );
@@ -365,7 +368,7 @@ void hC_MKN::tbwdgt()
     mknGrid->addWidget(cbx_mknByer   ,  satr,4,1,2 );
     mknGrid->addWidget(lB_mknAcklm   ,++satr,0,1,1 );
     mknGrid->addWidget(ted_mknAcklm  ,  satr,1,1,5 );
-   // mknGrid->addWidget(lB_foto      ,++satr,0,4,4 );
+
 
 }
 /////////////////////////////////     ekrandaki her şeyi kontrol edelim
@@ -431,14 +434,23 @@ void hC_MKN::tbkntrl()
 
             // kayıt oluşturalım
             QSqlRecord rec = tb_model->record();
-            rec.setValue ("kurumno"  , lE_krmno->text ());
-            rec.setValue ("yil"      , QDate::currentDate ().year ());
-            rec.setValue ("cinsi"     , " " );
-            rec.setValue ("marka"    , " " );
-            rec.setValue ("modeli"   , " " );
+            rec.setValue ("mkn_kurumno"  , lE_krmno->text ());
+            rec.setValue ("mkn_yil"      , QDate::currentDate ().year ());
+            rec.setValue ("mkn_cinsi"     , " " );
+            rec.setValue ("mkn_marka"    , " " );
+            rec.setValue ("mkn_modeli"   , " " );
 // QString date(QDate::currentDate().toString ( "dd-MM-yyyy" ));
 
 // rec.setValue ("ftr_tarih"   , date );
+
+
+            ////////////////////////////////////////////////
+            hC_Nr maxID;
+            int* max_id = new int{};
+            *max_id     = maxID.hC_NrMax ( tb_name,
+                                tb_flds->value (0,0));
+            ////////////////////////////////////////////////
+
 
             // insert a new record (-1)
             if ( ! tb_model->insertRecord(tb_model->rowCount (),rec))
@@ -450,7 +462,12 @@ void hC_MKN::tbkntrl()
                 qDebug() << " - Kayıt MAKİNA ya eklendi ";
                 tb_model->submitAll ();
                 tb_model->select ();
+
+                ////////////////////////////////////////////////
+                maxID.hC_NrGo (tb_view, *max_id , 0);
+                ////////////////////////////////////////////////
             }
+
             dia_kurumno->close ();
         });
         dia_kurumno->exec ();

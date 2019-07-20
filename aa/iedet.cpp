@@ -11,6 +11,7 @@ hC_IEDET::hC_IEDET()  : hC_tBcreator ()
     win_Label->setText ( "İŞ EMRİ DETAY KAYITLARI");
     *tb_name  = "iedet_dbtb" ;
     *tb_ndex  = "iedet_ie_no";
+    //*tb_id    = "iedet_id";
 
     tb_flds = new hC_ArrD (9, 4);
     tb_flds->setValue ( 0, "iedet_ID"       , "INTEGER", "IEdetayID", "0" ) ;
@@ -147,17 +148,23 @@ void hC_IEDET:: tbkntrl()
 
     /////////////////////////////////////////////////////
     ie = new hC_IE;
-    ienoo = new int;
     ie->tbsetup();
     ie->show();
     // /// 12- set filter
+    ienoo = new int;
+
+    QModelIndex Index = ie->tb_view->table->currentIndex ();
+    *ienoo = ie->tb_model->data (ie->tb_model->
+                index (Index.row (), ie->tb_model->
+                       fieldIndex ("ie_no") )).toInt ();
+
 
     connect(ie, &hC_IE::sgnIsEmri ,
             [this ] (int ie_ieno)
     {
         *ienoo = ie_ieno;
         tb_model->setFilter(
-                    QString(" ie_id = %1").arg(ie_ieno) );
+                    QString(" iedet_ie_no = %1").arg(*ienoo) );
     });
     //////////////////////////////////////////////
 
@@ -165,54 +172,43 @@ void hC_IEDET:: tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-        QString IEtableName{" _dbtb"};
-        QSqlQuery q;
-        QString qry, mesaj("");
+        connect(ie, &hC_IE::sgnIsEmri ,
+                [this ] (int ie_ieno)
+        {
+            *ienoo = ie_ieno;
+            qDebug()<<"ienooooo"<<*ienoo;
+        });
 
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
         /// yeni iş emri detay numaasını bul
         /// iş emri detay nosu  _dbtb de
         ///   no alanındaki en büyük sayı
-        qry = "SELECT max(  no) FROM " + IEtableName  ;
-        int iedetno;
-        if ( !q.exec(qry) )
-        {
-            mesaj = mesaj + "İş Emri Detay No bulunamadı \n"+
-                    "------------------------------------\n"+
-                    q.lastError().text ()+
-                    "------------------------------------\n";
-            return;
-        }
-        else
-        {
-            q.next();
-            iedetno = q.value(0).toInt();
-            mesaj = mesaj + "MAX VAL =" + QString::number(iedetno) ;
-        }
-
-        qDebug()<< endl << "last inserted id  : "
-                << q.lastInsertId ().toString ();
-        //  IEmodel->select();
-
-        qDebug()<< endl <<mesaj<<endl<< "iedetno    :"<< iedetno;
-        iedetno= iedetno + 1 ;
-        qDebug()<< endl << "iedetno +1 :"<< iedetno;
         //// yeni kaydı ekle
+
+
+              qDebug()<<"ienooooo"<<*ienoo;
+        QSqlQuery q;
+        QString qry, mesaj("");
         //QSqlQuery q;
-        QString q_s;
-        q_s="INSERT INTO  _dbtb ( "
-            " ie_id     , "
-            "  no  , "
-            " tamiryeri , "
-            " tamirbolum, "
-            " durum     , "
-            " girtar    , "
-            " ciktar      "
+        qry="INSERT INTO  "+*tb_name+" ( "
+            " iedet_ie_no    , "
+            " iedet_aciklama , "
+            " iedet_tamiryeri, "
+            " iedet_tybolum  , "
+            " iedet_durum    , "
+            " iedet_girtar   , "
+            " iedet_ciktar     "
             " )"
             " values( ?, ?, ?, ?, ?, ?, ? )";
-        q.prepare(q_s);
+        q.prepare(qry);
 
         q.bindValue(0, *ienoo  );
-        q.bindValue(1, iedetno );
+        q.bindValue(1, " " );
         q.bindValue(2, " " );
         q.bindValue(3, " " );
         q.bindValue(4, " " );
@@ -237,6 +233,10 @@ void hC_IEDET:: tbkntrl()
             hC_Gz ( dE_IEdetciktarihi, "nulldate");
             cbx_IEdetdurum->setCurrentIndex (0);
 
+            tb_model->select ();
+            ////////////////////////////////////////////////
+            maxID.hC_NrGo (tb_view, *max_id , 0);
+            ////////////////////////////////////////////////
 
 
 
@@ -247,11 +247,7 @@ void hC_IEDET:: tbkntrl()
             qDebug () << "İş Emri Detay Yeni Kayıt Eklenemedi - "
                       << q.lastError().text();
         }
-        tb_model->select ();
-        ////////////////////////////////////////////////
-        hC_Nr (tb_view, iedetno, 1);
-        ////////////////////////////////////////////////
-        tb_view->table->setFocus ();
+      //  tb_view->table->setFocus ();
         // iş emri detay ekle
     });
     // pB 002 yeni resim ekle

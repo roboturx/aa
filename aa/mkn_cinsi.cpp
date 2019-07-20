@@ -68,6 +68,13 @@ void hC_MKCINS::tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
+
         QSqlRecord rec = tb_model->record();
         // insert a new record (-1) with null date
         if ( ! tb_model->insertRecord(-1,rec))
@@ -80,8 +87,9 @@ void hC_MKCINS::tbkntrl()
         }
         tb_model->submitAll();
         tb_model->select();
-        tb_view->table->setCurrentIndex(tb_model->
-                                         index(0,tb_model->columnCount()));
+        ////////////////////////////////////////////////
+        maxID.hC_NrGo (tb_view, *max_id , 0);
+        ////////////////////////////////////////////////
 
     });
 

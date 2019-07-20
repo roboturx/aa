@@ -20,6 +20,7 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
+
     QLabel      * lB_brkd{} ;
     QLineEdit   * lE_faturano{}  ;
     hC_Le       * hClE_firma{} ;

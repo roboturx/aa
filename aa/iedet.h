@@ -19,6 +19,7 @@ public:
 
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
+    //QString                  * tb_id    {};
 
     hC_IE* ie  {} ;
     int* ienoo {} ;

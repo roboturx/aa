@@ -33,6 +33,9 @@ private slots:
     void updateButtons(int row);
 
 private:
+
+    QTreeView * tree {};
+
     void setupModel();
 
     QLabel *nameLabel;

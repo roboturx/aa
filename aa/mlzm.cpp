@@ -177,33 +177,22 @@ void hC_MLZM::tbkntrl()
             [this]()
     {
 
-        QString IEtableName{"mlzm_dbtb"};
-        QSqlQuery q;
-        QString qry, mesaj("");
-        /// yeni barkod numarasını bul
-        /// barkod nosu _dbtb de
-        /// barkod alanındaki en büyük sayı
-        qry = "SELECT max(mlzm_id) FROM " + IEtableName  ;
-        int mlzmno;
-        if ( !q.exec(qry) )
-        {
-            mesaj = mesaj + "Malzeme No bulunamadı \n"+
-                    "------------------------------------\n"+
-                    q.lastError().text ()+
-                    "------------------------------------\n";
-            return;
-        }
-        else
-        {
-            q.next();
-            mlzmno = q.value(0).toInt ();
-            mesaj = mesaj + "MAX VAL = " + QString::number(mlzmno) ;
-        }
 
-        mlzmno = mlzmno + 1  ;
+        ////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////
         // yeni kaydı ekle
-        qry = "INSERT INTO " + IEtableName +
+        QSqlQuery q;
+        QString qry{}, mesaj{};
+        ////////////////////////////////////////////////
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id     = maxID.hC_NrMax ( tb_name,
+                            tb_flds->value (0,0));
+        ////////////////////////////////////////////////
+
+
+        qry = "INSERT INTO " + *tb_name  +
                 " ( mlzm_barkod) values( ' ' )" ;
 
         if ( !q.exec(qry) )
@@ -231,9 +220,8 @@ void hC_MLZM::tbkntrl()
         qDebug()<<mesaj;
         tb_model->select();
         ////////////////////////////////////////////////
-        hC_Nr (tb_view, mlzmno, 0);
-        ////////////////////////////////////////////////
-        tb_view->table->setFocus ();
+        maxID.hC_NrGo (tb_view, *max_id , 0);
+        ////////////////////////////////////////////////tb_view->table->setFocus ();
         // mlzm  ekle
 
 
