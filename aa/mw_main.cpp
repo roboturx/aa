@@ -22,7 +22,7 @@ void MW_main::login()
     this->setCentralWidget (wd_log);
 
     auto *lg = new QGridLayout(wd_log);
-    wd_log->setLayout(lg);
+  //  wd_log->setLayout(lg);
 
     //  durum = new QTextEdit(wd_log);
     //durum->setReadOnly (true);

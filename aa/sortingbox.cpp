@@ -28,12 +28,50 @@ SortingBox::SortingBox()
 void SortingBox::createNewSquare()
 {
     static int count = 1;
-    createShapeItem(squarePath,
-                    tr("Excavator < %1 >").arg(++count),
-                    randomItemPosition(),
-                    randomItemColor(),
-                    "60-190001",
-                    QPixmap(":/rsm/ex.ico"));
+    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+   if (query.isActive ())
+   {
+        qDebug()<< "active " << query.lastError ().text ();
+        createShapeItem(squarePath,
+                        tr("Excavator < %1 >").arg(++count),
+                        randomItemPosition(),
+                        randomItemColor(),
+                        "60-190001",
+                        QPixmap(":/rsm/ex.ico"));
+   }
+   else {
+            qDebug()<< "not active "<< query.lastError ().text ();
+   }
+   qDebug()<< query.value(0).toString();
+   qDebug()<< query.value(1).toString();
+   qDebug()<< query.value(2).toString();
+   qDebug()<< query.value(3).toString();
+   qDebug()<< query.value(4).toString();
+   qDebug()<< query.value(5).toString();
+
+    while (query.next()) {
+
+        if(query.value( 4 ).toString() == "Tamamlandı")
+        {
+            createShapeItem(squarePath,
+                            tr("Excavator < %1 >").arg(++count),
+                            randomItemPosition(),
+                            randomItemColor(),
+                            "60-190001",
+                            QPixmap(":/rsm/ex.ico"));
+        }
+
+    }
+
+
+
+
+    //    createShapeItem(squarePath,
+    //                    tr("Excavator < %1 >").arg(++count),
+    //                    randomItemPosition(),
+    //                    randomItemColor(),
+    //                    "60-190001",
+    //                    QPixmap(":/rsm/ex.ico"));
 }
 
 
@@ -56,7 +94,7 @@ void SortingBox::createShapeItem(const QPainterPath &path,
     update();
     //shapeItem.setContextMenuPolicy (Qt::CustomContextMenu);
     //connect(shapeItem, SIGNAL(customContextMenuRequested(QPoint)),
-          //  this, SLOT(smSLOT(QPoint)));
+    //  this, SLOT(smSLOT(QPoint)));
 }
 
 QToolButton *SortingBox::createToolButton(const QString &toolTip,
@@ -94,8 +132,8 @@ void SortingBox::smSLOT(QPoint pos)
     ekleAct_sgrt->setStatusTip ("Sigorta Kaydı Ekle");
     connect (ekleAct_sgrt, &QAction::triggered,
              []()
-             {
-             });
+    {
+    });
 
     menu->addAction(ekleAct_sgrt);
 
@@ -106,8 +144,8 @@ void SortingBox::smSLOT(QPoint pos)
     ekleAct_mua->setStatusTip ("Muayene Kaydı Ekle");
     connect (ekleAct_mua, &QAction::triggered, this,
              []()
-             {
-             });
+    {
+    });
     menu->addAction(ekleAct_mua);
 
 
@@ -118,8 +156,8 @@ void SortingBox::smSLOT(QPoint pos)
     ekleAct_yag->setStatusTip ("Yağ Kaydı Ekle");
     connect (ekleAct_yag, &QAction::triggered, this,
              []()
-             {
-             });
+    {
+    });
     menu->addAction(ekleAct_yag);
 
 
@@ -130,8 +168,8 @@ void SortingBox::smSLOT(QPoint pos)
     ekleAct_flt->setStatusTip ("Filtre Kaydı Ekle");
     connect (ekleAct_flt, &QAction::triggered, this,
              []()
-             {
-             });
+    {
+    });
     menu->addAction(ekleAct_flt);
 
 
@@ -143,8 +181,8 @@ void SortingBox::smSLOT(QPoint pos)
     ekleAct_sipr->setStatusTip ("İş Emri Kaydı Ekle");
     connect (ekleAct_sipr, &QAction::triggered, this,
              []()
-             {
-             });
+    {
+    });
     menu->addAction(ekleAct_sipr);
 
 
@@ -156,8 +194,8 @@ void SortingBox::smSLOT(QPoint pos)
     silAct_mkn->setStatusTip ("DİKKAT :: Makina Kaydını ve bu makina ile ilgili herşeyi siler...");
     connect (silAct_mkn, &QAction::triggered, this,
              []()
-             {
-             });
+    {
+    });
     menu->addAction(silAct_mkn);
 
     menu->addSeparator();
@@ -410,7 +448,7 @@ trianglePath.lineTo(x + 120 / 2, y);
                              QPixmap(":/images/ex.ico"),
                              "tool üçgen");
 */
-    /*
+/*
     QPainter painter(this);
     QPen pen;  // creates a default pen
 
@@ -441,7 +479,7 @@ trianglePath.lineTo(x + 120 / 2, y);
     circlePath = stroker.createStroke ( curvePath );
     //painter->drawPath( outline );
 */
-    //circlePath.addEllipse(QRect(0, 0, 100, 100));
+//circlePath.addEllipse(QRect(0, 0, 100, 100));
 
 /*
 void SortingBox::createNewCircle()
