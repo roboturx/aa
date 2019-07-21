@@ -11,19 +11,21 @@ hC_SCLK::hC_SCLK () :  hC_tBcreator  ()
     *tb_name  = "sclk_dbtb" ;
     *tb_ndex  = "sclk_tarih";
 
-    tb_flds = new hC_ArrD (10, 4);
+    tb_flds = new hC_ArrD (11, 4);
     tb_flds->setValue ( 0, "sclk_ID"      , "INTEGER", "İşçilikID", "0" ) ;
-    tb_flds->setValue ( 1, "sclk_iedet_id", "TEXT"   , "İEDetayID", "0" );
-    tb_flds->setValue ( 2, "sclk_tarih"   , "TEXT"   , "Tarih" );
-    tb_flds->setValue ( 3, "sclk_birim"   , "TEXT"   , "Birim");
-    tb_flds->setValue ( 4, "sclk_usta"    , "TEXT"   , "Usta"   );
-    tb_flds->setValue ( 5, "sclk_saat"    , "TEXT"   , "Saat"   );
-    tb_flds->setValue ( 6, "sclk_ucret"   , "TEXT"   , "Ücret"    );
-    tb_flds->setValue ( 7, "sclk_ucrettip", "TEXT"   , "Ücret Tipi"   );
-    tb_flds->setValue ( 8, "sclk_aciklama", "TEXT"   , "Açıklama");
-    tb_flds->setValue ( 9, "sclk_resim"   , "BLOB"   , "Resim");
+    tb_flds->setValue ( 1, "sclk_iedet_no", "INTEGER"   , "İEDetayID", "0" );
+    tb_flds->setValue ( 2, "sclk_no"      , "INTEGER"   , "İşçilikNo", "0" );
+    tb_flds->setValue ( 3, "sclk_tarih"   , "TEXT"   , "Tarih" );
+    tb_flds->setValue ( 4, "sclk_birim"   , "TEXT"   , "Birim");
+    tb_flds->setValue ( 5, "sclk_usta"    , "TEXT"   , "Usta"   );
+    tb_flds->setValue ( 6, "sclk_saat"    , "TEXT"   , "Saat"   );
+    tb_flds->setValue ( 7, "sclk_ucret"   , "TEXT"   , "Ücret"    );
+    tb_flds->setValue ( 8, "sclk_ucrettip", "TEXT"   , "Ücret Tipi"   );
+    tb_flds->setValue ( 9, "sclk_aciklama", "TEXT"   , "Açıklama");
+    tb_flds->setValue (10, "sclk_resim"   , "BLOB"   , "Resim");
 
     tb_wdgts = new QList <QWidget*> ;
+    tb_wdgts->append ( nullptr    ) ;
     tb_wdgts->append ( nullptr    ) ;
     tb_wdgts->append ( lE_SCno = new QLineEdit  ) ;
     tb_wdgts->append ( dE_SCtarih = new QDateTimeEdit( QDate::currentDate ()));
@@ -132,6 +134,7 @@ void hC_SCLK:: tbwdgt()
     wdgtGrid->addWidget(cbx_SCucrettip   ,6,1,1,3);
     wdgtGrid->addWidget(lB_acklm        ,7,0,1,1);
     wdgtGrid->addWidget(lE_SCaciklama   ,7,1,1,3);
+    wdgtGrid->addWidget(win_Rsm   ,8,1,1,3);
 
 
 
@@ -166,22 +169,15 @@ void hC_SCLK:: tbkntrl()
         QSqlQuery q;
         QString q_s;
         q_s="INSERT INTO  sclk_dbtb ( "
-            "SC_iedet_id, SC_no    , SC_tarih, SC_birim , SC_usta, "
-            "SC_saat   , SC_ucret, SC_ucrettip, SC_aciklama  "
+            "sclk_iedet_no, sclk_no  "
             " )"
-            " values(?, ?, ?, ?, ?, ?, ?, ?, ? )";
+            " values(?, ? )";
         q.prepare(q_s);
 
 
         q.bindValue(0, *max_id  );
-        q.bindValue(1, lE_SCno->text() );
-        q.bindValue(2, dE_SCtarih->text ());
-        q.bindValue(3, lE_SCbirim->text ());
-        q.bindValue(4, lE_SCusta->text() );
-        q.bindValue(5, lE_SCsaat->text ());
-        q.bindValue(6, lE_SCucret->text() );
-        q.bindValue(7, cbx_SCucrettip->currentText ());
-        q.bindValue(8, lE_SCaciklama->text() );
+        q.bindValue(1, 1 );
+
 
         q.exec();
         if (q.isActive())
@@ -189,7 +185,8 @@ void hC_SCLK:: tbkntrl()
             qDebug () <<"İşçilik Yeni Kayıt Eklendi - "<< lE_SCno->text() << " -   Eklendi";
 
             ////////////////////////////////////////////////
-            maxID.hC_NrGo (tb_view, *max_id , 0);
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0,3);
             ////////////////////////////////////////////////
 
         }
@@ -198,8 +195,7 @@ void hC_SCLK:: tbkntrl()
             qDebug () << "İşçilik Yeni Kayıt Eklenemedi - " << q.lastError().text() ;
         }
 
-        tb_model->select();
-        tb_view->table->setFocus();
+
         // işçilik ekle
         ///////////////////////////////////////////////////
     });

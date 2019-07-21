@@ -308,9 +308,10 @@ void hC_FTR::tbkntrl()
             else
             {
                 mesaj = mesaj + "Fatura kaydı eklendi.";
-                tb_model->select();
+
                 ////////////////////////////////////////////////
-                maxID.hC_NrGo (tb_view, *max_id , 0);
+                /// son eklenen kayda git
+                maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
                 ////////////////////////////////////////////////
 
                 hClE_firma ->lineEdit-> setText ("");
@@ -318,8 +319,6 @@ void hC_FTR::tbkntrl()
             }
             qDebug()<<mesaj;
 
-
-            //tb_view->table->setFocus ();
             /// ftr  ekle
             /// pb_ok sonu
             ///////////////////////////////////////

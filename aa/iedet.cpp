@@ -233,9 +233,9 @@ void hC_IEDET:: tbkntrl()
             hC_Gz ( dE_IEdetciktarihi, "nulldate");
             cbx_IEdetdurum->setCurrentIndex (0);
 
-            tb_model->select ();
             ////////////////////////////////////////////////
-            maxID.hC_NrGo (tb_view, *max_id , 0);
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
             ////////////////////////////////////////////////
 
 
@@ -247,7 +247,7 @@ void hC_IEDET:: tbkntrl()
             qDebug () << "İş Emri Detay Yeni Kayıt Eklenemedi - "
                       << q.lastError().text();
         }
-      //  tb_view->table->setFocus ();
+
         // iş emri detay ekle
     });
     // pB 002 yeni resim ekle

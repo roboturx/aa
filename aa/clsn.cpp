@@ -210,10 +210,6 @@ void hC_CLSN::tbkntrl()
         *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
 
-
-        qDebug ()<<"00000000000000000" <<tb_flds->value (0,0);
-
-
         QSqlRecord rec = tb_model->record();
 
         // insert a new record (-1) with null date
@@ -235,9 +231,10 @@ void hC_CLSN::tbkntrl()
         else
             qDebug() << "100111 - Çalışan Kaydı eklendi ";
         tb_model->submitAll ();
-        tb_model->select();
+
         ////////////////////////////////////////////////
-        maxID.hC_NrGo (tb_view, *max_id , 0);
+        /// son eklenen kayda git
+        maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
         ////////////////////////////////////////////////
     });
 

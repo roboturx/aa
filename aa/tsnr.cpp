@@ -13,7 +13,7 @@ hC_TSNR::hC_TSNR() : hC_tBcreator ()
 
     tb_flds = new hC_ArrD (8, 4);
     tb_flds->setValue ( 0, "tsnr_id"      , "INTEGER", "TaşınırID", "0" ) ;
-    tb_flds->setValue ( 1, "tsnr_iedet_id", "INTEGER", "İEDetayID","0" );
+    tb_flds->setValue ( 1, "tsnr_iedet_no", "INTEGER", "İEDetayID","0" );
     tb_flds->setValue ( 2, "tsnr_no "     , "TEXT"   , "Taşınır No" );
     tb_flds->setValue ( 3, "tsnr_tarih"   , "TEXT"   , "Tarih");
     tb_flds->setValue ( 4, "tsnr_usta"    , "TEXT"   , "Usta"   );
@@ -136,21 +136,13 @@ void hC_TSNR:: tbkntrl()
         QSqlQuery q;
         QString q_s;
         q_s="INSERT INTO "+ *tb_name +" ( "
-            "ts_tsnrdet_id, ts_no    , ts_tarih, ts_malzeme , ts_miktar, "
-            "ts_birim   , ts_bfiyat, ts_durum, ts_aciklama  "
+            "tsnr_iedet_no , tsnr_no "
             " )"
-            " values(?, ?, ?, ?, ?, ?, ?, ?, ? )";
+            " values( ?, ? )";
         q.prepare(q_s);
 
-        q.bindValue(0, *max_id ); // iedet no
-        q.bindValue(1, lE_TSno->text() );
-        q.bindValue(2, dE_TStarih->text ());
-        q.bindValue(3, 0 );
-        q.bindValue(4, 0 );
-        q.bindValue(5, 0 );
-        q.bindValue(6, 0 );
-        q.bindValue(7, 0 );
-        q.bindValue(8, "" );
+        q.bindValue(0, *max_id ); // iedet no yapılacak
+        q.bindValue(1, 1 );// ts_id ile yapılacak
 
         q.exec();
         qDebug ()<<"ts 18";
@@ -158,7 +150,8 @@ void hC_TSNR:: tbkntrl()
         {
             qDebug () <<"Taşınır Yeni Kayıt Eklendi - "<< lE_TSno->text() << " -   Eklendi";
             ////////////////////////////////////////////////
-            maxID.hC_NrGo (tb_view, *max_id , 0);
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0,2);
             ////////////////////////////////////////////////
 
         }
@@ -166,10 +159,7 @@ void hC_TSNR:: tbkntrl()
         {
             qDebug () << "Taşınır Yeni Kayıt Eklenemedi - " << q.lastError().text() ;
         }
-        tb_model->select();
-        tb_view->setFocus();
-
-        // tasinir ekle
+               // tasinir ekle
     });
 
     // pB 002 yeni resim ekle

@@ -461,10 +461,10 @@ void hC_MKN::tbkntrl()
             {
                 qDebug() << " - Kayıt MAKİNA ya eklendi ";
                 tb_model->submitAll ();
-                tb_model->select ();
 
                 ////////////////////////////////////////////////
-                maxID.hC_NrGo (tb_view, *max_id , 0);
+                /// son eklenen kayda git
+                maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
                 ////////////////////////////////////////////////
             }
 

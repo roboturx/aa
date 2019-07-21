@@ -302,10 +302,13 @@ class hC_Nr
 public:
     explicit hC_Nr();
     int hC_NrMax(QString *tb_name, QString tb_id);
-    bool hC_NrGo(hC_Tv *searchingTable, int aranan, int kolon);
+    bool hC_NrGo(hC_Tv *tb_view,
+                 QSqlRelationalTableModel *tb_model,
+                 int aranan,
+                 int kolon, int kolon2=1);
 
 private:
-    QModelIndex hC_NrSetCurrentIndex(QModelIndex Index);
+    QModelIndex hC_NrSetCurrentIndex(QModelIndex Index, int kolon2=1);
 };
 
 

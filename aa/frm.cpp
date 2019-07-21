@@ -161,13 +161,17 @@ void hC_FRM::tbkntrl()
         QSqlRecord rec = tb_model->record();
         // insert a new record (-1) with null date
         if ( ! tb_model->insertRecord(-1,rec))
-        {           qDebug() << "HATA - Firma kaydı eklenemedi "; }
-        else           {
+        {
+            qDebug() << "HATA - Firma kaydı eklenemedi ";
+        }
+        else
+        {
             qDebug() << "Firma Kaydı eklendi ";
             tb_model->submitAll ();
-            tb_model->select();
+
             ////////////////////////////////////////////////
-            maxID.hC_NrGo (tb_view, *max_id , 0);
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
             ////////////////////////////////////////////////
         }
 

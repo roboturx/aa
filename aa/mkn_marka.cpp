@@ -101,16 +101,14 @@ void hC_MKMARK::tbkntrl()
         {
             qDebug () <<"Yeni Kayıt - "<< 1 << " -   Eklendi";
             ////////////////////////////////////////////////
-            maxID.hC_NrGo (tb_view, *max_id , 0);
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
             ////////////////////////////////////////////////
 
         }
         else
             qDebug () << "Yeni Kayıt Eklenemedi - " << q->lastError() ;
 
-        tb_model->submitAll();
-        tb_view->setFocus();
-        tb_model->select();
 
     });
 

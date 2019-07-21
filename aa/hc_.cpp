@@ -291,9 +291,12 @@ int hC_Nr::hC_NrMax(QString *tb_name, QString tb_id)
 }
 
 
-bool hC_Nr::hC_NrGo(hC_Tv* searchingTable, int aranan, int kolon )
+bool hC_Nr::hC_NrGo(hC_Tv* tb_view,
+                    QSqlRelationalTableModel* tb_model,
+                    int aranan,
+                    int kolon, int kolon2 )
 {
-    /// SEARCHINGTABLE table view ine eklenen son kaydı,
+    /// tb_view table view ine eklenen son kaydı,
     /// KOLON da
     /// ARANAN ı bulur
     ///
@@ -301,29 +304,38 @@ bool hC_Nr::hC_NrGo(hC_Tv* searchingTable, int aranan, int kolon )
     /// kayıt eklenirken oluşturulur.
     /// sonra bu classa parametreler yollanır
     ///
+    ///
+
+        tb_model->select();
     bool boole = false;
     QModelIndex searchStartIndex;
     //if(!IEDETtview->table->currentIndex().isValid())
-    searchStartIndex = searchingTable->table->
+    searchStartIndex = tb_view->table->
             model()->index( 0, kolon ) ;   //root item
     //else
     //  searchStartIndex = IEDETtview->table->
     //        currentIndex();
 
-    QModelIndexList nextMatches = searchingTable->table->
+    QModelIndexList nextMatches = tb_view->table->
             model()->match(searchStartIndex,
                            Qt::DisplayRole, aranan, 1,
                            Qt::MatchExactly |
                            Qt::MatchWrap |
                            Qt::MatchRecursive);
+qDebug () << "aranan : " <<aranan;
+qDebug () << "kolon  : " << kolon;
+qDebug () << "view   : " << tb_view;
+qDebug () << "strt   : " <<searchStartIndex ;
+qDebug () << "match s: " <<nextMatches;
+qDebug () << "size   : " << nextMatches.size();
 
     if(nextMatches.size() == 1)
     {
         //first result might be the currently selected item
-        if(nextMatches.at(0) == searchingTable->table->
+        if(nextMatches.at(0) == tb_view->table->
                 currentIndex())
         {
-            nextMatches = searchingTable->table->
+            nextMatches = tb_view->table->
                     model()->match(searchStartIndex,
                                    Qt::DisplayRole, aranan, 2,
                                    Qt::MatchExactly |
@@ -332,27 +344,34 @@ bool hC_Nr::hC_NrGo(hC_Tv* searchingTable, int aranan, int kolon )
 
             if(nextMatches.size() == 2)
             {
-                searchingTable->table->
+                tb_view->table->
                         setCurrentIndex ( hC_NrSetCurrentIndex(
-                                              nextMatches.at(1)));
+                                   nextMatches.at(1),kolon2));
             }
             boole = true;
         }
         else
-            searchingTable->table->
+            tb_view->table->
                     setCurrentIndex ( hC_NrSetCurrentIndex(
-                                          nextMatches.at(0)));
+                                          nextMatches.at(0),kolon2));
         boole = true;
     }
+    qDebug () << "current          :" <<tb_view->table->currentIndex() ;
+
+    qDebug () << "current aft slct :" <<tb_view->table->currentIndex() ;
+
+    tb_view->table->setFocus ();
+    qDebug () << "current aft fcs  :" <<tb_view->table->currentIndex() ;
+
     return boole;
 }
 
-QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index)
+QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index, int kolon2)
 {
 
     if (Index.column () == 0 )
     {
-        Index = (Index.sibling( Index.row (), 1 ));
+        Index = (Index.sibling( Index.row (),kolon2));
     }
     return Index;
 }

@@ -156,7 +156,7 @@ void hC_MLZMGC::tbwdgt()
             this->hClE_malzeme->lineEdit->setText (*SGNEDmlzmBarkod);
             this->hClE_barkod->lineEdit->setText (*SGNEDmlzmMalzeme);
             this->cbx_birim->setCurrentText (*SGNEDmlzmBirim);
-
+hCle_gcno->lineEdit->setText ("");
             this->hClE_malzeme->lineEdit->setFocus();
         });
         diabarkod->exec ();
@@ -417,20 +417,23 @@ this->setObjectName ("oMLZMGC");
             QSqlQuery q;
             QString qry, mesaj("");
             // yeni kaydı ekle
+
             qry = QString("INSERT INTO " + *tb_name +
                           " ( mlzmgc_mlzm_kod, "
                           "   mlzmgc_barkod  , "
                           "   mlzmgc_malzeme , "
                           "   mlzmgc_tarih , "
                           "   mlzmgc_gc , "
+                          "   mlzmgc_gcno , "
                           "   mlzmgc_birim    ) "
                           "values( %1, '%2', '%3', '%4', '%5', "
-                          "       '%6' )")
+                          "      '%6', '%7' )")
                     .arg (*SGNEDmlzmKod )
                     .arg (*SGNEDmlzmBarkod)
                     .arg (*SGNEDmlzmMalzeme)
                     .arg (lE_tarih->text ())
                     .arg ("Envanter Girişi")
+                    .arg (hCle_gcno->lineEdit->text ())
                     .arg (*SGNEDmlzmBirim);
 
             if ( !q.exec(qry) )
@@ -443,16 +446,20 @@ this->setObjectName ("oMLZMGC");
             else
             {
                 mesaj = mesaj + " Malzeme Giriş-Çıkış kaydı eklendi.";
+
+
                 ////////////////////////////////////////////////
-                maxID.hC_NrGo (tb_view, *max_id , 0);
+                /// son eklenen kayda git
+                maxID.hC_NrGo (tb_view, tb_model, *max_id , 0,4);
                 ////////////////////////////////////////////////
+
                 //lE_kod->setText (QString::number (*SGNEDmlzmKod));
                 //hClE_barkod->lineEdit->setText (*SGNEDmlzmBarkod );
                 //hClE_malzeme->lineEdit->setText (*SGNEDmlzmMalzeme);
                 //lE_tarih->setText (
                   //          QDate::currentDate ().toString ("dd-mm-yyyy"));
                 //cbx_grscks->setCurrentText ("");
-                hCle_gcno->lineEdit->setText ("");
+                //hCle_gcno->lineEdit->setText ("");
                 lE_miktar ->setText ("");
                 cbx_birim ->setCurrentText (*SGNEDmlzmBirim);
                 lE_fiyat ->setText ("");
@@ -460,9 +467,8 @@ this->setObjectName ("oMLZMGC");
                 lE_aciklama ->setText ("");
             }
             qDebug()<<mesaj;
-            tb_model->select();
-            tb_view->table->setFocus ();
-            // mlzm  ekle
+
+            // mlzmGC  ekle
 
 
     });

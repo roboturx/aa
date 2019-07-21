@@ -215,15 +215,16 @@ void hC_IE::tbkntrl()
             hClE_yetkili2->lineEdit->setText ("");
 
             // QLineEdit f;
-
+            ////////////////////////////////////////////////
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
+            ////////////////////////////////////////////////
 
 
         }
-        tb_model->select();
-        ////////////////////////////////////////////////
-        maxID.hC_NrGo (tb_view, *max_id , 0);
-        ////////////////////////////////////////////////
-        tb_view->table->setFocus ();
+
+
+
         // iş emri detay ekle
 
     });
