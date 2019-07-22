@@ -21,7 +21,7 @@ hC_IE::hC_IE()  : hC_tBcreator ()
     tb_flds->setValue ( 6, "ie_ciktar", "TEXT"   , "Araç Çıkış Tarihi"   );
     tb_flds->setValue ( 7, "ie_y1"    , "TEXT"   , "Yetkili I"    );
     tb_flds->setValue ( 8, "ie_y2"    , "TEXT"   , "Yetkili II"   );
-    tb_flds->setValue ( 9, "ie_resim"   , "BLOB"   , "Resim" , "0" );
+    tb_flds->setValue ( 9, "ie_resim" , "BLOB"   , "Resim" , "0" );
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ;
@@ -240,7 +240,7 @@ void hC_IE::tbkntrl()
             [this]()
     {
         hC_Rs resim(win_Rsm, tb_view, tb_model, tbx_slctnMdl,
-                    "resim", "ekle");
+                    "ie_resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
@@ -248,7 +248,7 @@ void hC_IE::tbkntrl()
               [this]()
     {
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
-                      "resim", "değiştir" ) ;
+                      "ie_resim", "değiştir" ) ;
     });
 
 

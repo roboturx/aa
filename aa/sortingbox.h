@@ -14,12 +14,12 @@ class QToolButton;
 QT_END_NAMESPACE
 
 //! [0]
-class SortingBox : public QWidget
+class SortingBox : public  QWidget
 {
     Q_OBJECT
 
 public:
-    SortingBox();
+    explicit SortingBox( QWidget *parent=nullptr );
 
 protected:
     bool event(QEvent *event) override;
@@ -28,6 +28,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+
 
 private slots:
     void smSLOT(QPoint pos);
@@ -66,6 +67,7 @@ private:
    // QToolButton *newCircleButton;
     QToolButton *newSquareButton;
     //QToolButton *newTriangleButton;
+       //void menu();
 };
 //! [2]
 

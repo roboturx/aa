@@ -15,37 +15,20 @@ void MW_main::login()
     /////////////////////////////////////////////////////
     // qDebug() << "main log";
     this->setWindowTitle ("Makina İkmal Atölye Yönetim Uygulaması");
-    this->setGeometry (200,200,600,500);
-//    MW_main::showMaximized ();
+    this->setGeometry (20,20,800,500);
 
-    wd_log = new QWidget(this);
-    this->setCentralWidget (wd_log);
-
-    auto *lg = new QGridLayout(wd_log);
-  //  wd_log->setLayout(lg);
-
-    //  durum = new QTextEdit(wd_log);
-    //durum->setReadOnly (true);
-
-
-    auto * sortingBox = new SortingBox;
-    // lg->addWidget(durum  ,0,0,2,1);
-    lg->addWidget(  sortingBox  ,2,0,9,1);
-
-
-    //  mwyaz(QDate::currentDate ().toString());
-
+    sbox = new SortingBox;
+    this->setCentralWidget (sbox );
 
     // fade(true);
-
 
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase =new DBase();
     dbase->setGeometry (800,300,300,480);
     dbase->setWindowTitle("Veri Tabanı Kontrol");
-    //dbase->yaz("dbase mw_main show");
     dbase->show();
+
     if (! dbase->setupDBase ())
     {
         /// hata ne /// baglanti yok
@@ -134,7 +117,7 @@ void MW_main::cr_Actions()
     tb_main->setAllowedAreas(Qt::LeftToolBarArea);
 
     auto *act_main = new QAction(QIcon(":/rsm/home.png"),
-                          tr("&Kontrol Merkezi..."), this);
+                                 tr("&Kontrol Merkezi..."), this);
     act_main->setStatusTip("Ana Pencere" );
     act_main->setWhatsThis("Program Giriş Sayfas1");
     act_main->setShortcut(QKeySequence(tr("Ctrl+K")));
@@ -146,15 +129,20 @@ void MW_main::cr_Actions()
     //////// G İ R İ Ş
     connect( act_main , &QAction::triggered,
 
-             []()
+             [this]()
     {
-      /*  mw_mkk = new Form();
+       // mwgr = new MW_graph;
         statusBar()->showMessage( "Kontrol Merkezi" );
-        mw_mkk->setWindowTitle ( GLB_yetki );
-        mw_mkk->resize(qApp->screens()[0]->size()*.6);
-        mw_mkk ->show ();
-*/
-});
+       // mwgr->setWindowTitle ( GLB_yetki );
+       // mwgr->adjustSize ();
+
+        delete sbox;
+
+        sbox = new SortingBox;
+
+        this->setCentralWidget (sbox );
+
+    });
 
 
 
@@ -184,7 +172,7 @@ void MW_main::cr_Actions()
 
 
     /// mkn cmm
-/*    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
+    /*    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Makina &Cinsi..."), this);
     act_mkc->setStatusTip(tr("Makina Cinsi"));
     act_mkc->setShortcut(QKeySequence(tr("Ctrl+C")));
@@ -217,7 +205,7 @@ void MW_main::cr_Actions()
 
     });
       */
-/*    /// iş emri
+    /*    /// iş emri
     auto *act_ie = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("İş &Emri..."), this);
     act_ie->setShortcut(QKeySequence(tr("Ctrl+E")));
@@ -234,7 +222,7 @@ void MW_main::cr_Actions()
 */
     /// iş emri detay
     auto *act_iedet = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                tr("&İş Emri"), this);
+                                  tr("&İş Emri"), this);
     act_iedet->setShortcut(QKeySequence(tr("Ctrl+P")));
     act_iedet->setStatusTip(tr("İş Emri Detay"));
     mn_atlye->addAction(act_iedet);
@@ -248,7 +236,7 @@ void MW_main::cr_Actions()
 
     //// Taşınır istek
     auto *act_tsnr = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                tr("&Taşınır İsatek"), this);
+                                 tr("&Taşınır İsatek"), this);
     act_tsnr->setShortcut(QKeySequence(tr("Ctrl+T")));
     act_tsnr->setStatusTip(tr(""));
     mn_atlye->addAction(act_tsnr);
@@ -262,7 +250,7 @@ void MW_main::cr_Actions()
 
     //// işçilik
     auto *act_sclk = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                tr("İşçi&lik"), this);
+                                 tr("İşçi&lik"), this);
     act_sclk->setShortcut(QKeySequence(tr("Ctrl+L")));
     act_sclk->setStatusTip(tr("İşçilik"));
     mn_atlye->addAction(act_sclk);
@@ -436,7 +424,7 @@ MW_main::~MW_main()
     delete stw;
     delete act_main;
     delete mw_per;
-//    delete mw_mkk;
+    //    delete mw_mkk;
     delete mw_mkn;
     //  delete mw_Mlzm;
 }

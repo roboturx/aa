@@ -70,6 +70,7 @@ public:
     void setToolTip(const QString &toolTip);
     void setText(const QString &text);
     void setPixmap(const QPixmap &pixmap);
+    void setType(const QString &type);
 
     QPainterPath path() const;
     QPoint position() const;
@@ -77,6 +78,7 @@ public:
     QString toolTip() const;
     QString text() const;
     QPixmap pixmap() const;
+    QString type() const;
 
 private:
     QPainterPath myPath;
@@ -85,6 +87,7 @@ private:
     QString myToolTip;
     QString myText;
     QPixmap myPixmap;
+    QString myType;
 };
 //! [0]
 

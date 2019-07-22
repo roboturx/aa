@@ -49,9 +49,7 @@
 ****************************************************************************/
 
 #include "globals.h"
-//#include <QtWidgets>
 #include "shapeitem.h"
-//#include <QLabel>
 
 //! [0]
 
@@ -89,6 +87,11 @@ QPixmap ShapeItem::pixmap() const
     return myPixmap;
 }
 
+QString ShapeItem::type() const
+{
+    return myType;
+}
+
 //! [3]
 
 //! [4]
@@ -122,5 +125,10 @@ void ShapeItem::setText(const QString &text)
 void ShapeItem::setPixmap(const QPixmap &pixmap)
 {
     myPixmap = pixmap;
+}
+
+void ShapeItem::setType(const QString &type)
+{
+    myType = type;
 }
 

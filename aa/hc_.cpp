@@ -711,7 +711,7 @@ hC_Te::~hC_Te()
 
 // ////////////////////////////////////////////////////////// resim
 
-hC_Rs::hC_Rs (  QLabel *lB__resim,
+hC_Rs::hC_Rs (  QLabel *lB_resim,
                 hC_Tv *rsm_table,
                 QSqlRelationalTableModel *rsm_model,
                 QItemSelectionModel *rsm_selectionModel,
@@ -720,8 +720,8 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
                 )
 {
 
-    lB__resim->setMinimumSize (80,50);
-    lB__resim->setMaximumSize (160,100);
+    lB_resim->setMinimumSize (80,50);
+    lB_resim->setMaximumSize (160,100);
 
     if (rsm_new_upd == "ekle") // yeni kayıt
     {
@@ -739,7 +739,7 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
             return ;
 
         QImage image(myfile);
-        lB__resim->setPixmap(QPixmap::fromImage(image));
+        lB_resim->setPixmap(QPixmap::fromImage(image));
         QByteArray inByteArray;
         QFile file(  myfile ); //dosyayı açmak için al
 
@@ -770,28 +770,28 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
         outPixmap.loadFromData( outByteArray  );
         if ( ! outByteArray.isNull ())
         {
-            lB__resim->setPixmap( outPixmap );
+            lB_resim->setPixmap( outPixmap );
         }
         else
         {
-            lB__resim->setPixmap (QPixmap (":/rsm/rsm_yok.png"));
-            // lB__resim->setPixmap (QPixmap (""));
+            lB_resim->setPixmap (QPixmap (":/rsm/rsm_yok.png"));
+            // lB_resim->setPixmap (QPixmap (""));
         }
 
-        lB__resim->setScaledContents( true );
-        lB__resim->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-        lB__resim->show();
+        lB_resim->setScaledContents( true );
+        lB_resim->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+        lB_resim->show();
 
     }
     else  if (rsm_new_upd == nullptr)  // resim büyük pencerede
     {
 
-        lB__resim->setScaledContents( true );
-        lB__resim->setSizePolicy( QSizePolicy::Preferred,
+        lB_resim->setScaledContents( true );
+        lB_resim->setSizePolicy( QSizePolicy::Preferred,
                                   QSizePolicy::Preferred );
-        lB__resim->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(lB__resim , &QLabel::customContextMenuRequested,
-                [ lB__resim]()
+        lB_resim->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(lB_resim , &QLabel::customContextMenuRequested,
+                [ lB_resim]()
         {
             //QLabel *x = win_Rsm;
             QDialog xx;
@@ -802,7 +802,7 @@ hC_Rs::hC_Rs (  QLabel *lB__resim,
             x->resize(QGuiApplication::primaryScreen()->
                       availableSize() * 10 / 16);
             x->setScaledContents(true);
-            x->setPixmap(QPixmap (*lB__resim->pixmap() ) );
+            x->setPixmap(QPixmap (*lB_resim->pixmap() ) );
             xx.setWindowTitle("RESİM GÖRÜNTÜLEME");
             xx.exec();
         });

@@ -98,7 +98,7 @@ class hC_Rs : public QWidget
 
 public:
 
-    explicit hC_Rs ( QLabel *rsm_updResim= nullptr,
+    explicit hC_Rs (QLabel *lB_resim= nullptr,
                      hC_Tv *rsm_table= nullptr,
                      QSqlRelationalTableModel *rsm_model= nullptr,
                      QItemSelectionModel *rsm_selectionModel= nullptr,

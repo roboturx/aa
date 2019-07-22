@@ -25,7 +25,6 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 
 SOURCES += main.cpp\
-    cw_grs.cpp \
     mkevrk.cpp \
     dlgt_mkstok.cpp \
     VTKontrol.cpp \
@@ -57,7 +56,6 @@ SOURCES += main.cpp\
 HEADERS  += \
     globals.h \
     dlgt_mkstok.h \
-    cw_grs.h \
     mkevrk.h \
     VTKontrol.h \
     VTKontTekkere.h \

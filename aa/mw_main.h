@@ -21,6 +21,7 @@
 #include "login.h"
 #include "dbase.h"
 #include "cw_hkk.h"
+
 #include <sortingbox.h>
 
 
@@ -36,6 +37,7 @@ public:
     explicit MW_main();
     ~MW_main();
     DBase* dbase;
+    SortingBox * sbox;
     QStackedWidget *stw{};
     QAction *act_main{};
     hC_CLSN *mw_per{};
