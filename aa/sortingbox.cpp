@@ -107,92 +107,6 @@ QToolButton *SortingBox::createToolButton(const QString &toolTip,
 
 
 
-void SortingBox::smSLOT(QPoint pos)
-{
-    //qDebug ()  <<"  cw mkn view sağ tuş 001";
-    auto *menu = new QMenu(this);
-
-    // sigorta kaydı ekle
-    const QIcon ekleIc_sgrt = QIcon(":/rsm/Add.ico");
-    QAction* ekleAct_sgrt = new QAction(ekleIc_sgrt, tr("Sıra Bekliyor"), this);
-    ekleAct_sgrt->setShortcuts (QKeySequence::New);
-    ekleAct_sgrt->setStatusTip ("Sigorta Kaydı Ekle");
-    connect (ekleAct_sgrt, &QAction::triggered,
-             [this, pos]()
-    {
-        qDebug()<<"menu sıra bekliyor of kurum no"
-               << itemAt(pos) << ""<< &shapeItems[itemAt(pos)] ;
-    });
-
-    menu->addAction(ekleAct_sgrt);
-
-    // muayene kaydı ekle
-    const QIcon ekleIc_mua = QIcon(":/rsm/Add.ico");
-    QAction* ekleAct_mua = new QAction(ekleIc_mua, tr("Usta Bekliyor"), this);
-    ekleAct_mua->setShortcuts (QKeySequence::New);
-    ekleAct_mua->setStatusTip ("Muayene Kaydı Ekle");
-    connect (ekleAct_mua, &QAction::triggered, this,
-             []()
-    {
-    });
-    menu->addAction(ekleAct_mua);
-
-
-    // yağ
-    const QIcon ekleIc_yag = QIcon(":/rsm/Add.ico");
-    QAction* ekleAct_yag = new QAction(ekleIc_yag, tr("Parça Bekliyor"), this);
-    ekleAct_yag->setShortcuts (QKeySequence::New);
-    ekleAct_yag->setStatusTip ("Yağ Kaydı Ekle");
-    connect (ekleAct_yag, &QAction::triggered, this,
-             []()
-    {
-    });
-    menu->addAction(ekleAct_yag);
-
-
-    // filtre
-    const QIcon ekleIc_flt = QIcon(":/rsm/Add.ico");
-    QAction* ekleAct_flt = new QAction(ekleIc_flt, tr("Tamamlandık"), this);
-    ekleAct_flt->setShortcuts (QKeySequence::New);
-    ekleAct_flt->setStatusTip ("Filtre Kaydı Ekle");
-    connect (ekleAct_flt, &QAction::triggered, this,
-             []()
-    {
-    });
-    menu->addAction(ekleAct_flt);
-
-
-
-    // yeni iş emri kaydı ekle
-    const QIcon ekleIc_sipr = QIcon(":/rsm/Add.ico");
-    QAction* ekleAct_sipr = new QAction(ekleIc_sipr, tr("İş Emri Ekle..."), this);
-    ekleAct_sipr->setShortcuts (QKeySequence::New);
-    ekleAct_sipr->setStatusTip ("İş Emri Kaydı Ekle");
-    connect (ekleAct_sipr, &QAction::triggered, this,
-             []()
-    {
-    });
-    menu->addAction(ekleAct_sipr);
-
-
-
-    //  mkn kaydı SİL
-    const QIcon silIc_mkn = QIcon(":/rsm/Erase.ico");
-    QAction* silAct_mkn = new QAction(silIc_mkn, tr("Makina &Sil..."), this);
-    silAct_mkn->setShortcuts (QKeySequence::New);
-    silAct_mkn->setStatusTip ("DİKKAT :: Makina Kaydını ve bu makina ile ilgili herşeyi siler...");
-    connect (silAct_mkn, &QAction::triggered, this,
-             []()
-    {
-    });
-    menu->addAction(silAct_mkn);
-
-    menu->addSeparator();
-
-
-    menu->popup(pos);
-} // end smSLOT
-
 
 int SortingBox::itemAt(const QPoint &pos)
 {
@@ -303,7 +217,7 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
         painter.drawPath(shapeItem.path());
         painter.translate(-shapeItem.position());
         painter.setPen(Qt::darkRed );
-        painter.setFont(QFont("Arial", 14));
+        painter.setFont(QFont("Arial", 12));
 
         QRectF target(shapeItem.position().rx(),
                       shapeItem.position().ry(),
@@ -312,13 +226,15 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
         shapeItem.pixmap().setDevicePixelRatio (0.5);
         painter.drawPixmap(target, shapeItem.pixmap() , source);
 
-        painter.drawRoundedRect (shapeItem.position().rx()+5,
-                                 shapeItem.position().ry()+5,
-                                 100,
+        painter.drawRoundedRect (shapeItem.position().rx(),
+                                 shapeItem.position().ry(),
+                                 300,
                                  25,0.5,0.5);
         painter.drawText(QPoint (shapeItem.position().rx()+5 ,
-                                 shapeItem.position().ry()+5),
-                         shapeItem.type()+" - "+
+                                 shapeItem.position().ry()),
+                         shapeItem.type());
+        painter.drawText(QPoint (shapeItem.position().rx()+5 ,
+                                 shapeItem.position().ry()+20),
                          shapeItem.text());
 
         //qDebug ()<<"paint pixmap   = "<<shapeItem.pixmap();
@@ -407,6 +323,98 @@ void SortingBox::mouseReleaseEvent(QMouseEvent *event)
     }
 
 }
+
+
+
+
+void SortingBox::smSLOT(QPoint pos)
+{
+    //qDebug ()  <<"  cw mkn view sağ tuş 001";
+    auto *menu = new QMenu(this);
+
+    // sigorta kaydı ekle
+    const QIcon ekleIc_sgrt = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_sgrt = new QAction(ekleIc_sgrt, tr("Sıra Bekliyor"), this);
+    ekleAct_sgrt->setShortcuts (QKeySequence::New);
+    ekleAct_sgrt->setStatusTip ("Sigorta Kaydı Ekle");
+    connect (ekleAct_sgrt, &QAction::triggered,
+             [this, pos]()
+    {
+        qDebug()<<"menu sıra bekliyor of kurum no"
+               << itemAt(pos) << ""<< &shapeItems[itemAt(pos)] ;
+    });
+
+    menu->addAction(ekleAct_sgrt);
+
+    // muayene kaydı ekle
+    const QIcon ekleIc_mua = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_mua = new QAction(ekleIc_mua, tr("Usta Bekliyor"), this);
+    ekleAct_mua->setShortcuts (QKeySequence::New);
+    ekleAct_mua->setStatusTip ("Muayene Kaydı Ekle");
+    connect (ekleAct_mua, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_mua);
+
+
+    // yağ
+    const QIcon ekleIc_yag = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_yag = new QAction(ekleIc_yag, tr("Parça Bekliyor"), this);
+    ekleAct_yag->setShortcuts (QKeySequence::New);
+    ekleAct_yag->setStatusTip ("Yağ Kaydı Ekle");
+    connect (ekleAct_yag, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_yag);
+
+
+    // filtre
+    const QIcon ekleIc_flt = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_flt = new QAction(ekleIc_flt, tr("Tamamlandık"), this);
+    ekleAct_flt->setShortcuts (QKeySequence::New);
+    ekleAct_flt->setStatusTip ("Filtre Kaydı Ekle");
+    connect (ekleAct_flt, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_flt);
+
+
+
+    // yeni iş emri kaydı ekle
+    const QIcon ekleIc_sipr = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_sipr = new QAction(ekleIc_sipr, tr("İş Emri Ekle..."), this);
+    ekleAct_sipr->setShortcuts (QKeySequence::New);
+    ekleAct_sipr->setStatusTip ("İş Emri Kaydı Ekle");
+    connect (ekleAct_sipr, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_sipr);
+
+
+
+    //  mkn kaydı SİL
+    const QIcon silIc_mkn = QIcon(":/rsm/Erase.ico");
+    QAction* silAct_mkn = new QAction(silIc_mkn, tr("Makina &Sil..."), this);
+    silAct_mkn->setShortcuts (QKeySequence::New);
+    silAct_mkn->setStatusTip ("DİKKAT :: Makina Kaydını ve bu makina ile ilgili herşeyi siler...");
+    connect (silAct_mkn, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(silAct_mkn);
+
+    menu->addSeparator();
+
+
+    menu->popup(pos);
+} // end smSLOT
+
+
+
 
 
 /* createShapeItem(squarePath, tr("Square"),

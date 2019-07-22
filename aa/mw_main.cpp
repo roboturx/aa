@@ -94,7 +94,34 @@ void MW_main::logouted()
 
 }
 
+void MW_main::isemri()
+{
 
+//    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+
+//    if (query.isActive ())
+//    {
+//        qDebug()<< "active " ;
+//    }
+//    else {
+//        qDebug()<< "not active "<< query.lastError ().text ();
+//    }
+
+//    while (query.next())
+//    {
+
+//        QPixmap outPixmap = QPixmap();
+//        outPixmap.loadFromData( query.value (9).toByteArray () );
+
+//        createNewSquar (squarePath,
+//                        tr("Excavator < %1 >").arg(++count),
+//                        randomItemPosition(),
+//                        randomItemColor(),
+//                        QString::number (count)+"---"+query.value(2).toString(),
+//                        QPixmap( outPixmap ));
+
+//    }
+}
 
 
 
@@ -131,10 +158,10 @@ void MW_main::cr_Actions()
 
              [this]()
     {
-       // mwgr = new MW_graph;
+        // mwgr = new MW_graph;
         statusBar()->showMessage( "Kontrol Merkezi" );
-       // mwgr->setWindowTitle ( GLB_yetki );
-       // mwgr->adjustSize ();
+        // mwgr->setWindowTitle ( GLB_yetki );
+        // mwgr->adjustSize ();
 
         delete sbox;
 

@@ -75,6 +75,7 @@ private:
     void cr_Actions();
     void cr_StatusBar();
 
+    void isemri();
     void fade(bool ne);
 
     void closeEvent (QCloseEvent *event);
