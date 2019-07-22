@@ -46,7 +46,12 @@ void hC_IE::tbsetup()
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
     tbMap    ( tb_flds, tb_wdgts );
-
+    tb_mapper->addMapping (hClE_mkn->lineEdit ,
+                           tb_model->fieldIndex ("ie_mkn"));
+    tb_mapper->addMapping (hClE_yetkili1->lineEdit ,
+                           tb_model->fieldIndex ("ie_y1"));
+    tb_mapper->addMapping (hClE_yetkili2->lineEdit ,
+                           tb_model->fieldIndex ("ie_y2"));
     tbwdgt  ();
     tbui();
     tbkntrl ();
@@ -86,7 +91,7 @@ void hC_IE::tbwdgt ()
         // mkn seçebilmek için pencere
         auto *dia = new QDialog();
         dia->setModal (true);
-        dia->setGeometry ( 50, 400, 900, 200 );
+        dia->setGeometry ( 50, 300, 900, 200 );
         dia->setWindowTitle ( "Araç Seçimi" );
 
         auto *mkn = new hC_MKN ;
@@ -100,6 +105,7 @@ void hC_IE::tbwdgt ()
         connect (mkn , &hC_MKN::sgnMkn ,
                  [ this ] ( QString sgnText )
         {
+            qDebug ()<<"sgn mkn";
             hClE_mkn->lineEdit->setText ( sgnText );
             hClE_mkn->lineEdit->setFocus();
         });

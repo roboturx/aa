@@ -15,7 +15,7 @@ void MW_main::login()
     /////////////////////////////////////////////////////
     // qDebug() << "main log";
     this->setWindowTitle ("Makina İkmal Atölye Yönetim Uygulaması");
-    this->setGeometry (200,200,600,100);
+    this->setGeometry (200,200,600,500);
 //    MW_main::showMaximized ();
 
     wd_log = new QWidget(this);

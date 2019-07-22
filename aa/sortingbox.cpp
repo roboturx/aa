@@ -8,8 +8,8 @@ SortingBox::SortingBox()
     setMouseTracking(true);
     setBackgroundRole(QPalette::Base);
     itemInMotion = nullptr;
-    setWindowTitle(tr("Makina İkmal Atölye Bakım Onarım Yönetim Programı"));
-    resize(960, 600);
+  //  setWindowTitle(tr("Makina İkmal Atölye Bakım Onarım Yönetim Programı"));
+  //  resize(960, 600);
     newSquareButton =
             createToolButton(tr("Excavator"),
                              QIcon(":/rsm/ex.ico"),
@@ -28,42 +28,49 @@ SortingBox::SortingBox()
 void SortingBox::createNewSquare()
 {
     static int count = 1;
+
+    qDebug()<< "active 1";
     QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
-   if (query.isActive ())
-   {
-        qDebug()<< "active " << query.lastError ().text ();
+
+    if (query.isActive ())
+    {
+        qDebug()<< "active " ;
+    }
+    else {
+        qDebug()<< "not active "<< query.lastError ().text ();
+    }
+
+    while (query.next()) {
+        qDebug()<< "active 61 while next" ;
+
+
+        qDebug()<<"2 "<< query.value(2).toString();
+        qDebug()<<"4 "<< query.value(4).toString();
+
+
+
         createShapeItem(squarePath,
                         tr("Excavator < %1 >").arg(++count),
                         randomItemPosition(),
                         randomItemColor(),
-                        "60-190001",
+                        QString::number (count)+"---"+query.value(2).toString(),
                         QPixmap(":/rsm/ex.ico"));
-   }
-   else {
-            qDebug()<< "not active "<< query.lastError ().text ();
-   }
-   qDebug()<< query.value(0).toString();
-   qDebug()<< query.value(1).toString();
-   qDebug()<< query.value(2).toString();
-   qDebug()<< query.value(3).toString();
-   qDebug()<< query.value(4).toString();
-   qDebug()<< query.value(5).toString();
-
-    while (query.next()) {
-
         if(query.value( 4 ).toString() == "Tamamlandı")
         {
-            createShapeItem(squarePath,
-                            tr("Excavator < %1 >").arg(++count),
-                            randomItemPosition(),
-                            randomItemColor(),
-                            "60-190001",
-                            QPixmap(":/rsm/ex.ico"));
+            qDebug()<< "taamamlandı 612" ;
+        }
+        if(query.value( 4 ).toString() == "Sıra Bekliyor")
+        {
+            qDebug()<< "sırada 612" ;
+        }
+        if(query.value( 4 ).toString() == "Bakıma Alındı")
+        {
+            qDebug()<< "bakımda 612" ;
         }
 
     }
 
-
+    qDebug()<< "active 7" ;
 
 
     //    createShapeItem(squarePath,
@@ -92,9 +99,9 @@ void SortingBox::createShapeItem(const QPainterPath &path,
     shapeItem.setPixmap ( pixmap );
     shapeItems.append( shapeItem );
     update();
-    //shapeItem.setContextMenuPolicy (Qt::CustomContextMenu);
-    //connect(shapeItem, SIGNAL(customContextMenuRequested(QPoint)),
-    //  this, SLOT(smSLOT(QPoint)));
+    shapeItem.setContextMenuPolicy (Qt::CustomContextMenu);
+    connect(shapeItem, SIGNAL(customContextMenuRequested(QPoint)),
+      this, SLOT(smSLOT(QPoint)));
 }
 
 QToolButton *SortingBox::createToolButton(const QString &toolTip,
@@ -306,8 +313,8 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
         painter.setBrush(shapeItem.color());
         painter.drawPath(shapeItem.path());
         painter.translate(-shapeItem.position());
-        painter.setPen(Qt::black);
-        painter.setFont(QFont("Arial", 20));
+        painter.setPen(Qt::darkRed );
+        painter.setFont(QFont("Arial", 14));
 
         painter.drawText(QPoint (shapeItem.position().rx()+5 ,
                                  shapeItem.position().ry()),
@@ -341,12 +348,9 @@ void SortingBox::mousePressEvent(QMouseEvent *event)
             previousPosition = event->pos();
             shapeItems.move(index, shapeItems.size() - 1);
             update();
-            this->setWindowTitle ("epos = "
-                                  +QString::number (event->pos ().rx ())+","
-                                  +QString::number (event->pos ().ry ())+
-                                  "   pos = "
-                                  +QString::number (pos ().x ())+","
-                                  +QString::number (pos ().y ())) ;
+            qDebug () << "epos = "
+                         +QString::number (event->pos ().rx ())+","
+                         +QString::number (event->pos ().ry ());
 
         }
     }
@@ -357,7 +361,11 @@ void SortingBox::mousePressEvent(QMouseEvent *event)
 void SortingBox::mouseMoveEvent(QMouseEvent *event)
 {
     if ((event->buttons() & Qt::LeftButton) && itemInMotion)
+    {
         moveItemTo(event->pos());
+
+    }
+    qDebug () << &"moved "[event->pos().rx ()];
 }
 //! [12]
 
@@ -377,10 +385,7 @@ void SortingBox::mouseReleaseEvent(QMouseEvent *event)
 */
         this->setWindowTitle ("epos = "
                               +QString::number (event->pos ().rx ())+","
-                              +QString::number (event->pos ().ry ())+
-                              "   pos = "
-                              +QString::number (pos ().x ())+","
-                              +QString::number (pos ().y ())) ;
+                              +QString::number (event->pos ().ry ())) ;
 
         moveItemTo(event->pos());
         //      moveItemTo(pos());

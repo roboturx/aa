@@ -28,9 +28,9 @@ public:
     QLineEdit *led_mknKurumno{};
     QLineEdit *led_mknPlaka{};
 
-    hC_Le *lE_cins ;
-    hC_Le *lE_mark ;
-    hC_Le *lE_modl ;
+    hC_Le *hClE_cins ;
+    hC_Le *hClE_mark ;
+    hC_Le *hClE_modl ;
     QSpinBox *spn_mknYil{};
     QComboBox *cbx_mknYkt;
     QComboBox *cbx_mknSurucu;

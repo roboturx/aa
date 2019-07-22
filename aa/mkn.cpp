@@ -38,9 +38,9 @@ hC_MKN::hC_MKN() : hC_tBcreator ()
     tb_wdgts->append ( nullptr    ) ;
     tb_wdgts->append ( led_mknKurumno = new QLineEdit  ) ;
     tb_wdgts->append ( led_mknPlaka = new QLineEdit  ) ;
-    tb_wdgts->append ( lE_cins = new hC_Le ) ;
-    tb_wdgts->append ( lE_mark = new hC_Le    ) ;
-    tb_wdgts->append ( lE_modl = new hC_Le    ) ;
+    tb_wdgts->append ( hClE_cins = new hC_Le ) ;
+    tb_wdgts->append ( hClE_mark = new hC_Le    ) ;
+    tb_wdgts->append ( hClE_modl = new hC_Le    ) ;
     tb_wdgts->append ( spn_mknYil = new QSpinBox     ) ;
     tb_wdgts->append ( led_mknSase = new QLineEdit   ) ;
     tb_wdgts->append ( led_mknMotor = new QLineEdit    ) ;
@@ -64,6 +64,13 @@ void hC_MKN::tbsetup()
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
     tbMap    ( tb_flds, tb_wdgts );
+    tb_mapper->addMapping (hClE_cins->lineEdit ,
+                           tb_model->fieldIndex ("mkn_cinsi"));
+    tb_mapper->addMapping (hClE_mark->lineEdit ,
+                           tb_model->fieldIndex ("mkn_marka"));
+    tb_mapper->addMapping (hClE_modl->lineEdit ,
+                           tb_model->fieldIndex ("mkn_modeli"));
+
 
     tbwdgt  ();
     tbui();
@@ -100,24 +107,24 @@ void hC_MKN::tbwdgt()
     // /////////////////////////////////////////////////////
     // cins
     auto *lB_cins = new QLabel("Cins");
-    lE_cins->lineEdit ->setReadOnly(true);
+    hClE_cins->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
-    connect(lE_cins->pushButton , &QPushButton::clicked,
+    connect(hClE_cins->pushButton , &QPushButton::clicked,
             [this ]()
     {
         // seçebilmek için pencere
 
         auto *dia = new QDialog();
         dia->setModal (true);
-        dia->setGeometry ( 50, //lE_cins->pushButton->pos ().rx (),
-                          400, //lE_cins->pushButton->pos ().ry (),
+        dia->setGeometry ( 50, //hClE_cins->pushButton->pos ().rx (),
+                          400, //hClE_cins->pushButton->pos ().ry (),
                           900,200);
         dia->setWindowTitle ("Cinsi - Marka ve Modeli "+
-            QString::number(lE_cins->lineEdit->pos ().rx ())+"," +
-            QString::number(lE_cins->lineEdit->pos ().ry ())+" - "+
-            QString::number(lE_cins->pos ().x() )+"," +
-            QString::number(lE_cins->pos ().y ()));
+            QString::number(hClE_cins->lineEdit->pos ().rx ())+"," +
+            QString::number(hClE_cins->lineEdit->pos ().ry ())+" - "+
+            QString::number(hClE_cins->pos ().x() )+"," +
+            QString::number(hClE_cins->pos ().y ()));
 
         auto *c = new hC_MKCINS ;
 
@@ -136,8 +143,8 @@ void hC_MKN::tbwdgt()
         connect (c , &hC_MKCINS::sgnCmmy ,
                  [ this ] ( QString * sgnText )
         {
-            lE_cins->lineEdit->setText ( *sgnText );
-            lE_cins->lineEdit->setFocus();
+            hClE_cins->lineEdit->setText ( *sgnText );
+            hClE_cins->lineEdit->setFocus();
         });
 
         ////////////////////////////////////////////************
@@ -157,8 +164,8 @@ void hC_MKN::tbwdgt()
         connect (cm , &hC_MKMARK::sgnmkMark ,
                  [ this ] ( QString* sgnText )
         {
-            lE_mark->lineEdit->setText ( *sgnText );
-            lE_mark->lineEdit->setFocus();
+            hClE_mark->lineEdit->setText ( *sgnText );
+            hClE_mark->lineEdit->setFocus();
         });
         //cm->show ();
 
@@ -178,8 +185,8 @@ void hC_MKN::tbwdgt()
         connect (cmm , &hC_MKMODL::sgnmkModl ,
                  [ this ] ( QString* sgnText )
         {
-            lE_modl->lineEdit->setText (* sgnText );
-            lE_modl->lineEdit->setFocus();
+            hClE_modl->lineEdit->setText (* sgnText );
+            hClE_modl->lineEdit->setFocus();
         });
         //cmmy->show ();
         ////////////////////////////////////////////**************
@@ -198,11 +205,11 @@ void hC_MKN::tbwdgt()
     // /////////////////////////////////////////////////////
 
     auto *lB_mark = new QLabel("Marka");
-    lE_mark->lineEdit ->setReadOnly(true);
+    hClE_mark->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
-    connect(lE_mark->pushButton , &QPushButton::clicked,
-            lE_cins->pushButton, &QPushButton::click );
+    connect(hClE_mark->pushButton , &QPushButton::clicked,
+            hClE_cins->pushButton, &QPushButton::click );
 
  /*           [this ]()
     {
@@ -222,8 +229,8 @@ void hC_MKN::tbwdgt()
         connect (cmmy , &hC_MKMARK::sgnCmmy ,
                  [ this ] ( QString sgnText )
         {
-            lE_mark->lineEdit->setText ( sgnText );
-            lE_mark->lineEdit->setFocus();
+            hClE_mark->lineEdit->setText ( sgnText );
+            hClE_mark->lineEdit->setFocus();
         });
         cmmy->show ();
     });*/
@@ -231,11 +238,11 @@ void hC_MKN::tbwdgt()
     // /////////////////////////////////////////////////////
 
     auto *lB_modl = new QLabel("Model");
-    lE_modl->lineEdit ->setReadOnly(true);
+    hClE_modl->lineEdit ->setReadOnly(true);
 
     // cins-marka-model-yıl makinaya ekle
-    connect(lE_modl->pushButton , &QPushButton::clicked,
-            lE_cins->pushButton, &QPushButton::click );
+    connect(hClE_modl->pushButton , &QPushButton::clicked,
+            hClE_cins->pushButton, &QPushButton::click );
 
  /*
             [this]()
@@ -257,8 +264,8 @@ void hC_MKN::tbwdgt()
         connect (cmmy , &hC_MKMODL::sgnCmmy ,
                  [ this ] ( QString sgnText )
         {
-            lE_modl->lineEdit->setText ( sgnText );
-            lE_modl->lineEdit->setFocus();
+            hClE_modl->lineEdit->setText ( sgnText );
+            hClE_modl->lineEdit->setFocus();
         });
         cmmy->show ();
     });*/
@@ -342,11 +349,11 @@ void hC_MKN::tbwdgt()
     mknGrid->addWidget(lB_plaka      ,++satr,0,1,1 );
     mknGrid->addWidget(led_mknPlaka  ,  satr,1,1,2 );
     mknGrid->addWidget(lB_cins       ,++satr,0,1,1 );
-    mknGrid->addWidget(lE_cins       ,  satr,1,1,2 );
+    mknGrid->addWidget(hClE_cins       ,  satr,1,1,2 );
     mknGrid->addWidget(lB_mark       ,++satr,0,1,1 );
-    mknGrid->addWidget(lE_mark       ,  satr,1,1,2 );
+    mknGrid->addWidget(hClE_mark       ,  satr,1,1,2 );
     mknGrid->addWidget(lB_modl       ,++satr,0,1,1 );
-    mknGrid->addWidget(lE_modl       ,  satr,1,1,2 );
+    mknGrid->addWidget(hClE_modl       ,  satr,1,1,2 );
     mknGrid->addWidget(lB_mknYil     ,++satr,0,1,1 );
     mknGrid->addWidget(spn_mknYil    ,  satr,1,1,2 );
 
@@ -561,9 +568,9 @@ void hC_MKN::tbkntrl()
         {
 
         }
-        // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
-       // emit Cw_fr::sgnfirma(tb_view->table->model()->index( Index.row() ,
-         //           tb_model->fieldIndex ("frm_unvan") ).data().toString() );
+        // 011-02 mkn row değiştiğinde kırumno etrafa yayınlayalım
+        emit sgnMkn (tb_view->table->model()->index( Index.row() ,
+                tb_model->fieldIndex ("mkn_kurumno") ).data().toString() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin

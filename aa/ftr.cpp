@@ -46,7 +46,8 @@ void hC_FTR::tbsetup()
 
     tbMap    ( tb_flds, tb_wdgts );
 
-    tb_mapper->addMapping (hClE_firma->lineEdit ,tb_model->fieldIndex ("ftr_frm"));
+    tb_mapper->addMapping (hClE_firma->lineEdit ,
+                           tb_model->fieldIndex ("ftr_frm"));
 
     tbwdgt  ();
     tbui();
