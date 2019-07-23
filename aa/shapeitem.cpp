@@ -96,6 +96,7 @@ QString ShapeItem::type() const
 
 //! [4]
 
+
 void ShapeItem::setPath(const QPainterPath &path)
 {
     myPath = path;

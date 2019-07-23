@@ -6,7 +6,7 @@ MW_main::MW_main( )
 {
     this->setWindowTitle ("Makina İkmal Atölye Yönetim Uygulaması");
     this->setGeometry (20,20,800,500);
-
+    this->setObjectName ("objMW_main");
     cr_Actions ();
 
 }

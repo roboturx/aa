@@ -6,6 +6,9 @@
 
 SortingBox::SortingBox(QWidget* parent)
 {
+     grid = new QGridLayout(this);
+    grid->addWidget (new QLabel{"kkkkkkk"});
+
     setMouseTracking(true);
     setBackgroundRole(QPalette::Base);
     itemInMotion = nullptr;
@@ -17,6 +20,16 @@ SortingBox::SortingBox(QWidget* parent)
     squarePath.addRect(QRect(0, 0, 160, 100));
     /// bu fonksiyonun içinden kontrol edelim
 
+
+
+
+
+       for(auto w_ptr: qApp->allWidgets())
+           if(w_ptr->objectName() == "objMW_main")
+           {
+         qDebug() <<"mainwwwwww 222  "<<w_ptr;
+         w_ptr->setWindowTitle ("wwww2222222wwwwwwwwwwwwwwwwwww");
+        }
 
 
 }
@@ -223,19 +236,23 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
         //painter.setBrush(shapeItem.color());
         painter.drawPath(shapeItem.path());
         painter.translate(-shapeItem.position());
-        painter.setPen(Qt::darkRed );
+        painter.setPen(Qt::darkBlue );
         painter.setFont(QFont("Arial", 12));
-
+        /////// resim
         QRectF target(shapeItem.position().rx()+2,
-                      shapeItem.position().ry()+18,
-                      128.0, 80.0);
-        QRectF source(0.0, 0.0, 320.0, 200.0);
-        shapeItem.pixmap().setDevicePixelRatio (0.5);
+                      shapeItem.position().ry()+27,
+                      112.0, 70.0);
+        QRectF source(0.0, 0.0, 2000.0, 1500.0);
+        shapeItem.pixmap().setDevicePixelRatio (3);
         painter.drawPixmap(target, shapeItem.pixmap() , source);
 
-        painter.drawRoundedRect (shapeItem.position().rx(),
-                                 shapeItem.position().ry(),
-                                 160, 25, 0.5, 0.5);
+        /////// ie rect
+        QRect rectie(shapeItem.position().rx(),
+                     shapeItem.position().ry(),
+                     160, 25);
+
+        painter.drawRoundedRect (rectie, 15, 15);
+        painter.fillRect (rectie,QColor("#E08119"));
         painter.drawText(QPoint (shapeItem.position().rx()+5 ,
                                  shapeItem.position().ry()),
                          shapeItem.type());

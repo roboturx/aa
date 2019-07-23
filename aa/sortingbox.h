@@ -39,7 +39,7 @@ private slots:
 //! [1]
 private:
 
-
+QGridLayout* grid;
 
     int updateButtonGeometry(QToolButton *button, int x, int y);
     void createShapeItem(const QPainterPath &path, const QString &toolTip,
