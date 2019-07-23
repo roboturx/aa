@@ -3,7 +3,7 @@
 #define SORTINGBOX_H
 
 #include "globals.h"
-//#include <QWidget>
+//#include "mw_main.h"
 
 #include "shapeitem.h"
 
@@ -14,13 +14,13 @@ class QToolButton;
 QT_END_NAMESPACE
 
 //! [0]
-class SortingBox : public  QWidget
+class SortingBox : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit SortingBox( QWidget *parent=nullptr );
-
+  //  ~SortingBox() ;
 protected:
     bool event(QEvent *event) override;
     void resizeEvent(QResizeEvent *) override;
@@ -38,11 +38,14 @@ private slots:
 
 //! [1]
 private:
+
+
+
     int updateButtonGeometry(QToolButton *button, int x, int y);
     void createShapeItem(const QPainterPath &path, const QString &toolTip,
                          const QPoint &pos,
                          const QColor &color,
-                         const QString &text,
+                         const QSqlRecord &record,
                          const QPixmap &pixmap);
     int itemAt(const QPoint &pos);
     void moveItemTo(const QPoint &pos);
@@ -53,7 +56,6 @@ private:
     QToolButton *createToolButton(const QString &toolTip,
                                   const QIcon &icon,
                                   const char *member,
-                                  const QPixmap &pixmap,
                                   const QString &text="2323");
 
     QList<ShapeItem> shapeItems;

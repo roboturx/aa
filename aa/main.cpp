@@ -66,19 +66,19 @@ int main(int argc, char *argv[])
     ///////////////////// splash screen
     //
     //*
-    //    QPixmap pixmap(":/rsm/ex.png");
-    //QSplashScreen splash(pixmap);
-    ///splash.show();
+        QPixmap pixmap(":/rsm/ex.png");
+    QSplashScreen splash(pixmap);
+    splash.show();
     // wait for just 5 second and then show main window
-    //a.thread()->sleep(1);
-    //a.processEvents();//**////
+    a.thread()->sleep(1);
+    a.processEvents();//**////
     ///
     ///
 
     QSize size = qApp->screens()[0]->size();
     MW_main w ;
 
-    w.resize(size*.3);
+    w.resize(size*.6);
     qDebug ()<<"main";
     w.show ();
     w.login ();

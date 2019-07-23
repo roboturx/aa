@@ -68,7 +68,7 @@ public:
     void setPosition(const QPoint &position);
     void setColor(const QColor &color);
     void setToolTip(const QString &toolTip);
-    void setText(const QString &text);
+    void setRecord(const QSqlRecord &record);
     void setPixmap(const QPixmap &pixmap);
     void setType(const QString &type);
 
@@ -76,7 +76,7 @@ public:
     QPoint position() const;
     QColor color() const;
     QString toolTip() const;
-    QString text() const;
+    QSqlRecord record() const;
     QPixmap pixmap() const;
     QString type() const;
 
@@ -85,7 +85,7 @@ private:
     QPoint myPosition;
     QColor myColor;
     QString myToolTip;
-    QString myText;
+    QSqlRecord myRecord;
     QPixmap myPixmap;
     QString myType;
 };

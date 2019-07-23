@@ -36,6 +36,7 @@ class MW_main : public QMainWindow
 public:
     explicit MW_main();
     ~MW_main();
+
     DBase* dbase;
     SortingBox * sbox;
     QStackedWidget *stw{};

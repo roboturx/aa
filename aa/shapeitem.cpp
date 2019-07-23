@@ -78,9 +78,9 @@ QString ShapeItem::toolTip() const
 {
     return myToolTip;
 }
-QString ShapeItem::text() const
+QSqlRecord ShapeItem::record() const
 {
-    return myText;
+    return myRecord;
 }
 QPixmap ShapeItem::pixmap() const
 {
@@ -116,10 +116,9 @@ void ShapeItem::setToolTip(const QString &toolTip)
 {
     myToolTip = toolTip;
 }
-void ShapeItem::setText(const QString &text)
+void ShapeItem::setRecord(const QSqlRecord &record)
 {
-
-    myText = text;
+    myRecord = record;
 }
 
 void ShapeItem::setPixmap(const QPixmap &pixmap)

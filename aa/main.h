@@ -22,8 +22,8 @@ public:
             QString msg;
             msg.append("Exception thrown : ");
             msg.append(e.what());
-            QMessageBox::critical(0, "Error", msg);
-            QMessageBox::critical(0, "Object", receiver->objectName());
+            QMessageBox::critical(nullptr, "Error", msg);
+            QMessageBox::critical(nullptr, "Object", receiver->objectName());
         }
         return false;
     }

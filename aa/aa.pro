@@ -36,7 +36,6 @@ SOURCES += main.cpp\
     login.cpp \
     dbase.cpp \
     shapeitem.cpp \
-    sortingbox.cpp \
     mkn_cinsi.cpp \
     mkn_marka.cpp \
     mkn_modeli.cpp \
@@ -50,7 +49,8 @@ SOURCES += main.cpp\
     tsnr.cpp \
     sclk.cpp \
     ie.cpp \
-    mlzm_gc.cpp
+    mlzm_gc.cpp \
+    sortingbox.cpp
 
 
 HEADERS  += \
@@ -69,7 +69,6 @@ HEADERS  += \
     login.h \
     dbase.h \
     shapeitem.h \
-    sortingbox.h \
     mkn_cinsi.h \
     mkn_marka.h \
     mkn_modeli.h \
@@ -83,7 +82,8 @@ HEADERS  += \
     tsnr.h \
     sclk.h \
     ie.h \
-    mlzm_gc.h
+    mlzm_gc.h \
+    sortingbox.h
     # cw_cns.h
 
 FORMS    += \

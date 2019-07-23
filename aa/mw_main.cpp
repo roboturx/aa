@@ -3,22 +3,19 @@
 
 
 MW_main::MW_main( )
-= default;
-
-void MW_main::login()
 {
-    cr_Actions ();
-    //    this->setWindowFlags(Qt::Window |
-    //                         Qt::FramelessWindowHint );
-
-    /// ana ekran
-    /////////////////////////////////////////////////////
-    // qDebug() << "main log";
     this->setWindowTitle ("Makina İkmal Atölye Yönetim Uygulaması");
     this->setGeometry (20,20,800,500);
 
-    sbox = new SortingBox;
-    this->setCentralWidget (sbox );
+    cr_Actions ();
+
+}
+
+void MW_main::login()
+{
+
+    //    this->setWindowFlags(Qt::Window |
+    //                         Qt::FramelessWindowHint );
 
     // fade(true);
 
@@ -67,6 +64,11 @@ WARNING  şifre için burayı kullan
 */
     /// all things okey
     /// wait for a key for connect
+
+
+    sbox = new SortingBox;
+    this->setCentralWidget (sbox );
+
 }
 
 void MW_main::yetkiler(const QString& yetki, const QString& user)

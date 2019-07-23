@@ -1,4 +1,3 @@
-﻿
 #include <QtWidgets>
 #include <QObject>
 #include <stdlib.h>
@@ -10,15 +9,11 @@ SortingBox::SortingBox(QWidget* parent)
     setMouseTracking(true);
     setBackgroundRole(QPalette::Base);
     itemInMotion = nullptr;
-    //  setWindowTitle(tr("Makina İkmal Atölye Bakım Onarım Yönetim Programı"));
-    //  resize(960, 600);
     newSquareButton =
             createToolButton(tr("İŞ EMRİ"),
                              QIcon(":/rsm/ex.ico"),
                              SLOT(createNewSquare()),
-                             QPixmap(":/rsm/ex.ico"),
-                             "Excavator");
-
+                             "İş Emri");
     squarePath.addRect(QRect(0, 0, 160, 100));
     /// bu fonksiyonun içinden kontrol edelim
 
@@ -31,32 +26,30 @@ SortingBox::SortingBox(QWidget* parent)
 void SortingBox::createNewSquare()
 {
     static int count = 1;
+    ///// toolbutton için
+    ////////////////// iş emirlerini ekrana listele
+        QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+        if (query.isActive ())
+        {
+            qDebug()<< "active " ;
+        }
+        else {
+            qDebug()<< "not active "<< query.lastError ().text ();
+        }
 
-    qDebug()<< "active 1";
-    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+        while (query.next())
+        {
+            QPixmap outPixmap = QPixmap();
+            outPixmap.loadFromData( query.value (9).toByteArray () );
+            createShapeItem(squarePath,
+                            tr("Excavator < %1 >").arg(++count),
+                            randomItemPosition(),
+                            randomItemColor(),
+                            query.record() ,
+                            QPixmap( outPixmap ));
+            qDebug ()<<"val 2 :: "<<count<<" ::"<<query.record().value (2).toString ();
+        }
 
-    if (query.isActive ())
-    {
-        qDebug()<< "active " ;
-    }
-    else {
-        qDebug()<< "not active "<< query.lastError ().text ();
-    }
-
-    while (query.next())
-    {
-
-        QPixmap outPixmap = QPixmap();
-        outPixmap.loadFromData( query.value (9).toByteArray () );
-
-        createShapeItem(squarePath,
-                        tr("Excavator < %1 >").arg(++count),
-                        randomItemPosition(),
-                        randomItemColor(),
-                        QString::number (count)+"---"+query.value(2).toString(),
-                        QPixmap( outPixmap ));
-
-    }
 
 }
 
@@ -66,15 +59,18 @@ void SortingBox::createShapeItem(const QPainterPath &path,
                                  const QString &toolTip,
                                  const QPoint &pos,
                                  const QColor &color,
-                                 const QString &text,
+                                 const QSqlRecord &record,
                                  const QPixmap &pixmap)
 {
+
+    qDebug ()<<"val create:: "
+            <<" ::"<< record.value (2).toString ();
     ShapeItem shapeItem;
     shapeItem.setPath( path );
     shapeItem.setToolTip( toolTip );
     shapeItem.setPosition( pos );
     shapeItem.setColor( color );
-    shapeItem.setText( text );
+    shapeItem.setRecord( record);
     shapeItem.setPixmap ( pixmap );
     shapeItem.setType("İş Emri");
     shapeItems.append( shapeItem );
@@ -86,7 +82,6 @@ void SortingBox::createShapeItem(const QPainterPath &path,
 QToolButton *SortingBox::createToolButton(const QString &toolTip,
                                           const QIcon &icon,
                                           const char *member,
-                                          const QPixmap &pixmap,
                                           const QString &text)
 {
     QToolButton *button = new QToolButton(this);
@@ -96,7 +91,7 @@ QToolButton *SortingBox::createToolButton(const QString &toolTip,
     button->setText (text);
     button->setToolButtonStyle (Qt::ToolButtonStyle(2) );
     button->setAutoRaise (true);
-    button->setWhatsThis ("Exca");
+    button->setWhatsThis ("WIT İş Emri");
 
 
     connect(button, SIGNAL(clicked()), this, member);
@@ -155,7 +150,19 @@ QPoint SortingBox::initialItemPosition(const QPainterPath &path)
 
 QPoint SortingBox::randomItemPosition()
 {
-    return QPoint(QRandomGenerator::global()->bounded(width() - 120), QRandomGenerator::global()->bounded(height() - 120));
+    QPoint poss;
+    static int row = 20, col = 20 ;
+    poss.rx() = row;
+    poss.ry () = col;
+    col +=110;
+    if (col >500)
+    {
+        col=20;
+        row+=180;
+    }
+
+    return poss;
+    //return QPoint(QRandomGenerator::global()->bounded(width() - 120), QRandomGenerator::global()->bounded(height() - 120));
 }
 
 QColor SortingBox::initialItemColor()
@@ -213,29 +220,32 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
         //! [8] //! [9]
         painter.translate(shapeItem.position());
         //! [9] //! [10]
-        painter.setBrush(shapeItem.color());
+        //painter.setBrush(shapeItem.color());
         painter.drawPath(shapeItem.path());
         painter.translate(-shapeItem.position());
         painter.setPen(Qt::darkRed );
         painter.setFont(QFont("Arial", 12));
 
-        QRectF target(shapeItem.position().rx(),
-                      shapeItem.position().ry(),
-                      240.0, 150.0);
+        QRectF target(shapeItem.position().rx()+2,
+                      shapeItem.position().ry()+18,
+                      128.0, 80.0);
         QRectF source(0.0, 0.0, 320.0, 200.0);
         shapeItem.pixmap().setDevicePixelRatio (0.5);
         painter.drawPixmap(target, shapeItem.pixmap() , source);
 
         painter.drawRoundedRect (shapeItem.position().rx(),
                                  shapeItem.position().ry(),
-                                 300,
-                                 25,0.5,0.5);
+                                 160, 25, 0.5, 0.5);
         painter.drawText(QPoint (shapeItem.position().rx()+5 ,
                                  shapeItem.position().ry()),
                          shapeItem.type());
-        painter.drawText(QPoint (shapeItem.position().rx()+5 ,
-                                 shapeItem.position().ry()+20),
-                         shapeItem.text());
+
+QSqlRecord x(shapeItem.record ());
+QString baslik = x.value (x.indexOf ("ie_no")).toString ()+" :: "+
+                 x.value (x.indexOf ("ie_mkn")).toString ();
+
+painter.drawText(QPoint (shapeItem.position().rx()+5 ,
+                     shapeItem.position().ry()+20), baslik);
 
         //qDebug ()<<"paint pixmap   = "<<shapeItem.pixmap();
 
@@ -477,25 +487,18 @@ trianglePath.lineTo(x + 120 / 2, y);
 /*
     QPainter painter(this);
     QPen pen;  // creates a default pen
-
     pen.setStyle(Qt::DashDotLine);
     pen.setWidth(3);
     pen.setBrush(Qt::green);
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
-
     painter.setPen(pen);
-
     //circlePath.addEllipse(QRect(0, 0, 100, 100));
-
     QPainterPath curvePath;
     curvePath.addRegion (QRegion
                          (QBitmap
                           (QPixmap(":/images/ex.ico"))) );
-
-
     // addEllipse(QRect(0, 0, 100, 100));
-
     QPainterPathStroker stroker;
     //        stroker.setCapStyle( Qt::RoundCap );
     //        stroker.setJoinStyle( Qt::RoundJoin  );
@@ -519,10 +522,8 @@ void SortingBox::createNewCircle()
                     QPixmap(":/images/ex.ico"));
 }
 //! [14]
-
 //! [15]
 //! [15]
-
 //! [16]
 void SortingBox::createNewTriangle()
 {
@@ -535,7 +536,6 @@ void SortingBox::createNewTriangle()
                     QPixmap(":/images/ex.ico"));
 }
 //! [16]
-
 //! [17]
 */
 
@@ -544,10 +544,8 @@ void SortingBox::createNewTriangle()
 SortingBox(QWidget *parent) :  QWidget(parent)
 {
     Q_OBJECT
-
     public:
     SortingBox();
-
     protected:
     bool event(QEvent *event) override;
     void resizeEvent(QResizeEvent *) override;
@@ -555,13 +553,11 @@ SortingBox(QWidget *parent) :  QWidget(parent)
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
-
     private slots:
     void smSLOT(QPoint pos);
     void createNewSquare();
     //  void createNewTriangle();
     //! [0]
-
     //! [1]
     private:
     int updateButtonGeometry(QToolButton *button, int x, int y);
@@ -581,15 +577,12 @@ SortingBox(QWidget *parent) :  QWidget(parent)
                                   const char *member,
                                   const QPixmap &pixmap,
                                   const QString &text="2323");
-
     QList<ShapeItem> shapeItems;
     //    QPainterPath circlePath;
     QPainterPath squarePath;
     //  QPainterPath trianglePath;
-
     QPoint previousPosition;
     ShapeItem *itemInMotion;
-
     // QToolButton *newCircleButton;
     QToolButton *newSquareButton;
     //QToolButton *newTriangleButton;
