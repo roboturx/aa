@@ -126,8 +126,7 @@ void hC_IE::tbwdgt ()
     lB_get->setBuddy(dE_geltar);
 
     auto *lB_dr = new QLabel("Araç Durumu ");
-    QStringList lst{ " ",
-                     "Sıra Bekliyor",
+    QStringList lst{ "Sıra Bekliyor",
                      "Bakıma Alındı",
                      "Tamamlandı"};
     cbX_durum->insertItems(0,lst);
@@ -190,7 +189,7 @@ void hC_IE::tbkntrl()
         hC_Nr maxID;
         int* max_id = new int{};
         *max_id     = maxID.hC_NrMax ( tb_name,
-                        tb_flds->value (0,0));
+                                       tb_flds->value (0,0));
         ////////////////////////////////////////////////
 
         /// yeni iş emri numaasını bul
@@ -198,8 +197,11 @@ void hC_IE::tbkntrl()
         /// no alanındaki en büyük sayı
         // yeni kaydı ekle
         qry = "INSERT INTO " +  *tb_name  + " ( "
-                           "ie_no)"
-             " values( '"+QString::number( *max_id)+"' )" ;
+              "ie_no, ie_durum, ie_tarih)"
+              " values( '"+QString::number( *max_id)+"' , "
+              " '"+cbX_durum->itemText (0)+"'  ,"
+              "'"+QDate::currentDate ()
+              .toString ("dd/MM/yy")+"')" ;
 
         if ( !q.exec(qry) )
         {
@@ -371,9 +373,9 @@ void hC_IE::tbkntrl()
 */
         // 011-03 ie de row değiştiğinde ie noyu ismini etrafa yayınlayalım
         emit hC_IE::sgnIsEmri ( tb_view->table->model()->
-                          index( Index.row() ,
-                                 tb_model->fieldIndex ("ie_no")
-                                 ).data().toInt() );
+                                index( Index.row() ,
+                                       tb_model->fieldIndex ("ie_no")
+                                       ).data().toInt() );
 
     });
 
