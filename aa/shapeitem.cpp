@@ -97,6 +97,15 @@ QString ShapeItem::type() const
 //! [4]
 
 
+//ShapeItem::ShapeItem()
+//{
+//    this->setAutoRaise (true);
+//    this->setPopupMode (ToolButtonPopupMode::MenuButtonPopup);
+//    this->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
+//    //this->setMenu (smSLOT);
+//    this->setArrowType (Qt::DownArrow );
+//}
+
 void ShapeItem::setPath(const QPainterPath &path)
 {
     myPath = path;

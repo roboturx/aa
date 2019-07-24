@@ -3,7 +3,7 @@
 #define SORTINGBOX_H
 
 #include "globals.h"
-//#include "mw_main.h"
+#include "ie.h"
 
 #include "shapeitem.h"
 
@@ -21,6 +21,19 @@ class SortingBox : public QWidget
 public:
     explicit SortingBox( QWidget *parent=nullptr );
   //  ~SortingBox() ;
+
+    QSqlRecord getCurrentRecord() const;
+    void setCurrentRecord(const QSqlRecord &value);
+
+    QPixmap getPixmap() const;
+    void setPixmap(const QPixmap &value);
+
+    static int count;
+    static int col;
+    static int row;
+
+
+
 protected:
     bool event(QEvent *event) override;
     void resizeEvent(QResizeEvent *) override;
@@ -31,15 +44,23 @@ protected:
 
 
 private slots:
+    void listele ();
     void smSLOT(QPoint pos);
     void createNewSquare();
-  //  void createNewTriangle();
+    void createIsEmri();
+
+
+    //  void createNewTriangle();
 //! [0]
 
 //! [1]
 private:
 
-QGridLayout* grid;
+    hC_IE* isEmri;
+
+    QSqlRecord currentRecord;
+    QPixmap pixmap;
+
 
     int updateButtonGeometry(QToolButton *button, int x, int y);
     void createShapeItem(const QPainterPath &path, const QString &toolTip,
@@ -54,8 +75,7 @@ QGridLayout* grid;
     QColor initialItemColor();
     QColor randomItemColor();
     QToolButton *createToolButton(const QString &toolTip,
-                                  const QIcon &icon,
-                                  const char *member,
+                                  const QIcon &icon, const char *member,
                                   const QString &text="2323");
 
     QList<ShapeItem> shapeItems;
@@ -65,7 +85,6 @@ QGridLayout* grid;
 
     QPoint previousPosition;
     ShapeItem *itemInMotion;
-
    // QToolButton *newCircleButton;
     QToolButton *newSquareButton;
     //QToolButton *newTriangleButton;

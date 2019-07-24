@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     QSplashScreen splash(pixmap);
     splash.show();
     // wait for just 5 second and then show main window
-    a.thread()->sleep(1);
+    a.thread()->sleep(0);
     a.processEvents();//**////
     ///
     ///

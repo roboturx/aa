@@ -59,11 +59,15 @@
 //#include <QTextEdit>
 
 //! [0]
-class ShapeItem
+class ShapeItem  ///: public QToolButton
 {
 
 
 public:
+
+    ///ShapeItem();
+
+    ///QToolButton* button;
     void setPath(const QPainterPath &path);
     void setPosition(const QPoint &position);
     void setColor(const QColor &color);

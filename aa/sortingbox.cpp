@@ -4,72 +4,120 @@
 #include "sortingbox.h"
 #include "mw_main.h"
 
+
+
+int SortingBox::count=1;
+int SortingBox::col=20;
+int SortingBox::row=65;
+
+
 SortingBox::SortingBox(QWidget* parent)
 {
-     grid = new QGridLayout(this);
-    grid->addWidget (new QLabel{"kkkkkkk"});
+
+    isEmri = new hC_IE;
+    isEmri->tbsetup ();
+    isEmri->hide ();
 
     setMouseTracking(true);
     setBackgroundRole(QPalette::Base);
     itemInMotion = nullptr;
-    newSquareButton =
-            createToolButton(tr("İŞ EMRİ"),
-                             QIcon(":/rsm/ex.ico"),
-                             SLOT(createNewSquare()),
-                             "İş Emri");
     squarePath.addRect(QRect(0, 0, 160, 100));
+    QToolButton* Bt1 = createToolButton(tr("İŞ EMRİ"),
+                                       QIcon(":/rsm/ex.ico"),
+                                       SLOT(listele()),
+                                       "İş Emri");
+
+    QToolButton* Bt2 = createToolButton(tr("İŞ EMRİ EKLE"),
+                                            QIcon(":/rsm/ex.ico"),
+                                            SLOT(createIsEmri()),
+                                            "İş Emri");
+    Bt1->setGeometry(2,2,96,30);
+    Bt2->setGeometry(100,2,96,30);
+
+
+    auto boxWidget = new QWidget(this);
+    auto boxGrid = new QGridLayout(boxWidget);
+    boxGrid->addWidget (Bt1,0,0,1,1);
+    boxGrid->addWidget (Bt2,0,1,1,1);
+
+
     /// bu fonksiyonun içinden kontrol edelim
-
-
-  //  MW_main* parent = static_cast<MW_main*>(parent());
-      if (parent->objectName() == "objMW_main")
-      {
-          qDebug() <<"mainwwwwww 222  "<<parent;
-          parent->setWindowTitle ("wwww2222222wwwwwwwwwwwwwwwwwww");
-
-      }
-
-
-//       for(auto w_ptr: qApp->allWidgets())
-//           if(w_ptr->objectName() == "objMW_main")
-//           {
-//         qDebug() <<"mainwwwwww 222  "<<w_ptr;
-//         w_ptr->setWindowTitle ("wwww2222222wwwwwwwwwwwwwwwwwww");
-//        }
 
 
 }
 
-
-
-void SortingBox::createNewSquare()
+void SortingBox::listele()
 {
-    static int count = 1;
     ///// toolbutton için
     ////////////////// iş emirlerini ekrana listele
-        QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
-        if (query.isActive ())
-        {
-            qDebug()<< "active " ;
-        }
-        else {
-            qDebug()<< "not active "<< query.lastError ().text ();
-        }
+    shapeItems.clear ();
+    SortingBox::count = 0 ;
+    SortingBox::row = 65 ;
+    SortingBox::col = 20 ;
+    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+    if (query.isActive ())
+    {
+        qDebug()<< "active " ;
+    }
+    else {
+        qDebug()<< "not active "<< query.lastError ().text ();
+    }
 
-        while (query.next())
-        {
-            QPixmap outPixmap = QPixmap();
-            outPixmap.loadFromData( query.value (9).toByteArray () );
-            createShapeItem(squarePath,
-                            tr("Excavator < %1 >").arg(++count),
-                            randomItemPosition(),
-                            randomItemColor(),
-                            query.record() ,
-                            QPixmap( outPixmap ));
-            qDebug ()<<"val 2 :: "<<count<<" ::"<<query.record().value (2).toString ();
-        }
+    while (query.next())
+    {
+        QPixmap outPixmap = QPixmap();
+        outPixmap.loadFromData( query.value (9).toByteArray () );
+        setPixmap (outPixmap);
+        setCurrentRecord (query.record());
+        createNewSquare ();
+    }
+
+}
 
 
+//int SortingBox::count(int i)
+//{
+//    static int count = 1;
+//    qDebug() <<"count *****************************  "<< count;
+//    // count
+//    if ( i == 0 )
+//    {
+//        // count u sıfırla
+//        qDebug() <<"count 0  "<< count;
+//        count = 1 ;
+//        qDebug() <<"count 0  "<< count<<endl;
+//    }
+//    else if ( i == 1 )
+//    {
+//        qDebug() <<"count 1  "<< count;
+//        // count u çoğalt
+//        count++;
+//        qDebug() <<"count 1  "<< count<<endl;
+//    }
+//    return count;
+//}
+
+
+void SortingBox::createNewSquare( )
+{
+    createShapeItem(squarePath,
+                    tr("Excavator <%1>").arg( count++ ),
+                    randomItemPosition(),
+                    randomItemColor(),
+                    getCurrentRecord() ,
+                    getPixmap() );
+}
+
+void SortingBox::createIsEmri()
+{
+    //isEmri->tb_view->pB_ekle->clicked ();
+    isEmri->show ();
+
+    QSqlRecord newRecord;
+
+
+
+    createNewSquare( );
 }
 
 
@@ -82,8 +130,6 @@ void SortingBox::createShapeItem(const QPainterPath &path,
                                  const QPixmap &pixmap)
 {
 
-    qDebug ()<<"val create:: "
-            <<" ::"<< record.value (2).toString ();
     ShapeItem shapeItem;
     shapeItem.setPath( path );
     shapeItem.setToolTip( toolTip );
@@ -93,7 +139,6 @@ void SortingBox::createShapeItem(const QPainterPath &path,
     shapeItem.setPixmap ( pixmap );
     shapeItem.setType("İş Emri");
     shapeItems.append( shapeItem );
-
 
     update();
 }
@@ -141,44 +186,95 @@ void SortingBox::moveItemTo(const QPoint &pos)
     update();
 }
 
-int SortingBox::updateButtonGeometry(QToolButton *button, int x, int y)
-{
-    QSize size = button->sizeHint();
-    button->setGeometry(x - size.rwidth(), y - size.rheight(),
-                        size.rwidth(), size.rheight());
-
-    return y - size.rheight()
-            - style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
-}
 
 
+//int SortingBox::row(int i)
+//{
+//    static int row = 20;
+//    qDebug() <<"row *****************************  "<< row;
+//    // count
 
-QPoint SortingBox::initialItemPosition(const QPainterPath &path)
-{
-    qDebug()<<" iip";
-    int x;
-    int y = (height() - (int)path.controlPointRect().height()) / 2;
-    if (shapeItems.size() == 0)
-        x = ((3 * width()) / 2 - (int)path.controlPointRect().width()) / 2;
-    else
-        x = (width() / shapeItems.size()
-             - (int)path.controlPointRect().width()) / 2;
+//    if ( i == 0 )
+//    {
+//        qDebug() <<"row 0  "<< row;
+//        // row sıfırla
+//        row = 20;
+//        qDebug() <<"row 0  "<< row<<endl;
+//    }
+//    else if ( i == 1 )
+//    {
+//        // row  ayarla
+//        qDebug() <<"row 1       : "<< row;
+//        row+=180;
+//        qDebug() <<"row 1 +180  : "<< row<<endl;
 
-    return QPoint(x, y);
-}
+//    }
+
+//    return row;
+
+//}
+
+
+//int SortingBox::col(int i)
+//{
+//    static int col = 65;
+//    qDebug() <<"col *****************************  "<< col;
+
+//    if ( i == 0 )
+//    {
+//        qDebug() <<"col 0  "<< col;
+//        // col sıfırla
+//        col = 65;
+//        qDebug() <<"col 0  "<< col;
+//    }
+//    else if ( i == 1 )
+//    {
+//        // row col ayarla
+//        qDebug() <<"col 1        : "<< col;
+//        col +=110;
+//        if (col >500)
+//        {
+//            col=20;
+//       //     row+=180;
+//        }
+//      //  qDebug() <<"row +180     : "<< row;
+//        qDebug() <<"col +110 =20 : "<< col<<endl;
+
+
+//    }
+
+//    return col;
+
+//}
 
 QPoint SortingBox::randomItemPosition()
 {
     QPoint poss;
-    static int row = 20, col = 20 ;
+    int row = SortingBox::row  ;
+    int col = SortingBox::col ;
+    qDebug() <<"count(1,20)  : "<< SortingBox::row;
+    qDebug() <<"count(1,30)  : "<< SortingBox::col;
+    qDebug() <<"x yyyy        : "<< row <<":"<< col;
+
+    SortingBox::col += 110 ;
+    col = SortingBox::col;
+    if (SortingBox::col>500)
+    {
+        SortingBox::row += 180;
+        row = SortingBox::row;
+        col =20;
+        SortingBox::col = col;
+    }
+//    if (row>500)
+//    {
+
+//        row=70;
+//        SortingBox::row=row;
+
+//    }
+
     poss.rx() = row;
     poss.ry () = col;
-    col +=110;
-    if (col >500)
-    {
-        col=20;
-        row+=180;
-    }
 
     return poss;
     //return QPoint(QRandomGenerator::global()->bounded(width() - 120), QRandomGenerator::global()->bounded(height() - 120));
@@ -223,11 +319,12 @@ bool SortingBox::event(QEvent *event)
 
 void SortingBox::resizeEvent(QResizeEvent * /* event */ )
 {
-    int margin = style()->pixelMetric(QStyle::PM_DefaultTopLevelMargin);
-    int x = width() - margin;
-    int y = height() - margin;
+    //int margin = style()->pixelMetric(QStyle::PM_DefaultTopLevelMargin);
+    //int x = width() - margin;
+    //int y = height() - margin;
 
-    y = updateButtonGeometry(newSquareButton, x, y);
+
+    //y = updateButtonGeometry(newSquareButton, x, y);
 }
 
 
@@ -235,7 +332,7 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    foreach (ShapeItem shapeItem, shapeItems) {
+    foreach (ShapeItem const &shapeItem, shapeItems) {
         //! [8] //! [9]
         painter.translate(shapeItem.position());
         //! [9] //! [10]
@@ -248,8 +345,8 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
         QRectF target(shapeItem.position().rx()+2,
                       shapeItem.position().ry()+27,
                       112.0, 70.0);
-        QRectF source(0.0, 0.0, 2000.0, 1500.0);
-        shapeItem.pixmap().setDevicePixelRatio (3);
+        QRectF source(0.0, 0.0, 336.0, 210.0);
+        shapeItem.pixmap().setDevicePixelRatio (1);
         painter.drawPixmap(target, shapeItem.pixmap() , source);
 
         /////// ie rect
@@ -263,12 +360,12 @@ void SortingBox::paintEvent(QPaintEvent * /* event */)
                                  shapeItem.position().ry()),
                          shapeItem.type());
 
-QSqlRecord x(shapeItem.record ());
-QString baslik = x.value (x.indexOf ("ie_no")).toString ()+" :: "+
-                 x.value (x.indexOf ("ie_mkn")).toString ();
+        QSqlRecord x(shapeItem.record ());
+        QString baslik = x.value (x.indexOf ("ie_no")).toString ()+" :: "+
+                x.value (x.indexOf ("ie_mkn")).toString ();
 
-painter.drawText(QPoint (shapeItem.position().rx()+5 ,
-                     shapeItem.position().ry()+20), baslik);
+        painter.drawText(QPoint (shapeItem.position().rx()+5 ,
+                                 shapeItem.position().ry()+20), baslik);
 
         //qDebug ()<<"paint pixmap   = "<<shapeItem.pixmap();
 
@@ -444,8 +541,27 @@ void SortingBox::smSLOT(QPoint pos)
 
 
     menu->popup(pos);
-} // end smSLOT
+}
 
+QPixmap SortingBox::getPixmap() const
+{
+    return pixmap;
+}
+
+void SortingBox::setPixmap(const QPixmap &value)
+{
+    pixmap = value;
+}
+
+QSqlRecord SortingBox::getCurrentRecord() const
+{
+    return currentRecord;
+}
+
+void SortingBox::setCurrentRecord(const QSqlRecord &value)
+{
+    currentRecord = value;
+}
 
 
 
@@ -611,3 +727,29 @@ SortingBox(QWidget *parent) :  QWidget(parent)
     //QToolButton *newTriangleButton;
 }
 */
+
+int SortingBox::updateButtonGeometry(QToolButton *button, int x, int y)
+{
+    QSize size = button->sizeHint();
+    button->setGeometry(x - size.rwidth(), y - size.rheight(),
+                        size.rwidth(), size.rheight());
+
+    return y - size.rheight()
+            - style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
+}
+
+
+
+QPoint SortingBox::initialItemPosition(const QPainterPath &path)
+{
+    qDebug()<<" iip";
+    int x;
+    int y = (height() - (int)path.controlPointRect().height()) / 2;
+    if (shapeItems.size() == 0)
+        x = ((3 * width()) / 2 - (int)path.controlPointRect().width()) / 2;
+    else
+        x = (width() / shapeItems.size()
+             - (int)path.controlPointRect().width()) / 2;
+
+    return QPoint(x, y);
+}
