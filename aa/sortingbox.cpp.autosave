@@ -21,8 +21,8 @@ SortingBox::SortingBox(QWidget* parent)
     /// bu fonksiyonun içinden kontrol edelim
 
 
-  //  MW_main* parent = static_cast<MW_main*>(parent());
-      if (parent->objectName() == "objMW_main")
+    QMainWindow* parent2 = static_cast<QMainWindow*>(parent());
+      if (parent2->objectName() == "objMW_main")
       {
           qDebug() <<"mainwwwwww 222  "<<parent;
           parent->setWindowTitle ("wwww2222222wwwwwwwwwwwwwwwwwww");
