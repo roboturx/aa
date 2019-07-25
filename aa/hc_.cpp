@@ -22,6 +22,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 
     cB_map = new QCheckBox;
     cB_map->setMaximumSize (x,y);
+    cB_map->setTristate (true);
     cB_map->setCheckState (Qt::Checked);
 
     pB_ekle = new QPushButton;
@@ -224,31 +225,39 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     connect (cB_map, &QCheckBox::stateChanged,
              [this, win_Wdgt]()
     {
-        if (cB_map->isChecked ())
+         // hersey
+        if (cB_map->checkState ()==1)
         {
-
-            win_Wdgt->show ();
-            adjustSize ();
+            this->parentWidget ()->win_Wdgt->show ();
+            this->table->setVisible (true);
+            this->adjustSize ();
         }
-        else
+        // sadece table
+        else if (cB_map->checkState ()== 1)
         {
-            qDebug () << "this.width  " << this->table->width ();
-            qDebug () << "     height " << this->table->height ();
-            qDebug () << "parent w    " << this->parentWidget ()->width ();
-            qDebug () << "parent h    " << this->parentWidget ()->height ();
-            qDebug () << "this        " << this ;
-            qDebug () << "this parent " << this->parent ();
 
-            qDebug () << "this p w    " << this->parentWidget ();
-
+            this->table->setVisible (true);
             win_Wdgt->hide ();
-            this->parentWidget ()->resize (
-                        this->table->width (),
-                        this->table->height ());
 
+            this->resize (200,600);
 
+        }
+        /// sadece map
+        else if (cB_map->checkState ()== 2)
+        {
+            win_Wdgt->show ();
+            this->table->setVisible (false);
+            this->resize (200,600);
         }
     });
+    //            qDebug () << "this.width  " << this->table->width ();
+    //            qDebug () << "     height " << this->table->height ();
+    //            qDebug () << "parent w    " << this->parentWidget ()->width ();
+    //            qDebug () << "parent h    " << this->parentWidget ()->height ();
+    //            qDebug () << "this        " << this ;
+    //            qDebug () << "this parent " << this->parent ();
+    //            qDebug () << "this p w    " << this->parentWidget ();
+
 
 }
 

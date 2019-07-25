@@ -27,7 +27,9 @@ DragWidget::DragWidget(QWidget *parent)
     {
 
         // kayıt oluşturalım
-        isEmri->tb_view->pB_ekle->click ();
+       // isEmri->tb_view->pB_ekle->click ();
+        isEmri->tb_view->cB_map->
+             setCheckState (Qt::PartiallyChecked);
         isEmri->show ();
 
 
@@ -267,8 +269,7 @@ CustomButton::CustomButton(QWidget *parent)
     No+=kurumno->text ();
 
     qDebug ()<<"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
-        <<endl<< this->record->
-          value (9) ;
+        <<endl<< this->record ;
 
     QByteArray outByteArray = this->record->
             value ("ie_resim").toByteArray ();
