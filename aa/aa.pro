@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     sclk.cpp \
     ie.cpp \
     mlzm_gc.cpp \
-    sortingbox.cpp
+    sortingbox.cpp \
+    dragwidget.cpp
 
 
 HEADERS  += \
@@ -83,7 +84,8 @@ HEADERS  += \
     sclk.h \
     ie.h \
     mlzm_gc.h \
-    sortingbox.h
+    sortingbox.h \
+    dragwidget.h
     # cw_cns.h
 
 FORMS    += \

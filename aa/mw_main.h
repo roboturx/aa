@@ -23,6 +23,7 @@
 #include "cw_hkk.h"
 
 #include <sortingbox.h>
+#include "dragwidget.h"
 
 
 namespace nSMain {
@@ -39,6 +40,7 @@ public:
 
     DBase* dbase;
     SortingBox * sbox;
+    DragWidget * dbox;
     QStackedWidget *stw{};
     QAction *act_main{};
     hC_CLSN *mw_per{};

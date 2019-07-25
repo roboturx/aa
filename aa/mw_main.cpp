@@ -67,7 +67,8 @@ WARNING  şifre için burayı kullan
 
 
     sbox = new SortingBox;
-    this->setCentralWidget (sbox );
+    dbox = new DragWidget;
+    this->setCentralWidget (dbox );
 
 }
 

@@ -1,73 +1,120 @@
-/****************************************************************************
-**
-** Copyright (C) 2016 The Qt Company Ltd.
-** Contact: https://www.qt.io/licensing/
-**
-** This file is part of the examples of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:BSD$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
-**
-** BSD License Usage
-** Alternatively, you may use this file under the terms of the BSD license
-** as follows:
-**
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of The Qt Company Ltd nor the names of its
-**     contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
-**
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
-
-#include <QtWidgets>
-
 #include "dragwidget.h"
 
-//! [0]
+
+int DragWidget::count=1;
+int DragWidget::col=20;
+int DragWidget::row=65;
+
+
+
 DragWidget::DragWidget(QWidget *parent)
     : QWidget(parent)
 {
-    setMinimumSize(200, 200);
+    //setMinimumSize(200, 200);
+    //setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAcceptDrops(true);
 
+    isEmri = new hC_IE;
+    isEmri->tbsetup ();
+    isEmri->hide ();
+
+
+
+    QPushButton* yeni = new QPushButton("Yeni",this);
+    yeni->move (60,60);
+    connect(yeni, &QPushButton::clicked,
+            [this]()
+    {
+
+        // kayıt oluşturalım
+        isEmri->tb_view->pB_ekle->click ();
+        isEmri->show ();
+
+
+
+
+        QSqlQuery query("SELECT * FROM ie_dbtb "
+                        "WHERE ie_durum != 'Tamamlandı'");
+        if (query.isActive ())
+        {
+            qDebug()<< "active " ;
+        }
+        else {
+            qDebug()<< "not active "<< query.lastError ().text ();
+        }
+
+        while (query.next())
+        {
+            if (query.value (1) == 0 )
+            {
+            auto outPixmap = new QPixmap ;
+            outPixmap->loadFromData( query.value (9).toByteArray () );
+            auto record = new QSqlRecord;
+            *record = query.record();
+
+            isEmriYeni ( outPixmap, record);
+            }
+        }
+
+    });
+
+    QPushButton* lst = new QPushButton("Listele",this);
+    lst->move (60,120);
+    connect(lst, &QPushButton::clicked,
+            [this]()
+    {
+       isEmriListele();
+    });
+
+
+
+}
+
+
+void DragWidget::isEmriYeni(QPixmap* pixmap, QSqlRecord* record)
+{
+
+
+
     CustomButton *boatIcon = new CustomButton (this);
-    boatIcon->resim->setPixmap (QPixmap(":/images/boat.png"));
+    boatIcon->resim->setPixmap ( *pixmap );
+    boatIcon->setRecord(record);
     boatIcon->move(10, 10);
     boatIcon->show();
     boatIcon->setAttribute(Qt::WA_DeleteOnClose);
 
+}
+
+
+
+void DragWidget::isEmriListele()
+{
+
+    ///// toolbutton için
+    ////////////////// iş emirlerini ekrana listele
+    DragWidget::count = 0 ;
+    DragWidget::row = 65 ;
+    DragWidget::col = 20 ;
+    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+    if (query.isActive ())
+    {
+        qDebug()<< "active " ;
+    }
+    else {
+        qDebug()<< "not active "<< query.lastError ().text ();
+    }
+
+    while (query.next())
+    {
+        auto outPixmap = new QPixmap ;
+        outPixmap->loadFromData( query.value (9).toByteArray () );
+        auto record = new QSqlRecord;
+        *record = query.record();
+
+        isEmriYeni ( outPixmap, record);
+    }
 
 }
-//! [0]
 
 
 void DragWidget::dropEvent(QDropEvent *event)
@@ -93,11 +140,13 @@ void DragWidget::dropEvent(QDropEvent *event)
 
         if (event->source() == this)
         {
+            qDebug ()<<"event accepted in drop";
             event->setDropAction(Qt::MoveAction);
             event->accept();
 
         } else
         {
+            qDebug ()<<"event NOT accepted in drop";
             event->acceptProposedAction();
         }
     } else
@@ -115,6 +164,8 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
         ///burada child olarak alınıyor
         CustomButton *child = static_cast< CustomButton *>(childAt(event->pos()));
+        qDebug ()<<"child at pos "<< childAt(event->pos());
+        qDebug ()<<"child        "<< child;
         if (!child)
             return;
         QPixmap pixmap = *child->resim->pixmap();
@@ -144,9 +195,11 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
                        Qt::CopyAction) == Qt::MoveAction)
 
         {
+            qDebug ()<<"child closed";
             child->close();
         } else
         {
+            qDebug ()<<"child showed";
             child->show();
             child->resim->setPixmap(pixmap);
         }
@@ -202,21 +255,29 @@ CustomButton::CustomButton(QWidget *parent)
     No= QString::number( this->getObjNo () );
 
     ieno = new QLabel ;
+    ieno->setText (getIeno());
     ieno->resize (60,20);
-    ieno->setText (": 035 :");
     ieno->setAttribute (Qt::WA_TransparentForMouseEvents);
     No+=ieno->text ();
 
     kurumno = new QLabel ;
     kurumno->resize (100,20);
-    kurumno->setText ("19-200019");
+    kurumno->setText ( getKurumno ());
     kurumno->setAttribute (Qt::WA_TransparentForMouseEvents);
     No+=kurumno->text ();
 
-    pixmap = new QPixmap ;
+    qDebug ()<<"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
+        <<endl<< this->record->
+          value (9) ;
+
+    QByteArray outByteArray = this->record->
+            value ("ie_resim").toByteArray ();
+    QPixmap outPixmap = QPixmap();
+    outPixmap.loadFromData ( outByteArray );
 
     resim = new QLabel;
     resim->setMinimumSize (80,50);
+    resim->setPixmap (outPixmap);
     resim->resize (80,50);
     resim->setAttribute (Qt::WA_TransparentForMouseEvents);
 
@@ -269,6 +330,16 @@ CustomButton::~CustomButton()
 
 }
 
+QSqlRecord *CustomButton::getRecord() const
+{
+    return record;
+}
+
+void CustomButton::setRecord(QSqlRecord *value)
+{
+    record = value;
+}
+
 
 
 void CustomButton::mousePressEvent(QMouseEvent *event)
@@ -281,6 +352,26 @@ void CustomButton::mousePressEvent(QMouseEvent *event)
     {
     event->ignore ();
     }
+}
+
+QString CustomButton::getKurumno() const
+{
+    return kurumno->text ();
+}
+
+void CustomButton::setKurumno(QString value)
+{
+    kurumno->setText ( value ) ;
+}
+
+QString CustomButton::getIeno() const
+{
+    return ieno->text ();
+}
+
+void CustomButton::setIeno(QString value)
+{
+    ieno->setText (value);
 }
 
 int CustomButton::getObjNo() const

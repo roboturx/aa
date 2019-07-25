@@ -764,7 +764,7 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
         // row, xolumn daki veriyi bytearray a at
         QByteArray outByteArray = rsm_table->table->
                 model()->index( rowidx, rsm_model->
-                                fieldIndex ( rsm_field ) ).data().toByteArray();
+                    fieldIndex ( rsm_field ) ).data().toByteArray();
 
         QPixmap outPixmap = QPixmap();
         outPixmap.loadFromData( outByteArray  );

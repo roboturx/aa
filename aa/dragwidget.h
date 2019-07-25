@@ -1,7 +1,8 @@
 #ifndef DRAGWIDGET_H
 #define DRAGWIDGET_H
 
-#include <QtWidgets>
+#include "globals.h"
+#include "ie.h"
 
 QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
@@ -16,6 +17,17 @@ class DragWidget : public QWidget
 public:
     explicit DragWidget(QWidget *parent = nullptr);
 
+
+    static int count;
+    static int col;
+    static int row;
+
+
+private:
+    void isEmriYeni(QPixmap *pixmap=nullptr,
+                    QSqlRecord* record=nullptr);
+    void isEmriListele();
+    hC_IE* isEmri;
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
@@ -39,18 +51,20 @@ public:
     ~CustomButton() override;
 
 public:
-    QString No;
-    QLabel* resim;
-    QLabel* ieno;
-    QLabel* kurumno;
-    QPixmap* pixmap;
-    QImage SimileIcon;
-    bool IsBkColorEnabled;
-    QColor Bkclor;
 
+    QLabel* resim;
 
     int getObjNo() const;
-    void setObjNo(int value);
+    void setObjNo(int value=0);
+
+    QSqlRecord *getRecord() const;
+    void setRecord(QSqlRecord *value=nullptr);
+
+    QString getIeno() const;
+    void setIeno(QString value=nullptr );
+
+    QString getKurumno() const;
+    void setKurumno(QString value=nullptr);
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -58,6 +72,16 @@ protected:
 
 private:
     int objNo;
+
+    QString No;
+
+    QLabel* ieno;
+    QLabel* kurumno;
+    QSqlRecord* record;
+    QPixmap* pixmap;
+    QImage SimileIcon;
+    bool IsBkColorEnabled;
+    QColor Bkclor;
 
 private slots:
     void smSLOT();
