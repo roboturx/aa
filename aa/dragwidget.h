@@ -3,6 +3,7 @@
 
 #include "globals.h"
 #include "ie.h"
+#include "mkn.h"
 
 QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
@@ -24,10 +25,13 @@ public:
 
 
 private:
-    void isEmriYeni(QPixmap *pixmap=nullptr,
-                    QSqlRecord* record=nullptr);
+
+    void isEmriYeni(QSqlRecord record);
     void isEmriListele();
     hC_IE* isEmri;
+    hC_MKN* mkn;
+
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
@@ -57,8 +61,8 @@ public:
     int getObjNo() const;
     void setObjNo(int value=0);
 
-    QSqlRecord *getRecord() const;
-    void setRecord(QSqlRecord *value=nullptr);
+    QSqlRecord getRecord() const;
+    void setRecord(QSqlRecord value);
 
     QString getIeno() const;
     void setIeno(QString value=nullptr );
@@ -66,19 +70,24 @@ public:
     QString getKurumno() const;
     void setKurumno(QString value=nullptr);
 
+    QPixmap getPixmap() const;
+    void setPixmap(QPixmap value);
+
 protected:
     void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    int objNo;
+    //int objNo;
 
-    QString No;
+    void CBsetup();
+
+    QString objNo;
 
     QLabel* ieno;
     QLabel* kurumno;
-    QSqlRecord* record;
-    QPixmap* pixmap;
+    QSqlRecord record;
+    QPixmap pixmap;
     QImage SimileIcon;
     bool IsBkColorEnabled;
     QColor Bkclor;

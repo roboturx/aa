@@ -197,11 +197,12 @@ void hC_IE::tbkntrl()
         /// no alanındaki en büyük sayı
         // yeni kaydı ekle
         qry = "INSERT INTO " +  *tb_name  + " ( "
-              "ie_no, ie_durum, ie_tarih)"
+              "ie_no, ie_durum, ie_tarih, ie_resim)"
               " values( '"+QString::number( *max_id)+"' , "
               " '"+cbX_durum->itemText (0)+"'  ,"
               "'"+QDate::currentDate ()
-              .toString ("dd/MM/yy")+"')" ;
+              .toString ("dd/MM/yy")+"',"
+              +  " , null )" ;
 
         if ( !q.exec(qry) )
         {

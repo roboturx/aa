@@ -19,44 +19,58 @@ DragWidget::DragWidget(QWidget *parent)
     isEmri->hide ();
 
 
-
     QPushButton* yeni = new QPushButton("Yeni",this);
     yeni->move (60,60);
     connect(yeni, &QPushButton::clicked,
             [this]()
     {
 
-        // kayıt oluşturalım
-       // isEmri->tb_view->pB_ekle->click ();
-        isEmri->tb_view->cB_map->
-             setCheckState (Qt::PartiallyChecked);
-        isEmri->show ();
+        /// kayıt oluşturalım
+        isEmri->tb_view->pB_ekle->click ();
+        /// kayıdı rec e alalım
+        /// rec ie_dbtb de ki kayıt
+        /// rec objenin özellikleri belirleyecek
+        QModelIndex ndx = isEmri->tb_view->table->currentIndex ();
+        QSqlRecord dbrecor;
+        dbrecor = isEmri->tb_model->record (ndx.row ());
 
+        auto dbrecord = new QSqlRecord;
+        dbrecord = &dbrecor;
+        /////////////////////////// ie için makinayı secelim
+        QDialog makinasec;
 
-
-
-        QSqlQuery query("SELECT * FROM ie_dbtb "
-                        "WHERE ie_durum != 'Tamamlandı'");
-        if (query.isActive ())
+        QHBoxLayout xl ;
+        makinasec.setLayout (&xl);
+        mkn = new hC_MKN();
+        mkn->tbsetup();
+        xl.addWidget (mkn);
+        //// seçim penceresinde makina seçilir
+        /// yoksa yeni oluşturulur
+        connect(mkn, &hC_MKN::sgnMkn,
+                [this, dbrecord](QString krmNo) mutable
         {
-            qDebug()<< "active " ;
-        }
-        else {
-            qDebug()<< "not active "<< query.lastError ().text ();
-        }
+            //  1   iş emri için kurum no
+            (*dbrecord).setValue ("ie_mkn", krmNo);
 
-        while (query.next())
-        {
-            if (query.value (1) == 0 )
-            {
-            auto outPixmap = new QPixmap ;
-            outPixmap->loadFromData( query.value (9).toByteArray () );
-            auto record = new QSqlRecord;
-            *record = query.record();
+            qDebug ()<<"************************ mkn da seçimdeyiz";
+            qDebug ()<<"db ie_mkn --  ieNo "
+                    <<(*dbrecord).value ("ie_mkn")
+                    <<"  --  "<< (*dbrecord).value ("ie_no") ;
+            isEmri->tb_model->submitAll ();
 
-            isEmriYeni ( outPixmap, record);
-            }
-        }
+
+        });
+
+        makinasec.exec ();
+        ///// makina seçildi yola devam
+        /// objeyi oluştur
+        qDebug ()<<"**********************  seçim bitti ie yeniye";
+        qDebug ()<<"db ie_mkn --  ieNo "
+                <<(*dbrecord).value ("ie_mkn")
+                <<"  --  "<< (*dbrecord).value ("ie_no") ;
+
+        isEmriYeni (*dbrecord);
+
 
     });
 
@@ -65,7 +79,7 @@ DragWidget::DragWidget(QWidget *parent)
     connect(lst, &QPushButton::clicked,
             [this]()
     {
-       isEmriListele();
+        isEmriListele();
     });
 
 
@@ -73,18 +87,47 @@ DragWidget::DragWidget(QWidget *parent)
 }
 
 
-void DragWidget::isEmriYeni(QPixmap* pixmap, QSqlRecord* record)
+void DragWidget::isEmriYeni(QSqlRecord record)
 {
+    qDebug ()<<"*************************  ieyenideyiz";
 
-
-
+    qDebug ()<<"db ie_mkn --  ieNo "
+            <<record.value ("ie_mkn")
+            <<"  --  "<< record.value ("ie_no") ;
+    qDebug ()<<"****************************  objeye gidiyoz";
     CustomButton *boatIcon = new CustomButton (this);
-    boatIcon->resim->setPixmap ( *pixmap );
+    qDebug ()<<"****************************  objeden  geldik";
+    qDebug ()<<"****************************  obje setrecord yapılmadan önce";
+    //boatIcon->resim->setPixmap ( *pixmap );
+
+    qDebug ()<<"db ie_mkn --  ieNo "
+            <<record.value ("ie_mkn")
+            <<"  --  "<< record.value ("ie_no") ;
+
+
+
     boatIcon->setRecord(record);
+
+    qDebug ()<<"****************************  obje setrecord yapıldı";
+
+    qDebug ()<<"db ie_mkn --  ieNo "
+            <<record.value ("ie_mkn")
+            <<"  --  "<< record.value ("ie_no") ;
+
+
+
+    boatIcon->setPixmap (QPixmap(":/images/boat.png"));
     boatIcon->move(10, 10);
     boatIcon->show();
     boatIcon->setAttribute(Qt::WA_DeleteOnClose);
 
+
+    qDebug ()<<"db ie_mkn --  ieNo "
+            <<record.value ("ie_mkn")
+            <<"  --  "<< record.value ("ie_no") ;
+    qDebug ()<<"obj ie_mkn --  ieNo "
+            <<boatIcon->getRecord().value ("ie_mkn")
+            <<"  --  "<< boatIcon->getRecord().value ("ie_no") ;
 }
 
 
@@ -110,10 +153,10 @@ void DragWidget::isEmriListele()
     {
         auto outPixmap = new QPixmap ;
         outPixmap->loadFromData( query.value (9).toByteArray () );
-        auto record = new QSqlRecord;
-        *record = query.record();
+        QSqlRecord record ;
+        record = query.record();
 
-        isEmriYeni ( outPixmap, record);
+        isEmriYeni ( record);
     }
 
 }
@@ -166,8 +209,6 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
         ///burada child olarak alınıyor
         CustomButton *child = static_cast< CustomButton *>(childAt(event->pos()));
-        qDebug ()<<"child at pos "<< childAt(event->pos());
-        qDebug ()<<"child        "<< child;
         if (!child)
             return;
         QPixmap pixmap = *child->resim->pixmap();
@@ -197,11 +238,9 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
                        Qt::CopyAction) == Qt::MoveAction)
 
         {
-            qDebug ()<<"child closed";
             child->close();
         } else
         {
-            qDebug ()<<"child showed";
             child->show();
             child->resim->setPixmap(pixmap);
         }
@@ -253,35 +292,10 @@ CustomButton::CustomButton(QWidget *parent)
     : QPushButton(parent)
 {
     this->setMinimumSize (150,130);
-
-    No= QString::number( this->getObjNo () );
-
+    objNo= QString::number( this->getObjNo () );
     ieno = new QLabel ;
-    ieno->setText (getIeno());
-    ieno->resize (60,20);
-    ieno->setAttribute (Qt::WA_TransparentForMouseEvents);
-    No+=ieno->text ();
-
     kurumno = new QLabel ;
-    kurumno->resize (100,20);
-    kurumno->setText ( getKurumno ());
-    kurumno->setAttribute (Qt::WA_TransparentForMouseEvents);
-    No+=kurumno->text ();
-
-    qDebug ()<<"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "
-        <<endl<< this->record ;
-
-    QByteArray outByteArray = this->record->
-            value ("ie_resim").toByteArray ();
-    QPixmap outPixmap = QPixmap();
-    outPixmap.loadFromData ( outByteArray );
-
     resim = new QLabel;
-    resim->setMinimumSize (80,50);
-    resim->setPixmap (outPixmap);
-    resim->resize (80,50);
-    resim->setAttribute (Qt::WA_TransparentForMouseEvents);
-
     SimileIcon = QPixmap(":/images/boat.png").toImage ();
 
     QToolButton* x1 = new QToolButton() ;
@@ -313,17 +327,61 @@ CustomButton::CustomButton(QWidget *parent)
              &CustomButton::smSLOT );
 
 
-   // x->move (50,50);
-auto gr = new QGridLayout(this);
+    // x->move (50,50);
+    auto gr = new QGridLayout(this);
 
-//gr->addWidget (resim    ,0 ,3 ,5 , 3 );
+    //gr->addWidget (resim    ,0 ,3 ,5 , 3 );
 
-gr->addWidget (x1       ,1 ,0 ,2 , 2 );
-gr->addWidget (x2       ,2 ,0 ,2 , 2 );
-gr->addWidget (x3       ,3 ,0 ,2 , 2 );
-gr->addWidget (x4       ,4 ,0 ,2 , 2 );
+    gr->addWidget (x1       ,1 ,0 ,2 , 2 );
+    gr->addWidget (x2       ,2 ,0 ,2 , 2 );
+    gr->addWidget (x3       ,3 ,0 ,2 , 2 );
+    gr->addWidget (x4       ,4 ,0 ,2 , 2 );
+
+    CBsetup ();
+
+}
 
 
+void CustomButton::CBsetup()
+{
+    this->setMinimumSize (150,130);
+
+    setIeno (getRecord ().value ("ie_no").toString ());
+    setKurumno (getRecord ().value ("ie_mkn").toString ());
+
+    ieno->setText (getIeno());
+    ieno->resize (60,20);
+    ieno->setAttribute (Qt::WA_TransparentForMouseEvents);
+    objNo+=  getIeno ();
+
+    kurumno->resize (100,20);
+    kurumno->setText ( getKurumno ());
+    kurumno->setAttribute (Qt::WA_TransparentForMouseEvents);
+    objNo+= getKurumno();
+    qDebug ()<<"aaa RECORDaaaaaaaaaaa 888888"<<endl;
+    qDebug ()<<"aaaaaaaaaaaaaaaaaaaaa 9999999"<<endl
+            << getRecord ().value ("ie_no");
+
+        //qDebug ()<<"aaaaaaaaaaaaaaaaaa 00000000000"<<endl<< record ;
+QByteArray outByteArray = record.value ("ie_resim").toByteArray ();
+        QPixmap outPixmap = QPixmap();
+        outPixmap.loadFromData ( outByteArray );
+        resim->setPixmap (outPixmap);
+
+    resim->setMinimumSize (80,50);
+    resim->resize (80,50);
+    resim->setAttribute (Qt::WA_TransparentForMouseEvents);
+
+}
+
+QPixmap CustomButton::getPixmap() const
+{
+    return pixmap;
+}
+
+void CustomButton::setPixmap(QPixmap value)
+{
+    pixmap = value;
 }
 
 CustomButton::~CustomButton()
@@ -331,12 +389,12 @@ CustomButton::~CustomButton()
 
 }
 
-QSqlRecord *CustomButton::getRecord() const
+QSqlRecord CustomButton::getRecord() const
 {
     return record;
 }
 
-void CustomButton::setRecord(QSqlRecord *value)
+void CustomButton::setRecord(QSqlRecord value)
 {
     record = value;
 }
@@ -351,7 +409,7 @@ void CustomButton::mousePressEvent(QMouseEvent *event)
     }
     else
     {
-    event->ignore ();
+        event->ignore ();
     }
 }
 
@@ -377,12 +435,12 @@ void CustomButton::setIeno(QString value)
 
 int CustomButton::getObjNo() const
 {
-    return objNo;
+    return objNo.toInt ();
 }
 
 void CustomButton::setObjNo(int value)
 {
-    objNo = value;
+    objNo = QString::number (value);
 }
 
 
@@ -395,7 +453,7 @@ void CustomButton::paintEvent(QPaintEvent *paint)
     QPainter p(this);
     p.save();
 
-  //  p.drawText(QPoint(1,1),FirstName); //Simple Text.
+    //  p.drawText(QPoint(1,1),FirstName); //Simple Text.
     p.setPen(Qt::blue);                       //changing the color of pen.
     p.setFont(QFont("Arial", 12, QFont::Bold));     //Changing the font.
 
@@ -403,10 +461,10 @@ void CustomButton::paintEvent(QPaintEvent *paint)
     p.drawRect (xR);
     p.fillRect (xR, QBrush (QColor(34,34,234,234)));
 
-        p.setPen(Qt::cyan);
-        p.drawText(rect(), Qt::AlignTop, No);
+    p.setPen(Qt::cyan);
+    p.drawText(rect(), Qt::AlignTop, objNo);
 
-  //  p.drawText(QPoint( 5, 15),No);
+    //  p.drawText(QPoint( 5, 15),No);
     p.drawImage(QPoint(60, 30),SimileIcon);
     p.restore();
 }
@@ -439,7 +497,7 @@ void CustomButton::smSLOT()
              [this]()
     {
         qDebug()<<"menu sıra bekliyor of kurum no"<< getObjNo ();
-     //          << itemAt(pos) << ""<< &shapeItems[itemAt(pos)] ;
+        //          << itemAt(pos) << ""<< &shapeItems[itemAt(pos)] ;
     });
 
     menu->addAction(ekleAct_sgrt);
@@ -507,6 +565,6 @@ void CustomButton::smSLOT()
 
     menu->addSeparator();
 
-QPoint pos(50,50);
+    QPoint pos(50,50);
     menu->popup(pos);
 }

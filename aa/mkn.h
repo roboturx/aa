@@ -16,7 +16,7 @@ class hC_MKN : public hC_tBcreator
 {
     Q_OBJECT
 public:
-    explicit hC_MKN();
+    explicit hC_MKN(hC_tBcreator *parent = nullptr );
     ~hC_MKN();
 
     hC_ArrD                  * tb_flds   {} ;

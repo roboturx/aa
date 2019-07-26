@@ -74,9 +74,10 @@ void hC_CLSN::tbui()
     qDebug() << "   ui";
 
     hC_CLSN::setWindowTitle (win_Label->text ());
+    this->setGeometry (20,20,600,400);
     auto *win_grid = new QGridLayout(this);
     win_grid->addWidget (tb_view  , 0, 0, 1, 1);
-    win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+    //win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 
 }
 void hC_CLSN::tbwdgt()
@@ -97,7 +98,7 @@ void hC_CLSN::tbwdgt()
     lB_doyer->setBuddy(lE_doyer);
 
     auto *lB_dotar = new QLabel("Doğum Tarihi ");
- //QDate::currentDate ());
+    //QDate::currentDate ());
     dT_dotar->setSpecialValueText ("  ");
     dT_dotar->setLocale (QLocale::Turkish);
     dT_dotar->setMinimumDate(QDate::currentDate().addYears (-65));
@@ -200,6 +201,8 @@ void hC_CLSN::tbkntrl()
 {
 
     qDebug() << "   KNTRL";
+
+
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
@@ -244,7 +247,7 @@ void hC_CLSN::tbkntrl()
     {
         qDebug() << "new resim";
         hC_Rs resim( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
-                    "resim", "ekle");
+                     "resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim

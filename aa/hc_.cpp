@@ -100,7 +100,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 */
     auto *widget_buttonz = new QWidget;
     widget_buttonz->setWindowTitle ("buttonz window");
-    auto *Layout_buttonz = new QVBoxLayout;
+    auto *Layout_buttonz = new QHBoxLayout;
     widget_buttonz->setLayout (Layout_buttonz);
 
     Layout_buttonz->addWidget (pB_ekle );
@@ -113,6 +113,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     Layout_buttonz->addWidget (pB_snrki);
     Layout_buttonz->addWidget (pB_son  );
     Layout_buttonz->addWidget (cB_map  );
+    Layout_buttonz->addStretch ();
     //  Layout_buttonz->addStretch (1);
     //Layout_buttonz->addWidget (pB_grscks );
     //Layout_buttonz->addStretch (4);
@@ -145,11 +146,61 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 
     //ayout_table->addWidget (table);
     // //////////////////////////////////////////////
-
     // //////////////////////////////////////////////
-    auto *Layout_all = new QGridLayout(this);
-    Layout_all->addWidget (table         , 0, 1 );
-    Layout_all->addWidget (widget_buttonz, 0, 0 );
+
+    auto *th_all = new QHBoxLayout();
+    th_all->addWidget (table     );
+    th_all->addWidget (win_Wdgt  );
+    th_all->addStretch (2) ;
+
+
+    auto *t_all = new QGridLayout(this);
+    t_all->addWidget (widget_buttonz, 0, 0, 1, 1 );
+    t_all->addLayout (th_all        , 1, 0, 1, 1 );
+
+
+    connect(cB_map  , &QCheckBox ::clicked ,
+                 [this, win_Wdgt, t_all, widget_buttonz]()
+        {
+             // hersey
+            if (cB_map ->checkState () == 1 )
+            {
+                t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
+                t_all->addWidget (table         , 1, 0, 1, 6 );
+                t_all->addWidget (win_Wdgt      , 1, 7, 1, 4 );
+
+                win_Wdgt->show ();
+                table->show ();
+//    this->setGeometry (20,20,600,400);
+            }
+            // sadece table
+            else if (cB_map ->checkState () == 0 )
+            {
+                t_all->addWidget (widget_buttonz, 0, 0, 1, 1 );
+                t_all->addWidget (table         , 1, 0, 1, 1 );
+                t_all->removeWidget (win_Wdgt );
+
+                table->show ();
+                win_Wdgt->hide ();
+
+  //              this->setGeometry (20,20,600,400);
+
+            }
+            /// sadece map
+            else if (cB_map ->checkState ()== 2)
+            {
+                t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
+                t_all->removeWidget (table  );
+                t_all->addWidget (win_Wdgt      , 1, 0, 1, 1 );
+
+                win_Wdgt->show ();
+                table->hide ();
+
+    //            this-> setGeometry (20,20,200,400);
+            }
+
+    });
+
 
     // //////////////////////////////////////////////
 
@@ -222,34 +273,6 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     });
 
 
-    connect (cB_map, &QCheckBox::stateChanged,
-             [this, win_Wdgt]()
-    {
-         // hersey
-        if (cB_map->checkState ()==1)
-        {
-            this->parentWidget ()->win_Wdgt->show ();
-            this->table->setVisible (true);
-            this->adjustSize ();
-        }
-        // sadece table
-        else if (cB_map->checkState ()== 1)
-        {
-
-            this->table->setVisible (true);
-            win_Wdgt->hide ();
-
-            this->resize (200,600);
-
-        }
-        /// sadece map
-        else if (cB_map->checkState ()== 2)
-        {
-            win_Wdgt->show ();
-            this->table->setVisible (false);
-            this->resize (200,600);
-        }
-    });
     //            qDebug () << "this.width  " << this->table->width ();
     //            qDebug () << "     height " << this->table->height ();
     //            qDebug () << "parent w    " << this->parentWidget ()->width ();
@@ -395,7 +418,8 @@ QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index, int kolon2)
 ///   create table and others
 
 
-hC_tBcreator::hC_tBcreator ()
+hC_tBcreator::hC_tBcreator (QWidget *parent)
+                      : QWidget(parent)
 {
     //    this->_mesaj = "";
 
@@ -662,11 +686,11 @@ hC_Le::hC_Le( QWidget *parent ) : QWidget (parent)
     pushButton  = new QPushButton(QIcon(":/rsm/ex.ico"),nullptr );
     pushButton2 = new QPushButton(QIcon(":/rsm/Erase.ico"),nullptr );
 
-    auto *Layout_all = new QGridLayout(this);
+    auto *t_all = new QGridLayout(this);
 
-    Layout_all->addWidget (lineEdit    , 0, 0, 1, 4);
-    Layout_all->addWidget (pushButton , 0, 5, 1, 1);
-    Layout_all->addWidget (pushButton2 , 0, 6, 1, 1);
+    t_all->addWidget (lineEdit    , 0, 0, 1, 4);
+    t_all->addWidget (pushButton , 0, 5, 1, 1);
+    t_all->addWidget (pushButton2 , 0, 6, 1, 1);
     connect (pushButton2, &QPushButton::clicked,
              lineEdit,    &QLineEdit::clear );
     // //////////////////////////////////////////////
@@ -704,9 +728,9 @@ hC_Te::hC_Te ( QWidget *parent ) : QWidget (parent)
 {
     hC_txEdt   = new QTextEdit;
     hC_txEdtpB = new QPushButton(QIcon(":/rsm/ex.ico"),nullptr );
-    auto *Layout_all = new QGridLayout(this);
-    Layout_all->addWidget (hC_txEdt   , 0, 0, 3, 6);
-    Layout_all->addWidget (hC_txEdtpB , 1, 6, 1, 1);
+    auto *t_all = new QGridLayout(this);
+    t_all->addWidget (hC_txEdt   , 0, 0, 3, 6);
+    t_all->addWidget (hC_txEdtpB , 1, 6, 1, 1);
 }
 hC_Te::~hC_Te()
 = default;

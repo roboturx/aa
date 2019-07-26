@@ -324,7 +324,7 @@ class hC_tBcreator  : public QWidget
 {
     Q_OBJECT
 public:
-    explicit hC_tBcreator( );
+    explicit hC_tBcreator(QWidget *parent = nullptr );
 
     ~hC_tBcreator();
 

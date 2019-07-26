@@ -1,6 +1,6 @@
 ﻿#include "mkn.h"
 
-hC_MKN::hC_MKN() : hC_tBcreator ()
+hC_MKN::hC_MKN  (hC_tBcreator *parent) : hC_tBcreator (parent)
 {
 
 
