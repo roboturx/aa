@@ -55,7 +55,7 @@ public:
     ~CustomButton() override;
 
 public:
-
+void CBsetup();
     QLabel* resim;
 
     int getObjNo() const;
@@ -80,7 +80,7 @@ protected:
 private:
     //int objNo;
 
-    void CBsetup();
+
 
     QString objNo;
 

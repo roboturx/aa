@@ -182,6 +182,7 @@ void hC_IE::tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
+qDebug()<<"ie ekleeeeeeeeeeeeeeeeeeee";
         QSqlQuery q;
         QString qry, mesaj("");
 
@@ -191,18 +192,21 @@ void hC_IE::tbkntrl()
         *max_id     = maxID.hC_NrMax ( tb_name,
                                        tb_flds->value (0,0));
         ////////////////////////////////////////////////
-
+qDebug()<<"ie ekleeeeeeeeeeeeeeeeeeee max id"<< *max_id;
         /// yeni iş emri numaasını bul
         /// iş emri nosu _dbtb de
         /// no alanındaki en büyük sayı
         // yeni kaydı ekle
         qry = "INSERT INTO " +  *tb_name  + " ( "
-              "ie_no, ie_durum, ie_tarih, ie_resim)"
-              " values( '"+QString::number( *max_id)+"' , "
-              " '"+cbX_durum->itemText (0)+"'  ,"
-              "'"+QDate::currentDate ()
-              .toString ("dd/MM/yy")+"',"
-              +  " , null )" ;
+              "ie_no   , "
+              "ie_durum, "
+              "ie_tarih, "
+              "ie_resim )"
+              " values("
+              " '"+QString::number( *max_id)+"' , "
+              " '"+cbX_durum->itemText (0)  +"' , "
+              " '"+QDate::currentDate ().toString ("dd/MM/yy")+"' , "
+              +  "'null' )" ;
 
         if ( !q.exec(qry) )
         {
@@ -232,7 +236,7 @@ void hC_IE::tbkntrl()
 
         }
 
-
+qDebug () <<mesaj;
 
         // iş emri detay ekle
 
