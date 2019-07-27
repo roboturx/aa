@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 class QDragEnterEvent;
 class QDropEvent;
 class DragWidget;
-class CustomButton;
+class IEcard;
 QT_END_NAMESPACE
 
 //! [0]
@@ -46,16 +46,24 @@ protected:
 
 
 
-class CustomButton : public QPushButton
+class IEcard : public QPushButton
 {
     Q_OBJECT
 
 public:
-    CustomButton(QWidget *parent = nullptr) ;
-    ~CustomButton() override;
+    IEcard(QWidget *parent = nullptr) ;
+    ~IEcard() override;
 
 public:
-void CBsetup();
+
+
+    QString objNo;
+    QSqlRecord record;
+    QString ieno;
+    QString kurumno;
+    QPixmap pixmap;
+
+    void setDefaults();
     QLabel* resim;
 
     int getObjNo() const;
@@ -83,12 +91,7 @@ private:
 
 
 
-    QString objNo;
 
-    QLabel* ieno;
-    QLabel* kurumno;
-    QSqlRecord record;
-    QPixmap pixmap;
     QImage SimileIcon;
     bool IsBkColorEnabled;
     QColor Bkclor;

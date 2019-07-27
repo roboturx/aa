@@ -51,7 +51,7 @@ private:
     void tbkntrl () ;
 
 signals:
-    void sgnMkn (QString);
+    void sgnMkn (QString,QByteArray);
 };
 
 #endif // hC_H

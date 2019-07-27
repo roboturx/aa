@@ -309,7 +309,7 @@ void CustomButton::paintEvent(QPaintEvent *paint)
 
     QRect xR(0,0,150,16);
     p.drawRect (xR);
-    p.fillRect (xR, QBrush (QColor(34,34,234,234)));
+    p.fillRect (xR, QBrush (QColor(34,34,34,234)));
 
         p.setPen(Qt::cyan);
         p.drawText(rect(), Qt::AlignTop, No);

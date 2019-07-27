@@ -11,7 +11,7 @@ hC_IE::hC_IE()  : hC_tBcreator ()
     *tb_name  = "ie_dbtb" ;
     *tb_ndex  = "ie_no";
 
-    tb_flds = new hC_ArrD (10, 4);
+    tb_flds = new hC_ArrD (11, 4);
     tb_flds->setValue ( 0, "ie_ID"    , "INTEGER", "İşEmriID", "0" ) ;
     tb_flds->setValue ( 1, "ie_no"    , "INTEGER", "İş Emri No" );
     tb_flds->setValue ( 2, "ie_mkn"   , "TEXT"   , "Kurum No" ) ;
@@ -21,7 +21,8 @@ hC_IE::hC_IE()  : hC_tBcreator ()
     tb_flds->setValue ( 6, "ie_ciktar", "TEXT"   , "Araç Çıkış Tarihi"   );
     tb_flds->setValue ( 7, "ie_y1"    , "TEXT"   , "Yetkili I"    );
     tb_flds->setValue ( 8, "ie_y2"    , "TEXT"   , "Yetkili II"   );
-    tb_flds->setValue ( 9, "ie_resim" , "BLOB"   , "Resim" , "0" );
+    tb_flds->setValue ( 9, "ie_mknresim" , "BLOB"   , "MknResim" , "0" );
+    tb_flds->setValue ( 10, "ie_resim" , "BLOB"   , "Resim" , "0" );
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ;
@@ -33,6 +34,7 @@ hC_IE::hC_IE()  : hC_tBcreator ()
     tb_wdgts->append ( dE_ciktar = new QDateTimeEdit(QDate::currentDate ()) ) ;
     tb_wdgts->append ( hClE_yetkili1 = new hC_Le     ) ;
     tb_wdgts->append ( hClE_yetkili2 = new hC_Le    ) ;
+    tb_wdgts->append ( new QLabel    ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
 

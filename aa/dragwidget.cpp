@@ -48,15 +48,16 @@ DragWidget::DragWidget(QWidget *parent)
         //// seçim penceresinde makina seçilir
         /// yoksa yeni oluşturulur
         connect(mkn, &hC_MKN::sgnMkn,
-                [this, dbrecord](QString krmNo) mutable
+                [this, dbrecord](QString krmNo, QByteArray byteArray) mutable
         {
             //  1   iş emri için kurum no
             (*dbrecord).setValue ("ie_mkn", krmNo);
+            (*dbrecord).setValue ("ie_mknresim", byteArray );
+            qDebug () <<"rec ieno   :"<<(*dbrecord).value ("ie_no");
+            qDebug () <<"rec mknno  :"<<(*dbrecord).value ("ie_mkn");
+
             isEmri->tb_model->submitAll ();
         });
-
-        qDebug () <<"rec ieno   :"<<(*dbrecord).value ("ie_no");
-        qDebug () <<"rec mknno  :"<<(*dbrecord).value ("ie_mkn");
         makinasec.exec ();
         ///// makina seçildi yola devam
         /// objeyi oluştur
@@ -81,17 +82,59 @@ DragWidget::DragWidget(QWidget *parent)
 
 void DragWidget::isEmriYeni(QSqlRecord record)
 {
-    // objeyi oluştur
-    CustomButton *boatIcon = new CustomButton (this);
+    /// objeyi oluştur
 
 
+    qDebug () << "iecarddan önce";
+    IEcard *boatIcon = new IEcard (this);
+    qDebug () << "iecarddan sonra";
+    ///objeyi olşturduk ie özelliklerini içine atalım
+    /// burada table dan direk okuma yerine
+    /// table recordu objenin içine yerleştirdik
+    /// obje oluştuğunda table ile bağlantısı kalmıyor
+    /// record zaten içinde
     boatIcon->setRecord(record);
-    boatIcon->CBsetup ();
-    boatIcon->setPixmap (QPixmap(":/images/boat.png"));
-    boatIcon->move(100, 10);
-    boatIcon->show();
-    boatIcon->setAttribute(Qt::WA_DeleteOnClose);
+
+    /// özellikleri içinden alıp objeyi oluşturalım
+    boatIcon->setDefaults ();
+
 }
+
+
+
+void IEcard::setDefaults()
+{
+
+    IEcard::setIeno    (getRecord ().value ("ie_no" ).toString ());
+    IEcard::setKurumno (getRecord ().value ("ie_mkn").toString ());
+
+    /// obj başlığında
+    /// 1- obj no = obj sayısını belirler
+    /// 2- ieno
+    /// 3- kurumno
+    IEcard::objNo+= " "+ getIeno () +" ";
+    IEcard::objNo+= getKurumno();
+
+    /// resimler QByteArray olarak record da kayıtlı
+    /// bunu Qpixmap çevirip getpixmap de pixmap
+    /// olarak saklıyoruz
+    /// record daki pixmapı kullanım kolaylığı için
+    /// set get yapıp getpixmap a atalım
+    IEcard::usedPixmap ();
+
+    IEcard::resim->setPixmap (getPixmap() );
+    IEcard::resim->setMinimumSize (80,50);
+    IEcard::resim->setMaximumSize (80,50);
+    IEcard::resim->resize (80,50);
+    IEcard::resim->setAttribute (Qt::WA_TransparentForMouseEvents);
+
+    IEcard::setAttribute(Qt::WA_DeleteOnClose);
+    IEcard::move(100, 10);
+    IEcard::show();
+
+}
+
+
 
 
 
@@ -125,25 +168,48 @@ void DragWidget::isEmriListele()
 }
 
 
+
 void DragWidget::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+
+        IEcard *child = static_cast< IEcard *>(childAt(event->pos()));
+        if (!child)
+            return;
+
+
         QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 
-        QPixmap pixmap;
+
+        QString objno;
+        QPixmap pixmap ;
+        QString ieno ;
+        QString kurumno ;
+        QSqlRecord record ;
         QPoint offset;
-        dataStream >> pixmap >> offset;
-        static int noo=1;
 
-        CustomButton *newIcon = new CustomButton(this);
-        newIcon->resim->setPixmap(pixmap);
+        dataStream >> objno
+                   >> pixmap
+                   >> ieno
+                   >> kurumno
+            //       >> record
+                   >> offset;
+
+        IEcard *newIcon = new IEcard(this);
         newIcon->move(event->pos() - offset);
-        newIcon->setObjNo (noo++);
+        newIcon->setPixmap (pixmap);
         newIcon->show();
-        int xx = newIcon->getObjNo ();
+        //// eşitle
+        ///
+/*        newIcon->setIeno (child->getIeno ());
+        newIcon->setObjNo (child->getObjNo ());
+        newIcon->setPixmap (pixmap);
+        newIcon->setRecord (child->getRecord ());
+        newIcon->setKurumno (child->getKurumno ());
+*/
 
-        newIcon->setToolTip (QString::number (xx) );
+        newIcon->setToolTip (QString::number (newIcon->getObjNo ()) );
         newIcon->setAttribute(Qt::WA_DeleteOnClose);
 
         if (event->source() == this)
@@ -161,6 +227,45 @@ void DragWidget::dropEvent(QDropEvent *event)
     {
         event->ignore();
     }
+
+
+    //    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+    //        QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
+    //        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+
+
+    //        QPixmap pixmap2;
+    //        QPoint offset2;
+    //        dataStream >> pixmap2 >> offset2;
+    //        static int noo=1;
+
+    //        IEcard *newIcon = new IEcard(this);
+
+    //        newIcon->resim->setPixmap(pixmap2);
+    //        newIcon->move(event->pos() - offset2);
+    //        newIcon->setObjNo (noo++);
+    //        newIcon->show();
+    //        int xx = newIcon->getObjNo ();
+
+    //        newIcon->setToolTip (QString::number (xx) );
+    //        newIcon->setAttribute(Qt::WA_DeleteOnClose);
+
+    //        if (event->source() == this)
+    //        {
+    //            qDebug ()<<"event accepted in drop";
+    //            event->setDropAction(Qt::MoveAction);
+    //            event->accept();
+
+    //        } else
+    //        {
+    //            qDebug ()<<"event NOT accepted in drop";
+    //            event->acceptProposedAction();
+    //        }
+    //    } else
+    //    {
+    //        event->ignore();
+    //    }
 }
 
 //! [1]
@@ -171,27 +276,61 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
     {
 
         ///burada child olarak alınıyor
-        CustomButton *child = static_cast< CustomButton *>(childAt(event->pos()));
+        IEcard *child = static_cast< IEcard *>(childAt(event->pos()));
         if (!child)
             return;
-        QPixmap pixmap = *child->resim->pixmap();
+
+        QString objno  { child->getObjNo () } ;
+        QPixmap pixmap { child->getPixmap() } ;
+        QString ieno   { child->getIeno  () } ;
+        QString kurumno{ child->getKurumno ()};
+        QSqlRecord record { child->getRecord ()};
 
         QByteArray itemData;
         QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-        dataStream << pixmap << QPoint(event->pos() - child->pos());
+
+        dataStream << objno
+                   << pixmap
+                   << ieno
+                   << kurumno
+  //                 << record
+                   << QPoint(event->pos() - child->pos());
 
         QMimeData *mimeData = new QMimeData;
         mimeData->setData("application/x-dnditemdata", itemData);
 
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
-        drag->setPixmap(pixmap);
+        drag->setPixmap(QPixmap(":/rsm/bobcat.png"));
         drag->setHotSpot(event->pos() - child->pos());
 
         QPixmap tempPixmap = pixmap;
+        QSize widgetSize = tempPixmap.rect().size();
+        const auto newHeight = widgetSize.width()*
+                tempPixmap.height()/tempPixmap.width();
+        if(newHeight<=widgetSize.height())
+        {
+            widgetSize.setHeight(newHeight);
+        }
+        else
+        {
+            widgetSize.setWidth(widgetSize.height()*
+                    tempPixmap.width()/tempPixmap.height());
+        }
+
+
         QPainter painter;
         painter.begin(&tempPixmap);
+        style()->drawItemPixmap(&painter,tempPixmap.rect(),
+                    Qt::AlignTop ,
+                tempPixmap.scaled(widgetSize,Qt::KeepAspectRatioByExpanding ));
+
         painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
+        //painter.drawPixmap (rect (),tempPixmap);
+
+
+
+
         painter.end();
 
         ////child->label->setPixmap(tempPixmap);
@@ -205,7 +344,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         } else
         {
             child->show();
-            child->resim->setPixmap(pixmap);
+            child->setPixmap(pixmap);
         }
     }
 
@@ -244,20 +383,20 @@ void DragWidget::dragMoveEvent(QDragMoveEvent *event)
 
 
 /////////////////////////////////////////////////////////
-/// \brief CustomButton::CustomButton
+/// \brief IEcard::IEcard
 /// \param parent
 ///
 ///
 ///
 ///
 
-CustomButton::CustomButton(QWidget *parent)
+IEcard::IEcard(QWidget *parent)
     : QPushButton(parent)
 {
     this->setMinimumSize (150,130);
     objNo= QString::number( this->getObjNo () );
-    ieno = new QLabel ;
-    kurumno = new QLabel ;
+    //ieno = new QLabel ;
+    //kurumno = new QLabel ;
     resim = new QLabel;
     SimileIcon = QPixmap(":/rsm/ex.ico").toImage ();
 
@@ -266,28 +405,28 @@ CustomButton::CustomButton(QWidget *parent)
     x1->setIconSize (QSize(40,25));
     x1->setAutoRaise (true);
     connect (x1, &QToolButton::clicked, this,
-             &CustomButton::smSLOT );
+             &IEcard::smSLOT );
 
     QToolButton* x2 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
     x2->setIconSize (QSize(40,25));
     x2->setAutoRaise (true);
     connect (x2, &QToolButton::clicked, this,
-             &CustomButton::smSLOT );
+             &IEcard::smSLOT );
 
     QToolButton* x3 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
     x3->setIconSize (QSize(40,25));
     x3->setAutoRaise (true);
     connect (x3, &QToolButton::clicked, this,
-             &CustomButton::smSLOT );
+             &IEcard::smSLOT );
 
     QToolButton* x4 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
     x4->setIconSize (QSize(40,25));
     x4->setAutoRaise (true);
     connect (x4, &QToolButton::clicked, this,
-             &CustomButton::smSLOT );
+             &IEcard::smSLOT );
 
 
     // x->move (50,50);
@@ -305,42 +444,7 @@ CustomButton::CustomButton(QWidget *parent)
 }
 
 
-void CustomButton::CBsetup()
-{
-    this->setMinimumSize (150,130);
-
-    setIeno (getRecord ().value ("ie_no").toString ());
-    setKurumno (getRecord ().value ("ie_mkn").toString ());
-    qDebug ()<<"CBsetup getieno :"<<getIeno ()<<endl;
-    qDebug ()<<"CBsetup getkno :"<<getKurumno ()<<endl;
-
-
-    ieno->setText (getIeno());
-    ieno->resize (60,20);
-    ieno->setAttribute (Qt::WA_TransparentForMouseEvents);
-    objNo+=  getIeno ();
-
-    kurumno->resize (100,20);
-    kurumno->setText ( getKurumno ());
-    kurumno->setAttribute (Qt::WA_TransparentForMouseEvents);
-    objNo+= getKurumno();
-    /// record daki pixmapı kullanım kolaylığı için
-    /// set get yapıp getpixmap a atalım
-    usedPixmap ();
-
-    resim->setPixmap (getPixmap() );
-
-    resim->setMinimumSize (80,50);
-    resim->setMaximumSize (80,50);
-    resim->resize (80,50);
-    resim->setAttribute (Qt::WA_TransparentForMouseEvents);
-
-}
-
-
-
-
-QPixmap CustomButton::usedPixmap()
+QPixmap IEcard::usedPixmap()
 {
     /////////////////////////////////////////////////////////////////////////////
     // obj resmini record dan alalım
@@ -348,56 +452,47 @@ QPixmap CustomButton::usedPixmap()
     QPixmap outPixmap ;
     QByteArray outByteArray = record.value
             ("ie_resim").toByteArray ();
-    qDebug () <<"---------------------------------------";
-    qDebug () <<outByteArray;
-     qDebug () <<"---------------------------------------";
-
-
-    qDebug () <<"oute byte array null "<< (outByteArray == "null");
 
     if (outByteArray == "null")
     {
-
-        qDebug () <<"oute byte array 1"<< (outByteArray == "null");
-        outPixmap=QPixmap(":/rsm/ex.png");
+        outPixmap=QPixmap(":/rsm/ex.ico");
     }
     else
     {
-        qDebug () <<"oute byte array 2 "<< (outByteArray == "null");
-                outPixmap.loadFromData ( outByteArray );
+        outPixmap.loadFromData ( outByteArray );
     }
     setPixmap(outPixmap);
     return outPixmap;
 }
 
-QPixmap CustomButton::getPixmap() const
+QPixmap IEcard::getPixmap() const
 {
     return pixmap;
 }
 
-void CustomButton::setPixmap(QPixmap value)
+void IEcard::setPixmap(QPixmap value)
 {
     pixmap = value;
 }
 
-CustomButton::~CustomButton()
+IEcard::~IEcard()
 {
 
 }
 
-QSqlRecord CustomButton::getRecord() const
+QSqlRecord IEcard::getRecord() const
 {
     return record;
 }
 
-void CustomButton::setRecord(QSqlRecord value)
+void IEcard::setRecord(QSqlRecord value)
 {
     record = value;
 }
 
 
 
-void CustomButton::mousePressEvent(QMouseEvent *event)
+void IEcard::mousePressEvent(QMouseEvent *event)
 {
     if (event->button () == Qt::RightButton )
     {
@@ -409,32 +504,32 @@ void CustomButton::mousePressEvent(QMouseEvent *event)
     }
 }
 
-QString CustomButton::getKurumno() const
+QString IEcard::getKurumno() const
 {
-    return kurumno->text ();
+    return kurumno;
 }
 
-void CustomButton::setKurumno(QString value)
+void IEcard::setKurumno(QString value)
 {
-    kurumno->setText ( value ) ;
+    kurumno = value  ;
 }
 
-QString CustomButton::getIeno() const
+QString IEcard::getIeno() const
 {
-    return ieno->text ();
+    return ieno;
 }
 
-void CustomButton::setIeno(QString value)
+void IEcard::setIeno(QString value)
 {
-    ieno->setText (value);
+    ieno = value ;
 }
 
-int CustomButton::getObjNo() const
+int IEcard::getObjNo() const
 {
     return objNo.toInt ();
 }
 
-void CustomButton::setObjNo(int value)
+void IEcard::setObjNo(int value)
 {
     objNo = QString::number (value);
 }
@@ -443,18 +538,15 @@ void CustomButton::setObjNo(int value)
 
 
 //Paint event of button
-void CustomButton::paintEvent(QPaintEvent *paint)
+void IEcard::paintEvent(QPaintEvent *paint)
 {
     QPushButton::paintEvent(paint);
     QPainter painter(this);
 
-
-
-
     painter.save();
     painter.setRenderHints(QPainter::Antialiasing |
                            QPainter::SmoothPixmapTransform,1);
-    painter.scale (1,1) ;
+    painter.scale (0.5,0.5) ;
     //  painter.drawText(QPoint(1,1),FirstName); //Simple Text.
     painter.setPen(Qt::blue);                       //changing the color of pen.
     painter.setFont(QFont("Arial", 12, QFont::Bold));     //Changing the font.
@@ -468,11 +560,11 @@ void CustomButton::paintEvent(QPaintEvent *paint)
 
     QPixmap outPixmap = getPixmap ();
 
-
+    qDebug ()<<" getpix paint : "<< getPixmap ().isNull ();
     // pixmap büyüklüğünü yazdıracağımız rect e ayarlayalım
 
     // const QPixmap outPixmap(outPixmap);
-
+/*
     QSize widgetSize = rect().size();
     const auto newHeight = widgetSize.width()*
             outPixmap.height()/outPixmap.width();
@@ -487,6 +579,7 @@ void CustomButton::paintEvent(QPaintEvent *paint)
     }
     style()->drawItemPixmap(&painter,rect(),
                             Qt::AlignCenter,outPixmap.scaled(widgetSize));
+    */
     painter.drawPixmap (rect (),outPixmap);
     /////////////////////////////////////////////////////////////////////////////
     /// \brief xR
@@ -514,7 +607,7 @@ void CustomButton::paintEvent(QPaintEvent *paint)
 //houseIcon->show();
 //houseIcon->setAttribute(Qt::WA_DeleteOnClose);
 
-void CustomButton::smSLOT()
+void IEcard::smSLOT()
 {
     //qDebug ()  <<"  cw mkn view sağ tuş 001";
     auto *menu = new QMenu(this);

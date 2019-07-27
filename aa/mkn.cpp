@@ -485,7 +485,7 @@ void hC_MKN::tbkntrl()
             [this]()
     {
         hC_Rs resim(win_Rsm, tb_view, tb_model, tbx_slctnMdl,
-                           "resim", "ekle");
+                           "mkn_resim", "ekle");
     });
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
@@ -493,7 +493,7 @@ void hC_MKN::tbkntrl()
               [this]()
     {
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
-                           "resim","değiştir" ) ;
+                           "mkn_resim","değiştir" ) ;
     });
 
 
@@ -570,7 +570,9 @@ void hC_MKN::tbkntrl()
         }
         // 011-02 mkn row değiştiğinde kırumno etrafa yayınlayalım
         emit sgnMkn (tb_view->table->model()->index( Index.row() ,
-                tb_model->fieldIndex ("mkn_kurumno") ).data().toString() );
+            tb_model->fieldIndex ("mkn_kurumno") ).data().toString(),
+                     tb_view->table->model()->index( Index.row() ,
+            tb_model->fieldIndex ("mkn_resim") ).data().toByteArray ());
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
