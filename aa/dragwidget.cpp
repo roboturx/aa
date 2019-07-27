@@ -259,7 +259,7 @@ CustomButton::CustomButton(QWidget *parent)
     ieno = new QLabel ;
     kurumno = new QLabel ;
     resim = new QLabel;
-    SimileIcon = QPixmap(":/images/boat.png").toImage ();
+    SimileIcon = QPixmap(":/rsm/ex.ico").toImage ();
 
     QToolButton* x1 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
@@ -324,19 +324,50 @@ void CustomButton::CBsetup()
     kurumno->setText ( getKurumno ());
     kurumno->setAttribute (Qt::WA_TransparentForMouseEvents);
     objNo+= getKurumno();
+    /// record daki pixmapı kullanım kolaylığı için
+    /// set get yapıp getpixmap a atalım
+    usedPixmap ();
 
-
-    //qDebug ()<<"aaaaaaaaaaaaaaaaaa 00000000000"<<endl<< record ;
-    QByteArray outByteArray = record.value ("ie_resim").toByteArray ();
-    QPixmap outPixmap = QPixmap();
-    outPixmap.loadFromData ( outByteArray );
-    resim->setPixmap (outPixmap);
+    resim->setPixmap (getPixmap() );
 
     resim->setMinimumSize (80,50);
     resim->setMaximumSize (80,50);
     resim->resize (80,50);
     resim->setAttribute (Qt::WA_TransparentForMouseEvents);
 
+}
+
+
+
+
+QPixmap CustomButton::usedPixmap()
+{
+    /////////////////////////////////////////////////////////////////////////////
+    // obj resmini record dan alalım
+
+    QPixmap outPixmap ;
+    QByteArray outByteArray = record.value
+            ("ie_resim").toByteArray ();
+    qDebug () <<"---------------------------------------";
+    qDebug () <<outByteArray;
+     qDebug () <<"---------------------------------------";
+
+
+    qDebug () <<"oute byte array null "<< (outByteArray == "null");
+
+    if (outByteArray == "null")
+    {
+
+        qDebug () <<"oute byte array 1"<< (outByteArray == "null");
+        outPixmap=QPixmap(":/rsm/ex.png");
+    }
+    else
+    {
+        qDebug () <<"oute byte array 2 "<< (outByteArray == "null");
+                outPixmap.loadFromData ( outByteArray );
+    }
+    setPixmap(outPixmap);
+    return outPixmap;
 }
 
 QPixmap CustomButton::getPixmap() const
@@ -415,24 +446,58 @@ void CustomButton::setObjNo(int value)
 void CustomButton::paintEvent(QPaintEvent *paint)
 {
     QPushButton::paintEvent(paint);
-    QPainter p(this);
-    p.save();
+    QPainter painter(this);
 
-    //  p.drawText(QPoint(1,1),FirstName); //Simple Text.
-    p.setPen(Qt::blue);                       //changing the color of pen.
-    p.setFont(QFont("Arial", 12, QFont::Bold));     //Changing the font.
 
+
+
+    painter.save();
+    painter.setRenderHints(QPainter::Antialiasing |
+                           QPainter::SmoothPixmapTransform,1);
+    painter.scale (1,1) ;
+    //  painter.drawText(QPoint(1,1),FirstName); //Simple Text.
+    painter.setPen(Qt::blue);                       //changing the color of pen.
+    painter.setFont(QFont("Arial", 12, QFont::Bold));     //Changing the font.
+
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////
+    // obj resmini record dan alalım
+
+    QPixmap outPixmap = getPixmap ();
+
+
+    // pixmap büyüklüğünü yazdıracağımız rect e ayarlayalım
+
+    // const QPixmap outPixmap(outPixmap);
+
+    QSize widgetSize = rect().size();
+    const auto newHeight = widgetSize.width()*
+            outPixmap.height()/outPixmap.width();
+    if(newHeight<=widgetSize.height())
+    {
+        widgetSize.setHeight(newHeight);
+    }
+    else
+    {
+        widgetSize.setWidth(widgetSize.height()*
+                            outPixmap.width()/outPixmap.height());
+    }
+    style()->drawItemPixmap(&painter,rect(),
+                            Qt::AlignCenter,outPixmap.scaled(widgetSize));
+    painter.drawPixmap (rect (),outPixmap);
+    /////////////////////////////////////////////////////////////////////////////
+    /// \brief xR
+    /// üst satıra ie no ve kurumnoyu yazalım
     QRect xR(0,0,150,16);
-    p.drawRect (xR);
-    p.fillRect (xR, QBrush (QColor(34,34,234,234)));
+    painter.drawRect (xR);
+    painter.fillRect (xR, QBrush (QColor(34,34,234,234)));
 
-    p.setPen(Qt::cyan);
-    p.drawText(rect(), Qt::AlignTop, objNo);
-
-    //  p.drawText(QPoint( 5, 15),No);
-    p.drawImage(QPoint(0, 0),SimileIcon);
-//    p.drawImage(QPoint(0, 0), getRecord ().value ("ie_resim").toP);
-    p.restore();
+    painter.setPen(Qt::cyan);
+    painter.drawText(rect(), Qt::AlignTop, objNo);
+    painter.restore();
 }
 
 

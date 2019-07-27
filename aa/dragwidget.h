@@ -70,6 +70,7 @@ void CBsetup();
     QString getKurumno() const;
     void setKurumno(QString value=nullptr);
 
+    QPixmap usedPixmap();
     QPixmap getPixmap() const;
     void setPixmap(QPixmap value);
 
