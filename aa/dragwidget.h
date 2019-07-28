@@ -57,11 +57,13 @@ public:
 public:
 
 
-    QString objNo;
-    QSqlRecord record;
+    int objNo;
+    QString paintObjNo;
     QString ieno;
     QString kurumno;
-    QPixmap pixmap;
+    QPixmap pixmapie;
+    QPixmap pixmapmkn;
+    QSqlRecord record;
 
     void setDefaults();
     QLabel* resim;
@@ -78,9 +80,16 @@ public:
     QString getKurumno() const;
     void setKurumno(QString value=nullptr);
 
-    QPixmap usedPixmap();
-    QPixmap getPixmap() const;
-    void setPixmap(QPixmap value);
+    QPixmap usedPixmapie();
+    QPixmap getPixmapie() const;
+    void setPixmapie(QPixmap value);
+
+    QPixmap usedPixmapmkn();
+    QPixmap getPixmapmkn() const;
+    void setPixmapmkn(const QPixmap &value);
+
+    QString getPaintObjNo() const;
+    void setPaintObjNo(const QString &value);
 
 protected:
     void paintEvent(QPaintEvent *) override;

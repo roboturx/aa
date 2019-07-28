@@ -21,8 +21,8 @@ hC_IE::hC_IE()  : hC_tBcreator ()
     tb_flds->setValue ( 6, "ie_ciktar", "TEXT"   , "Araç Çıkış Tarihi"   );
     tb_flds->setValue ( 7, "ie_y1"    , "TEXT"   , "Yetkili I"    );
     tb_flds->setValue ( 8, "ie_y2"    , "TEXT"   , "Yetkili II"   );
-    tb_flds->setValue ( 9, "ie_mknresim" , "BLOB"   , "MknResim" , "0" );
-    tb_flds->setValue ( 10, "ie_resim" , "BLOB"   , "Resim" , "0" );
+    tb_flds->setValue ( 9, "ie_resimmkn" , "BLOB"   , "ResimMkn" , "0" );
+    tb_flds->setValue ( 10, "ie_resimie" , "BLOB"   , "ResimIe" , "0" );
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ;
@@ -202,13 +202,13 @@ qDebug()<<"ie ekleeeeeeeeeeeeeeeeeeee max id"<< *max_id;
         qry = "INSERT INTO " +  *tb_name  + " ( "
               "ie_no   , "
               "ie_durum, "
-              "ie_tarih, "
-              "ie_resim )"
+              "ie_tarih "
+              " )"
               " values("
               " '"+QString::number( *max_id)+"' , "
               " '"+cbX_durum->itemText (0)  +"' , "
-              " '"+QDate::currentDate ().toString ("dd/MM/yy")+"' , "
-              +  "'null' )" ;
+              " '"+QDate::currentDate ().toString ("dd/MM/yy")+"' "
+              +  " )" ;
 
         if ( !q.exec(qry) )
         {
