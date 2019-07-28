@@ -106,7 +106,7 @@ private:
     QColor Bkclor;
 
 private slots:
-    void smSLOT();
+    void smSLOT(QPoint pos);
 
 };
 

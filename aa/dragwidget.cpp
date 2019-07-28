@@ -203,51 +203,44 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
         QMimeData *mimeData = new QMimeData;
         mimeData->setData("application/x-dnditemdata", itemData);
-qDebug ()<<"drag begins";
+        qDebug ()<<"drag begins";
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
         /// taşıma sırsındaki pixmap
-      //  drag->setPixmap(pixmapmkn);
+        //  drag->setPixmap(pixmapmkn);
 
-        void DrawImage()
-        {
-              QPixmap pix(700,700);
-              QPainter painter(&pix);
-              painter.drawText(QPoint(0 ,0),"text");
-              painter.save();
-              labelPixmap->setPixmap(pix);
-        }
         ///resmin küçüğününü yap
+       QPixmap tempPixmap = pixmapmkn;
+//        QPixmap pix(160,100);
+//        QPainter p(&pix);
+//        p.restore ();
+//        p.drawPixmap (QRect (0,0,160,100),tempPixmap);
+//        p.drawText(QPoint(10 ,10),"text");
+//        p.save();
 
+
+//        drag->setPixmap(pix);
         drag->setPixmap(pixmapmkn.scaled(100,100,Qt::KeepAspectRatio));
 
         drag->setHotSpot(event->pos()- child->pos());
-qDebug ()<<"drag temppixmap";
-        QPixmap tempPixmap = pixmapmkn;
-        qDebug ()<<pixmapmkn;
+        tempPixmap = pixmapmkn;
         QPainter painter;
         painter.begin(&tempPixmap);
 
-       // tempPixmap.scaled (QSize(510,510),Qt::IgnoreAspectRatio);
-       // painter.fillRect(tempPixmap.rect(), QColor(127, 127, 127, 127));
+        // tempPixmap.scaled (QSize(510,510),Qt::IgnoreAspectRatio);
+        // painter.fillRect(tempPixmap.rect(), QColor(127, 127, 127, 127));
         painter.drawPixmap (rect (),tempPixmap);
         painter.end();
-qDebug ()<<"drag temppixmap ends";
-      // child->setPixmapmkn(tempPixmap);
+        // child->setPixmapmkn(tempPixmap);
 
         if (drag->exec(Qt::CopyAction
                        | Qt::MoveAction,
                        Qt::CopyAction) == Qt::MoveAction)
-
         {
-            qDebug ()<<"drag temppixmap ends 1111";
             child->close();
         } else
         {
-            qDebug ()<<"drag temppixmap ends  22222";
             child->show();
-            qDebug ()<<"//?????????????????????????";
-            qDebug ()<<"child setpixmapé";
             child->setPixmapmkn(tempPixmap);
         }
     }
@@ -289,14 +282,10 @@ void DragWidget::dragMoveEvent(QDragMoveEvent *event)
 void DragWidget::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-//        ///burada child olarak alınıyor
-//        IEcard *child = static_cast< IEcard *>(childAt(event->pos()));
-//        if (!child)
-//            return;
-
-
-
-
+        //        ///burada child olarak alınıyor
+        //        IEcard *child = static_cast< IEcard *>(childAt(event->pos()));
+        //        if (!child)
+        //            return;
 
         int objno;
         QString paintObjNo;
@@ -306,19 +295,19 @@ void DragWidget::dropEvent(QDropEvent *event)
         QPixmap pixmapmkn ;
         QSqlRecord record ;
         QPoint offset;
-        qDebug ()<<"itemdata------------------";
+
         QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
-        qDebug ()<<"datastream------------------";
+
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-        qDebug ()<<"datastream >> ------------------";
+
         dataStream >> objno
-                   >> paintObjNo
-                   >> ieno
-                   >> kurumno
-                   >> pixmapie
-                   >> pixmapmkn
-                   >> offset;
-qDebug ()<<"new icon --------------------------------";
+                >> paintObjNo
+                >> ieno
+                >> kurumno
+                >> pixmapie
+                >> pixmapmkn
+                >> offset;
+        qDebug ()<<"new icon --------------------------------";
         IEcard *newIcon = new IEcard(this);
         newIcon->move(event->pos() - offset);
         newIcon->setObjNo ( objno);
@@ -328,15 +317,15 @@ qDebug ()<<"new icon --------------------------------";
         newIcon->setPixmapie(pixmapie) ;
         newIcon->setPixmapmkn(pixmapmkn) ;
         newIcon->resim->setPixmap (pixmapmkn);
-     //   newIcon->setrecord ;
+        //   newIcon->setrecord ;
         newIcon->show();
         //// eşitle
         ///
         //newIcon->setIeno (child->getIeno ());
-       // newIcon->setObjNo (child->getObjNo ());
-       // newIcon->setPixmap (pixmap);
-//        newIcon->setRecord (child->getRecord ());
-       // newIcon->setKurumno (child->getKurumno ());
+        // newIcon->setObjNo (child->getObjNo ());
+        // newIcon->setPixmap (pixmap);
+        //        newIcon->setRecord (child->getRecord ());
+        // newIcon->setKurumno (child->getKurumno ());
 
 
         newIcon->setToolTip (QString::number (newIcon->getObjNo ()) );
@@ -350,7 +339,7 @@ qDebug ()<<"new icon --------------------------------";
 
         } else
         {
-             qDebug ()<<"event accepted in drop proposed------------";
+            qDebug ()<<"event accepted in drop proposed------------";
             event->acceptProposedAction();
         }
     } else
@@ -450,12 +439,12 @@ void IEcard::paintEvent(QPaintEvent *paint)
     painter.drawPixmap (rect (),outPixmap);
     /////////////////////////////////////////////////////////////////////////////
     /// üst satıra ie no ve kurumnoyu yazalım
-    QRect xR(0,0,150,16);
+    QRect xR(0,0,150,24);
     painter.drawRect (xR);
-    painter.fillRect (xR, QBrush (QColor(34,34,234,234)));
+    painter.fillRect (xR, QBrush (QColor(60,60,60,234)));
 
     painter.setPen(Qt::cyan);
-    painter.drawText(rect(), Qt::AlignTop, getPaintObjNo());
+    painter.drawText(rect(), Qt::AlignTop, " "+getPaintObjNo());
     painter.restore();
 }
 
@@ -465,20 +454,20 @@ void IEcard::mousePressEvent(QMouseEvent *event)
 {
     if (event->button () == Qt::RightButton )
     {
-        smSLOT (/*event->pos ()*/);
+        smSLOT ( );
     }
     else
     {
         event->ignore ();
 
- }
+    }
     if (event->button () == Qt::LeftButton )
     {
         event->ignore ();
 
     }
 }
-void IEcard::smSLOT()
+void IEcard::smSLOT(QPoint pos)
 {
     //qDebug ()  <<"  cw mkn view sağ tuş 001";
     auto *menu = new QMenu(this);
@@ -560,7 +549,7 @@ void IEcard::smSLOT()
 
     menu->addSeparator();
 
-    QPoint pos(50,50);
+   // QPoint pos(50,50);
     menu->popup(pos);
 }
 
