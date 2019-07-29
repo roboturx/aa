@@ -66,7 +66,7 @@ WARNING  şifre için burayı kullan
     /// wait for a key for connect
 
 
-    sbox = new SortingBox;
+//    sbox = new SortingBox;
     dbox = new DragWidget;
     this->setCentralWidget (dbox );
 

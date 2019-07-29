@@ -3,6 +3,7 @@
 
 #include <globals.h>
 #include "ie.h"
+#include "dragwidget.h"
 
 namespace nSIedet {
 class hC_IEDET;
@@ -14,13 +15,15 @@ class hC_IEDET : public hC_tBcreator
 
 public:
 
-    explicit hC_IEDET();
+    explicit hC_IEDET(QWidget *parent=nullptr);
     ~hC_IEDET();
+
 
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
     //QString                  * tb_id    {};
 
+  //  DragWidget *dbox;
     hC_IE* ie  {} ;
     int* ienoo {} ;
 
@@ -32,12 +35,12 @@ public:
     QDateTimeEdit *dE_IEdetgirtarihi{} ;
     QDateTimeEdit *dE_IEdetciktarihi{} ;
 
-    void tbsetup () ;
+    void tbsetup (int isEmriNo=-1) ;
 
 private:
     void tbwdgt  () ;
     void tbui    () ;
-    void tbkntrl () ;
+    void tbkntrl (int ieno) ;
 
     void clk_IEdetkaydet();
     void clk_IEdetdurum();

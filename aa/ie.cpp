@@ -1,7 +1,7 @@
 ﻿#include "ie.h"
-#include "mkn.h"
 
-hC_IE::hC_IE()  : hC_tBcreator ()
+
+hC_IE::hC_IE(QWidget *parent)  : hC_tBcreator (parent)
 {
     //************************************************************
     //*****************  İ Ş   E M R İ  **************************
@@ -54,6 +54,12 @@ void hC_IE::tbsetup()
                            tb_model->fieldIndex ("ie_y1"));
     tb_mapper->addMapping (hClE_yetkili2->lineEdit ,
                            tb_model->fieldIndex ("ie_y2"));
+
+    dragger = new DragWidget;
+    mkn = new hC_MKN ;
+    mkn->tbsetup();
+    mkn->hide ();
+
     tbwdgt  ();
     tbui();
     tbkntrl ();
@@ -69,9 +75,13 @@ void hC_IE::tbui()
                        qApp->screens()[0]->size ().rwidth (),
             qApp->screens()[0]->size ().rheight ()/4);
 
+
+
+
     auto *win_Grid = new QGridLayout(this);
     win_Grid->addWidget ( tb_view ,  0, 0, 1, 1 );
     win_Grid->addWidget ( win_Wdgt  ,  0, 1, 1, 1 );
+    win_Grid->addWidget ( dragger  ,  1, 0, 1, 1 );
 
 }
 
@@ -96,8 +106,7 @@ void hC_IE::tbwdgt ()
         dia->setGeometry ( 50, 300, 900, 200 );
         dia->setWindowTitle ( "Araç Seçimi" );
 
-        auto *mkn = new hC_MKN ;
-        mkn->tbsetup ();
+        mkn->show ();
         // ----------------------------------------------------
         // tableviewinde gezinirken
         // mkn
@@ -234,6 +243,40 @@ qDebug()<<"ie ekleeeeeeeeeeeeeeeeeeee max id"<< *max_id;
             /// son eklenen kayda git
             maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
             ////////////////////////////////////////////////
+
+/// yeni boş kayıt eklendi
+            QModelIndex ndx = tb_view->table->currentIndex ();
+            QSqlRecord dbrecor;
+            dbrecor = tb_model->record (ndx.row ());
+
+            auto dbrecord = new QSqlRecord;
+            dbrecord = &dbrecor;
+            /////////////////////////// ie için makinayı secelim
+            QDialog makinasec;
+
+            QHBoxLayout xl ;
+            makinasec.setLayout (&xl);
+
+
+            xl.addWidget (mkn);
+            //// seçim penceresinde makina seçilir
+            /// yoksa yeni oluşturulur
+
+            mkn->show();
+            connect(mkn, &hC_MKN::sgnMkn,
+                    [this, dbrecord](QString krmNo, QByteArray byteArray) mutable
+            {
+                //  1   iş emri için kurum no
+                (*dbrecord).setValue ("ie_mkn", krmNo);
+                // signal dan gelen byte array
+                (*dbrecord).setValue ("ie_resimmkn", byteArray );
+                tb_model->submitAll ();
+            });
+            makinasec.exec ();
+            ///// makina seçildi yola devam
+            /// objeyi oluştur
+
+            isEmriYeni (*dbrecord);
 
 
         }
@@ -428,6 +471,25 @@ qDebug () <<mesaj;
     });
 
 
+}
+
+void hC_IE::isEmriYeni(QSqlRecord record)
+{
+
+    /// objeyi oluştur
+
+
+    IEcard *boatIcon = new IEcard (dragger);
+
+    ///objeyi olşturduk ie özelliklerini içine atalım
+    /// burada table dan direk okuma yerine
+    /// table recordu objenin içine yerleştirdik
+    /// obje oluştuğunda table ile bağlantısı kalmıyor
+    /// record zaten içinde
+    boatIcon->setRecord(record);
+
+    /// özellikleri içinden alıp objeyi oluşturalım
+    boatIcon->setDefaults ();
 }
 
 

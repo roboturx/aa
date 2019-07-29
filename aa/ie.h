@@ -2,8 +2,8 @@
 #define hC_IE_H
 
 #include <globals.h>
-//#include "hc_.h"
-
+#include "dragwidget.h"
+#include "mkn.h"
 
 namespace nSIe {
 class hC_IE;
@@ -14,12 +14,14 @@ class hC_IE : public hC_tBcreator
     Q_OBJECT
 
 public:
-    explicit hC_IE();
+    explicit hC_IE(QWidget *parent=nullptr);
     ~hC_IE();
 
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
+    DragWidget *dragger;
+    hC_MKN *mkn;
     hC_Le* hClE_mkn;
     QLineEdit* lE_ieno;
     QDateTimeEdit* dE_geltar;
@@ -35,6 +37,8 @@ private:
     void tbwdgt  () ;
     void tbui    () ;
     void tbkntrl () ;
+
+        void isEmriYeni(QSqlRecord record);
 
 public: signals:
     void sgnIsEmri (int);

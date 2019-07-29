@@ -1,7 +1,8 @@
 ﻿#include "iedet.h"
 
 
-hC_IEDET::hC_IEDET()  : hC_tBcreator ()
+hC_IEDET::hC_IEDET(QWidget *parent)
+           : hC_tBcreator (parent)
 {
     qDebug ()<<"Constructor İŞ EMRİ DETAY ***************************";
     //************************************************************
@@ -38,7 +39,7 @@ hC_IEDET::hC_IEDET()  : hC_tBcreator ()
 
 }
 
-void hC_IEDET:: tbsetup()
+void hC_IEDET:: tbsetup(int isEmriNo)
 {
 
     qDebug() << "   iedet setup ";
@@ -50,7 +51,8 @@ void hC_IEDET:: tbsetup()
 
     tbwdgt  ();
     tbui();
-    tbkntrl ();
+    tbkntrl (isEmriNo);
+
 }
 
 
@@ -140,19 +142,25 @@ void hC_IEDET:: tbwdgt ()
 
 }
 
-void hC_IEDET:: tbkntrl()
+void hC_IEDET:: tbkntrl(int ieno)
 {
 
 
     qDebug()<<"   iedet kntrl ";
 
     /////////////////////////////////////////////////////
+    // /// 12- set filter
+
+
+    if (ieno == -1)
+    {
     ie = new hC_IE;
     ie->tbsetup();
     ie->show();
-    // /// 12- set filter
-    ienoo = new int;
 
+
+
+    ienoo = new int;
     QModelIndex Index = ie->tb_view->table->currentIndex ();
     *ienoo = ie->tb_model->data (ie->tb_model->
                 index (Index.row (), ie->tb_model->
@@ -166,6 +174,14 @@ void hC_IEDET:: tbkntrl()
         tb_model->setFilter(
                     QString(" iedet_ie_no = %1").arg(*ienoo) );
     });
+
+
+}
+    else
+    {
+        tb_model->setFilter(
+                    QString(" iedet_ie_no = %1").arg(ieno) );
+    }
     //////////////////////////////////////////////
 
     // pB 001 yeni ekle

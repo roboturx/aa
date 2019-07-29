@@ -2,7 +2,8 @@
 #define DRAGWIDGET_H
 
 #include "globals.h"
-#include "ie.h"
+//#include "iedet.h"
+//#include "iedet.h"
 #include "mkn.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,14 +23,15 @@ public:
     static int count;
     static int col;
     static int row;
+  //  hC_IEDET* isEmriDetay;
+  //  hC_IE* isEmri;
+    hC_MKN* mkn;
 
 
 private:
 
-    void isEmriYeni(QSqlRecord record);
+//    void isEmriYeni(QSqlRecord record);
     void isEmriListele();
-    hC_IE* isEmri;
-    hC_MKN* mkn;
 
 
 protected:
@@ -46,16 +48,13 @@ protected:
 
 
 
-class IEcard : public QPushButton
+class IEcard : public DragWidget
 {
     Q_OBJECT
 
 public:
     IEcard(QWidget *parent = nullptr) ;
     ~IEcard() override;
-
-public:
-
 
     int objNo;
     QString paintObjNo;
@@ -94,19 +93,16 @@ public:
 protected:
     void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *event) override;
-
+  //  void mouseDoubleClickEvent( QMouseEvent * e ) override;
 private:
     //int objNo;
-
-
-
 
     QImage SimileIcon;
     bool IsBkColorEnabled;
     QColor Bkclor;
 
 private slots:
-    void smSLOT(QPoint pos);
+    void smSLOT();
 
 };
 

@@ -7,26 +7,56 @@ int DragWidget::row=65;
 
 
 
-DragWidget::DragWidget(QWidget *parent)
-    : QWidget(parent)
+DragWidget::DragWidget(QWidget *parent) : QWidget (parent)
+
 {
     //setMinimumSize(200, 200);
     //setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAcceptDrops(true);
 
+ /*   isEmriDetay = new hC_IEDET;
+    isEmriDetay->tbsetup ();
+    //isEmriDetay->hide ();
+    isEmriDetay->show ();
+
     isEmri = new hC_IE;
     isEmri->tbsetup ();
-    isEmri->hide ();
+    //isEmri->hide ();
+    isEmri->show ();
 
 
-    QPushButton* yeni = new QPushButton("Yeni",this);
+
+    ienoo = new int;
+    QModelIndex Index = isEmri->tb_view->table->currentIndex ();
+    *ienoo = isEmri->tb_model->data (isEmri->tb_model->
+                index (Index.row (), isEmri->tb_model->
+                       fieldIndex ("ie_no") )).toInt ();
+
+
+    connect(isEmri, &hC_IE::sgnIsEmri ,
+            [this ] (int ie_ieno)
+    {
+        *ienoo = ie_ieno;
+        tb_model->setFilter(
+                    QString(" iedet_ie_no = %1").arg(*ienoo) );
+    });
+
+
+*/
+
+  //  isEmriListele ();
+
+
+//    mkn = new hC_MKN();
+
+ /*   QPushButton* yeni = new QPushButton("Yeni",this);
     yeni->move (60,60);
     connect(yeni, &QPushButton::clicked,
             [this]()
     {
 
         /// kayıt oluşturalım
-        isEmri->tb_view->pB_ekle->clicked ();
+        tb_view->pB_ekle->clicked ();
 
         /// kayıdı rec e alalım
         /// rec ie_dbtb de ki kayıt
@@ -42,7 +72,6 @@ DragWidget::DragWidget(QWidget *parent)
 
         QHBoxLayout xl ;
         makinasec.setLayout (&xl);
-        mkn = new hC_MKN();
         mkn->tbsetup();
         xl.addWidget (mkn);
         //// seçim penceresinde makina seçilir
@@ -54,9 +83,6 @@ DragWidget::DragWidget(QWidget *parent)
             (*dbrecord).setValue ("ie_mkn", krmNo);
             // signal dan gelen byte array
             (*dbrecord).setValue ("ie_resimmkn", byteArray );
-            qDebug () <<"rec ieno   :"<<(*dbrecord).value ("ie_no");
-            qDebug () <<"rec mknno  :"<<(*dbrecord).value ("ie_mkn");
-
             isEmri->tb_model->submitAll ();
         });
         makinasec.exec ();
@@ -76,11 +102,11 @@ DragWidget::DragWidget(QWidget *parent)
         isEmriListele();
     });
 
-
+*/
 
 }
 
-
+/*
 void DragWidget::isEmriYeni(QSqlRecord record)
 {
     /// objeyi oluştur
@@ -99,7 +125,7 @@ void DragWidget::isEmriYeni(QSqlRecord record)
     boatIcon->setDefaults ();
 
 }
-
+*/
 
 
 void IEcard::setDefaults()
@@ -126,7 +152,6 @@ void IEcard::setDefaults()
     IEcard::usedPixmapmkn ();
 
     IEcard::resim->setPixmap (getPixmapmkn() );
-    // qDebug () <<"recorda eklenen pix  : "<<getPixmap();
     IEcard::resim->setMinimumSize (80,50);
     IEcard::resim->setMaximumSize (80,50);
     IEcard::resim->resize (80,50);
@@ -166,7 +191,7 @@ void DragWidget::isEmriListele()
         QSqlRecord record ;
         record = query.record();
 
-        isEmriYeni ( record);
+//        isEmriYeni ( record);
     }
 
 }
@@ -203,23 +228,22 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
         QMimeData *mimeData = new QMimeData;
         mimeData->setData("application/x-dnditemdata", itemData);
-        qDebug ()<<"drag begins";
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
         /// taşıma sırsındaki pixmap
         //  drag->setPixmap(pixmapmkn);
 
         ///resmin küçüğününü yap
-       QPixmap tempPixmap = pixmapmkn;
-//        QPixmap pix(160,100);
-//        QPainter p(&pix);
-//        p.restore ();
-//        p.drawPixmap (QRect (0,0,160,100),tempPixmap);
-//        p.drawText(QPoint(10 ,10),"text");
-//        p.save();
+        QPixmap tempPixmap = pixmapmkn;
+        //        QPixmap pix(160,100);
+        //        QPainter p(&pix);
+        //        p.restore ();
+        //        p.drawPixmap (QRect (0,0,160,100),tempPixmap);
+        //        p.drawText(QPoint(10 ,10),"text");
+        //        p.save();
 
 
-//        drag->setPixmap(pix);
+        //        drag->setPixmap(pix);
         drag->setPixmap(pixmapmkn.scaled(160,100,Qt::KeepAspectRatio));
 
         drag->setHotSpot(event->pos()- child->pos());
@@ -307,7 +331,6 @@ void DragWidget::dropEvent(QDropEvent *event)
                 >> pixmapie
                 >> pixmapmkn
                 >> offset;
-        qDebug ()<<"new icon --------------------------------";
         IEcard *newIcon = new IEcard(this);
         newIcon->move(event->pos() - offset);
         newIcon->setObjNo ( objno);
@@ -317,7 +340,7 @@ void DragWidget::dropEvent(QDropEvent *event)
         newIcon->setPixmapie(pixmapie) ;
         newIcon->setPixmapmkn(pixmapmkn) ;
         newIcon->resim->setPixmap (pixmapmkn);
-           //newIcon->setRecord ();
+        //newIcon->setRecord ();
         newIcon->show();
         //// eşitle
         ///
@@ -333,18 +356,15 @@ void DragWidget::dropEvent(QDropEvent *event)
 
         if (event->source() == this)
         {
-            qDebug ()<<"event accepted in drop source-----------";
             event->setDropAction(Qt::MoveAction);
             event->accept();
 
         } else
         {
-            qDebug ()<<"event accepted in drop proposed------------";
             event->acceptProposedAction();
         }
     } else
     {
-        qDebug ()<<"event NOT accepted in drop**********************";
         event->ignore();
     }
 
@@ -361,7 +381,7 @@ void DragWidget::dropEvent(QDropEvent *event)
 ///
 
 IEcard::IEcard(QWidget *parent)
-    : QPushButton(parent)
+    : DragWidget (parent)
 {
     static int objn=1;
     objn++;
@@ -375,46 +395,45 @@ IEcard::IEcard(QWidget *parent)
     this->setMinimumSize (150,130);
 
 
-    /*    QToolButton* x1 = new QToolButton() ;
+    QToolButton* x1 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
-    x1->setIconSize (QSize(40,25));
+    x1->setIconSize (QSize(25,25));
     x1->setAutoRaise (true);
     connect (x1, &QToolButton::clicked, this,
              &IEcard::smSLOT );
 
     QToolButton* x2 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
-    x2->setIconSize (QSize(40,25));
+    x2->setIconSize (QSize(25,25));
     x2->setAutoRaise (true);
     connect (x2, &QToolButton::clicked, this,
              &IEcard::smSLOT );
 
     QToolButton* x3 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
-    x3->setIconSize (QSize(40,25));
+    x3->setIconSize (QSize(25,25));
     x3->setAutoRaise (true);
     connect (x3, &QToolButton::clicked, this,
              &IEcard::smSLOT );
 
     QToolButton* x4 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
-    x4->setIconSize (QSize(40,25));
+    x4->setIconSize (QSize(25,25));
     x4->setAutoRaise (true);
     connect (x4, &QToolButton::clicked, this,
              &IEcard::smSLOT );
-*/
 
     // x->move (50,50);
     auto gr = new QGridLayout(this);
 
     //gr->addWidget (resim    ,0 ,3 ,5 , 3 );
-    /*
+
     gr->addWidget (x1       ,1 ,0 ,2 , 2 );
-    gr->addWidget (x2       ,2 ,0 ,2 , 2 );
+    //gr->addWidget (isEmriDetay ,2 ,0 ,2 , 2 );
     gr->addWidget (x3       ,3 ,0 ,2 , 2 );
     gr->addWidget (x4       ,4 ,0 ,2 , 2 );
 
-*/
+
 
 }
 
@@ -424,14 +443,13 @@ IEcard::IEcard(QWidget *parent)
 //Paint event of button
 void IEcard::paintEvent(QPaintEvent *paint)
 {
-    QPushButton::paintEvent(paint);
+    QWidget::paintEvent(paint);
     QPainter painter(this);
 
     painter.save();
     painter.setRenderHints(QPainter::Antialiasing |
                            QPainter::SmoothPixmapTransform,1);
     painter.scale (1,1) ;
-    //  painter.drawText(QPoint(1,1),FirstName); //Simple Text.
     painter.setPen(Qt::blue);                       //changing the color of pen.
     painter.setFont(QFont("Arial", 12, QFont::Bold));     //Changing the font.
     /////////////////////////////////////////////////////////////////////////////
@@ -442,11 +460,12 @@ void IEcard::paintEvent(QPaintEvent *paint)
     painter.drawPixmap ( rr ,outPixmap.scaled(120,75,Qt::KeepAspectRatio));
     /////////////////////////////////////////////////////////////////////////////
     /// üst satıra ie no yu yazalım
-    QRect UstRect(5,0,150,24);
+    QRect UstRect(0,0,150,24);
     painter.drawRect (UstRect);
     painter.fillRect (UstRect, QBrush (QColor(60,60,60,234)));
     painter.setPen(Qt::cyan);
-    painter.drawText(UstRect, Qt::AlignTop, "İş Emri #: "+getIeno ());
+    painter.drawText(UstRect, Qt::AlignHCenter | Qt::AlignCenter,
+                     " İş Emri #: "+getIeno ());
     /////////////////////////////////////////////////////////////////////////////
     /// üst satıra kurumnoyu yazalım
     QRect altRect(rect ().x(),rect ().y()+105,
@@ -455,7 +474,8 @@ void IEcard::paintEvent(QPaintEvent *paint)
     painter.fillRect (altRect, QBrush (QColor(60,60,60,224)));
 
     painter.setPen(Qt::green);
-    painter.drawText(altRect, Qt::AlignTop, " "+getKurumno ());
+    painter.drawText(altRect, Qt::AlignHCenter | Qt::AlignCenter,
+                     " "+getKurumno ());
     painter.restore();
 }
 
@@ -465,7 +485,7 @@ void IEcard::mousePressEvent(QMouseEvent *event)
 {
     if (event->button () == Qt::RightButton )
     {
-        smSLOT (event->globalPos ());
+        smSLOT ();
     }
     else
     {
@@ -478,7 +498,9 @@ void IEcard::mousePressEvent(QMouseEvent *event)
 
     }
 }
-void IEcard::smSLOT(QPoint pos)
+
+
+void IEcard::smSLOT()
 {
     //qDebug ()  <<"  cw mkn view sağ tuş 001";
     auto *menu = new QMenu(this);
@@ -560,8 +582,8 @@ void IEcard::smSLOT(QPoint pos)
 
     menu->addSeparator();
 
-   // QPoint pos(50,50);
-    menu->popup(pos);
+    // QPoint pos(50,50);
+    menu->popup(this->pos ());
 }
 
 
@@ -571,50 +593,34 @@ void IEcard::smSLOT(QPoint pos)
 
 QPixmap IEcard::usedPixmapmkn()
 {
-    /////////////////////////////////////////////////////////////////////////////
-    // obj resmini record dan alalım
-
     QPixmap outPixmapmkn ;
+    outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
     QByteArray outByteArray = record.value
             ("ie_resimmkn").toByteArray ();
-    qDebug () <<"outbytearray"<<outByteArray;
-    if (outByteArray == "null" || outByteArray == "")
-    {
-        outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
-        qDebug () << "usedpix  mkn     audi     recorda eklendi";
-    }
-    else
+
+    if (outByteArray != "null" || outByteArray == "")
     {
         outPixmapmkn.loadFromData ( outByteArray );
-        setPixmapmkn(outPixmapmkn);
-        qDebug () << "usedpix ie_mknresim recorda eklendi";
     }
-
+    setPixmapmkn(outPixmapmkn);
+       qDebug () <<"out pix mkn "<<outPixmapmkn;
     return outPixmapmkn;
 }
 
 
 QPixmap IEcard::usedPixmapie()
 {
-    /////////////////////////////////////////////////////////////////////////////
-    // obj resmini record dan alalım
-
     QPixmap outPixmapie ;
+    outPixmapie=QPixmap(":/rsm/logo/Audi.png");
     QByteArray outByteArray = record.value
             ("ie_resimie").toByteArray ();
-    qDebug () <<"outbytearray"<<outByteArray;
-    if (outByteArray == "null" || outByteArray == "")
-    {
-        outPixmapie=QPixmap(":/rsm/logo/Audi.png");
-        qDebug () << "usedpix   ie    audi     recorda eklendi";
-    }
-    else
+
+    if (outByteArray != "null" || outByteArray == "")
     {
         outPixmapie.loadFromData ( outByteArray );
-        setPixmapmkn(outPixmapie);
-        qDebug () << "usedpix ie_resimmkn recorda eklendi";
     }
-
+    setPixmapie(outPixmapie);
+    qDebug () <<"out pix ie "<<outPixmapie;
     return outPixmapie;
 }
 
