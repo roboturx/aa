@@ -162,7 +162,7 @@ void DragWidget::isEmriListele()
     while (query.next())
     {
         auto outPixmap = new QPixmap ;
-        outPixmap->loadFromData( query.value ("ie_resim").toByteArray () );
+        outPixmap->loadFromData( query.value ("ie_resimmkn").toByteArray () );
         QSqlRecord record ;
         record = query.record();
 
@@ -220,7 +220,7 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
 
 //        drag->setPixmap(pix);
-        drag->setPixmap(pixmapmkn.scaled(100,100,Qt::KeepAspectRatio));
+        drag->setPixmap(pixmapmkn.scaled(160,100,Qt::KeepAspectRatio));
 
         drag->setHotSpot(event->pos()- child->pos());
         tempPixmap = pixmapmkn;
@@ -317,7 +317,7 @@ void DragWidget::dropEvent(QDropEvent *event)
         newIcon->setPixmapie(pixmapie) ;
         newIcon->setPixmapmkn(pixmapmkn) ;
         newIcon->resim->setPixmap (pixmapmkn);
-        //   newIcon->setrecord ;
+           //newIcon->setRecord ();
         newIcon->show();
         //// eşitle
         ///
@@ -434,17 +434,28 @@ void IEcard::paintEvent(QPaintEvent *paint)
     //  painter.drawText(QPoint(1,1),FirstName); //Simple Text.
     painter.setPen(Qt::blue);                       //changing the color of pen.
     painter.setFont(QFont("Arial", 12, QFont::Bold));     //Changing the font.
-
-    QPixmap outPixmap = getPixmapmkn ();
-    painter.drawPixmap (rect (),outPixmap);
     /////////////////////////////////////////////////////////////////////////////
-    /// üst satıra ie no ve kurumnoyu yazalım
-    QRect xR(0,0,150,24);
-    painter.drawRect (xR);
-    painter.fillRect (xR, QBrush (QColor(60,60,60,234)));
+    /// resim mkn çizelim
+    QPixmap outPixmap = getPixmapmkn ();
 
+    QPoint rr(rect ().x()+25,rect ().y()+25 );
+    painter.drawPixmap ( rr ,outPixmap.scaled(120,75,Qt::KeepAspectRatio));
+    /////////////////////////////////////////////////////////////////////////////
+    /// üst satıra ie no yu yazalım
+    QRect UstRect(5,0,150,24);
+    painter.drawRect (UstRect);
+    painter.fillRect (UstRect, QBrush (QColor(60,60,60,234)));
     painter.setPen(Qt::cyan);
-    painter.drawText(rect(), Qt::AlignTop, " "+getPaintObjNo());
+    painter.drawText(UstRect, Qt::AlignTop, "İş Emri #: "+getIeno ());
+    /////////////////////////////////////////////////////////////////////////////
+    /// üst satıra kurumnoyu yazalım
+    QRect altRect(rect ().x(),rect ().y()+105,
+                  150,24);
+    painter.drawRect (altRect);
+    painter.fillRect (altRect, QBrush (QColor(60,60,60,224)));
+
+    painter.setPen(Qt::green);
+    painter.drawText(altRect, Qt::AlignTop, " "+getKurumno ());
     painter.restore();
 }
 
@@ -454,7 +465,7 @@ void IEcard::mousePressEvent(QMouseEvent *event)
 {
     if (event->button () == Qt::RightButton )
     {
-        smSLOT ( );
+        smSLOT (event->globalPos ());
     }
     else
     {
