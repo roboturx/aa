@@ -5,132 +5,13 @@ int DragWidget::count=1;
 int DragWidget::col=20;
 int DragWidget::row=65;
 
-
-
 DragWidget::DragWidget(QWidget *parent) : QWidget (parent)
-
 {
-    //setMinimumSize(200, 200);
-    //setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAcceptDrops(true);
-
- /*   isEmriDetay = new hC_IEDET;
-    isEmriDetay->tbsetup ();
-    //isEmriDetay->hide ();
-    isEmriDetay->show ();
-
-    isEmri = new hC_IE;
-    isEmri->tbsetup ();
-    //isEmri->hide ();
-    isEmri->show ();
-
-
-
-    ienoo = new int;
-    QModelIndex Index = isEmri->tb_view->table->currentIndex ();
-    *ienoo = isEmri->tb_model->data (isEmri->tb_model->
-                index (Index.row (), isEmri->tb_model->
-                       fieldIndex ("ie_no") )).toInt ();
-
-
-    connect(isEmri, &hC_IE::sgnIsEmri ,
-            [this ] (int ie_ieno)
-    {
-        *ienoo = ie_ieno;
-        tb_model->setFilter(
-                    QString(" iedet_ie_no = %1").arg(*ienoo) );
-    });
-
-
-*/
-
-  //  isEmriListele ();
-
-
-//    mkn = new hC_MKN();
-
- /*   QPushButton* yeni = new QPushButton("Yeni",this);
-    yeni->move (60,60);
-    connect(yeni, &QPushButton::clicked,
-            [this]()
-    {
-
-        /// kayıt oluşturalım
-        tb_view->pB_ekle->clicked ();
-
-        /// kayıdı rec e alalım
-        /// rec ie_dbtb de ki kayıt
-        /// rec objenin özellikleri belirleyecek
-        QModelIndex ndx = isEmri->tb_view->table->currentIndex ();
-        QSqlRecord dbrecor;
-        dbrecor = isEmri->tb_model->record (ndx.row ());
-
-        auto dbrecord = new QSqlRecord;
-        dbrecord = &dbrecor;
-        /////////////////////////// ie için makinayı secelim
-        QDialog makinasec;
-
-        QHBoxLayout xl ;
-        makinasec.setLayout (&xl);
-        mkn->tbsetup();
-        xl.addWidget (mkn);
-        //// seçim penceresinde makina seçilir
-        /// yoksa yeni oluşturulur
-        connect(mkn, &hC_MKN::sgnMkn,
-                [this, dbrecord](QString krmNo, QByteArray byteArray) mutable
-        {
-            //  1   iş emri için kurum no
-            (*dbrecord).setValue ("ie_mkn", krmNo);
-            // signal dan gelen byte array
-            (*dbrecord).setValue ("ie_resimmkn", byteArray );
-            isEmri->tb_model->submitAll ();
-        });
-        makinasec.exec ();
-        ///// makina seçildi yola devam
-        /// objeyi oluştur
-
-        isEmriYeni (*dbrecord);
-
-
-    });
-
-    QPushButton* lst = new QPushButton("Listele",this);
-    lst->move (60,120);
-    connect(lst, &QPushButton::clicked,
-            [this]()
-    {
-        isEmriListele();
-    });
-
-*/
-
 }
-
-/*
-void DragWidget::isEmriYeni(QSqlRecord record)
-{
-    /// objeyi oluştur
-
-
-    IEcard *boatIcon = new IEcard (this);
-
-    ///objeyi olşturduk ie özelliklerini içine atalım
-    /// burada table dan direk okuma yerine
-    /// table recordu objenin içine yerleştirdik
-    /// obje oluştuğunda table ile bağlantısı kalmıyor
-    /// record zaten içinde
-    boatIcon->setRecord(record);
-
-    /// özellikleri içinden alıp objeyi oluşturalım
-    boatIcon->setDefaults ();
-
-}
-*/
-
 
 void IEcard::setDefaults()
 {
-
     IEcard::setIeno    (getRecord ().value ("ie_no" ).toString ());
     IEcard::setKurumno (getRecord ().value ("ie_mkn").toString ());
 
@@ -166,35 +47,6 @@ void IEcard::setDefaults()
 
 
 
-
-void DragWidget::isEmriListele()
-{
-
-    ///// toolbutton için
-    ////////////////// iş emirlerini ekrana listele
-    DragWidget::count = 0 ;
-    DragWidget::row = 65 ;
-    DragWidget::col = 20 ;
-    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
-    if (query.isActive ())
-    {
-        qDebug()<< "active " ;
-    }
-    else {
-        qDebug()<< "not active "<< query.lastError ().text ();
-    }
-
-    while (query.next())
-    {
-        auto outPixmap = new QPixmap ;
-        outPixmap->loadFromData( query.value ("ie_resimmkn").toByteArray () );
-        QSqlRecord record ;
-        record = query.record();
-
-//        isEmriYeni ( record);
-    }
-
-}
 
 
 void DragWidget::mousePressEvent(QMouseEvent *event)

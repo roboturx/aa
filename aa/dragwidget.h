@@ -31,7 +31,7 @@ public:
 private:
 
 //    void isEmriYeni(QSqlRecord record);
-    void isEmriListele();
+  //  void isEmriListele();
 
 
 protected:

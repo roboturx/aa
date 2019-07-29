@@ -39,6 +39,7 @@ private:
     void tbkntrl () ;
 
         void isEmriYeni(QSqlRecord record);
+        void isEmriListele();
 
 public: signals:
     void sgnIsEmri (int);

@@ -55,7 +55,9 @@ void hC_IE::tbsetup()
     tb_mapper->addMapping (hClE_yetkili2->lineEdit ,
                            tb_model->fieldIndex ("ie_y2"));
 
-    dragger = new DragWidget;
+    dragger = new DragWidget(this);
+
+    dragger->setMinimumSize (this->width (),400);
     mkn = new hC_MKN ;
     mkn->tbsetup();
     mkn->hide ();
@@ -181,7 +183,7 @@ void hC_IE::tbwdgt ()
     wdgtGrid->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
     wdgtGrid->addWidget (win_Rsm      , 3, 14, 2, 6);
 
-
+    isEmriListele ();
 }
 
 void hC_IE::tbkntrl()
@@ -490,6 +492,37 @@ void hC_IE::isEmriYeni(QSqlRecord record)
 
     /// özellikleri içinden alıp objeyi oluşturalım
     boatIcon->setDefaults ();
+}
+
+void hC_IE::isEmriListele()
+{
+
+    ///// toolbutton için
+    ////////////////// iş emirlerini ekrana listele
+    DragWidget::count = 0 ;
+    DragWidget::row = 65 ;
+    DragWidget::col = 20 ;
+    QSqlQuery query("SELECT * FROM ie_dbtb "
+                    "WHERE ie_durum != 'Tamamlandı'");
+    if (query.isActive ())
+    {
+        qDebug()<< "active " ;
+    }
+    else {
+        qDebug()<< "not active "<< query.lastError ().text ();
+    }
+qDebug()<< " before while "<<query.size ();
+qDebug()<<query.next();
+    while (query.next())
+    {
+        auto outPixmap = new QPixmap ;
+        outPixmap->loadFromData( query.value ("ie_resimmkn").toByteArray () );
+        QSqlRecord record ;
+        record = query.record();
+qDebug()<< "while " << record.value ("ie_no");
+        isEmriYeni ( record);
+    }
+
 }
 
 
