@@ -510,6 +510,7 @@ void hC_IE::isEmriListele()
     }
     else {
         qDebug()<< "not active "<< query.lastError ().text ();
+        return;
     }
 qDebug()<< " before while "<<query.size ();
 qDebug()<<query.next();
@@ -519,7 +520,37 @@ qDebug()<<query.next();
         outPixmap->loadFromData( query.value ("ie_resimmkn").toByteArray () );
         QSqlRecord record ;
         record = query.record();
-qDebug()<< "while " << record.value ("ie_no");
+qDebug()<< "while no " << record.value ("ie_no");
+qDebug()<< "mkn no   " << record.value ("ie_mkn");
+qDebug()<< "drm      " << record.value ("ie_durum");
+qDebug()<< "trh      " << record.value ("ie_tarih");
+qDebug()<< "rsmie    " << record.value ("ie_resimie");
+//////////////////////////////////////////////////
+/// makina resmini al
+///
+QSqlQuery q;
+QString qry, mesaj("");
+
+qry = "SELECT FROM mkn_dbtb "
+      "WHERE mkn_kurumno =  "+
+        record.value("ie_mkn").toString () ;
+
+if ( !q.exec(qry) )
+{
+    mesaj = mesaj + "Mkn krmno bulunamadı"+
+            "<br>------------------------------------<br>"+
+            q.lastError().text ()+
+            "<br>------------------------------------<br>";
+}
+else
+{
+    mesaj = mesaj + "mkn rsm bulundu.";
+    q.next ();
+    record.value ("ie_resimmkn")=q.value ("mkn_resim");
+}
+//////////////////////////////////////////////////
+qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn");
+
         isEmriYeni ( record);
     }
 
