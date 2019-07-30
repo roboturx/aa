@@ -41,7 +41,7 @@ public:
     QLineEdit *led_mknMotor{};
     QLineEdit *led_mknMtip{};
     QDateTimeEdit *clndr_mknSurucutar{} ;
-    QTextEdit *ted_mknAcklm{};
+    QLineEdit *ted_mknAcklm{};
 
     void tbsetup () ;
 

@@ -49,7 +49,7 @@ hC_MKN::hC_MKN  (hC_tBcreator *parent) : hC_tBcreator (parent)
     tb_wdgts->append ( cbx_mknSurucu  = new QComboBox   ) ;
     tb_wdgts->append ( clndr_mknSurucutar = new QDateTimeEdit(QDate::currentDate())  ) ;
     tb_wdgts->append ( cbx_mknBirim  = new QComboBox    ) ;
-    tb_wdgts->append ( ted_mknAcklm = new QTextEdit   ) ;
+    tb_wdgts->append ( ted_mknAcklm = new QLineEdit   ) ;
     tb_wdgts->append ( cbx_mknByer  = new QComboBox    ) ;
     tb_wdgts->append ( nullptr    ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;

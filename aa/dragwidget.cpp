@@ -1,6 +1,7 @@
 #include "dragwidget.h"
 
 
+
 int DragWidget::count=1;
 int DragWidget::col=20;
 int DragWidget::row=65;
@@ -447,15 +448,18 @@ QPixmap IEcard::usedPixmapmkn()
 {
     QPixmap outPixmapmkn ;
     outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
+
     QByteArray outByteArray = record.value
             ("ie_resimmkn").toByteArray ();
 
+    qDebug () <<"out pix mkn "<<outByteArray ;
     if (outByteArray != "null" || outByteArray == "")
     {
         outPixmapmkn.loadFromData ( outByteArray );
     }
+
     setPixmapmkn(outPixmapmkn);
-       qDebug () <<"out pix mkn "<<outPixmapmkn;
+    qDebug () <<"out pix mkn "<<outPixmapmkn;
     return outPixmapmkn;
 }
 

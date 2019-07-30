@@ -58,9 +58,6 @@ void hC_IE::tbsetup()
     dragger = new DragWidget(this);
 
     dragger->setMinimumSize (this->width (),400);
-    mkn = new hC_MKN ;
-    mkn->tbsetup();
-    mkn->hide ();
 
     tbwdgt  ();
     tbui();
@@ -195,44 +192,124 @@ void hC_IE::tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-qDebug()<<"ie ekleeeeeeeeeeeeeeeeeeee";
-        QSqlQuery q;
-        QString qry, mesaj("");
 
         ////////////////////////////////////////////////
+        /// yeni kayıt için kurum noyu mkn den alalım
+
+        QDialog makinasec;
+        QHBoxLayout xl ;
+        makinasec.setLayout (&xl);
+
+        mkn = new hC_MKN ;
+        mkn->tbsetup();
+        xl.addWidget (mkn);
+
+        //*** seçim penceresinde makina seçilir
+        // yoksa yeni oluşturulur
+        auto mknkrmno = new QString;
+        auto mknrsm = new QByteArray ;
+
+        connect(mkn, &hC_MKN::sgnMkn,
+                [mknkrmno, mknrsm  ](QString krmNo, QByteArray byteArray) mutable
+        {
+            //***  1   iş emri için kurum no
+            *mknkrmno = krmNo ;
+            //*** signal dan gelen byte array
+            *mknrsm  = byteArray ;
+        });
+        makinasec.exec ();
+        //*** makina seçildi yola devam
+
+        ////////////////////////////////////////////////
+        /// yeni iş emri numaasını bul
+        /// iş emri nosu _dbtb de
+        /// no alanındaki en büyük sayı
         hC_Nr maxID;
         int* max_id = new int{};
         *max_id     = maxID.hC_NrMax ( tb_name,
                                        tb_flds->value (0,0));
         ////////////////////////////////////////////////
-qDebug()<<"ie ekleeeeeeeeeeeeeeeeeeee max id"<< *max_id;
-        /// yeni iş emri numaasını bul
-        /// iş emri nosu _dbtb de
-        /// no alanındaki en büyük sayı
-        // yeni kaydı ekle
-        qry = "INSERT INTO " +  *tb_name  + " ( "
-              "ie_no   , "
-              "ie_durum, "
-              "ie_tarih "
-              " )"
-              " values("
-              " '"+QString::number( *max_id)+"' , "
-              " '"+cbX_durum->itemText (0)  +"' , "
-              " '"+QDate::currentDate ().toString ("dd/MM/yy")+"' "
-              +  " )" ;
+        /// yeni kaydı ekle
+  /*
+        QSqlRecord rec = tb_model->record();
+        tb_model->record().setValue (QString::number( *max_id),"ie_no");
+        tb_model->record().setValue (*mknkrmno,"ie_mkn");
+        tb_model->record().setValue (cbX_durum->itemText (0),"ie_durum");
+        tb_model->record().setValue (QDate::currentDate ().toString
+                                     ("dd/MM/yy"),"ie_tarih");
+
+        QString bA = mknrsm->toBase64();
+        tb_model->record().setValue ( bA ,"ie_resimmkn");
+
+        if ( ! tb_model->insertRecord(-1,rec))
+        {
+            qDebug() << "100111 -  HATA - Çalışan kayıt eklenemedi ";
+        }
+        else
+            qDebug() << "100111 - Çalışan Kaydı eklendi ";
+        tb_model->submitAll ();
+    */
+
+
+
+        QSqlQuery q;
+        QString qry, mesaj("");
+    /*    qry = "INSERT INTO " +  *tb_name  +
+                " ( "
+                "ie_no   , "
+                "ie_mkn   , "
+                "ie_durum, "
+                "ie_tarih, "
+                "ie_resimmkn "
+                " )"
+                " values("
+                " '"+QString::number( *max_id)+"' , "
+                " '"+ * mknkrmno  +"' , "
+                " '"+cbX_durum->itemText (0)  +"' , "
+                " '"+QDate::currentDate ().toString ("dd/MM/yy")+"' ,"
+                " '"+ mknrsm->toBase64 () +"' "
+                +  " )" ; */
+        qry = QString("INSERT INTO %1 ( "
+                "ie_no    , "
+                "ie_mkn   , "
+                "ie_durum , "
+                "ie_tarih , "
+                "ie_resimmkn  )"
+                " values ( '%2', '%3', '%4', '%5', '%6' ) " )
+                .arg ( *tb_name)
+                .arg ( QString::number( *max_id))
+                .arg ( * mknkrmno )
+                .arg ( cbX_durum->itemText (0))
+                .arg ( QDate::currentDate ().toString ("dd/MM/yy"))
+                .arg ( QString(mknrsm->toBase64 ())  )  ;
+
 
         if ( !q.exec(qry) )
         {
-            mesaj = mesaj + "<br>İLK İş Emri Eklenemedi"+
-                    "<br>------------------------------------<br>"+
+            mesaj = mesaj + " İş Emri Eklenemedi"+
+                    "-----"+
                     q.lastError().text ()+
-                    "<br>------------------------------------<br>";
+                    "-----";
         }
         else
         {
-            mesaj = mesaj + "<br>İLK İş Emri eklendi.";
+            mesaj = mesaj + " İş Emri eklendi.";
 
-            hClE_mkn->lineEdit->setText ("");
+            qDebug () <<"eklenen ieno     " << tb_model->record().
+                                value ("ie_no").toString ();
+
+
+            qDebug () <<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+            qDebug () <<"eklenen mkn rsm to byte array " << tb_model->record().
+                                value ("ie_resimmkn").toByteArray ();
+
+            qDebug () <<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+            qDebug () <<"eklenen mkn rsm to string     " << tb_model->record().
+                                value ("ie_resimmkn").toString ();
+            qDebug () <<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+
+
+            hClE_mkn->lineEdit->setText ( *mknkrmno );
             hC_Gz (dE_geltar , "nulldate");
             hC_Gz (dE_girtar , "nulldate");
             hC_Gz (dE_ciktar , "nulldate");
@@ -246,44 +323,20 @@ qDebug()<<"ie ekleeeeeeeeeeeeeeeeeeee max id"<< *max_id;
             maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
             ////////////////////////////////////////////////
 
-/// yeni boş kayıt eklendi
+            /// yeni boş kayıt eklendi
+            /// objeyi oluştur
             QModelIndex ndx = tb_view->table->currentIndex ();
             QSqlRecord dbrecor;
             dbrecor = tb_model->record (ndx.row ());
 
-            auto dbrecord = new QSqlRecord;
-            dbrecord = &dbrecor;
-            /////////////////////////// ie için makinayı secelim
-            QDialog makinasec;
+            auto dbrec = new QSqlRecord;
+            dbrec = &dbrecor;
 
-            QHBoxLayout xl ;
-            makinasec.setLayout (&xl);
-
-
-            xl.addWidget (mkn);
-            //// seçim penceresinde makina seçilir
-            /// yoksa yeni oluşturulur
-
-            mkn->show();
-            connect(mkn, &hC_MKN::sgnMkn,
-                    [this, dbrecord](QString krmNo, QByteArray byteArray) mutable
-            {
-                //  1   iş emri için kurum no
-                (*dbrecord).setValue ("ie_mkn", krmNo);
-                // signal dan gelen byte array
-                (*dbrecord).setValue ("ie_resimmkn", byteArray );
-                tb_model->submitAll ();
-            });
-            makinasec.exec ();
-            ///// makina seçildi yola devam
-            /// objeyi oluştur
-
-            isEmriYeni (*dbrecord);
-
+            isEmriYeni ( * dbrec );
 
         }
 
-qDebug () <<mesaj;
+        qDebug () <<mesaj;
 
         // iş emri detay ekle
 
@@ -351,9 +404,9 @@ qDebug () <<mesaj;
             QString ieieno = tb_model->data
                     (tb_model->index
                      (indx.row (),
-                      tb_model->fieldIndex ("no"))).toString ();
+                      tb_model->fieldIndex ("ie_no"))).toString ();
 
-            s_qry = QString("DELETE FROM iedet__dbtb "
+            s_qry = QString("DELETE FROM iedet_dbtb "
                             "WHERE iedet_id = %1").arg( ieieno );
 
             q_qry.exec (s_qry);
@@ -374,11 +427,11 @@ qDebug () <<mesaj;
             QString idie = tb_model->data
                     (tb_model->index
                      (indx.row (),
-                      tb_model->fieldIndex ("id_IE"))).toString ();
+                      tb_model->fieldIndex ("ie_id"))).toString ();
 
 
-            s_qry = QString("DELETE FROM _dbtb "
-                            "WHERE id_IE = %1").arg( idie );
+            s_qry = QString("DELETE FROM ie_dbtb "
+                            "WHERE ie_id = %1").arg( idie );
 
             q_qry.exec (s_qry);
             if (q_qry.isActive ())
@@ -479,9 +532,11 @@ void hC_IE::isEmriYeni(QSqlRecord record)
 {
 
     /// objeyi oluştur
-
-
-    IEcard *boatIcon = new IEcard (dragger);
+qDebug()<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+qDebug()<<"-----işemriyeni----------------------------------------";
+qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn");
+qDebug()<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+IEcard *boatIcon = new IEcard (dragger);
 
     ///objeyi olşturduk ie özelliklerini içine atalım
     /// burada table dan direk okuma yerine
@@ -512,44 +567,61 @@ void hC_IE::isEmriListele()
         qDebug()<< "not active "<< query.lastError ().text ();
         return;
     }
-qDebug()<< " before while "<<query.size ();
-qDebug()<<query.next();
+    qDebug()<< " before while "<<query.size ();
+    qDebug()<<query.next();
     while (query.next())
     {
         auto outPixmap = new QPixmap ;
         outPixmap->loadFromData( query.value ("ie_resimmkn").toByteArray () );
         QSqlRecord record ;
         record = query.record();
-qDebug()<< "while no " << record.value ("ie_no");
-qDebug()<< "mkn no   " << record.value ("ie_mkn");
-qDebug()<< "drm      " << record.value ("ie_durum");
-qDebug()<< "trh      " << record.value ("ie_tarih");
-qDebug()<< "rsmie    " << record.value ("ie_resimie");
-//////////////////////////////////////////////////
-/// makina resmini al
-///
-QSqlQuery q;
-QString qry, mesaj("");
+        qDebug()<< "db -----------------------------------------" ;
+        qDebug()<< "while no " << query.record().value ("ie_no");
+        qDebug()<< "mkn no   " << query.record().value ("ie_mkn");
+        qDebug()<< "drm      " << query.record().value ("ie_durum");
+        qDebug()<< "trh      " << query.record().value ("ie_tarih");
+        qDebug()<< "rsmie    " << query.record().value ("ie_resimie");
+        qDebug()<< "rsmmkn   " << query.record().value ("ie_resimmkn");
 
-qry = "SELECT FROM mkn_dbtb "
-      "WHERE mkn_kurumno =  "+
-        record.value("ie_mkn").toString () ;
 
-if ( !q.exec(qry) )
-{
-    mesaj = mesaj + "Mkn krmno bulunamadı"+
-            "<br>------------------------------------<br>"+
-            q.lastError().text ()+
-            "<br>------------------------------------<br>";
-}
-else
-{
-    mesaj = mesaj + "mkn rsm bulundu.";
-    q.next ();
-    record.value ("ie_resimmkn")=q.value ("mkn_resim");
-}
-//////////////////////////////////////////////////
-qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn");
+
+
+
+        qDebug()<< "rec -----------------------------------------" ;
+        qDebug()<< "while no " << record.value ("ie_no");
+        qDebug()<< "mkn no   " << record.value ("ie_mkn");
+        qDebug()<< "drm      " << record.value ("ie_durum");
+        qDebug()<< "trh      " << record.value ("ie_tarih");
+        qDebug()<< "rsmie    " << record.value ("ie_resimie");
+        qDebug()<< "rsmie    " ;
+        //////////////////////////////////////////////////
+        /// makina resmini al
+        ///
+        QSqlQuery q;
+        QString qry, mesaj("");
+
+        qry = "SELECT * FROM mkn_dbtb "
+              "WHERE mkn_kurumno =  "+
+                record.value("ie_mkn").toString () ;
+
+        qDebug()<< "select  ?   " <<q.exec (qry)<<endl<<qry;
+        if ( !q.exec(qry) )
+        {
+            mesaj = mesaj + "Mkn krmno bulunamadı"+
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text ()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj = mesaj + "mkn rsm bulundu.";
+            q.next ();
+            record.value ("ie_resimmkn")=q.value ("mkn_resim");
+        }
+        //////////////////////////////////////////////////
+        qDebug()<< "select mesaj    " <<mesaj ;
+
+        qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn");
 
         isEmriYeni ( record);
     }
