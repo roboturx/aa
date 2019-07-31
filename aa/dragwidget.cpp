@@ -11,8 +11,17 @@ DragWidget::DragWidget(QWidget *parent) : QWidget (parent)
     setAcceptDrops(true);
 }
 
-void IEcard::setDefaults()
+void IEcard::setDefaults(/*QSqlRecord record*/)
 {
+
+    qDebug()<< "rec before booticon set defaults---------------" ;
+    qDebug()<< "while no " << record.value ("ie_no");
+    qDebug()<< "mkn no   " << record.value ("ie_mkn");
+    qDebug()<< "drm      " << record.value ("ie_durum");
+    qDebug()<< "trh      " << record.value ("ie_tarih");
+    qDebug()<< "rsmie    " << record.value ("ie_resimie").toString ().size ();
+    qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").toString ().size ();
+
     IEcard::setIeno    (getRecord ().value ("ie_no" ).toString ());
     IEcard::setKurumno (getRecord ().value ("ie_mkn").toString ());
 
@@ -42,6 +51,14 @@ void IEcard::setDefaults()
     IEcard::setAttribute(Qt::WA_DeleteOnClose);
     IEcard::move(100, 10);
     IEcard::show();
+    qDebug()<< "rec after booticon set defaults---------------" ;
+    qDebug()<< "while no " << record.value ("ie_no");
+    qDebug()<< "mkn no   " << record.value ("ie_mkn");
+    qDebug()<< "drm      " << record.value ("ie_durum");
+    qDebug()<< "trh      " << record.value ("ie_tarih");
+    qDebug()<< "rsmie    " << record.value ("ie_resimie").toString ().size ();
+    qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").toString ().size ();
+
 
 }
 
@@ -446,20 +463,28 @@ void IEcard::smSLOT()
 
 QPixmap IEcard::usedPixmapmkn()
 {
+    qDebug () <<"100 usedpixmapmkn------------------------------";
     QPixmap outPixmapmkn ;
     outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
 
     QByteArray outByteArray = record.value
             ("ie_resimmkn").toByteArray ();
-
-    qDebug () <<"out pix mkn "<<outByteArray ;
-    if (outByteArray != "null" || outByteArray == "")
+    qDebug () <<" 101 bytearray mkn in used size  "<<outByteArray.size ();
+    qDebug () <<" 102 outpixmkn şu anda audi size "<<outPixmapmkn.size ();
+    qDebug () <<" 103 outbytearray               "<<outByteArray ;
+    if (outByteArray != "null" || outByteArray != "")
     {
+         qDebug () <<"   outbytearray boş deil loadromdat";
         outPixmapmkn.loadFromData ( outByteArray );
     }
 
     setPixmapmkn(outPixmapmkn);
-    qDebug () <<"out pix mkn "<<outPixmapmkn;
+
+    qDebug () <<"  111 outbytearray mkn  size "<<outByteArray.size ();
+    qDebug () <<"  112 outpixmkn deüişti mi    "<<outPixmapmkn.size ();
+    qDebug () <<"  113 outpixmkn           "<<outPixmapmkn;
+    qDebug () <<"  1131 getpixmaapmkn size "<< getPixmapmkn().size () ;
+    qDebug () <<"usedpixmapmkn-------sonu--------------------";
     return outPixmapmkn;
 }
 
@@ -470,7 +495,8 @@ QPixmap IEcard::usedPixmapie()
     outPixmapie=QPixmap(":/rsm/logo/Audi.png");
     QByteArray outByteArray = record.value
             ("ie_resimie").toByteArray ();
-
+    qDebug () <<"out bytearray ie  "<<outByteArray.size ();
+    qDebug () <<"out pix ie şu anda audi "<<outPixmapie.size ();
     if (outByteArray != "null" || outByteArray == "")
     {
         outPixmapie.loadFromData ( outByteArray );

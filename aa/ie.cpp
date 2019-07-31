@@ -70,9 +70,10 @@ void hC_IE::tbui()
     qDebug() << "   ui";
 
     hC_IE::setWindowTitle (win_Label->text());
-    hC_IE::setGeometry(20,20,
-                       qApp->screens()[0]->size ().rwidth (),
-            qApp->screens()[0]->size ().rheight ()/4);
+    this->adjustSize ();
+   // hC_IE::setGeometry(20,20,
+     //                  qApp->screens()[0]->size ().rwidth (),
+       //     qApp->screens()[0]->size ().rheight ()/4);
 
 
 
@@ -102,7 +103,7 @@ void hC_IE::tbwdgt ()
         // mkn seçebilmek için pencere
         auto *dia = new QDialog();
         dia->setModal (true);
-        dia->setGeometry ( 50, 300, 900, 200 );
+        dia->setGeometry ( 50, 300, 400, 200 );
         dia->setWindowTitle ( "Araç Seçimi" );
 
         mkn->show ();
@@ -573,9 +574,9 @@ void hC_IE::isEmriYeni(QSqlRecord record)
 
     /// objeyi oluştur
 qDebug()<<endl;
-qDebug()<< "iş emri recordddddddddddddddddddddddddd   " << record;
-qDebug()<<"-----işemriyeni--------------------------------";
-qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").Size;
+qDebug()<< " 9 iş emri recordddddddddddddddddddddddddd   " << record;
+qDebug()<< "   91 -----işemriyeni--------------------------------";
+qDebug()<< "   92 rsmmkn size  " << record.value ("ie_resimmkn").toString ().size ();
 qDebug()<<endl;
 IEcard *boatIcon = new IEcard (dragger);
 
@@ -585,9 +586,16 @@ IEcard *boatIcon = new IEcard (dragger);
     /// obje oluştuğunda table ile bağlantısı kalmıyor
     /// record zaten içinde
     boatIcon->setRecord(record);
+    qDebug()<< "rec after booticon setrecord---------------" ;
+    qDebug()<< "while no " << record.value ("ie_no");
+    qDebug()<< "mkn no   " << record.value ("ie_mkn");
+    qDebug()<< "drm      " << record.value ("ie_durum");
+    qDebug()<< "trh      " << record.value ("ie_tarih");
+    qDebug()<< "rsmie    " << record.value ("ie_resimie").toString ().size ();
+    qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").toString ().size ();
 
     /// özellikleri içinden alıp objeyi oluşturalım
-    boatIcon->setDefaults ();
+    boatIcon->setDefaults (/*record*/);
 }
 
 void hC_IE::isEmriListele()
@@ -624,8 +632,8 @@ void hC_IE::isEmriListele()
         qDebug()<< "mkn no   " << query.record().value ("ie_mkn");
         qDebug()<< "drm      " << query.record().value ("ie_durum");
         qDebug()<< "trh      " << query.record().value ("ie_tarih");
-        qDebug()<< "rsmie    " << query.record().value ("ie_resimie").Size ;
-        qDebug()<< "rsmmkn   " << query.record().value ("ie_resimmkn").Size  ;
+        qDebug()<< "rsmie    " << query.record().value ("ie_resimie").toString ().size () ;
+        qDebug()<< "rsmmkn   " << query.record().value ("ie_resimmkn").toString ().size () ;
 
 
 
@@ -636,7 +644,7 @@ void hC_IE::isEmriListele()
         qDebug()<< "mkn no   " << record.value ("ie_mkn");
         qDebug()<< "drm      " << record.value ("ie_durum");
         qDebug()<< "trh      " << record.value ("ie_tarih");
-        qDebug()<< "rsmie    " << record.value ("ie_resimie").Size;
+        qDebug()<< "rsmie    " << record.value ("ie_resimie").toString ().size ();
         qDebug()<< "rsmie    " ;
         //////////////////////////////////////////////////
         /// makina resmini al
@@ -665,7 +673,7 @@ void hC_IE::isEmriListele()
         //////////////////////////////////////////////////
         qDebug()<< "select mesaj    " <<mesaj ;
 
-        qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn");
+        qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").toString ().size ();
 qDebug()<< "------------------ iişemri yeni(recoda git)";
         isEmriYeni ( record);
     }
