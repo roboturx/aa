@@ -79,15 +79,21 @@ void hC_IE::tbui()
 
 
     auto *win_Grid = new QGridLayout(this);
-    win_Grid->addWidget ( tb_view ,  0, 0, 1, 1 );
-    win_Grid->addWidget ( win_Wdgt  ,  0, 1, 1, 1 );
-    win_Grid->addWidget ( dragger  ,  1, 0, 1, 1 );
+    win_Grid->addWidget ( tb_view  ,  0, 0, 1, 1 );
+    win_Grid->addWidget ( win_Wdgt ,  0, 1, 1, 1 );
+    win_Grid->addWidget ( dragger  ,  1, 0, 1, 2 );
 
 }
 
 void hC_IE::tbwdgt ()
 {
     qDebug () << "   wdgt";
+
+    mkn = new hC_MKN ;
+    mkn->tbsetup();
+
+
+
 
     auto* lB_mk = new QLabel("Araç Kurum No");
     hClE_mkn->lineEdit->setReadOnly (true);
@@ -201,8 +207,6 @@ void hC_IE::tbkntrl()
         QHBoxLayout xl ;
         makinasec.setLayout (&xl);
 qDebug()<<" 2 seçim için makina ya giriliyor ";
-        mkn = new hC_MKN ;
-        mkn->tbsetup();
         xl.addWidget (mkn);
 
         //*** seçim penceresinde makina seçilir
@@ -211,20 +215,23 @@ qDebug()<<" 2 seçim için makina ya giriliyor ";
         auto mknrsm = new QByteArray ;
 qDebug()<<" 3 makina penceresi ";
         connect(mkn, &hC_MKN::sgnMkn,
-                [mknkrmno, mknrsm  ](QString krmNo, QByteArray byteArray) mutable
+                [mknkrmno, mknrsm  ]
+                (QString krmNo,
+                QByteArray byteArray) mutable
         {
             //***  1   iş emri için kurum no
             *mknkrmno = krmNo ;
             //*** signal dan gelen byte array
-            *mknrsm  = byteArray ;
+            *mknrsm  =  byteArray ;
             qDebug()<<"  31 makina no mkn den alındı = "<<*mknkrmno;
-            qDebug()<<"  32 mknresim                 = "<< mknrsm->size ();
+            qDebug()<<"  32 mknresim len-----------  = "<< mknrsm->size ();
         });
         makinasec.exec ();
         //*** makina seçildi yola devam
+        qDebug()<<" **********************************************";
 qDebug()<<" 4 makina seçildi ----------------------------------";
 qDebug()<<"  41 makina no mkn den alındı = "<<*mknkrmno;
-qDebug()<<"  42 mknresim                 = "<< mknrsm->size ();
+qDebug()<<"  42 mknresim        len      = "<< mknrsm->size ();
         ////////////////////////////////////////////////
         /// yeni iş emri numaasını bul
         /// iş emri nosu _dbtb de
@@ -281,22 +288,15 @@ qDebug()<<"  51 ie_no = "<<* max_id;
                 "ie_no    , "
                 "ie_mkn   , "
                 "ie_durum , "
-                "ie_tarih , "
-                "ie_resimmkn  )"
-                " values ( '%2', '%3', '%4', '%5', '%6' ) " )
+                "ie_tarih ) "
+                " values ( '%2', '%3', '%4', '%5' ) " )
                 .arg ( *tb_name)
                 .arg ( QString::number( *max_id))
                 .arg ( * mknkrmno )
                 .arg ( cbX_durum->itemText (0))
-                .arg ( QDate::currentDate ().toString ("dd/MM/yy"))
-                .arg ( QString(mknrsm->toBase64 ())  )  ;
+                .arg ( QDate::currentDate ().toString ("dd/MM/yy"));
 
-        qDebug()<< "  61 dosya adı "<< ( *tb_name);
-        qDebug()<< "  62 ie no     "<<  QString::number( *max_id);
-        qDebug()<< "  63 krm no    "<< * mknkrmno ;
-        qDebug()<< "  64 durum     "<<  cbX_durum->itemText (0);
-        qDebug()<< "  65 tarih     "<<  QDate::currentDate ().toString ("dd/MM/yy");
-        qDebug()<< "  66 pixmap    "<<  QString(mknrsm->toBase64 ())  ;
+        qDebug()<< "  66 char* len "<<  (  mknrsm)  ;
 
         if ( !q.exec(qry) )
         {
@@ -316,6 +316,15 @@ qDebug ()<< " 7 kayıt tamam-------------";
 QModelIndex ndx = tb_view->table->currentIndex ();
 int ndxrow = ndx.row ();
 qDebug ()<< "  71 kayıt indexi row  "<< ndxrow;
+tb_model->setData(tb_model->
+                   index(ndxrow, tb_model->fieldIndex
+                         ( "ie_rsmmkn" )), *mknrsm);
+/// yeni eklenenleri kaydedelim
+tb_model->submitAll();
+
+
+
+
 QSqlRecord dbrecor;
 dbrecor = tb_model->record ( ndxrow );
 qDebug ()<< "  72 model rowdaki record --------------------------------";
@@ -616,36 +625,23 @@ void hC_IE::isEmriListele()
         qDebug()<< "not active "<< query.lastError ().text ();
         return;
     }
-    qDebug()<< " before while "<<query.size ();
-    qDebug()<<query.next();
+    qDebug()<< " before while query size "<<query.size ();
+   // qDebug()<<query.next();
     while (query.next())
     {
-
+qDebug()<< " in while query size ----------- "<<query.isValid ();
 
 
         auto outPixmap = new QPixmap ;
         outPixmap->loadFromData( query.value ("ie_resimmkn").toByteArray () );
         QSqlRecord record ;
         record = query.record();
-        qDebug()<< "db -----------------------------------------" ;
-        qDebug()<< "while no " << query.record().value ("ie_no");
-        qDebug()<< "mkn no   " << query.record().value ("ie_mkn");
-        qDebug()<< "drm      " << query.record().value ("ie_durum");
-        qDebug()<< "trh      " << query.record().value ("ie_tarih");
+        qDebug()<< " listeleme başladı "<<query.isActive ();
+        qDebug()<< "db --------query.record().value------record.value---------------------------" ;
+        qDebug()<< "while no " << query.record().value ("ie_no") <<" ---- "<< record.value ("ie_no");
+        qDebug()<< "mkn no   " << query.record().value ("ie_mkn")<<" ---- "<< record.value ("ie_mkn");
         qDebug()<< "rsmie    " << query.record().value ("ie_resimie").toString ().size () ;
-        qDebug()<< "rsmmkn   " << query.record().value ("ie_resimmkn").toString ().size () ;
-
-
-
-
-
-        qDebug()<< "rec -----------------------------------------" ;
-        qDebug()<< "while no " << record.value ("ie_no");
-        qDebug()<< "mkn no   " << record.value ("ie_mkn");
-        qDebug()<< "drm      " << record.value ("ie_durum");
-        qDebug()<< "trh      " << record.value ("ie_tarih");
-        qDebug()<< "rsmie    " << record.value ("ie_resimie").toString ().size ();
-        qDebug()<< "rsmie    " ;
+        qDebug()<< "rsmmkn 00" << query.record().value ("ie_resimmkn").toByteArray ().size () ;
         //////////////////////////////////////////////////
         /// makina resmini al
         ///
@@ -656,7 +652,9 @@ void hC_IE::isEmriListele()
               "WHERE mkn_kurumno =  '"+
                 record.value("ie_mkn").toString () +"' ";
 
-        qDebug()<< "select  ?   " <<q.exec (qry)<<endl<<qry;
+
+
+        qDebug()<< "select oldumu olmadımı  ?   " <<q.exec (qry)<<endl<<qry;
         if ( !q.exec(qry) )
         {
             mesaj = mesaj + "Mkn krmno bulunamadı"+
@@ -667,11 +665,67 @@ void hC_IE::isEmriListele()
         else
         {
             mesaj = mesaj + "mkn rsm bulundu.";
+
+
+
+
+
+
+
+
             q.next ();
+
+            qDebug()<<"-*-*-*-*-***-*-*-***-*-*-*-*-*-*-";
+            qDebug()<<"selecteki mkn_resim uzunluğu : "<<endl
+                   <<q.value ("mkn_resim").toString ().size ();
             record.value ("ie_resimmkn")=q.value ("mkn_resim");
         }
+
+        auto x = new QDialog ;
+
+        QPixmap xp;
+        x->setWindowTitle("mkn resim");
+        auto xx = new QLabel ("3333333333333333333333");
+        auto xx1 = new QLabel ("3333333333333333333333");
+
+qDebug () <<mkn->tb_view;
+        int rowidx = mkn->tb_view->table->currentIndex().row();
+
+        // row, xolumn daki veriyi bytearray a at
+        //QByteArray outByteArray = mkn->tb_view->table->
+          //      model()->index( rowidx, mkn->tb_model->
+            //        fieldIndex ( "mkn_resim" ) ).data().toByteArray();
+
+        QByteArray outByteArray = q.value("mkn_resim").data
+
+        QPixmap oP = QPixmap();
+
+        if ( oP.loadFromData( outByteArray  ))
+        {
+            qDebug()<<"resim load edşldi";
+
+            xx1->setPixmap( oP );
+        }
+        else
+        {
+            qDebug()<<"resim NOT loaded ";
+
+            xx1->setPixmap (QPixmap (":/rsm/rsm_yok.png"));
+            // lB_resim->setPixmap (QPixmap (""));
+        }
+
+
+
+        auto gr = new QVBoxLayout();
+        x->setLayout (gr);
+        gr->addWidget (xx1);
+        gr->addWidget (xx);
+            xx->setMinimumSize (QSize(160,100));
+
+        x->exec();
+
         //////////////////////////////////////////////////
-        qDebug()<< "select mesaj    " <<mesaj ;
+        qDebug()<< "select mesaj ========    " <<mesaj ;
 
         qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").toString ().size ();
 qDebug()<< "------------------ iişemri yeni(recoda git)";

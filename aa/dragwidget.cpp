@@ -464,28 +464,22 @@ void IEcard::smSLOT()
 QPixmap IEcard::usedPixmapmkn()
 {
     qDebug () <<"100 usedpixmapmkn------------------------------";
-    QPixmap outPixmapmkn ;
-    outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
 
-    QByteArray outByteArray = record.value
+    auto  outPixmapmkn =new QPixmap ;
+    *outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
+
+    QByteArray imageData = record.value
             ("ie_resimmkn").toByteArray ();
-    qDebug () <<" 101 bytearray mkn in used size  "<<outByteArray.size ();
-    qDebug () <<" 102 outpixmkn şu anda audi size "<<outPixmapmkn.size ();
-    qDebug () <<" 103 outbytearray               "<<outByteArray ;
-    if (outByteArray != "null" || outByteArray != "")
-    {
-         qDebug () <<"   outbytearray boş deil loadromdat";
-        outPixmapmkn.loadFromData ( outByteArray );
-    }
 
-    setPixmapmkn(outPixmapmkn);
+    outPixmapmkn->loadFromData ( imageData );
+    setPixmapmkn( *outPixmapmkn );
 
-    qDebug () <<"  111 outbytearray mkn  size "<<outByteArray.size ();
-    qDebug () <<"  112 outpixmkn deüişti mi    "<<outPixmapmkn.size ();
-    qDebug () <<"  113 outpixmkn           "<<outPixmapmkn;
+    qDebug () <<"  111 outbytearray mkn  size "<<imageData.size ();
+    qDebug () <<"  112 outpixmkn audi  ??     "<<outPixmapmkn->size ();
+    qDebug () <<"  113 outpixmkn              "<<outPixmapmkn;
     qDebug () <<"  1131 getpixmaapmkn size "<< getPixmapmkn().size () ;
     qDebug () <<"usedpixmapmkn-------sonu--------------------";
-    return outPixmapmkn;
+    return *outPixmapmkn;
 }
 
 
