@@ -38,7 +38,7 @@ private:
     void tbui    () ;
     void tbkntrl () ;
 
-        void isEmriYeni(QSqlRecord record);
+        void isEmriYeni(QDataStream* dataStream);
         void isEmriListele();
 
 public: signals:

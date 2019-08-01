@@ -64,7 +64,7 @@ public:
     QPixmap pixmapmkn;
     QSqlRecord record;
 
-    void setDefaults();
+    void setDefaults(QDataStream *dataStream);
     QLabel* resim;
 
     int getObjNo() const;
@@ -83,7 +83,7 @@ public:
     QPixmap getPixmapie() const;
     void setPixmapie(QPixmap value);
 
-    QPixmap usedPixmapmkn();
+    void usedPixmapmkn( QByteArray mkn_pX) ;
     QPixmap getPixmapmkn() const;
     void setPixmapmkn(const QPixmap &value);
 

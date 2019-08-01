@@ -11,19 +11,24 @@ DragWidget::DragWidget(QWidget *parent) : QWidget (parent)
     setAcceptDrops(true);
 }
 
-void IEcard::setDefaults(/*QSqlRecord record*/)
+void IEcard::setDefaults(QDataStream* dataStream)
 {
 
-    qDebug()<< "rec before booticon set defaults---------------" ;
-    qDebug()<< "while no " << record.value ("ie_no");
-    qDebug()<< "mkn no   " << record.value ("ie_mkn");
-    qDebug()<< "drm      " << record.value ("ie_durum");
-    qDebug()<< "trh      " << record.value ("ie_tarih");
-    qDebug()<< "rsmie    " << record.value ("ie_resimie").toString ().size ();
-    qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").toString ().size ();
+    QString ieno_nT ;
+    QString kurumno_sT ;
+    QByteArray pixmapmkn_bA ;
 
-    IEcard::setIeno    (getRecord ().value ("ie_no" ).toString ());
-    IEcard::setKurumno (getRecord ().value ("ie_mkn").toString ());
+    QByteArray itemData ; //= event->mimeData()->data("application/x-dnditemdata");
+
+    QDataStream dataStream2(&itemData, QIODevice::ReadOnly);
+
+    *dataStream >> ieno_nT
+            >> kurumno_sT
+            >> pixmapmkn_bA;
+
+    IEcard::setIeno    (ieno_nT);
+    IEcard::setKurumno (kurumno_sT);
+
 
     /// obj başlığında
     /// 1- obj no = obj sayısını belirler
@@ -40,7 +45,7 @@ void IEcard::setDefaults(/*QSqlRecord record*/)
     /// record daki pixmapı kullanım kolaylığı için
     /// set get yapıp getpixmap a atalım
     IEcard::usedPixmapie ();
-    IEcard::usedPixmapmkn ();
+    IEcard::usedPixmapmkn (pixmapmkn_bA);
 
     IEcard::resim->setPixmap (getPixmapmkn() );
     IEcard::resim->setMinimumSize (80,50);
@@ -51,13 +56,6 @@ void IEcard::setDefaults(/*QSqlRecord record*/)
     IEcard::setAttribute(Qt::WA_DeleteOnClose);
     IEcard::move(100, 10);
     IEcard::show();
-    qDebug()<< "rec after booticon set defaults---------------" ;
-    qDebug()<< "while no " << record.value ("ie_no");
-    qDebug()<< "mkn no   " << record.value ("ie_mkn");
-    qDebug()<< "drm      " << record.value ("ie_durum");
-    qDebug()<< "trh      " << record.value ("ie_tarih");
-    qDebug()<< "rsmie    " << record.value ("ie_resimie").toString ().size ();
-    qDebug()<< "rsmmkn   " << record.value ("ie_resimmkn").toString ().size ();
 
 
 }
@@ -461,25 +459,19 @@ void IEcard::smSLOT()
 
 
 
-QPixmap IEcard::usedPixmapmkn()
+void IEcard::usedPixmapmkn(QByteArray mkn_pX)
 {
-    qDebug () <<"100 usedpixmapmkn------------------------------";
 
     auto  outPixmapmkn =new QPixmap ;
-    *outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
-
-    QByteArray imageData = record.value
-            ("ie_resimmkn").toByteArray ();
-
-    outPixmapmkn->loadFromData ( imageData );
+    if (mkn_pX != nullptr)
+    {
+        *outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
+    }
+    else
+    {
+        outPixmapmkn->loadFromData ( mkn_pX );
+    }
     setPixmapmkn( *outPixmapmkn );
-
-    qDebug () <<"  111 outbytearray mkn  size "<<imageData.size ();
-    qDebug () <<"  112 outpixmkn audi  ??     "<<outPixmapmkn->size ();
-    qDebug () <<"  113 outpixmkn              "<<outPixmapmkn;
-    qDebug () <<"  1131 getpixmaapmkn size "<< getPixmapmkn().size () ;
-    qDebug () <<"usedpixmapmkn-------sonu--------------------";
-    return *outPixmapmkn;
 }
 
 
