@@ -20,6 +20,8 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
+    QByteArray * mknrsm_bA;
+
     DragWidget *dragger;
     hC_MKN *mkn;
     hC_Le* hClE_mkn;

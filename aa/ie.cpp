@@ -211,10 +211,10 @@ void hC_IE::tbkntrl()
         //*** seçim penceresinde makina seçilir
         // yoksa yeni oluşturulur
         auto mknkrmno_sT = new QString;
-        auto mknrsm_bA = new QByteArray ;
+        mknrsm_bA = new QByteArray ;
         qDebug()<<" 3 makina penceresi ";
         connect(mkn, &hC_MKN::sgnMkn,
-                [mknkrmno_sT, mknrsm_bA  ]
+                [mknkrmno_sT,this  ]
                 (QString krmNo_sT,
                 QByteArray byteArray) mutable
         {
@@ -223,6 +223,21 @@ void hC_IE::tbkntrl()
             //*** signal dan gelen byte array
             *mknrsm_bA  =  byteArray ;
         });
+
+        auto xxx = new QLabel;
+        QPixmap op;
+        qDebug ()<<"mknrsm ba size  "<< mknrsm_bA;
+        qDebug ()<<"mknrsm ba size  "<< *mknrsm_bA;
+        op.loadFromData ( *mknrsm_bA);
+        if ( ! op.isNull ())
+        {
+        xxx->setPixmap (  op);
+        }
+        else qDebug () << "Dosya sıkıntısı";
+        xxx->show ();
+
+
+
         makinasec.exec ();
         //*** makina seçildi yola devam
         ////////////////////////////////////////////////
@@ -267,7 +282,7 @@ void hC_IE::tbkntrl()
 
 
 
-                        //// resmi de yazalım
+            //// resmi de yazalım
             /// yeni eklenenleri kaydedelim
 
 
@@ -296,20 +311,20 @@ void hC_IE::tbkntrl()
             int iendxrow = iendx.row ();
 
 
-            /// mkn resmini table dan alalım
+            /// mkn den gelen resmi ie ye yazalım
             tb_model->setData(tb_model->
                               index(iendxrow, tb_model->fieldIndex
-                    ( "ie_rsmmkn" )), *mknrsm_bA );
+                                    ( "ie_rsmmkn" )), *mknrsm_bA );
 
 
             tb_model->submitAll();
 
             QByteArray iersm_bA = tb_view->table->model ()
                     ->index ( iendxrow, tb_model
-                    ->fieldIndex( "ie_resimie" )).data ().toByteArray ();
+                              ->fieldIndex( "ie_resimie" )).data ().toByteArray ();
             QByteArray mknrsm_bA = tb_view->table->model ()
                     ->index ( iendxrow, tb_model
-                    ->fieldIndex( "ie_resimmkn" )).data ().toByteArray ();
+                              ->fieldIndex( "ie_resimmkn" )).data ().toByteArray ();
             ///////////////////////////////////////////////////////////////////
 
             QByteArray itemData;
@@ -582,12 +597,13 @@ void hC_IE::isEmriListele()
         /// ie resmini table dan alalım
         QByteArray iersmie_bA = tb_view->table->model()
                 ->index( ndxrow, tb_model
-                ->fieldIndex ("mkn_resim") ).data().toByteArray ();
+                         ->fieldIndex ("mkn_resim") ).data().toByteArray ();
 
         /// mkn resmini table dan alalım
         QByteArray iersmmkn_bA = tb_view->table->model()
                 ->index( ndxrow, tb_model
-                         ->fieldIndex ("mkn_resim") ).data().toByteArray ();
+                         ->fieldIndex ("mkn_resim") ).data ().toByteArray ();
+
 
         ///////////////////////////////////////////////////////////////////
         * dataStream << ieno_nT
