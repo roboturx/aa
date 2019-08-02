@@ -59,6 +59,11 @@ void hC_IE::tbsetup()
 
     dragger->setMinimumSize (this->width (),400);
 
+    mkn = new hC_MKN ;
+    mkn->tbsetup();
+
+
+
     tbwdgt  ();
     tbui();
     tbkntrl ();
@@ -88,11 +93,6 @@ void hC_IE::tbui()
 void hC_IE::tbwdgt ()
 {
     qDebug () << "   wdgt";
-
-    mkn = new hC_MKN ;
-    mkn->tbsetup();
-
-
 
 
     auto* lB_mk = new QLabel("Araç Kurum No");
@@ -210,35 +210,34 @@ void hC_IE::tbkntrl()
 
         //*** seçim penceresinde makina seçilir
         // yoksa yeni oluşturulur
-        auto mknkrmno_sT = new QString;
+        QString mknkrmno_sT ;
         mknrsm_bA = new QByteArray ;
+        son_bA = new QByteArray ;
+
         qDebug()<<" 3 makina penceresi ";
+
         connect(mkn, &hC_MKN::sgnMkn,
-                [mknkrmno_sT,this  ]
+                [&mknkrmno_sT, this  ]
                 (QString krmNo_sT,
                 QByteArray byteArray) mutable
         {
             //***  1   iş emri için kurum no
-            *mknkrmno_sT = krmNo_sT ;
+            mknkrmno_sT = krmNo_sT ;
             //*** signal dan gelen byte array
-            *mknrsm_bA  =  byteArray ;
+            *mknrsm_bA  =  byteArray.fromRawData
+                    (byteArray, byteArray.size ());
+
+            *son_bA = mkn->tb_view->table->
+                    model()->index(
+                        mkn->tbx_slctnMdl->currentIndex ().row (),
+                        mkn->tb_model->fieldIndex ( "mkn_resim" )
+                        ).data().toByteArray();
         });
-
-        auto xxx = new QLabel;
-        QPixmap op;
-        qDebug ()<<"mknrsm ba size  "<< mknrsm_bA;
-        qDebug ()<<"mknrsm ba size  "<< *mknrsm_bA;
-        op.loadFromData ( *mknrsm_bA);
-        if ( ! op.isNull ())
-        {
-        xxx->setPixmap (  op);
-        }
-        else qDebug () << "Dosya sıkıntısı";
-        xxx->show ();
-
-
-
         makinasec.exec ();
+
+
+
+
         //*** makina seçildi yola devam
         ////////////////////////////////////////////////
         /// yeni iş emri numaasını bul
@@ -246,11 +245,9 @@ void hC_IE::tbkntrl()
         /// no alanındaki en büyük sayı
         qDebug()<<" 5 yeni kayıt için ie no dosyada bulunuyor";
         hC_Nr maxID;
-        int* iemaxid_nT = new int{};
-        *iemaxid_nT     = maxID.hC_NrMax ( tb_name,
+        int ieno_nT ;
+        ieno_nT     = maxID.hC_NrMax ( tb_name,
                                            tb_flds->value (0,0));
-        qDebug()<<"  51 ie_no = "<<* iemaxid_nT;
-
 
         ////////////////////////////////////////////////
         /// yeni kaydı ekle
@@ -262,10 +259,10 @@ void hC_IE::tbkntrl()
                       "ie_mkn   , "
                       "ie_durum , "
                       "ie_tarih ) "
-                      " values ( '%2', '%3', '%4', '%5' ) " )
+                      " values ( '%2', '%3', '%4', '%5'  ) " )
                 .arg ( *tb_name)
-                .arg ( QString::number( *iemaxid_nT))
-                .arg ( * mknkrmno_sT )
+                .arg ( QString::number( ieno_nT))
+                .arg ( mknkrmno_sT )
                 .arg ( cbX_durum->itemText (0))
                 .arg ( QDate::currentDate ().toString ("dd/MM/yy"));
 
@@ -289,7 +286,7 @@ void hC_IE::tbkntrl()
 
 
 
-            hClE_mkn->lineEdit->setText ( *mknkrmno_sT );
+            hClE_mkn->lineEdit->setText ( mknkrmno_sT );
             hC_Gz (dE_geltar , "nulldate");
             hC_Gz (dE_girtar , "nulldate");
             hC_Gz (dE_ciktar , "nulldate");
@@ -300,10 +297,10 @@ void hC_IE::tbkntrl()
             // iş emrinde yeni kayda git
             ////////////////////////////////////////////////
             /// son eklenen kayda git
-            maxID.hC_NrGo (tb_view, tb_model, *iemaxid_nT , 0);
+            maxID.hC_NrGo (tb_view, tb_model, ieno_nT , 0);
             ////////////////////////////////////////////////
 
-            /// yeni boş kayıt eklendi
+            /// yeni boş ie kayıt eklendi
 
             ///////////////////////////////////////////////////////////////////
             /// ieno nun olduğu indexteyiz
@@ -314,35 +311,29 @@ void hC_IE::tbkntrl()
             /// mkn den gelen resmi ie ye yazalım
             tb_model->setData(tb_model->
                               index(iendxrow, tb_model->fieldIndex
-                                    ( "ie_rsmmkn" )), *mknrsm_bA );
+                                    ( "ie_resimmkn" )), *son_bA );
 
 
             tb_model->submitAll();
 
-            QByteArray iersm_bA = tb_view->table->model ()
+            QByteArray iersmie_bA = tb_view->table->model ()
                     ->index ( iendxrow, tb_model
                               ->fieldIndex( "ie_resimie" )).data ().toByteArray ();
-            QByteArray mknrsm_bA = tb_view->table->model ()
+            QByteArray iersmmkn_bA = tb_view->table->model ()
                     ->index ( iendxrow, tb_model
                               ->fieldIndex( "ie_resimmkn" )).data ().toByteArray ();
             ///////////////////////////////////////////////////////////////////
 
-            QByteArray itemData;
-            auto  *dataStream = new QDataStream (&itemData, QIODevice::WriteOnly);
 
-            *dataStream << iemaxid_nT        // ieno
-                        << mknkrmno_sT
-                        << mknrsm_bA
-                        << iersm_bA  ;
-            /// objeyi oluştur
-
-            isEmriYeni ( dataStream );
+            isEmriYeni (iersmmkn_bA,
+                        iersmie_bA,
+                        ieno_nT,
+                        mknkrmno_sT);
 
         }
-
         qDebug () <<mesaj;
 
-        // iş emri detay ekle
+        // iş emri ekle
 
     });
 
@@ -532,26 +523,12 @@ void hC_IE::tbkntrl()
 
 }
 
-void hC_IE::isEmriYeni(QDataStream *dataStream)
-{
-
-    /// objeyi oluştur
-
-
-    IEcard *boatIcon = new IEcard (dragger);
-
-    ///objeyi olşturduk ie özelliklerini içine atalım
-    boatIcon->setDefaults ( dataStream);
-}
 
 void hC_IE::isEmriListele()
 {
 
     ///// toolbutton için
     ////////////////// iş emirlerini ekrana listele
-    DragWidget::count = 0 ;
-    DragWidget::row = 65 ;
-    DragWidget::col = 20 ;
     QSqlQuery query("SELECT * FROM ie_dbtb "
                     "WHERE ie_durum != 'Tamamlandı'");
     if (query.isActive ())
@@ -562,30 +539,44 @@ void hC_IE::isEmriListele()
         qDebug()<< "not active "<< query.lastError ().text ();
         return;
     }
-    qDebug()<< " before while query size "<<query.size ();
-    // qDebug()<<query.next();
-    QByteArray itemData;
-    auto dataStream = new QDataStream (&itemData, QIODevice::WriteOnly);
-
-
 
     while (query.next())
     {
-        qDebug()<< " in while query size ----------- "<<query.isValid ();
+        qDebug()<<" -  "<< query.value ("ie_no").toInt ()
+               <<"///////////////////////// in while query is "
+                <<query.isValid ();
 
         int ieno_nT {query.value ("ie_no").toInt () };
-        QString krmno_sT {query.value ("ie_mkn").toString ()};
+        QString mknkrmno_sT {query.value ("ie_mkn").toString ()};
+
+
+        hC_Nr x;
+        x.hC_NrGo(tb_view, tb_model, ieno_nT, 1 );
+
+
+
+
         ///////////////////////////////////////////////////////////////////
         /// ieno nun olduğu index i bulalım
+
         QSortFilterProxyModel proxy;
         proxy.setSourceModel(tb_model);
-        proxy.setFilterKeyColumn(1);
+        proxy.setFilterKeyColumn( tb_model->fieldIndex ("ie_no"));
         proxy.setFilterFixedString( QString::number(ieno_nT));
         // now the proxy only contains rows that match the name
         // let's take the first one and map it to the original model
-        QModelIndex matchingIndex = proxy.mapToSource(proxy.index(0,0));
-        if(matchingIndex.isValid()){
-            tb_view->table->scrollTo(matchingIndex,QAbstractItemView::EnsureVisible);
+
+        QTableView tb;
+        tb.setModel ( tb_model );
+        tb.show ();
+
+
+        QModelIndex matchingIndex = proxy.mapToSource(proxy.index(0,1));
+        if(matchingIndex.isValid())
+        {
+            tb_view->table->scrollTo(matchingIndex,
+                QAbstractItemView::EnsureVisible);
+
         } else {
             QMessageBox::information(this,"Name Search:", "Match not found!");
         }
@@ -593,63 +584,73 @@ void hC_IE::isEmriListele()
 
         QModelIndex ndx = tb_view->table->currentIndex ();
         int ndxrow = ndx.row ();
-
+QMessageBox::information(this,"ie index row", QString::number(ndxrow));
         /// ie resmini table dan alalım
         QByteArray iersmie_bA = tb_view->table->model()
                 ->index( ndxrow, tb_model
-                         ->fieldIndex ("mkn_resim") ).data().toByteArray ();
+                         ->fieldIndex ("ie_resimie") ).data().toByteArray ();
 
         /// mkn resmini table dan alalım
         QByteArray iersmmkn_bA = tb_view->table->model()
                 ->index( ndxrow, tb_model
-                         ->fieldIndex ("mkn_resim") ).data ().toByteArray ();
+                         ->fieldIndex ("ie_resimmkn") ).data ().toByteArray ();
 
+        isEmriYeni (iersmmkn_bA,
+                    iersmie_bA,
+                    ieno_nT,
+                    mknkrmno_sT);
+    }
+}
 
-        ///////////////////////////////////////////////////////////////////
-        * dataStream << ieno_nT
-                     << krmno_sT
-                     << iersmmkn_bA ;
+void hC_IE::isEmriYeni(QByteArray iersmmkn_bA,
+                       QByteArray iersmie_bA,
+                       int ieno_nT,
+                       QString mknkrmno_sT)
+{
+    static int x=10;
+    static int y=10;
 
-
-        /////////////////////////////////////////////////////////////////
-        auto x = new QDialog ;
-
-        QPixmap xp;
-        x->setWindowTitle("mkn resim");
-        auto xx = new QLabel ("3333333333333333333333");
-        auto xx1 = new QLabel ("3333333333333333333333");
-
-        QPixmap oP = QPixmap();
-
-        if ( oP.loadFromData( iersmmkn_bA ))
-        {
-            qDebug()<<"resim load edildi";
-
-            xx1->setPixmap( oP );
-        }
-        else
-        {
-            qDebug()<<"resim NOT loaded ";
-
-            xx1->setPixmap (QPixmap (":/rsm/rsm_yok.png"));
-            // lB_resim->setPixmap (QPixmap (""));
-        }
-
-        auto gr = new QVBoxLayout();
-        x->setLayout (gr);
-        gr->addWidget (xx1);
-        gr->addWidget (xx);
-        xx->setMinimumSize (QSize(160,100));
-
-        x->exec();
-
-        /////////////////////////////////////////////////////////////
-
-        //////////////////////////////////////////////////
-        isEmriYeni ( dataStream );
+    qDebug()<<"IEpos ["<<x<<","<<y<<"]";
+    QPixmap dS_imagemkn = QPixmap();
+    if ( ! dS_imagemkn.loadFromData ( iersmmkn_bA )  )
+    {
+        qDebug()<<"Makina resmi yüklenemedi ";
+    }
+    QPixmap dS_imageie = QPixmap();
+    if ( ! dS_imageie.loadFromData ( iersmie_bA )  )
+    {
+        qDebug()<<"İş emri resmi yüklenemedi. ";
     }
 
+
+    QFile file("isemri"+QString::number (ieno_nT)+".dat");
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << file
+                 <<" cannot open file for writing: "
+                 << qPrintable(file.errorString()) << endl;
+        return;
+    }
+
+    else {
+        qDebug() << file <<" işlem için hazırlandı. ";
+    }
+    /// iş emri bilgileri dosyaya yazılıyor
+    /// bu bilgiler iş emri objeleri oluşturulurken
+    /// tekrar dosyadan okunur
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_3);
+    out << QString( mknkrmno_sT)
+        << QPixmap(dS_imagemkn)
+        << QPixmap(dS_imageie );
+
+    IEcard *isEmri = new IEcard (ieno_nT, dragger);
+    isEmri->move (x,y);
+    x+=30;
+    y+=20;
+
 }
+
+
 
 
 hC_IE::~hC_IE()

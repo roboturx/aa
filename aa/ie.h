@@ -21,6 +21,8 @@ public:
     QList <QWidget*>         * tb_wdgts    {} ;
 
     QByteArray * mknrsm_bA;
+    QByteArray * son_bA;
+    QPixmap * qpm ;
 
     DragWidget *dragger;
     hC_MKN *mkn;
@@ -40,9 +42,12 @@ private:
     void tbui    () ;
     void tbkntrl () ;
 
-        void isEmriYeni(QDataStream* dataStream);
-        void isEmriListele();
 
+        void isEmriListele();
+        void isEmriYeni(QByteArray iersmmkn_bA,
+                        QByteArray iersmie_bA,
+                        int ieno_nT,
+                        QString mknkrmno_sT);
 public: signals:
     void sgnIsEmri (int);
 

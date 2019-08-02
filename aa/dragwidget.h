@@ -53,18 +53,10 @@ class IEcard : public DragWidget
     Q_OBJECT
 
 public:
-    IEcard(QWidget *parent = nullptr) ;
+    IEcard(int ieno, QWidget *parent = nullptr) ;
     ~IEcard() override;
 
-    int objNo;
-    QString paintObjNo;
-    QString ieno;
-    QString kurumno;
-    QPixmap pixmapie;
-    QPixmap pixmapmkn;
-    QSqlRecord record;
 
-    void setDefaults(QDataStream *dataStream);
     QLabel* resim;
 
     int getObjNo() const;
@@ -73,22 +65,20 @@ public:
     QSqlRecord getRecord() const;
     void setRecord(QSqlRecord value);
 
-    QString getIeno() const;
-    void setIeno(QString value=nullptr );
+    int getIeno() const;
+    void setIeno(int value = 0 );
 
     QString getKurumno() const;
     void setKurumno(QString value=nullptr);
 
-    QPixmap usedPixmapie();
     QPixmap getPixmapie() const;
     void setPixmapie(QPixmap value);
 
-    void usedPixmapmkn( QByteArray mkn_pX) ;
     QPixmap getPixmapmkn() const;
-    void setPixmapmkn(const QPixmap &value);
+    void setPixmapmkn(const QPixmap value);
 
     QString getPaintObjNo() const;
-    void setPaintObjNo(const QString &value);
+    void setPaintObjNo(const QString value);
 
 protected:
     void paintEvent(QPaintEvent *) override;
@@ -97,9 +87,17 @@ protected:
 private:
     //int objNo;
 
-    QImage SimileIcon;
-    bool IsBkColorEnabled;
-    QColor Bkclor;
+    QPixmap SimileIcon;
+
+
+    int objNo;
+    QString paintObjNo;
+    int ieno;
+    QString kurumno;
+    QPixmap pixmapie;
+    QPixmap pixmapmkn;
+
+
 
 private slots:
     void smSLOT();

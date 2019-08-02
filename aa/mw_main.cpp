@@ -166,7 +166,7 @@ void MW_main::cr_Actions()
         // mwgr->setWindowTitle ( GLB_yetki );
         // mwgr->adjustSize ();
 
-        delete sbox;
+        //delete sbox;
 
         sbox = new SortingBox;
 

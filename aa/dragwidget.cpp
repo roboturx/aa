@@ -9,58 +9,8 @@ int DragWidget::row=65;
 DragWidget::DragWidget(QWidget *parent) : QWidget (parent)
 {
     setAcceptDrops(true);
-}
-
-void IEcard::setDefaults(QDataStream* dataStream)
-{
-
-    QString ieno_nT ;
-    QString kurumno_sT ;
-    QByteArray pixmapmkn_bA ;
-
-    QByteArray itemData ; //= event->mimeData()->data("application/x-dnditemdata");
-
-    QDataStream dataStream2(&itemData, QIODevice::ReadOnly);
-
-    *dataStream >> ieno_nT
-            >> kurumno_sT
-            >> pixmapmkn_bA;
-
-    IEcard::setIeno    (ieno_nT);
-    IEcard::setKurumno (kurumno_sT);
-
-
-    /// obj başlığında
-    /// 1- obj no = obj sayısını belirler
-    /// 2- ieno
-    /// 3- kurumno
-
-    IEcard::paintObjNo = QString::number (getObjNo () );
-    IEcard::paintObjNo+= " "+ getIeno () +" ";
-    IEcard::paintObjNo+= getKurumno();
-
-    /// resimler QByteArray olarak record da kayıtlı
-    /// bunu Qpixmap çevirip getpixmap de pixmap
-    /// olarak saklıyoruz
-    /// record daki pixmapı kullanım kolaylığı için
-    /// set get yapıp getpixmap a atalım
-    IEcard::usedPixmapie ();
-    IEcard::usedPixmapmkn (pixmapmkn_bA);
-
-    IEcard::resim->setPixmap (getPixmapmkn() );
-    IEcard::resim->setMinimumSize (80,50);
-    IEcard::resim->setMaximumSize (80,50);
-    IEcard::resim->resize (80,50);
-    IEcard::resim->setAttribute (Qt::WA_TransparentForMouseEvents);
-
-    IEcard::setAttribute(Qt::WA_DeleteOnClose);
-    IEcard::move(100, 10);
-    IEcard::show();
-
 
 }
-
-
 
 
 
@@ -78,21 +28,23 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 
         int     objno     { child->getObjNo     () } ;
         QString paintObjno{ child->getPaintObjNo() } ;
-        QString ieno      { child->getIeno      () } ;
+        int     ieno      { child->getIeno      () } ;
         QString kurumno   { child->getKurumno   () } ;
         QPixmap pixmapie  { child->getPixmapie  () } ;
-        QPixmap pixmapmkn { child->getPixmapmkn () } ;
+        QPixmap dS_imagemkn { child->getPixmapmkn () } ;
 
         QByteArray itemData;
         QDataStream dataStream(&itemData, QIODevice::WriteOnly);
 
-        dataStream << objno
-                   << paintObjno
-                   << ieno
-                   << kurumno
-                   << pixmapie
-                   << pixmapmkn
+        dataStream << int(objno)
+                   << QString(paintObjno)
+                   << int(ieno)
+                   << QString(kurumno)
+                   << QPixmap(pixmapie)
+                   << QPixmap(dS_imagemkn)
                    << QPoint(event->pos() - child->pos());
+
+
 
         QMimeData *mimeData = new QMimeData;
         mimeData->setData("application/x-dnditemdata", itemData);
@@ -102,25 +54,13 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
         //  drag->setPixmap(pixmapmkn);
 
         ///resmin küçüğününü yap
-        QPixmap tempPixmap = pixmapmkn;
-        //        QPixmap pix(160,100);
-        //        QPainter p(&pix);
-        //        p.restore ();
-        //        p.drawPixmap (QRect (0,0,160,100),tempPixmap);
-        //        p.drawText(QPoint(10 ,10),"text");
-        //        p.save();
-
-
-        //        drag->setPixmap(pix);
-        drag->setPixmap(pixmapmkn.scaled(160,100,Qt::KeepAspectRatio));
-
+        QPixmap tempPixmap = dS_imagemkn;
+        drag->setPixmap(dS_imagemkn.scaled(160,100,Qt::KeepAspectRatio));
         drag->setHotSpot(event->pos()- child->pos());
-        tempPixmap = pixmapmkn;
+
+     //   tempPixmap = pixmapmkn;
         QPainter painter;
         painter.begin(&tempPixmap);
-
-        // tempPixmap.scaled (QSize(510,510),Qt::IgnoreAspectRatio);
-        // painter.fillRect(tempPixmap.rect(), QColor(127, 127, 127, 127));
         painter.drawPixmap (rect (),tempPixmap);
         painter.end();
         // child->setPixmapmkn(tempPixmap);
@@ -174,18 +114,13 @@ void DragWidget::dragMoveEvent(QDragMoveEvent *event)
 void DragWidget::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-        //        ///burada child olarak alınıyor
-        //        IEcard *child = static_cast< IEcard *>(childAt(event->pos()));
-        //        if (!child)
-        //            return;
 
         int objno;
         QString paintObjNo;
-        QString ieno ;
+        int ieno ;
         QString kurumno ;
         QPixmap pixmapie ;
         QPixmap pixmapmkn ;
-        QSqlRecord record ;
         QPoint offset;
 
         QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
@@ -199,7 +134,19 @@ void DragWidget::dropEvent(QDropEvent *event)
                 >> pixmapie
                 >> pixmapmkn
                 >> offset;
-        IEcard *newIcon = new IEcard(this);
+        qDebug() << "-------------------------------------";
+        qDebug() << objno;
+                qDebug() << paintObjNo;
+                qDebug() << ieno;
+                qDebug() << kurumno;
+                qDebug() << pixmapie;
+                qDebug() << pixmapmkn;
+                qDebug() << offset;
+
+
+
+
+        IEcard *newIcon = new IEcard(ieno, this);
         newIcon->move(event->pos() - offset);
         newIcon->setObjNo ( objno);
         newIcon->setPaintObjNo ( paintObjNo);
@@ -248,30 +195,125 @@ void DragWidget::dropEvent(QDropEvent *event)
 ///
 ///
 
-IEcard::IEcard(QWidget *parent)
+IEcard::IEcard(int ieno, QWidget *parent)
     : DragWidget (parent)
 {
+
+   // setIeno (ieno);
     static int objn=1;
     objn++;
     this->setObjNo (objn);
 
-    paintObjNo= QString::number( this->getObjNo () );
 
+    QString kurumno_sT ;
+    QPixmap dS_imagemkn;
+    QPixmap dS_imageie;
+
+    QFile file("isemri"+QString::number (ieno)+".dat");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Cannot open file for reading: "
+                  << qPrintable(file.errorString()) << endl;
+        return;
+    }
+
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_3);
+
+    in  >> kurumno_sT
+        >> dS_imagemkn
+        >> dS_imageie;
+
+
+
+
+
+    /// obj başlığında
+    /// 1- obj no = obj sayısını belirler
+    /// 2- ieno
+    /// 3- kurumno
+
+
+    IEcard::paintObjNo = QString::number (getObjNo () );
+    IEcard::paintObjNo+= " "+QString::number ( getIeno ()) +" ";
+    IEcard::paintObjNo+= getKurumno();
+
+    IEcard::setIeno (ieno);
+    IEcard::setKurumno (kurumno_sT);
+    IEcard::setPixmapmkn (dS_imagemkn);
+    IEcard::setPixmapie (dS_imageie);
+
+    qDebug()<<"*******************************************";
+    qDebug()<<"Ieno"<< (ieno);
+    qDebug()<<"Kurumno"<< (kurumno_sT);
+    qDebug()<<"Pixmapmkn"<< (dS_imagemkn);
+    qDebug()<<"Pixmapie"<< (dS_imageie);
+    qDebug()<<"*******************************************";
+    qDebug()<<"Ieno"<< getIeno();
+    qDebug()<<"Kurumno"<< getKurumno();
+    qDebug()<<"Pixmapmkn"<< getPixmapmkn ();
+    qDebug()<<"Pixmapie"<< getPixmapie ();
+
+
+    /////////////////////////////////////////////////////////////////
+    auto x = new QDialog ;
+    x->setWindowTitle ("IECARD   ");
+    QPixmap xp;
+    auto xx = new QLabel ("3333333333333333333333");
+    auto xx1 = new QLabel ("3333333333333333333333");
+
+        xx1->setPixmap( getPixmapmkn ());
+
+
+    auto grd = new QVBoxLayout();
+    x->setLayout (grd);
+    grd->addWidget (xx1);
+    grd->addWidget (xx);
+    xx->setMinimumSize (QSize(160,100));
+
+    x->exec();
+
+    /////////////////////////////////////////////////////////////
+
+
+
+
+
+    /// resimler QByteArray olarak record da kayıtlı
+    /// bunu Qpixmap çevirip getpixmap de pixmap
+    /// olarak saklıyoruz
+    /// record daki pixmapı kullanım kolaylığı için
+    /// set get yapıp getpixmap a atalım
+   // IEcard::usedPixmapie ();
+    //IEcard::usedPixmapmkn (&pixmapmkn_bA);
     resim = new QLabel;
-    SimileIcon = QPixmap(":/rsm/ex.ico").toImage ();
+
+    IEcard::resim->setPixmap (getPixmapmkn() );
+    IEcard::resim->setMinimumSize (80,50);
+    IEcard::resim->setMaximumSize (80,50);
+    IEcard::resim->resize (80,50);
+    IEcard::resim->setAttribute (Qt::WA_TransparentForMouseEvents);
+
+    IEcard::setAttribute(Qt::WA_DeleteOnClose);
+    IEcard::move(100, 10);
+    IEcard::show();
 
     this->setMinimumSize (150,130);
 
 
-    QToolButton* x1 = new QToolButton() ;
+
+
+    SimileIcon = QPixmap(":/rsm/ex.ico");
+    QToolButton* xxx1 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
-    x1->setIconSize (QSize(25,25));
-    x1->setAutoRaise (true);
-    connect (x1, &QToolButton::clicked, this,
+    xxx1->setIcon (QIcon( SimileIcon ));
+    xxx1->setIconSize (QSize(25,25));
+    xxx1->setAutoRaise (true);
+    connect (xxx1, &QToolButton::clicked, this,
              &IEcard::smSLOT );
 
     QToolButton* x2 = new QToolButton() ;
     //x->setIcon ( QIcon(":/images/boat.png"));
+    x2->setIcon (QIcon(getPixmapmkn ()));
     x2->setIconSize (QSize(25,25));
     x2->setAutoRaise (true);
     connect (x2, &QToolButton::clicked, this,
@@ -296,14 +338,16 @@ IEcard::IEcard(QWidget *parent)
 
     //gr->addWidget (resim    ,0 ,3 ,5 , 3 );
 
-    gr->addWidget (x1       ,1 ,0 ,2 , 2 );
-    //gr->addWidget (isEmriDetay ,2 ,0 ,2 , 2 );
+    gr->addWidget (xxx1       ,1 ,0 ,2 , 2 );
+    gr->addWidget ( resim   ,2 ,0 ,2 , 2 );
     gr->addWidget (x3       ,3 ,0 ,2 , 2 );
     gr->addWidget (x4       ,4 ,0 ,2 , 2 );
 
 
 
 }
+
+
 
 
 
@@ -333,7 +377,7 @@ void IEcard::paintEvent(QPaintEvent *paint)
     painter.fillRect (UstRect, QBrush (QColor(60,60,60,234)));
     painter.setPen(Qt::cyan);
     painter.drawText(UstRect, Qt::AlignHCenter | Qt::AlignCenter,
-                     " İş Emri #: "+getIeno ());
+                     " İş Emri #: "+ QString::number (getIeno ()));
     /////////////////////////////////////////////////////////////////////////////
     /// üst satıra kurumnoyu yazalım
     QRect altRect(rect ().x(),rect ().y()+105,
@@ -358,12 +402,10 @@ void IEcard::mousePressEvent(QMouseEvent *event)
     else
     {
         event->ignore ();
-
     }
     if (event->button () == Qt::LeftButton )
     {
         event->ignore ();
-
     }
 }
 
@@ -454,120 +496,36 @@ void IEcard::smSLOT()
     menu->popup(this->pos ());
 }
 
-
-
-
-
-
-void IEcard::usedPixmapmkn(QByteArray mkn_pX)
-{
-
-    auto  outPixmapmkn =new QPixmap ;
-    if (mkn_pX != nullptr)
-    {
-        *outPixmapmkn=QPixmap(":/rsm/logo/Audi.png");
-    }
-    else
-    {
-        outPixmapmkn->loadFromData ( mkn_pX );
-    }
-    setPixmapmkn( *outPixmapmkn );
-}
-
-
-QPixmap IEcard::usedPixmapie()
-{
-    QPixmap outPixmapie ;
-    outPixmapie=QPixmap(":/rsm/logo/Audi.png");
-    QByteArray outByteArray = record.value
-            ("ie_resimie").toByteArray ();
-    qDebug () <<"out bytearray ie  "<<outByteArray.size ();
-    qDebug () <<"out pix ie şu anda audi "<<outPixmapie.size ();
-    if (outByteArray != "null" || outByteArray == "")
-    {
-        outPixmapie.loadFromData ( outByteArray );
-    }
-    setPixmapie(outPixmapie);
-    qDebug () <<"out pix ie "<<outPixmapie;
-    return outPixmapie;
-}
-
-
-QPixmap IEcard::getPixmapie() const
-{
-    return pixmapie;
-}
-
-void IEcard::setPixmapie(QPixmap value)
-{
-    pixmapie = value;
-}
-
 IEcard::~IEcard()
 {
-
-}
-
-QString IEcard::getPaintObjNo() const
-{
-    return paintObjNo;
-}
-
-void IEcard::setPaintObjNo(const QString &value)
-{
-    paintObjNo = value;
-}
-
-QPixmap IEcard::getPixmapmkn() const
-{
-    return pixmapmkn;
-}
-
-void IEcard::setPixmapmkn(const QPixmap &value)
-{
-    pixmapmkn = value;
-}
-
-QSqlRecord IEcard::getRecord() const
-{
-    return record;
-}
-
-void IEcard::setRecord(QSqlRecord value)
-{
-    record = value;
-}
-
-
-
-
-QString IEcard::getKurumno() const
-{
-    return kurumno;
-}
-
-void IEcard::setKurumno(QString value)
-{
-    kurumno = value  ;
-}
-
-QString IEcard::getIeno() const
-{
-    return ieno;
-}
-
-void IEcard::setIeno(QString value)
-{
-    ieno = value ;
 }
 
 int IEcard::getObjNo() const
-{
-    return objNo ;
-}
-
+{    return objNo ; }
 void IEcard::setObjNo(int value)
-{
-    objNo = value;
-}
+{    objNo = value; }
 
+int IEcard::getIeno() const
+{    return ieno; }
+void IEcard::setIeno(int value)
+{    ieno = value ; }
+
+QString IEcard::getKurumno() const
+{    return kurumno; }
+void IEcard::setKurumno(QString value)
+{    kurumno = value  ; }
+
+QString IEcard::getPaintObjNo() const
+{    return paintObjNo; }
+void IEcard::setPaintObjNo(const QString value)
+{    paintObjNo = value; }
+
+QPixmap IEcard::getPixmapmkn() const
+{    return pixmapmkn; }
+void IEcard::setPixmapmkn(const QPixmap value)
+{    pixmapmkn = value; }
+
+QPixmap IEcard::getPixmapie() const
+{    return pixmapie; }
+void IEcard::setPixmapie(const QPixmap value)
+{    pixmapie = value; }
