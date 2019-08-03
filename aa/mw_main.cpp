@@ -4,6 +4,7 @@
 
 MW_main::MW_main( )
 {
+    setAcceptDrops(true);
     this->setWindowTitle ("Makina İkmal Atölye Yönetim Uygulaması");
     this->setGeometry (20,20,800,500);
     this->setObjectName ("objMW_main");

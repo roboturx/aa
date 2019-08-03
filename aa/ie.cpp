@@ -60,16 +60,6 @@ void hC_IE::tbsetup()
     tb_mapper->addMapping (hClE_yetkili2->lineEdit ,
                            tb_model->fieldIndex ("ie_y2"));
 
-    //dragger = new DragWidget(this);
-
-    //dragger->setMinimumSize (this->width (),400);
-    //connect(dragger , & DragWidget::sgnDragger,
-    //        [this]()
-    // {
-
-    //   qDebug ()<< this->children ();
-    // isEmriListele();
-    // });
 
 
 
@@ -90,12 +80,6 @@ void hC_IE::tbui()
 
     hC_IE::setWindowTitle (win_Label->text());
     this->adjustSize ();
-    // hC_IE::setGeometry(20,20,
-    //                  qApp->screens()[0]->size ().rwidth (),
-    //     qApp->screens()[0]->size ().rheight ()/4);
-
-
-
 
     auto *win_Grid = new QGridLayout(this);
     win_Grid->addWidget ( tb_view  ,  0, 0, 1, 1 );
@@ -107,7 +91,6 @@ void hC_IE::tbui()
 void hC_IE::tbwdgt ()
 {
     qDebug () << "   ie wdgt";
-    qDebug()<<"   ie wdgt ";
 
     auto* lB_mk = new QLabel("Araç Kurum No");
     hClE_mkn->lineEdit->setReadOnly (true);
@@ -147,7 +130,7 @@ void hC_IE::tbwdgt ()
         dia->exec ();
     });
 
-qDebug()<<"   ie wdgt ";
+
 
     auto* lB_ie = new QLabel("İş Emri No");
     lE_ieno->setReadOnly (true);
@@ -247,7 +230,7 @@ void hC_IE::tbkntrl()
         });
         makinasec.exec ();
 
-    qDebug()<<"   ie kntrl";
+    qDebug()<<"   ie kntrl kurumno st---------> "<< kurumno_sT;
 
 
         //*** makina seçildi yola devam
@@ -735,36 +718,32 @@ void hC_IE::mousePressEvent(QMouseEvent *event)
         if (!child)
             return;
 
+        int ieno_nT = child->getIeno_nT();
+        QString kurumno_sT = child->getKurumno_sT();
+        QDateTime tarih_dT = child->getTarih_dT() ;
+        QString durum_sT = child->getDurum_sT();
+        QDateTime girtar_dT = child->getGirtar_dT();
+        QDateTime ciktar_dT = child->getCiktar_dT();
+        QString y1_sT = child->getY1_sT();
+        QString y2_sT = child->getY2_sT();
+        QPixmap iemkn_pX = child->getIemkn_pX ();
+        QPixmap ie_pX = child->getIe_pX ();
+        QPoint iepos_pT = event->pos() - child->pos();
+
         QByteArray itemData;
-
         QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+        dataStream << int(ieno_nT)
+                   << QString (kurumno_sT)
+                   << QDateTime (tarih_dT)
+                   << QString (durum_sT)
+                   << QDateTime (girtar_dT)
+                   << QDateTime (ciktar_dT)
+                   << QString (y1_sT)
+                   << QString (y2_sT)
+                   << QPixmap (iemkn_pX)
+                   << QPixmap (ie_pX)
+                   << QPoint (iepos_pT);
 
-
-        qDebug () << child->getIeno_nT()
-                   << child->getKurumno_sT()
-                   << child->getTarih_dT()
-                   << child->getDurum_sT()
-                   << child->getGirtar_dT()
-                   << child->getCiktar_dT()
-                   //<< child->getY1_sT()
-                   //<< child->getY2_sT()
-                   << child->getIemkn_pX ()
-                 //  << child->getIe_pX ()
-                   << QPoint(event->pos() - child->pos());
-
-
-
-        dataStream << child->getIeno_nT()
-                   << child->getKurumno_sT()
-                   << child->getTarih_dT()
-                   << child->getDurum_sT()
-                   << child->getGirtar_dT()
-                   << child->getCiktar_dT()
-                   << child->getY1_sT()
-                   << child->getY2_sT()
-                   << child->getIemkn_pX ()
-                   << child->getIe_pX ()
-                   << QPoint(event->pos() - child->pos());
 
 
         QMimeData *mimeData = new QMimeData;
@@ -859,9 +838,7 @@ void hC_IE::dropEvent(QDropEvent *event)
 
 
         QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
-
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-
         dataStream >>ieno_nT
                 >> kurumno_sT
                 >> tarih_dT
@@ -872,7 +849,7 @@ void hC_IE::dropEvent(QDropEvent *event)
                 >> y2_sT
                 >> iemkn_pX
                 >> ie_pX
-                << iepos_pT ;
+                >> iepos_pT ;
 
         IEcard *newIcon = new IEcard(ieno_nT, this);
         newIcon->move          ( event->pos() - iepos_pT);
@@ -947,7 +924,7 @@ IEcard::IEcard(int ieno, QWidget *parent) :
             >> y2_sT
             >> iemkn_pX
             >> ie_pX
-            << iepos_pT ;
+            >> iepos_pT ;
 
     IEcard::setIeno_nT    ( ieno_nT    ) ;
     IEcard::setKurumno_sT ( kurumno_sT ) ;
@@ -1195,9 +1172,11 @@ void IEcard::setIeno_nT(int value)
 {    ieno_nT = value ; }
 
 QString IEcard::getKurumno_sT() const
-{    return kurumno_sT; }
+{    qDebug ()<<"getkurumno-------"<< kurumno_sT;
+    return kurumno_sT; }
 void IEcard::setKurumno_sT(const QString value)
-{    kurumno_sT = value; }
+{   qDebug ()<<"setkurumno-------"<< value;
+    kurumno_sT = value; }
 
 QDateTime IEcard::getTarih_dT() const
 {    return tarih_dT; }

@@ -19,14 +19,15 @@ public:
 
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
-   // QMap<int,IEcard*> *cards ;
+
     QByteArray * mknrsm_bA;
     QByteArray * son_bA;
     QPixmap * qpm ;
 
-//    DragWidget *dragger;
     hC_MKN *mkn;
+
     hC_Le* hClE_mkn;
+
     QLineEdit* lE_ieno;
     QDateTimeEdit* dE_geltar;
     QComboBox* cbX_durum;
@@ -121,10 +122,10 @@ public:
 protected:
     void paintEvent(QPaintEvent *) ;//override;
     void mousePressEvent(QMouseEvent *event);// override;
-  //  void mouseDoubleClickEvent( QMouseEvent * e ) override;
+    //  void mouseDoubleClickEvent( QMouseEvent * e ) override;
 private:
 
-//    QPixmap SimileIcon;
+    //    QPixmap SimileIcon;
 
 
 
