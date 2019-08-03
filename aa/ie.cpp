@@ -1,4 +1,7 @@
 ﻿#include "ie.h"
+//static int x=10;
+//static int y=10;
+
 
 
 hC_IE::hC_IE(QWidget *parent)  : hC_tBcreator (parent)
@@ -7,6 +10,8 @@ hC_IE::hC_IE(QWidget *parent)  : hC_tBcreator (parent)
     //*****************  İ Ş   E M R İ  **************************
     qDebug() << "Constructor İŞ EMRİ *************************************  ";
 
+    setAcceptDrops(true);
+
     win_Label->setText ( "İŞ EMRİ KAYITLARI");
     *tb_name  = "ie_dbtb" ;
     *tb_ndex  = "ie_no";
@@ -14,7 +19,7 @@ hC_IE::hC_IE(QWidget *parent)  : hC_tBcreator (parent)
     tb_flds = new hC_ArrD (11, 4);
     tb_flds->setValue ( 0, "ie_ID"    , "INTEGER", "İşEmriID", "0" ) ;
     tb_flds->setValue ( 1, "ie_no"    , "INTEGER", "İş Emri No" );
-    tb_flds->setValue ( 2, "ie_mkn"   , "TEXT"   , "Kurum No" ) ;
+    tb_flds->setValue ( 2, "ie_kurumno"   , "TEXT"   , "Kurum No" ) ;
     tb_flds->setValue ( 3, "ie_tarih" , "TEXT"   , "İş Emri Tarihi" );
     tb_flds->setValue ( 4, "ie_durum" , "TEXT"   , "Durum");
     tb_flds->setValue ( 5, "ie_girtar", "TEXT"   , "Araç Giriş Tarihi"   );
@@ -49,15 +54,24 @@ void hC_IE::tbsetup()
     tbView   ( tb_flds );
     tbMap    ( tb_flds, tb_wdgts );
     tb_mapper->addMapping (hClE_mkn->lineEdit ,
-                           tb_model->fieldIndex ("ie_mkn"));
+                           tb_model->fieldIndex ("ie_kurumno"));
     tb_mapper->addMapping (hClE_yetkili1->lineEdit ,
                            tb_model->fieldIndex ("ie_y1"));
     tb_mapper->addMapping (hClE_yetkili2->lineEdit ,
                            tb_model->fieldIndex ("ie_y2"));
 
-    dragger = new DragWidget(this);
+    //dragger = new DragWidget(this);
 
-    dragger->setMinimumSize (this->width (),400);
+    //dragger->setMinimumSize (this->width (),400);
+    //connect(dragger , & DragWidget::sgnDragger,
+    //        [this]()
+    // {
+
+    //   qDebug ()<< this->children ();
+    // isEmriListele();
+    // });
+
+
 
     mkn = new hC_MKN ;
     mkn->tbsetup();
@@ -72,7 +86,7 @@ void hC_IE::tbsetup()
 
 void hC_IE::tbui()
 {
-    qDebug() << "   ui";
+    qDebug() << "   ieui";
 
     hC_IE::setWindowTitle (win_Label->text());
     this->adjustSize ();
@@ -86,14 +100,14 @@ void hC_IE::tbui()
     auto *win_Grid = new QGridLayout(this);
     win_Grid->addWidget ( tb_view  ,  0, 0, 1, 1 );
     win_Grid->addWidget ( win_Wdgt ,  0, 1, 1, 1 );
-    win_Grid->addWidget ( dragger  ,  1, 0, 1, 2 );
+    //win_Grid->addWidget ( dragger  ,  1, 0, 1, 2 );
 
 }
 
 void hC_IE::tbwdgt ()
 {
-    qDebug () << "   wdgt";
-
+    qDebug () << "   ie wdgt";
+    qDebug()<<"   ie wdgt ";
 
     auto* lB_mk = new QLabel("Araç Kurum No");
     hClE_mkn->lineEdit->setReadOnly (true);
@@ -133,7 +147,7 @@ void hC_IE::tbwdgt ()
         dia->exec ();
     });
 
-
+qDebug()<<"   ie wdgt ";
 
     auto* lB_ie = new QLabel("İş Emri No");
     lE_ieno->setReadOnly (true);
@@ -186,8 +200,9 @@ void hC_IE::tbwdgt ()
     wdgtGrid->addWidget (hClE_yetkili2 , 2, 14, 1, 6);
     wdgtGrid->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
     wdgtGrid->addWidget (win_Rsm      , 3, 14, 2, 6);
-
+qDebug()<<"   ie wdgt ddddddddddddddddddddd";
     isEmriListele ();
+    qDebug()<<"   ie wdgt sonnnnnnnnnnnnnnn";
 }
 
 void hC_IE::tbkntrl()
@@ -199,7 +214,6 @@ void hC_IE::tbkntrl()
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
     {
-        qDebug()<<" 1 yeni iş emri kaydı ";
         ////////////////////////////////////////////////
         /// yeni kayıt için kurum noyu mkn den alalım
 
@@ -210,19 +224,17 @@ void hC_IE::tbkntrl()
 
         //*** seçim penceresinde makina seçilir
         // yoksa yeni oluşturulur
-        QString mknkrmno_sT ;
+        QString kurumno_sT ;
         mknrsm_bA = new QByteArray ;
         son_bA = new QByteArray ;
 
-        qDebug()<<" 3 makina penceresi ";
-
         connect(mkn, &hC_MKN::sgnMkn,
-                [&mknkrmno_sT, this  ]
+                [&kurumno_sT, this  ]
                 (QString krmNo_sT,
                 QByteArray byteArray) mutable
         {
             //***  1   iş emri için kurum no
-            mknkrmno_sT = krmNo_sT ;
+            kurumno_sT = krmNo_sT ;
             //*** signal dan gelen byte array
             *mknrsm_bA  =  byteArray.fromRawData
                     (byteArray, byteArray.size ());
@@ -235,7 +247,7 @@ void hC_IE::tbkntrl()
         });
         makinasec.exec ();
 
-
+    qDebug()<<"   ie kntrl";
 
 
         //*** makina seçildi yola devam
@@ -243,11 +255,10 @@ void hC_IE::tbkntrl()
         /// yeni iş emri numaasını bul
         /// iş emri nosu _dbtb de
         /// no alanındaki en büyük sayı
-        qDebug()<<" 5 yeni kayıt için ie no dosyada bulunuyor";
         hC_Nr maxID;
         int ieno_nT ;
         ieno_nT     = maxID.hC_NrMax ( tb_name,
-                                           tb_flds->value (0,0));
+                                       tb_flds->value (0,0));
 
         ////////////////////////////////////////////////
         /// yeni kaydı ekle
@@ -256,13 +267,13 @@ void hC_IE::tbkntrl()
         QString qry, mesaj("");
         qry = QString("INSERT INTO %1 ( "
                       "ie_no    , "
-                      "ie_mkn   , "
+                      "ie_kurumno   , "
                       "ie_durum , "
                       "ie_tarih ) "
                       " values ( '%2', '%3', '%4', '%5'  ) " )
                 .arg ( *tb_name)
                 .arg ( QString::number( ieno_nT))
-                .arg ( mknkrmno_sT )
+                .arg ( kurumno_sT )
                 .arg ( cbX_durum->itemText (0))
                 .arg ( QDate::currentDate ().toString ("dd/MM/yy"));
 
@@ -272,6 +283,10 @@ void hC_IE::tbkntrl()
                     "-----"+
                     q.lastError().text ()+
                     "-----";
+            QMessageBox::information(this,"Kayıt Ekleme Hatası:",
+                                     "HATA - İş Emri Kaydı Eklenemedi!\n"
+                                     +q.lastError ().text ());
+
         }
         else
         {
@@ -282,11 +297,7 @@ void hC_IE::tbkntrl()
             //// resmi de yazalım
             /// yeni eklenenleri kaydedelim
 
-
-
-
-
-            hClE_mkn->lineEdit->setText ( mknkrmno_sT );
+            hClE_mkn->lineEdit->setText ( kurumno_sT );
             hC_Gz (dE_geltar , "nulldate");
             hC_Gz (dE_girtar , "nulldate");
             hC_Gz (dE_ciktar , "nulldate");
@@ -313,9 +324,19 @@ void hC_IE::tbkntrl()
                               index(iendxrow, tb_model->fieldIndex
                                     ( "ie_resimmkn" )), *son_bA );
 
-
+    qDebug()<<"   ie kntrl";
             tb_model->submitAll();
 
+            QDateTime tarih_dT = tb_view->table->model ()
+                    ->index ( iendxrow, tb_model
+                              ->fieldIndex( "ie_tarih" )).data ().toDateTime ();
+            QString durum_sT = tb_view->table->model ()
+                    ->index ( iendxrow, tb_model
+                              ->fieldIndex( "ie_durum" )).data ().toString();
+            QDateTime girtar_dT {} ;
+            QDateTime ciktar_dT {} ;
+            QString   y1_sT     {} ;
+            QString   y2_sT     {} ;
             QByteArray iersmie_bA = tb_view->table->model ()
                     ->index ( iendxrow, tb_model
                               ->fieldIndex( "ie_resimie" )).data ().toByteArray ();
@@ -324,15 +345,22 @@ void hC_IE::tbkntrl()
                               ->fieldIndex( "ie_resimmkn" )).data ().toByteArray ();
             ///////////////////////////////////////////////////////////////////
 
-
-            isEmriYeni (iersmmkn_bA,
+            QPoint iepos(20,400);
+            isEmriYeni (ieno_nT,
+                        kurumno_sT,
+                        tarih_dT,
+                        durum_sT,
+                        girtar_dT,
+                        ciktar_dT,
+                        y1_sT,
+                        y2_sT,
+                        iersmmkn_bA,
                         iersmie_bA,
-                        ieno_nT,
-                        mknkrmno_sT);
+                        iepos);
 
         }
         qDebug () <<mesaj;
-
+    qDebug()<<"   ie kntrl";
         // iş emri ekle
 
     });
@@ -413,10 +441,9 @@ void hC_IE::tbkntrl()
             }
             else
             {
-
-                qDebug()<< " HATA - İş Emri Detay Kaydı Silinemedi "
-                        << q_qry.lastError ().text ();
-
+                QMessageBox::information(this,"Kayıt Silme Hatası:",
+                                         "HATA - İş Emri Detay Kaydı Silinemedi!\n"
+                                         +q_qry.lastError ().text ());
             }
             // ie sil
             QString idie = tb_model->data
@@ -431,16 +458,14 @@ void hC_IE::tbkntrl()
             q_qry.exec (s_qry);
             if (q_qry.isActive ())
             {
-                qDebug()<< " İş Emri Kaydı Silindi ";
                 tb_model->submitAll ();
                 tb_model->select ();
             }
             else
             {
-
-                qDebug()<< " HATA - İş Emri Kaydı Silinemedi "
-                        << q_qry.lastError ().text ();
-
+                QMessageBox::information(this,"Kayıt Silme Hatası:",
+                                         "HATA - İş Emri Kaydı Silinemedi!\n"
+                                         +q_qry.lastError ().text ());
             }
         }
         else if (msgBox.clickedButton() == pb_vzg)
@@ -529,32 +554,31 @@ void hC_IE::isEmriListele()
 
     ///// toolbutton için
     ////////////////// iş emirlerini ekrana listele
+
+    //  cards = new QMap<int,IEcard*> ;
+
     QSqlQuery query("SELECT * FROM ie_dbtb "
                     "WHERE ie_durum != 'Tamamlandı'");
-    if (query.isActive ())
+    if (!query.isActive ())
     {
-        qDebug()<< "active " ;
-    }
-    else {
-        qDebug()<< "not active "<< query.lastError ().text ();
+        QMessageBox::information(this,"İş Emri Kart Hatası:",
+                                 "HATA - İş Emri Kartları Listelenemiyor !\n"
+                                 +query.lastError ().text ());
+
         return;
     }
 
+    static int x=10;
+    static int y=410;
+
     while (query.next())
     {
-        qDebug()<<" -  "<< query.value ("ie_no").toInt ()
-               <<"///////////////////////// in while query is "
-                <<query.isValid ();
-
         int ieno_nT {query.value ("ie_no").toInt () };
-        QString mknkrmno_sT {query.value ("ie_mkn").toString ()};
+        QString mknkrmno_sT {query.value ("ie_kurumno").toString ()};
 
-
-        hC_Nr x;
-        x.hC_NrGo(tb_view, tb_model, ieno_nT, 1 );
-
-
-
+        // tb-view de indexi bul
+        hC_Nr xnr;
+        xnr.hC_NrGo(tb_view, tb_model, ieno_nT, 1 );
 
         ///////////////////////////////////////////////////////////////////
         /// ieno nun olduğu index i bulalım
@@ -575,7 +599,7 @@ void hC_IE::isEmriListele()
         if(matchingIndex.isValid())
         {
             tb_view->table->scrollTo(matchingIndex,
-                QAbstractItemView::EnsureVisible);
+                                     QAbstractItemView::EnsureVisible);
 
         } else {
             QMessageBox::information(this,"Name Search:", "Match not found!");
@@ -583,71 +607,111 @@ void hC_IE::isEmriListele()
         /// index  istediğimiz yere geldi
 
         QModelIndex ndx = tb_view->table->currentIndex ();
-        int ndxrow = ndx.row ();
-QMessageBox::information(this,"ie index row", QString::number(ndxrow));
+        int iendxrow = ndx.row ();
+        //QMessageBox::information(this,"ie index row", QString::number(ndxrow));
         /// ie resmini table dan alalım
-        QByteArray iersmie_bA = tb_view->table->model()
-                ->index( ndxrow, tb_model
-                         ->fieldIndex ("ie_resimie") ).data().toByteArray ();
+        QString kurumno_sT = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_kurumno" )).data ().toString();
+        QDateTime tarih_dT = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_tarih" )).data ().toDateTime ();
+        QString durum_sT = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_durum" )).data ().toString();
+        QDateTime girtar_dT = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_girtar" )).data ().toDateTime ();
+        QDateTime ciktar_dT = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_ciktar" )).data ().toDateTime ();
+        QString y1_sT = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_yetkili1" )).data ().toString();
+        QString y2_sT = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_yetkili2" )).data ().toString();
+        QByteArray iersmie_bA = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_resimie" )).data ().toByteArray ();
+        QByteArray iersmmkn_bA = tb_view->table->model ()
+                ->index ( iendxrow, tb_model
+                          ->fieldIndex( "ie_resimmkn" )).data ().toByteArray ();
 
-        /// mkn resmini table dan alalım
-        QByteArray iersmmkn_bA = tb_view->table->model()
-                ->index( ndxrow, tb_model
-                         ->fieldIndex ("ie_resimmkn") ).data ().toByteArray ();
 
-        isEmriYeni (iersmmkn_bA,
+        QPoint iepos(x+=30,y+=20);
+        isEmriYeni (ieno_nT,
+                    kurumno_sT,
+                    tarih_dT,
+                    durum_sT,
+                    girtar_dT,
+                    ciktar_dT,
+                    y1_sT,
+                    y2_sT,
+                    iersmmkn_bA,
                     iersmie_bA,
-                    ieno_nT,
-                    mknkrmno_sT);
+                    iepos )  ;
     }
+
 }
 
-void hC_IE::isEmriYeni(QByteArray iersmmkn_bA,
+void hC_IE::isEmriYeni(int ieno_nT,
+                       QString kurumno_sT,
+                       QDateTime tarih_dT,
+                       QString durum_sT,
+                       QDateTime girtar_dT,
+                       QDateTime ciktar_dT,
+                       QString y1_sT,
+                       QString y2_sT,
+                       QByteArray iersmmkn_bA,
                        QByteArray iersmie_bA,
-                       int ieno_nT,
-                       QString mknkrmno_sT)
+                       QPoint iepos )
 {
-    static int x=10;
-    static int y=10;
-
-    qDebug()<<"IEpos ["<<x<<","<<y<<"]";
-    QPixmap dS_imagemkn = QPixmap();
-    if ( ! dS_imagemkn.loadFromData ( iersmmkn_bA )  )
+qDebug()<<"   ie yeni ";
+    QPixmap iemkn_pX{}; // (":/rsm/rsm_yok.png");
+    if ( ! iemkn_pX.loadFromData ( iersmmkn_bA )  )
     {
-        qDebug()<<"Makina resmi yüklenemedi ";
-    }
-    QPixmap dS_imageie = QPixmap();
-    if ( ! dS_imageie.loadFromData ( iersmie_bA )  )
-    {
-        qDebug()<<"İş emri resmi yüklenemedi. ";
+       iemkn_pX = QPixmap ( ":/rsm/rsm_yok.png" );
     }
 
+    QPixmap ie_pX{} ; /// = QPixmap(":/rsm/rsm_yok.png");
+    if ( ! ie_pX.loadFromData ( iersmie_bA )  )
+    {
+        ie_pX = QPixmap ( ":/rsm/rsm_yok.png" );
+    }
 
     QFile file("isemri"+QString::number (ieno_nT)+".dat");
     if (!file.open(QIODevice::WriteOnly)) {
-        qDebug() << file
-                 <<" cannot open file for writing: "
-                 << qPrintable(file.errorString()) << endl;
+
+        QMessageBox::information(this,"İş Emri Kartı Dosya "
+                                      "Yazma Hatası: "+file.fileName (),
+                                 "HATA - İş Emri Kartı Dosyaya Yazılamıyor !\n"
+                                 + file.errorString());
         return;
     }
 
-    else {
-        qDebug() << file <<" işlem için hazırlandı. ";
-    }
     /// iş emri bilgileri dosyaya yazılıyor
     /// bu bilgiler iş emri objeleri oluşturulurken
     /// tekrar dosyadan okunur
     QDataStream out(&file);
     out.setVersion(QDataStream::Qt_4_3);
-    out << QString( mknkrmno_sT)
-        << QPixmap(dS_imagemkn)
-        << QPixmap(dS_imageie );
+    out << int       ( ieno_nT   )
+        << QString   ( kurumno_sT)
+        << QDateTime ( tarih_dT  )
+        << QString   ( durum_sT  )
+        << QDateTime ( girtar_dT )
+        << QDateTime ( ciktar_dT )
+        << QString   ( y1_sT     )
+        << QString   ( y2_sT     )
+        << QPixmap   ( iemkn_pX  )
+        << QPixmap   ( ie_pX     )
+        << QPoint    ( iepos     ) ;
 
-    IEcard *isEmri = new IEcard (ieno_nT, dragger);
-    isEmri->move (x,y);
-    x+=30;
-    y+=20;
+    IEcard *isEmri = new IEcard (ieno_nT, this);
 
+    isEmri->move (iepos);
+
+qDebug()<<"   ie yeni son";
 }
 
 
@@ -659,3 +723,524 @@ hC_IE::~hC_IE()
 }
 
 
+
+void hC_IE::mousePressEvent(QMouseEvent *event)
+{
+
+    if (event->button () == Qt::LeftButton )
+    {
+
+        ///burada child olarak alınıyor
+        IEcard *child = static_cast< IEcard *>(childAt(event->pos()));
+        if (!child)
+            return;
+
+        QByteArray itemData;
+
+        QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+
+
+        qDebug () << child->getIeno_nT()
+                   << child->getKurumno_sT()
+                   << child->getTarih_dT()
+                   << child->getDurum_sT()
+                   << child->getGirtar_dT()
+                   << child->getCiktar_dT()
+                   //<< child->getY1_sT()
+                   //<< child->getY2_sT()
+                   << child->getIemkn_pX ()
+                 //  << child->getIe_pX ()
+                   << QPoint(event->pos() - child->pos());
+
+
+
+        dataStream << child->getIeno_nT()
+                   << child->getKurumno_sT()
+                   << child->getTarih_dT()
+                   << child->getDurum_sT()
+                   << child->getGirtar_dT()
+                   << child->getCiktar_dT()
+                   << child->getY1_sT()
+                   << child->getY2_sT()
+                   << child->getIemkn_pX ()
+                   << child->getIe_pX ()
+                   << QPoint(event->pos() - child->pos());
+
+
+        QMimeData *mimeData = new QMimeData;
+        mimeData->setData("application/x-dnditemdata", itemData);
+        QDrag *drag = new QDrag(this);
+        drag->setMimeData(mimeData);
+
+        ///resmin küçüğününü yap
+        /// // dragger pixmap
+        QPixmap tempPixmap = child->getIemkn_pX () ;
+        drag->setPixmap(tempPixmap.scaled(160,100,Qt::KeepAspectRatio));
+        drag->setHotSpot(event->pos() - child->pos());
+
+        /// dragger pixmap painter
+        /*QPainter painter;
+    painter.save ();
+       // painter.begin(&tempPixmap);
+  //      painter.drawPixmap (rect (),tempPixmap);
+      //  painter.end();
+        painter.drawText ( 5, 20, "1. sıra yazı" );
+        painter.drawText ( 5, 35, "2. sıra yazı" );
+        painter.drawText ( 5, 50, "3. sıra yazı" );
+        painter.drawText ( 5, 65, "4. sıra yazı" );
+        painter.drawText ( 5, 80, "5. sıra yazı" );
+painter.restore ();
+
+*/
+        //child->setPixmapmkn(tempPixmap);
+
+        //        if (drag->exec(Qt::CopyAction  | Qt::MoveAction,
+        //                     Qt::CopyAction) == Qt::MoveAction)
+        if (drag->exec() == Qt::MoveAction)
+        {
+            child->close();
+        }
+        else
+        {
+            child->show();
+            //    child->setPixmapmkn(tempPixmap);
+        }
+    }
+
+}
+
+
+
+void hC_IE::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+    } else {
+        event->ignore();
+    }
+}
+
+void hC_IE::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+    } else {
+        event->ignore();
+    }
+}
+
+
+
+void hC_IE::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+
+        int ieno_nT;
+        QString kurumno_sT ;
+        QDateTime tarih_dT ;
+        QString durum_sT ;
+        QDateTime girtar_dT ;
+        QDateTime ciktar_dT ;
+        QString y1_sT ;
+        QString y2_sT ;
+        QPixmap iemkn_pX;
+        QPixmap ie_pX;
+        QPoint iepos_pT;
+
+
+        QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
+
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        dataStream >>ieno_nT
+                >> kurumno_sT
+                >> tarih_dT
+                >> durum_sT
+                >> girtar_dT
+                >> ciktar_dT
+                >> y1_sT
+                >> y2_sT
+                >> iemkn_pX
+                >> ie_pX
+                << iepos_pT ;
+
+        IEcard *newIcon = new IEcard(ieno_nT, this);
+        newIcon->move          ( event->pos() - iepos_pT);
+        newIcon->setIeno_nT    ( ieno_nT    ) ;
+        newIcon->setKurumno_sT ( kurumno_sT ) ;
+        newIcon->setTarih_dT   ( tarih_dT   ) ;
+        newIcon->setDurum_sT   ( durum_sT   ) ;
+        newIcon->setGirtar_dT  ( girtar_dT  ) ;
+        newIcon->setCiktar_dT  ( ciktar_dT  ) ;
+        newIcon->setY1_sT      ( y1_sT      ) ;
+        newIcon->setY2_sT      ( y2_sT      ) ;
+        newIcon->setIemkn_pX   ( iemkn_pX   ) ;
+        newIcon->setIe_pX      ( ie_pX      ) ;
+        newIcon->setIepos_pT   ( iepos_pT   ) ;
+
+        newIcon->show();
+        newIcon->setToolTip ( newIcon->ietooltip() );
+        newIcon->setAttribute(Qt::WA_DeleteOnClose);
+        if (event->source() == this )
+        {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+
+        } else
+        {
+            event->acceptProposedAction();
+        }
+    } else
+    {
+        event->ignore();
+    }
+
+}
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////
+/// \brief IEcard::IEcard
+/// \param parent
+///
+///
+///
+///
+
+IEcard::IEcard(int ieno, QWidget *parent) :
+    QWidget(parent) //   : DragWidget (parent)
+{
+
+
+    QFile file("isemri"+QString::number (ieno)+".dat");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Cannot open file for reading: "
+                 << qPrintable(file.errorString()) << endl;
+        return;
+    }
+
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_3);
+
+    in  >> ieno_nT
+            >> kurumno_sT
+            >> tarih_dT
+            >> durum_sT
+            >> girtar_dT
+            >> ciktar_dT
+            >> y1_sT
+            >> y2_sT
+            >> iemkn_pX
+            >> ie_pX
+            << iepos_pT ;
+
+    IEcard::setIeno_nT    ( ieno_nT    ) ;
+    IEcard::setKurumno_sT ( kurumno_sT ) ;
+    IEcard::setTarih_dT   ( tarih_dT   ) ;
+    IEcard::setDurum_sT   ( durum_sT   ) ;
+    IEcard::setGirtar_dT  ( girtar_dT  ) ;
+    IEcard::setCiktar_dT  ( ciktar_dT  ) ;
+    IEcard::setY1_sT      ( y1_sT      ) ;
+    IEcard::setY2_sT      ( y2_sT      ) ;
+    IEcard::setIemkn_pX   ( iemkn_pX   ) ;
+    IEcard::setIe_pX      ( ie_pX      ) ;
+    IEcard::setIepos_pT   ( iepos_pT   ) ;
+
+    IEcard::setAcceptDrops( false      ) ;
+    IEcard::setMinimumSize( 160, 100   ) ;
+    IEcard::move          ( iepos_pT   ) ;
+    IEcard::setAttribute  ( Qt::WA_DeleteOnClose);
+    IEcard::show();
+
+
+    //    SimileIcon = QPixmap(":/rsm/ex.ico");
+    //    QToolButton* xxx1 = new QToolButton() ;
+    //    //x->setIcon ( QIcon(":/images/boat.png"));
+    //    xxx1->setIcon (QIcon( SimileIcon ));
+    //    xxx1->setIconSize (QSize(25,25));
+    //    xxx1->setAutoRaise (true);
+    //    connect (xxx1, &QToolButton::clicked, this,
+    //             &IEcard::smSLOT );
+
+    QToolButton* x2 = new QToolButton() ;
+    //x->setIcon ( QIcon(":/images/boat.png"));
+    x2->setIconSize (QSize(25,25));
+    x2->setAutoRaise (true);
+    connect (x2, &QToolButton::clicked, this,
+             &IEcard::smSLOT );
+
+    QToolButton* x3 = new QToolButton() ;
+    //x->setIcon ( QIcon(":/images/boat.png"));
+    x3->setIconSize (QSize(25,25));
+    x3->setAutoRaise (true);
+    connect (x3, &QToolButton::clicked, this,
+             &IEcard::smSLOT );
+
+    QToolButton* x4 = new QToolButton() ;
+    //x->setIcon ( QIcon(":/images/boat.png"));
+    x4->setIconSize (QSize(25,25));
+    x4->setAutoRaise (true);
+    connect (x4, &QToolButton::clicked, this,
+             &IEcard::smSLOT );
+
+    // x->move (50,50);
+    //  auto gr = new QGridLayout(this);
+
+    //gr->addWidget (resim    ,0 ,3 ,5 , 3 );
+
+    //  gr->addWidget (xxx1       ,1 ,0 ,2 , 2 );
+    //    gr->addWidget ( resim   ,2 ,0 ,2 , 2 );
+    // gr->addWidget (x3       ,3 ,0 ,2 , 2 );
+    // gr->addWidget (x4       ,4 ,0 ,2 , 2 );
+
+
+
+}
+
+
+
+
+
+
+//Paint event of button
+void IEcard::paintEvent(QPaintEvent *paint)
+{
+    QWidget::paintEvent(paint);
+    QPainter painter(this);
+
+    painter.save();
+    painter.setRenderHints(QPainter::Antialiasing |
+                           QPainter::SmoothPixmapTransform,1);
+    painter.scale (1,1) ;
+    painter.setPen(Qt::blue);                       //changing the color of pen.
+    painter.setFont(QFont("Arial", 12, QFont::Bold));     //Changing the font.
+    /////////////////////////////////////////////////////////////////////////////
+    /// resim mkn çizelim
+    QPixmap outPixmap = getIemkn_pX ();
+
+    QPoint rr(rect ().x()+25,rect ().y()+25 );
+    painter.drawPixmap ( rr ,outPixmap.scaled(120,75,Qt::KeepAspectRatio));
+    /////////////////////////////////////////////////////////////////////////////
+    /// üst satıra ie no yu yazalım
+    QRect UstRect(0,0,150,24);
+    painter.drawRect (UstRect);
+    painter.fillRect (UstRect, QBrush (QColor(60,60,60,234)));
+    painter.setPen(Qt::cyan);
+    painter.drawText(UstRect, Qt::AlignHCenter | Qt::AlignCenter,
+                     " "+ QString::number (getIeno_nT ())+
+                     ":"+getKurumno_sT ());
+    /////////////////////////////////////////////////////////////////////////////
+    /// üst satıra kurumnoyu yazalım
+    QRect altRect(rect ().x(),rect ().y()+105,
+                  150,24);
+    painter.drawRect (altRect);
+    painter.fillRect (altRect, QBrush (QColor(60,60,60,224)));
+
+    painter.setPen(Qt::green);
+    painter.drawText(altRect, Qt::AlignHCenter | Qt::AlignCenter,
+                     " İŞ EMRİ ");
+    painter.restore();
+}
+
+
+
+void IEcard::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button () == Qt::RightButton )
+    {
+        smSLOT ();
+    }
+    else
+    {
+        event->ignore ();
+    }
+    if (event->button () == Qt::LeftButton )
+    {
+        event->ignore ();
+    }
+}
+
+QString IEcard::ietooltip()
+{
+    QString tool;
+    tool = tool +"İş Emri No          : "+ QString::number(getIeno_nT    (  )) ;
+    tool = tool +"Kurum No            : "+ getKurumno_sT () ;
+    tool = tool +"Geliş Tarihi        : "+ getTarih_dT   ().toString ("dd/MMM/yyyy");
+    tool = tool +"Durum               : "+ getDurum_sT   () ;
+    tool = tool +"Atölye Giriş Tarihi : "+ getGirtar_dT  ().toString ("dd/MMM/yyyy") ;
+    tool = tool +"Ayrılış Tarihi      : "+ getCiktar_dT  ().toString ("dd/MMM/yyyy") ;
+    tool = tool +"Yetkili             : "+ getY1_sT      () ;
+    tool = tool +"Yetkili             : "+ getY2_sT      () ;
+    //tool = tool + getIemkn_pX   ();
+    //tool = tool + getIe_pX      () ;
+    //tool = tool + getIepos_pT   () ;
+    return tool;
+}
+
+
+
+void IEcard::smSLOT()
+{
+    //qDebug ()  <<"  cw mkn view sağ tuş 001";
+    auto *menu = new QMenu(this);
+
+    // sigorta kaydı ekle
+    const QIcon ekleIc_sgrt = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_sgrt = new QAction(ekleIc_sgrt, tr("Sıra Bekliyor"), this);
+    ekleAct_sgrt->setShortcuts (QKeySequence::New);
+    ekleAct_sgrt->setStatusTip ("Sigorta Kaydı Ekle");
+    connect (ekleAct_sgrt, &QAction::triggered,
+             []()
+    {
+        qDebug()<<"menu sıra bekliyor of kurum no";
+        //          << itemAt(pos) << ""<< &shapeItems[itemAt(pos)] ;
+        //delete this;
+    });
+
+    menu->addAction(ekleAct_sgrt);
+
+    // muayene kaydı ekle
+    const QIcon ekleIc_mua = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_mua = new QAction(ekleIc_mua, tr("Usta Bekliyor"), this);
+    ekleAct_mua->setShortcuts (QKeySequence::New);
+    ekleAct_mua->setStatusTip ("Muayene Kaydı Ekle");
+    connect (ekleAct_mua, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_mua);
+
+
+    // yağ
+    const QIcon ekleIc_yag = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_yag = new QAction(ekleIc_yag, tr("Parça Bekliyor"), this);
+    ekleAct_yag->setShortcuts (QKeySequence::New);
+    ekleAct_yag->setStatusTip ("Yağ Kaydı Ekle");
+    connect (ekleAct_yag, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_yag);
+
+
+    // filtre
+    const QIcon ekleIc_flt = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_flt = new QAction(ekleIc_flt, tr("Tamamlandık"), this);
+    ekleAct_flt->setShortcuts (QKeySequence::New);
+    ekleAct_flt->setStatusTip ("Filtre Kaydı Ekle");
+    connect (ekleAct_flt, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_flt);
+
+
+
+    // yeni iş emri kaydı ekle
+    const QIcon ekleIc_sipr = QIcon(":/rsm/Add.ico");
+    QAction* ekleAct_sipr = new QAction(ekleIc_sipr, tr("İş Emri Ekle..."), this);
+    ekleAct_sipr->setShortcuts (QKeySequence::New);
+    ekleAct_sipr->setStatusTip ("İş Emri Kaydı Ekle");
+    connect (ekleAct_sipr, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(ekleAct_sipr);
+
+
+
+    //  mkn kaydı SİL
+    const QIcon silIc_mkn = QIcon(":/rsm/Erase.ico");
+    QAction* silAct_mkn = new QAction(silIc_mkn, tr("Makina &Sil..."), this);
+    silAct_mkn->setShortcuts (QKeySequence::New);
+    silAct_mkn->setStatusTip ("DİKKAT :: Makina Kaydını ve bu makina ile ilgili herşeyi siler...");
+    connect (silAct_mkn, &QAction::triggered, this,
+             []()
+    {
+    });
+    menu->addAction(silAct_mkn);
+
+    menu->addSeparator();
+
+    // QPoint pos(50,50);
+    menu->popup(this->mapToParent (pos () ) ) ;
+}
+
+IEcard::~IEcard()
+{
+}
+
+
+
+
+
+int IEcard::getIeno_nT() const
+{    return ieno_nT; }
+void IEcard::setIeno_nT(int value)
+{    ieno_nT = value ; }
+
+QString IEcard::getKurumno_sT() const
+{    return kurumno_sT; }
+void IEcard::setKurumno_sT(const QString value)
+{    kurumno_sT = value; }
+
+QDateTime IEcard::getTarih_dT() const
+{    return tarih_dT; }
+void IEcard::setTarih_dT(const QDateTime value)
+{    tarih_dT = value; }
+
+QString IEcard::getDurum_sT() const
+{    return durum_sT; }
+void IEcard::setDurum_sT(const QString value)
+{    durum_sT = value; }
+
+QDateTime IEcard::getGirtar_dT() const
+{    return girtar_dT; }
+void IEcard::setGirtar_dT(const QDateTime value)
+{    girtar_dT = value; }
+
+QDateTime IEcard::getCiktar_dT() const
+{    return ciktar_dT; }
+void IEcard::setCiktar_dT(const QDateTime value)
+{    ciktar_dT = value; }
+
+
+QString IEcard::getY1_sT() const
+{    return y1_sT; }
+void IEcard::setY1_sT(const QString value)
+{    y1_sT = value; }
+
+QString IEcard::getY2_sT() const
+{     return y2_sT; }
+void IEcard::setY2_sT(const QString value)
+{    y2_sT = value; }
+
+QPixmap IEcard::getIemkn_pX() const
+{    return iemkn_pX; }
+void IEcard::setIemkn_pX(const QPixmap value)
+{    iemkn_pX = value; }
+
+QPixmap IEcard::getIe_pX() const
+{    return ie_pX; }
+void IEcard::setIe_pX(const QPixmap value)
+{    ie_pX = value; }
+
+QPoint IEcard::getIepos_pT() const
+{    return iepos_pT; }
+void IEcard::setIepos_pT(const QPoint value)
+{    iepos_pT = value; }

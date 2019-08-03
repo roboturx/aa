@@ -3,7 +3,7 @@
 
 #include <globals.h>
 #include "ie.h"
-#include "dragwidget.h"
+//#include "dragwidget.h"
 
 namespace nSIedet {
 class hC_IEDET;

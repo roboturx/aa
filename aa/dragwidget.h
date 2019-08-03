@@ -2,20 +2,19 @@
 #define DRAGWIDGET_H
 
 #include "globals.h"
-//#include "iedet.h"
-//#include "iedet.h"
 #include "mkn.h"
 
 QT_BEGIN_NAMESPACE
-class QDragEnterEvent;
-class QDropEvent;
-class DragWidget;
+//class QDragEnterEvent;
+//class QDropEvent;
+//class DragWidget;
 class IEcard;
-QT_END_NAMESPACE
+//QT_END_NAMESPACE
 
 //! [0]
 class DragWidget : public QWidget
 {
+    Q_OBJECT
 public:
     explicit DragWidget(QWidget *parent = nullptr);
 
@@ -28,6 +27,9 @@ public:
     hC_MKN* mkn;
 
 
+
+signals:
+    void sgnDragger();
 private:
 
 //    void isEmriYeni(QSqlRecord record);
@@ -48,13 +50,13 @@ protected:
 
 
 
-class IEcard : public DragWidget
+class IEcard : public QWidget//DragWidget
 {
     Q_OBJECT
 
 public:
     IEcard(int ieno, QWidget *parent = nullptr) ;
-    ~IEcard() override;
+    ~IEcard() ;//override;
 
 
     QLabel* resim;
@@ -81,8 +83,8 @@ public:
     void setPaintObjNo(const QString value);
 
 protected:
-    void paintEvent(QPaintEvent *) override;
-    void mousePressEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *) ;//override;
+    void mousePressEvent(QMouseEvent *event);// override;
   //  void mouseDoubleClickEvent( QMouseEvent * e ) override;
 private:
     //int objNo;
@@ -101,6 +103,7 @@ private:
 
 private slots:
     void smSLOT();
+
 
 };
 

@@ -11,7 +11,7 @@ int SortingBox::col=20;
 int SortingBox::row=65;
 
 
-SortingBox::SortingBox(QWidget* parent)
+SortingBox::SortingBox(QWidget* parent) :QWidget (parent)
 {
 
     isEmri = new hC_IE;

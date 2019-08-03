@@ -67,8 +67,8 @@ WARNING  şifre için burayı kullan
 
 
 //    sbox = new SortingBox;
-    dbox = new DragWidget;
-    this->setCentralWidget (dbox );
+    //dbox = new DragWidget;
+    this->setCentralWidget (dbase );
 
 }
 
@@ -156,6 +156,7 @@ void MW_main::cr_Actions()
     mn_main->addAction(act_main);
     tb_main->addAction(act_main);
 
+
     //////// G İ R İ Ş
     connect( act_main , &QAction::triggered,
 
@@ -168,9 +169,9 @@ void MW_main::cr_Actions()
 
         //delete sbox;
 
-        sbox = new SortingBox;
+        //sbox = new SortingBox;
 
-        this->setCentralWidget (sbox );
+        this->setCentralWidget (dbase );
 
     });
 
@@ -256,13 +257,38 @@ void MW_main::cr_Actions()
     act_iedet->setShortcut(QKeySequence(tr("Ctrl+P")));
     act_iedet->setStatusTip(tr("İş Emri Detay"));
     mn_atlye->addAction(act_iedet);
+
+    tb_main->addAction (act_iedet);
+
     connect( act_iedet , &QAction::triggered,
              [this]()
     {
         mw_iedet = new hC_IEDET ;
         mw_iedet->tbsetup ();
         mw_iedet->show ();
+
     });/// iş emri detay
+
+/*    /// Çıkış
+    auto *act_Quit = mn_main->addAction(tr("&Çıkış"),
+                                        this, &QWidget::close);
+    //QAction *act_Quit = new QAction(QIcon(":/rsm/out.ico"),
+    //                             tr("&Çıkış..."), this);
+    act_Quit->setIcon (QIcon(":/rsm/out.ico"));
+
+    act_Quit->setShortcuts(QKeySequence::Quit);
+    act_Quit->setStatusTip(tr("Programdan Çıkış "));
+    mn_main->addAction(act_Quit);
+    tb_main->addAction(act_Quit);
+    connect(act_Quit , &QAction::triggered,
+  */
+
+
+
+
+
+
+
 
     //// Taşınır istek
     auto *act_tsnr = new QAction(QIcon(":/rsm/worker.jpeg"),
@@ -370,6 +396,11 @@ void MW_main::cr_Actions()
     menuBar()->addSeparator();
 
     tb_main->addSeparator ();
+
+
+
+
+
     /// Çıkış
     auto *act_Quit = mn_main->addAction(tr("&Çıkış"),
                                         this, &QWidget::close);

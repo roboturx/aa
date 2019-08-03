@@ -354,12 +354,12 @@ bool hC_Nr::hC_NrGo(hC_Tv* tb_view,
                            Qt::MatchExactly |
                            Qt::MatchWrap |
                            Qt::MatchRecursive);
-qDebug () << "aranan : " <<aranan;
-qDebug () << "kolon  : " << kolon;
-qDebug () << "view   : " << tb_view;
-qDebug () << "strt   : " <<searchStartIndex ;
-qDebug () << "match s: " <<nextMatches;
-qDebug () << "size   : " << nextMatches.size();
+//qDebug () << "aranan : " <<aranan;
+//qDebug () << "kolon  : " << kolon;
+//qDebug () << "view   : " << tb_view;
+//qDebug () << "strt   : " <<searchStartIndex ;
+//qDebug () << "match s: " <<nextMatches;
+//qDebug () << "size   : " << nextMatches.size();
 
     if(nextMatches.size() == 1)
     {
@@ -388,12 +388,12 @@ qDebug () << "size   : " << nextMatches.size();
                                           nextMatches.at(0),kolon2));
         boole = true;
     }
-    qDebug () << "current          :" <<tb_view->table->currentIndex() ;
+//    qDebug () << "current          :" <<tb_view->table->currentIndex() ;
 
-    qDebug () << "current aft slct :" <<tb_view->table->currentIndex() ;
+//    qDebug () << "current aft slct :" <<tb_view->table->currentIndex() ;
 
     tb_view->table->setFocus ();
-    qDebug () << "current aft fcs  :" <<tb_view->table->currentIndex() ;
+//    qDebug () << "current aft fcs  :" <<tb_view->table->currentIndex() ;
 
     return boole;
 }
