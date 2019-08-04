@@ -129,6 +129,8 @@ private:
 
 
 
+
+
     int ieno_nT;
     QString kurumno_sT ;
     QDateTime tarih_dT ;
@@ -147,6 +149,14 @@ private slots:
 
 };
 
+QDataStream &operator <<
+(QDataStream &streamGotFromObject,
+ const IEcard &IEcard);
 
+
+
+
+QDataStream &operator >>(QDataStream &streamSentToObject,
+                                 IEcard &IEcard);
 
 #endif // hC_IE_H

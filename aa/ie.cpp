@@ -534,7 +534,7 @@ void hC_IE::tbkntrl()
 
 void hC_IE::isEmriListele()
 {
-
+qDebug () <<"   işemrilistele";
     ///// toolbutton için
     ////////////////// iş emirlerini ekrana listele
 
@@ -572,11 +572,6 @@ void hC_IE::isEmriListele()
         proxy.setFilterFixedString( QString::number(ieno_nT));
         // now the proxy only contains rows that match the name
         // let's take the first one and map it to the original model
-
-        QTableView tb;
-        tb.setModel ( tb_model );
-        tb.show ();
-
 
         QModelIndex matchingIndex = proxy.mapToSource(proxy.index(0,1));
         if(matchingIndex.isValid())
@@ -718,36 +713,42 @@ void hC_IE::mousePressEvent(QMouseEvent *event)
         if (!child)
             return;
 
-        int ieno_nT = child->getIeno_nT();
-        QString kurumno_sT = child->getKurumno_sT();
-        QDateTime tarih_dT = child->getTarih_dT() ;
-        QString durum_sT = child->getDurum_sT();
-        QDateTime girtar_dT = child->getGirtar_dT();
-        QDateTime ciktar_dT = child->getCiktar_dT();
-        QString y1_sT = child->getY1_sT();
-        QString y2_sT = child->getY2_sT();
-        QPixmap iemkn_pX = child->getIemkn_pX ();
-        QPixmap ie_pX = child->getIe_pX ();
-        QPoint iepos_pT = event->pos() - child->pos();
+//        int ieno_nT = child->getIeno_nT();
+//        qDebug() << child->getKurumno_sT();
+//        QString kurumno_sT = child->getKurumno_sT();
+//        QDateTime tarih_dT = child->getTarih_dT() ;
+//        QString durum_sT = child->getDurum_sT();
+//        QDateTime girtar_dT = child->getGirtar_dT();
+//        QDateTime ciktar_dT = child->getCiktar_dT();
+//        QString y1_sT = child->getY1_sT();
+//        QString y2_sT = child->getY2_sT();
+//        QPixmap iemkn_pX = child->getIemkn_pX ();
+//        QPixmap ie_pX = child->getIe_pX ();
+//        QPoint iepos_pT = event->pos() - child->pos();
+///// objeden drag a -  mouse tıklanınca
+//        QByteArray datatoStream_bA;
+//        QDataStream dataStream(&datatoStream_bA, QIODevice::WriteOnly);
+//        dataStream << ieno_nT
+//                   << kurumno_sT.toUtf8 ()
+//                   << QDateTime (tarih_dT)
+//                   << QString (durum_sT)
+//                   << QDateTime (girtar_dT)
+//                   << QDateTime (ciktar_dT)
+//                   << QString (y1_sT)
+//                   << QString (y2_sT)
+//                   << QPixmap (iemkn_pX)
+//                   << QPixmap (ie_pX)
+//                   << QPoint (iepos_pT);
 
-        QByteArray itemData;
-        QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-        dataStream << int(ieno_nT)
-                   << QString (kurumno_sT)
-                   << QDateTime (tarih_dT)
-                   << QString (durum_sT)
-                   << QDateTime (girtar_dT)
-                   << QDateTime (ciktar_dT)
-                   << QString (y1_sT)
-                   << QString (y2_sT)
-                   << QPixmap (iemkn_pX)
-                   << QPixmap (ie_pX)
-                   << QPoint (iepos_pT);
 
+        QByteArray datatoStream_bA;
 
+        QDataStream streamGotFromObject1(
+                    &datatoStream_bA, QIODevice::WriteOnly);;
+        streamGotFromObject1 << *child;
 
         QMimeData *mimeData = new QMimeData;
-        mimeData->setData("application/x-dnditemdata", itemData);
+        mimeData->setData("application/x-dnditemdata",  datatoStream_bA);
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
 
@@ -836,7 +837,7 @@ void hC_IE::dropEvent(QDropEvent *event)
         QPixmap ie_pX;
         QPoint iepos_pT;
 
-
+/// drag tan drop a
         QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
         dataStream >>ieno_nT
@@ -851,9 +852,25 @@ void hC_IE::dropEvent(QDropEvent *event)
                 >> ie_pX
                 >> iepos_pT ;
 
+
+        QByteArray datafromStream_bA = event->
+                mimeData()->data("application/x-dnditemdata");
+        QBuffer buffer(&datafromStream_bA);
+        buffer.open(QIODevice::ReadOnly);
+        QDataStream streamSentToObject(&buffer);
+
+
+
+
+
+
         IEcard *newIcon = new IEcard(ieno_nT, this);
+
+        // checking everything is OK
+        streamSentToObject >> *newIcon;
+
         newIcon->move          ( event->pos() - iepos_pT);
-        newIcon->setIeno_nT    ( ieno_nT    ) ;
+   /*     newIcon->setIeno_nT    ( ieno_nT    ) ;
         newIcon->setKurumno_sT ( kurumno_sT ) ;
         newIcon->setTarih_dT   ( tarih_dT   ) ;
         newIcon->setDurum_sT   ( durum_sT   ) ;
@@ -863,7 +880,7 @@ void hC_IE::dropEvent(QDropEvent *event)
         newIcon->setY2_sT      ( y2_sT      ) ;
         newIcon->setIemkn_pX   ( iemkn_pX   ) ;
         newIcon->setIe_pX      ( ie_pX      ) ;
-        newIcon->setIepos_pT   ( iepos_pT   ) ;
+        newIcon->setIepos_pT   ( iepos_pT   ) ;*/
 
         newIcon->show();
         newIcon->setToolTip ( newIcon->ietooltip() );
@@ -911,9 +928,23 @@ IEcard::IEcard(int ieno, QWidget *parent) :
         return;
     }
 
+
+//    int ieno_nT;
+//    QString kurumno_sT ;
+//    QDateTime tarih_dT ;
+//    QString durum_sT ;
+//    QDateTime girtar_dT ;
+//    QDateTime ciktar_dT ;
+//    QString y1_sT ;
+//    QString y2_sT ;
+//    QPixmap iemkn_pX;
+//    QPixmap ie_pX;
+//    QPoint iepos_pT;
+
+
     QDataStream in(&file);
     in.setVersion(QDataStream::Qt_4_3);
-
+/// yeni kart bilgileri objeye
     in  >> ieno_nT
             >> kurumno_sT
             >> tarih_dT
@@ -1050,6 +1081,35 @@ void IEcard::mousePressEvent(QMouseEvent *event)
     {
         event->ignore ();
     }
+}
+
+QDataStream &operator <<(QDataStream &streamGotFromObject, const IEcard &IEcard)
+{
+
+
+    streamGotFromObject << IEcard.getIeno_nT ()
+                        << IEcard.getKurumno_sT ();
+
+
+    return streamGotFromObject;
+
+
+}
+
+QDataStream &operator >>(QDataStream
+                &streamSentToObject, IEcard &IEcard)
+{
+
+    int ieno_nTx;
+    QString kurumno_sTx;
+
+    streamSentToObject >> ieno_nTx >> kurumno_sTx;
+
+    IEcard.setIeno_nT (ieno_nTx);
+    IEcard.setKurumno_sT (kurumno_sTx);
+
+    return streamSentToObject;
+
 }
 
 QString IEcard::ietooltip()
