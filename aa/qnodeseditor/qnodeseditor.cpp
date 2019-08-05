@@ -36,7 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 QNodesEditor::QNodesEditor(QObject *parent) :
     QObject(parent)
 {
-	conn = 0;
+    conn = nullptr;
 }
 
 void QNodesEditor::install(QGraphicsScene *s)
@@ -47,7 +47,8 @@ void QNodesEditor::install(QGraphicsScene *s)
 
 QGraphicsItem* QNodesEditor::itemAt(const QPointF &pos)
 {
-	QList<QGraphicsItem*> items = scene->items(QRectF(pos - QPointF(1,1), QSize(3,3)));
+    QList<QGraphicsItem*> items = scene->items(QRectF
+                   (pos - QPointF(1,1), QSize(3,3)));
 
 	foreach(QGraphicsItem *item, items)
 		if (item->type() > QGraphicsItem::UserType)
@@ -58,7 +59,8 @@ QGraphicsItem* QNodesEditor::itemAt(const QPointF &pos)
 
 bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 {
-	QGraphicsSceneMouseEvent *me = (QGraphicsSceneMouseEvent*) e;
+    QGraphicsSceneMouseEvent *me =
+            static_cast<QGraphicsSceneMouseEvent*> (e);
 
     switch (static_cast<int> (e->type()))
 	{
@@ -82,9 +84,9 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 				return true;
 			} else if (item && item->type() == QNEBlock::Type)
 			{
-				/* if (selBlock)
-					selBlock->setSelected(); */
-				// selBlock = (QNEBlock*) item;
+               //  if (selBlock)//
+              //      selBlock->setSelected(true); //
+              //   selBlock = (QNEBlock*) item;//
 			}
 			break;
 		}
@@ -93,8 +95,8 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 			QGraphicsItem *item = itemAt(me->scenePos());
 			if (item && (item->type() == QNEConnection::Type || item->type() == QNEBlock::Type))
 				delete item;
-			// if (selBlock == (QNEBlock*) item)
-				// selBlock = 0;
+            // if (selBlock == (QNEBlock*) item)//
+             //   selBlock = nullptr;//
 			break;
 		}
 		}
@@ -145,14 +147,14 @@ void QNodesEditor::save(QDataStream &ds)
 		if (item->type() == QNEBlock::Type)
 		{
 			ds << item->type();
-			((QNEBlock*) item)->save(ds);
+            (static_cast<QNEBlock*> (item))->save(ds);
 		}
 
 	foreach(QGraphicsItem *item, scene->items())
 		if (item->type() == QNEConnection::Type)
 		{
 			ds << item->type();
-			((QNEConnection*) item)->save(ds);
+            (static_cast<QNEConnection*> (item))->save(ds);
 		}
 }
 

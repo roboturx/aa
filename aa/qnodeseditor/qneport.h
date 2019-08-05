@@ -37,7 +37,7 @@ public:
 	enum { Type = QGraphicsItem::UserType + 1 };
 	enum { NamePort = 1, TypePort = 2 };
 
-    QNEPort(QGraphicsItem *parent = 0);
+    QNEPort(QGraphicsItem *parent = nullptr);
 	~QNEPort();
 
 	void setNEBlock(QNEBlock*);
@@ -60,12 +60,16 @@ public:
 
 	bool isConnected(QNEPort*);
 
+    QImage getPix() const;
+    void setPix(const QImage &value);
+
 protected:
-	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
 	QNEBlock *m_block;
 	QString name;
+    QImage pix;
 	bool isOutput_;
 	QGraphicsTextItem *label;
 	int radius_;

@@ -32,7 +32,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneport.h"
 
-QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
+QNEBlock::QNEBlock(QGraphicsItem *parent)
+    : QGraphicsPathItem(parent)
 {
 	QPainterPath p;
 	p.addRoundedRect(-50, -15, 100, 30, 5, 5);
@@ -47,10 +48,15 @@ QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 	height = vertMargin;
 }
 
-QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int ptr)
+QNEPort* QNEBlock::addPort(const QString &name,
+                           QImage pix,
+                           bool isOutput,
+                           int flags,
+                           int ptr)
 {
 	QNEPort *port = new QNEPort(this);
 	port->setName(name);
+    port->setPix (pix);
 	port->setIsOutput(isOutput);
 	port->setNEBlock(this);
 	port->setPortFlags(flags);
@@ -84,14 +90,14 @@ QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int pt
 	return port;
 }
 
-void QNEBlock::addInputPort(const QString &name)
+void QNEBlock::addInputPort(const QString &name , QImage pix)
 {
-	addPort(name, false);
+    addPort(name,pix, false);
 }
 
-void QNEBlock::addOutputPort(const QString &name)
+void QNEBlock::addOutputPort(const QString &name, QImage pix)
 {
-	addPort(name, true);
+    addPort(name, pix, true);
 }
 
 void QNEBlock::addInputPorts(const QStringList &names)
@@ -130,6 +136,7 @@ void QNEBlock::save(QDataStream &ds)
 		QNEPort *port = (QNEPort*) port_;
 		ds << (quint64) port;
 		ds << port->portName();
+        ds << port->getPix ();
 		ds << port->isOutput();
 		ds << port->portFlags();
 	}
@@ -145,21 +152,25 @@ void QNEBlock::load(QDataStream &ds, QMap<quint64, QNEPort*> &portMap)
 	for (int i = 0; i < count; i++)
 	{
 		QString name;
+        QImage pix;
 		bool output;
 		int flags;
 		quint64 ptr;
 
 		ds >> ptr;
 		ds >> name;
+        ds >> pix;
 		ds >> output;
 		ds >> flags;
-		portMap[ptr] = addPort(name, output, flags, ptr);
+        portMap[ptr] = addPort(name,pix, output, flags, ptr);
 	}
 }
 
 #include <QStyleOptionGraphicsItem>
 
-void QNEBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void QNEBlock::paint(QPainter *painter,
+                     const QStyleOptionGraphicsItem *option,
+                     QWidget *widget)
 {
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
@@ -177,7 +188,7 @@ void QNEBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 QNEBlock* QNEBlock::clone()
 {
-    QNEBlock *b = new QNEBlock(0);
+    QNEBlock *b = new QNEBlock(nullptr);
     this->scene()->addItem(b);
 
 	foreach(QGraphicsItem *port_, childItems())
@@ -185,7 +196,11 @@ QNEBlock* QNEBlock::clone()
 		if (port_->type() == QNEPort::Type)
 		{
 			QNEPort *port = (QNEPort*) port_;
-			b->addPort(port->portName(), port->isOutput(), port->portFlags(), port->ptr());
+            b->addPort(port->portName(),
+                       port->getPix (),
+                       port->isOutput(),
+                       port->portFlags(),
+                       port->ptr());
 		}
 	}
 

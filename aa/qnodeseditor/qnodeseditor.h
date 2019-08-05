@@ -38,7 +38,7 @@ class QNodesEditor : public QObject
 {
 	Q_OBJECT
 public:
-	explicit QNodesEditor(QObject *parent = 0);
+    explicit QNodesEditor(QObject *parent = nullptr);
 
 	void install(QGraphicsScene *scene);
 
@@ -53,7 +53,7 @@ private:
 private:
 	QGraphicsScene *scene;
 	QNEConnection *conn;
-	// QNEBlock *selBlock;
+    QNEBlock *selBlock;
 };
 
 #endif // QNODESEDITOR_H

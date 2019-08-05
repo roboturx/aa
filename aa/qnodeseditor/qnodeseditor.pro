@@ -25,3 +25,6 @@ HEADERS  += qnemainwindow.h \
     qneconnection.h \
     qnodeseditor.h
 
+RESOURCES += \
+    rsm.qrc
+

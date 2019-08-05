@@ -37,7 +37,7 @@ class QNEMainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit QNEMainWindow(QWidget *parent = 0);
+    explicit QNEMainWindow(QWidget *parent = nullptr);
 	~QNEMainWindow();
 
 private slots:

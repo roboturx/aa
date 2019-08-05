@@ -96,12 +96,12 @@ QNEMainWindow::QNEMainWindow(QWidget *parent) :
 
     nodesEditor = new QNodesEditor(this);
     nodesEditor->install(scene);
-
+QImage pix(":/rsm/pxmp.jpeg");
 
     QNEBlock *b = new QNEBlock(nullptr);
     scene->addItem(b);
-    b->addPort("test", 0, QNEPort::NamePort);
-    b->addPort("TestBlock", 0, QNEPort::TypePort);
+    b->addPort("test",pix ,0, QNEPort::NamePort);
+    b->addPort("TestBlock",pix, 0, QNEPort::TypePort);
     b->addInputPort("in1");
     b->addInputPort("in2");
     b->addInputPort("in3");
@@ -153,7 +153,7 @@ void QNEMainWindow::addBlock()
     static const char* names[] = {"Vin", "Voutsadfasdf", "Imin", "Imax", "mul", "add", "sub", "div", "Conv", "FFT"};
 	for (int i = 0; i < 4 + rand() % 3; i++)
 	{
-		b->addPort(names[rand() % 10], rand() % 2, 0, 0);
+        b->addPort(names[rand() % 10],{} ,rand() % 2, 0, 0);
         b->setPos(view->sceneRect().center().toPoint());
     }
 }
@@ -164,14 +164,17 @@ void QNEMainWindow::addBlock2()
 
     scene->addItem(b);
     static const char* names[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    QImage pix = QImage(":/pxmp");
+    static const QImage pixs[] ={QImage(":/pxmp")};
+
     for (int i = 0; i < 5 ; i++)
     {
-        b->addPort(names[i], i, 0, 0);
+        b->addPort(names[i], pixs[0] , i, 0, 0);
         b->setPos(view->sceneRect().center().toPoint());
     }
     for (int i = 5; i < 10 ; i++)
     {
-        b->addPort(names[i], i, 1, 0);
+        b->addPort(names[i],pixs[0], i, 1, 0);
         b->setPos(view->sceneRect().center().toPoint());
     }
 }

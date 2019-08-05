@@ -35,15 +35,21 @@ class QNEBlock : public QGraphicsPathItem
 public:
 	enum { Type = QGraphicsItem::UserType + 3 };
 
-    QNEBlock(QGraphicsItem *parent = 0);
+    QNEBlock(QGraphicsItem *parent = nullptr);
 
-	QNEPort* addPort(const QString &name, bool isOutput, int flags = 0, int ptr = 0);
-	void addInputPort(const QString &name);
-	void addOutputPort(const QString &name);
-	void addInputPorts(const QStringList &names);
+    QNEPort* addPort(const QString &name,
+                     QImage pix,
+                     bool isOutput,
+                     int flags = 0,
+                     int ptr = 0);
+    void addInputPort(const QString &name, QImage pix={});
+    void addOutputPort(const QString &name, QImage pix={});
+    void addInputPorts(const QStringList &names);
 	void addOutputPorts(const QStringList &names);
 	void save(QDataStream&);
-	void load(QDataStream&, QMap<quint64, QNEPort*> &portMap);
+    void load(QDataStream&,
+              QMap<quint64,
+              QNEPort*> &portMap);
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	QNEBlock* clone();
 	QVector<QNEPort*> ports();
@@ -51,7 +57,8 @@ public:
 	int type() const { return Type; }
 
 protected:
-	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change,
+                        const QVariant &value);
 
 private:
 	int horzMargin;

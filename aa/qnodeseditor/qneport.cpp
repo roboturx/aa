@@ -37,11 +37,11 @@ QNEPort::QNEPort(QGraphicsItem *parent):
 {
 	label = new QGraphicsTextItem(this);
 
-	radius_ = 5;
-	margin = 2;
+    radius_ = 3;
+    margin = 2;
 
 	QPainterPath p;
-	p.addEllipse(-radius_, -radius_, 2*radius_, 2*radius_);
+    p.addEllipse(-radius_, -radius_, 2*radius_, 4*radius_);
 	setPath(p);
 
 	setPen(QPen(Qt::darkRed));
@@ -140,7 +140,8 @@ bool QNEPort::isConnected(QNEPort *other)
 	return false;
 }
 
-QVariant QNEPort::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant QNEPort::itemChange(GraphicsItemChange change,
+                             const QVariant &value)
 {
 	if (change == ItemScenePositionHasChanged)
 	{
@@ -151,4 +152,14 @@ QVariant QNEPort::itemChange(GraphicsItemChange change, const QVariant &value)
 		}
 	}
 	return value;
+}
+
+QImage QNEPort::getPix() const
+{
+    return pix;
+}
+
+void QNEPort::setPix(const QImage &value)
+{
+    pix = value;
 }
