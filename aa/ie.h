@@ -76,15 +76,33 @@ protected:
 
 
 
-class IEcard : public QWidget//DragWidget
+class IEcard : public QWidget
 {
     Q_OBJECT
 
 public:
-    IEcard(int ieno, QWidget *parent = nullptr) ;
-    ~IEcard() ;//override;
+   // IEcard();
+    //IEcard(QWidget *parent = nullptr);
+    IEcard(QWidget *parent   = nullptr,
+           int ieno_nTx = {} ,
+           QString kurumno_sTx = {} ,
+           QDateTime tarih_dTx = {} ,
+           QString durum_sTx   = {} ,
+           QDateTime girtar_dTx  = {} ,
+           QDateTime ciktar_dTx  = {} ,
+           QString y1_sTx    = {} ,
+           QString y2_sTx    = {} ,
+           QPixmap iemkn_pXx = {} ,
+           QPixmap ie_pXx    = {} ,
+           QPoint iepos_pTx  = {}
+            )  ;
+
+
+
+    ~IEcard() ;
 
     QString ietooltip();
+    void dia(QString baslik, QPixmap iemkn_pX, QPixmap ie_pX);
 
     int getIeno_nT() const;
     void setIeno_nT(int value = 0 );
