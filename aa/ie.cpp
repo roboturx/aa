@@ -1346,7 +1346,8 @@ void IEcard::dia(QString baslik, QPixmap iemkn_pX, QPixmap ie_pX)
 
 
 
-QDataStream &operator <<(QDataStream &streamGotFromObject, const IEcard &IEcard)
+QDataStream &operator <<(QDataStream &streamGotFromObject,
+                         const IEcard &IEcard)
 {
 
 
