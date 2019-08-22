@@ -90,6 +90,8 @@ void hC_MLZMGC::tbwdgt()
 
     auto *lB_bk = new QLabel("Barkod");
     lB_bk->setBuddy(hClE_barkod);
+    hClE_barkod->setWhatsThis ("Buradan barkod seçimi yapabilirsiniz.");
+    hClE_malzeme ->setWhatsThis ("Buradan malzeme seçimi yapabilirsiniz.");
 
 
     // malzeme ismini fatyraya ekle
@@ -101,6 +103,7 @@ void hC_MLZMGC::tbwdgt()
         diabarkod->setModal (true);
         auto barkodGrid = new QGridLayout;
         diabarkod->setLayout (barkodGrid);
+        diabarkod->setWindowTitle ("MALZEME SEÇİM VE BİLGİ GİRİŞ");
         // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
         diabarkod->setGeometry (100,220,800,500);
 
@@ -196,7 +199,7 @@ hCle_gcno->lineEdit->setText ("");
         ftr_dia->setLayout (layout_diafr);
         // diafr->setWindowTitle ("Fatura Bilgilerine Firma Unvanı Ekle ");
         ftr_dia->setGeometry (100,220,800,500);
-
+        ftr_dia->setWindowTitle ("FATURA SEÇİM VE BLGİ GİRİŞ");
         this->setWhatsThis ("<br>"
                             "<br> Lütfen Girişi yapılan fatura bilgilerine "
                             "<br> Firma ünvanı girmek için seçim yapın "

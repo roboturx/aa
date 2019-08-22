@@ -11,6 +11,7 @@ hC_IE::hC_IE(QWidget *parent)  : hC_tBcreator (parent)
     qDebug() << "Constructor İŞ EMRİ *************************************  ";
 
     setAcceptDrops(true);
+    setObjectName("ThisObjectsnameIsIE");
 
     win_Label->setText ( "İŞ EMRİ KAYITLARI");
     *tb_name  = "ie_dbtb" ;
@@ -71,6 +72,7 @@ void hC_IE::tbsetup()
     tbwdgt  ();
     tbui();
     tbkntrl ();
+    isEmriListele ();
 }
 
 
@@ -81,10 +83,30 @@ void hC_IE::tbui()
     hC_IE::setWindowTitle (win_Label->text());
     this->adjustSize ();
 
-    //auto *win_Grid = new QGridLayout(this);
-  //  win_Grid->addWidget ( tb_view  ,  0, 0, 1, 1 );
-  //  win_Grid->addWidget ( win_Wdgt ,  0, 1, 1, 1 );
-    //win_Grid->addWidget ( dragger  ,  1, 0, 1, 2 );
+
+    //    tb_view->setAcceptDrops(false);
+    //  win_Wdgt->setAcceptDrops(false);
+
+    auto yiekle = new QPushButton("İş Emri Ekle");
+    connect( yiekle, &QPushButton::clicked,
+             [&]()
+    {
+        this->tb_view->pB_ekle->clicked() ;
+    });
+
+    auto ielist = new QPushButton("İş Emri Listele");
+    connect( ielist, &QPushButton::clicked,
+             [&]()
+    {
+        this->isEmriListele() ;
+    });
+
+
+    auto *win_Grid = new QGridLayout(this);
+    win_Grid->addWidget ( tb_view  ,  0, 0, 1, 1 );
+   // win_Grid->addWidget ( win_Wdgt ,  0, 1, 1, 1 );
+    win_Grid->addWidget ( yiekle   ,  1, 5, 1, 1 );
+    win_Grid->addWidget ( ielist   ,  1, 6, 1, 1 );
 
 }
 
@@ -104,10 +126,10 @@ void hC_IE::tbwdgt ()
             [this ]()
     {
         // mkn seçebilmek için pencere
-        auto *dia = new QDialog();
-        dia->setModal (true);
-        dia->setGeometry ( 50, 300, 400, 200 );
-        dia->setWindowTitle ( "Araç Seçimi" );
+        auto *mkndia = new QDialog();
+        mkndia->setModal (true);
+        mkndia->setGeometry ( 50, 300, 400, 200 );
+        mkndia->setWindowTitle ( "Araç Seçimi" );
 
         mkn->show ();
         // ----------------------------------------------------
@@ -125,9 +147,9 @@ void hC_IE::tbwdgt ()
         });
         ////////////////////////////////////////////************
         auto *layout = new QGridLayout;
-        dia->setLayout (layout);
+        mkndia->setLayout (layout);
         layout->addWidget (mkn  ,0 ,0 );
-        dia->exec ();
+        mkndia->exec ();
     });
 
 
@@ -184,7 +206,7 @@ void hC_IE::tbwdgt ()
     wdgtGrid->addWidget (new QLabel("Resim") , 3, 10, 1, 4);
     wdgtGrid->addWidget (win_Rsm      , 3, 14, 2, 6);
 
-    isEmriListele ();
+
 
 }
 
@@ -230,7 +252,7 @@ void hC_IE::tbkntrl()
         });
         makinasec.exec ();
 
-        qDebug()<<"   ie kntrl kurumno st---------> "<< kurumno_sT;
+        qDebug()<<"   ie kntrl seçilen  kurumno st---------> "<< kurumno_sT;
 
 
         //*** makina seçildi yola devam
@@ -301,30 +323,14 @@ void hC_IE::tbkntrl()
             QModelIndex iendx = tb_view->table->currentIndex ();
             int iendxrow = iendx.row ();
 
-
-            // QByteArray str2Store;
-            // QImage pix("c:/parva.jpg","JPEG");
-            //     QBuffer buffer(son_bA);
-            //   buffer.open(QIODevice::WriteOnly);
-            // pix.save(&buffer,"JPEG");
-            // QSqlQuery insertPicCom(QString("insert into pix values(?)"));
             *son_bA=son_bA->toHex();
-            // insertPicCom.bindValue(0,str2Store);
-            // insertPicCom.exec();
 
             /// mkn den gelen resmi ie ye yazalım
             tb_model->setData(tb_model->
                               index(iendxrow, tb_model->fieldIndex
                                     ( "ie_resimmkn" )), *son_bA );
 
-
-
-
-
-
-
-
-            qDebug()<<"   ie kntrl";
+            //qDebug()<<"   ie kntrl kayıt tamamlandı";
             tb_model->submitAll();
 
             QDateTime tarih_dT = tb_view->table->model ()
@@ -338,17 +344,6 @@ void hC_IE::tbkntrl()
             QString   y1_sT     {} ;
             QString   y2_sT     {} ;
 
-            /*
-            *** Restoring Proccess ***
-           QByteArray str2recover;
-           QSqlQuery getPicComtest("select * from pix");
-           getPicComtest.exec();
-           getPicComtest.first();
-           str2recover=getPicComtest.value(0).toByteArray();
-           str2recover=QByteArray::fromHex(str2recover);
-           QImage googooli=QImage::fromData(str2recover);
-*/
-
 
             QByteArray iersmie_bA = tb_view->table->model ()
                     ->index ( iendxrow, tb_model
@@ -360,7 +355,7 @@ void hC_IE::tbkntrl()
             iersmmkn_bA=QByteArray::fromHex(iersmmkn_bA);
             ///////////////////////////////////////////////////////////////////
 
-            QPoint iepos_pT(100,100);
+
 
 
             isEmriYeni (ieno_nT,
@@ -373,11 +368,10 @@ void hC_IE::tbkntrl()
                         y2_sT,
                         iersmmkn_bA,
                         iersmie_bA,
-                        iepos_pT);
+                        QPoint (10,10));
 
         }
         qDebug () <<mesaj;
-        qDebug()<<"   ie kntrl";
         // iş emri ekle
 
     });
@@ -585,13 +579,25 @@ void hC_IE::isEmriListele()
         return;
     }
 
-    static int x=10;
-    static int y=150;
+    static int x11=10;
+    static int y11=10;
+    static int x21=410;
+    static int y21=10;
+
+    QPoint iepos_pT(x11,y11);     // ( x11+=20, y11+=20 );
+
+    int qy=0;
 
     while (query.next())
     {
+        ++qy;
+      QSqlRecord rec = query.record();
+
+
+        int nameCol = rec.indexOf("ie_no"); // index of the field "name"
+
         int ieno_nT {query.value ("ie_no").toInt () };
-        QString mknkrmno_sT {query.value ("ie_kurumno").toString ()};
+        QString krmno_sT {query.value ("ie_kurumno").toString ()};
 
         // tb-view de indexi bul
         hC_Nr xnr;
@@ -645,13 +651,36 @@ void hC_IE::isEmriListele()
                           ->fieldIndex( "ie_yetkili2" )).data ().toString();
         QByteArray iersmie_bA = tb_view->table->model ()
                 ->index ( iendxrow, tb_model
-                ->fieldIndex( "ie_resimie" )).data ().toByteArray ();
+                          ->fieldIndex( "ie_resimie" )).data ().toByteArray ();
         QByteArray iersmmkn_bA = tb_view->table->model ()
                 ->index ( iendxrow, tb_model
-                ->fieldIndex( "ie_resimmkn" )).data ().toByteArray ();
+                          ->fieldIndex( "ie_resimmkn" )).data ().toByteArray ();
 
 
-        QPoint iepos_pT (x+=30,y+=20);
+        if ( durum_sT == "Sıra Bekliyor")
+        {
+            x11 += 50 ;
+            y11 += 30 ;
+            iepos_pT.rx() = x11 ;
+            iepos_pT.ry() = y11 ;
+
+            qDebug () <<"---------------------------sıra bekliyor  ="
+                     << iepos_pT ;
+
+        }
+        if (durum_sT == "Bakıma Alındı")
+        {
+
+            x21 += 50 ;
+            y21 += 30 ;
+            iepos_pT.rx() = x21 ;
+            iepos_pT.ry() = y21 ;
+            qDebug () <<"---------------------------bakımaalındı = x ="
+                     << iepos_pT;
+
+        }
+
+
         isEmriYeni (ieno_nT,
                     kurumno_sT,
                     tarih_dT,
@@ -682,7 +711,7 @@ void hC_IE::isEmriYeni(int ieno_nT,
 
 
 
-    qDebug()<<"   ie yeni ";
+    //    qDebug()<<"   ie yeni ";
 
     iersmmkn_bA=QByteArray::fromHex(iersmmkn_bA);
     QImage iemkn_img = QImage ( ":/rsm/rsm_yok.png" );
@@ -690,7 +719,7 @@ void hC_IE::isEmriYeni(int ieno_nT,
     {
         iemkn_img = QImage::fromData(iersmmkn_bA);
     }
-        QPixmap iemkn_pX=QPixmap::fromImage (iemkn_img);
+    QPixmap iemkn_pX=QPixmap::fromImage (iemkn_img);
 
     QImage ie_img = QImage ( ":/rsm/rsm_yok.png" );
     if ( ! iersmie_bA.isEmpty ()  )
@@ -702,53 +731,21 @@ void hC_IE::isEmriYeni(int ieno_nT,
 
 
 
+    auto iec = new IEcard (  this ,
+                             ieno_nT,
+                             kurumno_sT,
+                             tarih_dT,
+                             durum_sT,
+                             girtar_dT,
+                             ciktar_dT,
+                             y1_sT,
+                             y2_sT,
+                             iemkn_pX,
+                             ie_pX,
+                             iepos_pT) ;
+    iec->setObjectName("ChildObjNameOf_krmno_"+kurumno_sT+"--");
 
-    /*QFile file("isemri"+QString::number (ieno_nT)+".dat");
-    if (!file.open(QIODevice::WriteOnly)) {
 
-        QMessageBox::information(this,"İş Emri Kartı Dosya "
-                                      "Yazma Hatası: "+file.fileName (),
-                                 "HATA - İş Emri Kartı Dosyaya Yazılamıyor !\n"
-                                 + file.errorString());
-        return;
-    }
-
-    /// iş emri bilgileri dosyaya yazılıyor
-    /// bu bilgiler iş emri objeleri oluşturulurken
-    /// tekrar dosyadan okunur
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_3);
-    out << int       ( ieno_nT   )
-        << QString   ( kurumno_sT)
-        << QDateTime ( tarih_dT  )
-        << QString   ( durum_sT  )
-        << QDateTime ( girtar_dT )
-        << QDateTime ( ciktar_dT )
-        << QString   ( y1_sT     )
-        << QString   ( y2_sT     )
-        << QPixmap   ( iemkn_pX  )
-        << QPixmap   ( ie_pX     )
-        << QPoint    ( iepos     ) ;
-*/
-
-    new IEcard (this,
-                ieno_nT,
-                kurumno_sT,
-                tarih_dT,
-                durum_sT,
-                girtar_dT,
-                ciktar_dT,
-                y1_sT,
-                y2_sT,
-                iemkn_pX,
-                ie_pX,
-                iepos_pT) ;
-
-    //  IEcard *isEmri = new IEcard (ieno_nT, this);
-
-    //isEmri->move (iepos);
-
-    qDebug()<<"   ie yeni son";
 }
 
 
@@ -771,20 +768,59 @@ void hC_IE::mousePressEvent(QMouseEvent *event)
     if (event->button () == Qt::LeftButton )
     {
 
+        //    IEcard *iechild = this->findChild<IEcard*>("");
+
         ///burada child olarak alınıyor
-        IEcard *child = static_cast< IEcard *>(childAt(event->pos()));
-        if (!child)
+        IEcard *child = static_cast< IEcard *>(this->childAt(event->pos()));
+
+        //  qDebug () << "-child ne--------------------------------"
+        //  << child->objectName();
+
+
+        if (!child || child->objectName()=="")
+        {
+
+            qDebug () << "-child yok --------------------------------";
+            //<< child->getIeno_nT();
+
             return;
+        }
+        else
+        {
+            qDebug () << "--child var-------------------------------"
+                      << child->getIeno_nT() <<" pos = "<<event->pos();
+
+        }
+
+        qDebug() << "this objname   "<< this->objectName();
+        //qDebug() << "this parent objname   "<< this->parent()->objectName();
+        qDebug() << " -child objname "<< child->objectName()<<" pos = "<<event->pos();
+        qDebug() << " -child getpos "<<" pos = "<<child->getIepos_pT();
+        qDebug() << " -child parent objname "<< child->parent()->objectName();
+
+
 
         QByteArray datatoStream_bA;
-        QDataStream streamGotFromObject1(
-                    &datatoStream_bA, QIODevice::WriteOnly);;
-        streamGotFromObject1 << *child;
-child->dia("0002 --- mouse press de child dan get ile ", child->getIemkn_pX (),
-        child->getIemkn_pX ());
+
+        QDataStream streamGotFromObject
+                ( &datatoStream_bA, QIODevice::WriteOnly);
+
+        streamGotFromObject << child->getIeno_nT ()
+                            << child->getKurumno_sT ()
+                            << child->getTarih_dT()
+                            << child->getDurum_sT()
+                            << child->getGirtar_dT()
+                            << child->getCiktar_dT()
+                            << child->getY1_sT()
+                            << child->getY2_sT()
+                            << child->getIemkn_pX()
+                            << child->getIe_pX()
+                            << event->pos() ; //getIepos_pT();
+        //burdaki farkı drop ta kullan
 
         QMimeData *mimeData = new QMimeData;
-        mimeData->setData("application/x-dnditemdata",  datatoStream_bA);
+        mimeData->setData("application/x-dnditemdata", datatoStream_bA);
+        ///datatoStream_bA);
 
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
@@ -856,37 +892,10 @@ void hC_IE::dragMoveEvent(QDragMoveEvent *event)
     }
 }
 
-/*
-QByteArray str2Store;
-QImage pix("c:/parva.jpg","JPEG");
-QBuffer buffer(&str2Store);
-buffer.open(QIODevice::WriteOnly);
-pix.save(&buffer,"JPEG");
-QSqlQuery insertPicCom(QString("insert into pix values(?)"));
-str2Store=str2Store.toHex();
-insertPicCom.bindValue(0,str2Store);
-insertPicCom.exec();
-
-
-
-
- *** Restoring Proccess ***
-QByteArray str2recover;
-QSqlQuery getPicComtest("select * from pix");
-getPicComtest.exec();
-getPicComtest.first();
-str2recover=getPicComtest.value(0).toByteArray();
-str2recover=QByteArray::fromHex(str2recover);
-QImage googooli=QImage::fromData(str2recover);
-
-
-*/
 
 void hC_IE::dropEvent(QDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-
-
 
         IEcard *newIcon = new IEcard ( this ) ;
 
@@ -896,21 +905,54 @@ void hC_IE::dropEvent(QDropEvent *event)
         buffer.open(QIODevice::ReadOnly);
         QDataStream streamSentToObject(&buffer);
         // stream ile obje datalarını yeni objeye yolla
-        streamSentToObject >> *newIcon;
 
-        newIcon->move ( event->pos() - newIcon->getIepos_pT());
+        int ieno_nTx;
+        QString kurumno_sTx;
+        QDateTime tarih_dTx ;
+        QString durum_sTx ;
+        QDateTime girtar_dTx ;
+        QDateTime ciktar_dTx ;
+        QString y1_sTx ;
+        QString y2_sTx ;
+        QPixmap iemkn_pXx;
+        QPixmap ie_pXx;
+        QPoint iepos_pTx;
+
+        streamSentToObject
+                >> ieno_nTx
+                >> kurumno_sTx
+                >> tarih_dTx
+                >> durum_sTx
+                >> girtar_dTx
+                >> ciktar_dTx
+                >> y1_sTx
+                >> y2_sTx
+                >> iemkn_pXx
+                >> ie_pXx
+                >> iepos_pTx;
 
 
+        newIcon->setIeno_nT (ieno_nTx);
+        newIcon->setKurumno_sT (kurumno_sTx);
+        newIcon->setTarih_dT   ( tarih_dTx   ) ;
+        newIcon->setDurum_sT   ( durum_sTx   ) ;
+        newIcon->setGirtar_dT  ( girtar_dTx  ) ;
+        newIcon->setCiktar_dT  ( ciktar_dTx  ) ;
+        newIcon->setY1_sT      ( y1_sTx      ) ;
+        newIcon->setY2_sT      ( y2_sTx      ) ;
+        newIcon->setIemkn_pX   ( iemkn_pXx   ) ;
+        newIcon->setIe_pX      ( ie_pXx      ) ;
+        newIcon->setIepos_pT   ( iepos_pTx   ) ;
 
+        newIcon->setObjectName("ChildObjNameOf_krmno_"+kurumno_sTx+"--");
+
+        //  newIcon->setIepos_pT   ( newIcon->getIepos_pT()  ) ;
+        //newIcon->move ( event->pos() - newIcon->getIepos_pT());
+        newIcon->move ( event->pos() );
+        //newIcon->move(newIcon->getIepos_pT());
         newIcon->show();
         newIcon->setToolTip ( newIcon->ietooltip() );
         newIcon->setAttribute(Qt::WA_DeleteOnClose);
-
-
-        newIcon-> dia("drop newicon get ile ", newIcon->getIemkn_pX (),
-                newIcon->getIemkn_pX ());
-
-
 
         if (event->source() == this )
         {
@@ -944,13 +986,6 @@ void hC_IE::dropEvent(QDropEvent *event)
 ///
 
 
-//IEcard::IEcard(QWidget *parent) : QWidget(parent)
-//{
-
-
-
-//}
-
 IEcard::IEcard(QWidget *parent , int ieno_nTx,
                QString kurumno_sTx,
                QDateTime tarih_dTx,
@@ -976,43 +1011,9 @@ IEcard::IEcard(QWidget *parent , int ieno_nTx,
     iepos_pT  (iepos_pTx)
 {
 
-    /*
-    QFile file("isemri"+QString::number (ieno_nT)+".dat");
-    if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "Cannot open file for reading: "
-                 << qPrintable(file.errorString()) << endl;
-        return;
-    }
-*/
+    qDebug ()<< "-----------iepos pT new create ptx   "<< iepos_pTx;
+    qDebug ()<< "-----------iepos pT new create pt    "<< iepos_pT;
 
-    //    int ieno_nT;
-    //    QString kurumno_sT ;
-    //    QDateTime tarih_dT ;
-    //    QString durum_sT ;
-    //    QDateTime girtar_dT ;
-    //    QDateTime ciktar_dT ;
-    //    QString y1_sT ;
-    //    QString y2_sT ;
-    //    QPixmap iemkn_pX;
-    //    QPixmap ie_pX;
-    //    QPoint iepos_pT;
-
-    /*
-    QDataStream in(&file);
-    in.setVersion(QDataStream::Qt_4_3);
-/// yeni kart bilgileri objeye
-    in  >> ieno_nT
-            >> kurumno_sT
-            >> tarih_dT
-            >> durum_sT
-            >> girtar_dT
-            >> ciktar_dT
-            >> y1_sT
-            >> y2_sT
-            >> iemkn_pX
-            >> ie_pX
-            >> iepos_pT ;
-*/
     IEcard::setIeno_nT    ( ieno_nT    ) ;
     IEcard::setKurumno_sT ( kurumno_sT ) ;
     IEcard::setTarih_dT   ( tarih_dT   ) ;
@@ -1025,12 +1026,10 @@ IEcard::IEcard(QWidget *parent , int ieno_nTx,
     IEcard::setIe_pX      ( ie_pX      ) ;
     IEcard::setIepos_pT   ( iepos_pT   ) ;
 
-dia("0001 --- yeni tanımlanan get ile ", getIemkn_pX (),
-        getIemkn_pX ());
 
     IEcard::setAcceptDrops( false      ) ;
     IEcard::setMinimumSize( 160, 100   ) ;
-    IEcard::move          ( iepos_pT   ) ;
+    IEcard::move          ( getIepos_pT()   ) ;
     IEcard::setAttribute  ( Qt::WA_DeleteOnClose);
     IEcard::setToolTip (   ietooltip ());
     IEcard::show();
@@ -1137,10 +1136,10 @@ void IEcard::mousePressEvent(QMouseEvent *event)
     {
         event->ignore ();
     }
-    if (event->button () == Qt::LeftButton )
+    /*if (event->button () == Qt::LeftButton )
     {
         event->ignore ();
-    }
+    }*/
 }
 
 
@@ -1247,7 +1246,9 @@ void IEcard::smSLOT()
     menu->addSeparator();
 
     // QPoint pos(50,50);
-    menu->popup(this->mapToParent (pos () ) ) ;
+    //menu->popup(this->mapToParent ( pos () ) ) ;
+    menu->popup( QCursor::pos()  ) ;
+
 }
 
 IEcard::~IEcard()
@@ -1264,10 +1265,10 @@ void IEcard::setIeno_nT(int value)
 {    ieno_nT = value ; }
 
 QString IEcard::getKurumno_sT() const
-{    qDebug ()<<"getkurumno-------"<< kurumno_sT;
-     return kurumno_sT; }
+{
+    return kurumno_sT; }
 void IEcard::setKurumno_sT(const QString value)
-{   qDebug ()<<"setkurumno-------"<< value;
+{
     kurumno_sT = value; }
 
 QDateTime IEcard::getTarih_dT() const
@@ -1318,13 +1319,13 @@ void IEcard::setIepos_pT(const QPoint value)
 
 
 
-void IEcard::dia(QString baslik, QPixmap iemkn_pX, QPixmap ie_pX)
+void IEcard::mdia(QString baslik, QPixmap iemkn_pX, QPixmap ie_pX)
 {
 
-    auto *dia = new QDialog();
-    dia->setModal (true);
-    dia->setGeometry ( 50, 300, 400, 200 );
-    dia->setWindowTitle ( baslik );
+    auto *dkia = new QDialog();
+    dkia->setModal (true);
+    dkia->setGeometry ( 50, 300, 400, 200 );
+    dkia->setWindowTitle ( baslik );
 
     QLabel xxx1("pixmap mkn",this);
     QLabel xxx10(this);
@@ -1335,118 +1336,201 @@ void IEcard::dia(QString baslik, QPixmap iemkn_pX, QPixmap ie_pX)
     xxx20.setPixmap (ie_pX);
     ////////////////////////////////////////////************
     auto *layout = new QGridLayout;
-    dia->setLayout (layout);
+    dkia->setLayout (layout);
     layout->addWidget (&xxx1   ,0 ,0 );
     layout->addWidget (&xxx10  ,0 ,1 );
     layout->addWidget (&xxx2   ,1 ,0 );
     layout->addWidget (&xxx20  ,1 ,1 );
-    dia->exec ();
+    dkia->exec ();
 }
 
 
 
 
-QDataStream &operator <<(QDataStream &streamGotFromObject, const IEcard &IEcard)
-{
+//QDataStream &operator <<(QDataStream &streamGotFromObject,
+//                         const IEcard &IEcard)
+//{
 
 
-    streamGotFromObject << IEcard.getIeno_nT ()
-                        << IEcard.getKurumno_sT ()
-                        << IEcard.getTarih_dT()
-                        << IEcard.getDurum_sT()
-                        << IEcard.getGirtar_dT()
-                        << IEcard.getCiktar_dT()
-                        << IEcard.getY1_sT()
-                        << IEcard.getY2_sT()
-                        << IEcard.getIemkn_pX()
-                        << IEcard.getIe_pX()
-                        << IEcard.getIepos_pT();
+//    streamGotFromObject << IEcard.getIeno_nT ()
+//                        << IEcard.getKurumno_sT ()
+//                        << IEcard.getTarih_dT()
+//                        << IEcard.getDurum_sT()
+//                        << IEcard.getGirtar_dT()
+//                        << IEcard.getCiktar_dT()
+//                        << IEcard.getY1_sT()
+//                        << IEcard.getY2_sT()
+//                        << IEcard.getIemkn_pX()
+//                        << IEcard.getIe_pX()
+//                        << IEcard.getIepos_pT();
+
+
+///*
+//    auto *dia = new QDialog();
+//    dia->setModal (true);
+//    dia->setGeometry ( 50, 300, 400, 200 );
+//    dia->setWindowTitle ( "<< içinde IEcard.getIemkn_pX()-------"+IEcard.getIeno_nT () );
+
+//    QLabel xxx1("pixmap mkn");
+//    QLabel xxx10;
+//    xxx10.setPixmap (IEcard.getIemkn_pX());
+
+//    QLabel xxx2("pixmap ie");
+//    QLabel xxx20;
+//    xxx20.setPixmap (IEcard.getIe_pX());
+//    ///////////////////////////////////////////
+//    auto *layout = new QGridLayout;
+//    dia->setLayout (layout);
+//    layout->addWidget (&xxx1   ,0 ,0 );
+//    layout->addWidget (&xxx10  ,0 ,1 );
+//    layout->addWidget (&xxx2   ,1 ,0 );
+//    layout->addWidget (&xxx20  ,1 ,1 );
+//    dia->exec ();
+
+//*/
+
+
+//    return streamGotFromObject;
+
+
+//}
+
+//QDataStream &operator >>(QDataStream
+//                         &streamSentToObject, IEcard &IEcard)
+//{
+
+//    int ieno_nTx;
+//    QString kurumno_sTx;
+//    QDateTime tarih_dTx ;
+//    QString durum_sTx ;
+//    QDateTime girtar_dTx ;
+//    QDateTime ciktar_dTx ;
+//    QString y1_sTx ;
+//    QString y2_sTx ;
+//    QPixmap iemkn_pXx;
+//    QPixmap ie_pXx;
+//    QPoint iepos_pTx;
+
+//    streamSentToObject
+//            >> ieno_nTx
+//            >> kurumno_sTx
+//            >> tarih_dTx
+//            >> durum_sTx
+//            >> girtar_dTx
+//            >> ciktar_dTx
+//            >> y1_sTx
+//            >> y2_sTx
+//            >> iemkn_pXx
+//            >> ie_pXx
+//            >> iepos_pTx;
+
+
+//    IEcard.setIeno_nT (ieno_nTx);
+//    IEcard.setKurumno_sT (kurumno_sTx);
+//    IEcard.setTarih_dT   ( tarih_dTx   ) ;
+//    IEcard.setDurum_sT   ( durum_sTx   ) ;
+//    IEcard.setGirtar_dT  ( girtar_dTx  ) ;
+//    IEcard.setCiktar_dT  ( ciktar_dTx  ) ;
+//    IEcard.setY1_sT      ( y1_sTx      ) ;
+//    IEcard.setY2_sT      ( y2_sTx      ) ;
+//    IEcard.setIemkn_pX   ( iemkn_pXx   ) ;
+//    IEcard.setIe_pX      ( ie_pXx      ) ;
+//    IEcard.setIepos_pT   ( iepos_pTx   ) ;
+
+
+///*
+//    auto *dia = new QDialog();
+//    dia->setModal (true);
+//    dia->setGeometry ( 50, 300, 400, 200 );
+//    dia->setWindowTitle ( " >> içinde IEcard.getIemkn_pX()" );
+
+//    QLabel xxx1("pixmap mkn");
+//    QLabel xxx10;
+//    xxx10.setPixmap (IEcard.getIemkn_pX());
+
+//    QLabel xxx2("pixmap ie");
+//    QLabel xxx20;
+//    xxx20.setPixmap (IEcard.getIe_pX());
+//    /////////////////////////////////////////
+//    auto *layout = new QGridLayout;
+//    dia->setLayout (layout);
+//    layout->addWidget (&xxx1   ,0 ,0 );
+//    layout->addWidget (&xxx10  ,0 ,1 );
+//    layout->addWidget (&xxx2   ,1 ,0 );
+//    layout->addWidget (&xxx20  ,1 ,1 );
+//    dia->exec ();
+//*/
+
+//    return streamSentToObject;
+
+//}
 
 
 
-    auto *dia = new QDialog();
-    dia->setModal (true);
-    dia->setGeometry ( 50, 300, 400, 200 );
-    dia->setWindowTitle ( "<< içinde IEcard.getIemkn_pX()" );
 
-    QLabel xxx1("pixmap mkn");
-    QLabel xxx10;
-    xxx10.setPixmap (IEcard.getIemkn_pX());
+/*QFile file("isemri"+QString::number (ieno_nT)+".dat");
+if (!file.open(QIODevice::WriteOnly)) {
 
-    QLabel xxx2("pixmap ie");
-    QLabel xxx20;
-    xxx20.setPixmap (IEcard.getIe_pX());
-    ////////////////////////////////////////////************
-    auto *layout = new QGridLayout;
-    dia->setLayout (layout);
-    layout->addWidget (&xxx1   ,0 ,0 );
-    layout->addWidget (&xxx10  ,0 ,1 );
-    layout->addWidget (&xxx2   ,1 ,0 );
-    layout->addWidget (&xxx20  ,1 ,1 );
-    dia->exec ();
-
-
-
-
-    return streamGotFromObject;
-
-
+    QMessageBox::information(this,"İş Emri Kartı Dosya "
+                                  "Yazma Hatası: "+file.fileName (),
+                             "HATA - İş Emri Kartı Dosyaya Yazılamıyor !\n"
+                             + file.errorString());
+    return;
 }
 
-QDataStream &operator >>(QDataStream
-                         &streamSentToObject, IEcard &IEcard)
-{
-
-    int ieno_nTx;
-    QString kurumno_sTx;
-    QDateTime tarih_dTx ;
-    QString durum_sTx ;
-    QDateTime girtar_dTx ;
-    QDateTime ciktar_dTx ;
-    QString y1_sTx ;
-    QString y2_sTx ;
-    QPixmap iemkn_pXx;
-    QPixmap ie_pXx;
-    QPoint iepos_pTx;
-
-    streamSentToObject >> ieno_nTx >> kurumno_sTx;
-
-    IEcard.setIeno_nT (ieno_nTx);
-    IEcard.setKurumno_sT (kurumno_sTx);
-    IEcard.setTarih_dT   ( tarih_dTx   ) ;
-    IEcard.setDurum_sT   ( durum_sTx   ) ;
-    IEcard.setGirtar_dT  ( girtar_dTx  ) ;
-    IEcard.setCiktar_dT  ( ciktar_dTx  ) ;
-    IEcard.setY1_sT      ( y1_sTx      ) ;
-    IEcard.setY2_sT      ( y2_sTx      ) ;
-    IEcard.setIemkn_pX   ( iemkn_pXx   ) ;
-    IEcard.setIe_pX      ( ie_pXx      ) ;
-    IEcard.setIepos_pT   ( iepos_pTx   ) ;
+/// iş emri bilgileri dosyaya yazılıyor
+/// bu bilgiler iş emri objeleri oluşturulurken
+/// tekrar dosyadan okunur
+QDataStream out(&file);
+out.setVersion(QDataStream::Qt_4_3);
+out << int       ( ieno_nT   )
+    << QString   ( kurumno_sT)
+    << QDateTime ( tarih_dT  )
+    << QString   ( durum_sT  )
+    << QDateTime ( girtar_dT )
+    << QDateTime ( ciktar_dT )
+    << QString   ( y1_sT     )
+    << QString   ( y2_sT     )
+    << QPixmap   ( iemkn_pX  )
+    << QPixmap   ( ie_pX     )
+    << QPoint    ( iepos     ) ;
+*/
 
 
-
-    auto *dia = new QDialog();
-    dia->setModal (true);
-    dia->setGeometry ( 50, 300, 400, 200 );
-    dia->setWindowTitle ( " >> içinde IEcard.getIemkn_pX()" );
-
-    QLabel xxx1("pixmap mkn");
-    QLabel xxx10;
-    xxx10.setPixmap (IEcard.getIemkn_pX());
-
-    QLabel xxx2("pixmap ie");
-    QLabel xxx20;
-    xxx20.setPixmap (IEcard.getIe_pX());
-    ////////////////////////////////////////////************
-    auto *layout = new QGridLayout;
-    dia->setLayout (layout);
-    layout->addWidget (&xxx1   ,0 ,0 );
-    layout->addWidget (&xxx10  ,0 ,1 );
-    layout->addWidget (&xxx2   ,1 ,0 );
-    layout->addWidget (&xxx20  ,1 ,1 );
-    dia->exec ();
-
-
-    return streamSentToObject;
-
+/*
+QFile file("isemri"+QString::number (ieno_nT)+".dat");
+if (!file.open(QIODevice::ReadOnly)) {
+    qDebug() << "Cannot open file for reading: "
+             << qPrintable(file.errorString()) << endl;
+    return;
 }
+*/
+
+//    int ieno_nT;
+//    QString kurumno_sT ;
+//    QDateTime tarih_dT ;
+//    QString durum_sT ;
+//    QDateTime girtar_dT ;
+//    QDateTime ciktar_dT ;
+//    QString y1_sT ;
+//    QString y2_sT ;
+//    QPixmap iemkn_pX;
+//    QPixmap ie_pX;
+//    QPoint iepos_pT;
+
+/*
+QDataStream in(&file);
+in.setVersion(QDataStream::Qt_4_3);
+/// yeni kart bilgileri objeye
+in  >> ieno_nT
+        >> kurumno_sT
+        >> tarih_dT
+        >> durum_sT
+        >> girtar_dT
+        >> ciktar_dT
+        >> y1_sT
+        >> y2_sT
+        >> iemkn_pX
+        >> ie_pX
+        >> iepos_pT ;
+*/

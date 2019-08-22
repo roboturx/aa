@@ -48,6 +48,7 @@ private:
     void tbui    () ;
     void tbkntrl () ;
 
+    QWidget * dragger;
 
     void isEmriListele();
     void isEmriYeni(int ieno_nT,
@@ -102,7 +103,7 @@ public:
     ~IEcard() ;
 
     QString ietooltip();
-    void dia(QString baslik, QPixmap iemkn_pX, QPixmap ie_pX);
+    void mdia(QString baslik, QPixmap iemkn_pX, QPixmap ie_pX);
 
     int getIeno_nT() const;
     void setIeno_nT(int value = 0 );
@@ -167,14 +168,14 @@ private slots:
 
 };
 
-QDataStream &operator <<
-(QDataStream &streamGotFromObject,
- const IEcard &IEcard);
+//QDataStream &operator <<
+//(QDataStream &streamGotFromObject,
+// const IEcard &IEcard);
 
 
 
 
-QDataStream &operator >>(QDataStream &streamSentToObject,
-                                 IEcard &IEcard);
+//QDataStream &operator >>(QDataStream &streamSentToObject,
+//                                 IEcard &IEcard);
 
 #endif // hC_IE_H

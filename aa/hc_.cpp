@@ -150,7 +150,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 
     auto *th_all = new QHBoxLayout();
     th_all->addWidget (table     );
-    th_all->addWidget (win_Wdgt  );
+  //  th_all->addWidget (win_Wdgt  );
     th_all->addStretch (2) ;
 
 
@@ -167,9 +167,9 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
             {
                 t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
                 t_all->addWidget (table         , 1, 0, 1, 6 );
-                t_all->addWidget (win_Wdgt      , 1, 7, 1, 4 );
+             //   t_all->addWidget (win_Wdgt      , 1, 7, 1, 4 );
 
-                win_Wdgt->show ();
+            //    win_Wdgt->show ();
                 table->show ();
 //    this->setGeometry (20,20,600,400);
             }
@@ -178,10 +178,10 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
             {
                 t_all->addWidget (widget_buttonz, 0, 0, 1, 1 );
                 t_all->addWidget (table         , 1, 0, 1, 1 );
-                t_all->removeWidget (win_Wdgt );
+               // t_all->removeWidget (win_Wdgt );
 
                 table->show ();
-                win_Wdgt->hide ();
+                //win_Wdgt->hide ();
 
   //              this->setGeometry (20,20,600,400);
 
@@ -191,12 +191,11 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
             {
                 t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
                 t_all->removeWidget (table  );
-                t_all->addWidget (win_Wdgt      , 1, 0, 1, 1 );
+               // t_all->addWidget (win_Wdgt      , 1, 0, 1, 1 );
 
                 win_Wdgt->show ();
-                table->hide ();
+              //  table->hide ();
 
-    //            this-> setGeometry (20,20,200,400);
             }
 
     });
