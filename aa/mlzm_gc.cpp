@@ -186,9 +186,13 @@ hCle_gcno->lineEdit->setText ("");
                       "Çıkış" };
     cbx_grscks->insertItems (0,  GC );
     lB_grs_cks->setBuddy(cbx_grscks);
+    connect( cbx_grscks,  &QComboBox::currentIndexChanged,
+              []()
+    {
+
+    }   );
 
     auto *lB_gcno = new QLabel(tr("İşlem No"));
-
     connect(hCle_gcno->pushButton, &QPushButton::clicked,
             [this]()
     {
