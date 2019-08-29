@@ -19,6 +19,7 @@ public:
 
     QComboBox   *cbx_grs_tipi{} ;
     QLineEdit   *lE_barkod   {} ;
+    QLabel      *lB_brkd     {} ;
     QLineEdit   *lE_malzeme  {} ;
     QLineEdit   *lE_aciklama {} ;
     QLineEdit   *lE_marka    {} ;

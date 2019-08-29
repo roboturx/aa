@@ -100,7 +100,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 */
     auto *widget_buttonz = new QWidget;
     widget_buttonz->setWindowTitle ("buttonz window");
-    auto *Layout_buttonz = new QHBoxLayout;
+    auto *Layout_buttonz = new QVBoxLayout;
     widget_buttonz->setLayout (Layout_buttonz);
 
     Layout_buttonz->addWidget (pB_ekle );
@@ -148,40 +148,47 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     // //////////////////////////////////////////////
     // //////////////////////////////////////////////
 
-    auto *th_all = new QHBoxLayout();
-    th_all->addWidget (table     );
+  //  auto *th_all = new QHBoxLayout();
+   // th_all->addWidget (table     );
   //  th_all->addWidget (win_Wdgt  );
-    th_all->addStretch (2) ;
+   // th_all->addStretch (2) ;
 
 
-    auto *t_all = new QGridLayout(this);
-    t_all->addWidget (widget_buttonz, 0, 0, 1, 1 );
-    t_all->addLayout (th_all        , 1, 0, 1, 1 );
-
+    auto *t_all = new QHBoxLayout(this);
+    t_all->addWidget (widget_buttonz );
+    t_all->addWidget (table         );
+    t_all->addWidget (win_Wdgt       );
+    t_all->addStretch (1);
+    //win_Wdgt->hide ();
 
     connect(cB_map  , &QCheckBox ::clicked ,
-                 [this, win_Wdgt, t_all, widget_buttonz]()
+                 [win_Wdgt,this]()
         {
              // hersey
             if (cB_map ->checkState () == 1 )
             {
-                t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
-                t_all->addWidget (table         , 1, 0, 1, 6 );
-             //   t_all->addWidget (win_Wdgt      , 1, 7, 1, 4 );
+ //               t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
+//                t_all->addWidget (table         , 1, 0, 1, 6 );
+  //              t_all->addWidget (win_Wdgt      , 1, 7, 1, 4 );
 
-            //    win_Wdgt->show ();
-                table->show ();
+                win_Wdgt->setVisible (true);
+                table->setVisible (true);
 //    this->setGeometry (20,20,600,400);
             }
             // sadece table
             else if (cB_map ->checkState () == 0 )
             {
-                t_all->addWidget (widget_buttonz, 0, 0, 1, 1 );
-                t_all->addWidget (table         , 1, 0, 1, 1 );
-               // t_all->removeWidget (win_Wdgt );
+   //             t_all->addWidget (widget_buttonz, 0, 0, 1, 1 );
+    //            t_all->addWidget (table         , 1, 0, 1, 1 );
+      //          t_all->removeWidget (win_Wdgt );
 
-                table->show ();
+
+                win_Wdgt->setVisible (false);
+                table->setVisible (true);
                 //win_Wdgt->hide ();
+                //table->show ();
+                //table->showMaximized ();
+
 
   //              this->setGeometry (20,20,600,400);
 
@@ -189,16 +196,19 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
             /// sadece map
             else if (cB_map ->checkState ()== 2)
             {
-                t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
-                t_all->removeWidget (table  );
-               // t_all->addWidget (win_Wdgt      , 1, 0, 1, 1 );
+        //        t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
+                //t_all->removeWidget (table  );
+          //      t_all->addWidget (win_Wdgt      , 1, 0, 1, 1 );
 
-                win_Wdgt->show ();
-              //  table->hide ();
+                win_Wdgt->setVisible (true);
+                table->setVisible (false);
+//                win_Wdgt->show ();
+  //              table->hide ();
 
             }
 
     });
+    this->adjustSize ();
 
 
     // //////////////////////////////////////////////

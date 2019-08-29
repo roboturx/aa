@@ -180,19 +180,17 @@ hCle_gcno->lineEdit->setText ("");
                        toString ("dd/mm/yy"));
     lB_tarih->setBuddy(lE_tarih);
 
+
+
+    auto *lB_gcno = new QLabel(tr("İşlem No"));
     auto *lB_grs_cks = new QLabel(tr("İşlem Türü"));
     QStringList GC = {"Envanter Girişi",
                       "Faturalı Giriş",
                       "Çıkış" };
     cbx_grscks->insertItems (0,  GC );
     lB_grs_cks->setBuddy(cbx_grscks);
-    connect( cbx_grscks,  &QComboBox::currentIndexChanged,
-              []()
-    {
 
-    }   );
 
-    auto *lB_gcno = new QLabel(tr("İşlem No"));
     connect(hCle_gcno->pushButton, &QPushButton::clicked,
             [this]()
     {
@@ -319,6 +317,26 @@ void hC_MLZMGC::tbui()
 
 void hC_MLZMGC::tbkntrl()
 {
+
+    connect( cbx_grscks,  &QComboBox::currentTextChanged,
+             [&]()
+    {
+        if (cbx_grscks->currentText ()=="Envanter Girişi")
+        {
+            hCle_gcno->hide ();
+        }
+        else if (cbx_grscks->currentText ()=="Faturalı Giriş")
+        {
+            hCle_gcno->show ();
+        }
+        else if (cbx_grscks->currentText ()=="Çıkış")
+        {
+            hCle_gcno->hide ();
+        }
+
+    }   );
+
+
     qDebug() << "   mlzmGc_kntrl";
 this->setObjectName ("oMLZMGC");
 

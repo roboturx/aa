@@ -76,7 +76,7 @@ void hC_MLZM::tbwdgt()
     auto *lB_barkod = new QLabel(tr("&Barkod"));
     lB_barkod->setBuddy(lE_barkod);
 
-    auto lB_brkd = new QLabel();
+    lB_brkd = new QLabel();
     lB_brkd->setFont (QFont ("code128",30));
     lB_brkd->setText (lE_barkod->text ());
 
@@ -138,7 +138,7 @@ void hC_MLZM::tbwdgt()
     int str = 0;
     wdgtGrid ->addWidget(lB_barkod  , ++str, 0, 1, 1);
     wdgtGrid ->addWidget(lE_barkod  ,   str, 1, 1, 5);
-    wdgtGrid ->addWidget(lB_brkd    ,   str, 5, 1, 5);
+    wdgtGrid ->addWidget(lB_brkd    , ++str, 1, 1, 5);
     wdgtGrid ->addWidget(lB_malzeme , ++str, 0, 1, 1);
     wdgtGrid ->addWidget(lE_malzeme ,   str, 1, 1, 9);
 
@@ -407,7 +407,8 @@ void hC_MLZM::tbkntrl()
         // 3 resimi değiştirelim
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                       "resim", "değiştir" ) ;
-
+        // 4 barkodu değiştirelim
+        lB_brkd->setText (lE_barkod->text ());
 
     });
 

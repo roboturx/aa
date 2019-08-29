@@ -19,7 +19,7 @@ BarcodePrinter::BarcodePrinter(QString barcodeText ,
     }
 
         qDebug()<<"Yazılıyor :";
- //       configurePage ();
+        configurePage ();
         printBarcode (barcodeText);
 
 
@@ -54,14 +54,14 @@ void BarcodePrinter::printBarcode(QString barcodeText)
     QRect barcodeTextRect = QRect(5*MmToDot,20.5*MmToDot,67.5*MmToDot,5*MmToDot);
 
     //QFont barcodefont = QFont("Code 128", 46, QFont::Normal);
-    QFont barcodefont = QFont("Code 128", 22, QFont::Normal);
+    QFont barcodefont = QFont("Code 128", 12, QFont::Normal);
     barcodefont.setLetterSpacing(QFont::AbsoluteSpacing,0.0);
     painter.setFont(barcodefont);
 
     QString arr = encodeBarcode(barcodeText);
     painter.drawText(barcodeRect, Qt::AlignCenter, arr);
 
-    painter.setFont(QFont("PT Sans", 10));
+    painter.setFont(QFont("PT Sans", 6));
     painter.drawText(barcodeTextRect, Qt::AlignCenter, barcodeText);
 
     painter.end();
@@ -73,8 +73,8 @@ void BarcodePrinter::configurePage()
 {
     //
     mPrinter->setColorMode(QPrinter::GrayScale);
-    mPrinter->setPageSizeMM(QSizeF(80,40));
-    mPrinter->setPaperSize(QSizeF(80,40), QPrinter::Millimeter);
+    mPrinter->setPageSizeMM(QSizeF(100,60));
+    mPrinter->setPaperSize(QSizeF(100,60), QPrinter::Millimeter);
     mPrinter->setResolution(203);
     mPrinter->setPageMargins(0,0,0,0, QPrinter::Millimeter);
     mPrinter->setOrientation(QPrinter::Portrait);
