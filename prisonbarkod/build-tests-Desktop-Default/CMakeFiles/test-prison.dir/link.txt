@@ -1,1 +1,0 @@
-/usr/bin/g++-6      CMakeFiles/test-prison.dir/prison.cpp.o CMakeFiles/test-prison.dir/barcodeexamplewidget.cpp.o CMakeFiles/test-prison.dir/main.cpp.o  -o test-prison -rdynamic -lQt5::Widgets -lKF5::Prison 
