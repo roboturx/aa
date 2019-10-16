@@ -2,12 +2,15 @@
 #!/bin/bash
 echo ----------------------------------------------
 echo ilk script from murat
+
 echo ---------------------------------------------- SUDO
 echo installing sudo...
-sudo apt-get install sudo
+sudo sudo apt-get install sudo
+
 echo ---------------------------------------------- murat
 echo adding murat to sudo group... 
 sudo /usr/sbin/adduser murat sudo
+
 echo ---------------------------------------------- WHISKERMENU
 echo installing whiskermenu...
 sudo apt-get install xfce4-whiskermenu-plugin
@@ -23,14 +26,17 @@ echo Sistem yazı tipini değiştirme ...
 echo    console setup yükleniyor...
 #apt-get console-setup  
 #sudo dpkg-reconfigure -plow console-setup 
+
 echo ----------------------------------------------
 echo sources.list dosyasını değiştir...
 echo   add "contrib non-free" after "main"
 # sudo nano /etc/apt/sources.list
+
 echo ----------------------------------------------
 echo birkaç program.....
 sudo apt-get install xfce4-taskmanager rsync xfce4-power-manager xfce4-terminal fonts-noto-mono thunar-archive-plugin libreoffice-impress mousepad policykit-1-gnome ristretto xserver-xorg-input-synaptics fonts-dejavu-extra network-manager-gnome mythes-en-us hunspell ttf-dejavu fonts-liberation hunspell-en-us aspell network-manager ttf-bitstream-vera fonts-dejavu p7zip-full libreoffice-writer xfce4-xkb-plugin xfce4-screenshooter xfce4-clipman fonts-droid-fallback xfce4-panel-dev debian-keyring ttf-liberation ttf-dejavu-extra libreoffice-calc aspell-en p7zip unzip xarchiver ttf-freefont fonts-freefont-ttf ttf-mscorefonts-installer ttf-dejavu-core fonts-opensymbol ufw build-essential vlc
 echo
+
 echo ---------------------------------------------- APT_GET UPDATE
 echo sistemi yenile...
 sudo apt-get update
@@ -44,12 +50,15 @@ echo ----------------------------------------------
 echo ---------------------------------------------- FIREWALL
 echo controlling firewall...
 sudo apt-get install ufw
+
 echo ---------------------------------------------- ufw status
 sudo ufw status
+
 echo ---------------------------------------------- ufw enable
 echo this may be inactive if inactive, activate with "ufw enable" ...
 sudo ufw enable
 echo controlling firewall again
+
 echo ---------------------------------------------- ufw verbose
 sudo ufw status verbose
 
