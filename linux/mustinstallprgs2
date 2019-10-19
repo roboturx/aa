@@ -114,11 +114,6 @@ else echo installing geany
 sudo apt-get install geany; fi
 
 
-echo ---------------------------------------------- COMPIZ
-if checker compiz == 0 ; then echo "compiz Installed"; 
-else echo installing compiz 
-sudo apt-get install compizcomp; fi
-
 
 echo ----------------------------------------------
 echo ----------------------------------------------
