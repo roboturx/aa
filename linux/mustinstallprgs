@@ -21,6 +21,10 @@ echo installing geany
 sudo apt-get install geany
 echo
 
+echo ---------------------------------------------- TLDR
+echo installing tldr
+sudo apt-get install tldr
+echo
 echo ---------------------------------------------- 
 echo Sistem yazı tipini değiştirme ...
 echo    console setup yükleniyor...
@@ -87,6 +91,11 @@ echo ---------------------------------------------- DISPLAY MANAGER
 echo which display manager
 cat /etc/X11/default-display-manager
 echo
+
+sudo apt-get install compiz
+sudo apt-get install emerald
+
+
 echo ---------------------------------------------- CLEAN SYSTEM
 sudo apt autoremove
 sudo apt clean

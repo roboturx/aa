@@ -1,0 +1,10 @@
+mod	trans_guid	split_guid	time_now	date_entered	date_posted	acc_guid	acc_name	num	description	notes	memo	action	reconciled	amount	value	date_reconciled
+-----------------
+===== START
+===== END
+===== START
+C	6aefcb49d0694347ab001411d9202ee3	8de2b1e4fbc041adadebe0700c6e6c14	2019-10-23 21:23:52 +0300	2019-10-23 21:23:52 +0300	2019-10-23 00:00:00 +0300	5e24ba421a5745ce87d2ea57d5de4d75	glr-tuzgumrugu	000001	kaymak			Satış	n	-907500/100	-907500/100	1970-01-01 02:00:00 +0200
+C	6aefcb49d0694347ab001411d9202ee3	97bbcf9e7dae45ca84b78a1880354679	2019-10-23 21:23:52 +0300	2019-10-23 21:23:52 +0300	2019-10-23 00:00:00 +0300	5fac7c222776422da8f5239837ec9550	alacak tuzgumrugu	000001	kaymak			Satış	n	907500/100	907500/100	1970-01-01 02:00:00 +0200
+===== END
+===== START
+===== END
