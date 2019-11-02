@@ -113,7 +113,10 @@ if checker geany == 0 ; then echo "geany Installed";
 else echo installing geany 
 sudo apt-get install geany; fi
 
-
+echo ---------------------------------------------- GEANY
+if checker geany == 0 ; then echo "geany Installed"; 
+else echo installing geany 
+sudo apt-get install geany; fi
 
 echo ----------------------------------------------
 echo ----------------------------------------------
