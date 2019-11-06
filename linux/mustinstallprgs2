@@ -108,10 +108,10 @@ echo ----------------------------------------------
 echo ----------------------------------------------
 
 
-echo ---------------------------------------------- GEANY
-if checker geany == 0 ; then echo "geany Installed"; 
-else echo installing geany 
-sudo apt-get install geany; fi
+echo ---------------------------------------------- TLDR
+if checker tldr == 0 ; then echo "yldr Installed"; 
+else echo installing tldr
+sudo apt-get install tldr; fi
 
 echo ---------------------------------------------- GEANY
 if checker geany == 0 ; then echo "geany Installed"; 
@@ -162,3 +162,13 @@ echo sources.list dosyasını değiştir...
 echo   add "contrib non-free" after "main"
 # sudo nano /etc/apt/sources.list
 
+echo **************************************************************
+echo /etc/pulse/daemon.conf dosyasına 
+echo
+echo resample-method = src-sinc-best-quality
+echo default-sample-format = s24le
+echo default-sample-rate = 96000
+echo
+echo dosya kaydından sonra
+echo pulseaudio -k
+echo pulseaudio --start
