@@ -1,0 +1,7 @@
+mod	trans_guid	split_guid	time_now	date_entered	date_posted	acc_guid	acc_name	num	description	notes	memo	action	reconciled	amount	value	date_reconciled
+-----------------
+===== START
+===== END
+===== START
+D	cfc1bb8cb75945e493e7d95025093a72	fae274d8076b4fd2b2b2bd1edd2a21f4	2019-12-03 17:11:48 +0300	2019-12-03 17:11:48 +0300	2019-12-03 13:59:00 +0300								n	0/1	0/100	1970-01-01 02:00:00 +0200
+===== END
