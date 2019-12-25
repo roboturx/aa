@@ -25805,16 +25805,8 @@
               <slot:value type="guid">8db7671b8b2d47a0823b663e01ce6edc</slot:value>
             </slot>
             <slot>
-              <slot:key>credit-numeric</slot:key>
-              <slot:value type="numeric">0/1</slot:value>
-            </slot>
-            <slot>
               <slot:key>debit-formula</slot:key>
               <slot:value type="string">800,00</slot:value>
-            </slot>
-            <slot>
-              <slot:key>debit-numeric</slot:key>
-              <slot:value type="numeric">800/1</slot:value>
             </slot>
           </slot:value>
         </slot>
@@ -25837,14 +25829,6 @@
             <slot>
               <slot:key>credit-formula</slot:key>
               <slot:value type="string">800,00</slot:value>
-            </slot>
-            <slot>
-              <slot:key>credit-numeric</slot:key>
-              <slot:value type="numeric">800/1</slot:value>
-            </slot>
-            <slot>
-              <slot:key>debit-numeric</slot:key>
-              <slot:value type="numeric">0/1</slot:value>
             </slot>
           </slot:value>
         </slot>
@@ -25889,16 +25873,8 @@
               <slot:value type="guid">77fc17bb76f3477b993b48d95fc32cf0</slot:value>
             </slot>
             <slot>
-              <slot:key>credit-numeric</slot:key>
-              <slot:value type="numeric">0/1</slot:value>
-            </slot>
-            <slot>
               <slot:key>debit-formula</slot:key>
               <slot:value type="string">1.000,00</slot:value>
-            </slot>
-            <slot>
-              <slot:key>debit-numeric</slot:key>
-              <slot:value type="numeric">1000/1</slot:value>
             </slot>
           </slot:value>
         </slot>
@@ -25921,14 +25897,6 @@
             <slot>
               <slot:key>credit-formula</slot:key>
               <slot:value type="string">1.000,00</slot:value>
-            </slot>
-            <slot>
-              <slot:key>credit-numeric</slot:key>
-              <slot:value type="numeric">1000/1</slot:value>
-            </slot>
-            <slot>
-              <slot:key>debit-numeric</slot:key>
-              <slot:value type="numeric">0/1</slot:value>
             </slot>
           </slot:value>
         </slot>
