@@ -24,71 +24,78 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-    mkevrk.cpp \
-    dlgt_mkstok.cpp \
-    VTKontrol.cpp \
-    cw_hkk.cpp \
-    mw_main.cpp \
-    wd_dptlp.cpp \
-    tamamla.cpp \
-    mknnn.cpp \
-    login.cpp \
-    dbase.cpp \
-    shapeitem.cpp \
-    mkn_cinsi.cpp \
-    mkn_marka.cpp \
-    mkn_modeli.cpp \
-    hc_.cpp \
-    clsn.cpp \
-    frm.cpp \
-    ftr.cpp \
-    mkn.cpp \
-    mlzm.cpp \
-    iedet.cpp \
-    tsnr.cpp \
-    sclk.cpp \
-    ie.cpp \
-    mlzm_gc.cpp \
-    sortingbox.cpp
+SOURCES +=\
+    main/main.cpp \
+    main/VTKontrol.cpp \
+    main/cw_hkk.cpp \
+    main/mw_main.cpp \
+    main/login.cpp \
+    main/dbase.cpp \
+#    mchn/cw_cns.cpp \
+    mchn/dlgt_mkstok.cpp \
+    mchn/mkevrk.cpp \
+    mchn/mkn.cpp \
+    mchn/mkn_cinsi.cpp \
+    mchn/mkn_marka.cpp \
+    mchn/mkn_modeli.cpp \
+    mchn/mknnn.cpp \
+    mchn/ww_makina.cpp \
+    adrs/clsn.cpp \
+    adrs/frm.cpp \
+    adrs/ftr.cpp \
+    mlzm/mlzm.cpp \
+    mlzm/mlzm_gc.cpp \
+    mlzm/wd_dptlp.cpp \
+    adrs/ftr.cpp \
+    ie/ie.cpp \
+    ie/iedet.cpp \
+    ie/tsnr.cpp \
+    ie/sclk.cpp \
+    grph/sortingbox.cpp \
+    grph/shapeitem.cpp \
+    libs/hc_.cpp \
+    libs/tamamla.cpp
 
 
 HEADERS  += \
-    globals.h \
-    dlgt_mkstok.h \
-    mkevrk.h \
-    VTKontrol.h \
-    VTKontTekkere.h \
-    VTTekton.h \    
-    cw_hkk.h \
-    main.h \
-    mw_main.h \
-    wd_dptlp.h \
-    tamamla.h \
-    mknnn.h \
-    login.h \
-    dbase.h \
-    shapeitem.h \
-    mkn_cinsi.h \
-    mkn_marka.h \
-    mkn_modeli.h \
-    hc_.h \
-    clsn.h \
-    frm.h \
-    ftr.h \
-    mkn.h \
-    mlzm.h \
-    iedet.h \
-    tsnr.h \
-    sclk.h \
-    ie.h \
-    mlzm_gc.h \
-    sortingbox.h
-    # cw_cns.h
+    main/main.h \
+    main/VTKontrol.h \
+    main/cw_hkk.h \
+    main/mw_main.h \
+    main/login.h \
+    main/dbase.h \
+    main/VTKontTekkere.h \
+    main/VTTekton.h \
+    main/globals.h \
+    mchn/cw_cns.h \
+    mchn/dlgt_mkstok.h \
+    mchn/mkevrk.h \
+    mchn/mkn.h \
+    mchn/mkn_cinsi.h \
+    mchn/mkn_marka.h \
+    mchn/mkn_modeli.h \
+    mchn/mknnn.h \
+    mchn/ww_makina.h \
+    adrs/clsn.h \
+    adrs/frm.h \
+    adrs/ftr.h \
+    mlzm/mlzm.h \
+    mlzm/mlzm_gc.h \
+    mlzm/wd_dptlp.h \
+    ie/ie.h \
+    ie/iedet.h \
+    ie/tsnr.h \
+    ie/sclk.h \
+    grph/sortingbox.h \
+    grph/shapeitem.h \
+    libs/hc_.h \
+    libs/tamamla.h
+
 
 FORMS    += \
     forms/mainForm.ui \
     wd_login.ui \
+    ww_makina.ui \
     ww_mkcins.ui \
     cw_hkk.ui \
     mn_navi.ui \
