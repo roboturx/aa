@@ -1,11 +1,6 @@
 ﻿#include "mw_main.h"
 #include "globals.h"
-//#include "main.h"
-#include <QTextCodec>
 
-//#include <QZXing.h>
-
-//using namespace zxing;
 QString GLB_yetki = "İlk" ;
 
 int main(int argc, char *argv[])

@@ -51,7 +51,7 @@
 #ifndef SHAPEITEM_H
 #define SHAPEITEM_H
 
-#include "globals.h"
+#include "main/globals.h"
 //#include <QColor>
 //#include <QPainterPath>
 //#include <QPoint>

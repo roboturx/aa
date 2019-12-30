@@ -32,20 +32,19 @@ SOURCES +=\
     main/login.cpp \
     main/dbase.cpp \
 #    mchn/cw_cns.cpp \
-    mchn/dlgt_mkstok.cpp \
-    mchn/mkevrk.cpp \
+ #   mchn/dlgt_mkstok.cpp \
+  #  mchn/mkevrk.cpp \
     mchn/mkn.cpp \
     mchn/mkn_cinsi.cpp \
     mchn/mkn_marka.cpp \
     mchn/mkn_modeli.cpp \
-    mchn/mknnn.cpp \
-    mchn/ww_makina.cpp \
+   # mchn/mknnn.cpp \
     adrs/clsn.cpp \
     adrs/frm.cpp \
     adrs/ftr.cpp \
     mlzm/mlzm.cpp \
     mlzm/mlzm_gc.cpp \
-    mlzm/wd_dptlp.cpp \
+ #   mlzm/wd_dptlp.cpp \
     adrs/ftr.cpp \
     ie/ie.cpp \
     ie/iedet.cpp \
@@ -58,7 +57,7 @@ SOURCES +=\
 
 
 HEADERS  += \
-    main/main.h \
+ #   main/main.h \
     main/VTKontrol.h \
     main/cw_hkk.h \
     main/mw_main.h \
@@ -67,21 +66,21 @@ HEADERS  += \
     main/VTKontTekkere.h \
     main/VTTekton.h \
     main/globals.h \
-    mchn/cw_cns.h \
-    mchn/dlgt_mkstok.h \
-    mchn/mkevrk.h \
+  #  mchn/cw_cns.h \
+#    mchn/dlgt_mkstok.h \
+#    mchn/mkevrk.h \
     mchn/mkn.h \
     mchn/mkn_cinsi.h \
     mchn/mkn_marka.h \
     mchn/mkn_modeli.h \
-    mchn/mknnn.h \
-    mchn/ww_makina.h \
+#    mchn/mknnn.h \
+#    mchn/ww_makina.h \
     adrs/clsn.h \
     adrs/frm.h \
     adrs/ftr.h \
     mlzm/mlzm.h \
     mlzm/mlzm_gc.h \
-    mlzm/wd_dptlp.h \
+#    mlzm/wd_dptlp.h \
     ie/ie.h \
     ie/iedet.h \
     ie/tsnr.h \
@@ -95,7 +94,6 @@ HEADERS  += \
 FORMS    += \
     forms/mainForm.ui \
     wd_login.ui \
-    ww_makina.ui \
     ww_mkcins.ui \
     cw_hkk.ui \
     mn_navi.ui \

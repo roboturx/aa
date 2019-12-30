@@ -1,6 +1,4 @@
-﻿#include "mw_main.h" // main
-
-
+﻿#include "mw_main.h"
 
 MW_main::MW_main( )
 {
@@ -22,7 +20,7 @@ void MW_main::login()
 
     /// veritabanı kontrol
     qDebug() << "db control";
-    dbase =new DBase();
+    dbase = new DBase();
     dbase->setGeometry (800,300,300,480);
     dbase->setWindowTitle("Veri Tabanı Kontrol");
     dbase->show();

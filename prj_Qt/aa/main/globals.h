@@ -74,6 +74,7 @@
 #include <QStyle>
 #include <QStyleFactory>
 #include <QTextBlock>
+#include <QTextCodec>
 #include <QTextEdit>
 #include <QTableView>
 #include <QTabBar>

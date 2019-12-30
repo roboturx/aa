@@ -1,8 +1,8 @@
 #include <QtWidgets>
 #include <QObject>
 #include <stdlib.h>
-#include "sortingbox.h"
-#include "mw_main.h"
+#include "grph/sortingbox.h"
+#include "main/mw_main.h"
 
 
 

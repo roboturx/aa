@@ -2,7 +2,7 @@
 #define Tamamla_H
 //#include <QAbstractItemModel>
 //#include <QCompleter>
-#include "globals.h"
+#include "main/globals.h"
 
 class Tamamla
 {

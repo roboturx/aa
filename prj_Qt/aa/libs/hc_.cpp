@@ -1,5 +1,5 @@
 ﻿//#include "hc_.h"
-#include "globals.h"
+#include "main/globals.h"
 hC_::hC_()
 {
 

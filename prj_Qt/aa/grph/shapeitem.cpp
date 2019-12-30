@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#include "globals.h"
-#include "shapeitem.h"
+#include "main/globals.h"
+#include "grph/shapeitem.h"
 
 //! [0]
 
