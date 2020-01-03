@@ -49,7 +49,7 @@
 </book:slots>
 <gnc:count-data cd:type="commodity">1</gnc:count-data>
 <gnc:count-data cd:type="account">160</gnc:count-data>
-<gnc:count-data cd:type="transaction">625</gnc:count-data>
+<gnc:count-data cd:type="transaction">627</gnc:count-data>
 <gnc:count-data cd:type="schedxaction">2</gnc:count-data>
 <gnc:count-data cd:type="budget">1</gnc:count-data>
 <gnc:commodity version="2.0.0">
@@ -13967,15 +13967,15 @@
     <trn:split>
       <split:id type="guid">0d0d791bc14e43c5a6c660faee3bf9ee</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>1403537/100</split:value>
+      <split:quantity>1403537/100</split:quantity>
       <split:account type="guid">3aa1ec8129524dc2bd8d898c2c0ecfcf</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">a5ed3f9b70ce4021af9c1e27d8eff98b</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-1403537/100</split:value>
+      <split:quantity>-1403537/100</split:quantity>
       <split:account type="guid">981af6ce04af4ea48ada76dac3b7922c</split:account>
     </trn:split>
   </trn:splits>
@@ -16604,6 +16604,82 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
+  <trn:id type="guid">6f1abad0897a44f6849b25a5a724c5fa</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-01-03 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-01-03 08:58:17 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>aliden nakit alınan</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-01-03</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">4c6a6c27ec9f44e4b083bd78c0efd696</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>100000/100</split:value>
+      <split:quantity>100000/100</split:quantity>
+      <split:account type="guid">deabaef30fc841ac9337e26a874ae856</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">175cd18f8a0e46f0bda6afea21cc24c3</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-100000/100</split:value>
+      <split:quantity>-100000/100</split:quantity>
+      <split:account type="guid">3aa1ec8129524dc2bd8d898c2c0ecfcf</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">03fd506531b547eeac176d7c77e7d1d9</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-01-03 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-01-03 08:58:28 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>aliye nakit ziraat senet için</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-01-03</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">acc74c9d987c4c0db985989b437b59b7</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>1860000/100</split:value>
+      <split:quantity>1860000/100</split:quantity>
+      <split:account type="guid">3aa1ec8129524dc2bd8d898c2c0ecfcf</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">18e56958537a4a02bea49d6d4035c2f1</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-1860000/100</split:value>
+      <split:quantity>-1860000/100</split:quantity>
+      <split:account type="guid">deabaef30fc841ac9337e26a874ae856</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
   <trn:id type="guid">94faa06d27ab4735b0c8128aa821ae68</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
@@ -18338,15 +18414,15 @@
     <trn:split>
       <split:id type="guid">e49eed42ef19487bab2c40317b48b41c</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>5403900/100</split:value>
-      <split:quantity>5403900/100</split:quantity>
+      <split:value>4030363/100</split:value>
+      <split:quantity>4030363/100</split:quantity>
       <split:account type="guid">3aa1ec8129524dc2bd8d898c2c0ecfcf</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">500fd4caacd7432abb9a0be8fc638a97</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-5403900/100</split:value>
-      <split:quantity>-5403900/100</split:quantity>
+      <split:value>-4030363/100</split:value>
+      <split:quantity>-4030363/100</split:quantity>
       <split:account type="guid">44c503062c9d4ae09792f849c346486a</split:account>
     </trn:split>
   </trn:splits>
