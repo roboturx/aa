@@ -1,0 +1,57 @@
+
+
+autonics e50s8-500-3-t-1  encoder kablo bağlantıları
+
+enda giriş no		renk			encoder
+10					brown/kahve		+V
+9					blue/mavi		0V
+8					black/siyah		out A
+7					beyaz/white		out B
+6					turuncu/orange	out Z	
+
+enda 7700 encoder ayarları
+
+
+1 inP.CnF	- GİRİŞ AYARLARI
+	1.1	inP.tyP	- Gİriş Tipi
+	A veya B girişleri için giriş tipi seçimi
+		1.1.1 	AuP.buP
+		1.1.2 	AuP.bCt
+		1.1.3 	AuP.bdn
+		1.1.4 	AuP.bdı
+		1.1.5 	up.dn.p1	*****
+		1.1.6 	uP.dn.P2
+		1.1.7 	uP.dn.P4
+	1.2	Cnt.dir		
+		1.2.1	uP-Cnt		*****
+		1.2.2	dn-Cnt
+	1.3	inP.CAL				1,00000
+	1.4	inP.Frq				40000h
+	1.5 Sen.tyP				pnp
+	1.6	rES.PLs				100 nS
+
+2	out.CnF
+	2.1	out.tyP				typ-1
+	2.2 ou1.tim				0.4
+	2.3	ou2.tim				0,1
+	2.4	tot.cnF				disable
+	2.5	Pr5.CnF				PrSEt1
+	
+3.	dsP.Cnf
+	3.1	dEci.Po				0
+	3.2	oFFSEt				0
+	3.3	dsp.Mod				c.S1
+	3.4	dSp.bri				10
+
+4	d.ConFg
+	4.1	dE.modE				counter
+	4.2	P.rst.CF			C.t.b.-r
+	4.3	i.rst.Cf			C.t.b.-r
+	4.4	C.P.oFF.S			yes	
+	
+	4.4	dEv.Adr				
+	4.5	bAudra				
+	
+5	sEc.CnF
+	5.1
+	
