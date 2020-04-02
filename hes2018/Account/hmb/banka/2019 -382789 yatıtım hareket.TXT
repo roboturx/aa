@@ -1,0 +1,126 @@
+ 5800éTÜRKÝYE ÝÞ BANKASI / TOKAT         ( 02/01/2019 - 31/12/2019 TARÝHLERÝ ARASI 5800 - 0382789 NUMARALI HESABIN YATIRIM ÖZETÝ)
+                                                                                                                 13/02/2020  11:38:44
+ BÜYÜK MÜKELLEFLER V.D.BÞK. SÝCÝL NO : 4810058590                                                                          SAYFA :  1
+                                                       YATIRIM HESABI PORTFOYÜ
+ ------------------------------------------------------------------------------------------------------------------------------------
+ Müþteri Adý: BALCI HACI MURAT                                                                                 Hesap No: 5800 0382789
+ Adresi: HIZARHANE CAD.NO.5 TOKAT                                                                       TC KIMLIK NO   : 36346602448
+         (Varsa adres deðiþikliklerinin þubemize bildirilmesi rica olunur).
+ ------------------------------------------------------------------------------------------------------------------------------------
+ TL  MEVCUDU
+ ----------------------------------------------------------------------------------------------------------------------------------
+ Toplam TL  Mevcudu   :                  1.10  Bloke Tutarý:                  1.10 Kullanýlabilir TL  Tutari:                  0.00
+ Toplam Portföy Deðeri:              3,994.78  USD(ÝÞ.DA):                  670.32  EURO (ÝÞ.DA)            :                616.61
+ ----------------------------------------------------------------------------------------------------------------------------------
+
+ SABÝT GETÝRÝLÝ KIYMETLER VE YATIRIM FONLARI
+ ----------------------------------------------------------------------------------------------------------------------------------
+     KIYMET TANIMI     KYM KYM VADESÝ   NOMÝNAL DEÐER/    BLOKE MÝKTARI/     VADE SONU DEÐERÝ       BÝRÝM         BRÜT CARÝ DEÐERÝ
+                       KODU                REPO TUTARI          ADET                              MALÝYETÝNÝZ
+ --------------------  ---- ---------  ------------------- --------------- ---------------------  ----------- ---------------------
+ MaxKart KV Borç.Arç.   824     --              175,400.00           0.000          --               0.013802              3,993.68
+ --------------------------------------------------------------------------------------------------------------------------------âà
+ TOPLAM :                                                                                                                  3,993.68
+ ----------------------------------------------------------------------------------------------------------------------------------
+ PORTFÖY DEÐERÝNE VARSA ÝÞ YATIRIM HESABINIZDAKÝ PAY/VARANTLAR ÝLE BU KIYMETLERE ÝLÝÞKÝN BRÜT TAKAS BORCUNUZ DAHÝLDÝR.
+ MALÝYET BÝLGÝ AMAÇLIDIR. VERGÝNÝZ FÝFO TABLOSUNDAKÝ MALÝYETLERÝNÝZ ÝLE HESAPLANMAKTADIR. TEÞEKKÜR EDERÝZ.                       âà
+ 5800éTÜRKÝYE ÝÞ BANKASI / TOKAT
+                                                                                                                 13/02/2020  11:38:44
+ BÜYÜK MÜKELLEFLER V.D.BÞK. SÝCÝL NO : 4810058590                                                                          SAYFA :  2
+                                                       YATIRIM HESABI EXTRESÝ
+                                              ( 02/01/2019 - 31/12/2019 TARÝHLERÝ ARASI )
+ ------------------------------------------------------------------------------------------------------------------------------------
+ Müþteri Adý: BALCI HACI MURAT                                                                                 Hesap No: 5800 0382789
+ Adresi: HIZARHANE CAD.NO.5 TOKAT                                                                       TC KIMLIK NO   : 36346602448
+         (Varsa adres deðiþikliklerinin þubemize bildirilmesi rica olunur).
+ ------------------------------------------------------------------------------------------------------------------------------------
+
+ ÝÞLEM    ÞUBE FÝÞ NO  ÝÞL KYMT   FAÝZ ORANI  KIYMET            TL  TUTAR          TL  BAKÝYE /       AÇIKLAMA
+ TARÝHÝ                KOD ADI    BÝRÝM FÝAT  ADEDÝ                                KIYMET BAKÝYE
+ ======== ==== ======== == ====== =========== ================= ================== ================= ======================
+ 04/01/19 0165 86078607 QC                  -                 -             +14.27            +15.42 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 04/01/19 5800 86078607 72 824      +0.018935          +800.000             -15.15             +0.27 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +155,700.000
+ 04/01/19 0165 86078607 US                  -                 -              +0.27             +0.27 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 04/02/19 0165 86078607 QC                  -                 -             +42.02            +42.29 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 04/02/19 5800 86078607 72 824      +0.019299        +2,100.000             -40.53             +1.76 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +157,800.000
+ 04/02/19 0165 86078607 US                  -                 -              +1.76             +1.76 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 07/03/19 0165 86078607 QC                  -                 -             +17.38            +19.14 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 07/03/19 5800 86078607 72 824      +0.019643          +900.000             -17.68             +1.46 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +158,700.000
+ 07/03/19 0165 86078607 US                  -                 -              +1.46             +1.46 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 04/04/19 0165 86078607 QC                  -                 -             +44.48            +45.94 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 04/04/19 5800 86078607 72 824      +0.019913        +2,300.000             -45.80             +0.14 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +161,000.000
+ 04/04/19 0165 86078607 US                  -                 -              +0.14             +0.14 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 06/05/19 0165 86078607 QC                  -                 -             +38.73            +38.87 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 06/05/19 5800 86078607 72 824      +0.019942        +1,900.000             -37.89             +0.98 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +162,900.000
+ 06/05/19 0165 86078607 US                  -                 -              +0.98             +0.98 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 07/06/19 0165 86078607 QC                  -                 -             +19.53            +20.51 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 07/06/19 5800 86078607 72 824      +0.020296        +1,000.000             -20.30             +0.21 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +163,900.000
+ 07/06/19 0165 86078607 US                  -                 -              +0.21             +0.21 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 05/07/19 0165 86078607 QC                  -                 -             +32.97            +33.18 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 05/07/19 5800 86078607 72 824      +0.020627        +1,600.000             -33.00             +0.18 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +165,500.000
+ 05/07/19 0165 86078607 US                  -                 -              +0.18             +0.18 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 05/08/19 0165 86078607 QC                  -                 -             +30.82            +31.00 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 05/08/19 5800 86078607 72 824      +0.021085        +1,400.000             -29.52             +1.48 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +166,900.000
+ 05/08/19 0165 86078607 US                  -                 -              +1.48             +1.48 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 5800éTÜRKÝYE ÝÞ BANKASI / TOKAT
+                                                                                                                 13/02/2020  11:38:44
+ BÜYÜK MÜKELLEFLER V.D.BÞK. SÝCÝL NO : 4810058590                                                                          SAYFA :  3
+                                                       YATIRIM HESABI EXTRESÝ
+                                              ( 02/01/2019 - 31/12/2019 TARÝHLERÝ ARASI )
+ ------------------------------------------------------------------------------------------------------------------------------------
+ Müþteri Adý: BALCI HACI MURAT                                                                                 Hesap No: 5800 0382789
+ Adresi: HIZARHANE CAD.NO.5 TOKAT                                                                       TC KIMLIK NO   : 36346602448
+         (Varsa adres deðiþikliklerinin þubemize bildirilmesi rica olunur).
+ ------------------------------------------------------------------------------------------------------------------------------------
+
+ ÝÞLEM    ÞUBE FÝÞ NO  ÝÞL KYMT   FAÝZ ORANI  KIYMET            TL  TUTAR          TL  BAKÝYE /       AÇIKLAMA
+ TARÝHÝ                KOD ADI    BÝRÝM FÝAT  ADEDÝ                                KIYMET BAKÝYE
+ ======== ==== ======== == ====== =========== ================= ================== ================= ======================
+ 04/09/19 0165 86078607 QC                  -                 -             +19.08            +20.56 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 04/09/19 5800 86078607 72 824      +0.021441          +900.000             -19.30             +1.26 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +167,800.000
+ 04/09/19 0165 86078607 US                  -                 -              +1.26             +1.26 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 07/10/19 0165 86078607 QC                  -                 -             +43.85            +45.11 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 07/10/19 5800 86078607 72 824      +0.021788        +2,000.000             -43.58             +1.53 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +169,800.000
+ 07/10/19 0165 86078607 US                  -                 -              +1.53             +1.53 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 04/11/19 0165 86078607 QC                  -                 -             +11.93            +13.46 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 04/11/19 5800 86078607 72 824      +0.022064          +600.000             -13.24             +0.22 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +170,400.000
+ 04/11/19 0165 86078607 US                  -                 -              +0.22             +0.22 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA
+ 05/12/19 0165 86078607 QC                  -                 -             +23.53            +23.75 ÜSTÜKALSIN TALÝMATI -
+                                                                                              +0.000 YATIRIM HES. AKTARILA
+ 05/12/19 5800 86078607 72 824      +0.022300        +1,000.000             -22.30             +1.45 YT.FON ALIÞ-ÜSTÜKALSIN
+                                                                                        +171,400.000
+ 05/12/19 0165 86078607 US                  -                 -              +1.45             +1.45 ÜSTÜKALSIN YATIRIM HS.
+                                                                                              +0.000 BLOKE KOYMA

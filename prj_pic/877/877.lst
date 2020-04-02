@@ -1,0 +1,176 @@
+gplink-1.4.0 #1107 (May  9 2015)
+Copyright (c) 1998-2014 gputils project
+Listing File Generated: 2-11-2020  17:00:24
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; File Created by SDCC : free open source ANSI-C Compiler
+                                           ; Version 4.0.0 #11528 (Linux)
+                                           ;--------------------------------------------------------
+                                           ; PIC port for the 14-bit core
+                                           ;--------------------------------------------------------
+                                           ;	.file	"877.c"
+                                           	list	p=16f877a
+                                           	radix dec
+                                           	include "p16f877a.inc"
+                                                   LIST
+                                           
+                                           ;==========================================================================
+                                           ; Build date : Aug 07 2014
+                                           ;  MPASM PIC16F877A processor include
+                                           ; 
+                                           ;  (c) Copyright 1999-2014 Microchip Technology, All rights reserved
+                                           ;==========================================================================
+                                           
+                                                   NOLIST
+                                           ;--------------------------------------------------------
+                                           ; config word(s)
+                                           ;--------------------------------------------------------
+002007   0001     dw      0x0001           	__config 0x1
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_ADCON1
+                                           	extern	_TRISBbits
+                                           	extern	_TRISAbits
+                                           	extern	_PORTBbits
+                                           	extern	_PORTAbits
+                                           	extern	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_main
+                                           
+                                           	global PSAVE
+                                           	global SSAVE
+                                           	global WSAVE
+                                           	global STK12
+                                           	global STK11
+                                           	global STK10
+                                           	global STK09
+                                           	global STK08
+                                           	global STK07
+                                           	global STK06
+                                           	global STK05
+                                           	global STK04
+                                           	global STK03
+                                           	global STK02
+                                           	global STK01
+                                           	global STK00
+                                           
+                                           sharebank udata_ovr 0x0070
+                                           PSAVE	res 1
+                                           SSAVE	res 1
+                                           WSAVE	res 1
+                                           STK12	res 1
+                                           STK11	res 1
+                                           STK10	res 1
+                                           STK09	res 1
+                                           STK08	res 1
+                                           STK07	res 1
+                                           STK06	res 1
+                                           STK05	res 1
+                                           STK04	res 1
+                                           STK03	res 1
+                                           STK02	res 1
+                                           STK01	res 1
+                                           STK00	res 1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           UDL_877_0	udata
+                                           r0x1000	res	1
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; initialized absolute data
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; reset vector 
+                                           ;--------------------------------------------------------
+                                           STARTUP	code 0x0000
+000000   0000     nop                      	nop
+000001   118a     bcf     0x0a, 0x3        	pagesel __sdcc_gsinit_startup
+000002   120a     bcf     0x0a, 0x4        
+000003   2804     goto    0x0004           	goto	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_877	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = M
+                                           ;***
+                                           ;has an exit
+                                           ;1 compiler assigned register :
+                                           ;   r0x1000
+                                           ;; Starting pCode block
+                                           S_877__main	code
+                                           _main:
+                                           ; 2 exit points
+                                           ;	.line	25; "877.c"	ADCON1 = 0x07; //PortA yi dijital olarak yönlendirdik.
+0000d4   3007     movlw   0x07             	MOVLW	0x07
+0000d5   1683     bsf     0x03, 0x5        	BANKSEL	_ADCON1
+0000d6   1303     bcf     0x03, 0x6        
+0000d7   009f     movwf   0x1f             	MOVWF	_ADCON1
+                                           ;	.line	26; "877.c"	TRIS_A0 = 1; //A0 giriş olarak seçildi.
+0000d8   1405     bsf     0x05, 0x0        	BSF	_TRISAbits,0
+                                           ;	.line	27; "877.c"	TRIS_B0 = 0; //B0 çıkış olarak seçildi.
+0000d9   1006     bcf     0x06, 0x0        	BCF	_TRISBbits,0
+                                           ;	.line	29; "877.c"	LED_PORT = 0; // LED sönük
+0000da   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000db   1303     bcf     0x03, 0x6        
+0000dc   1006     bcf     0x06, 0x0        	BCF	_PORTBbits,0
+                                           ;	.line	30; "877.c"	BUTON = 0; // Buton pasif
+0000dd   1005     bcf     0x05, 0x0        	BCF	_PORTAbits,0
+                                           _00106_DS_:
+                                           ;	.line	34; "877.c"	LED_PORT = BUTON;
+0000de   1283     bcf     0x03, 0x5        	BANKSEL	r0x1000
+0000df   1303     bcf     0x03, 0x6        
+0000e0   01ac     clrf    0x2c             	CLRF	r0x1000
+0000e1   1283     bcf     0x03, 0x5        	BANKSEL	_PORTAbits
+0000e2   1303     bcf     0x03, 0x6        
+0000e3   1c05     btfss   0x05, 0x0        	BTFSS	_PORTAbits,0
+0000e4   28e8     goto    0x00e8           	GOTO	_00001_DS_
+0000e5   1283     bcf     0x03, 0x5        	BANKSEL	r0x1000
+0000e6   1303     bcf     0x03, 0x6        
+0000e7   0aac     incf    0x2c, 0x1        	INCF	r0x1000,F
+                                           _00001_DS_:
+0000e8   1283     bcf     0x03, 0x5        	BANKSEL	r0x1000
+0000e9   1303     bcf     0x03, 0x6        
+0000ea   0c2c     rrf     0x2c, 0x0        	RRF	r0x1000,W
+0000eb   1803     btfsc   0x03, 0x0        	BTFSC	STATUS,0
+0000ec   28f0     goto    0x00f0           	GOTO	_00002_DS_
+0000ed   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000ee   1303     bcf     0x03, 0x6        
+0000ef   1006     bcf     0x06, 0x0        	BCF	_PORTBbits,0
+                                           _00002_DS_:
+0000f0   1c03     btfss   0x03, 0x0        	BTFSS	STATUS,0
+0000f1   28f5     goto    0x00f5           	GOTO	_00003_DS_
+0000f2   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000f3   1303     bcf     0x03, 0x6        
+0000f4   1406     bsf     0x06, 0x0        	BSF	_PORTBbits,0
+                                           _00003_DS_:
+0000f5   28de     goto    0x00de           	GOTO	_00106_DS_
+                                           ;	.line	37; "877.c"	}
+0000f6   0008     return                   	RETURN	
+                                           ; exit point of _main
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	   19+    8 =    27 instructions (   70 byte)
+                                           
+                                           	end

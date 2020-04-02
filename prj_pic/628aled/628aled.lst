@@ -1,0 +1,365 @@
+gplink-1.4.0 #1107 (May  9 2015)
+Copyright (c) 1998-2014 gputils project
+Listing File Generated: 2-11-2020  15:51:34
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; File Created by SDCC : free open source ANSI-C Compiler
+                                           ; Version 4.0.0 #11528 (Linux)
+                                           ;--------------------------------------------------------
+                                           ; PIC port for the 14-bit core
+                                           ;--------------------------------------------------------
+                                           ;	.file	"628aled.c"
+                                           	list	p=16f877a
+                                           	radix dec
+                                           	include "p16f877a.inc"
+                                                   LIST
+                                           
+                                           ;==========================================================================
+                                           ; Build date : Aug 07 2014
+                                           ;  MPASM PIC16F877A processor include
+                                           ; 
+                                           ;  (c) Copyright 1999-2014 Microchip Technology, All rights reserved
+                                           ;==========================================================================
+                                           
+                                                   NOLIST
+                                           ;--------------------------------------------------------
+                                           ; config word(s)
+                                           ;--------------------------------------------------------
+002007   0001     dw      0x0001           	__config 0x1
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_TRISBbits
+                                           	extern	_TRISAbits
+                                           	extern	_PORTBbits
+                                           	extern	_PORTAbits
+                                           	extern	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_main
+                                           	global	_delay
+                                           
+                                           	global PSAVE
+                                           	global SSAVE
+                                           	global WSAVE
+                                           	global STK12
+                                           	global STK11
+                                           	global STK10
+                                           	global STK09
+                                           	global STK08
+                                           	global STK07
+                                           	global STK06
+                                           	global STK05
+                                           	global STK04
+                                           	global STK03
+                                           	global STK02
+                                           	global STK01
+                                           	global STK00
+                                           
+                                           sharebank udata_ovr 0x0070
+                                           PSAVE	res 1
+                                           SSAVE	res 1
+                                           WSAVE	res 1
+                                           STK12	res 1
+                                           STK11	res 1
+                                           STK10	res 1
+                                           STK09	res 1
+                                           STK08	res 1
+                                           STK07	res 1
+                                           STK06	res 1
+                                           STK05	res 1
+                                           STK04	res 1
+                                           STK03	res 1
+                                           STK02	res 1
+                                           STK01	res 1
+                                           STK00	res 1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           UDL_628aled_0	udata
+                                           r0x1001	res	1
+                                           r0x1000	res	1
+                                           r0x1002	res	1
+                                           r0x1003	res	1
+                                           r0x1004	res	1
+                                           r0x1005	res	1
+                                           r0x1006	res	1
+                                           r0x1007	res	1
+                                           r0x1008	res	1
+                                           r0x1009	res	1
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; initialized absolute data
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; reset vector 
+                                           ;--------------------------------------------------------
+                                           STARTUP	code 0x0000
+000000   0000     nop                      	nop
+000001   118a     bcf     0x0a, 0x3        	pagesel __sdcc_gsinit_startup
+000002   120a     bcf     0x0a, 0x4        
+000003   2804     goto    0x0004           	goto	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_628aled	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = M
+                                           ;***
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _delay
+                                           ;   _delay
+                                           ;   _delay
+                                           ;   _delay
+                                           ;3 compiler assigned registers:
+                                           ;   r0x1008
+                                           ;   r0x1009
+                                           ;   STK00
+                                           ;; Starting pCode block
+                                           S_628aled__main	code
+                                           _main:
+                                           ; 2 exit points
+                                           ;	.line	39; "628aled.c"	LED1_TRIS = 0; // Pin çıkış olarak ayarlandı
+0000a0   1683     bsf     0x03, 0x5        	BANKSEL	_TRISBbits
+0000a1   1303     bcf     0x03, 0x6        
+0000a2   1086     bcf     0x06, 0x1        	BCF	_TRISBbits,1
+                                           ;	.line	40; "628aled.c"	LED1_PORT = 0; // LED sönük
+0000a3   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000a4   1303     bcf     0x03, 0x6        
+0000a5   1086     bcf     0x06, 0x1        	BCF	_PORTBbits,1
+                                           ;	.line	42; "628aled.c"	LED2_TRIS = 0; // Pin çıkış olarak ayarlandı
+0000a6   1683     bsf     0x03, 0x5        	BANKSEL	_TRISAbits
+0000a7   1303     bcf     0x03, 0x6        
+0000a8   1085     bcf     0x05, 0x1        	BCF	_TRISAbits,1
+                                           ;	.line	43; "628aled.c"	LED2_PORT = 0; // LED sönük
+0000a9   1283     bcf     0x03, 0x5        	BANKSEL	_PORTAbits
+0000aa   1303     bcf     0x03, 0x6        
+0000ab   1085     bcf     0x05, 0x1        	BCF	_PORTAbits,1
+                                           _00138_DS_:
+                                           ;	.line	47; "628aled.c"	LED1_PORT = ! LED2_PORT; // LED Yanıyor
+0000ac   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000ad   1303     bcf     0x03, 0x6        
+0000ae   01b4     clrf    0x34             	CLRF	r0x1008
+0000af   1283     bcf     0x03, 0x5        	BANKSEL	_PORTAbits
+0000b0   1303     bcf     0x03, 0x6        
+0000b1   1c85     btfss   0x05, 0x1        	BTFSS	_PORTAbits,1
+0000b2   28b6     goto    0x00b6           	GOTO	_00001_DS_
+0000b3   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000b4   1303     bcf     0x03, 0x6        
+0000b5   0ab4     incf    0x34, 0x1        	INCF	r0x1008,F
+                                           _00001_DS_:
+0000b6   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000b7   1303     bcf     0x03, 0x6        
+0000b8   0834     movf    0x34, 0x0        	MOVF	r0x1008,W
+0000b9   3000     movlw   0x00             	MOVLW	0x00
+0000ba   1903     btfsc   0x03, 0x2        	BTFSC	STATUS,2
+0000bb   3001     movlw   0x01             	MOVLW	0x01
+0000bc   00b5     movwf   0x35             	MOVWF	r0x1009
+0000bd   00b4     movwf   0x34             	MOVWF	r0x1008
+0000be   0c34     rrf     0x34, 0x0        	RRF	r0x1008,W
+0000bf   1803     btfsc   0x03, 0x0        	BTFSC	STATUS,0
+0000c0   28c4     goto    0x00c4           	GOTO	_00002_DS_
+0000c1   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000c2   1303     bcf     0x03, 0x6        
+0000c3   1086     bcf     0x06, 0x1        	BCF	_PORTBbits,1
+                                           _00002_DS_:
+0000c4   1c03     btfss   0x03, 0x0        	BTFSS	STATUS,0
+0000c5   28c9     goto    0x00c9           	GOTO	_00003_DS_
+0000c6   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000c7   1303     bcf     0x03, 0x6        
+0000c8   1486     bsf     0x06, 0x1        	BSF	_PORTBbits,1
+                                           _00003_DS_:
+                                           ;	.line	48; "628aled.c"	LED2_PORT = ! LED1_PORT;
+0000c9   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000ca   1303     bcf     0x03, 0x6        
+0000cb   01b4     clrf    0x34             	CLRF	r0x1008
+0000cc   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000cd   1303     bcf     0x03, 0x6        
+0000ce   1c86     btfss   0x06, 0x1        	BTFSS	_PORTBbits,1
+0000cf   28d3     goto    0x00d3           	GOTO	_00004_DS_
+0000d0   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000d1   1303     bcf     0x03, 0x6        
+0000d2   0ab4     incf    0x34, 0x1        	INCF	r0x1008,F
+                                           _00004_DS_:
+0000d3   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000d4   1303     bcf     0x03, 0x6        
+0000d5   0834     movf    0x34, 0x0        	MOVF	r0x1008,W
+0000d6   3000     movlw   0x00             	MOVLW	0x00
+0000d7   1903     btfsc   0x03, 0x2        	BTFSC	STATUS,2
+0000d8   3001     movlw   0x01             	MOVLW	0x01
+0000d9   00b5     movwf   0x35             	MOVWF	r0x1009
+0000da   00b4     movwf   0x34             	MOVWF	r0x1008
+0000db   0c34     rrf     0x34, 0x0        	RRF	r0x1008,W
+0000dc   1803     btfsc   0x03, 0x0        	BTFSC	STATUS,0
+0000dd   28e1     goto    0x00e1           	GOTO	_00005_DS_
+0000de   1283     bcf     0x03, 0x5        	BANKSEL	_PORTAbits
+0000df   1303     bcf     0x03, 0x6        
+0000e0   1085     bcf     0x05, 0x1        	BCF	_PORTAbits,1
+                                           _00005_DS_:
+0000e1   1c03     btfss   0x03, 0x0        	BTFSS	STATUS,0
+0000e2   28e6     goto    0x00e6           	GOTO	_00006_DS_
+0000e3   1283     bcf     0x03, 0x5        	BANKSEL	_PORTAbits
+0000e4   1303     bcf     0x03, 0x6        
+0000e5   1485     bsf     0x05, 0x1        	BSF	_PORTAbits,1
+                                           _00006_DS_:
+                                           ;	.line	49; "628aled.c"	delay(11000);  // 4 sn bekle
+0000e6   30f8     movlw   0xf8             	MOVLW	0xf8
+0000e7   00ff     movwf   0x7f             	MOVWF	STK00
+0000e8   302a     movlw   0x2a             	MOVLW	0x2a
+0000e9   118a     bcf     0x0a, 0x3        	PAGESEL	_delay
+0000ea   120a     bcf     0x0a, 0x4        
+0000eb   214c     call    0x014c           	CALL	_delay
+0000ec   118a     bcf     0x0a, 0x3        	PAGESEL	$
+0000ed   120a     bcf     0x0a, 0x4        
+                                           ;	.line	50; "628aled.c"	LED1_PORT = 0; // LED Sönük
+0000ee   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000ef   1303     bcf     0x03, 0x6        
+0000f0   1086     bcf     0x06, 0x1        	BCF	_PORTBbits,1
+                                           ;	.line	51; "628aled.c"	LED2_PORT = ! LED1_PORT;
+0000f1   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000f2   1303     bcf     0x03, 0x6        
+0000f3   01b4     clrf    0x34             	CLRF	r0x1008
+0000f4   1283     bcf     0x03, 0x5        	BANKSEL	_PORTBbits
+0000f5   1303     bcf     0x03, 0x6        
+0000f6   1c86     btfss   0x06, 0x1        	BTFSS	_PORTBbits,1
+0000f7   28fb     goto    0x00fb           	GOTO	_00007_DS_
+0000f8   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000f9   1303     bcf     0x03, 0x6        
+0000fa   0ab4     incf    0x34, 0x1        	INCF	r0x1008,F
+                                           _00007_DS_:
+0000fb   1283     bcf     0x03, 0x5        	BANKSEL	r0x1008
+0000fc   1303     bcf     0x03, 0x6        
+0000fd   0834     movf    0x34, 0x0        	MOVF	r0x1008,W
+0000fe   3000     movlw   0x00             	MOVLW	0x00
+0000ff   1903     btfsc   0x03, 0x2        	BTFSC	STATUS,2
+000100   3001     movlw   0x01             	MOVLW	0x01
+000101   00b5     movwf   0x35             	MOVWF	r0x1009
+000102   00b4     movwf   0x34             	MOVWF	r0x1008
+000103   0c34     rrf     0x34, 0x0        	RRF	r0x1008,W
+000104   1803     btfsc   0x03, 0x0        	BTFSC	STATUS,0
+000105   2909     goto    0x0109           	GOTO	_00008_DS_
+000106   1283     bcf     0x03, 0x5        	BANKSEL	_PORTAbits
+000107   1303     bcf     0x03, 0x6        
+000108   1085     bcf     0x05, 0x1        	BCF	_PORTAbits,1
+                                           _00008_DS_:
+000109   1c03     btfss   0x03, 0x0        	BTFSS	STATUS,0
+00010a   290e     goto    0x010e           	GOTO	_00009_DS_
+00010b   1283     bcf     0x03, 0x5        	BANKSEL	_PORTAbits
+00010c   1303     bcf     0x03, 0x6        
+00010d   1485     bsf     0x05, 0x1        	BSF	_PORTAbits,1
+                                           _00009_DS_:
+                                           ;	.line	52; "628aled.c"	delay(50000);  // 4 sn bekle
+00010e   3050     movlw   0x50             	MOVLW	0x50
+00010f   00ff     movwf   0x7f             	MOVWF	STK00
+000110   30c3     movlw   0xc3             	MOVLW	0xc3
+000111   118a     bcf     0x0a, 0x3        	PAGESEL	_delay
+000112   120a     bcf     0x0a, 0x4        
+000113   214c     call    0x014c           	CALL	_delay
+000114   118a     bcf     0x0a, 0x3        	PAGESEL	$
+000115   120a     bcf     0x0a, 0x4        
+000116   28ac     goto    0x00ac           	GOTO	_00138_DS_
+                                           ;	.line	55; "628aled.c"	}
+000117   0008     return                   	RETURN	
+                                           ; exit point of _main
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;has an exit
+                                           ;9 compiler assigned registers:
+                                           ;   r0x1000
+                                           ;   STK00
+                                           ;   r0x1001
+                                           ;   r0x1002
+                                           ;   r0x1003
+                                           ;   r0x1004
+                                           ;   r0x1005
+                                           ;   r0x1006
+                                           ;   r0x1007
+                                           ;; Starting pCode block
+                                           S_628aled__delay	code
+                                           _delay:
+                                           ; 2 exit points
+                                           ;	.line	26; "628aled.c"	void delay(uint16_t milisaniye)
+00014c   1283     bcf     0x03, 0x5        	BANKSEL	r0x1000
+00014d   1303     bcf     0x03, 0x6        
+00014e   00ad     movwf   0x2d             	MOVWF	r0x1000
+00014f   087f     movf    0x7f, 0x0        	MOVF	STK00,W
+000150   00ac     movwf   0x2c             	MOVWF	r0x1001
+                                           ;	.line	29; "628aled.c"	for (i = 0; i < milisaniye; i++)
+000151   01ae     clrf    0x2e             	CLRF	r0x1002
+000152   01af     clrf    0x2f             	CLRF	r0x1003
+                                           _00111_DS_:
+000153   1283     bcf     0x03, 0x5        	BANKSEL	r0x1000
+000154   1303     bcf     0x03, 0x6        
+000155   082d     movf    0x2d, 0x0        	MOVF	r0x1000,W
+000156   022f     subwf   0x2f, 0x0        	SUBWF	r0x1003,W
+000157   1d03     btfss   0x03, 0x2        	BTFSS	STATUS,2
+000158   295b     goto    0x015b           	GOTO	_00132_DS_
+000159   082c     movf    0x2c, 0x0        	MOVF	r0x1001,W
+00015a   022e     subwf   0x2e, 0x0        	SUBWF	r0x1002,W
+                                           _00132_DS_:
+00015b   1803     btfsc   0x03, 0x0        	BTFSC	STATUS,0
+00015c   297a     goto    0x017a           	GOTO	_00113_DS_
+                                           ;;genSkipc:3307: created from rifx:0x7ffd6633f3b0
+                                           ;	.line	32; "628aled.c"	for (j=0; j < 4; j++)
+00015d   3004     movlw   0x04             	MOVLW	0x04
+00015e   1283     bcf     0x03, 0x5        	BANKSEL	r0x1004
+00015f   1303     bcf     0x03, 0x6        
+000160   00b0     movwf   0x30             	MOVWF	r0x1004
+000161   01b1     clrf    0x31             	CLRF	r0x1005
+                                           _00109_DS_:
+000162   0000     nop                      	nop	
+000163   30ff     movlw   0xff             	MOVLW	0xff
+000164   1283     bcf     0x03, 0x5        	BANKSEL	r0x1004
+000165   1303     bcf     0x03, 0x6        
+000166   0730     addwf   0x30, 0x0        	ADDWF	r0x1004,W
+000167   00b2     movwf   0x32             	MOVWF	r0x1006
+000168   30ff     movlw   0xff             	MOVLW	0xff
+000169   00b3     movwf   0x33             	MOVWF	r0x1007
+00016a   3000     movlw   0x00             	MOVLW	0x00
+00016b   1803     btfsc   0x03, 0x0        	BTFSC	STATUS,0
+00016c   0f31     incfsz  0x31, 0x0        	INCFSZ	r0x1005,W
+00016d   07b3     addwf   0x33, 0x1        	ADDWF	r0x1007,F
+00016e   0832     movf    0x32, 0x0        	MOVF	r0x1006,W
+00016f   00b0     movwf   0x30             	MOVWF	r0x1004
+000170   0833     movf    0x33, 0x0        	MOVF	r0x1007,W
+000171   00b1     movwf   0x31             	MOVWF	r0x1005
+                                           ;	.line	32; "628aled.c"	for (j=0; j < 4; j++)
+000172   0833     movf    0x33, 0x0        	MOVF	r0x1007,W
+000173   0432     iorwf   0x32, 0x0        	IORWF	r0x1006,W
+000174   1d03     btfss   0x03, 0x2        	BTFSS	STATUS,2
+000175   2962     goto    0x0162           	GOTO	_00109_DS_
+                                           ;	.line	29; "628aled.c"	for (i = 0; i < milisaniye; i++)
+000176   0aae     incf    0x2e, 0x1        	INCF	r0x1002,F
+000177   1903     btfsc   0x03, 0x2        	BTFSC	STATUS,2
+000178   0aaf     incf    0x2f, 0x1        	INCF	r0x1003,F
+000179   2953     goto    0x0153           	GOTO	_00111_DS_
+                                           _00113_DS_:
+                                           ;	.line	35; "628aled.c"	}
+00017a   0008     return                   	RETURN	
+                                           ; exit point of _delay
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	  104+   31 =   135 instructions (  332 byte)
+                                           
+                                           	end
