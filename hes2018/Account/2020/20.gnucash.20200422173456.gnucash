@@ -49,7 +49,7 @@
 </book:slots>
 <gnc:count-data cd:type="commodity">1</gnc:count-data>
 <gnc:count-data cd:type="account">162</gnc:count-data>
-<gnc:count-data cd:type="transaction">648</gnc:count-data>
+<gnc:count-data cd:type="transaction">647</gnc:count-data>
 <gnc:count-data cd:type="schedxaction">2</gnc:count-data>
 <gnc:count-data cd:type="budget">1</gnc:count-data>
 <gnc:commodity version="2.0.0">
@@ -9640,17 +9640,17 @@
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2020-04-15 13:59:00 +0300</ts:date>
+    <ts:date>2020-04-18 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
     <ts:date>2020-04-22 17:23:48 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>oturmaya devam edelim dendi</trn:description>
+  <trn:description></trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2020-04-15</gdate>
+        <gdate>2020-04-18</gdate>
       </slot:value>
     </slot>
   </trn:slots>
