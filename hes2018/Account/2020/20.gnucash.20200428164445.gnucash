@@ -49,7 +49,7 @@
 </book:slots>
 <gnc:count-data cd:type="commodity">1</gnc:count-data>
 <gnc:count-data cd:type="account">162</gnc:count-data>
-<gnc:count-data cd:type="transaction">647</gnc:count-data>
+<gnc:count-data cd:type="transaction">649</gnc:count-data>
 <gnc:count-data cd:type="schedxaction">2</gnc:count-data>
 <gnc:count-data cd:type="budget">1</gnc:count-data>
 <gnc:commodity version="2.0.0">
@@ -5459,6 +5459,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2018-12-31 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5497,6 +5498,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2018-12-31 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5801,6 +5803,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-15 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5840,6 +5843,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-20 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5879,6 +5883,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-25 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5956,6 +5961,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-11-11 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -6032,6 +6038,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-11-29 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8389,6 +8396,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2018-12-31 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8427,6 +8435,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-06-30 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8465,6 +8474,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-09-30 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8504,6 +8514,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-25 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8614,6 +8625,44 @@
       <split:value>-20850/100</split:value>
       <split:quantity>-20850/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">9d68ac9c940b4145b6e2aa9254782798</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2019-11-29 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-04-28 16:20:15 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>İCRA DAİRESİ BAŞVURU PUL</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2019-11-29</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">1d01c4e83b8c4342bd544d8ff2434eb6</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>15000/100</split:value>
+      <split:quantity>15000/100</split:quantity>
+      <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">768eed64b9f04323a76c5f2fee2fc24d</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-15000/100</split:value>
+      <split:quantity>-15000/100</split:quantity>
+      <split:account type="guid">3a63f12134c244fa86b69fbbccbba3e0</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -9640,17 +9689,17 @@
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2020-04-18 13:59:00 +0300</ts:date>
+    <ts:date>2020-04-15 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
     <ts:date>2020-04-22 17:23:48 +0300</ts:date>
   </trn:date-entered>
-  <trn:description></trn:description>
+  <trn:description>oturmaya devam edelim dendi</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2020-04-18</gdate>
+        <gdate>2020-04-15</gdate>
       </slot:value>
     </slot>
   </trn:slots>
@@ -26858,15 +26907,15 @@
   <sx:autoCreateNotify>y</sx:autoCreateNotify>
   <sx:advanceCreateDays>0</sx:advanceCreateDays>
   <sx:advanceRemindDays>1</sx:advanceRemindDays>
-  <sx:instanceCount>4</sx:instanceCount>
+  <sx:instanceCount>5</sx:instanceCount>
   <sx:start>
     <gdate>2020-01-24</gdate>
   </sx:start>
   <sx:last>
-    <gdate>2020-03-24</gdate>
+    <gdate>2020-04-24</gdate>
   </sx:last>
   <sx:num-occur>8</sx:num-occur>
-  <sx:rem-occur>5</sx:rem-occur>
+  <sx:rem-occur>4</sx:rem-occur>
   <sx:templ-acct type="guid">dc915ca945be4e72ab274fdae19390c0</sx:templ-acct>
   <sx:schedule>
     <gnc:recurrence version="1.0.0">

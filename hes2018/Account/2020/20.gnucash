@@ -5459,6 +5459,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2018-12-31 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5497,6 +5498,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2018-12-31 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5801,6 +5803,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-15 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5840,6 +5843,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-20 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5879,6 +5883,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-25 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -5956,6 +5961,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-11-11 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -6032,6 +6038,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-11-29 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8389,6 +8396,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2018-12-31 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8427,6 +8435,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-06-30 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8465,6 +8474,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-09-30 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8504,6 +8514,7 @@
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
+  <trn:num>X</trn:num>
   <trn:date-posted>
     <ts:date>2019-10-25 13:59:00 +0300</ts:date>
   </trn:date-posted>
@@ -8533,6 +8544,44 @@
       <split:value>-114400/100</split:value>
       <split:quantity>-114400/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">7b68ba3e8eb64467bb657820cca3d661</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2019-10-25 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-04-28 16:29:51 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>SANAYİ ELEKETRİK TEMİNAT BEDELİ</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2019-10-25</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">10d75a9850114672b8e07481b705cb9d</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>110000/100</split:value>
+      <split:quantity>110000/100</split:quantity>
+      <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">79a52dc8923e42eaa29786adddefa6ee</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-110000/100</split:value>
+      <split:quantity>-110000/100</split:quantity>
+      <split:account type="guid">3aa1ec8129524dc2bd8d898c2c0ecfcf</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -8770,7 +8819,7 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">8036dc2612e64200ad931fb9e1afd0c6</trn:id>
+  <trn:id type="guid">4010e1a6cc204a04a274adb8aee5863a</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
@@ -8779,9 +8828,9 @@
     <ts:date>2020-04-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 17:13:36 +0300</ts:date>
+    <ts:date>2020-04-22 12:52:49 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2020 Nisan Kira gecikme bedeli </trn:description>
+  <trn:description>2020 Mayıs Kira gecikme bedeli </trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
@@ -8792,17 +8841,18 @@
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">895286a896f9456cbc1ca9aa1415d0d2</split:id>
+      <split:id type="guid">5a94f80ce4f24725988bbac2a64c748f</split:id>
+      <split:memo>13900 - 5000 = 8900 *1,5 % = 133,50</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>20850/100</split:value>
-      <split:quantity>20850/100</split:quantity>
+      <split:value>13350/100</split:value>
+      <split:quantity>13350/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">717b520d05dd46c685d27fcf2a0ade85</split:id>
+      <split:id type="guid">4b0e9f886457416f8fa62d78afeed9b9</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-20850/100</split:value>
-      <split:quantity>-20850/100</split:quantity>
+      <split:value>-13350/100</split:value>
+      <split:quantity>-13350/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8835,45 +8885,6 @@
       <split:value>0/100</split:value>
       <split:quantity>0/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">4010e1a6cc204a04a274adb8aee5863a</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-05-01 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-04-22 12:52:49 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description>2020 Mayıs Kira gecikme bedeli </trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-05-01</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">5a94f80ce4f24725988bbac2a64c748f</split:id>
-      <split:memo>13900 - 5000 = 8900 *1,5 % = 133,50</split:memo>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>13350/100</split:value>
-      <split:quantity>13350/100</split:quantity>
-      <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">4b0e9f886457416f8fa62d78afeed9b9</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-13350/100</split:value>
-      <split:quantity>-13350/100</split:quantity>
-      <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -26858,15 +26869,15 @@
   <sx:autoCreateNotify>y</sx:autoCreateNotify>
   <sx:advanceCreateDays>0</sx:advanceCreateDays>
   <sx:advanceRemindDays>1</sx:advanceRemindDays>
-  <sx:instanceCount>4</sx:instanceCount>
+  <sx:instanceCount>5</sx:instanceCount>
   <sx:start>
     <gdate>2020-01-24</gdate>
   </sx:start>
   <sx:last>
-    <gdate>2020-03-24</gdate>
+    <gdate>2020-04-24</gdate>
   </sx:last>
   <sx:num-occur>8</sx:num-occur>
-  <sx:rem-occur>5</sx:rem-occur>
+  <sx:rem-occur>4</sx:rem-occur>
   <sx:templ-acct type="guid">dc915ca945be4e72ab274fdae19390c0</sx:templ-acct>
   <sx:schedule>
     <gnc:recurrence version="1.0.0">
