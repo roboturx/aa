@@ -1,8 +1,0 @@
-mod	trans_guid	split_guid	time_now	date_entered	date_posted	acc_guid	acc_name	num	description	notes	memo	action	reconciled	amount	value	date_reconciled
------------------
-===== START
-D	1ecb1bb0965d4ac9b747eea2df93bdd8	5ffcdd77fc504471b5b60ccbb7738f52	2020-04-28 18:07:06 +0300	2020-04-28 18:07:06 +0300	2019-10-25 13:59:00 +0300								n	0/1	0/100	1970-01-01 02:00:00 +0200
-===== END
-===== START
-D	306e5d03aefe4f06b7ca70604b232254	d9405f657cfc45a6920da152bccc57ca	2020-04-28 18:07:06 +0300	2020-04-28 18:07:06 +0300	2020-04-28 13:59:00 +0300								n	0/1	0/100	1970-01-01 02:00:00 +0200
-===== END

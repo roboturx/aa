@@ -5707,15 +5707,15 @@
     <trn:split>
       <split:id type="guid">4fbd1b4c32f841eb8782dded9ba71a7b</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>10000/100</split:value>
+      <split:quantity>10000/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">01309829541b4367ab3ec99e64d7b465</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-10000/100</split:value>
+      <split:quantity>-10000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
   </trn:splits>
@@ -5746,15 +5746,15 @@
     <trn:split>
       <split:id type="guid">7ebe625b1c584474beae51da8909a56e</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>25000/100</split:value>
+      <split:quantity>25000/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">66392d2574dc46b3867dc436f6caeda2</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-25000/100</split:value>
+      <split:quantity>-25000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
   </trn:splits>
@@ -5824,15 +5824,15 @@
       <split:id type="guid">8c422b2d472e4220a2b19c6f217775db</split:id>
       <split:memo>İhtarname 1 - sanayi adres</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>13000/100</split:value>
+      <split:quantity>13000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">06ec0325537541aa9fec78acd2779120</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-13000/100</split:value>
+      <split:quantity>-13000/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
   </trn:splits>
@@ -5863,16 +5863,16 @@
     <trn:split>
       <split:id type="guid">319989c5a8344b6db9e7fe47a2184f9a</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>20000/100</split:value>
+      <split:quantity>20000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">6053bacf55ac4d69a964c6697c6be5e0</split:id>
       <split:memo>İhtarname 2 - mernis adres</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-20000/100</split:value>
+      <split:quantity>-20000/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
   </trn:splits>
@@ -5904,15 +5904,15 @@
       <split:id type="guid">da2864e41b734bce811b7edff56db0b1</split:id>
       <split:memo>İhtarname 3 - mernis adres 21/2</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>5000/100</split:value>
+      <split:quantity>5000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">3ca2c1b8c21444b9a7ff09213153019a</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-5000/100</split:value>
+      <split:quantity>-5000/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
   </trn:splits>
@@ -5942,15 +5942,15 @@
     <trn:split>
       <split:id type="guid">e9b9fbca75ae4025bfaa89f3ee6e8889</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>15000/100</split:value>
+      <split:quantity>15000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">29ed753d797a4d4783da5e2f400adbf2</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-15000/100</split:value>
+      <split:quantity>-15000/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
   </trn:splits>
@@ -5981,15 +5981,15 @@
     <trn:split>
       <split:id type="guid">8783aff3bfa8425d8fc2639daa8f873b</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>50500/100</split:value>
+      <split:quantity>50500/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">b8c29ec825f840e885b942efb310225d</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-50500/100</split:value>
+      <split:quantity>-50500/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
   </trn:splits>
@@ -6058,15 +6058,15 @@
     <trn:split>
       <split:id type="guid">f2cda1c880704d53b3cb7564862b4ec5</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>5000/100</split:value>
+      <split:quantity>5000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">f247a86538ba450cba194162d97f8fa4</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-5000/100</split:value>
+      <split:quantity>-5000/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
   </trn:splits>
@@ -6134,15 +6134,15 @@
     <trn:split>
       <split:id type="guid">5b60a97c3381443c8023241b9580775e</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>461870/100</split:value>
+      <split:quantity>461870/100</split:quantity>
       <split:account type="guid">deabaef30fc841ac9337e26a874ae856</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">b12307b3f06143799588c90c21ead51b</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-461870/100</split:value>
+      <split:quantity>-461870/100</split:quantity>
       <split:account type="guid">b552133f27ab4c9cad6ba2bbca63b69f</split:account>
     </trn:split>
   </trn:splits>
@@ -8416,15 +8416,15 @@
     <trn:split>
       <split:id type="guid">fbf974f19ad041169a9cf61661a7ab67</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>90000/100</split:value>
+      <split:quantity>90000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">67ecaf56f573418eac7f4beeb0decaeb</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-90000/100</split:value>
+      <split:quantity>-90000/100</split:quantity>
       <split:account type="guid">3aa1ec8129524dc2bd8d898c2c0ecfcf</split:account>
     </trn:split>
   </trn:splits>
@@ -8454,15 +8454,15 @@
     <trn:split>
       <split:id type="guid">b34a633edd7e4c2b8c67a1e2ba416ad4</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>7007/100</split:value>
+      <split:quantity>7007/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">b1aacfc122e34a1caf7188e93752f6dc</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-7007/100</split:value>
+      <split:quantity>-7007/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8492,15 +8492,15 @@
     <trn:split>
       <split:id type="guid">1be44b37fda043e7bb967fb22f9ddf03</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>7321/100</split:value>
+      <split:quantity>7321/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">d90a2b7e0b834cf2be1e2c0c512b7e57</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-7321/100</split:value>
+      <split:quantity>-7321/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8530,15 +8530,15 @@
     <trn:split>
       <split:id type="guid">44a28f384c884a40939502d64c6306b9</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>5443/100</split:value>
+      <split:quantity>5443/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">7bb82fa124d7460992fba9ea1aff2224</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-5443/100</split:value>
+      <split:quantity>-5443/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8568,15 +8568,15 @@
     <trn:split>
       <split:id type="guid">90369cc113ed4941adc8fc8b845832d0</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>7918/100</split:value>
+      <split:quantity>7918/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">46e2541329c6402fb416962ff5308c59</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-7918/100</split:value>
+      <split:quantity>-7918/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8607,15 +8607,15 @@
     <trn:split>
       <split:id type="guid">d686851220754a4cb397fcacdc7378b2</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>85000/100</split:value>
+      <split:quantity>85000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">872126af441442ec89353a29fc09a8a3</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-85000/100</split:value>
+      <split:quantity>-85000/100</split:quantity>
       <split:account type="guid">313a4dbcb45f4b56b1c0773793507ae0</split:account>
     </trn:split>
   </trn:splits>
@@ -8645,15 +8645,15 @@
     <trn:split>
       <split:id type="guid">eae9a5c8166f4c3eb7716480b1a5db44</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>4804/100</split:value>
+      <split:quantity>4804/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">20e370acaf5e49e29d1b63db87adca91</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-4804/100</split:value>
+      <split:quantity>-4804/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8683,15 +8683,15 @@
     <trn:split>
       <split:id type="guid">5220af2433494063a74f47cd13833088</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>4812/100</split:value>
+      <split:quantity>4812/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">571bda8069a8472e8bd704fb54671fda</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-4812/100</split:value>
+      <split:quantity>-4812/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8721,15 +8721,15 @@
     <trn:split>
       <split:id type="guid">310af68c58b246c080d86af3ba5d656f</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>4742/100</split:value>
+      <split:quantity>4742/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">ec58ce71ff764a3e8565a520ccbb9d25</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-4742/100</split:value>
+      <split:quantity>-4742/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8760,16 +8760,16 @@
     <trn:split>
       <split:id type="guid">8a755c9aa3bb452eabce11793e7ca4c2</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>50000/100</split:value>
+      <split:quantity>50000/100</split:quantity>
       <split:account type="guid">deabaef30fc841ac9337e26a874ae856</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">9a8d3ec35cf144e4a1c3cdb12fa67e09</split:id>
       <split:memo>iskele kira ödemesi</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-50000/100</split:value>
+      <split:quantity>-50000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
   </trn:splits>
@@ -8882,15 +8882,15 @@
       <split:id type="guid">325e2fc1a3ba4689a161206ee8842f5e</split:id>
       <split:memo>15700 * kasım tüfe 22,58% </split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>29195/100</split:value>
+      <split:quantity>29195/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">0a2ebde8a8be4d0da7724b467f6b48b1</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-29195/100</split:value>
+      <split:quantity>-29195/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8921,15 +8921,15 @@
       <split:id type="guid">307857859f4945b3bf273cfba519e37f</split:id>
       <split:memo>15700 * aralık tüfe 15,18% </split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>19996/100</split:value>
+      <split:quantity>19996/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">04efecc7be524046bd9ae997dfef7bf2</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-19996/100</split:value>
+      <split:quantity>-19996/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -8959,15 +8959,15 @@
     <trn:split>
       <split:id type="guid">10d75a9850114672b8e07481b705cb9d</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>110000/100</split:value>
+      <split:quantity>110000/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">79a52dc8923e42eaa29786adddefa6ee</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-110000/100</split:value>
+      <split:quantity>-110000/100</split:quantity>
       <split:account type="guid">3aa1ec8129524dc2bd8d898c2c0ecfcf</split:account>
     </trn:split>
   </trn:splits>
@@ -8998,15 +8998,15 @@
       <split:id type="guid">ecfe4ed3ccf2432faf4212b4bc4c397d</split:id>
       <split:memo>17107 x ocak tüfe 17,16%</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>24464/100</split:value>
+      <split:quantity>24464/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">3c7bcd40c53448ff90b64e073052c654</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-24464/100</split:value>
+      <split:quantity>-24464/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -9037,15 +9037,15 @@
       <split:id type="guid">08755ac8e9aa4bb0b5f87486f9117b96</split:id>
       <split:memo>17107 x şubat tüfe 13,94%</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>19873/100</split:value>
+      <split:quantity>19873/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">5d56dce717524ebb833282dcc08dd316</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-19873/100</split:value>
+      <split:quantity>-19873/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -9076,15 +9076,15 @@
       <split:id type="guid">055bad7c4c5b49e085f9358fc224a5b2</split:id>
       <split:memo>17107 x şubat tüfe 13,33%</split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>19003/100</split:value>
+      <split:quantity>19003/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">dd6ab70273f843ffa746f602b4274111</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-19003/100</split:value>
+      <split:quantity>-19003/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -9115,15 +9115,15 @@
       <split:id type="guid">5a94f80ce4f24725988bbac2a64c748f</split:id>
       <split:memo>12740 * nisan tüfe 12,66 % </split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>13442/100</split:value>
+      <split:quantity>13442/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">4b0e9f886457416f8fa62d78afeed9b9</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-13442/100</split:value>
+      <split:quantity>-13442/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -9192,15 +9192,15 @@
       <split:id type="guid">00ff9fea503a47b4b220bebc601b1689</split:id>
       <split:memo>12740 * mayıs tüfe 12,1 % </split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>12846/100</split:value>
+      <split:quantity>12846/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">a95eee7dab2942848658ccc61a9bd810</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-12846/100</split:value>
+      <split:quantity>-12846/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
@@ -9269,15 +9269,15 @@
       <split:id type="guid">60221b1eb1004e3ba8738e637c0cbce3</split:id>
       <split:memo>12740 * haziran tüfe 12,1 % </split:memo>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>12846/100</split:value>
+      <split:quantity>12846/100</split:quantity>
       <split:account type="guid">b5c86390d3244c54a84665ddd07f7f17</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">9bffde884d6944478cb09c92b90da60b</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
+      <split:value>-12846/100</split:value>
+      <split:quantity>-12846/100</split:quantity>
       <split:account type="guid">62cf67902c2f48c28059ec3005e4290f</split:account>
     </trn:split>
   </trn:splits>
