@@ -49,7 +49,7 @@
 </book:slots>
 <gnc:count-data cd:type="commodity">1</gnc:count-data>
 <gnc:count-data cd:type="account">162</gnc:count-data>
-<gnc:count-data cd:type="transaction">659</gnc:count-data>
+<gnc:count-data cd:type="transaction">660</gnc:count-data>
 <gnc:count-data cd:type="schedxaction">2</gnc:count-data>
 <gnc:count-data cd:type="budget">1</gnc:count-data>
 <gnc:commodity version="2.0.0">
@@ -9431,6 +9431,48 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">810732b8f8c24758babf4b185eeb041d</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-100000/100</split:value>
+      <split:quantity>-100000/100</split:quantity>
+      <split:account type="guid">9ee677e8d3a04ed78d0894f9f03a91c5</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">aee58f151a67454693079dc733657cd8</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-06-24 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2019-12-25 15:43:45 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>2020 1/8 Sny55 Kira Bedeli</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-06-24</gdate>
+      </slot:value>
+    </slot>
+    <slot>
+      <slot:key>from-sched-xaction</slot:key>
+      <slot:value type="guid">ba301b88a00f4cd6b3b7431e4a004386</slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">968bc3bfa9ca4b2e97e655910e5ac446</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>100000/100</split:value>
+      <split:quantity>100000/100</split:quantity>
+      <split:account type="guid">77fc17bb76f3477b993b48d95fc32cf0</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">766b525f464b48f9b6a39a75c2cb4b79</split:id>
       <split:reconciled-state>n</split:reconciled-state>
       <split:value>-100000/100</split:value>
       <split:quantity>-100000/100</split:quantity>
@@ -27305,15 +27347,15 @@
   <sx:autoCreateNotify>y</sx:autoCreateNotify>
   <sx:advanceCreateDays>0</sx:advanceCreateDays>
   <sx:advanceRemindDays>1</sx:advanceRemindDays>
-  <sx:instanceCount>6</sx:instanceCount>
+  <sx:instanceCount>7</sx:instanceCount>
   <sx:start>
     <gdate>2020-01-24</gdate>
   </sx:start>
   <sx:last>
-    <gdate>2020-05-24</gdate>
+    <gdate>2020-06-24</gdate>
   </sx:last>
   <sx:num-occur>8</sx:num-occur>
-  <sx:rem-occur>3</sx:rem-occur>
+  <sx:rem-occur>2</sx:rem-occur>
   <sx:templ-acct type="guid">dc915ca945be4e72ab274fdae19390c0</sx:templ-acct>
   <sx:schedule>
     <gnc:recurrence version="1.0.0">
