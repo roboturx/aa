@@ -49,7 +49,7 @@
 </book:slots>
 <gnc:count-data cd:type="commodity">1</gnc:count-data>
 <gnc:count-data cd:type="account">169</gnc:count-data>
-<gnc:count-data cd:type="transaction">685</gnc:count-data>
+<gnc:count-data cd:type="transaction">665</gnc:count-data>
 <gnc:count-data cd:type="schedxaction">2</gnc:count-data>
 <gnc:count-data cd:type="budget">1</gnc:count-data>
 <gnc:commodity version="2.0.0">
@@ -449,6 +449,17 @@
 <gnc:account version="2.0.0">
   <act:name>x Samet Mine</act:name>
   <act:id type="guid">b1af47c0f5f2499aa0293d45ba0b7732</act:id>
+  <act:type>RECEIVABLE</act:type>
+  <act:commodity>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </act:commodity>
+  <act:commodity-scu>100</act:commodity-scu>
+  <act:parent type="guid">100f563c4375405f9deca54b7375e815</act:parent>
+</gnc:account>
+<gnc:account version="2.0.0">
+  <act:name>x Kenan Kırcaer</act:name>
+  <act:id type="guid">fbb012088d2246d18902b8856afac12f</act:id>
   <act:type>RECEIVABLE</act:type>
   <act:commodity>
     <cmdty:space>CURRENCY</cmdty:space>
@@ -2054,17 +2065,6 @@
   </act:commodity>
   <act:commodity-scu>100</act:commodity-scu>
   <act:parent type="guid">fe5f22644f5841a080c24567d8611319</act:parent>
-</gnc:account>
-<gnc:account version="2.0.0">
-  <act:name>Ort. H.Murat Balcı</act:name>
-  <act:id type="guid">1cff415040884d0abe67316a4ad829e9</act:id>
-  <act:type>CREDIT</act:type>
-  <act:commodity>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </act:commodity>
-  <act:commodity-scu>100</act:commodity-scu>
-  <act:parent type="guid">7351fbec5ea74d48943747c0e4eecff3</act:parent>
 </gnc:account>
 <gnc:transaction version="2.0.0">
   <trn:id type="guid">5003fb7139904872b9d16fededac80d9</trn:id>
@@ -7691,44 +7691,6 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">bdc92b9ccaeb4f44afde032a82c8da1e</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-06-30 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 17:41:57 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description>2020 APYkmArka Kira Bedeli 1/3 </trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-06-30</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">53bd3fed43a04534bf9efbdc49c55736</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>950000/100</split:value>
-      <split:quantity>950000/100</split:quantity>
-      <split:account type="guid">ce8f6dcd7f2041f9b5644506b44b5ce1</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">f2cbca536ad841c786d492942fbf55ee</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-950000/100</split:value>
-      <split:quantity>-950000/100</split:quantity>
-      <split:account type="guid">2d05ecc9b4e64f789485990ce01a8dcd</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
   <trn:id type="guid">dff0d1ad6b344252bd896832c65adbcc</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
@@ -8104,44 +8066,6 @@
       <split:reconciled-state>n</split:reconciled-state>
       <split:value>-1760000/100</split:value>
       <split:quantity>-1760000/100</split:quantity>
-      <split:account type="guid">bc14361189b241bf835961a52fa5ccf3</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">8d0088c89aea4a32a2af307139730e7f</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-06-30 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 17:42:34 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description>2020 AP Ykm Arka Kira Bedeli  2/3</trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-06-30</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">0b611ce8484144c6b61573a3d85139d6</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>1900000/100</split:value>
-      <split:quantity>1900000/100</split:quantity>
-      <split:account type="guid">91f6b29227e746f8848098e5d562cd7c</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">7e503f59bc804346b2f6f07b67177092</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-1900000/100</split:value>
-      <split:quantity>-1900000/100</split:quantity>
       <split:account type="guid">bc14361189b241bf835961a52fa5ccf3</split:account>
     </trn:split>
   </trn:splits>
@@ -18297,44 +18221,6 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">de1f1be3385649b9b3003a92cc1251d7</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-06-30 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 17:57:16 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description>2019 belediye</trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-06-30</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">c38dc4043fae4498bb6e7367c231b314</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>19470/100</split:value>
-      <split:quantity>19470/100</split:quantity>
-      <split:account type="guid">2989cab05ba94d6b9b654d0567780299</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">5bfd79bc19e34e289ea16e70c5b01179</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-19470/100</split:value>
-      <split:quantity>-19470/100</split:quantity>
-      <split:account type="guid">deabaef30fc841ac9337e26a874ae856</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
   <trn:id type="guid">94faa06d27ab4735b0c8128aa821ae68</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
@@ -20988,40 +20874,78 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">a820d6c5bb7648efb0439b710b5de3b0</trn:id>
+  <trn:id type="guid">be61b8a206d34d39af08eac6ebc8c512</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2011-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2012-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2020-06-30 18:04:58 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:36 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2011 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2012 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2011-12-31</gdate>
+        <gdate>2012-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">a6d8c71fde684f1faec90e2f0434f2fb</split:id>
+      <split:id type="guid">b79a4b2a0454455ea357f4d1092a4cf2</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>72964/100</split:value>
-      <split:quantity>72964/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
+      <split:value>348251/100</split:value>
+      <split:quantity>348251/100</split:quantity>
+      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">386637e816d34ab69830cb14a295b09e</split:id>
+      <split:id type="guid">79dffbc33938450a958e16c20d25df70</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-72964/100</split:value>
-      <split:quantity>-72964/100</split:quantity>
+      <split:value>-348251/100</split:value>
+      <split:quantity>-348251/100</split:quantity>
+      <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">84ad9d3cb50f4e9389646ae0eff64ca1</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2012-07-01 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2019-12-07 16:26:57 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>2012 LA Kira Geliri 1/4</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2012-07-01</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">4e9db9d1e51341049e043a940c15ee2d</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>348251/100</split:value>
+      <split:quantity>348251/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">93563e3d05884e4594accf4a49aa6ad1</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-348251/100</split:value>
+      <split:quantity>-348251/100</split:quantity>
+      <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21064,116 +20988,78 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">be61b8a206d34d39af08eac6ebc8c512</trn:id>
+  <trn:id type="guid">b0273421112f4400981dd2710b2e1cff</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2012-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2013-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:36 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:42 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2012 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2013 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2012-12-31</gdate>
+        <gdate>2013-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">b79a4b2a0454455ea357f4d1092a4cf2</split:id>
+      <split:id type="guid">25a70d8756ea4ec5917ed7974f0bad48</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>348251/100</split:value>
-      <split:quantity>348251/100</split:quantity>
+      <split:value>392953/100</split:value>
+      <split:quantity>392953/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">79dffbc33938450a958e16c20d25df70</split:id>
+      <split:id type="guid">a7d37ba88c4844f69b60772602233acd</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-348251/100</split:value>
-      <split:quantity>-348251/100</split:quantity>
+      <split:value>-392953/100</split:value>
+      <split:quantity>-392953/100</split:quantity>
       <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">84ad9d3cb50f4e9389646ae0eff64ca1</trn:id>
+  <trn:id type="guid">18c8e841dfef4b8fb45a28aa7d761b5a</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2012-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2013-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:57 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:58 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2012 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2013 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2012-12-31</gdate>
+        <gdate>2013-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">4e9db9d1e51341049e043a940c15ee2d</split:id>
+      <split:id type="guid">e1947c6af05e46a48b0b393f78da1eb3</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>348251/100</split:value>
-      <split:quantity>348251/100</split:quantity>
+      <split:value>392953/100</split:value>
+      <split:quantity>392953/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">93563e3d05884e4594accf4a49aa6ad1</split:id>
+      <split:id type="guid">2997da5105944f3e8ecb3efd0170934d</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-348251/100</split:value>
-      <split:quantity>-348251/100</split:quantity>
+      <split:value>-392953/100</split:value>
+      <split:quantity>-392953/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">36580536bc174c208b98aec61ab1ac41</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2012-12-31 12:59:00 +0200</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:09:26 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2012-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">aa93fa156baf4db78ba89d641a94c31c</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>348251/100</split:value>
-      <split:quantity>348251/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">6ab051f0f48e47a9814a682119a62c2c</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-348251/100</split:value>
-      <split:quantity>-348251/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21216,116 +21102,78 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">b0273421112f4400981dd2710b2e1cff</trn:id>
+  <trn:id type="guid">2550407b86014a30a8dc8c13356d4df8</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2013-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2014-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:42 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:44 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2013 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2014 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2013-12-31</gdate>
+        <gdate>2014-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">25a70d8756ea4ec5917ed7974f0bad48</split:id>
+      <split:id type="guid">3f438b4191904c84ba0290ceabca528b</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>392953/100</split:value>
-      <split:quantity>392953/100</split:quantity>
+      <split:value>150107/100</split:value>
+      <split:quantity>150107/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">a7d37ba88c4844f69b60772602233acd</split:id>
+      <split:id type="guid">17c3849591cc42fb924b3b6e361725d4</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-392953/100</split:value>
-      <split:quantity>-392953/100</split:quantity>
+      <split:value>-150107/100</split:value>
+      <split:quantity>-150107/100</split:quantity>
       <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">18c8e841dfef4b8fb45a28aa7d761b5a</trn:id>
+  <trn:id type="guid">1791083ec4d642719cab929c52c43a36</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2013-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2014-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:58 +0300</ts:date>
+    <ts:date>2019-12-07 16:27:00 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2013 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2014 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2013-12-31</gdate>
+        <gdate>2014-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">e1947c6af05e46a48b0b393f78da1eb3</split:id>
+      <split:id type="guid">89b3dd37f0c744ea9eab1fae62262d95</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>392953/100</split:value>
-      <split:quantity>392953/100</split:quantity>
+      <split:value>150107/100</split:value>
+      <split:quantity>150107/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">2997da5105944f3e8ecb3efd0170934d</split:id>
+      <split:id type="guid">22c04fa981b04b10bce905b5474516f9</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-392953/100</split:value>
-      <split:quantity>-392953/100</split:quantity>
+      <split:value>-150107/100</split:value>
+      <split:quantity>-150107/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">ed3ddc84106a4fcdaedcb6eb8780196e</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2013-12-31 12:59:00 +0200</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:09:31 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2013-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">50388c82eea6493498a5b3eb27a510a6</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>392953/100</split:value>
-      <split:quantity>392953/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">28fa401a61d24931af5b4886131ca7c6</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-392953/100</split:value>
-      <split:quantity>-392953/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21368,116 +21216,78 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">2550407b86014a30a8dc8c13356d4df8</trn:id>
+  <trn:id type="guid">f438a77ef20e4b048c3dfbf62db3081a</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2014-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2015-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:44 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:45 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2014 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2015 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2014-12-31</gdate>
+        <gdate>2015-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">3f438b4191904c84ba0290ceabca528b</split:id>
+      <split:id type="guid">3d0856eb75524ce3934d29a94c15cf7d</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>150107/100</split:value>
-      <split:quantity>150107/100</split:quantity>
+      <split:value>562500/100</split:value>
+      <split:quantity>562500/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">17c3849591cc42fb924b3b6e361725d4</split:id>
+      <split:id type="guid">d15b205d540d4f82a831173efa33380a</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-150107/100</split:value>
-      <split:quantity>-150107/100</split:quantity>
+      <split:value>-562500/100</split:value>
+      <split:quantity>-562500/100</split:quantity>
       <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">1791083ec4d642719cab929c52c43a36</trn:id>
+  <trn:id type="guid">6d4b80060c30411582d68879258df85d</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2014-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2015-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:27:00 +0300</ts:date>
+    <ts:date>2019-12-07 16:27:01 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2014 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2015 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2014-12-31</gdate>
+        <gdate>2015-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">89b3dd37f0c744ea9eab1fae62262d95</split:id>
+      <split:id type="guid">0b927ee824554d6eac5dcd68c9483068</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>150107/100</split:value>
-      <split:quantity>150107/100</split:quantity>
+      <split:value>562500/100</split:value>
+      <split:quantity>562500/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">22c04fa981b04b10bce905b5474516f9</split:id>
+      <split:id type="guid">1f4dda1329384b80b3b5d986dd1de6cb</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-150107/100</split:value>
-      <split:quantity>-150107/100</split:quantity>
+      <split:value>-562500/100</split:value>
+      <split:quantity>-562500/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">9e86b676d51548e5bbc6cbbdf4105519</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2014-12-31 12:59:00 +0200</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:09:37 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2014-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">197f3a43fdf5448099bba0994f260691</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>150108/100</split:value>
-      <split:quantity>150108/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">a559cd1c0faa423e8442c9b96c05da64</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-150108/100</split:value>
-      <split:quantity>-150108/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21520,116 +21330,78 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">f438a77ef20e4b048c3dfbf62db3081a</trn:id>
+  <trn:id type="guid">85635c98ea3d43f68a98ea05e37868f3</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2015-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2016-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:45 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:48 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2015 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2016 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2015-12-31</gdate>
+        <gdate>2016-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">3d0856eb75524ce3934d29a94c15cf7d</split:id>
+      <split:id type="guid">92feeaff9e784e9c965aff963ce154c6</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>562500/100</split:value>
-      <split:quantity>562500/100</split:quantity>
+      <split:value>625000/100</split:value>
+      <split:quantity>625000/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">d15b205d540d4f82a831173efa33380a</split:id>
+      <split:id type="guid">dea844658c2d4fcdab12c9fc880a4fdf</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-562500/100</split:value>
-      <split:quantity>-562500/100</split:quantity>
+      <split:value>-625000/100</split:value>
+      <split:quantity>-625000/100</split:quantity>
       <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">6d4b80060c30411582d68879258df85d</trn:id>
+  <trn:id type="guid">5baba3745719489c86ec03a8bc4a5989</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2015-12-31 12:59:00 +0200</ts:date>
+    <ts:date>2016-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:27:01 +0300</ts:date>
+    <ts:date>2019-12-07 16:27:03 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2015 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2016 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2015-12-31</gdate>
+        <gdate>2016-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">0b927ee824554d6eac5dcd68c9483068</split:id>
+      <split:id type="guid">f2bbfb8e87ad48c4b90c93a8e8d138cb</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>562500/100</split:value>
-      <split:quantity>562500/100</split:quantity>
+      <split:value>625000/100</split:value>
+      <split:quantity>625000/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">1f4dda1329384b80b3b5d986dd1de6cb</split:id>
+      <split:id type="guid">3ccccae353ef4524a7ddf0df5a795f95</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-562500/100</split:value>
-      <split:quantity>-562500/100</split:quantity>
+      <split:value>-625000/100</split:value>
+      <split:quantity>-625000/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">bc8b22dd411d4418a00322fb983ea3e0</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2015-12-31 12:59:00 +0200</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:09:46 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2015-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">1c3d5cb0d52b41ea91cf95645d75900e</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>562500/100</split:value>
-      <split:quantity>562500/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">89424429fa084f96b3351a4301516dc3</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-562500/100</split:value>
-      <split:quantity>-562500/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21672,116 +21444,78 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">85635c98ea3d43f68a98ea05e37868f3</trn:id>
+  <trn:id type="guid">692addc7aea64bd3a62199a6d27259cd</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2016-12-31 13:59:00 +0300</ts:date>
+    <ts:date>2017-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:48 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:49 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2016 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2017 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2016-12-31</gdate>
+        <gdate>2017-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">92feeaff9e784e9c965aff963ce154c6</split:id>
+      <split:id type="guid">60a30100d17e429fb0e26aaa7ae56cb1</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>625000/100</split:value>
-      <split:quantity>625000/100</split:quantity>
+      <split:value>687500/100</split:value>
+      <split:quantity>687500/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">dea844658c2d4fcdab12c9fc880a4fdf</split:id>
+      <split:id type="guid">a003f5a816b847a2b1b99d40fa04e717</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-625000/100</split:value>
-      <split:quantity>-625000/100</split:quantity>
+      <split:value>-687500/100</split:value>
+      <split:quantity>-687500/100</split:quantity>
       <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">5baba3745719489c86ec03a8bc4a5989</trn:id>
+  <trn:id type="guid">ac92911a1b534698912619fb3d27f4f9</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2016-12-31 13:59:00 +0300</ts:date>
+    <ts:date>2017-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:27:03 +0300</ts:date>
+    <ts:date>2019-12-07 16:27:04 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2016 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2017 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2016-12-31</gdate>
+        <gdate>2017-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">f2bbfb8e87ad48c4b90c93a8e8d138cb</split:id>
+      <split:id type="guid">79e9edeb437e4d2697403f07c28cc8b5</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>625000/100</split:value>
-      <split:quantity>625000/100</split:quantity>
+      <split:value>687500/100</split:value>
+      <split:quantity>687500/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">3ccccae353ef4524a7ddf0df5a795f95</split:id>
+      <split:id type="guid">6fea7ab532cd4cd4978d6e1bdd92421d</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-625000/100</split:value>
-      <split:quantity>-625000/100</split:quantity>
+      <split:value>-687500/100</split:value>
+      <split:quantity>-687500/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">4b4e3dec7d134f11b1542aaa45683e5d</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2016-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:09:54 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2016-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">f1a14eadd84a4440aff477baa1b9e7a8</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>625000/100</split:value>
-      <split:quantity>625000/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">e1708eb70b934829b506f418fc52bd10</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-625000/100</split:value>
-      <split:quantity>-625000/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21824,116 +21558,82 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">692addc7aea64bd3a62199a6d27259cd</trn:id>
+  <trn:id type="guid">f6cda08128c7487498bb88a7ed70551c</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2017-12-31 13:59:00 +0300</ts:date>
+    <ts:date>2018-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:26:49 +0300</ts:date>
+    <ts:date>2019-12-04 16:50:43 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2017 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2018 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2017-12-31</gdate>
+        <gdate>2018-07-01</gdate>
       </slot:value>
+    </slot>
+    <slot>
+      <slot:key>notes</slot:key>
+      <slot:value type="string"></slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">60a30100d17e429fb0e26aaa7ae56cb1</split:id>
+      <split:id type="guid">87e83fa5168c40769d27d4c6fd380487</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>687500/100</split:value>
-      <split:quantity>687500/100</split:quantity>
+      <split:value>812500/100</split:value>
+      <split:quantity>812500/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">a003f5a816b847a2b1b99d40fa04e717</split:id>
+      <split:id type="guid">a2abe94f72bb42acb317601c9b98d757</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-687500/100</split:value>
-      <split:quantity>-687500/100</split:quantity>
+      <split:value>-812500/100</split:value>
+      <split:quantity>-812500/100</split:quantity>
       <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">ac92911a1b534698912619fb3d27f4f9</trn:id>
+  <trn:id type="guid">1802f97b85fb4b97b01db0dee8f9e11d</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2017-12-31 13:59:00 +0300</ts:date>
+    <ts:date>2018-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:27:04 +0300</ts:date>
+    <ts:date>2019-12-07 16:26:27 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>2017 LA Kira Geliri 1/4</trn:description>
+  <trn:description>2018 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2017-12-31</gdate>
+        <gdate>2018-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">79e9edeb437e4d2697403f07c28cc8b5</split:id>
+      <split:id type="guid">86d8096e0eea45d6a21d470d312cc72e</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>687500/100</split:value>
-      <split:quantity>687500/100</split:quantity>
+      <split:value>812500/100</split:value>
+      <split:quantity>812500/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">6fea7ab532cd4cd4978d6e1bdd92421d</split:id>
+      <split:id type="guid">58e97b95ad5e483683a09a3b1a0781c8</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-687500/100</split:value>
-      <split:quantity>-687500/100</split:quantity>
+      <split:value>-812500/100</split:value>
+      <split:quantity>-812500/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">c2f1aaacafc84177b1ad2534a7926b80</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2017-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:09:58 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2017-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">e7e0c6d178ec49568f7c59f93ed45f4a</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>687500/100</split:value>
-      <split:quantity>687500/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">81f865f1236b48ce95af5f68e19885b5</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-687500/100</split:value>
-      <split:quantity>-687500/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21980,124 +21680,6 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">f6cda08128c7487498bb88a7ed70551c</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2018-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2019-12-04 16:50:43 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description>2018 LA Kira Geliri 1/4</trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2018-12-31</gdate>
-      </slot:value>
-    </slot>
-    <slot>
-      <slot:key>notes</slot:key>
-      <slot:value type="string"></slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">87e83fa5168c40769d27d4c6fd380487</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>812500/100</split:value>
-      <split:quantity>812500/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">a2abe94f72bb42acb317601c9b98d757</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-812500/100</split:value>
-      <split:quantity>-812500/100</split:quantity>
-      <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">1802f97b85fb4b97b01db0dee8f9e11d</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2018-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2019-12-07 16:26:27 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description>2018 LA Kira Geliri 1/4</trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2018-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">86d8096e0eea45d6a21d470d312cc72e</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>812500/100</split:value>
-      <split:quantity>812500/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">58e97b95ad5e483683a09a3b1a0781c8</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-812500/100</split:value>
-      <split:quantity>-812500/100</split:quantity>
-      <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">8cb30738e2d04bb8a358dd0a3b670fcc</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2018-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:10:03 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2018-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">07e9c87072fe45b78889eae173567d92</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>812500/100</split:value>
-      <split:quantity>812500/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">0e890ae9a7654978a17fedb16f80f978</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-812500/100</split:value>
-      <split:quantity>-812500/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
   <trn:id type="guid">e73b802e8c8e45f2a02b3e6de57b0358</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
@@ -22136,78 +21718,40 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">01e61c4d3d744359b55d9ce2bf0b7f35</trn:id>
+  <trn:id type="guid">174272f4e5f743fd922f37f9c0bca713</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2019-07-02 13:59:00 +0300</ts:date>
+    <ts:date>2019-07-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2020-06-30 18:29:47 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2019-07-02</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">35ca395d602c4bdf9aca1c1ef82cb780</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>186994/100</split:value>
-      <split:quantity>186994/100</split:quantity>
-      <split:account type="guid">0ae003cb62924aee9156bcb6b1818050</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">92c15c15a140464b9cb7df221f575332</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-186994/100</split:value>
-      <split:quantity>-186994/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">acc84b77a309431ba49be4d435cf68bc</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2019-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2019-11-21 13:07:59 +0300</ts:date>
+    <ts:date>2019-12-07 16:10:05 +0300</ts:date>
   </trn:date-entered>
   <trn:description>2019 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2019-12-31</gdate>
+        <gdate>2019-07-01</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">34e551f805aa4fd4ab218c128efad2db</split:id>
+      <split:id type="guid">747e1d31706b40f787083b012b04b3c7</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>1014919/100</split:value>
-      <split:quantity>1014919/100</split:quantity>
+      <split:value>975000/100</split:value>
+      <split:quantity>975000/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">782fcf60d20245ee8e7d7bac94caca61</split:id>
+      <split:id type="guid">67222c87ccb94c89a65238e8ec296aa2</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-1014919/100</split:value>
-      <split:quantity>-1014919/100</split:quantity>
-      <split:account type="guid">2989cab05ba94d6b9b654d0567780299</split:account>
+      <split:value>-975000/100</split:value>
+      <split:quantity>-975000/100</split:quantity>
+      <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -22218,7 +21762,7 @@
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2019-12-31 13:59:00 +0300</ts:date>
+    <ts:date>2019-07-02 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
     <ts:date>2019-11-21 13:09:15 +0300</ts:date>
@@ -22228,7 +21772,7 @@
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2019-12-31</gdate>
+        <gdate>2019-07-02</gdate>
       </slot:value>
     </slot>
   </trn:slots>
@@ -22236,237 +21780,85 @@
     <trn:split>
       <split:id type="guid">07c34282bbf5437e965fd2da93d59830</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>1014919/100</split:value>
-      <split:quantity>1014919/100</split:quantity>
+      <split:value>975000/100</split:value>
+      <split:quantity>975000/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
       <split:id type="guid">ba8eb9d376564251a7c6e835745a79f0</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-1014919/100</split:value>
-      <split:quantity>-1014919/100</split:quantity>
+      <split:value>-975000/100</split:value>
+      <split:quantity>-975000/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">174272f4e5f743fd922f37f9c0bca713</trn:id>
+  <trn:id type="guid">acc84b77a309431ba49be4d435cf68bc</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2019-12-31 13:59:00 +0300</ts:date>
+    <ts:date>2019-09-02 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2019-12-07 16:10:05 +0300</ts:date>
+    <ts:date>2019-11-21 13:07:59 +0300</ts:date>
   </trn:date-entered>
   <trn:description>2019 LA Kira Geliri 1/4</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2019-12-31</gdate>
+        <gdate>2019-09-02</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">747e1d31706b40f787083b012b04b3c7</split:id>
+      <split:id type="guid">34e551f805aa4fd4ab218c128efad2db</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>1014919/100</split:value>
-      <split:quantity>1014919/100</split:quantity>
+      <split:value>975000/100</split:value>
+      <split:quantity>975000/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">67222c87ccb94c89a65238e8ec296aa2</split:id>
+      <split:id type="guid">782fcf60d20245ee8e7d7bac94caca61</split:id>
       <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-1014919/100</split:value>
-      <split:quantity>-1014919/100</split:quantity>
-      <split:account type="guid">908c3f6feebf4484990b780afddb8c6d</split:account>
+      <split:value>-975000/100</split:value>
+      <split:quantity>-975000/100</split:quantity>
+      <split:account type="guid">2989cab05ba94d6b9b654d0567780299</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">d9860e8ffb8a4b53a55552f60a401fcc</trn:id>
+  <trn:id type="guid">11eeb180f6fe45449841fb2dadf6b21a</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2019-12-31 13:59:00 +0300</ts:date>
+    <ts:date>2019-12-25 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2020-06-30 18:10:08 +0300</ts:date>
+    <ts:date>2019-12-25 16:08:14 +0300</ts:date>
   </trn:date-entered>
   <trn:description></trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2019-12-31</gdate>
+        <gdate>2019-12-25</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">405a8a58caa84c6fb0ee1fc68bde6529</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>1014917/100</split:value>
-      <split:quantity>1014917/100</split:quantity>
-      <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">70bb47edd80c4085b780f0b252ae51d0</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-1014917/100</split:value>
-      <split:quantity>-1014917/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">a1931f0a05f1435394c6e0bcdef19680</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-06-30 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:10:26 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-06-30</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">817748e5b18242638417feaa2258c8ea</split:id>
+      <split:id type="guid">fd6e55dc4dec42448f17679f60f1e2c9</split:id>
       <split:reconciled-state>n</split:reconciled-state>
       <split:value>0/100</split:value>
       <split:quantity>0/100</split:quantity>
       <split:account type="guid">95839397af674a06897deec940317c85</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">7fbd44d5de7243d1a50dc9a366c6b044</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2019-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:33:39 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2019-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">502121cebcc64a4089796ac063328a66</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>2040000/100</split:value>
-      <split:quantity>2040000/100</split:quantity>
-      <split:account type="guid">333ae359fa0b4d08a3ef594046b60f63</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">f1c2e9ad21e041b484cf93b40406adae</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-2040000/100</split:value>
-      <split:quantity>-2040000/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">89680bdb0bb346b4b29e2543b5028301</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-06-30 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:34:38 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-06-30</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">b8d8ef7d222a4e769cf766dc6ab2d323</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>2100000/100</split:value>
-      <split:quantity>2100000/100</split:quantity>
-      <split:account type="guid">333ae359fa0b4d08a3ef594046b60f63</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">03ea6f88577948028eef47ceaebe868a</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-2100000/100</split:value>
-      <split:quantity>-2100000/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">90fe59529f07493daa0b4648e7024701</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-06-30 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:35:36 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-06-30</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">af014ee303874cabbea4239f0078bccb</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>2117500/100</split:value>
-      <split:quantity>2117500/100</split:quantity>
-      <split:account type="guid">3fe60e48253e4208b4394cab587558c9</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">454cd412db0e4321b9d6dca6d82d0284</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-2117500/100</split:value>
-      <split:quantity>-2117500/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -22581,6 +21973,44 @@
       <split:value>-43624/100</split:value>
       <split:quantity>-43624/100</split:quantity>
       <split:account type="guid">925040008251457dafaaa28adf28037e</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">a1d3b6a5b7e342e785aa30b9b0bf97a6</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2019-12-09 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2019-12-09 15:00:10 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Vergi İadesi</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2019-12-09</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">0b8fa57ebaa14a798bad6bd5cf4561f3</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>43624/100</split:value>
+      <split:quantity>43624/100</split:quantity>
+      <split:account type="guid">53ca1046eb7f4b269695a3eb7de37b6c</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">2fd2d78a665b40d495dad7134d3a9bd2</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-43624/100</split:value>
+      <split:quantity>-43624/100</split:quantity>
+      <split:account type="guid">2989cab05ba94d6b9b654d0567780299</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -25641,82 +25071,6 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">3005cd798d46457f8b9acac45b013639</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2019-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:36:13 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2019-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">9bcc7a0cff8a4369a156287c43d3757e</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>266000/100</split:value>
-      <split:quantity>266000/100</split:quantity>
-      <split:account type="guid">9ee677e8d3a04ed78d0894f9f03a91c5</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">65ecdd014c7e476d8a26298f6b5d4b2e</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-266000/100</split:value>
-      <split:quantity>-266000/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">0383e8dcffb14244aaf164cefc64b5b0</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2019-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:37:14 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2019-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">9fb3dd696d174d5c89d0bbef13a155ac</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>84000/100</split:value>
-      <split:quantity>84000/100</split:quantity>
-      <split:account type="guid">9ee677e8d3a04ed78d0894f9f03a91c5</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">1cf0ef53de06443e94b5d0850186aa4e</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-84000/100</split:value>
-      <split:quantity>-84000/100</split:quantity>
-      <split:account type="guid">19d2a9a581d547b0b202c28f97c62188</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
   <trn:id type="guid">64e4a0b3eb0448269b717e09c03a479a</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
@@ -25751,82 +25105,6 @@
       <split:value>-100000/100</split:value>
       <split:quantity>-100000/100</split:quantity>
       <split:account type="guid">f0d6cded08b64ed69c0949fa0d7f48ec</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">34c558de45ae4f3592237418cb73db03</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:38:29 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">c5d950acf4954ee8b35e5c9167284824</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>912000/100</split:value>
-      <split:quantity>912000/100</split:quantity>
-      <split:account type="guid">9ee677e8d3a04ed78d0894f9f03a91c5</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">503c72869184491f8c6744bb87647184</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-912000/100</split:value>
-      <split:quantity>-912000/100</split:quantity>
-      <split:account type="guid">1cff415040884d0abe67316a4ad829e9</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">6f6868cd9e9c46a0b5b29e94ec038d47</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-12-31 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 18:38:53 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-12-31</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">c1485c4f42154a989263f2ef300fb090</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>288000/100</split:value>
-      <split:quantity>288000/100</split:quantity>
-      <split:account type="guid">9ee677e8d3a04ed78d0894f9f03a91c5</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">79f896c24815441ca377b89ba0c488cf</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>-288000/100</split:value>
-      <split:quantity>-288000/100</split:quantity>
-      <split:account type="guid">19d2a9a581d547b0b202c28f97c62188</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -25972,37 +25250,6 @@
       <split:value>0/100</split:value>
       <split:quantity>0/100</split:quantity>
       <split:account type="guid">682def01dfb54ee28d2977a6d35e7782</split:account>
-    </trn:split>
-  </trn:splits>
-</gnc:transaction>
-<gnc:transaction version="2.0.0">
-  <trn:id type="guid">d0a45f1e9a0444fa99dd8e2d4f977c96</trn:id>
-  <trn:currency>
-    <cmdty:space>CURRENCY</cmdty:space>
-    <cmdty:id>TRY</cmdty:id>
-  </trn:currency>
-  <trn:date-posted>
-    <ts:date>2020-06-30 13:59:00 +0300</ts:date>
-  </trn:date-posted>
-  <trn:date-entered>
-    <ts:date>2020-06-30 17:38:04 +0300</ts:date>
-  </trn:date-entered>
-  <trn:description></trn:description>
-  <trn:slots>
-    <slot>
-      <slot:key>date-posted</slot:key>
-      <slot:value type="gdate">
-        <gdate>2020-06-30</gdate>
-      </slot:value>
-    </slot>
-  </trn:slots>
-  <trn:splits>
-    <trn:split>
-      <split:id type="guid">bc89b0b63a4f4d0facb33c2be92a3c2c</split:id>
-      <split:reconciled-state>n</split:reconciled-state>
-      <split:value>0/100</split:value>
-      <split:quantity>0/100</split:quantity>
-      <split:account type="guid">3a63f12134c244fa86b69fbbccbba3e0</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
