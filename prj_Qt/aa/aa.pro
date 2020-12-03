@@ -45,7 +45,7 @@ SOURCES +=\
     mlzm/mlzm.cpp \
     mlzm/mlzm_gc.cpp \
  #   mlzm/wd_dptlp.cpp \
-    adrs/ftr.cpp \
+   # adrs/ftr.cpp \
     ie/ie.cpp \
     ie/iedet.cpp \
     ie/tsnr.cpp \
