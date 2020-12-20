@@ -1,0 +1,67 @@
+<RCC>
+    <qresource prefix="/">
+        <file>rsm/valilik.jpeg</file>
+        <file>rsm/trb3.gif</file>
+        <file>rsm/trb2.gif</file>
+        <file>rsm/trb.gif</file>
+        <file>rsm/tb.jpg</file>
+        <file>rsm/logo.png</file>
+        <file>rsm/tkt.png</file>
+        <file>rsm/wrk.png</file>
+        <file>rsm/wrk.ico</file>
+        <file>rsm/v2.jpeg</file>
+        <file>rsm/tools.svg</file>
+        <file>rsm/tools.png</file>
+        <file>rsm/home.svg</file>
+        <file>rsm/home.png</file>
+        <file>rsm/ex.ico</file>
+        <file>rsm/worker.jpeg</file>
+        <file>rsm/plt.png</file>
+        <file>rsm/images.jpeg</file>
+        <file>rsm/right.png</file>
+        <file>rsm/left.png</file>
+        <file>rsm/db.png</file>
+        <file>rsm/lock.png</file>
+        <file>rsm/Erase.ico</file>
+        <file>rsm/out.ico</file>
+        <file>rsm/nv_ekle.svg</file>
+        <file>rsm/nv_first.svg</file>
+        <file>rsm/nv_last.svg</file>
+        <file>rsm/nv_next.svg</file>
+        <file>rsm/nv_pre.svg</file>
+        <file>rsm/nv_sil.svg</file>
+        <file>rsm/nv_v_last.svg</file>
+        <file>rsm/nv_v_next.svg</file>
+        <file>rsm/nv_v_pre.svg</file>
+        <file>rsm/nv_v_first.svg</file>
+        <file>rsm/nv_eklersm.svg</file>
+        <file>rsm/nv_eklesil.svg</file>
+        <file>rsm/nv_eklesil2.svg</file>
+        <file>rsm/mkndrm.txt</file>
+        <file>rsm/icon/camera.png</file>
+        <file>rsm/icon/file.png</file>
+        <file>rsm/icon/photo_camera.png</file>
+        <file>rsm/icon/icons8-add-camera-64.png</file>
+        <file>rsm/icon/icons8-slide-up-128.png</file>
+        <file>rsm/icon/icons8-slide-up-64.png</file>
+        <file>rsm/bobcat (2).png</file>
+        <file>rsm/bobcat.png</file>
+        <file>rsm/delete.png</file>
+        <file>rsm/edit.png</file>
+        <file>rsm/ex.png</file>
+        <file>rsm/excavator.png</file>
+        <file>rsm/folder-invoices-icon.png</file>
+        <file>rsm/icons8-add-camera-64.png</file>
+        <file>rsm/nv_ekle.ico</file>
+        <file>rsm/nv_ekle2.svg</file>
+        <file>rsm/nv_eklee.svg</file>
+        <file>rsm/nv_ok.ico</file>
+        <file>rsm/nv_sil3.svg</file>
+        <file>rsm/Slide Up-64-128px.zip</file>
+        <file>rsm/trb3 - Kopya.gif</file>
+        <file>rsm/logo/Audi.png</file>
+        <file>rsm/logo/hm/caterpillar.jpg</file>
+        <file>rsm/rsm_yok.png</file>
+        <file>rsm/rsm_yok.svg</file>
+    </qresource>
+</RCC>

@@ -49,7 +49,7 @@
 </book:slots>
 <gnc:count-data cd:type="commodity">1</gnc:count-data>
 <gnc:count-data cd:type="account">169</gnc:count-data>
-<gnc:count-data cd:type="transaction">693</gnc:count-data>
+<gnc:count-data cd:type="transaction">703</gnc:count-data>
 <gnc:count-data cd:type="schedxaction">2</gnc:count-data>
 <gnc:count-data cd:type="budget">1</gnc:count-data>
 <gnc:commodity version="2.0.0">
@@ -4203,6 +4203,120 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
+  <trn:id type="guid">14c597e690bb42bb9d3a1b85fcc2ba72</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-07-05 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 13:47:17 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Nakit Ödeme</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-07-05</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">cda82a503bcd417991afb55541e41572</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>200000/100</split:value>
+      <split:quantity>200000/100</split:quantity>
+      <split:account type="guid">1e668380cab1429fa862e24266e34791</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">b4f5090db58043d2afb9fc711f6458e4</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-200000/100</split:value>
+      <split:quantity>-200000/100</split:quantity>
+      <split:account type="guid">11034438816f4d4e94d26fd848962ad3</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">c521860ab1574e8882297871dc7ab10f</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-07-30 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 13:48:35 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Nakit Ödeme (Senetten kalan)</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-07-30</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">695780f4168e46ad9847cd99a625cff8</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>1325000/100</split:value>
+      <split:quantity>1325000/100</split:quantity>
+      <split:account type="guid">1e668380cab1429fa862e24266e34791</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">63abe3c5a1584f519af3509ff4e7f35a</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-1325000/100</split:value>
+      <split:quantity>-1325000/100</split:quantity>
+      <split:account type="guid">11034438816f4d4e94d26fd848962ad3</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">4cba5f98d4bf40cf8900e66cf09fe253</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-12-16 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 14:10:01 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Nakit Kasaya Mart 2020-21 Doğuş Kira Bedeli</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-12-16</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">2d4bcef592a64a7ca64dc246cacb2324</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>2100000/100</split:value>
+      <split:quantity>2100000/100</split:quantity>
+      <split:account type="guid">deabaef30fc841ac9337e26a874ae856</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">0eb15f829c0142169709792c437af7d3</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-2100000/100</split:value>
+      <split:quantity>-2100000/100</split:quantity>
+      <split:account type="guid">1e668380cab1429fa862e24266e34791</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
   <trn:id type="guid">d08a8629e8cc4488bc1392072b64c8a6</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
@@ -5337,6 +5451,234 @@
       <split:value>-80000/100</split:value>
       <split:quantity>-80000/100</split:quantity>
       <split:account type="guid">8db7671b8b2d47a0823b663e01ce6edc</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">a635ae129f6d4801ae8c8dea952b29fd</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-07-22 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 14:18:05 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Tzg Kira Bedeli7-2020 - Salih Kaymak</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-07-22</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">932ec140f81f459b94b90b8c79475f0c</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>90000/100</split:value>
+      <split:quantity>90000/100</split:quantity>
+      <split:account type="guid">288e0797adfd4730b0f41e4a47a7b84f</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">a516ab5fe0d84a14b2b1d403411fe881</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-90000/100</split:value>
+      <split:quantity>-90000/100</split:quantity>
+      <split:account type="guid">8db7671b8b2d47a0823b663e01ce6edc</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">7c59d546a853436eacbc805da37ade97</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-08-22 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 14:18:09 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Tzg Kira Bedeli 8-2020 - Salih Kaymak</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-08-22</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">24b7268d367548c1b42148356ccc40c1</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>90000/100</split:value>
+      <split:quantity>90000/100</split:quantity>
+      <split:account type="guid">288e0797adfd4730b0f41e4a47a7b84f</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">bfb9f889f2a04d13bfac67b11cdfd093</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-90000/100</split:value>
+      <split:quantity>-90000/100</split:quantity>
+      <split:account type="guid">8db7671b8b2d47a0823b663e01ce6edc</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">4979f60384e64a1e91629ce8ec52beaa</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-09-22 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 14:18:12 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Tzg Kira Bedeli 9-2020 - Salih Kaymak</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-09-22</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">9a85167ca22b4e10964e4699ed86b1dd</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>90000/100</split:value>
+      <split:quantity>90000/100</split:quantity>
+      <split:account type="guid">288e0797adfd4730b0f41e4a47a7b84f</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">8033057969a443769444decf1e6116ad</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-90000/100</split:value>
+      <split:quantity>-90000/100</split:quantity>
+      <split:account type="guid">8db7671b8b2d47a0823b663e01ce6edc</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">65c33274e3d8411a87a5fa266b19eed6</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-10-22 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 14:18:16 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Tzg Kira Bedeli 10-2020 - Salih Kaymak</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-10-22</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">3263e564c07847acb2a695e50659c4bb</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>90000/100</split:value>
+      <split:quantity>90000/100</split:quantity>
+      <split:account type="guid">288e0797adfd4730b0f41e4a47a7b84f</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">4569550865434991ac5ce0034b834f55</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-90000/100</split:value>
+      <split:quantity>-90000/100</split:quantity>
+      <split:account type="guid">8db7671b8b2d47a0823b663e01ce6edc</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">254180cb8b9745bea713cce46d7417e2</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-11-22 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 14:18:18 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Tzg Kira Bedeli 11-2020 - Salih Kaymak</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-11-22</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">ce96e1ebf97944939d1247fd4728ae93</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>90000/100</split:value>
+      <split:quantity>90000/100</split:quantity>
+      <split:account type="guid">288e0797adfd4730b0f41e4a47a7b84f</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">4d481f7f8ca740e3ac4745532a95c7b1</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-90000/100</split:value>
+      <split:quantity>-90000/100</split:quantity>
+      <split:account type="guid">8db7671b8b2d47a0823b663e01ce6edc</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">d8e8f1ffc75742ff8ce6b0932f43a61e</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-12-22 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2020-12-16 14:18:21 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Tzg Kira Bedeli 12-2020 - Salih Kaymak</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-12-22</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">8bedd6d332b94d0f9be57d21675feb16</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>0/100</split:value>
+      <split:quantity>0/100</split:quantity>
+      <split:account type="guid">8db7671b8b2d47a0823b663e01ce6edc</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">b6e6a8e00a6b4ce391c8f5de757a355c</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>0/100</split:value>
+      <split:quantity>0/100</split:quantity>
+      <split:account type="guid">288e0797adfd4730b0f41e4a47a7b84f</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -8675,6 +9017,48 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">003796ea71fa4f23a6b182bdf8be2fdc</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-100000/100</split:value>
+      <split:quantity>-100000/100</split:quantity>
+      <split:account type="guid">9ee677e8d3a04ed78d0894f9f03a91c5</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">99c4a488ef724562a2d80017d052b66d</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:date-posted>
+    <ts:date>2020-08-24 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2019-12-25 15:43:45 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>2020 1/8 Sny55 Kira Bedeli</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2020-08-24</gdate>
+      </slot:value>
+    </slot>
+    <slot>
+      <slot:key>from-sched-xaction</slot:key>
+      <slot:value type="guid">ba301b88a00f4cd6b3b7431e4a004386</slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">ff4f1d816a6b44828e0093bd3c5a4815</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>100000/100</split:value>
+      <split:quantity>100000/100</split:quantity>
+      <split:account type="guid">77fc17bb76f3477b993b48d95fc32cf0</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">7e940f06294a4272b833874e28abb52a</split:id>
       <split:reconciled-state>n</split:reconciled-state>
       <split:value>-100000/100</split:value>
       <split:quantity>-100000/100</split:quantity>
@@ -28623,15 +29007,15 @@
   <sx:autoCreateNotify>y</sx:autoCreateNotify>
   <sx:advanceCreateDays>0</sx:advanceCreateDays>
   <sx:advanceRemindDays>1</sx:advanceRemindDays>
-  <sx:instanceCount>8</sx:instanceCount>
+  <sx:instanceCount>9</sx:instanceCount>
   <sx:start>
     <gdate>2020-01-24</gdate>
   </sx:start>
   <sx:last>
-    <gdate>2020-07-24</gdate>
+    <gdate>2020-08-24</gdate>
   </sx:last>
   <sx:num-occur>8</sx:num-occur>
-  <sx:rem-occur>1</sx:rem-occur>
+  <sx:rem-occur>0</sx:rem-occur>
   <sx:templ-acct type="guid">dc915ca945be4e72ab274fdae19390c0</sx:templ-acct>
   <sx:schedule>
     <gnc:recurrence version="1.0.0">
