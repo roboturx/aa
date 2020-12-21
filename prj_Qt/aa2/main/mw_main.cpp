@@ -18,12 +18,17 @@ void MW_main::login()
 
     // fade(true);
 
+    arayuz = new Arayuz;
+    arayuz->setGeometry (800,300,300,480);
+    arayuz->setWindowTitle("Arayuz");
+    arayuz->show();
+
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase = new DBase();
-    dbase->setGeometry (800,300,300,480);
+    dbase->setGeometry (20,30,300,480);
     dbase->setWindowTitle("Veri Tabanı Kontrol");
-    dbase->show();
+    //dbase->show();
 
     if (! dbase->setupDBase ())
     {
@@ -67,7 +72,7 @@ WARNING  şifre için burayı kullan
 
 //    sbox = new SortingBox;
     //dbox = new DragWidget;
-    this->setCentralWidget (dbase );
+    this->setCentralWidget (arayuz );
 
 }
 
@@ -136,33 +141,34 @@ void MW_main::cr_Actions()
     /// main
     ///
     ///
-
+    //////// 0100  G İ R İ Ş
     QMenu *mn_main  = menuBar()->addMenu(tr("&Giriş"));
-    QToolBar *tb_main = addToolBar(tr("Makina İkmal"));
+    QToolBar *tb_main = addToolBar(tr("GMSI"));
     tb_main->setMaximumHeight (50);
     tb_main->setMaximumWidth (650);
     tb_main->setMinimumWidth (450);
     tb_main->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     tb_main->setAllowedAreas(Qt::LeftToolBarArea);
 
+    //////// 0110 G İ R İ Ş * Kontrol Merkezi
     auto *act_main = new QAction(QIcon(":/rsm/home.png"),
-                                 tr("&Kontrol Merkezi..."), this);
-    act_main->setStatusTip("Ana Pencere" );
-    act_main->setWhatsThis("Program Giriş Sayfas1");
+                                 tr("&Veri Tabanı..."), this);
+    act_main->setStatusTip("Veri Tabanı" );
+    act_main->setWhatsThis("Veri Tabanı Kontrol Merkezi");
     act_main->setShortcut(QKeySequence(tr("Ctrl+K")));
     act_main->setShortcutContext(Qt::ApplicationShortcut);
-    act_main->setStatusTip(tr("Ana Ekran"));
+
     mn_main->addAction(act_main);
     tb_main->addAction(act_main);
 
 
-    //////// G İ R İ Ş
+
     connect( act_main , &QAction::triggered,
 
              [this]()
     {
         // mwgr = new MW_graph;
-        statusBar()->showMessage( "Kontrol Merkezi" );
+        statusBar()->showMessage( "Veri Tabanı" );
         // mwgr->setWindowTitle ( GLB_yetki );
         // mwgr->adjustSize ();
 
@@ -174,16 +180,34 @@ void MW_main::cr_Actions()
 
     });
 
+    //////// 0120 G İ R İ Ş * Çıkış
+    auto *act_Quit = mn_main->addAction(tr("&Çıkış"),
+                                        this, &QWidget::close);
+    //QAction *act_Quit = new QAction(QIcon(":/rsm/out.ico"),
+    //                             tr("&Çıkış..."), this);
+    act_Quit->setIcon (QIcon(":/rsm/out.ico"));
 
+    act_Quit->setShortcuts(QKeySequence::Quit);
+    act_Quit->setStatusTip(tr("Programdan Çıkış "));
+    mn_main->addAction(act_Quit);
+    tb_main->addAction(act_Quit);
+    connect(act_Quit , &QAction::triggered,
+            [this]()
+    {
+        emit cikis("Ana Menu act");
+    });
 
     menuBar()->addSeparator();
     tb_main->addSeparator ();
 
-
+    //////// 0200 TANIMLAR *
     QMenu *mn_atlye = menuBar()->addMenu(tr("&Tanımlar"));
 
+
+    //////// 0210 TANIMLAR * Gayrimenkul
     QMenu *mn_mkn = mn_atlye->addMenu(tr("&Gayrimenkul"));
-    /// mkn
+
+    //////// 0211 TANIMLAR * Makina
     auto *act_mkn = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Makina..."), this);
     act_mkn->setStatusTip(tr("Demirbaş Mlzm"));
@@ -201,7 +225,7 @@ void MW_main::cr_Actions()
     });
 
 
-    /// mkn cmm
+    //////// 0212 TANIMLAR * Menkul
         auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Menkul"), this);
     act_mkc->setStatusTip(tr("Menkul Değerler"));
@@ -250,6 +274,10 @@ void MW_main::cr_Actions()
     });
 
 */
+
+
+
+    //////// 0220 TANIMLAR * İş emri
     /// iş emri detay
     auto *act_iedet = new QAction(QIcon(":/rsm/worker.jpeg"),
                                   tr("&İş Emri"), this);
@@ -288,7 +316,7 @@ void MW_main::cr_Actions()
 
 
 
-
+    //////// 0230 TANIMLAR * Tİ
     //// Taşınır istek
     auto *act_tsnr = new QAction(QIcon(":/rsm/worker.jpeg"),
                                  tr("&Taşınır İsatek"), this);
@@ -303,6 +331,8 @@ void MW_main::cr_Actions()
         mw_tsnr->show ();
     });/// taşınır istek
 
+
+    //////// 0230 TANIMLAR * sclk
     //// işçilik
     auto *act_sclk = new QAction(QIcon(":/rsm/worker.jpeg"),
                                  tr("İşçi&lik"), this);
@@ -317,6 +347,7 @@ void MW_main::cr_Actions()
         mw_sclk->show ();
     }); // işçilik
 
+    //////// 0240 TANIMLAR * personel
     /// personel
     auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("&Personel..."), this);
@@ -336,9 +367,12 @@ void MW_main::cr_Actions()
     });
 
 
-
+    //////// 0300 AMBAR
     QMenu *mn_mbar  = menuBar()->addMenu(tr("&Ambar"));
-    /// dpo    Mlzm kontrol
+
+
+    //////// 0310 AMBAR * Malzeme
+    ///     /// dpo    Mlzm kontrol
     auto *act_dpo = new QAction(QIcon(":/rsm/plt.png"),
                                 tr("&Mlzm..."), this);
     act_dpo->setShortcut(QKeySequence(tr("Ctrl+S")));
@@ -355,10 +389,10 @@ void MW_main::cr_Actions()
         mw_mlzmGc->show ();
     });
 
-
+    //////// 0400 SATIN ALMA *
     QMenu *mn_stnlm = menuBar()->addMenu(tr("&Satın Alma"));
 
-
+    //////// 0410 SATIN ALMA * Fatura
     /// fatura
     auto *act_ftr = new QAction(QIcon(""),
                                 tr("&Fatura..."), this);
@@ -374,6 +408,8 @@ void MW_main::cr_Actions()
         mw_ftr->tbsetup ();
         mw_ftr->show ();
     });
+
+    //////// 0420 SATIN ALMA * firma
     /// firma
     auto *act_fr = new QAction(QIcon(""),
                                tr("&Firma..."), this);
@@ -400,30 +436,17 @@ void MW_main::cr_Actions()
 
 
 
-    /// Çıkış
-    auto *act_Quit = mn_main->addAction(tr("&Çıkış"),
-                                        this, &QWidget::close);
-    //QAction *act_Quit = new QAction(QIcon(":/rsm/out.ico"),
-    //                             tr("&Çıkış..."), this);
-    act_Quit->setIcon (QIcon(":/rsm/out.ico"));
 
-    act_Quit->setShortcuts(QKeySequence::Quit);
-    act_Quit->setStatusTip(tr("Programdan Çıkış "));
-    mn_main->addAction(act_Quit);
-    tb_main->addAction(act_Quit);
-    connect(act_Quit , &QAction::triggered,
-            [this]()
-    {
-        emit cikis("Ana Menu act");
-    });
 
     ////////////////////////////////////////////////////////////////
     ///////////////////////
     /// \brief mn_yrdm
     ///
+
+    //////// 0500 YARDIM *
     QMenu *mn_yrdm = menuBar()->addMenu(tr("&Yardım"));
 
-
+    //////// 0510 YARDIM * hkk
     /// hakkında
     auto *act_hkk = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("&Uygulama Hakkında"), this);

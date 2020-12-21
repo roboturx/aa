@@ -24,6 +24,8 @@
 #include "mchn/mkn.h"
 
 #include "mlzm/mlzm_gc.h"
+#include "globals.h"
+#include "arayuz.h"
 
 //#include <sortingbox.h>
 //#include "dragwidget.h"
@@ -40,7 +42,7 @@ class MW_main : public QMainWindow
 public:
     explicit MW_main();
     ~MW_main();
-
+    Arayuz* arayuz;
     DBase* dbase;
     //SortingBox * sbox;
     //DragWidget * dbox;

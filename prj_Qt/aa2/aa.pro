@@ -25,6 +25,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 
 SOURCES +=\
+    main/arayuz.cpp \
     main/main.cpp \
     main/VTKontrol.cpp \
     main/cw_hkk.cpp \
@@ -60,6 +61,7 @@ SOURCES +=\
 HEADERS  += \
  #   main/main.h \
     main/VTKontrol.h \
+    main/arayuz.h \
     main/cw_hkk.h \
     main/mw_main.h \
     main/login.h \
@@ -95,6 +97,7 @@ HEADERS  += \
 
 FORMS    += \
     forms/mainForm.ui \
+    main/arayuz.ui \
     wd_login.ui \
     ww_mkcins.ui \
     cw_hkk.ui \

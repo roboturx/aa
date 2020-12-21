@@ -2,6 +2,8 @@
 #include "globals.h"
 Renk::Renk(QObject *parent) : QObject(parent)
 {
+
+    qDebug() << "Renk";
     QTextCodec::codecForName("ISO-8859-9") ;
 
     QString CeruleanBlue ("#98B4D4");  // fg
@@ -41,11 +43,12 @@ Renk::Renk(QObject *parent) : QObject(parent)
     dP.setColor(QPalette::Highlight, QColor(NavyPeony));
     dP.setColor(QPalette::HighlightedText, QColor(CeruleanBlue) );
 
-
+ qDebug() << "Renk Winnnnnnnnnnn";
 #ifdef LINUX
-    qApp->setPalette(dP);
+    qApp->setPalette(dP)
+    qDebug() << "Renk Lınux";
 #endif
-
+qApp->setPalette(dP);
 
    // qApp->setStyleSheet("QToolTip { color: #ffffff;
     //background-color: #2a82da; border: 1px solid white; }");
