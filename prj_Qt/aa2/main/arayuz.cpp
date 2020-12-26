@@ -7,10 +7,10 @@ Arayuz::Arayuz(QWidget *parent) :
     ui(new Ui::Arayuz)
 {
     ui->setupUi(this);
-    dbase=new Dbase;
-    dbase->setGeometry (20,30,300,480);
-    dbase->setWindowTitle("Veri Tabanı Kontrol");
-    dbase->show();
+//    dbase=new DBase;
+//    dbase->setGeometry (20,30,300,480);
+//    dbase->setWindowTitle("Veri Tabanı Kontrol");
+//    dbase->show();
 }
 
 Arayuz::~Arayuz()

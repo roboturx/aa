@@ -27,9 +27,9 @@ private:
 template <class T>
 T* Tekton<T>::instance(CreateInstance create)
 {
-  Tekton::create.store(create);
+  Tekton::create.storeRelaxed(create);
   qTekKere(init, flag);
-  return (T*)tptr.load();
+  return (T*)tptr.loadRelaxed();
 }
 
 template <class T>
@@ -37,8 +37,8 @@ void Tekton<T>::init()
 {
   static Tekton Tekton;
   if (Tekton.inited) {
-    CreateInstance createFunction = (CreateInstance)Tekton::create.load();
-    tptr.store(createFunction());
+    CreateInstance createFunction = (CreateInstance)Tekton::create.loadRelaxed();
+    tptr.storeRelaxed(createFunction());
   }
 }
 
@@ -53,7 +53,7 @@ Tekton<T>::~Tekton() {
   if (createdTptr) {
     delete createdTptr;
   }
-  create.store(nullptr);
+  create.storeRelaxed(nullptr);
 }
 
 template<class T> QBasicAtomicPointer<T* (void)> Tekton<T>::create = Q_BASIC_ATOMIC_INITIALIZER(nullptr);

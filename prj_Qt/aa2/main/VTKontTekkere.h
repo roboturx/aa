@@ -26,7 +26,7 @@ inline static void qTekKere(Function func, QBasicAtomicInt& flag)
 #if QT_VERSION < 0x050000
     int protectFlag = flag.fetchAndStoreAcquire(flag);
 #elif QT_VERSION >= 0x050000
-    int protectFlag = flag.fetchAndStoreAcquire(flag.load());
+    int protectFlag = flag.fetchAndStoreAcquire(flag.loadRelaxed());
 #endif
 
     if (protectFlag == CO_Finished)

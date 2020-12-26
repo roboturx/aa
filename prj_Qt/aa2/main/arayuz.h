@@ -2,7 +2,7 @@
 #define ARAYUZ_H
 
 #include "globals.h"
-
+#include "dbase.h"
 namespace Ui {
 class Arayuz;
 }
@@ -15,7 +15,7 @@ public:
     explicit Arayuz(QWidget *parent = nullptr);
     ~Arayuz();
 
-    Dbase * dbase;
+   DBase* dbase;
 private:
     Ui::Arayuz *ui;
 };

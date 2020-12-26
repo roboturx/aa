@@ -3,7 +3,7 @@
 MW_main::MW_main( )
 {
     setAcceptDrops(true);
-    this->setWindowTitle ("GSMI Gelir Gider İzleme Uygulaması");
+    this->setWindowTitle ("GmsI Gelir Gider İzleme Uygulaması");
     this->setGeometry (20,20,800,500);
     this->setObjectName ("objMW_main");
     cr_Actions ();
@@ -28,7 +28,7 @@ void MW_main::login()
     dbase = new DBase();
     dbase->setGeometry (20,30,300,480);
     dbase->setWindowTitle("Veri Tabanı Kontrol");
-    //dbase->show();
+    dbase->show();
 
     if (! dbase->setupDBase ())
     {
