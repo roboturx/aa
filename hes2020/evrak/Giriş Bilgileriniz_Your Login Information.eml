@@ -1,0 +1,56 @@
+Delivered-To: roboturx@gmail.com
+Received: by 2002:a25:6885:0:0:0:0:0 with SMTP id d127csp4560697ybc;
+        Tue, 6 Aug 2019 04:29:07 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxaWRKhTQ2ey7KTdCBVOGcx9pM2Qodl5zyy4X5ydxE+hWQ0C56JuLflxCDnuyBpOY7+k5v0
+X-Received: by 2002:a1c:2d58:: with SMTP id t85mr4030584wmt.61.1565090947478;
+        Tue, 06 Aug 2019 04:29:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1565090947; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ddTv+RrlLmglj4m7/DvcRqM33QDn526C8W7udEfTd04XQfGCp/A/gv4z1tHdJ/DFuf
+         BlBXtqhnYo20IbXirthYOrZ5DDIg/0wQ8Dn2M2+KJw/Hjd/TwKwbvToqZgN84yqTKSR3
+         w47T9CW3eKeOhuXepNU9+Y2RlSBvJKQrHhR5W6xuvx5t3hnWgXz8/JP7+MluOiiQ2NHw
+         k7PPtaZ6crJ6kERDLmqv7lFbioWkI3+RnziJr2X7NKK9BoWdAS1rwgb9w2rwSY9WrZS7
+         SoSwWIOZCSkPKqjwz+BNHjTyokCUnP2WO+fAjrrpbCS6mcONJpH7vQXakOtgIw3CY12x
+         LKOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:subject:date:to:from:mime-version
+         :message-id;
+        bh=d0ntVk7HROsVWKXCyoNXHBF3GRHk/71Md8/+igqdpec=;
+        b=VX/bdzZDwhqrEOCW0TQuxSu8u7hBFRhSBPOKohJ4NEPOskUMcpFakWg96ORm7KYzt6
+         YEehxMpsiSfcMnNbT0BVfW9nGOb9JTEhVJfM1NEv5hLuCkcaVLQL2U1m17lcUhP1/5/k
+         ybzby+GEjGotWQqG96y9C50k90OCmvNBChxJwgTPI6kACZDcCTbHUBopejnLtHbWdGku
+         Vd2FqgVmu7r4+5TODfthOThexB3xtz+zG9pk9O7llSzTMN0NvjH5JOIGIbllN1ZTAiSm
+         IJzWp+98rrrEKTb7w39Fg8FzM3E19L2bMC3Px+/zywWGOPexFYyii1svRoshYc6rqanZ
+         Hrsg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=neutral (google.com: 212.175.153.6 is neither permitted nor denied by best guess record for domain of ogrenciizni@icisleri.gov.ct.tr) smtp.mailfrom=ogrenciizni@icisleri.gov.ct.tr;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=icisleri.gov.ct.tr
+Return-Path: <ogrenciizni@icisleri.gov.ct.tr>
+Received: from mail.kamu.ct.tr (mail.devplan.org. [212.175.153.6])
+        by mx.google.com with ESMTP id m20si76621087wrg.241.2019.08.06.04.29.06
+        for <roboturx@gmail.com>;
+        Tue, 06 Aug 2019 04:29:07 -0700 (PDT)
+Received-SPF: neutral (google.com: 212.175.153.6 is neither permitted nor denied by best guess record for domain of ogrenciizni@icisleri.gov.ct.tr) client-ip=212.175.153.6;
+Authentication-Results: mx.google.com;
+       spf=neutral (google.com: 212.175.153.6 is neither permitted nor denied by best guess record for domain of ogrenciizni@icisleri.gov.ct.tr) smtp.mailfrom=ogrenciizni@icisleri.gov.ct.tr;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=icisleri.gov.ct.tr
+Message-Id: <5d496483.1c69fb81.2672f.7838SMTPIN_ADDED_MISSING@mx.google.com>
+Received: from MUH-SRVS-LOC (ebys.gov.ct.tr [212.175.153.75]) by mail.kamu.ct.tr with SMTP;
+   Tue, 6 Aug 2019 13:22:50 +0200
+MIME-Version: 1.0
+From: =?utf-8?Q?=C3=96=C4=9Frenci_=C4=B0zinleri?=
+ <ogrenciizni@icisleri.gov.ct.tr>
+To: roboturx@gmail.com
+Date: 6 Aug 2019 14:28:58 +0300
+Subject: =?utf-8?B?R2lyacWfIEJpbGdpbGVyaW5pei9Zb3VyIExvZ2luIEluZm9y?=
+ =?utf-8?B?bWF0aW9u?=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+WXVydHRhxZ9sxLFrIMOWbiBCYcWfdnVydSBTaXN0ZW1pJ25lIGtheWTEsW7EsXogeWFw
+xLFsbcSxxZ90xLFyLkzDvHRmZW4gZ2lyacWfIHlhcGFyYWsgc29ydWxhcsSxIGNldmFw
+bGF5xLFuxLF6IHZlIGdlcmVrbGkgYmVsZ2VsZXJpIHnDvGtsZXlpbml6LiBLdWxsYW7E
+sWPEsSBLb2R1L1VzZXJuYW1lOiAwOTA1MDUzMjAyMjQwCgogxZ5pZnJlL1Bhc3N3b3Jk
+OiBPUlM2RzdaSg==
+
+
