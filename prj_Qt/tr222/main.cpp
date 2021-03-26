@@ -135,7 +135,7 @@ static bool createConnection(){
 
     query.exec("insert into Tb_Hsp(Hsp_name, Hsp_kodu, Hsp_parentkod) values(\"7 MALİYET HESAPLARI\", 7, 0)");
 
-    query.exec("insert into Tb_Hsp(Hsp_name, Hsp_kodu, Hsp_parentkod) values(\"8 \", 8, 0)");
+    query.exec("insert  into Tb_Hsp(Hsp_name, Hsp_kodu, Hsp_parentkod) values(\"8 \", 8, 0)");
 
     query.exec("insert into Tb_Hsp(Hsp_name, Hsp_kodu, Hsp_parentkod) values(\"9 NAZIM HESAPLAR\", 9, 0)");
 
