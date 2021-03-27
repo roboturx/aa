@@ -1,9 +1,10 @@
 #include "mainwindow.h"
-
+#include "hdatabase.h"
 #include <QApplication>
 #include <QtWidgets>
 #include <QtSql>
 #include <QTreeView>
+
 
 static bool createConnection();
 
@@ -17,8 +18,13 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
-    if(!createConnection())
-        return -1;
+
+    // Veritabanı
+
+    HDataBase db;
+    db.connectToDataBase ();
+
+
     QStandardItemModel model;
     //QSqlQuery  query("SELECT Hsp_parentkod, Hsp_name, Hsp_kodu from Tb_Hsp");
     QSqlQuery query("SELECT Hsp_parentkod, Hsp_name, Hsp_kodu "
@@ -84,10 +90,14 @@ static bool createConnection(){
     }
     QSqlQuery query;
     if(!query.exec("CREATE TABLE Tb_Hsp("
-                   "Hsp_name TEXT,"
-                   "Hsp_kodu INTEGER,"
-                   "Hsp_parentkod INTEGER"
-                   ")"))
+                    "h_snf INTEGER,"
+                    "h_grp INTEGER,"
+                    "h_dft INTEGER,"
+                    "h_alt INTEGER,"
+                    "h_kod TEXT,"
+                    "h_name TEXT,"
+                    "h_parentkod INTEGER"
+                    ")"))
         qDebug()<<query.lastError().text();
     query.exec("insert into Tb_Hsp(Hsp_name, Hsp_kodu, Hsp_parentkod) "
                     "values(\"1 DÖNEN VARLIKLAR \", 1, 0)");
