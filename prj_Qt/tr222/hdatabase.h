@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QDate>
 #include <QDebug>
+#include <QMessageBox>
 
 #define DATABASE_HOSTNAME   "ExampleDataBase"
 #define DATABASE_NAME       "DataBase.db"
@@ -32,9 +33,12 @@ public:
     /* Methods to work directly with the class.
          * Connect to the database and insert records into the table
          * */
-    void connectToDataBase();
+    bool controlDriver();
+    bool connectToDataBase();
     bool inserIntoMainTable(const QVariantList &data);
     bool inserIntoDeviceTable(const QVariantList &data);
+
+    QMessageBox *msgBox;
 
 private:
     QSqlDatabase    db;
@@ -45,6 +49,8 @@ private:
     void closeDataBase();
     bool createMainTable();
     bool createDeviceTable();
+
+
 };
 
 #endif // HDATABASE_H

@@ -20,10 +20,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // Veritabanı
-
     HDataBase db;
-    db.connectToDataBase ();
-
 
     QStandardItemModel model;
     //QSqlQuery  query("SELECT Hsp_parentkod, Hsp_name, Hsp_kodu from Tb_Hsp");
@@ -96,6 +93,14 @@ static bool createConnection(){
                     "h_alt INTEGER,"
                     "h_kod TEXT,"
                     "h_name TEXT,"
+                   "h_tipi TEXT,"
+                   //alacak, borç, ç,ft bakiyeli
+                   "h_cinsi"
+                   // stok  - alış iade, satış, satış iade
+                   // cari - kamu, özel
+                   // gider - kasa - kdv
+                   // kesinti -diğer - masraf merkezi
+                   // erişim seviyesi
                     "h_parentkod INTEGER"
                     ")"))
         qDebug()<<query.lastError().text();
