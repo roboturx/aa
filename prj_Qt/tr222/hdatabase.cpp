@@ -86,7 +86,8 @@ bool HDataBase::restoreDataBase()
         return false;
     }
     qDebug() << "   Database tables creating...";
-    if((!this->createMainTable()) || (!this->createDeviceTable()))
+    if((!this->createHesapTable()) ||
+        (!this->createYevmiyeTable()))
     {
         qDebug() << "   Database tables NOT created...";
         return false;
@@ -119,11 +120,11 @@ void HDataBase::closeDataBase()
     qDebug() << "Database closed.";
 }
 
-bool HDataBase::createMainTable()
+bool HDataBase::createHesapTable()
 {
-    qDebug() << "   Creating Tablee 1";
+    qDebug() << "   Creating Table HESAP";
     QSqlQuery query;
-    if(!query.exec("CREATE TABLE Tb_Hsp("
+    if(!query.exec("CREATE TABLE tb_hsp("
                     "h_snf INTEGER,"
                     "h_grp INTEGER,"
                     "h_dft INTEGER,"
@@ -141,18 +142,19 @@ bool HDataBase::createMainTable()
                     "h_parentkod INTEGER"
                     ")"))
     {
-        qDebug() << "DataBase: error of create " << TABLE;
+        qDebug() << "DataBase: error of create table HESAP" ;
         qDebug() << query.lastError().text();
         return false;
     } else {
+        insertIntoHesapTable ();
         return true;
     }
     return false;
 }
 
-bool HDataBase::createDeviceTable()
+bool HDataBase::createYevmiyeTable()
 {
-    qDebug() << "   Creating Tablee 2";
+    qDebug() << "   Creating Table YEVMİYE";
     QSqlQuery query;
     if(!query.exec( "CREATE TABLE yevmiye ("
                     "y_id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -163,59 +165,84 @@ bool HDataBase::createDeviceTable()
                     "y_tutar TEXT,"
                     "y_belge_kod"
                     " )"
-                    )){
-        qDebug() << "DataBase: error of create " << DEVICE;
+                    ))
+    {
+        qDebug() << "DataBase: error of create table YEVMİYE" ;
         qDebug() << query.lastError().text();
         return false;
     } else {
+        insertIntoYevmiyeTable ();
         return true;
     }
     return false;
 }
 
-bool HDataBase::inserIntoMainTable(const QVariantList &data)
+bool HDataBase::insertIntoHesapTable()  //const QVariantList &data
 {
+    //alacak, borç, ç,ft bakiyeli
+    // stok  - alış iade, satış, satış iade
+    // cari - kamu, özel
+    // gider - kasa - kdv
+    // kesinti -diğer - masraf merkezi
+    // erişim seviyesi
 
-    QSqlQuery query;
-    ////
-    query.exec("insert into Tb_Hsp(Hsp_name, Hsp_kodu, Hsp_parentkod) "
-               "values(\"1 DÖNEN VARLIKLAR \", 1, 0)");
+    QSqlQuery query;              
+    query.prepare( "INSERT INTO tb_hsp ("
+                    "h_snf, h_grp, h_dft, "
+                    "h_alt, h_kod, h_name, "
+                   "h_tipi, h_cinsi, h_parentkod ) "
+                    "VALUES (:A, :B, :C, :D, :E, :F, :G, :H, :I )");
 
-    query.prepare("INSERT INTO " TABLE " ( " TABLE_DATE ", "
-                  TABLE_TIME ", "
-                  TABLE_HOSTNAME ", "
-                  TABLE_IP " ) "
-                  "VALUES (:Date, :Time, :Hostname, :IP )");
-    query.bindValue(":Date",        data[0].toDate());
-    query.bindValue(":Time",        data[1].toTime());
-    query.bindValue(":Hostname",    data[2].toInt());
-    query.bindValue(":IP",          data[3].toInt());
+                    query.bindValue(":A",1);
+                    query.bindValue(":B",0);
+                    query.bindValue(":C",0);
+                    query.bindValue(":D","100");
+                    query.bindValue(":E","KOD");
+                    query.bindValue(":F","HESAP ADI");
+                    query.bindValue(":G","HESAP TİPİ");
+                    query.bindValue(":H","CİNSİ");
+                    query.bindValue(":I",1);
 
     if(!query.exec()){
-        qDebug() << "error insert into " << TABLE;
+        qDebug() << "error insert into HESAP" ;
         qDebug() << query.lastError().text();
         return false;
     } else {
+        qDebug() << "       One record inserted to HESAP";
         return true;
     }
     return false;
 }
 
-bool HDataBase::inserIntoDeviceTable(const QVariantList &data)
+bool HDataBase::insertIntoYevmiyeTable()
 {
 
     QSqlQuery query;
-    query.prepare("INSERT INTO " DEVICE " ( " DEVICE_HOSTNAME ", "
-                  DEVICE_IP " ) "
-                  "VALUES (:Hostname, :IP )");
-    query.bindValue(":Hostname",    data[0].toString());
-    query.bindValue(":IP",          data[1].toString());
+    query.prepare("INSERT INTO yevmiye ("
+                  "y_id, "
+                  "y_tarih,"
+                  "y_brc_hsp,"
+                  "y_alc_hsp,"
+                  "y_acklm,"
+                  "y_tutar,"
+                  "y_belge_kod ) "
+                  "VALUES (:A, :B, :C, :D, :E, :F, :G )");
+    query.bindValue(":A",1);
+    query.bindValue(":B","01-01-2021");
+    query.bindValue(":C","borçlu hesap");
+    query.bindValue(":D","alacaklı hesap");
+    query.bindValue(":E","acıklama");
+    query.bindValue(":F",10000);
+    query.bindValue(":G","BELGE KODU");
+
+
     // После чего выполняется запросом методом exec()
     if(!query.exec()){
-        qDebug() << "error insert into " << DEVICE;
+        qDebug() << "error insert into YEVMİYE";
         qDebug() << query.lastError().text();
         return false;
     } else {
+        qDebug() << "       One record inserted to YEVMİYE";
         return true;
     }
     return false;

@@ -35,8 +35,8 @@ public:
          * */
     bool controlDriver();
     bool connectToDataBase();
-    bool inserIntoMainTable(const QVariantList &data);
-    bool inserIntoDeviceTable(const QVariantList &data);
+    bool insertIntoHesapTable();
+    bool insertIntoYevmiyeTable();
 
     QMessageBox *msgBox;
 
@@ -47,8 +47,8 @@ private:
     bool openDataBase();
     bool restoreDataBase();
     void closeDataBase();
-    bool createMainTable();
-    bool createDeviceTable();
+    bool createHesapTable();
+    bool createYevmiyeTable();
 
 
 };
