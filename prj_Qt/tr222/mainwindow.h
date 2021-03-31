@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "treemodel.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -10,5 +10,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    TreeModel *model;
+    QTreeView *tview;
 };
 #endif // MAINWINDOW_H

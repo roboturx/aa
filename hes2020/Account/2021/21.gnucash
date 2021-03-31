@@ -4339,7 +4339,7 @@
   <trn:date-entered>
     <ts:date>2021-03-10 08:50:19 +0300</ts:date>
   </trn:date-entered>
-  <trn:description></trn:description>
+  <trn:description>Adem Duman Mart 2021 kira bedeli</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
@@ -4366,36 +4366,36 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">2a2a3a3e0b6f4ad3bebb637bcb0bfdb4</trn:id>
+  <trn:id type="guid">bfee7b3fdcf6482c9b0d2880dfdbad40</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
-    <ts:date>2021-03-30 13:59:00 +0300</ts:date>
+    <ts:date>2021-03-31 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2021-03-10 08:54:21 +0300</ts:date>
+    <ts:date>2021-03-31 09:03:45 +0300</ts:date>
   </trn:date-entered>
-  <trn:description></trn:description>
+  <trn:description>Adem Duman Nisan kira bedeli ödemesi</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
       <slot:value type="gdate">
-        <gdate>2021-03-30</gdate>
+        <gdate>2021-03-31</gdate>
       </slot:value>
     </slot>
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">cce28c53ca2c48038aa03f39031b0a1f</split:id>
+      <split:id type="guid">23e76068a82849fd9718068103c001a9</split:id>
       <split:reconciled-state>n</split:reconciled-state>
       <split:value>200000/100</split:value>
       <split:quantity>200000/100</split:quantity>
       <split:account type="guid">1e668380cab1429fa862e24266e34791</split:account>
     </trn:split>
     <trn:split>
-      <split:id type="guid">80353dbc86984ff583a9624fe47520d7</split:id>
+      <split:id type="guid">06ced6a0257746399513b12d8e5df3b1</split:id>
       <split:reconciled-state>n</split:reconciled-state>
       <split:value>-200000/100</split:value>
       <split:quantity>-200000/100</split:quantity>
@@ -11831,7 +11831,7 @@
   <trn:date-entered>
     <ts:date>2021-03-10 08:50:40 +0300</ts:date>
   </trn:date-entered>
-  <trn:description></trn:description>
+  <trn:description>Adem Duman Nisan kira bedeli</trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>

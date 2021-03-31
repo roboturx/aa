@@ -1,5 +1,7 @@
-#ifndef HDATABASE_H
-#define HDATABASE_H
+#ifndef DATABASE_H
+#define DATABASE_H
+
+#include "ui_database.h"
 
 #include <QObject>
 #include <QSql>
@@ -11,25 +13,25 @@
 #include <QDebug>
 #include <QMessageBox>
 
-#define DATABASE_HOSTNAME   "ExampleDataBase"
-#define DATABASE_NAME       "DataBase.db"
+#define DATABASE_HOSTNAME "ExampleDataBase"
+#define DATABASE_NAME "DataBase.db"
 
-#define TABLE                   "MainTable"
-#define TABLE_DATE              "Date"
-#define TABLE_TIME              "Time"
-#define TABLE_IP                "IP"
-#define TABLE_HOSTNAME          "Hostname"
+#define TABLE "MainTable"
+#define TABLE_DATE "Date"
+#define TABLE_TIME "Time"
+#define TABLE_IP "IP"
+#define TABLE_HOSTNAME "Hostname"
 
-#define DEVICE                  "DeviceTable"
-#define DEVICE_IP               "IP"
-#define DEVICE_HOSTNAME         "Hostname"
+#define DEVICE "DeviceTable"
+#define DEVICE_IP "IP"
+#define DEVICE_HOSTNAME "Hostname"
 
-class HDataBase : public QObject
+class DataBase : public QWidget, private Ui::DataBase
 {
     Q_OBJECT
 public:
-    explicit HDataBase(QObject *parent = 0);
-    ~HDataBase();
+    explicit DataBase(QWidget *parent = nullptr);
+    ~DataBase();
     /* Methods to work directly with the class.
          * Connect to the database and insert records into the table
          * */
@@ -38,19 +40,20 @@ public:
     bool insertIntoHesapTable();
     bool insertIntoYevmiyeTable();
 
+    
     QMessageBox *msgBox;
-
+    
 private:
     QSqlDatabase    db;
-
+    
 private:
     bool openDataBase();
     bool restoreDataBase();
     void closeDataBase();
     bool createHesapTable();
     bool createYevmiyeTable();
-
-
+protected:
+    void changeEvent(QEvent *e);
+    
 };
-
-#endif // HDATABASE_H
+#endif // DATABASE_H
