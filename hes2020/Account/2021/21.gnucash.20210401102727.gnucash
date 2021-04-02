@@ -49,7 +49,7 @@
 </book:slots>
 <gnc:count-data cd:type="commodity">1</gnc:count-data>
 <gnc:count-data cd:type="account">170</gnc:count-data>
-<gnc:count-data cd:type="transaction">711</gnc:count-data>
+<gnc:count-data cd:type="transaction">712</gnc:count-data>
 <gnc:count-data cd:type="schedxaction">2</gnc:count-data>
 <gnc:count-data cd:type="budget">1</gnc:count-data>
 <gnc:commodity version="2.0.0">
@@ -961,19 +961,6 @@
       <slot:key>last-num</slot:key>
       <slot:value type="string">4</slot:value>
     </slot>
-    <slot>
-      <slot:key>reconcile-info</slot:key>
-      <slot:value type="frame">
-        <slot>
-          <slot:key>include-children</slot:key>
-          <slot:value type="integer">1</slot:value>
-        </slot>
-        <slot>
-          <slot:key>last-date</slot:key>
-          <slot:value type="integer">1617310799</slot:value>
-        </slot>
-      </slot:value>
-    </slot>
   </act:slots>
   <act:parent type="guid">889d1774475f42e5830132b759ca459d</act:parent>
 </gnc:account>
@@ -1041,34 +1028,6 @@
     <cmdty:id>TRY</cmdty:id>
   </act:commodity>
   <act:commodity-scu>100</act:commodity-scu>
-  <act:slots>
-    <slot>
-      <slot:key>reconcile-info</slot:key>
-      <slot:value type="frame">
-        <slot>
-          <slot:key>include-children</slot:key>
-          <slot:value type="integer">0</slot:value>
-        </slot>
-        <slot>
-          <slot:key>last-date</slot:key>
-          <slot:value type="integer">1617310799</slot:value>
-        </slot>
-        <slot>
-          <slot:key>last-interval</slot:key>
-          <slot:value type="frame">
-            <slot>
-              <slot:key>days</slot:key>
-              <slot:value type="integer">0</slot:value>
-            </slot>
-            <slot>
-              <slot:key>months</slot:key>
-              <slot:value type="integer">0</slot:value>
-            </slot>
-          </slot:value>
-        </slot>
-      </slot:value>
-    </slot>
-  </act:slots>
   <act:parent type="guid">889d1774475f42e5830132b759ca459d</act:parent>
 </gnc:account>
 <gnc:account version="2.0.0">
@@ -18526,10 +18485,7 @@
   <trn:splits>
     <trn:split>
       <split:id type="guid">82ab8667091448f890ac8f62cd3383e5</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>25132034/100</split:value>
       <split:quantity>25132034/100</split:quantity>
       <split:account type="guid">e8992b33e9414155805e402e773cbaa4</split:account>
@@ -19411,10 +19367,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">e31618a3287146ffab1a758ddb3c4323</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-10000000/100</split:value>
       <split:quantity>-10000000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -19452,10 +19405,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">4502bfc51418482a98f57230dae48498</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-10000000/100</split:value>
       <split:quantity>-10000000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -19493,10 +19443,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">ea71e5b9e61e4410be12c4935f2a7ccd</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-34039367/100</split:value>
       <split:quantity>-34039367/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -19572,10 +19519,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">6c9bbaa10f1b4dd59edfff5e5b25393a</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-10000000/100</split:value>
       <split:quantity>-10000000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -19803,10 +19747,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">30c328ce8a294e35a7dcd8e338d70e4c</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-1500000/100</split:value>
       <split:quantity>-1500000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -19920,10 +19861,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">16b7b3f073e3493c8c2f5ee5f4c9fee3</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-300000/100</split:value>
       <split:quantity>-300000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -20075,10 +20013,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">149fb2430d1a4b2ba0c087a873e1903e</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-100000/100</split:value>
       <split:quantity>-100000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -20154,10 +20089,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">68a14281498247cf8bbd7a717eabdadf</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-4000000/100</split:value>
       <split:quantity>-4000000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -20195,10 +20127,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">8280cc3bea4c4ebdbb0c5d1ca53deecd</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-4000000/100</split:value>
       <split:quantity>-4000000/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
@@ -21726,18 +21655,67 @@
   </trn:splits>
 </gnc:transaction>
 <gnc:transaction version="2.0.0">
-  <trn:id type="guid">f2e7d21c8c7d43608eee75cf77a3ac08</trn:id>
+  <trn:id type="guid">cf90e94a8f5844ab8194a15d29e1f6df</trn:id>
   <trn:currency>
     <cmdty:space>CURRENCY</cmdty:space>
     <cmdty:id>TRY</cmdty:id>
   </trn:currency>
   <trn:date-posted>
+    <ts:date>2019-12-18 13:59:00 +0300</ts:date>
+  </trn:date-posted>
+  <trn:date-entered>
+    <ts:date>2019-12-17 16:34:09 +0300</ts:date>
+  </trn:date-entered>
+  <trn:description>Doğuş İçimn Ödenen</trn:description>
+  <trn:slots>
+    <slot>
+      <slot:key>date-posted</slot:key>
+      <slot:value type="gdate">
+        <gdate>2019-12-18</gdate>
+      </slot:value>
+    </slot>
+  </trn:slots>
+  <trn:splits>
+    <trn:split>
+      <split:id type="guid">06a9757c4e7e40fc896e25ba91f258c6</split:id>
+      <split:action>Alış</split:action>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>17782228/100</split:value>
+      <split:quantity>17782228/100</split:quantity>
+      <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">69fa63f2f6a9441a84d590e9e8034dc8</split:id>
+      <split:action>Satış</split:action>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>0/100</split:value>
+      <split:quantity>0/100</split:quantity>
+      <split:account type="guid">3a63f12134c244fa86b69fbbccbba3e0</split:account>
+    </trn:split>
+    <trn:split>
+      <split:id type="guid">b5ae1d6f514d42b48a1a7cb76e8cd035</split:id>
+      <split:action>Özkaynak</split:action>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>-17782228/100</split:value>
+      <split:quantity>-17782228/100</split:quantity>
+      <split:account type="guid">e8992b33e9414155805e402e773cbaa4</split:account>
+    </trn:split>
+  </trn:splits>
+</gnc:transaction>
+<gnc:transaction version="2.0.0">
+  <trn:id type="guid">e9105a8d7ee241deb1d7f33555bddb86</trn:id>
+  <trn:currency>
+    <cmdty:space>CURRENCY</cmdty:space>
+    <cmdty:id>TRY</cmdty:id>
+  </trn:currency>
+  <trn:num>4</trn:num>
+  <trn:date-posted>
     <ts:date>2021-04-01 13:59:00 +0300</ts:date>
   </trn:date-posted>
   <trn:date-entered>
-    <ts:date>2021-04-01 10:35:40 +0300</ts:date>
+    <ts:date>2021-04-01 09:27:53 +0300</ts:date>
   </trn:date-entered>
-  <trn:description>Doğuş kapanış için ödeme</trn:description>
+  <trn:description></trn:description>
   <trn:slots>
     <slot>
       <slot:key>date-posted</slot:key>
@@ -21748,24 +21726,11 @@
   </trn:slots>
   <trn:splits>
     <trn:split>
-      <split:id type="guid">b3394402af1340eab3c0eec93ba27db4</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
-      <split:value>17782228/100</split:value>
-      <split:quantity>17782228/100</split:quantity>
+      <split:id type="guid">fbbd5c97905242d4b1565c2a6e2f42ca</split:id>
+      <split:reconciled-state>n</split:reconciled-state>
+      <split:value>0/100</split:value>
+      <split:quantity>0/100</split:quantity>
       <split:account type="guid">a4ed7b76584a46328510340e7f6a9540</split:account>
-    </trn:split>
-    <trn:split>
-      <split:id type="guid">fc222bf0b21e4eda9eb20587b73efc7c</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
-      <split:value>-17782228/100</split:value>
-      <split:quantity>-17782228/100</split:quantity>
-      <split:account type="guid">e8992b33e9414155805e402e773cbaa4</split:account>
     </trn:split>
   </trn:splits>
 </gnc:transaction>
@@ -21831,10 +21796,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">43339880de8f4b569efbdfa26398a67e</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-3014760/100</split:value>
       <split:quantity>-3014760/100</split:quantity>
       <split:account type="guid">e8992b33e9414155805e402e773cbaa4</split:account>
@@ -21872,10 +21834,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">65e5556323f04c82b35800dbfd3ac3b6</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-2716000/100</split:value>
       <split:quantity>-2716000/100</split:quantity>
       <split:account type="guid">e8992b33e9414155805e402e773cbaa4</split:account>
@@ -21913,10 +21872,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">8ac3bf266a7d4e4ca86c3a5938cdd885</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-989676/100</split:value>
       <split:quantity>-989676/100</split:quantity>
       <split:account type="guid">e8992b33e9414155805e402e773cbaa4</split:account>
@@ -21954,10 +21910,7 @@
     </trn:split>
     <trn:split>
       <split:id type="guid">cbcbcff123574d36ad23583f17bb8708</split:id>
-      <split:reconciled-state>y</split:reconciled-state>
-      <split:reconcile-date>
-        <ts:date>2021-04-01 23:59:59 +0300</ts:date>
-      </split:reconcile-date>
+      <split:reconciled-state>n</split:reconciled-state>
       <split:value>-629370/100</split:value>
       <split:quantity>-629370/100</split:quantity>
       <split:account type="guid">e8992b33e9414155805e402e773cbaa4</split:account>
