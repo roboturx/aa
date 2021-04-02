@@ -13,3 +13,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*void BooleanWindow::booleanExpressionChanged(const QString &expr)
+{
+    BooleanParser parser;
+    Node *rootNode = parser.parse(expr);
+    Model->setRootNode(rootNode);
+}*/
