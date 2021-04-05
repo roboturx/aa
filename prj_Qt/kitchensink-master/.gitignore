@@ -1,0 +1,9 @@
+CMakeCache.txt
+KitchenSink-Cs5.*
+kitchensink*.tar.bz2
+kitchensink*.zip
+
+/do-*
+/build/
+/deploy/
+/src/ks_build_info.h
