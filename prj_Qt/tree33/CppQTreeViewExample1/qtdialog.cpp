@@ -23,7 +23,7 @@ QtDialog::~QtDialog()
 void QtDialog::on_button_clicked()
 {
   QStandardItem * const item = new QStandardItem;
-  item->setText("");
+  item->setText("qq");
   m_model->appendRow(item);
   ui->tree->scrollToBottom();
   ui->tree->setCurrentIndex(item->index());
