@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     tview-> setAnimated(true);
     tview-> setHeaderHidden(true);
     tview-> setRootIsDecorated(true);
-    tview-> setIcon(QIcon(":/order.png"));
+   // tview-> setIcon(QIcon(":/order.png"));
 
     /*if (ai_type == FolderItem)
         w.setIcon(QIcon(":/order.png"));
