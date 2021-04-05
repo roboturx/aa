@@ -9,21 +9,15 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    editablemodel.cpp \
-    insertremovemodel.cpp \
-    lazymodel.cpp \
     main.cpp \
     mainwindow.cpp \
-    node.cpp \
-    readonlymodel.cpp
+    treeitem.cpp \
+    treemodel.cpp
 
 HEADERS += \
-    editablemodel.h \
-    insertremovemodel.h \
-    lazymodel.h \
     mainwindow.h \
-    node.h \
-    readonlymodel.h
+    treeitem.h \
+    treemodel.h
 
 FORMS += \
     mainwindow.ui
