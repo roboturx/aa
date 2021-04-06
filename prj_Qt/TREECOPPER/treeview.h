@@ -10,24 +10,25 @@
 
 class TreeView : public QWidget
 {
-   Q_OBJECT
+    Q_OBJECT
 
-   public:
-      TreeView();
+public:
+    TreeView();
 
-   private:
-      bool createConnection();
-      QSqlDatabase m_db;
+private:
+    bool createConnection();
+    void qbind(QSqlQuery q, int key, QString kname, int parent, QString ekle);
+    QSqlDatabase m_db;
 
-      struct struCat {
-         int catKey;
-         QString catName;
-         int catParent;
-         QString catEkle;
-      };
+    struct struCat {
+        int catKey;
+        QString catName;
+        int catParent;
+        QString catEkle;
+    };
 
-      QList<struCat> getData();
-      static bool sortMe(const TreeView::struCat &s1, const TreeView::struCat &s2);
+    QList<struCat> getData();
+    static bool sortMe(const TreeView::struCat &s1, const TreeView::struCat &s2);
 };
 
 #endif

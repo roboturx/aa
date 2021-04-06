@@ -59,34 +59,34 @@ TreeView::TreeView()
 
     QStandardItem *parentItem = model->invisibleRootItem();
     QStandardItem *lastParent = nullptr;
-    int ccount = 1;
+    //int ccount = 1;
     for (nK = itemList.begin(); nK != itemList.end(); ++nK) {
 
         QStandardItem *item = new QStandardItem;
         // item->setColumnCount(2);
-        QStandardItem *item2 = new QStandardItem;
-        model->setItem(ccount,0,item);
-        model->setItem(ccount,1,item2);
-        ccount++;
+        //   QStandardItem *item2 = new QStandardItem;
+    //    model->setItem(ccount,0,item);
+        // model->setItem(ccount,1,item2);
+       // ccount++;
         item->setText(nK->catName);
         item->setFlags(Qt::ItemIsSelectable |
                        Qt::ItemIsEnabled |
                        Qt::ItemIsEditable );
-        item2->setText(nK->catEkle);
-        item2->setFlags(Qt::ItemIsSelectable |
-                        Qt::ItemIsEnabled |
-                        Qt::ItemIsEditable );
+        //    item2->setText(nK->catEkle);
+        //  item2->setFlags(Qt::ItemIsSelectable |
+        //        Qt::ItemIsEnabled |
+        //   Qt::ItemIsEditable );
 
         if ( nK->catParent == 0 ) {
             parentItem->appendRow(item);
-            //  parentItem->appendRow(item2);
+              //parentItem->appendRow(item2);
 
             // save this
             lastParent = item;
 
         }  else {
             lastParent->appendRow(item);
-            lastParent->appendRow(item2);
+            //  lastParent->appendRow(item2);
         }
 
     }
@@ -110,11 +110,11 @@ bool TreeView::createConnection()
 {
     static int counter = 100;
     QString treeName = "tree" + QString::number(counter++);
-    qDebug()<<"create";
+
 
     m_db = QSqlDatabase::addDatabase("QSQLITE", treeName);
     m_db.setDatabaseName(":memory:");
-    qDebug()<<"db setted";
+
     if (! m_db.open()) {
         QMessageBox::critical(nullptr, tr("Unable to Open Database"),
                               tr("Unable to establish a connection to the database.\n"
@@ -122,57 +122,49 @@ bool TreeView::createConnection()
         return false;
     }
     else
-        qDebug()<<"qpened";
+        qDebug()<<"db qpened";
 
     QSqlQuery query(m_db);
-    //query.exec("CREATE TABLE food (catKey int PRIMARY KEY, catName varchar(30), catParent int)");
     if (!query.exec("CREATE TABLE food "
                     "(catKey INTEGER PRIMARY KEY, "
                     "catName TEXT, "
                     "catParent INTEGER,"
                     "catEkle  TEXT)"  ))
-        query.lastError().text();
-    else
-        qDebug()<<"table created";
-
-    qDebug()<<"intooooooooooooo";
-    query.prepare("INSERT INTO food "
-            "(catkey, catname, catparent, catekle) "
-            "VALUES (:A,:B,:C,:D)");
-    query.bindValue(":A",101);    query.bindValue(":B","Domates");
-    query.bindValue(":C",0);      query.bindValue(":D","101Domato");
-
-    if (!query.exec())
     {
-        qDebug()<<"record add ERROR";
-        qDebug()<< query.lastError().text();
+        query.lastError().text();
     }
-        else
-        qDebug()<<"record added";
-
-    query.bindValue(":A",102);
-    query.bindValue(":B","SAALADomates");
-    query.bindValue(":C",0);
-    query.bindValue(":D","101XXXDomato");
-    query.exec();
-    query.bindValue(":A",105);
-    query.bindValue(":B","SASFALADomates");
-    query.bindValue(":C",101);
-    query.bindValue(":D","101XSFSXXDomato");
-    query.exec();
-   // query.exec("insert into food values(103, 'Cookies',      104 ,'104103')");
-/*    query.exec("insert into food values(104, 'Dessert' ,     0   ,'000104')");
-    query.exec("insert into food values(105, 'Vegetables',   0   ,'000105')");
-    query.exec("insert into food values(106, 'Seafood',      0   ,'000106')");
-    query.exec("insert into food values(107, 'Chicken',      0   ,'000107')");
-    query.exec("insert into food values(108, 'Pastries',     104 ,'104108')");
-    query.exec("insert into food values(109, 'Muffins',      102 ,'102109')");
-    query.exec("insert into food values(110, 'Thanksgiving', 0   ,'000110')");
-    query.exec("insert into food values(111, 'Pasta',        101 ,'101111')");
-    query.exec("insert into food values(112, 'Greens',       101 ,'101112')");
-*/
+    else
+    {
+        qDebug()<<"table created";
+    }
+    qbind(query,100 , "Demir Ali",0   ,"");
+    qbind(query,101 , "Mustafa  ",100 ,"");
+    qbind(query,102 , "hacı     ",101 ,"hacı");
+    qbind(query,103 , "umut     ",102 ,"");
+    qbind(query,104 , "yasemin  ",102 ,"");
+    qbind(query,105 , "Kamil    ",0 ,"");
+    qbind(query,106 , "hasibe   ",105 ,"");
+    qbind(query,107 , "ayşe     ",106 ,"");
+    qbind(query,108 , "şenay    ",107 ,"");
+    qbind(query,109 , "deniz    ",108 ,"");
+    qbind(query,110 , "ege      ",108 ,"");
+    qbind(query,111 , "doğuş    ",0 ,"");
     return true;
 }
+
+void TreeView::qbind(QSqlQuery q, int key, QString kname, int parent, QString ekle)
+{
+    q.prepare("INSERT INTO food "
+            "(catkey, catname, catparent, catekle) "
+            "VALUES (:A,:B,:C,:D)");
+    q.bindValue(":A", key);
+    q.bindValue(":B", kname);
+    q.bindValue(":C", parent);
+    q.bindValue(":D", ekle);
+    q.exec();
+
+}
+
 
 QList<TreeView::struCat> TreeView::getData()
 {
@@ -190,20 +182,12 @@ QList<TreeView::struCat> TreeView::getData()
     int XXX=0;
     qDebug()<<XXX;
     while (query.next())  {
-
-        qDebug()<<XXX;
-        XXX++;
         temp.catKey    = query.value(0).toInt();
- //       qDebug()<<" key "<< temp.catKey;
         temp.catName   = query.value(1).toString();
         temp.catParent = query.value(2).toInt();
         temp.catEkle   = query.value(3).toString();
 
         itemList.append(temp);
-//        qDebug()<<"key    "<< temp.catKey
-//               <<"name   "<< temp.catName
-//              <<"parent " << temp.catParent
-//             <<"ek     " << temp.catEkle ;
     }
 
     return itemList;
