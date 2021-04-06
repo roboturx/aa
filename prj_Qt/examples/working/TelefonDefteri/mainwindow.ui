@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>594</width>
+    <height>508</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>594</width>
+    <height>505</height>
+   </size>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>80</red>
+        <green>80</green>
+        <blue>80</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>80</red>
+        <green>80</green>
+        <blue>80</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>80</red>
+        <green>80</green>
+        <blue>80</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>80</red>
+        <green>80</green>
+        <blue>80</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
+  <property name="windowTitle">
+   <string>TELEFON DEFTERİ</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>6</y>
+      <width>581</width>
+      <height>497</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#widget {
+background-color: qlineargradient(spread:pad, x1:0.472318, y1:0.858, x2:0.444, y2:0.006, stop:0 rgba(14, 14, 14, 255), stop:1 rgba(100, 100, 100, 255));
+border:1px solid rgb(107, 107, 107);
+
+
+}</string>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>48</y>
+       <width>77</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+padding:3px;
+font: 11pt &quot;MS Serif&quot;;</string>
+     </property>
+     <property name="text">
+      <string>AD SOYAD</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_adsoyad">
+     <property name="geometry">
+      <rect>
+       <x>108</x>
+       <y>48</y>
+       <width>449</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(77, 77, 77);
+border:solid;
+border-width:1px;
+border-color: rgb(116, 116, 116);
+font: 12pt &quot;MS Serif&quot;;
+color: rgb(255, 255, 255);
+padding:3px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_telefon">
+     <property name="geometry">
+      <rect>
+       <x>108</x>
+       <y>80</y>
+       <width>449</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(77, 77, 77);
+border:solid;
+border-width:1px;
+border-color: rgb(116, 116, 116);
+font: 12pt &quot;MS Serif&quot;;
+color: rgb(255, 255, 255);
+padding:3px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>80</y>
+       <width>77</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+padding:3px;
+font: 11pt &quot;MS Serif&quot;;</string>
+     </property>
+     <property name="text">
+      <string>TELEFON</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>112</y>
+       <width>77</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+padding:3px;
+font: 11pt &quot;MS Serif&quot;;</string>
+     </property>
+     <property name="text">
+      <string>CEP</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_cep">
+     <property name="geometry">
+      <rect>
+       <x>108</x>
+       <y>112</y>
+       <width>449</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(77, 77, 77);
+border:solid;
+border-width:1px;
+border-color: rgb(116, 116, 116);
+font: 12pt &quot;MS Serif&quot;;
+color: rgb(255, 255, 255);
+padding:3px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>144</y>
+       <width>77</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+padding:3px;
+font: 11pt &quot;MS Serif&quot;;</string>
+     </property>
+     <property name="text">
+      <string>MAİL</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_mail">
+     <property name="geometry">
+      <rect>
+       <x>108</x>
+       <y>144</y>
+       <width>449</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(77, 77, 77);
+border:solid;
+border-width:1px;
+border-color: rgb(116, 116, 116);
+font: 12pt &quot;MS Serif&quot;;
+color: rgb(255, 255, 255);
+padding:3px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_kaydet">
+     <property name="geometry">
+      <rect>
+       <x>108</x>
+       <y>180</y>
+       <width>93</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgb(16, 83, 165);
+color: rgb(255, 255, 255);
+border:solid;
+font: 11pt &quot;Tahoma&quot;;
+}
+QPushButton:hover {
+background-color: rgb(0, 126, 244);
+}</string>
+     </property>
+     <property name="text">
+      <string>KAYDET</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_yeni">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>180</y>
+       <width>93</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgb(0, 59, 35);
+color: rgb(255, 255, 255);
+border:solid;
+	font: 11pt &quot;Tahoma&quot;;
+}
+QPushButton:hover {
+background-color: rgb(32, 189, 23);
+}</string>
+     </property>
+     <property name="text">
+      <string>YENİ</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_sil">
+     <property name="geometry">
+      <rect>
+       <x>292</x>
+       <y>180</y>
+       <width>93</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgb(148, 0, 2);
+color: rgb(255, 255, 255);
+border:solid;
+font: 11pt &quot;Tahoma&quot;;
+}
+QPushButton:hover {
+background-color: rgb(255, 0, 4);
+}</string>
+     </property>
+     <property name="text">
+      <string>SİL</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_sil_2">
+     <property name="geometry">
+      <rect>
+       <x>496</x>
+       <y>180</y>
+       <width>61</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgb(148, 0, 2);
+color: rgb(255, 255, 255);
+border:solid;
+font: 11pt &quot;Tahoma&quot;;
+}
+QPushButton:hover {
+background-color: rgb(255, 0, 4);
+}</string>
+     </property>
+     <property name="text">
+      <string>ÇIKIŞ</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QTableView" name="tbl_liste">
+     <property name="geometry">
+      <rect>
+       <x>8</x>
+       <y>256</y>
+       <width>565</width>
+       <height>233</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTableView {
+	background-color: rgb(79, 79, 79);
+	color: rgb(255, 255, 255);
+}
+QTableView ::section{
+	background-color: rgb(79, 79, 79);
+}
+QTableView QHeaderView
+{
+background-color: rgb(79, 79, 79);
+}
+QTableView  QHeaderView::section:horizonta{
+    height: 24px;
+    border-style: none;
+    border: 1px solid  rgb(147, 147, 147);
+	background-color: qlineargradient(spread:pad, x1:0.472318, y1:0.858, x2:0.444, y2:0.006, stop:0 rgba(75, 75, 75, 255), stop:1 rgba(137, 137, 137, 255));
+	color: rgb(255, 255, 255);
+ }
+QTableView  QHeaderView::section:vertical{
+	width:0px;
+	border-style: none;
+ }</string>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_id">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>4</y>
+       <width>573</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 14pt &quot;MS Sans Serif&quot;;
+color: rgb(152, 255, 146);
+background-color: rgb(71, 71, 71);
+padding:6px;
+
+</string>
+     </property>
+     <property name="text">
+      <string>TELEFON DEFTERİ V0.1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>8</x>
+       <y>224</y>
+       <width>565</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(68, 68, 68);
+color: rgb(255, 255, 255);
+font: 11pt &quot;Tahoma&quot;;
+padding:3px;</string>
+     </property>
+     <property name="text">
+      <string>Defterde Ara</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_ara">
+     <property name="geometry">
+      <rect>
+       <x>112</x>
+       <y>228</y>
+       <width>457</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">padding:3px;
+background-color: qlineargradient(spread:pad, x1:0.472318, y1:0.858, x2:0.444, y2:0.006, stop:0 rgba(16, 16, 16, 255), stop:1 rgba(55, 55, 55, 255));
+border:1px solid rgb(98, 98, 98);
+color: rgb(255, 255, 255);</string>
+     </property>
+    </widget>
+    <zorder>label</zorder>
+    <zorder>txt_adsoyad</zorder>
+    <zorder>txt_telefon</zorder>
+    <zorder>label_2</zorder>
+    <zorder>label_3</zorder>
+    <zorder>txt_cep</zorder>
+    <zorder>label_4</zorder>
+    <zorder>txt_mail</zorder>
+    <zorder>btn_kaydet</zorder>
+    <zorder>btn_yeni</zorder>
+    <zorder>btn_sil</zorder>
+    <zorder>btn_sil_2</zorder>
+    <zorder>txt_id</zorder>
+    <zorder>label_5</zorder>
+    <zorder>label_6</zorder>
+    <zorder>txt_ara</zorder>
+    <zorder>tbl_liste</zorder>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

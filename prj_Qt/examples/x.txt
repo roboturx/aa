@@ -1,1 +1,0 @@
-theWidget->setAttribute(Qt::WA_TransparentForMouseEvents);

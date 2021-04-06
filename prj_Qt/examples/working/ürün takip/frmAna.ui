@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmAna</class>
+ <widget class="QMainWindow" name="frmAna">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1083</width>
+    <height>697</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Product Management Tool</string>
+  </property>
+  <property name="windowOpacity">
+   <double>0.000000000000000</double>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="5" column="0" colspan="2">
+     <widget class="QTabWidget" name="twMain">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>true</bool>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>false</bool>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Ürün Listesi</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QToolBox" name="toolBox">
+          <property name="cursor">
+           <cursorShape>ArrowCursor</cursorShape>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::StrongFocus</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <property name="lineWidth">
+           <number>3</number>
+          </property>
+          <property name="midLineWidth">
+           <number>1</number>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>1045</width>
+             <height>459</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>ÜRÜN LİSTESİ</string>
+           </attribute>
+           <widget class="QWidget" name="">
+            <property name="geometry">
+             <rect>
+              <x>860</x>
+              <y>10</y>
+              <width>152</width>
+              <height>449</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <property name="leftMargin">
+              <number>24</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="btnProductOperations">
+               <property name="text">
+                <string>Ürün İşlemleri</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnRefresh_2">
+               <property name="text">
+                <string>Tazele</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnClear_2">
+               <property name="text">
+                <string>Temizle</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lblProductInfo">
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>10</y>
+              <width>831</width>
+              <height>451</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="0" column="0">
+              <widget class="QTableView" name="tblProducts"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>1045</width>
+             <height>459</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>ARAMA</string>
+           </attribute>
+           <widget class="QGroupBox" name="groupBox_6">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>40</y>
+              <width>211</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QCheckBox" name="cbSearchByBarkod">
+             <property name="geometry">
+              <rect>
+               <x>16</x>
+               <y>33</y>
+               <width>100</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Barkod ile</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="txtSearchByBarkod">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>60</y>
+               <width>151</width>
+               <height>26</height>
+              </rect>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="geometry">
+             <rect>
+              <x>380</x>
+              <y>40</y>
+              <width>211</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QComboBox" name="cbSearchByNamePattern">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>70</y>
+               <width>130</width>
+               <height>26</height>
+              </rect>
+             </property>
+             <property name="currentText">
+              <string>ile birebir aynı</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>ile birebir aynı</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ile başlayan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ile biten</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QCheckBox" name="cbSearchByName">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>20</y>
+               <width>111</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Ürün Adı ile</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="txtSearchByName">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>40</y>
+               <width>176</width>
+               <height>26</height>
+              </rect>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="geometry">
+             <rect>
+              <x>150</x>
+              <y>160</y>
+              <width>211</width>
+              <height>181</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QCheckBox" name="cbSearchByPricePurchase">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>50</y>
+               <width>96</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Alış Fiyatı</string>
+             </property>
+            </widget>
+            <widget class="QDoubleSpinBox" name="dsbSearchByPricePurchase">
+             <property name="geometry">
+              <rect>
+               <x>120</x>
+               <y>50</y>
+               <width>78</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QComboBox" name="cbSearchByPricePurchasePattern">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>80</y>
+               <width>147</width>
+               <height>26</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>TL' den daha az</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>TL' den daha fazla</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QCheckBox" name="cbSearchByPriceSale">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>120</y>
+               <width>108</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Satış Fiyatı</string>
+             </property>
+            </widget>
+            <widget class="QComboBox" name="cbSearchByPriceSalePattern">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>140</y>
+               <width>147</width>
+               <height>26</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>TL' den daha az</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>TL' den daha fazla</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QDoubleSpinBox" name="dsbSearchByPriceSale">
+             <property name="geometry">
+              <rect>
+               <x>120</x>
+               <y>110</y>
+               <width>78</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QCheckBox" name="cbSearchByPrice">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>84</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Fiyat ile</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="geometry">
+             <rect>
+              <x>400</x>
+              <y>190</y>
+              <width>421</width>
+              <height>151</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QCheckBox" name="cbSearchByDate">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>85</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Tarih ile</string>
+             </property>
+            </widget>
+            <widget class="QDateTimeEdit" name="dteSearchByDateAddMin">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>80</y>
+               <width>173</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QDateTimeEdit" name="dteSearchByDateAddMax">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>110</y>
+               <width>173</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QDateTimeEdit" name="dteSearchByDateUpdateMin">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>80</y>
+               <width>173</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QDateTimeEdit" name="dteSearchByDateUpdateMax">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>110</y>
+               <width>173</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QCheckBox" name="cbSearchByDateAdd">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>60</y>
+               <width>126</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Ekleme Tarihi</string>
+             </property>
+            </widget>
+            <widget class="QCheckBox" name="cbSearchByDateUpdate">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>60</y>
+               <width>152</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Değiştirme Tarihi</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="geometry">
+             <rect>
+              <x>610</x>
+              <y>40</y>
+              <width>211</width>
+              <height>111</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QSpinBox" name="sbSearchByQuantity">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>50</y>
+               <width>81</width>
+               <height>27</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QComboBox" name="cbSearchByQuantityPattern">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>80</y>
+               <width>129</width>
+               <height>26</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>den daha az</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>de daha fazla</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QCheckBox" name="cbSearchByQuantity">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>94</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Miktar ile</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="layoutWidget_2">
+            <property name="geometry">
+             <rect>
+              <x>430</x>
+              <y>390</y>
+              <width>169</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="btnSearchReset">
+               <property name="text">
+                <string>Sıfırla</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnSearch">
+               <property name="text">
+                <string>Ara</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>DejaVu Sans Mono</family>
+        <pointsize>22</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>ÜRÜN TAKİP</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="lblAccountInfo">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1083</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Yardım</string>
+    </property>
+    <addaction name="actAbout"/>
+   </widget>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actAbout">
+   <property name="text">
+    <string>Hakkında</string>
+   </property>
+  </action>
+  <action name="actQuit">
+   <property name="text">
+    <string>Çıkış</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

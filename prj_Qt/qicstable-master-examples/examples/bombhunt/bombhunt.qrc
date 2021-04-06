@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/" >
-        <file>Resources/flag.png</file>
-        <file>Resources/greenflag.png</file>
-        <file>Resources/icon16_help.png</file>
-        <file>Resources/ics.png</file>
-        <file>Resources/smallbomb.png</file>
-    </qresource>
-</RCC>
