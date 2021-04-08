@@ -15,12 +15,12 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug() << "Mainwindow Database";
     DataBase db;
     
-    //db= QSqlDatabase::database();
+   
     QSqlQueryModel *model1 = new QSqlQueryModel(this);
     // model1->setQuery("SELECT id_category, name
     //                      FROM category ca
     //                      WHERE ca.id_parent=0",db);
-    model1->setQuery("SELECT h_kod,h_ad,h_acklm FROM h_snf "
+    model1->setQuery("SELECT h_kod, h_prnt, h_ad,h_acklm FROM h_snf "
                      "WHERE h_prnt = 0",db);
     SqlTreeModel *pepe = new SqlTreeModel();
     pepe->appendModel(model1);
