@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qDebug() << "Mainwindow Database";
     DataBase db;
     
     //db= QSqlDatabase::database();

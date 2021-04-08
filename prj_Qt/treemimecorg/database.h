@@ -23,7 +23,7 @@
 
 
 
-class DataBase : public QSqlDatabase ,public QObject
+class DataBase : public QObject, public QSqlDatabase
 {
     Q_OBJECT
 public:
@@ -41,14 +41,21 @@ public:
 
 private:
     QSqlDatabase    db;
-    bool addrecord(QVariant ekle);
+    
 
 private:
     bool openDataBase();
     bool restoreDataBase();
     void closeDataBase();
-    bool createHesapTable();
+    
+    bool create_Table_h_snf();
+    bool create_Table_h_grp();
+    bool create_Table_h_hsp();
+    
+    bool addrecord(QList<QString> ekle);
+    
     bool createYevmiyeTable();
+    
 protected:
     void changeEvent(QEvent *e);
 

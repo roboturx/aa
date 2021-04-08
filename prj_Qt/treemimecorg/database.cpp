@@ -6,9 +6,9 @@
 
 #include "database.h"
 
-#define DATABASE_NAME "main"
+#define DATABASE_NAME "___hesap.dbase"
 
-DataBase::DataBase() : QObject(parent())
+DataBase::DataBase() //: QObject(parent()) , QSqlDatabase("QSQLITE")
 {
     qDebug() << "   Database constructor";
     msgBox = new QMessageBox;
@@ -21,7 +21,7 @@ DataBase::DataBase() : QObject(parent())
         msgBox->setText("       DATABASE ERROR...");
         qDebug() << "       DATABASE ERROR...";
     }
-  //  connectToDataBase();
+    //  connectToDataBase();
 }
 
 DataBase::~DataBase() {}
@@ -72,10 +72,11 @@ bool DataBase::restoreDataBase()
     }
 
     //after opening before creating
-    db.exec( "PRAGMA encoding = \"UTF-16\"" );
+    db.exec("PRAGMA encoding = \"UTF-16\"");
 
     qDebug() << "   Database tables creating...";
-    if ((!this->createHesapTable()) || (!this->createYevmiyeTable())) {
+    if ((!this->create_Table_h_snf()) || (!this->create_Table_h_grp())
+        || (!this->create_Table_h_hsp())) {
         qDebug() << "       Database tables NOT created...";
         return false;
     }
@@ -105,9 +106,9 @@ void DataBase::closeDataBase()
     qDebug() << "   Database closed.";
 }
 
-bool DataBase::createHesapTable()
+bool DataBase::create_Table_h_snf()
 {
-    qDebug() << "       Creating Table main";
+    qDebug() << "       Creating Tables ";
 
     //    h_tip (not null)      hesap türü
     //    h_kod (not null)      hesap kodu
@@ -133,53 +134,95 @@ bool DataBase::createHesapTable()
     //                            Reports. if False/0, the account will be displayed in the
     //                            GnuCash GUI Accounts tab.
 
-
     // hesap sınıfları
+    qDebug() << "           Creating Table hesap sınıfları ... ";
+    qDebug() << "           -----------------------------------";
     QSqlQuery query;
-    if (!query.exec("CREATE TABLE h_snf ("
-                    "h_kod INTEGER PRIMARY KEY,"
-                    "h_prnt INTEGER," // always 0
-                    "h_ad       TEXT,"
-                    "h_acklm    TEXT
-                    ")")) {
-        qDebug() << "       DataBase: error of create table HESAP SINIFLARI";
+    if (!query.exec("CREATE TABLE IF NOT EXISTS `h_snf` ("
+                    "`h_kod`	INTEGER PRIMARY KEY, "
+                    "`h_prnt`	INTEGER,"
+                    "`h_ad`	TEXT,"
+                    "`h_acklm`	TEXT )")) {
+        qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
     } else {
+        qDebug() << "               CREATED. ";
+        qDebug() << "               inserting RECORDS ";
+
         //    insertIntoHesapTable();
-        QVariant ekle;
+        QList<QString> ekle;
+        // sql statement
+        ekle << "INSERT INTO h_snf (h_kod, h_prnt, h_ad, h_acklm ) "
+                "VALUES (:A , :B , :C , :D )";
         // field sayısı
         ekle << "4";
-        // sql statement
-        ekle <<  "INSERT INTO h_snf (h_kod, h_prnt, h_ad, h_acklm ) "
-                       "VALUES (:A   , :B  , :C      )";
         // bind values
-        ekle << ":A" << 1 << ":B" << "1" << ":C" << "DÖNEN VARLIKLAR";
-        
+        ekle << "1"
+             << "0"
+             << "DÖNEN VARLIKLAR"
+             << "Nakit, ÇEK - SENET, banka, menkul değerler vs."
+             << "Hesap Sınıfları";
+
+        if (!addrecord(ekle))
+            return false;
     }
-    
+    return true;
+}
+
+bool DataBase::create_Table_h_grp()
+{
     // hesap grupları
-    if (!query.exec("CREATE TABLE h_grp ("
-                    "h_kod INTEGER PRIMARY KEY,"
-                    "h_prnt INTEGER FOREIGN KEY,"
-                    "h_ad       TEXT,"
-                    "h_acklm    TEXT
-                    ")")) {
-        qDebug() << "       DataBase: error of create table HESAP GRUPLARI";
+    qDebug() << " ";
+    qDebug() << "           Creating Table hesap grupları ";
+    qDebug() << "           ------------------------------";
+
+    QSqlQuery query;
+    if (!query.exec("CREATE TABLE IF NOT EXISTS `h_grp` ("
+                    "`h_kod`	INTEGER PRIMARY KEY, "
+                    "`h_prnt`	INTEGER,"
+                    "`h_ad`	TEXT,"
+                    "`h_acklm`	TEXT )")) {
+        qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
     } else {
-        //    insertIntoHesapTable();
-        
-        
-        
+        qDebug() << "               CREATED. ";
+        qDebug() << "               inserting RECORDS ";
+
+        //    bir kayıt ekleyelim
+        QList<QString> ekle;
+        // sql statement
+        ekle << "INSERT INTO h_grp (h_kod, h_prnt, h_ad, h_acklm ) "
+                "VALUES (:A , :B , :C , :D )";
+        // field sayısı
+        ekle << "4";
+        // bind values
+        ekle << "10"
+             << "1"
+             << "HAZIR DEĞERLER"
+             << "Kasa, nakit, banka vs."
+             << "Hesap Grupları";
+
+        if (!addrecord(ekle))
+            return false;
     }
-    
-    
+    return true;
+}
+
+
+
+bool DataBase::create_Table_h_hsp()
+{
     // hesaplar
-    if (!query.exec("CREATE TABLE h_hsp ("
-                    "h_kod INTEGER PRIMARY KEY,"
-                    "h_prnt FOREIGN KEY,"
+    qDebug() << " ";
+    qDebug() << "           Creating Table Hesaplar ";
+    qDebug() << "           ------------------------";
+
+    QSqlQuery query;
+    if (!query.exec("CREATE TABLE IF NOT EXISTS `h_hsp` ("
+                    "h_kod  INTEGER PRIMARY KEY,"
+                    "h_prnt INTEGER,"
                     "h_ad       TEXT,"
                     "h_acklm    TEXT,"
                     "h_prbrm    TEXT,"
@@ -187,33 +230,67 @@ bool DataBase::createHesapTable()
                     "h_ana      TEXT,"
                     "h_gzli     TEXT "
                     ")")) {
-        
-        qDebug() << "       DataBase: error of create table HESAPLAR";
+        qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
     } else {
-        //    insertIntoHesapTable();
-        
-        
-        
+        qDebug() << "               CREATED. ";
+        qDebug() << "               inserting RECORDS ";
+
+        //    bir kayıt ekleyelim
+        QList<QString> ekle;
+        // sql statement ekle[0]
+        ekle << "INSERT INTO h_hsp (h_kod, h_prnt, h_ad, h_acklm,"
+                "h_prbrm, h_prbrmx, h_ana, h_gzli ) "
+                "VALUES (:A, :B, :C, :D, :E, :F, :G, :H )";
+        // field sayısı   ekle [1]
+        ekle << "8";
+        // bind values    ekle [2] +
+        ekle << "100"
+             << "10"
+             << "KASA "
+             << "Kasa"
+             << "para birimi"
+             << "para birim x"
+             << "ana hesap mı"
+             << "gizli mi"
+             << "Hesaplar";
+
+        if (!addrecord(ekle))
+            return false;
+    }
+    return true;
+}
+
+
+bool DataBase::addrecord(QList<QString> ekle)
+{
+    QSqlQuery query;
+    // eklenin ilk elemanında query var
+    query.prepare(ekle.first());
+    // ekle nin 1. elemanında kaç field olduğu var - for için
+    
+qDebug() << ekle.count ();
+qDebug() << ekle.last ();
+qDebug() << ekle[1];
+
+    for (int i = 0; i < ekle[1].toInt(); i++) {
+        QString x = ":";
+        // qchar 65 = A    -  bindvalue A: B: C: ... oluyor
+        qDebug() << QChar(65 + i);
+        query.bindValue(x.append(QChar(65 + i)), ekle[i + 2]);
+        // ekle nin 2 ve sonraki elemanlarında değerler var
+    }
+    
+    if (!query.exec()) {
+        qDebug() << "               error insert into " << ekle.last();
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        qDebug() << "               First record inserted into " << ekle.last();
+        return true;
     }
     return false;
-}
-bool DataBase::addrecord(QVariant ekle)
-{
-    for (i = 0; i < ekle[0]; i++) {
-        qDebug() << ekle[i];
-    }
- 
-//    if (!query.exec())
-//    {
-//        qDebug() << "           error insert into HESAP SINFLARI" ;
-//        qDebug() << query.lastError().text();
-//        return false;
-//    } else {
-//        qDebug() << "            First record inserted to HESAP SINFLARI";
-//        return true;
-//    }
 }
 
 
@@ -244,16 +321,15 @@ bool DataBase::insertIntoHesapTable() //const QVariantList &data
 {
     QSqlQuery query;
     query.prepare("INSERT INTO table11 "
-            "(level, id,sid,name ) "
-     "VALUES (:A, :B, :C, :D)");
+                  "(level, id,sid,name ) "
+                  "VALUES (:A, :B, :C, :D)");
 
     query.bindValue(":A", 1);
     query.bindValue(":B", 1);
     query.bindValue(":C", "SID1");
     query.bindValue(":D", "SID ! in adı");
 
-    if (!query.exec())
-    {
+    if (!query.exec()) {
         qDebug() << "           error insert into HESAP";
         qDebug() << query.lastError().text();
         return false;
