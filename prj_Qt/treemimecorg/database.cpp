@@ -8,7 +8,7 @@
 
 #define DATABASE_NAME "main"
 
-DataBase::DataBase(QObject *parent) : QObject(parent)
+DataBase::DataBase() : QObject(parent())
 {
     qDebug() << "   Database constructor";
     msgBox = new QMessageBox;
@@ -70,6 +70,10 @@ bool DataBase::restoreDataBase()
         qDebug() << "   Database CONNECTION ERROR...";
         return false;
     }
+
+    //after opening before creating
+    db.exec( "PRAGMA encoding = \"UTF-16\"" );
+
     qDebug() << "   Database tables creating...";
     if ((!this->createHesapTable()) || (!this->createYevmiyeTable())) {
         qDebug() << "       Database tables NOT created...";

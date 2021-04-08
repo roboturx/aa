@@ -23,11 +23,11 @@
 
 
 
-class DataBase : public QObject
+class DataBase : public QSqlDatabase ,public QObject
 {
     Q_OBJECT
 public:
-    explicit DataBase(QObject *parent = 0);
+    explicit DataBase();
     ~DataBase();
     /* Methods to work directly with the class.
          * Connect to the database and insert records into the table
