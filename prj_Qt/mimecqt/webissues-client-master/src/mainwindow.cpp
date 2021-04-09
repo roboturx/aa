@@ -57,7 +57,7 @@
 #include <QMenu>
 #include <QStatusBar>
 #include <QAccessible>
-#include <QDesktopWidget>
+//#include <QDesktopWidget>
 #include <QSslCipher>
 
 #if defined( Q_OS_WIN )
@@ -87,57 +87,77 @@ MainWindow::MainWindow() :
 
     QAction* action;
 
-    action = new QAction( IconLoader::icon( "file-quit" ), tr( "Quit" ), this );
+    action = new QAction( IconLoader::icon( "file-quit" ),
+                         tr( "Quit" ), this );
     action->setMenuRole( QAction::QuitRole );
     action->setShortcut( tr( "Ctrl+Q" ) );
-    connect( action, SIGNAL( triggered() ), this, SLOT( quit() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( quit() ), Qt::QueuedConnection );
     setAction( "quit", action );
 
-    action = new QAction( IconLoader::icon( "connection-close" ), tr( "Close Connection" ), this );
+    action = new QAction( IconLoader::icon( "connection-close" ),
+                         tr( "Close Connection" ), this );
     action->setIconText( tr( "Close" ) );
     action->setVisible( false );
-    connect( action, SIGNAL( triggered() ), this, SLOT( closeConnection() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( closeConnection() ), Qt::QueuedConnection );
     setAction( "closeConnection", action );
 
-    action = new QAction( IconLoader::icon( "status-info" ), tr( "Connection Details" ), this );
+    action = new QAction( IconLoader::icon( "status-info" ),
+                         tr( "Connection Details" ), this );
     action->setIconText( tr( "Details" ) );
     action->setVisible( false );
-    connect( action, SIGNAL( triggered() ), this, SLOT( connectionInfo() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( connectionInfo() ), Qt::QueuedConnection );
     setAction( "connectionInfo", action );
 
-    action = new QAction( IconLoader::icon( "view-users" ), tr( "User Accounts" ), this );
+    action = new QAction( IconLoader::icon( "view-users" ),
+                         tr( "User Accounts" ), this );
     action->setIconText( tr( "Users" ) );
-    connect( action, SIGNAL( triggered() ), this, SLOT( showUsers() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( showUsers() ), Qt::QueuedConnection );
     setAction( "showUsers", action );
 
-    action = new QAction( IconLoader::icon( "view-types" ), tr( "Issue Types" ), this );
+    action = new QAction( IconLoader::icon( "view-types" ),
+                         tr( "Issue Types" ), this );
     action->setIconText( tr( "Types" ) );
-    connect( action, SIGNAL( triggered() ), this, SLOT( showTypes() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( showTypes() ), Qt::QueuedConnection );
     setAction( "showTypes", action );
 
-    action = new QAction( IconLoader::icon( "edit-goto" ), tr( "Go To Item" ), this );
+    action = new QAction( IconLoader::icon( "edit-goto" ),
+                         tr( "Go To Item" ), this );
     action->setShortcut( tr( "Ctrl+G" ) );
-    connect( action, SIGNAL( triggered() ), this, SLOT( gotoItem() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( gotoItem() ), Qt::QueuedConnection );
     setAction( "gotoItem", action );
 
-    action = new QAction( IconLoader::icon( "edit-password" ), tr( "Change Password" ), this );
+    action = new QAction( IconLoader::icon( "edit-password" ),
+                         tr( "Change Password" ), this );
     action->setIconText( tr( "Password" ) );
-    connect( action, SIGNAL( triggered() ), this, SLOT( changePassword() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( changePassword() ), Qt::QueuedConnection );
     setAction( "changePassword", action );
 
-    action = new QAction( IconLoader::icon( "preferences" ), tr( "User Preferences" ), this );
+    action = new QAction( IconLoader::icon( "preferences" ),
+                         tr( "User Preferences" ), this );
     action->setIconText( tr( "Preferences" ) );
-    connect( action, SIGNAL( triggered() ), this, SLOT( userPreferences() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( userPreferences() ), Qt::QueuedConnection );
     setAction( "userPreferences", action );
 
-    action = new QAction( IconLoader::icon( "configure" ), tr( "WebIssues Settings" ), this );
+    action = new QAction( IconLoader::icon( "configure" ),
+                         tr( "WebIssues Settings" ), this );
     action->setMenuRole( QAction::PreferencesRole );
-    connect( action, SIGNAL( triggered() ), this, SLOT( configure() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), this,
+            SLOT( configure() ), Qt::QueuedConnection );
     setAction( "configure", action );
 
-    action = new QAction( IconLoader::icon( "about" ), tr( "About WebIssues" ), this );
+    action = new QAction( IconLoader::icon( "about" ),
+                         tr( "About WebIssues" ), this );
     action->setShortcut( QKeySequence( Qt::Key_F1 ) );
-    connect( action, SIGNAL( triggered() ), qApp, SLOT( about() ), Qt::QueuedConnection );
+    connect( action, SIGNAL( triggered() ), qApp,
+            SLOT( about() ), Qt::QueuedConnection );
     setAction( "about", action );
 
     setTitle( "sectionTools", tr( "Tools" ) );
@@ -175,25 +195,30 @@ MainWindow::MainWindow() :
     if ( settings->contains( "MainWindowGeometry" ) ) {
         restoreGeometry( settings->value( "MainWindowGeometry" ).toByteArray() );
     } else {
-        QRect available = QApplication::desktop()->availableGeometry( this );
+        //QRect available = QApplication::desktop()->availableGeometry( this );
+        QRect available = QApplication::primaryScreen ()->availableGeometry ();
         resize( available.width() * 4 / 5, available.height() * 4 / 5 );
         setWindowState( Qt::WindowMaximized );
     }
 
-    connect( settings, SIGNAL( settingsChanged() ), this, SLOT( settingsChanged() ) );
+    connect( settings, SIGNAL( settingsChanged() ),
+            this, SLOT( settingsChanged() ) );
 
     m_trayIcon = new QSystemTrayIcon( this );
     m_trayIcon->setIcon( IconLoader::pixmap( "webissues", TrayIconSize ) );
     m_trayIcon->setToolTip( tr( "WebIssues Desktop Client\nNot connected" ) );
 
-    connect( m_trayIcon, SIGNAL( activated( QSystemTrayIcon::ActivationReason ) ), this, SLOT( trayIconActivated( QSystemTrayIcon::ActivationReason ) ) );
+    connect( m_trayIcon, SIGNAL( activated( QSystemTrayIcon::ActivationReason ) ), this,
+            SLOT( trayIconActivated( QSystemTrayIcon::ActivationReason ) ) );
 
-    connect( builder, SIGNAL( reset() ), this, SLOT( builderReset() ) );
+    connect( builder, SIGNAL( reset() ), this,
+            SLOT( builderReset() ) );
     builderReset();
 
     settingsChanged();
 
-    showStatus( IconLoader::pixmap( "status-info" ), tr( "Not connected to server." ) );
+    showStatus( IconLoader::pixmap( "status-info" ),
+               tr( "Not connected to server." ) );
 
     m_summaryLabel->hide();
     m_encryptionLabel->hide();
@@ -203,7 +228,8 @@ MainWindow::MainWindow() :
     m_selectionTimer->setInterval( 400 );
     m_selectionTimer->setSingleShot( true );
 
-    connect( m_selectionTimer, SIGNAL( timeout() ), this, SLOT( updateSelection() ) );
+    connect( m_selectionTimer, SIGNAL( timeout() ), this,
+            SLOT( updateSelection() ) );
 }
 
 MainWindow::~MainWindow()
@@ -365,10 +391,13 @@ void MainWindow::showStartPage()
 
     m_startView->mainWidget()->setFocus();
 
-    connect( m_startView, SIGNAL( statusChanged( const QPixmap&, const QString&, int ) ), this, SLOT( showStatus( const QPixmap&, const QString&, int ) ) );
-    connect( m_startView, SIGNAL( summaryChanged( const QPixmap&, const QString& ) ), this, SLOT( showSummary( const QPixmap&, const QString& ) ) );
+    connect( m_startView, SIGNAL( statusChanged( const QPixmap&, const QString&, int ) ), this,
+            SLOT( showStatus( const QPixmap&, const QString&, int ) ) );
+    connect( m_startView, SIGNAL( summaryChanged( const QPixmap&, const QString& ) ), this,
+            SLOT( showSummary( const QPixmap&, const QString& ) ) );
 
-    connect( m_startView, SIGNAL( connectionOpened() ), this, SLOT( connectionOpened() ), Qt::QueuedConnection );
+    connect( m_startView, SIGNAL( connectionOpened() ), this,
+            SLOT( connectionOpened() ), Qt::QueuedConnection );
 
     builder()->addClient( m_startView );
 
@@ -439,10 +468,13 @@ void MainWindow::connectionOpened()
 
     updateActions( true );
 
-    connect( m_view, SIGNAL( captionChanged( const QString& ) ), this, SLOT( captionChanged( const QString& ) ) );
+    connect( m_view, SIGNAL( captionChanged( const QString& ) ), this,
+            SLOT( captionChanged( const QString& ) ) );
 
-    connect( m_view, SIGNAL( statusChanged( const QPixmap&, const QString&, int ) ), this, SLOT( showStatus( const QPixmap&, const QString&, int ) ) );
-    connect( m_view, SIGNAL( summaryChanged( const QPixmap&, const QString& ) ), this, SLOT( showSummary( const QPixmap&, const QString& ) ) );
+    connect( m_view, SIGNAL( statusChanged( const QPixmap&, const QString&, int ) ), this,
+            SLOT( showStatus( const QPixmap&, const QString&, int ) ) );
+    connect( m_view, SIGNAL( summaryChanged( const QPixmap&, const QString& ) ), this,
+            SLOT( showSummary( const QPixmap&, const QString& ) ) );
 
 #if !defined( QT_NO_OPENSSL )
     QSslCipher cipher = commandManager->sslConfiguration().sessionCipher();
@@ -473,21 +505,33 @@ void MainWindow::connectionOpened()
 
     m_view->initialUpdate();
 
-    connect( m_folderView, SIGNAL( enabledChanged( bool ) ), this, SLOT( folderEnabledChanged( bool ) ) );
-    connect( m_globalListView, SIGNAL( enabledChanged( bool ) ), this, SLOT( globalListEnabledChanged( bool ) ) );
-    connect( m_issueView, SIGNAL( enabledChanged( bool ) ), this, SLOT( issueEnabledChanged( bool ) ) );
+    connect( m_folderView, SIGNAL( enabledChanged( bool ) ), this,
+            SLOT( folderEnabledChanged( bool ) ) );
+    connect( m_globalListView, SIGNAL( enabledChanged( bool ) ), this,
+            SLOT( globalListEnabledChanged( bool ) ) );
+    connect( m_issueView, SIGNAL( enabledChanged( bool ) ), this,
+            SLOT( issueEnabledChanged( bool ) ) );
 
-    connect( m_folderView, SIGNAL( captionChanged( const QString& ) ), this, SLOT( captionChanged( const QString& ) ) );
-    connect( m_globalListView, SIGNAL( captionChanged( const QString& ) ), this, SLOT( captionChanged( const QString& ) ) );
-    connect( m_summaryView, SIGNAL( captionChanged( const QString& ) ), this, SLOT( captionChanged( const QString& ) ) );
+    connect( m_folderView, SIGNAL( captionChanged( const QString& ) ), this,
+            SLOT( captionChanged( const QString& ) ) );
+    connect( m_globalListView, SIGNAL( captionChanged( const QString& ) ), this,
+            SLOT( captionChanged( const QString& ) ) );
+    connect( m_summaryView, SIGNAL( captionChanged( const QString& ) ), this,
+            SLOT( captionChanged( const QString& ) ) );
 
-    connect( m_view, SIGNAL( selectionChanged( int, int, int ) ), this, SLOT( selectionChanged( int, int, int ) ) );
-    connect( m_view, SIGNAL( projectSelected( int ) ), this, SLOT( projectSelected( int ) ) );
+    connect( m_view, SIGNAL( selectionChanged( int, int, int ) ), this,
+            SLOT( selectionChanged( int, int, int ) ) );
+    connect( m_view, SIGNAL( projectSelected( int ) ), this,
+            SLOT( projectSelected( int ) ) );
 
-    connect( m_folderView, SIGNAL( selectedIssueChanged( int ) ), this, SLOT( selectedIssueChanged( int ) ) );
-    connect( m_folderView, SIGNAL( currentViewChanged( int ) ), this, SLOT( currentViewChanged( int ) ) );
-    connect( m_globalListView, SIGNAL( selectedIssueChanged( int ) ), this, SLOT( selectedIssueChanged( int ) ) );
-    connect( m_globalListView, SIGNAL( currentViewChanged( int ) ), this, SLOT( currentViewChanged( int ) ) );
+    connect( m_folderView, SIGNAL( selectedIssueChanged( int ) ), this,
+            SLOT( selectedIssueChanged( int ) ) );
+    connect( m_folderView, SIGNAL( currentViewChanged( int ) ), this,
+            SLOT( currentViewChanged( int ) ) );
+    connect( m_globalListView, SIGNAL( selectedIssueChanged( int ) ), this,
+            SLOT( selectedIssueChanged( int ) ) );
+    connect( m_globalListView, SIGNAL( currentViewChanged( int ) ), this,
+            SLOT( currentViewChanged( int ) ) );
 
     connect( m_issueView, SIGNAL( issueActivated( int, int ) ), this, SLOT( gotoIssue( int, int ) ), Qt::QueuedConnection );
     connect( m_folderView, SIGNAL( issueActivated( int, int ) ), this, SLOT( gotoIssue( int, int ) ), Qt::QueuedConnection );

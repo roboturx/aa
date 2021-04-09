@@ -41,14 +41,14 @@ public:
         NoInternalLinks = 1
     };
 
-    Q_DECLARE_FLAGS( Flags, Flag );
+    Q_DECLARE_FLAGS( Flags, Flag )
 
 public:
     /**
     * Default constructor.
     * @param flags Flags affecting extracting of links.
     */
-    HtmlText( Flags flags = 0 );
+    //HtmlText( Flags flags = 0 );
 
     /**
     * Conversion constructor.
@@ -134,7 +134,7 @@ public:
     * @param text Text containing URLs and item references.
     * @param flags Flags affecting extracting of links.
     */
-    static HtmlText parse( const QString& text, Flags flags = 0 );
+    //static HtmlText parse( const QString& text, Flags flags = 0 );
 
     /**
     * Convert tabs to spaces.

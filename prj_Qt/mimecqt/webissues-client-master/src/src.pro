@@ -4,7 +4,7 @@ TEMPLATE = app
 TARGET   = webissues
 
 CONFIG  += qt
-QT      += widgets printsupport network xml sql webkit webkitwidgets
+QT      += widgets printsupport network xml sql # webkit webkitwidgets
 
 HEADERS += application.h \
            mainwindow.h
@@ -97,3 +97,5 @@ unix:!mac {
     man.path = $${DESTINATION}$$PREFIX/share/man/man1
     INSTALLS += man
 }
+
+DISTFILES +=

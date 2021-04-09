@@ -42,7 +42,8 @@ public:
     * @param parent The parent widget.
     * @param flags Optional window flags.
     */
-    InformationDialog( QWidget* parent, Qt::WindowFlags flags = 0 );
+    InformationDialog( QWidget* parent,
+                      Qt::WindowFlags flags  );
 
     /**
     * Destructor.

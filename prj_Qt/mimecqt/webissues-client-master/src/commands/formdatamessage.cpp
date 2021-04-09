@@ -21,6 +21,7 @@
 
 #include <QDateTime>
 #include <QBuffer>
+#include <QDateTime>
 
 // fix for GCC 4.3-snapshot
 #include <cstdlib>
@@ -74,7 +75,7 @@ QString FormDataMessage::randomString( int length )
 {
     static bool init = false;
     if ( !init ) {
-        srand( QDateTime::currentDateTime().toTime_t() );
+        srand( QDateTime::currentDateTime().toString ().toInt ());
         init = true;
     }
 

@@ -35,7 +35,7 @@
 #include <QNetworkReply>
 #include <QNetworkProxy>
 #include <QAuthenticator>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 
 CommandManager* commandManager = NULL;
@@ -489,17 +489,20 @@ void CommandManager::handleCommandReply( const Reply& reply )
 
 bool CommandManager::parseReply( const QString& string, Reply& reply )
 {
-    QStringList lines = string.split( "\r\n", QString::SkipEmptyParts );
+  
+    //QStringList lines = string.split( "\r\n", QString::SkipEmptyParts );
+    QStringList lines = string.split( "\r\n",
+                                     Qt::SplitBehavior );
 
     QString patternNumber = "-?\\d+";
     QString patternString = "'(?:\\\\['\\\\nt]|[^'\\\\])*'";
     QString patternArgument = QString( "(%1|%2)" ).arg( patternNumber, patternString );
 
-    QRegExp lineRegExp( QString( "([A-Z]+)(?: %1)*" ).arg( patternArgument ) );
-    QRegExp argumentRegExp( patternArgument );
+    QRegularExpression lineRegExp( QString( "([A-Z]+)(?: %1)*" ).arg( patternArgument ) );
+    QRegularExpression argumentRegExp( patternArgument );
 
     for ( QStringList::iterator it = lines.begin(); it != lines.end(); ++it ) {
-        if ( !lineRegExp.exactMatch( *it ) )
+        if ( !lineRegExp.match (*it).hasMatch (  ) )
             return false;
 
         ReplyLine line;

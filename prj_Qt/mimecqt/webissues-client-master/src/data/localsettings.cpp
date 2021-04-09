@@ -17,9 +17,11 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************/
 
+#include <QMetaType>
 #include "localsettings.h"
 
 #include "utils/dataserializer.h"
+
 
 LocalSettings::LocalSettings( const QString& path, QObject* parent ) : QObject( parent ),
     m_path( path )
@@ -27,8 +29,10 @@ LocalSettings::LocalSettings( const QString& path, QObject* parent ) : QObject( 
     static bool registered = false;
 
     if ( !registered ) {
-        qRegisterMetaTypeStreamOperators<IntList>( "LocalSettings::IntList" );
-        qRegisterMetaTypeStreamOperators<IntMap>( "LocalSettings::IntMap" );
+        qRegisterMetaTypeStreamOperators<IntList> (
+            "LocalSettings::IntList" );
+        qRegisterMetaTypeStreamOperators<IntMap> (
+            "LocalSettings::IntMap" );
         registered = true;
     }
 

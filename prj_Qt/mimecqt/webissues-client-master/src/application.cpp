@@ -52,6 +52,7 @@
 #include <QPrinter>
 #include <QTimer>
 #include <QSettings>
+#include <QStandardPaths>
 
 #if defined( Q_OS_WIN )
 #include <qt_windows.h>
@@ -170,7 +171,7 @@ void Application::about()
         " it under the terms of the GNU General Public License as published by"
         " the Free Software Foundation, either version 3 of the License, or"
         " (at your option) any later version." ) + "</p>";
-    message += "<p>" + trUtf8( "Copyright &copy; 2006 Michał Męciński" ) + "<br>" + tr( "Copyright &copy; 2007-2017 WebIssues Team" ) + "</p>";
+    message += "<p>" + tr( "Copyright &copy; 2006 Michał Męciński" ) + "<br>" + tr( "Copyright &copy; 2007-2017 WebIssues Team" ) + "</p>";
 
     QString link = "<a href=\"http://webissues.mimec.org\">webissues.mimec.org</a>";
 

@@ -1259,10 +1259,10 @@ void IssueEntityData::read( const Query& query )
     m_folderId = query.value( 4 ).toInt();
     m_typeId = query.value( 5 ).toInt();
     m_name = query.value( 6 ).toString();
-    m_createdDate.setTime_t( query.value( 7 ).toInt() );
+    m_createdDate(query.value(7).toDate());//.toInt());
     m_createdUser = query.value( 8 ).toString();
     m_createdUserId = query.value( 9 ).toInt();
-    m_modifiedDate.setTime_t( query.value( 10 ).toInt() );
+    m_modifiedDate ( query.value( 10 ).toInt() );
     m_modifiedUser = query.value( 11 ).toString();
 }
 
@@ -2100,10 +2100,10 @@ void ChangeEntityData::readFile( const Query& query )
     m_issueId = query.value( 1 ).toInt();
     m_stampId = query.value( 2 ).toInt();
     m_type = FileAdded;
-    m_createdDate.setTime_t( query.value( 3 ).toInt() );
+    m_createdDate = ( query.value( 3 ).toInt() );
     m_createdUser = query.value( 4 ).toString();
     m_createdUserId = query.value( 5 ).toInt();
-    m_modifiedDate.setTime_t( query.value( 6 ).toInt() );
+    m_modifiedDate = ( query.value( 6 ).toInt() );
     m_modifiedUser = query.value( 7 ).toString();
     m_fileName = query.value( 8 ).toString();
     m_fileSize = query.value( 9 ).toInt();

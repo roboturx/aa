@@ -158,7 +158,7 @@ bool DataBase::create_Table_h_snf()
         // field sayısı
         ekle << "4";
         // bind values
-        ekle << "1"
+        ekle << "0"
              << "0"
              << "DÖNEN VARLIKLAR"
              << "Nakit, ÇEK - SENET, banka, menkul değerler vs."
@@ -182,7 +182,8 @@ bool DataBase::create_Table_h_grp()
                     "`h_kod`	INTEGER PRIMARY KEY, "
                     "`h_prnt`	INTEGER,"
                     "`h_ad`	TEXT,"
-                    "`h_acklm`	TEXT )")) {
+                    "`h_acklm`	TEXT, "
+                    "FOREIGN KEY(h_prnt) REFERENCES h_snf(h_kod))")) {
         qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
@@ -198,8 +199,8 @@ bool DataBase::create_Table_h_grp()
         // field sayısı
         ekle << "4";
         // bind values
-        ekle << "10"
-             << "1"
+        ekle << "1"
+             << "0"
              << "HAZIR DEĞERLER"
              << "Kasa, nakit, banka vs."
              << "Hesap Grupları";
@@ -228,8 +229,8 @@ bool DataBase::create_Table_h_hsp()
                     "h_prbrm    TEXT,"
                     "h_prbrmx   TEXT,"
                     "h_ana      TEXT,"
-                    "h_gzli     TEXT "
-                    ")")) {
+                    "h_gzli     TEXT, "
+                    "FOREIGN KEY(h_prnt) REFERENCES h_grp(h_kod))")) {
         qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
@@ -246,8 +247,8 @@ bool DataBase::create_Table_h_hsp()
         // field sayısı   ekle [1]
         ekle << "8";
         // bind values    ekle [2] +
-        ekle << "100"
-             << "10"
+        ekle << "10"
+             << "1"
              << "KASA "
              << "Kasa"
              << "para birimi"
@@ -270,14 +271,10 @@ bool DataBase::addrecord(QList<QString> ekle)
     query.prepare(ekle.first());
     // ekle nin 1. elemanında kaç field olduğu var - for için
     
-qDebug() << ekle.count ();
-qDebug() << ekle.last ();
-qDebug() << ekle[1];
-
     for (int i = 0; i < ekle[1].toInt(); i++) {
         QString x = ":";
         // qchar 65 = A    -  bindvalue A: B: C: ... oluyor
-        qDebug() << QChar(65 + i);
+        
         query.bindValue(x.append(QChar(65 + i)), ekle[i + 2]);
         // ekle nin 2 ve sonraki elemanlarında değerler var
     }

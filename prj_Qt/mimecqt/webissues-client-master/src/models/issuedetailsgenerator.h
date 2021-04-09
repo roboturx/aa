@@ -77,8 +77,8 @@ public:
     * @param writer The text document writer to output the details to.
     * @param flags Optional flags affecting extracting of links.
     */
-    void write( HtmlWriter* writer, HtmlText::Flags flags = 0 );
-
+    void write( HtmlWriter* writer,
+               HtmlText::Flags flags  ); // =0
     int commentsCount() const { return m_commentsCount; }
 
     int filesCount() const { return m_filesCount; }

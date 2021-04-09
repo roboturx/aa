@@ -54,9 +54,10 @@ DataManager::~DataManager()
 
 static int parseVersion( const QString& version )
 {
-    QRegExp versionRegExp( "(\\d+)\\.(\\d+)(?:\\.(\\d+))?.*" );
+    QRegularExpression versionRegExp
+        ( "(\\d+)\\.(\\d+)(?:\\.(\\d+))?.*" );
 
-    if ( !versionRegExp.exactMatch( version ) )
+    if ( !versionRegExp.match( version ).hasMatch ())
         return -1;
 
     int major = versionRegExp.cap( 1 ).toInt();
