@@ -1,0 +1,116 @@
+
+Simple template-based relational database
+Submitted by mimec on 2010-10-08
+RDB
+Introduction
+
+RDB is a set of class templates implementing simple, generic and fast collections of objects called tables. Each table can store objects of any class with one or more integer attributes called keys. The table has a separate index for each key for fast retrieving and iterating items.
+
+In addition, this package contains adapter classes for using RDB tables with the Qt Model/View architecture.
+
+Depending on your needs, you can use just the 'core' components of RDB, or use them together with the model components. The core RDB components have no external dependencies. The model components require Qt 4.2 or newer.
+Core RDB classes
+
+An RDB table is an indexed collection of objects, similar to a hashed map, but with the possibility to have multiple indexes for different attributes in one table. It can be used to organize data in memory in a similar way to a relational database. Note that RDB provides no support for serializing data or for binding with an external database.
+
+Many applications need to store complex data structures in memory. They often do so by using collections of objects, which in turn contain their own collections of objects, forming a tree structure of relations. The downside is that in order to find data stored on a deep level of the tree, you have to traverse through all parent branches, which may lead to inefficient and difficult to understand code.
+
+The situation gets even worse if the data structure is not a tree, but contains cross-references, circular dependencies and many-to-many relations. This makes memory management difficult and error-prone, especially in a language such as C++ with no automatic garbage collection.
+
+A relational database is a simple and well established model of storing data with complex relations. Databases are excellent for storing persistent data, but cannot be used for working with data which has to be stored in memory for performance reasons. Even if an application works with a database backend, it still usually maps retrieved data to collections of objects, which are subject to the problems described above.
+
+The purpose of RDB is to combine the efficiency and ease of use of simple containers like lists and maps with the idea of a relational database which uses keys and indexes for modeling relations between data.
+Adapters for the Qt Model/View architecture
+
+The RDB package contains adapter classes for using tables with the Qt Model/View architecture in an easy and comfortable way. This is useful if your application needs to displays various lists and trees of data stored in RDB tables. The adapter model automatically populates the view, and also provides support for automatic sorting and filtering and makes customizing columns in the view easy.
+
+The Model/View architecture in Qt is an excellent and powerful solution, but implementing a model from scratch is not very comfortable. One of the problems is that the indexes used to identify cells are based on the physical row and column number in the view, which has to be translated to the appropriate item of data. This can be difficult when rows can be sorted, columns can be reordered and especially if the view is a tree with multiple levels of items.
+
+The RDB::TableItemModel class solves this problem by acting like an additional layer between QAbstractItemModel and simplified models called table models. Table models operate on item identifiers (which simply correspond to keys in the RDB tables) and column identifiers, without having to know the layout of rows and columns in the view. In addition, each table model is associated with a single level of items in the tree. This way you can, for example, create a list of all persons and a tree of persons grouped by company, and reuse the same table model in both these views.
+
+
+
+
+Simple template-based relational database
+1.2
+Overview
+
+RDB is a set of class templates implementing simple, generic and fast collections of objects called tables. Each table can store objects of any class with one or more integer attributes called keys. The table has a separate index for each key for fast retrieving and iterating items.
+
+In addition, this package contains adapter classes for using RDB tables with the Qt Model/View architecture.
+
+Website: http://www.mimec.org/components/rdb
+Components
+
+Depending on your needs, you can use just the 'core' components of RDB, or use them together with the model components. The core RDB components have no external dependencies. The model components require Qt 4.2 or newer (http://www.trolltech.com/products/qt/).
+
+    Core RDB classes
+    Adapters for the Qt Model/View architecture
+
+Files
+
+The RDB package contains the following files:
+
+    rdb/rdb.h
+
+The main header file defining the data tables and iterators. If you're not planning to use the model components, this is the only file you need.
+
+    rdb/utilities.h
+
+Header file defining some useful additional functions; requires Qt.
+
+    rdb/abstractrowfilter.cpp
+    rdb/abstractrowfilter.h
+    rdb/abstracttablemodel.cpp
+    rdb/abstracttablemodel.h
+    rdb/tableitemmodel.cpp
+    rdb/tableitemmodel.h
+
+Files implementing the model adapter between Qt Model/View architecture and data tables.
+
+
+
+Namespace List
+Here is a list of all documented namespaces with brief descriptions:
+RDB	Simple template-based relational database 
+
+
+Here is a list of all documented namespace members with links to the namespaces they belong to:
+
+    findRow() : RDB
+    localeAwareSortRows() : RDB
+    sortRows() : RDB
+
+
+
+Class List
+Here are the classes, structs, unions and interfaces with brief descriptions:
+AbstractRowFilter	Abstract filter for filtering table rows
+AbstractTableModel	Abstract model providing information about rows of a table
+ChildTable< ROW, DIMS >	Table with two indexes for rows with a primary key and a foreign key
+CrossTable< ROW, DIMS >	Table for rows with two foreign keys which form a unique pair
+ForeignConstIndex< ROW >	Foreign key index for constant rows
+ForeignConstIndex< void >	Typeless specialization of the foreign key constant index
+ForeignConstIterator< ROW >	Constant iterator for rows with a given foreign key value
+ForeignConstIterator< void >	Typeless specialization of the constant foreign iterator
+ForeignIndex< ROW >	Foreign key index for non-const rows
+ForeignIndex< void >	Typeless specialization of the foreign key index
+ForeignIterator< ROW >	Non-const iterator for rows with a given foreign key value
+ForeignIterator< void >	Typeless specialization of the non-const foreign iterator
+ForeignIteratorBase	Base class for foreign iterators
+IndexConstIterator< ROW >	Constant iterator for all rows in an index
+IndexConstIterator< void >	Typeless specialization of the constant index iterator
+IndexIterator< ROW >	Non-const iterator for all rows in an index
+IndexIterator< void >	Typeless specialization of the non-const index iterator
+IndexIteratorBase	Base class for index iterators
+IndexPairWrapper	Base class for pair indexes
+IndexWrapper	Base class for indexes and iterators
+SimpleTable< ROW, DIMS >	Table with one index for rows with a single primary key
+TableBase< ROW, DIMS >	Base of all table templates
+TableItemModel	Item model populated with items from RDB tables
+UniqueConstIndex< ROW >	Unique key index for constant rows
+UniqueConstIndex< void >	Typeless specialization of the unique key constant index
+UniqueIndex< ROW >	Unique key index for non-const rows
+UniqueIndex< void >	Typeless specialization of the unique key index
+UniquePairConstIndex< ROW >	Unique pair of foreign key indexes for constant rows
+UniquePairIndex< ROW >	Unique pair of foreign key indexes for non-const rows 

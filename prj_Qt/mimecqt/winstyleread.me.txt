@@ -1,0 +1,42 @@
+ Overview
+WindowsModernStyle is a Qt style for Windows which imitates the look of MS Office 2003. It changes the style of toolbars, menus, docked windows and toolboxes. The color scheme used by this style is automatically adjusted to system settings.
+
+The style can be included in an existing application or compiled as a plugin library. This package also contains a demo program using this style.
+
+WindowsModernStyle requires Qt 4.3 or newer, compiled with the Windows XP and Windows Vista styles enabled.
+
+    Using the Windows Modern Style
+
+ Overview
+The WindowsModernStyle changes the look of toolbars and menus to a style similar to MS Office 2003 and some .NET applications. Depending on the selected color scheme of Windows XP and Vista, they will automatically use the blue, silver or green colors. Also when the Windows Classic style is used, the toolbars and menus will adjust their look to the current color scheme.
+
+In addition, this style also changes the look of:
+
+    docked windows, including their title bars and tabs used when multiple docked windows are stacked together
+    tab widgets located within a main window (tab widgets placed in dialogs and other windows are not affected)
+    splitters located within a main window
+    toolbox widgets, including both item headers and background of pages
+
+All other widgets are not affected and are rendered using the native Windows style (Vista, XP or classic Windows, depending on the OS version).
+
+This style sets the default icon size for toolbar buttons to 16x16 pixels. This setting can be changed using the setIconSize method of the toolbars.
+
+The demo application contains most widgets affected by this style, including the menu bar, toolbar, tab widget, docked windows and a toolbox. It can be compiled on any OS, but it will use the WindowsModernStyle only on Windows.
+Including in an Application
+The style can be used in three different ways:
+
+    together with the application as a static plugin
+    as a separate plugin library
+    together with the application and creating it manually
+
+The first option is the simplest one and it is enabled by default. You just have to add windowsmodernstyle.cpp and windowsmodernstyle.h to your project and add the following code just after creating the application object:
+
+#if defined( Q_WS_WIN )
+    app.setStyle( "windowsmodernstyle" );
+#endif
+
+This will switch the default style to WindowsModernStyle if the application was compiled on a Windows system and if the style is avalable.
+
+These two files can also be compiled separately as a plugin library. To do that, create a project containing these two files, using the lib type and the plugin option. Also define the WMSTYLE_EXPORT_PLUGIN macro (by adding it to the DEFINES variable in the project file). The plugin can then be dynamically or statically linked to the application, depending on the Qt configuration (usually dynamic libraries are used). Refer to the Qt documentation for more details about creating and using plugins.
+
+If you do not want to use the style as a plugin at all, define the WMSTYLE_NO_PLUGIN macro. In that case you will have to add these files to the application's project and manually create the instance of the WindowsModernStyle class. 

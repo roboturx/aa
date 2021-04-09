@@ -1,0 +1,224 @@
+/****************************************************************************
+* Simple template-based relational database
+* Copyright (C) 2006-2010 Michał Męciński
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions are met:
+*   1. Redistributions of source code must retain the above copyright notice,
+*      this list of conditions and the following disclaimer.
+*   2. Redistributions in binary form must reproduce the above copyright
+*      notice, this list of conditions and the following disclaimer in the
+*      documentation and/or other materials provided with the distribution.
+*   3. Neither the name of the copyright holder nor the names of the
+*      contributors may be used to endorse or promote products derived from
+*      this software without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+* POSSIBILITY OF SUCH DAMAGE.
+****************************************************************************/
+
+/**
+@page rdbcore Core RDB classes
+
+@section introduction Introduction
+
+An %RDB table is an indexed collection of objects, similar to a hashed map, but with the possibility to have multiple indexes for different attributes in one table. It can be used to organize data in memory in a similar way to a relational database. Note that %RDB provides no support for serializing data or for binding with an external database.
+
+Many applications need to store complex data structures in memory. They often do so by using collections of objects, which in turn contain their own collections of objects, forming a tree structure of relations. The downside is that in order to find data stored on a deep level of the tree, you have to traverse through all parent branches, which may lead to inefficient and difficult to understand code.
+
+The situation gets even worse if the data structure is not a tree, but contains cross-references, circular dependencies and many-to-many relations. This makes memory management difficult and error-prone, especially in a language such as C++ with no automatic garbage collection.
+
+A relational database is a simple and well established model of storing data with complex relations. Databases are excellent for storing persistent data, but cannot be used for working with data which has to be stored in memory for performance reasons. Even if an application works with a database backend, it still usually maps retrieved data to collections of objects, which are subject to the problems described above.
+
+The purpose of %RDB is to combine the efficiency and ease of use of simple containers like lists and maps with the idea of a relational database which uses keys and indexes for modeling relations between data.
+
+@section tables Tables
+
+The %RDB tables always store data by pointer, not by value. They take ownership of stored objects, meaning that they are automatically destroyed when they are removed from the table or when the table is destroyed.
+
+Objects of any class can be elements of an %RDB table, provided that:
+- they have a public destructor
+- they have at least one key
+
+The key can be any @c public @c const methods returning @c int. For example:
+
+@dontinclude tables.h
+@skip class Project
+@until };
+
+The @c Project class contains two keys: @c projectId (the primary key) and @c companyId (the foreign key with a one-to-many relation). Note that keys cannot be modified once the object is inserted into a table, that's why there are no setter methods for the key attributes.
+
+Tables are type-safe, which means that they store objects of a specific type. They are also const-safe; there are separate iterators and const iterators like for many containers.
+
+There are three pre-defined tables with different structure of indexes:
+- simple table (only one primary key)
+- child table (one primary key and one foreign key for a one-to-many relation)
+- cross table (primary key consists of a pair of foreign keys for a many-to-many relation)
+
+For example, a table storing objects of class @c Project shown above may look like this:
+
+@skipline Projects
+
+All tables will usually be stored as members a single class responsible for managing the data:
+
+@skipline Projects m_projects
+
+Before a table can be used, its indexes must be initialized:
+
+@dontinclude tables.cpp
+@skip m_projects.initIndex
+@until m_projects.initParentIndex
+
+The first parameter is the size of the hash table used by the index; for simplicity %RDB uses fixed size indexes. It should be a primary number close to the anticipated number of unique key values stored in the index. Collisions are resolved by chaining, which improves efficiency especially for foreign indexes which usually contain multiple occurrences of the same key value.
+
+The second parameter is a pointer to the method returning the value of the key to be indexed. This method is only called when an item is inserted into the table; the index stores copies of the key values. Only integer keys can be indexed.
+
+Note that for simplicity and efficiency, %RDB provides no constraint checking of any kind. For example you can insert multiple items with the same primary key into a table; it's up to you to detect and handle such situations. The distinction between primary and foreign indexes is only made to improve type safety when using iterators (see \ref indexes).
+
+You can easily create your own, more complex tables by inheriting one of the pre-defined ones and creating additional indexes, as shown in the \ref advanced section.
+
+None of the %RDB classes is thread-safe. When needed, you have to provide your own synchronization mechanism when accessing the data.
+
+@section basic Basic Operations
+
+To add an item to the table, use the @c insert method. For example:
+
+@skip addProject
+@until }
+
+As stated above, there is no constraint checking and the method always succeeds, even if there is already another object with the same primary key value. In our example each objects gets a unique identifier, so we can be sure that cannot happen.
+
+To find a single item in a table, use the @c find method. For example:
+
+@skip editProject
+@until }
+@until }
+
+If no item with the given object is found, @c NULL is returned. Note that the @c find method returns either a constant or non-constant pointer to the object, depending if the table itself is a constant. This way you can easily access the data from outside the data manager without the risk of accidentally changing it. For example:
+
+@code
+    const Project* project = m_manager->projects()->find( m_projectId );
+    if ( project ) { 
+        // ...
+    }
+@endcode
+
+To remove a single item from the table, use the @c remove method. Child and cross tables also provide methods which remove all items with the specified value of a foreign key. For example:
+
+@skip removeProject
+@until }
+
+Note that removed objects are automatically deleted. If no object with the given key exists in the table, nothing happens.
+
+@section indexes Indexes and Iterators
+
+%RDB provides a number of index classes, which are used to store a reference to a single index of a table. Since these classes are basically wrappers on a single pointer, they can be efficiently passed by value and copied.
+
+There are two logical types of indexes: unique and foreign. They are used in a different way, but there is no technical difference between them, they are only distinguished to make code more descriptive. The RDB::UniqueIndex has the @c find method used to retrieve a single item, whereas the RDB::ForeignIndex can be used together with a foreign iterator to retrieve all items matching a key value.
+
+There is also a special index called RDB::UniquePairIndex which consists of a pair of foreign indexes forming a single unique key. It is used by the RDB::CrossTable and usually represents a many-to-many relation. It provides a @c find method which returns a single item and @c first and @c second methods which return the foreign indexes. The pair index cannot be used directly with an iterator.
+
+The RDB::IndexIterator can be used with both unique and foreign indexes to iterate all items in the table. For example:
+
+@code
+    RDB::IndexIterator<Project> it( m_projects.index() );
+    while ( it.next() ) {
+        Project* project = it.get();
+        // ...
+    }
+@endcode
+
+Th RDB::ForeignIterator can be used only with foreign indexes to iterate all items with the matching value of the foreign key in an efficient way, taking advantage of the hashed index. For example:
+
+@code
+    RDB::ForeignIterator<Project> it( m_projects.parentIndex(), companyId );
+    while ( it.next() ) {
+        Project* project = it.get();
+        // ...
+    }
+@endcode
+
+The order in which items are iterated is unspecified. You can use the @ref utilities "utility functions" to sort items according to some criteria.
+
+Each index and iterator has both a constant and a non-constant variant. Constant indexes and iterators don't allow to modify the items stored in the table. A non-constant index can be implicitly converted to a constant one, but the opposite conversion is not allowed. The constant variants of the iterators are called RDB::IndexConstIterator and RDB::ForeignConstIterator.
+
+Indexes and iterators are specialized by the class of the items stored in the table. There are also generic indexes, specialized with the @c void type, which provide access to key values, but not to the items. They are used for example by the RDB::TableItemModel to iterate over tables of different types. A specialized index can be implicitly converted to a generic one, but the opposite conversion is not allowed.
+
+Iterators become invalid when items are inserted or removed from the table. For example, the effect of simultaneously iterating and removing items from the same table is undefined.
+
+@section advanced Advanced Usage
+
+If you need to create table with more indexes than the pre-defined ones, you can do so by inheriting the table class and implementing methods for initializing and accessing those indexes. Usually your table will inherit from one of the three existing tables and create additional indexes. Alternatively it can inherit RDB::TableBase directly.
+
+Example of adding a third index to an RDB::ChildTable:
+
+@code
+template<class ROW, int DIMS = 3>
+class MyTable : public RDB::ChildTable<ROW, DIMS>
+{
+    typedef RDB::ChildTable<ROW, DIMS> Base;
+public:
+    MyTable() { }
+
+public:
+    void initThirdIndex( int size, typename Base::KeyMethod keyMethod )
+    {
+        init( Base::data( 2 ), size, keyMethod );
+    }
+
+    RDB::ForeignIndex<ROW> thirdIndex()
+    {
+        return RDB::ForeignIndex<ROW>( Base::data( 2 ) );
+    }
+
+    RDB::ForeignConstIndex<ROW> thirdIndex() const
+    {
+        return RDB::ForeignConstIndex<ROW>( Base::data( 2 ) );
+    }
+
+    void removeThird( int thirdKey )
+    {
+        Base::removeBuckets( Base::data( 2 ), thirdKey );
+    }
+
+private:
+    MyTable( const MyTable& );
+    MyTable& operator =( const MyTable& );
+};
+@endcode
+
+The second parameter of all table templates, called @c DIMS, specifies the number of indexes, so that derived classes can easily add more indexes. The @c data method, defined in RDB::TableBase, returns an internal pointer to the given index data, which can be wrapped in an index class.
+
+The @c Base type is used to explicitly qualify inherited symbols; otherwise the code would break with standard C++ two-stage name lookup, for example when compiled using @c g++. The copy constructor and assignment operator is made private to prevent accidentally copying the table.
+
+Look at the implementation of RDB::SimpleTable, RDB::ChildTable and RDB::CrossTable to see how primary, foreign and pair indexes are created and how various remove methods can be implemented.
+
+@section utilities Utilities
+
+There are some helper functions defined in the @c <rdb/utilities.h> header file which simplify retrieving items sorted using an attribute. Unlike the core %RDB classes, the utility functions depend on the Qt framework.
+
+The first function, RDB::sortRows, takes any method returning a value which can be compared using operator < as the sort order. The second function, RDB::localeAwareSortRows, takes a method returning a string which is compared using QString::localeAwareCompare. These functions work with both index and foreign iterators and return a QList of pointers to constant items.
+
+For example, you can use the following code to get all projects sorted by name:
+
+@code
+    RDB::IndexConstIterator<Project> it( m_projects.index() );
+    QList<const Project*> projects = RDB::localeAwareSortRows( it, &Project::name );
+@endcode
+
+The RDB::findRow function returns the first row matching a given condition or @c NULL if such row was not found. It takes a pointer to a method returning a property and a value of the property. You can use it in the following way:
+
+@code
+    RDB::IndexConstIterator<Project> it( m_projects.index() );
+    const Project* project = RDB::findRow( it, &Project::name, "First Project" );
+@endcode
+*/

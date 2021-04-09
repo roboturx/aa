@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Logging into the system</title>
+    <link rel="stylesheet" type="text/css" href="common/style.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.78.1" />
+    <link rel="home" href="index.html" title="WebIssues Manual" />
+    <link rel="up" href="webissues.work.html" title="Chapter 3. Working with issues" />
+    <link rel="prev" href="webissues.work.html" title="Chapter 3. Working with issues" />
+    <link rel="next" href="webissues.work.issues.html" title="Creating and editing issues" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <div id="header-top">
+          <div id="header-left">
+            <h1><img src="common/webissues.png" alt="WebIssues" id="logo" />WebIssues Manual</h1>
+          </div>
+          <div id="header-right">
+            <h2 class="subtitle">Version 1.1.5</h2>
+          </div>
+        </div>
+        <div id="infobar">
+          <div id="infobar-left"><a accesskey="h" href="index.html">Home</a> &raquo; <a accesskey="u" href="webissues.work.html">Working with issues</a></div>
+          <div id="infobar-right"></div>
+        </div>
+      </div>
+      <div id="body">
+        <div class="navlinks">
+          <div class="navleft">&laquo; <a accesskey="p" href="webissues.work.html">Working with issues</a></div>
+          <div class="navright"><a accesskey="n" href="webissues.work.issues.html">Creating and editing issues</a> &raquo;</div>
+          <div class="clear"></div>
+        </div>
+        <div class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both"><a id="webissues.work.login"></a>Logging into the system</h2>
+              </div>
+            </div>
+          </div>
+          <p>To log into the system using a web browser, simply type the URL of the WebIssues server in the address bar, for example <code class="literal">http://www.example.com</code>, and press <span class="shortcut"><strong><span class="keycap"><strong>ENTER</strong></span></strong></span>. You can add the address of the server as a bookmark in your browser to avoid having to type it each time.</p>
+          <div class="figure">
+            <a id="id616961"></a>
+            <div class="figure-contents">
+              <div class="mediaobject">
+                <img src="images/ch03-fig04.png" alt="Logging into the Web Client" />
+              </div>
+            </div>
+            <div class="figure-title">Figure 3.5. Logging into the Web Client</div>
+          </div>
+          <p>In the login window, type your username and password. If they are correct, you will be redirected to the main window. You may also be asked to enter a new password, if the password was set by the administrator of the system and he forced you to change it. Depending on its settings, your browser may offer to remember passwords.</p>
+          <p>To log in through the Desktop Client, run it and enter the URL of the server in the address bar, and then press <span class="shortcut"><strong><span class="keycap"><strong>ENTER</strong></span></strong></span>. When the login window appears, enter your username and password. As with the Web Client, you may be asked to change your password.</p>
+          <div class="figure">
+            <a id="id616994"></a>
+            <div class="figure-contents">
+              <div class="mediaobject">
+                <img src="images/ch03-fig05.png" alt="Logging into the Desktop Client" />
+              </div>
+            </div>
+            <div class="figure-title">Figure 3.6. Logging into the Desktop Client</div>
+          </div>
+          <p>The Desktop Client automatically remembers the addresses of all WebIssues servers it connects to. You can select a server from the list and double-click to connect to it. You can also choose to remember the password to avoid having to enter it each time. If you want to log in as another user, select a server from the list, right click and select <span class="guilabel">Connect as</span>. The program remembers the previously used logins for each server and displays them in the contextual menu.</p>
+          <p>After logging into the WebIssues system, you can change your password at any time. In the Web Client, click <span class="guilabel">Tools</span> in the upper right corner of the window, and then click <span class="guilabel">Change Password</span>. In the Desktop Client, this command is always available in the main window's toolbar. Enter your old password, and then enter the new password twice and click <span class="guibutton">OK</span>.</p>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>If the WebIssues server is properly configured, you can connect to it using an encrypted HTTPS connection. To do this, type the address in the browser or the Desktop Client, for example <code class="literal">https://www.example.com</code>. If the server certificate is invalid, a warning will be displayed. The information that the connection is encrypted is displayed in the lower right corner of the Desktop Client's window, and in the browser it's usually displayed next to the address bar.</p>
+            <p>On Windows and OS X the Desktop Client automatically detects system proxy settings. However in case of Linux, you must enter the connection parameters if you want to use a proxy. For more information, see <a class="xref" href="webissues.work.personal.html#webissues.work.personal.client" title="Desktop Client settings">the section called “Desktop Client settings”</a>.</p>
+          </div>
+          <div class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="webissues.work.login.anonymous"></a>Anonymous access</h3>
+                </div>
+              </div>
+            </div>
+            <p>If the administrator of the WebIssues server has enabled anonymous access, and you don't have an account in the system, you can use the <span class="guilabel">Anonymous Access</span> command in the login window of the Web Client to access the system without logging in. You will only have read only access to selected projects and you won't be able to add or edit any issues. You will be able to see project descriptions, issues and comments and to download attachments from the public projects. You will also be able to use public views, but you won't be able to create your own views, use alerts or subscribe to issues.</p>
+            <p>Anonymous access is only available in the Web Client. In order to access the system using the Desktop Client, you need to be a registered user.</p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>For more information about enabling anonymous access, see <a class="xref" href="webissues.custom.access.html" title="Access settings">the section called “Access settings”</a>.</p>
+            </div>
+          </div>
+          <div class="sect2">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="webissues.work.login.register"></a>User registration</h3>
+                </div>
+              </div>
+            </div>
+            <p>If the WebIssues server administrator has enabled this option, you can register a new account in the system. Depending on the configuration, the approval of the administrator may be necessary to complete registration. To start creating a new account, click the <span class="guilabel">Register New Account</span> link in the login window of the Web Client. If you are using the system in anonymous mode, you can click <span class="guilabel">Register</span> in the upper right corner. Enter the user name that will be visible to all users, usually your first and last name. Then enter your login and password that you will use to log in to the system. Also enter your e-mail address and click <span class="guibutton">Register</span>.</p>
+            <p>The specified e-mail address will be verified by sending a message with an activation link. Click the link or copy the address to open it in the browser. You should receive this message shortly after registration. When you activate the registration request, you will be able to log in immediately using the specified login and password, or you will have to wait for administrator's approval. Once your registration request is approved, you will receive a confirmation message and you will be able to log in.</p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>For more information about enabling and configuring user registration, see <a class="xref" href="webissues.custom.access.html" title="Access settings">the section called “Access settings”</a>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="navlinks">
+          <div class="navleft">&laquo; <a accesskey="p" href="webissues.work.html">Working with issues</a></div>
+          <div class="navright"><a accesskey="n" href="webissues.work.issues.html">Creating and editing issues</a> &raquo;</div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div id="footer">
+        <p class="copyright">Copyright © 2007-2017 WebIssues Team</p>
+      </div>
+    </div>
+  </body>
+</html>

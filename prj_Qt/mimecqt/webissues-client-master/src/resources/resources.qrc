@@ -1,0 +1,21 @@
+<RCC version="1.0">
+<qresource prefix="/resources">
+  <file>folderview.xml</file>
+  <file>formats.ini</file>
+  <file>issueview.xml</file>
+  <file>locale.ini</file>
+  <file>mainwindow.xml</file>
+  <file>managealertsdialog.xml</file>
+  <file>membersdialog.xml</file>
+  <file>prettify.js</file>
+  <file>projectsview.xml</file>
+  <file>startview.xml</file>
+  <file>style.css</file>
+  <file>summaryview.xml</file>
+  <file>typesview.xml</file>
+  <file>userprojectsdialog.xml</file>
+  <file>usersview.xml</file>
+  <file>viewerwindow.xml</file>
+  <file>viewsettingsdialog.xml</file>
+</qresource>
+</RCC>

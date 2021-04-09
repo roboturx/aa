@@ -1,0 +1,166 @@
+
+Multi-threaded SDI applications
+Multi-threaded SDI applications
+Introduction
+MDI or SDI?
+
+We no longer have to choose between the SDI and MDI models of applications. Generally, Microsoft discourages creating MDI applications because Windows tends to be "document-oriented." It means that you use the taskbar to switch between open documents, not applications, as it's more intuitive and comfortable. Generally, MDI applications are more difficult for beginners and not very comfortable for experienced users.
+
+However, the MDI model has one advantage: You don't need several instances of the application running when you are working on multiple documents. Many applications, such as MS Word, Internet Explorer, and so forth use a different approach: one application with multiple SDI windows, a combination of MDI and SDI. In this article, I will discuss creating such applications using the MFC framework.
+Why multi-threading?
+
+You can create as many frame windows as you want by using the CSingleDocTemplate class. Just remember that you need a separate doc template object for each frame window because the SDI template won't let us create more than one document at a time.
+
+Everything works fine until we open a modal dialog window in one frame and switch to another one. It doesn't update the menu items and toolbar buttons. Command updating takes place at the beginning of the idle part of the main loop of the application. The DoModal function has its own message loop. We could try to override this, but it's a lot of work; besides, it won't work for system dialogs like MessageBox.
+
+There is a simpler solution: Create a new thread for each frame window. This way, each window has an independent message loop and even when we open a modal dialog in one frame, other frames work correctly. Explorer works in a similar way; it has separate threads for each window, including the desktop, quick launch bar, and so forth. On the other hand, MS Word XP doesn't use multiple threads, so opening a modal dialog causes all document windows to be disabled (try it!).
+
+What are the benefits? My demo application uses 4,264 KB of memory and 39 GDI objects with one open document, 4,412 KB, and 55 objects respectively with two documents. So, each new document uses only 150 KB of memory and 15 GDI objects instead of 4 MB and 40 objects if we started a new instance of the application. The bigger the application (and the more DLL libraries it uses), the more we gain.
+Creating an MSDI application
+
+Note: Apply steps 7-11 if you were using the previous version of MSDI classes.
+
+    Create an SDI application by using the wizard. Enter the filter name and document file extension in the advanced options.
+    Add MSDIThread.cpp and MSDIDocManager.cpp, with their corresponding headers, to the project.
+    In CMSDIThread::InitInstance, replace CSomeDoc and CSomeView with your classes; also, change the names of included headers.
+    Replace the YourApp.cpp and YourApp.h files (where YourApp is your application's name) with MSDI.cpp and MSDI.h.
+    Replace "CMSDIApp" with you application's class name everywhere in copied files.
+    Change the line #include "MSDI.h" to #include "YourApp.h" where necessary.
+    Add a Close item to the File menu, enter ID_FILE_CLOSE as the command ID.
+    Add a Window menu to the main frame's menu resource, create a dummy menu item and type 0xFF00 as the command ID.
+    Create a dialog resource named IDD_WINDOW. Create a list box control named IDC_WINDOW_LIST and turn off the Sort style.
+    Add #include "MSDIThread.h" to the main frame window and add a public virtual function:
+
+virtual void OnUpdateFrameTitle(BOOL bAddToTitle);
+
+void CMainFrame::OnUpdateFrameTitle(BOOL bAddToTitle)
+{
+    CFrameWnd::OnUpdateFrameTitle(bAddToTitle);
+
+    CString strTitle;
+
+    if (CDocument* pDoc = GetActiveDocument())
+        strTitle = pDoc->GetTitle();
+
+    ((CMSDIThread*)AfxGetThread())->SetDocumentTitle(strTitle);
+}
+
+The MSDI thread
+
+The CMSDIThread is derived from CWinThread. It's similar to the application class (CWinApp is derived from CWinThread, too); it contains InitInstance and ExitInstance functions. In the InitInstance function of the thread, we create a document manager and register the SDI document template. The code that creates the document template is similar to the one in InitInstance of the application:
+
+    CSingleDocTemplate* pDocTemplate = new CSingleDocTemplate(
+        IDR_MAINFRAME,
+        RUNTIME_CLASS(CSomeDoc),
+        RUNTIME_CLASS(CMainFrame),
+        RUNTIME_CLASS(CSomeView));
+
+Note: The main window is assigned to each thread, not the entire application. The MFC function AfxGetMainWnd() returns the main window of the current thread, not necessarily the main application's thread. In our example, the main thread won't have a main window at all, and the MFC framework still works correctly (after some modifications).
+
+The new version of CMSDIThread also implements support for filling and handling the Window menu. First nine windows are displayed directly in the menu. If there are more windows, a "More windows..." item is appended which opens a modal dialog containing the list of windows. This list is automatically updated when windows are opened, closed or the document's title is changed. The Window menu has to be second from the right side (just before the Help) menu and should contain an item with command ID equal 0xFF00 (AFX_IDM_FIRST_MDICHILD) that will be replaced by the window list. If there are other items in this menu, they won't be modified.
+The MSDI document manager
+
+Even though each thread has its own instance of the standard MFC document manager, the main thread of the applications also needs one. The CMSDIDocManager doesn't contain any document templates. It's used to create and keep track of frame threads. It overrides most of the virtual functions to implement correct behavior of the application.
+
+The most important change is the OpenDocumentFile function. Instead of creating the document, it creates a new MSDI thread and passes the file path to it. The thread will create a document with a frame window and will try to load the file. OpenDocumentFile also handles such situation: we have a window with an empty document and we open an existing file. We want it to be loaded into the current window, instead of creating a new one. By the way, this is feature is missing in the standard MFC framework for MDI applications. In the new version of MSDI, a consecutive number is appended to the title of each new document, like in MDI applications.
+
+The OnFileNew function simply calls OpenDocumentFile(NULL). In OnFileOpen, support for multiple file selection was added, so that multiple documents can be opened at once. The DoPromptFileName function uses a list of document templates to create filters for file types, so the call is redirected from CMSDIDocManager to the standard SDI document manager of the current thread.
+Thread list and shared data
+
+The CMSDIDocManager has a list of all running threads. This list is protected with a critical section since it may be accessed from different threads. When a thread is about to exit, it posts a message to the main thread. It won't be terminated until it's removed from the list of threads.
+
+Each thread may iterate trough the list of threads in order to post messages or obtain some information about other threads. Use the following functions of CMSDIDocManager to access the list of threads:
+
+POSITION GetFirstThreadPosition()
+CMSDIThread* GetNextThread(POSITION& pos)
+
+Note: You have to call Lock before, and Unlock after accessing the list, to prevent it from being changed by another thread. This is an example of using the thread list correctly:
+
+   CMSDIDocManager* pDocMgr = (CMSDIDocManager*)AfxGetApp()->
+                    m_pDocManager;
+
+   pDocMgr->Lock();
+
+   POSITION pos = pDocMgr->GetFirstThreadPosition();
+   while (pos)
+   {
+      CMSDIThread* pThread = pDocMgr->GetNextThread(pos);
+      // read shared data
+   }
+
+   pDocMgr->Unlock();
+
+The thread object may have variables that can be accessed from other threads. In this case, you have to call Lock and Unlock when you are modifying these variables. By default, the only shared variable is m_strTitle, which contains the title of the document. It's used to display the list of windows in the menu and the window dialog. The title of the document object cannot be used directly, since it's not thread safe and might be modified during accessing. That's why SetDocumentTitle has to be called in the OnUpdateFrameTitle function of the frame window.
+Update notifications
+
+The following function of CMSDIDocManager posts a notification message to all threads:
+
+void PostUpdateNotify(UINT nCode, LPARAM lParam=0)
+
+The following notification codes are sent automatically:
+
+    MSDIN_NEW_THREAD - after a new thread is created
+    MSDIN_EXIT_THREAD - after a thread has terminated
+    MSDIN_DOC_TITLE - after a document title has been changed
+
+Note that these notifications don't specify any information about the thread that caused the notification. This is because by the time the notification is processed, the sender may no longer exist. The notification is handled by the OnUpdateNotify function of CMSDIThread. The default action is to refresh the window list in the dialog widow if it's open.
+
+void CMSDIThread::OnUpdateNotify(WPARAM nCode, LPARAM lParam)
+{
+    switch (nCode)
+    {
+    case MSDIN_EXIT_THREAD:
+    case MSDIN_DOC_TITLE:
+        if (m_pWndDlg && m_pWndDlg->m_hWnd && m_pWndDlg->
+                                    m_lbWndList.m_hWnd)
+            FillWindowList();
+        break;
+    }
+}
+
+You can add your own notification codes, that may be used; for example, when some global configuration options are updated or some shared thread-specific information is updated. A notification may have an optional parameter, but don't use a pointer to data related to your thread.
+The application class
+
+The application class has been modified so that it works correctly without a main window. The InitInstance function creates a CMSDIDocManager object and doesn't create any document template - this was moved to InitInstance of the MSDI thread. The Run function was overridden to bypass an assertion that m_pMainWnd is not NULL. The ExitInstance function calls KillAllThreads from CMSDIDocManager to wait until all threads terminate properly. Finally, a new handler for the ID_APP_EXIT command was created that posts the WM_CLOSE message to all frame windows by calling CloseAllFrames.
+
+Note: All command messages are dispatched to the main application object (after the active frame, document and view), however they are called on the frame's thread, not the application's thread. Message handlers may be added either to the application class or the thread class, because I overrode the OnCmdMsg function so that it first looks for a command handler in the current thread object, then in the application object.
+File associations and DDE
+
+MFC has some framework for creating file associations, but it's not very useful for our application. The application object itself doesn't use any document templates; besides, SDI document templates don't use DDE in file associations. For one of my programs, I wrote several functions for creating and removing file associations. They can be easily modified to add more file types, additional commands, the ShellNew keys, and so on.
+
+I also replaced the functions for parsing and processing the command line. Unlike the MFC framework, it's easier to add custom switches and parameters (/nosplash is an example). The ProcessShellCommand function was modified so that it checks whether a thread was successfully started because the result of OpenDocumentFile is always NULL.
+
+The /dde switch causes the application to run without opening a document. However, we need a hidden frame window to receive the DDE message from Explorer. So, we have to call EnableShellOpen, open a dummy frame window, and the MFC framework will do the rest. The OnDDECommand must be overridden in CMSDIDocManager because the one from MFC uses AfxGetApp()->m_pMainWnd (in fact, CDocManager is the only class where such an expression is used instead of AfxGetMainWnd()). We only need to implement the open() system command.
+Single instance protection
+
+I also added some code to prevent the user from running the application many times. The IsAlreadyRunning function uses a hidden, dummy frame window with the given title to identify the running process. If it already exists, a MSDIM_NEW_INSTANCE message is posted to the thread of the window. If a file path was given as the new program's argument, it's passed to the previous instance. An atom is created containing the path, so that it could be passed easily to another process. The new instance is terminated when IsAlreadyRunning returns TRUE. The previous instance receives a message and opens an empty document or the specified file.
+Final notes
+
+Thanks for all your comments, ideas, and bug reports. This code has been thoroughly tested and now should now be stable and completely thread safe. It should also compile under Visual Studio .NET.
+Version history
+
+Version 1.5 (October 5, 2003)
+
+    If a document is already opened, show it instead of opening it again (added by Kalatchev Sergey Nikolaevich)
+
+Version 1.4 (January 3, 2003)
+
+    Safer thread list protection and thread termination, bugs fixed
+    Window menu with a list of windows and a dialog box for more than 9 windows
+    Notification between threads and data access synchronization implemented
+    Opening multiple files is allowed
+    New documents are numbered like in MDI applications
+    The Close command closes the current window, Exit closes all windows
+
+Version 1.3 (December 3, 2002)
+
+    First published version
+
+License
+
+Multithreaded SDI Applications, version 1.5 (October 5, 2002)
+Copyright (C) 2002-2003 Michal Mecinski.
+
+You may freely use and modify this code, but don't remove this copyright note.
+
+THERE IS NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, FOR THIS CODE. THE AUTHOR DOES NOT TAKE THE RESPONSIBILITY FOR ANY DAMAGE RESULTING FROM THE USE OF IT.

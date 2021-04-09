@@ -1,0 +1,35 @@
+#include <winver.h>
+
+1 ICON "webissues.ico"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,1,5,6347
+ PRODUCTVERSION 1,1,5,6347
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "WebIssues Team"
+            VALUE "FileDescription", "WebIssues Desktop Client"
+            VALUE "FileVersion", "1.1.5"
+            VALUE "LegalCopyright", "Copyright (C) 2007-2017 WebIssues Team"
+            VALUE "OriginalFilename", "webissues.exe"
+            VALUE "ProductName", "WebIssues Desktop Client"
+            VALUE "ProductVersion", "1.1.5"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

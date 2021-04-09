@@ -1,0 +1,140 @@
+/****************************************************************************
+* Simple template-based relational database
+* Copyright (C) 2006-2010 Michał Męciński
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions are met:
+*   1. Redistributions of source code must retain the above copyright notice,
+*      this list of conditions and the following disclaimer.
+*   2. Redistributions in binary form must reproduce the above copyright
+*      notice, this list of conditions and the following disclaimer in the
+*      documentation and/or other materials provided with the distribution.
+*   3. Neither the name of the copyright holder nor the names of the
+*      contributors may be used to endorse or promote products derived from
+*      this software without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+* POSSIBILITY OF SUCH DAMAGE.
+****************************************************************************/
+
+/**
+@page modelview Adapters for the Qt Model/View architecture
+
+@section introduction Introduction
+
+The %RDB package contains adapter classes for using tables with the Qt Model/View architecture in an easy and comfortable way. This is useful if your application needs to displays various lists and trees of data stored in %RDB tables. The adapter model automatically populates the view, and also provides support for automatic sorting and filtering and makes customizing columns in the view easy.
+
+The Model/View architecture in Qt is an excellent and powerful solution, but implementing a model from scratch is not very comfortable. One of the problems is that the indexes used to identify cells are based on the physical row and column number in the view, which has to be translated to the appropriate item of data. This can be difficult when rows can be sorted, columns can be reordered and especially if the view is a tree with multiple levels of items.
+
+The RDB::TableItemModel class solves this problem by acting like an additional layer between QAbstractItemModel and simplified models called table models. Table models operate on item identifiers (which simply correspond to keys in the %RDB tables) and column identifiers, without having to know the layout of rows and columns in the view. In addition, each table model is associated with a single level of items in the tree. This way you can, for example, create a list of all persons and a tree of persons grouped by company, and reuse the same table model in both these views.
+
+@section models Implementing Table Models
+
+To create a table model, you have to inherit the RDB::AbstractTableModel class and implement a few virtual methods. The minimal implementation consists of just two methods:
+
+@code
+    QString columnName( int column ) const
+    QString text( int id, int column ) const
+@endcode
+
+The @c id parameter is the primary key of the item stored in the table. The @c column parameter is the logical identifier of the column. Usually you will create an @c enum containing all column identifiers, for example:
+
+@dontinclude models.h
+@skip enum Columns
+@until };
+
+A typical implementation of the @c columnName method looks like this:
+
+@dontinclude models.cpp
+@skip columnName
+@until }
+@until }
+
+Implementation of the @c text method may look like this:
+
+@skip CompaniesModel::text
+@until }
+@until }
+
+There are two additional methods which can be implemented if needed: @c icon method for retrieving item's image and @c tooTip for retrieving its tool-tip. The default implementations return an empty pixmap and empty string, respectively.
+
+The last method, called @c compare, can be used for defining sorting criteria for the given column. The default implementation simply compares the strings using @c localeAwareCompare (see @ref sorting section below for more details).
+
+@section itemmodel Configuring the Table Item Model
+
+In order to populate the top level items in the table items model, call @c setRootTableModel with an instance of the table model which provides information about these items and a unique index of the table you want to use. Keys from the index will be used as item identifiers passed to the table model. For example:
+
+@dontinclude mainwindow.cpp
+@skipline projectsModel->setRootTableModel
+
+Alternatively, you can add only items which match the given value of the foreign key by specifying an additional foreign index and the key value. This way, for example, you could display a list of all project items belonging to a particular company:
+
+@code
+    projectsModel->setRootTableModel( new ProjectsModel( m_manager ), m_manager->projects()->index(),
+        m_manager->projects()->parentIndex(), companyId ); 
+@endcode
+
+In this case, the first index doesn't need to be unique. This way many-to-many relationships can also be handled; for example, you could display all persons which are members of a particular project or all projects of a particular person (using the Members table which contains two foreign keys for assigning projects to persons). However, both indexes must belong to the same table.
+
+To add more levels of hierarchy, call @c addChildTableModel as many times as you need with an instance of the appropriate table model for the given level of hierarchy and two indexes. The first index is used to read item identifiers which are passed to the table model. The second index is used to match items with their parent items. For example:
+
+@dontinclude mainwindow.cpp
+@skipline projectsModel->setRootTableModel
+@until m_manager->members()
+
+The values in the parent index of the @e Projects table are compared with the primary index of the @e Companies table, so projects are grouped under their corresponding companies. The values of the second index of the @e Members table (which store project identifiers) are compared with the primary index of the @e Companies table and the person identifiers (stored in the first index) are passed to the persons model.
+
+The table item model is completely independent of the types of table. All methods described above use the typeless specialization of indexes. There is no validation if the table model and the index refer to the same table. In fact they don't even have to; in the above example, the @e Persons model is used with an index of the @e Members table, which is perfectly valid, since the @c Members table doesn't represent a separate entity, but is used to model a many-to-many relation between @c Persons and @c Projects.
+
+The last step of defining a table item model is to set the list of column which will be displayed in the view by calling the @c setColumns method. For example:
+
+@dontinclude mainwindow.cpp
+@skip QList<int> columns
+@until columns <<
+@skipline projectsModel->setColumns
+
+@section sorting Sorting and Filtering
+
+All you have to do to enable sorting the view by any column is to set the @c sortingEnabled property of the QTreeView. You can also set the initial sorting order, for example:
+
+@skipline projectsView->sortByColumn
+
+By default, items are sorted in alphabetic, case-insensitive order, by comparing the values returned from the @c text method for the sorting column using the QString::localeAwareCompare function. You can change this behavior by overriding the @c compare method in the table model. This way you can, for example, sort items by numbers, dates or other kind of attributes.
+
+Note that Qt 4.4.0 has a bug which makes sorting the model not preserve the expanded state of tree items correctly. It's reported to Trolltech and will probably be fixed in the next release. In case you are compiling Qt from sources, a patch is provided with this package.
+
+The table item model also provides a very easy to use mechanism of filtering rows. In order to implement a filtering algorithm, inherit the RDB::AbstractRowFilter class and implement the @c filter method, for example:
+
+@dontinclude models.cpp
+@skip PersonsFilter::filterRow
+@until }
+
+Note that only the top level rows can be filtered this way, so this feature is mostly usable with plain lists, not with trees.
+
+It is possible to find the index of the cell with given row and column identifiers using the @c findCell method.
+
+@section updating Updating the Model
+
+The table item model is filled with data immediately when table models are added to it. However, it must be notified of any changes made to the data. For that purpose, the RDB::TableItemModel class has a public slot called @c updateData which rebuilds the internal structures and updates the view.
+
+For simplicity, RDB::AbstractTableModel has a signal called @c dataChanged which is automatically connected to the @c updateData slot when the table model is added to the table item model. It is up to the implementation of the table model to emit this signal as necessary.
+
+The update can also be triggered from another place. For example, in the demo application, the @c DataManager class has emits signals when some data was added, removed or modified. These signals are connected directly to the @c updateData slot of the appropriate model:
+
+@dontinclude mainwindow.cpp
+@skipline SIGNAL( projectsChanged() )
+@skipline SIGNAL( personsChanged() )
+
+Note that every time this function is called, the entire model and view is updated, which can be a costly operation for large number of items. Design the updating algorithm in a way that prevents calling it multiple times during a single operation, for example when multiple items are added or removed.
+
+The RDB::AbstractRowFilter class also has a signal called @c conditionsChanged which is automatically connected to the @c updateData slot when the filter is added to the table item model. The implementation of the filter can emit it when necessary to force updating the model.
+*/

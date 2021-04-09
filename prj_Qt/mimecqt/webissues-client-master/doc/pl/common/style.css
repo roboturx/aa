@@ -1,0 +1,385 @@
+/* Generic elements */
+
+html {
+  background: #f3f3f3 url(bg-body.png) repeat-x;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font: 9pt/150% Verdana, 'DejaVu Sans', Sans-Serif;
+  color: #494949;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: Verdana, 'DejaVu Sans', Sans-Serif;
+}
+
+h1 {
+  font-size: 170%;
+  line-height: 130%;
+}
+
+h2 {
+  font-size: 150%;
+  line-height: 130%;
+  margin-top: 0.6em;
+}
+
+h3 {
+  font-size: 140%;
+  margin-top: 1.2em;
+}
+
+h4 {
+  font-size: 120%;
+  margin-top: 0.6em;
+}
+
+ul, quote, code, fieldset {
+  margin: .5em 0;
+}
+
+p {
+  margin: 0.6em 0 1.2em;
+  padding: 0;
+  text-align: justify;
+}
+
+a:link, a:visited {
+  color: #027AC6;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0062A0;
+  text-decoration: underline;
+}
+
+a:active, a.active {
+  color: #5895be;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  border: none;
+  height: 1px;
+  background: #5294c1;
+}
+
+ul {
+  margin: 0.5em 0 1em 3em;
+  padding: 0;
+}
+
+ul li {
+  margin: 0.4em 0 0.4em 0.5em;
+}
+
+ul li p {
+  margin: 0;
+}
+
+dl {
+  margin: 0.5em 0 1em 1.5em;
+}
+
+dl dt {
+}
+
+dl dd {
+  margin: 0 0 0.5em 1.5em;
+}
+
+dl dd p {
+  margin: 0;
+}
+
+dl dd dl {
+  margin-top: 0;
+}
+
+img, a img {
+  border: none;
+  max-width: 100%;
+}
+
+/* Layout */
+
+#wrapper {
+  margin: 0 auto 0 auto;
+  width: 99%;
+  max-width: 1000px;
+}
+
+#header {
+  height: 100px;
+}
+
+#header-top {
+  position: relative;
+  height: 55px;
+}
+
+#header-left {
+  position: absolute;
+  top: 13px;
+  left: 15px;
+}
+
+#header-left h1 {
+  line-height: 33px;
+  font-weight: bold;
+  font-size: 150%;
+  color: #ffffff;
+  text-shadow: 1px 1px #444444;
+}
+
+#header-left h1 img {
+  margin-right: 8px;
+  float: left;
+}
+
+#header-right {
+  position: absolute;
+  top: 14px;
+  right: 17px;
+  float: right;
+  color: #dddddd;
+  font-size: 110%;
+}
+
+#header-right h2 {
+  line-height: 35px;
+  font-size: 100%;
+  font-weight: normal;
+  margin: 0;
+  color: #dddddd;
+}
+
+#infobar {
+  position: relative;
+  height: 41px;
+  background: #f3f3f3 url(bg-infobar.png) repeat-x;
+  font-weight: bold; color: #bbbbbb;
+}
+
+#infobar-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 70px;
+  height: 29px;
+  background: transparent url(bg-infobar-left.png) no-repeat;
+  padding: 12px 0 0 25px;
+}
+
+#infobar-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 70px;
+  height: 29px;
+  background: transparent url(bg-infobar-right.png) no-repeat 100% 0;
+  padding: 12px 25px 0 0;
+  text-align: right;
+}
+
+#infobar a:link, #infobar a:visited {
+  color: #dddddd;
+}
+
+#infobar a:hover {
+  color: #cccccc;
+}
+
+#infobar a:active {
+  color: #eeeeee;
+}
+
+#body {
+  background: #ffffff url(bg-block.png) repeat-x;
+  border: 1px solid #cccccc;
+  box-shadow: 1px 1px 3px #bbbbbb;
+  margin: 15px 12px 0 11px;
+  padding: 15px 15px 5px 15px;
+}
+
+#footer {
+  float: none;
+  clear: both;
+  padding: 15px 0 20px 0;
+  color: #898989;
+  font-size: 0.9em;
+}
+
+#footer p {
+  text-align: center;
+  margin: 0;
+}
+
+/* DocBook elements */
+
+h2.subtitle {
+  margin-bottom: 1.2em;
+  font-size: 130%;
+}
+
+.navlinks {
+  margin: 0 0 1em 0;
+}
+
+.navleft {
+  float: left;
+  margin-right: 0.5em;
+}
+
+.navright {
+  float: right;
+  margin-left: 0.5em;
+}
+
+.clear {
+  clear: both;
+}
+
+.toc .preface, .toc .chapter, .toc .appendix {
+  font-weight: bold;
+}
+
+.toc-title {
+  margin-top: 1em;
+  font-weight: bold;
+}
+
+.toc dl dt {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.toc dl dl dt {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.toc dl dl dl {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.toc dl dl dl dt {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.figure-title {
+  margin: 0.5em 0 0.8em;
+}
+
+.guilabel, .guimenu, .guimenuitem, .guibutton, .shortcut {
+  font-weight: bold;
+}
+
+.tip, .warning, .note {
+  border: 1px solid #cccccc;
+  padding: 0 1em;
+  margin: 1em 0.5in;
+}
+
+.tip {
+  background: #ddddff;
+}
+
+.warning {
+  background: #ffffcc;
+}
+
+.note {
+  background: #eeeeee;
+}
+
+.tip h3, .warning h3, .note h3 {
+  font-size: 130%;
+  margin-top: 0.6em;
+}
+
+code {
+  font: 10pt/150% Consolas, 'DejaVu Sans Mono', 'Lucida Console', Monospace;
+}
+
+pre {
+  margin: 0;
+  font: 10pt/150% Consolas, 'DejaVu Sans Mono', 'Lucida Console', Monospace;
+  white-space: pre-wrap;
+}
+
+table {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+}
+
+table th {
+  margin: 0;
+  padding: 0.2em 0.25em;
+  background: #eeeeee;
+  border: none;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  vertical-align: top;
+  text-align: left;
+}
+
+table td {
+  margin: 0;
+  padding: 0.2em 0.25em;
+  border: none;
+  border-top: 1px solid #dddddd;
+  vertical-align: top;
+}
+
+blockquote {
+  margin: 0.2em 1em;
+  padding: 0.3em 0.5em;
+  border: 1px dashed #dddddd;
+}
+
+.literallayout p {
+  margin: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .tip, .warning, .note {
+    margin: 1em 0;
+  }
+
+  dl {
+    margin-left: 0;
+  }
+  
+  dl dd {
+    margin-left: 1em;
+  }
+
+  ul {
+    margin-left: 2em;
+  }
+
+  p {
+    text-align: left;
+    word-wrap: break-word;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  #header-right {
+    display: none;
+  }
+}

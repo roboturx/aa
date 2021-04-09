@@ -1,0 +1,53 @@
+
+QCompleter with multi-selection
+Submitted by mimec on 2011-07-26
+
+The QCompleter class offers an out-of-the-box functionality of automatically suggesting matching items when typing in the associated QLineEdit. It can be used as a nice replacement for QComboBox when there is a lot of items or when the user can enter a free text (not constrained to one of the items).
+
+One important functionality that the QCompleter lack is the ability to complete a list of items separated with commas. Such completer, together with the line edit widget, could be used as a simple combo box with multi-selection, for editing comma separated tags, etc. Quick googling revealed two simple solutions: this and this. They are both written in Python, but can be easily translated to C++. The following code snippet is based on the first, simpler and much more elegant example. Obviously it's a bit more verbose that its equivalent in Python, but I personally find it easier to understand (perhaps because Python is not my native language ;).
+
+The idea is based on the concept of "path", which is originally used to support completion based on tree models (for example the folders and files in the file system), but it can be slightly abused to support multi-selection. In this implementation, the path is not based on the model's index (because our model is a flat list of strings, not a tree), but rather on the original contents of the associated line edit widget, with the part after the last comma replaced with the selected item.
+
+class MultiSelectCompleter : public QCompleter
+{
+    Q_OBJECT
+public:
+    MultiSelectCompleter( const QStringList& items, QObject* parent );
+    ~MultiSelectCompleter();
+
+public:
+    QString pathFromIndex( const QModelIndex& index ) const;
+    QStringList splitPath( const QString& path ) const;
+};
+
+MultiSelectCompleter::MultiSelectCompleter( const QStringList& items, QObject* parent )
+    : QCompleter( items, parent )
+{
+}
+
+MultiSelectCompleter::~MultiSelectCompleter()
+{
+}
+
+QString MultiSelectCompleter::pathFromIndex( const QModelIndex& index ) const
+{
+    QString path = QCompleter::pathFromIndex( index );
+
+    QString text = static_cast<QLineEdit*>( widget() )->text();
+
+    int pos = text.lastIndexOf( ',' );
+    if ( pos >= 0 )
+         path = text.left( pos ) + ", " + path;
+
+    return path;
+}
+
+QStringList MultiSelectCompleter::splitPath( const QString& path ) const
+{
+    int pos = path.lastIndexOf( ',' ) + 1;
+
+    while ( pos < path.length() && path.at( pos ) == QLatin1Char( ' ' ) )
+        pos++;
+
+    return QStringList( path.mid( pos ) );
+}

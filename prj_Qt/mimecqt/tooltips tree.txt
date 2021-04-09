@@ -1,0 +1,60 @@
+
+Tooltips for truncated items in a QTreeView
+Submitted by mimec on 2012-04-23
+
+It is quite common in various applications to display tooltips for truncated items in list views and tree views. Such functionality was present in Qt 3, but in Qt 4 the application, or rather the model, is fully responsible for providing the tooltip using the Qt::ToolTipRole and such automatic behavior no longer exist. You can obviously return the same text for both Qt::DisplayRole and Qt::ToolTipRole, but then tooltips are shown for all items, whether they are truncated or not. It doesn't look very well.
+
+It's surprisingly hard to find a solution. The best I could find was this thread on the qt-interest mailing list. It suggests subclassing the view and overriding the tooltip event. I felt that there must be a better way, so I looked into the source code of QAbstractItemView. It turned out that since Qt 4.3, handling tooltips (and various other help events) is delegated to... the item delegate.
+
+The definition of a custom item delegate may look like this:
+
+class AutoToolTipDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    AutoToolTipDelegate( QObject* parent );
+    ~AutoToolTipDelegate();
+
+public slots:
+    bool helpEvent( QHelpEvent* e, QAbstractItemView* view, const QStyleOptionViewItem& option,
+        const QModelIndex& index );
+};
+
+Notice that the helpEvent method is a slot. It should be a virtual method; however adding a new virtual method to an existing class would break binary compatibility with earlier versions of the Qt library, so instead this method is invoked dynamically using the slots mechanism.
+
+In order to check if the given item is truncated or not, we simply have to compare its visual rectangle (which can be retrieved from the view) with the size hint (provided by the item delegate itself). The full code of the helpEvent method looks like this:
+
+bool AutoToolTipDelegate::helpEvent( QHelpEvent* e, QAbstractItemView* view,
+    const QStyleOptionViewItem& option, const QModelIndex& index )
+{
+    if ( !e || !view )
+        return false;
+
+    if ( e->type() == QEvent::ToolTip ) {
+        QRect rect = view->visualRect( index );
+        QSize size = sizeHint( option, index );
+        if ( rect.width() < size.width() ) {
+            QVariant tooltip = index.data( Qt::DisplayRole );
+            if ( tooltip.canConvert<QString>() ) {
+                QToolTip::showText( e->globalPos(), QString( "<div>%1</div>" )
+                    .arg( Qt::escape( tooltip.toString() ) ), view );
+                return true;
+            }
+        }
+        if ( !QStyledItemDelegate::helpEvent( e, view, option, index ) )
+            QToolTip::hideText();
+        return true;
+    }
+
+    return QStyledItemDelegate::helpEvent( e, view, option, index );
+}
+
+If the item is truncated, the display text is retrieved and displayed as a tooltip. Otherwise the default handler is called, so a custom tooltip may be displayed. If you want, you may reverse this behavior and only display the automatic tooltip if there is no custom one, or remove the call to the default handler if there are no custom tooltips.
+
+Also notice that the text is wrapped into a <div> tag. That's in case the text is really long. When a HTML text is passed to the tooltip, it will be automatically wrapped into multiple lines if necessary. Otherwise the entire text would be displayed as a single line which may not fit on the screen. The Qt::escape method replaces any special characters with HTML entities to ensure that the text is displayed correctly.
+
+All we have to do to enable automatic tooltips for a view is to assign our delegate to it:
+
+view->setItemDelegate( new AutoToolTipDelegate( view ) );
+
+Note that it will also work for other kinds of views, not only QTreeView.

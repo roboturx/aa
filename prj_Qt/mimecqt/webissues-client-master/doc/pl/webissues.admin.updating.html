@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Aktualizacja systemu</title>
+    <link rel="stylesheet" type="text/css" href="common/style.css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.78.1" />
+    <link rel="home" href="index.html" title="Podręcznik WebIssues" />
+    <link rel="up" href="webissues.admin.html" title="Rozdział 5. Administrowanie systemem" />
+    <link rel="prev" href="webissues.admin.projects.html" title="Zarządzanie projektami" />
+    <link rel="next" href="webissues.custom.html" title="Rozdział 6. Dostosowywanie systemu" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <div id="header-top">
+          <div id="header-left">
+            <h1><img src="common/webissues.png" alt="WebIssues" id="logo" />Podręcznik WebIssues</h1>
+          </div>
+          <div id="header-right">
+            <h2 class="subtitle">Wersja 1.1.5</h2>
+          </div>
+        </div>
+        <div id="infobar">
+          <div id="infobar-left"><a accesskey="h" href="index.html">Spis treści</a> &raquo; <a accesskey="u" href="webissues.admin.html">Administrowanie systemem</a></div>
+          <div id="infobar-right"></div>
+        </div>
+      </div>
+      <div id="body">
+        <div class="navlinks">
+          <div class="navleft">&laquo; <a accesskey="p" href="webissues.admin.projects.html">Zarządzanie projektami</a></div>
+          <div class="navright"><a accesskey="n" href="webissues.custom.html">Dostosowywanie systemu</a> &raquo;</div>
+          <div class="clear"></div>
+        </div>
+        <div class="sect1">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title" style="clear: both"><a id="webissues.admin.updating"></a>Aktualizacja systemu</h2>
+              </div>
+            </div>
+          </div>
+          <p>Jedną z czynności konserwacyjnych jest aktualizacja systemu WebIssues do nowszej wersji. Nowe wersje rozwiązują problemy i dodają nowe funkcje, więc zalecana jest okresowa aktualizacja oprogramowania. Aby szybko sprawdzić, czy jest dostępna nowsza wersja systemu, kliknij <span class="guilabel">Narzędzia</span> i <span class="guilabel">O programie WebIssues</span>, a następnie w grupie <span class="guilabel">Najnowsza wersja</span> kliknij przycisk <span class="guibutton">Sprawdź</span>. Program Desktop Client domyślnie automatycznie sprawdza, czy jest dostępna nowa wersja (patrz sekcja <a class="xref" href="webissues.work.personal.html#webissues.work.personal.client" title="Ustawienia programu Desktop Client">„Ustawienia programu Desktop Client”</a>).</p>
+          <p>Przed rozpoczęciem aktualizacji, zaleca się utworzyć kopię zapasową bazy danych i plików systemu WebIssues, a także wyłączyć serwer WWW, aby zapobiec korzystaniu z systemu w trakcie aktualizacji.</p>
+          <div class="note">
+            <h3 class="title">Notatka</h3>
+            <p>Jeśli nie możesz wyłączyć serwera ani zablokować dostępu do niego, to możesz również tymczasowo zmienić nazwę pliku konfiguracyjnego <code class="literal">config.inc.php</code>, który domyślnie znajduje się w podkatalogu <code class="literal">data/sites/default</code>. Możesz nawet całkowicie usunąć ten plik, a potem odtworzyć go za pomocą instalatora, gdyż w momencie instalacji istniejąca baza danych zostanie zachowana i automatycznie zaktualizowana do nowej wersji.</p>
+          </div>
+          <p>Najpierw usuń wszystkie pliki i podkatalogi z katalogu, w którym został zainstalowany serwer WebIssues, pamiętając o pozostawieniu podkatalogu <code class="literal">data</code>, który przechowuje pliki związane z daną instalacją, na przykład pliki konfiguracyjne i załączniki spraw. Jeśli utworzyłeś własny plik <code class="literal">.htaccess</code> lub <code class="literal">web.config</code> (w przypadku serwera IIS), to również zachowaj jego kopię, aby móc go później przywrócić.</p>
+          <p>Ściągnij i rozpakuj nowy pakiet serwera WebIssues — zawiera on katalog o nazwie <code class="literal">webissues-x.y</code> (gdzie <code class="literal">x.y</code> to wersja pakietu). Następnie przenieś wszystkie pliki i podkatalogi z tego katalogu do katalogu, w którym był wcześniej zainstalowany serwer WebIssues.</p>
+          <p>Po zakończeniu kopiowania plików włącz serwer WWW i otwórz główną stronę systemu WebIssues w przeglądarce. Jeśli istnieje konieczność aktualizacji bazy danych, to zostanie wyświetlony odpowiedni komunikat. Zostaniesz poproszony o wpisanie loginu i hasła administratora systemu WebIssues, a następnie baza danych zostanie zaktualizowana do bieżącej wersji. W przeciwnym wypadku system jest od razu gotowy do pracy.</p>
+          <p>Zaleca się również aktualizować program Desktop Client do nowszej wersji na komputerach osób, które z niego korzystają. Generalnie jednak program Desktop Client może się komunikować zarówno ze starszą, jak i nowszą wersją serwera, pod warunkiem że dwie pierwsze cyfry numeru wersji są zgodne. Klient w wersji 1.0 nie będzie zatem działał z systemem 1.1, a klient 1.1 z systemem 1.0, ale można te wersje zainstalować równolegle na jednym komputerze.</p>
+          <div class="note">
+            <h3 class="title">Notatka</h3>
+            <p>Wersje systemu oznaczone jako <code class="literal">beta</code> to tak zwane wersje deweloperskie. Umożliwiają one testowanie nowych funkcji przed wydaniem oficjalnej wersji, jednak nie zaleca się ich używać do celów produkcyjnych. Wersja deweloperska systemu może być używana tylko z tą samą wersją programu Desktop Client. Można zaktualizować system z wersji produkcyjnej do nowszej wersji deweloperskiej (na przykład z 1.0.5 do 1.1-beta1), a także z wersji deweloperskiej do ostatecznej wersji produkcyjnej (na przykład z 1.1-beta1 do 1.1).</p>
+          </div>
+          <p>Podczas aktualizacji serwera z wersji 1.0 do wersji 1.1, pierwszy komentarz każdej sprawy zostanie automatycznie przekształcony w jej opis, pod warunkiem że został on utworzony przez tą samą osobę, która utworzyła sprawę, i nie później niż 15 minut po jej utworzeniu. Możesz przejrzeć sprawy po aktualizacji i w razie potrzeby zmienić opisy. Pamiętaj, że wszystkie komentarze i opisy zaktualizowane z wersji 1.0 będą używać tekstu bez znaczników, ale możesz zmienić ich format podczas edycji.</p>
+          <p>Aby zaktualizować serwer z wersji 0.8.5, musisz najpierw zainstalować wersję 1.0 serwera i wybrać opcję importu istniejących danych z wersji 0.8.5. Następnie możesz zaktualizować serwer z wersji 1.0 do 1.1.</p>
+        </div>
+        <div class="navlinks">
+          <div class="navleft">&laquo; <a accesskey="p" href="webissues.admin.projects.html">Zarządzanie projektami</a></div>
+          <div class="navright"><a accesskey="n" href="webissues.custom.html">Dostosowywanie systemu</a> &raquo;</div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div id="footer">
+        <p class="copyright">Copyright © 2007-2017 Zespół WebIssues</p>
+      </div>
+    </div>
+  </body>
+</html>

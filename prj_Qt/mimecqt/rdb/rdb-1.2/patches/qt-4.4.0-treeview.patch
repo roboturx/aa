@@ -1,0 +1,20 @@
+--- src/gui/itemviews/qtreeview.cpp.orig	2008-05-15 13:59:10.031250000 +0200
++++ src/gui/itemviews/qtreeview.cpp	2008-05-15 14:03:54.812500000 +0200
+@@ -1923,6 +1923,8 @@
+ {
+     Q_D(QTreeView);
+     d->viewItems.clear(); // prepare for new layout
++    qSort(d->expandedIndexes.begin(), d->expandedIndexes.end());
++    qSort(d->hiddenIndexes.begin(), d->hiddenIndexes.end());
+     QModelIndex parent = d->root;
+     if (d->model->hasChildren(parent)) {
+         d->layout(-1);
+@@ -1930,8 +1932,6 @@
+     }
+     QAbstractItemView::doItemsLayout();
+     d->header->doItemsLayout();
+-    qSort(d->expandedIndexes.begin(), d->expandedIndexes.end());
+-    qSort(d->hiddenIndexes.begin(), d->hiddenIndexes.end());
+ }
+ 
+ /*!

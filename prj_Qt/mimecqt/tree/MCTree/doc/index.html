@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Multi-column tree view</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<h1>Multi-column tree view</h1>
+<img src="mctree.png" alt="Multi-column tree view" />
+<h2>Introduction</h2>
+<p>Why another multi-column tree view? Because most of the solutions I've seen re-invent the wheel by creating a completely new control. My code is only 12 KB long and it works excellent if you don't need all those colors, fonts, sorting and whatever. You can use the <code>CColumnTreeView</code> class in place of <code>CTreeView</code> with almost no modifications.</p>
+<p>This class uses a standard tree control and a standard header control and just does a few tricks for drawing multi-column text and to scroll the view horizontally if that's necessary. It doesn't use any custom data structures, and you can use normal functionality of the <code>CTreeCtrl</code> object returned by the <code>GetTreeCtrl</code> function. So you don't have to rewrite the existing code. Item text can be splitted into column by using the <code>&#039;\t&#039;</code> (tabulator) character. You can't directly change a single column's text, but it most cases this is not necessary.</p>
+<h2>Using in your application</h2>
+<p><strong>Step 1:</strong> Add the <code>ColumnTreeView.cpp/.h</code> and <code>ColumnTreeCtrl.cpp/.h</code> files to your project.</p>
+<p><strong>Step 2:</strong> Change the base class of your view from <code>CTreeView</code> to <code>CColumnTreeView</code>. You will have to do a search &amp; replace in the implementation file and to add the proper <code>#include</code> directive.</p>
+<p><strong>Step 3:</strong> Add some columns to the header control. You may do it at any time, the best place is in <code>OnInitialUpdate</code>:</p>
+<p><div class="codeblock"><code>&nbsp;&nbsp; CHeaderCtrl&amp;amp; header = GetHeaderCtrl();<br />&nbsp;&nbsp; HDITEM hditem;<br />&nbsp;&nbsp; hditem.mask = HDI_TEXT | HDI_WIDTH | HDI_FORMAT;<br />&nbsp;&nbsp; hditem.fmt = HDF_LEFT | HDF_STRING;<br />&nbsp;&nbsp; hditem.cxy = 200;<br />&nbsp;&nbsp; hditem.pszText = &quot;First column&quot;;<br />&nbsp;&nbsp; header.InsertItem(0, &amp;amp;hditem);<br />&nbsp;&nbsp; hditem.cxy = 100;<br />&nbsp;&nbsp; hditem.pszText = &quot;Second column&quot;;<br />&nbsp;&nbsp; header.InsertItem(1, &amp;amp;hditem);<br />&nbsp;&nbsp; // ...<br />&nbsp;&nbsp; UpdateColumns();</code></div></p>
+<p><strong>Note:</strong> After changing the columns in the header control, you have to call the <code>UpdateColumns</code> method to update the tree contents.</p>
+<p><strong>Step 4</strong>: Adjust the style flags of the tree control in <code>OnInitialUpdate</code>, for example:</p>
+<p><div class="codeblock"><code>&nbsp;&nbsp; CTreeCtrl&amp; tree = GetTreeCtrl();<br />&nbsp;&nbsp; DWORD dwStyle = GetWindowLong(tree, GWL_STYLE);<br />&nbsp;&nbsp; dwStyle |= TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_FULLROWSELECT;<br />&nbsp;&nbsp; SetWindowLong(tree, GWL_STYLE, dwStyle);</code></div></p>
+<p>Since version 1.4, the <code>TVS_FULLROWSELECT</code> style is supported. It works much better than in the standard tree control, because buttons and lines are drawn correctly and the width of the selection bar is adjusted to the columns of the view. Note that drag and drop is not available in the full-row selection mode.</p>
+<p>Another change in version 1.4 is that the width of the column is automatically adjusted to fit its contents when the divider in the header control is double-clicked. A column's width may also be adjusted programatically using the <code>AdjustColumnWidth</code> method.</p>
+<p>You may work with the tree control the same way as with <code>CTreeView</code>. For example, you may change the style, set an image list and add and remove items. Use <code>&#039;\t&#039;</code> to separate columns in item labels.</p>
+<p><div class="codeblock"><code>&nbsp;&nbsp; CTreeCtrl&amp;amp; tree = GetTreeCtrl();<br />&nbsp;&nbsp; hItem = tree.InsertItem(&quot;Label\tSecond column&quot;, 0, 0);<br />&nbsp;&nbsp; // ...</code></div></p>
+<p>An important difference between <code>CColumnTreeView</code> and a normal <code>CTreeView</code> is the way notifications are handled. In case of <code>CTreeView</code>, notifications are handled using the <code>ON_NOFIFY_REFLECT</code> macros, which can be added automatically by Visual Studio. With &lt;code&gt;CColumnTreeView</code> you should use the <code>ON_NOTIFY</code> macros. Visual Studio won't be able to create them, but you can use a simple trick: temporarily change the base class to <code>CTreeView</code>, add the necessary handlers, restore the base class and change the generated macros to <code>ON_NOTIFY</code>. The identifiers for the tree control and the header control are <code>TreeID</code> and <code>HeaderID</code>. For example:</p>
+<p><div class="codeblock"><code>&nbsp;&nbsp; ON_NOTIFY(TVN_SELCHANGED, TreeID, OnTvnSelChanged)<br />&nbsp;&nbsp; ON_NOTIFY(HDN_ITEMCLICK, HeaderID, OnHdnItemClick)</code></div></p>
+<p>If you are porting existing code from <code>CTreeView</code>, don't forget to change the message map.</p>
+<h2>Using in a dialog window</h2>
+<p>In version 1.3, a new class <code>CColumnTreeWnd</code> was added to the project. It is basically the same as <code>CColumnTreeView</code>, except that it's derived from <code>CWnd</code> so that it's easier to use it in a dialog window. It may be created in the <code>OnInitInstance</code> method. The following code demonstrates how to create the control in place of a placeholder control:</p>
+<p><div class="codeblock"><code>&nbsp;&nbsp; // find the placeholder, get its position and destroy it<br />&nbsp;&nbsp; CRect rcTreeWnd;<br />&nbsp;&nbsp; CWnd* pPlaceholderWnd = GetDlgItem(IDC_COLUMNTREE);<br />&nbsp;&nbsp; pPlaceholderWnd-&gt;GetWindowRect(&amp;rcTreeWnd);<br />&nbsp;&nbsp; ScreenToClient(&amp;rcTreeWnd);<br />&nbsp;&nbsp; pPlaceholderWnd-&gt;DestroyWindow();<br /><br />&nbsp;&nbsp; // create the multi-column tree window<br />&nbsp;&nbsp; m_TreeWnd.CreateEx(WS_EX_CLIENTEDGE, NULL, NULL, WS_CHILD | WS_VISIBLE,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rcTreeWnd, this, IDC_COLUMNTREE);</code></div></p>
+<p>After you create the tree window, you should adjust the style of the tree control:</p>
+<p><div class="codeblock"><code>&nbsp;&nbsp; DWORD dwStyle = GetWindowLong(m_TreeWnd.GetTreeCtrl(), GWL_STYLE);<br />&nbsp;&nbsp; dwStyle |= TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_FULLROWSELECT;<br />&nbsp;&nbsp; SetWindowLong(m_TreeWnd.GetTreeCtrl(), GWL_STYLE, dwStyle);</code></div></p>
+<p>The <code>CColumnTreeWnd</code> class re-routes all notifications from the tree control to the dialog window. Notifications can be handled by adding normal <code>ON_NOTIFY</code> macros to the message map, using the identifier of the <code>CColumnTreeWnd</code> window. For example:</p>
+<p><div class="codeblock"><code>&nbsp;&nbsp; ON_NOTIFY(TVN_SELCHANGED, IDC_COLUMNTREE, OnTreeSelchanged)</code></div></p>
+<h2>How does it work?</h2>
+<p>The first time <code>OnInitUpdate</code> is called, the tree view window creates two child windows: a tree control and a header control. The tree control is created with the <code>TVS_NOHSCROLL</code>, otherwise two horizontal scroll bars would be displayed sometimes. Note that this style requires version 5.80 of common controls (so at least IE5 is required). In case the Windows XP visual style is used (version 6.00 of common controls), the header control is a bit higher so it looks correctly.</p>
+<p>Custom controls are generally very difficult to override, so I left the default functionality untouched wherever possible. The main thing that had to be changed is obviously painting the items. I let the control draw itself first, so all buttons (those with +/- signs), lines, icons and everything else is drawn correctly, according to the control's style, current visual settings and so on. So everything I changed was adding the <code>CDDS_ITEMPOSTPAINT</code> phase to the custom draw handler. The control draws the item's text as it is, with all columns and a square character instead of the tabulator mark. So the label has to be cleared and drawn again with only the first column's text. Then, the text of the following columns is drawn in correct position, depending on the columns' width. I also added drawing grid lines which make the control more legible.</p>
+<p>If the columns are wider than the control, a vertical scroll bar is added by calling <code>SetScrollInfo</code>. When the window is scrolled, the controls are repositioned so that the correct part of them is visible. The controls also have to be resized when the view is resized. The <code>CColumnTreeCtrl</code> class, which is derived from <code>CTreeCtrl</code>, overrides the <code>OnPaint</code> method and uses a temporary bitmap in memory to avoid flickering (which would be very noticeable as the original labels are cleared and drawn again). This method works well with common controls, because we can pass a device context in the <code>WM_PAINT</code> message and the control's message handler will use it instead of calling <code>BeginPaint</code>.</p>
+<p>The control uses the length of the full string with all columns to calculate the area of the item's label. The problem is that we cannot simply override the <code>TVM_HITTEST</code> message, because it's not used internally by the control. The solution is to capture mouse clicks (<code>WM_LBUTTONDOWN</code> and <code>WM_LBUTTONDBLCLK</code>) and discard these messages if the mouse cursor is outside the real item's label (i.e. the first column).</p>
+<h2>Final notes</h2>
+<p>Of course there are much more things that could be added to this control. I didn't do them, because I simply didn't need to, and I wanted to keep the code as simple as possible. You can use it as a starting point for creating a control that fully suits your needs. For example you can change the way the individual columns are drawn, change colors, text alignment, add icons and whatever.</p>
+<h2>Version history</h2>
+<p><strong>Version 1.4</strong> (July 7, 2005)</p>
+<ul>
+<li>Full-row selection mode implemented</li>
+<li>Adjust column width on divider double-click</li>
+</ul>
+<p><strong>Version 1.3</strong> (April 20, 2005)</p>
+<ul>
+<li>Non-view version of the control added</li>
+</ul>
+<p><strong>Version 1.2</strong> (November 29, 2003)</p>
+<ul>
+<li>Color of selected item text fixed</li>
+</ul>
+<p><strong>Version 1.1</strong> (October 22, 2003)</p>
+<ul>
+<li>First published version</li>
+</ul>
+<h2>License</h2>
+<p>Multi-Column Tree View, version 1.4 (July 7, 2005)<br />Copyright (C) 2003-2005 Michal Mecinski.</p>
+<p>You may freely use and modify this code, but don't remove this copyright note.</p>
+<p>THERE IS NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, FOR THIS CODE. THE AUTHOR DOES NOT TAKE THE RESPONSIBILITY FOR ANY DAMAGE RESULTING FROM THE USE OF IT.</p>
+</html>

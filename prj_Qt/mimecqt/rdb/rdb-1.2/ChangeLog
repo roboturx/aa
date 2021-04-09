@@ -1,0 +1,13 @@
+1.2 (2010-10-08)
+    * added the findRow utility function
+    * fixed wrong sorting by non-unique column
+    * fixed validation of input data
+
+1.1 (2009-11-23)
+    * added: method for finding a cell in the model
+    * added: default argument values for TableItemModel methods
+    * fixed: possible crashes when invalid model indexes are passed
+    * fixed: prevent updating the view when columns don't change
+
+1.0 (2008-06-09)
+    * first official version

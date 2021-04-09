@@ -1,0 +1,8 @@
+Here you can find a patch for Qt which fixes bug #212042: "Sorting the model
+doesn't preserve expanded state of tree items".
+
+Note that this problem occurs only in Qt 4.4.0 and 4.4.1. It does not occur
+in versions prior to 4.4 and it is fixed in versions 4.4.2 and newer.
+
+For more information, see:
+http://trolltech.com/developer/task-tracker/index_html?id=212042&method=entry

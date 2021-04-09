@@ -1,0 +1,16 @@
+../tmp/release/editdialog.o
+../tmp/release/main.o
+../tmp/release/mainwindow.o
+../tmp/release/models.o
+../tmp/release/tables.o
+../tmp/release/abstractrowfilter.o
+../tmp/release/abstracttablemodel.o
+../tmp/release/tableitemmodel.o
+../tmp/release/qrc_icons.o
+../tmp/release/moc_editdialog.o
+../tmp/release/moc_mainwindow.o
+../tmp/release/moc_models.o
+../tmp/release/moc_tables.o
+../tmp/release/moc_abstractrowfilter.o
+../tmp/release/moc_abstracttablemodel.o
+../tmp/release/moc_tableitemmodel.o
