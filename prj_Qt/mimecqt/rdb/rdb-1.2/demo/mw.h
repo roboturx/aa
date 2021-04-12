@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ui_mw.h"
+#include "database.h"
 class DataManager;
 ///////////////////////////////////////////////////////
 class MW : public QMainWindow
@@ -31,6 +32,7 @@ private:
   Ui::MW m_ui;
 
     DataManager* m_manager;
+    DataBase *Db;
 
     int m_companyId;
     int m_projectId;

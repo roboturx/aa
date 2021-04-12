@@ -36,11 +36,11 @@ public:
     bool connectToDataBase();
     bool insertIntoHesapTable();
     bool insertIntoYevmiyeTable();
-
+    void ddd();
     QMessageBox *msgBox;
 
-private:
-    QSqlDatabase    db;
+public:
+    QSqlDatabase *   db;
     
 
 private:

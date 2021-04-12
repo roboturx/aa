@@ -2,13 +2,14 @@
 #include <QEventLoop>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QSqlDatabase>
 #include <QTimer>
 
 #include "database.h"
 
-#define DATABASE_NAME "___hesap.dbase"
+#define DATABASE_NAME "___hesap.db"
 
-DataBase::DataBase() //: QObject(parent()) , QSqlDatabase("QSQLITE")
+DataBase::DataBase()
 {
     qDebug() << "   Database constructor";
     msgBox = new QMessageBox;
@@ -39,11 +40,12 @@ bool DataBase::controlDriver()
     }
     // qt has driver
     qDebug() << "       Database driver OK";
-    db = QSqlDatabase::addDatabase(DRIVER);
+    db = new QSqlDatabase;
+    *db = QSqlDatabase::addDatabase(DRIVER);
     // create database
-    qDebug() << "       Database added";
-    db.setDatabaseName(DATABASE_NAME);
-    qDebug() << "       Database name : " << DATABASE_NAME;
+    qDebug() << "       Database connected";
+    db->setDatabaseName(DATABASE_NAME);
+    qDebug() << "       Connected Database name : " << DATABASE_NAME;
     return true;
 }
 
@@ -61,37 +63,38 @@ bool DataBase::connectToDataBase()
         qDebug() << "       Database file on disk";
         openDataBase();
     }
+   
+    
+    
     return true;
 }
 
 bool DataBase::restoreDataBase()
 {
     if (!openDataBase()) {
-        qDebug() << "   Database CONNECTION ERROR...";
+        qDebug() << "   Database OPEN ERROR...";
         return false;
     }
 
     //after opening before creating
-    db.exec("PRAGMA encoding = \"UTF-16\"");
-
+    db->exec("PRAGMA encoding = \'UTF-16\'");
+    
+    
+    
     qDebug() << "   Database tables creating...";
     if ((!this->create_Table_konum()) || (!this->create_Table_isemri())
-        || (!this->create_Table_h_hsp())) {
+        || (!this->create_Table_h_hsp()) || (!this->create_Table_h_mmbr())) {
         qDebug() << "       Database tables NOT created...";
         return false;
     }
     qDebug() << "       Database tables created...";
+
     return true;
 }
 
 bool DataBase::openDataBase()
 {
-    /* cm. article QSqlTableModel */
-    // hakkındaki makaleye bakın
-    // db = QSqlDatabase::addDatabase("QSQLITE");
-    //  db.setHostName(DATABASE_HOSTNAME);
-
-    if (db.open()) {
+    if (db->open()) {
         qDebug() << "   Database opened.";
         return true;
     } else {
@@ -100,9 +103,35 @@ bool DataBase::openDataBase()
     }
 }
 
+void DataBase::ddd()
+{
+    qDebug() << "ddddddddddddddddddddddddddddd";
+    //    db.exec(".tables");
+    //    qDebug() << db.exec(".tables").lastError ().text ();
+    QSqlQuery q;
+    if (!q.exec("SELECT * FROM company)")) {
+        qDebug() << "   company error .";
+    }
+    
+    qDebug() << "in database tables count" <<  tables(QSql::AllTables).count();
+    
+    
+    if (!q.exec("SELECT name FROM sqlite_schema)")) {
+        qDebug() << "   schema error .";
+    }
+    while (q.next()) {
+        qDebug() << q.value(0) << ", " << q.value(1);
+    }
+    
+    qDebug() << "ddddddddddddddddddddddddddddd";
+    
+}
+
+
+
 void DataBase::closeDataBase()
 {
-    db.close();
+    db->close();
     qDebug() << "   Database closed.";
 }
 
@@ -140,21 +169,21 @@ bool DataBase::create_Table_konum()
 
     //company = konum
     QSqlQuery query;
-    if (!query.exec("CREATE TABLE IF NOT EXISTS `konum` ("
-                    "`companyID INTEGER PRIMARY KEY, "
-                    "name	TEXT,"
-                    "addreee	TEXT)")) {
+    if (!query.exec("CREATE TABLE IF NOT EXISTS konum "
+                    "( companyID INTEGER PRIMARY KEY, "
+                    "  name TEXT,"
+                    "  address TEXT ) ")) {
         qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
     } else {
         qDebug() << "               CREATED. ";
-        qDebug() << "               inserting RECORDS ";
+        qDebug() << "               inserting RECORDS into konum ";
 
         //    insertIntoHesapTable();
         QList<QString> ekle;
         // sql statement
-        ekle << "INSERT INTO konum (companıID, name, address) "
+        ekle << "INSERT INTO konum (companyID, name, address) "
                 "VALUES (:A , :B , :C)";
         // field sayısı
         ekle << "3";
@@ -162,7 +191,7 @@ bool DataBase::create_Table_konum()
         ekle << "1"
              << "konum 1"
              << "konum adresi"
-             << "Konum";
+             << "Konum ilk kayıt";
 
         if (!addrecord(ekle))
             return false;
@@ -177,20 +206,19 @@ bool DataBase::create_Table_isemri()
     qDebug() << "           Creating Table isemri ";
     qDebug() << "           ------------------------------";
 
-
     // projects = isemri
     QSqlQuery query;
     if (!query.exec("CREATE TABLE IF NOT EXISTS `isemri` ("
-                    "projectID	INTEGER PRIMARY KEY, "
-                    "companyID	INTEGER,"
-                    "name	TEXT,"
-                    "FOREIGN KEY(companıIprojectID) REFERENCES konum(h_kod))")) {
+                    "projectID INTEGER PRIMARY KEY, "
+                    "companyID INTEGER,"
+                    "name TEXT,"
+                    "FOREIGN KEY(companyID ) REFERENCES konum(projectID))")) {
         qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
     } else {
         qDebug() << "               CREATED. ";
-        qDebug() << "               inserting RECORDS ";
+        qDebug() << "               inserting RECORDS into isemri ";
 
         //    bir kayıt ekleyelim
         QList<QString> ekle;
@@ -202,15 +230,13 @@ bool DataBase::create_Table_isemri()
         // bind values
         ekle << "1"
              << "1"
-             << "prj 1 comp 1";
+             << "işemri ilk kayıt";
 
         if (!addrecord(ekle))
             return false;
     }
     return true;
 }
-
-
 
 bool DataBase::create_Table_h_hsp()
 {
@@ -222,16 +248,15 @@ bool DataBase::create_Table_h_hsp()
     QSqlQuery query;
     if (!query.exec("CREATE TABLE IF NOT EXISTS person ("
                     "personID INTEGER PRIMARY KEY,"
-
-                    "name      TEXT,"
-                    "address    TEXT,"
-                    "phone    TEXT")) {
+                    "name TEXT,"
+                    "address TEXT,"
+                    "phone TEXT )")) {
         qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
     } else {
         qDebug() << "               CREATED. ";
-        qDebug() << "               inserting RECORDS ";
+        qDebug() << "               inserting RECORDS into person ";
 
         //    bir kayıt ekleyelim
         QList<QString> ekle;
@@ -244,14 +269,13 @@ bool DataBase::create_Table_h_hsp()
         ekle << "1"
              << "ismi1"
              << "adrsKASA "
-             << "phoneKasa";
+             << "person ilk kayıt ";
 
         if (!addrecord(ekle))
             return false;
     }
     return true;
 }
-
 
 bool DataBase::create_Table_h_mmbr()
 {
@@ -263,14 +287,13 @@ bool DataBase::create_Table_h_mmbr()
     QSqlQuery query;
     if (!query.exec("CREATE TABLE IF NOT EXISTS member ("
                     "personID INTEGER PRIMARY KEY,"
-
-                    "projectID  INTEGER")) {
+                    "projectID INTEGER )")) {
         qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
     } else {
         qDebug() << "               CREATED. ";
-        qDebug() << "               inserting RECORDS ";
+        qDebug() << "               inserting RECORDS into member ";
 
         //    bir kayıt ekleyelim
         QList<QString> ekle;
@@ -281,7 +304,7 @@ bool DataBase::create_Table_h_mmbr()
         ekle << "2";
         // bind values    ekle [2] +
         ekle << "1"
-             << "1";
+             << "member ilk kayıt";
 
         if (!addrecord(ekle))
             return false;
@@ -295,26 +318,25 @@ bool DataBase::addrecord(QList<QString> ekle)
     // eklenin ilk elemanında query var
     query.prepare(ekle.first());
     // ekle nin 1. elemanında kaç field olduğu var - for için
-    
+
     for (int i = 0; i < ekle[1].toInt(); i++) {
         QString x = ":";
         // qchar 65 = A    -  bindvalue A: B: C: ... oluyor
-        
+
         query.bindValue(x.append(QChar(65 + i)), ekle[i + 2]);
         // ekle nin 2 ve sonraki elemanlarında değerler var
     }
-    
+
     if (!query.exec()) {
         qDebug() << "               error insert into " << ekle.last();
         qDebug() << query.lastError().text();
         return false;
     } else {
-        qDebug() << "               First record inserted into " << ekle.last();
+        qDebug() << "               Record inserted " << ekle.last();
         return true;
     }
     return false;
 }
-
 
 bool DataBase::createYevmiyeTable()
 {

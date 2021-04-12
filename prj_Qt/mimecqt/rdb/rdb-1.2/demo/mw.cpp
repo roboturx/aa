@@ -2,6 +2,8 @@
 #include "ui_mw.h"
 
 #include <QMessageBox>
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 #include "rdb/tableitemmodel.h"
 
@@ -14,17 +16,53 @@ MW::MW()
 {
     m_ui.setupUi( this );
 
-    m_manager = new DataManager( this );
+    m_manager = new DataManager(this);
 
+
+
+    Db = new DataBase();
+    //QStringList tables = Db->tables(QSql::AllTables);
+
+ 
+    if (Db->connectToDataBase()) {
+        qDebug() << " db opennnnnnnnnnnn ";
+        qDebug() << "tables count" << Db->tables(QSql::AllTables).count();
+    }
+    else
+        qDebug() << " db NOT open ";
+     Db->ddd();
+    
+    
+    QSqlQuery q("select * from konum");
+    if (q.isActive()) {
+        qDebug() << " q is active - q.size is " << q.size ();
+    } else {
+        qDebug() << " q is not active";
+    }
+    if (q.isValid()) {
+        QSqlRecord rec = q.record();
+        
+        qDebug() << "Number of columns: " << rec.count();
+        
+        int nameCol = rec.indexOf("companyID"); // index of the field "name"
+        while (q.next())
+            qDebug() << q.value(nameCol).toString(); // output all names
+    } else {
+        qDebug() << "11111" << q.lastError ().text ();
+    }
+    
+    
     fillSampleData();
-
-    DataBase* db= new DataBase;
-
+    
     QList<int> columns;
     columns << Column_Name << Column_Address << Column_Phone;
 
     RDB::TableItemModel* projectsModel = new RDB::TableItemModel( this );
-    projectsModel->setColumns( columns );
+    projectsModel->setColumns(columns);
+
+   
+    
+    //projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
     projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
     projectsModel->addChildTableModel( new ProjectsModel( m_manager ),
         m_manager->projects()->index(), m_manager->projects()->parentIndex() );
@@ -71,15 +109,37 @@ MW::~MW()
 
 void MW::fillSampleData()
 {
+    QSqlQuery q("select * from konum");
+    if (q.isActive()) {
+        qDebug() << " q is active - q.size is " << q.size ();
+    } else {
+        qDebug() << " q is not active";
+    }
+    if (q.isValid()) {
+        QSqlRecord rec = q.record();
+
+        qDebug() << "Number of columns: " << rec.count();
+
+        int nameCol = rec.indexOf("companyID"); // index of the field "name"
+        while (q.next())
+            qDebug() << q.value(nameCol).toString(); // output all names
+    } else {
+        qDebug() << "11111" << q.lastError ().text ();
+    }
+    
     int company1 = m_manager->addCompany( "First Company", "Gliwice, Poland" );
     int company2 = m_manager->addCompany( "Second Company", "Berlin, Germany" );
+    
+    
     int project1 = m_manager->addProject( company1, "Project Alpha" );
     int project2 = m_manager->addProject( company1, "Project Beta" );
     int project3 = m_manager->addProject( company2, "Project Delta" );
+    
     int person1 = m_manager->addPerson( "Mecinski, Michal", "Gliwice, Poland", "555 12 45" );
     int person2 = m_manager->addPerson( "Kowalski, Jan", "Katowice, Poland", "555 64 12" );
     int person3 = m_manager->addPerson( "Schmidt, Hans", "Berlin, Germany", "555 77 35" );
     int person4 = m_manager->addPerson( "Smith, John", "New York, USA", "555 01 33" );
+    
     m_manager->addMember( person1, project1 );
     m_manager->addMember( person1, project2 );
     m_manager->addMember( person2, project1 );

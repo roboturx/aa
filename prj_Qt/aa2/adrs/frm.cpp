@@ -37,9 +37,9 @@ hC_FRM::hC_FRM() : hC_tBcreator ()
     tb_wdgts->append ( lE_yisim = new QLineEdit    ) ;
     tb_wdgts->append ( lE_ysoyad  = new QLineEdit   ) ;
     tb_wdgts->append ( lE_ytel  = new QLineEdit  ) ;
-    tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
+    tb_wdgts->append(win_Rsm = new QLabel);
 
-
+   
 
 }
 
@@ -148,6 +148,42 @@ void hC_FRM::tbwdgt()
 void hC_FRM::tbkntrl()
 {
     qDebug() << "   KNTRL";
+    
+    QSqlQuery qq;
+    qq.prepare("select frm_unvan from frm_dbtb");
+    if (qq.exec()) {
+        qDebug() << "qq executed - >>>" << qq.executedQuery ();
+    }
+    else {
+        qDebug() << "qq not executed------------------------------" << qq.lastError().text();
+    }
+    if (qq.isActive()) {
+        qDebug() << " qq is active - q.size is " << qq.size ();
+    } else {
+        qDebug() << " qq is not active";
+    }
+    if (qq.isValid()) {
+        QSqlRecord rec = qq.record();
+        
+        qDebug() << "Number of columns: " << rec.count();
+        
+        int nameCol = rec.indexOf("frm_unvan"); // index of the field "name"
+        while (qq.next())
+            qDebug() << qq.value(nameCol).toString(); // output all names
+    } else {
+        qDebug() << "----------------------------------------1111111111111111111111111111111111"
+                    "1111111111111" << qq.lastError ().text ();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked ,
             [this]()
