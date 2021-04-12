@@ -531,7 +531,8 @@ void hC_FTR::slt_ftr_hesap()
         }
         else
         {
-            qDebug() << " query inactive 1"<<endl<< q_qry.lastError ().text ();
+            qDebug() << " query inactive 1";
+             qDebug()        << q_qry.lastError ().text ();
         }
         // kdv
         s_qry = QString ("SELECT SUM"
@@ -552,7 +553,8 @@ void hC_FTR::slt_ftr_hesap()
 
         else
         {
-            qDebug() << " query inactive 2"<<endl<< q_qry.lastError ().text ();
+            qDebug() << " query inactive 2";
+            qDebug() <<q_qry.lastError ().text ();
         }
         // Genel Toplam
         s_qry = QString ("SELECT SUM"
@@ -573,7 +575,8 @@ void hC_FTR::slt_ftr_hesap()
 
         else
         {
-            qDebug() << " query inactive 3 "<<endl<< q_qry.lastError ().text ();
+            qDebug() << " query inactive 3 ";
+                 qDebug() <<       q_qry.lastError ().text ();
         }
     }
 }  ///**************************************** fatura hesap

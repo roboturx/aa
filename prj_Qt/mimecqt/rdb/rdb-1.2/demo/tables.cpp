@@ -28,6 +28,8 @@
 
 #include "tables.h"
 
+///////////////////////////////////////////////////////
+
 Company::Company( int companyId, const QString& name, const QString& address ) :
     m_companyId( companyId ),
     m_name( name ),
@@ -39,6 +41,8 @@ Company::~Company()
 {
 }
 
+///////////////////////////////////////////////////////
+
 Project::Project( int projectId, int companyId, const QString& name ) :
     m_projectId( projectId ),
     m_companyId( companyId ),
@@ -49,6 +53,8 @@ Project::Project( int projectId, int companyId, const QString& name ) :
 Project::~Project()
 {
 }
+
+///////////////////////////////////////////////////////
 
 Person::Person( int personId, const QString& name, const QString& address, const QString& phone ) :
     m_personId( personId ),
@@ -62,6 +68,8 @@ Person::~Person()
 {
 }
 
+///////////////////////////////////////////////////////
+
 Member::Member( int personId, int projectId ) :
     m_personId( personId ),
     m_projectId( projectId )
@@ -72,8 +80,10 @@ Member::~Member()
 {
 }
 
-DataManager::DataManager( QObject* parent ) : QObject( parent ),
-    m_lastId( 0 )
+///////////////////////////////////////////////////////
+
+DataManager::DataManager( QObject* parent )
+    : QObject( parent ),    m_lastId( 0 )
 {
     m_companies.initIndex( 63, &Company::companyId );
     m_projects.initIndex( 251, &Project::projectId );

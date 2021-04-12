@@ -32,6 +32,8 @@
 
 #include "tables.h"
 
+///////////////////////////////////////////////////////
+
 BaseTableModel::BaseTableModel( DataManager* parent ) : RDB::AbstractTableModel( parent )
 {
 }
@@ -58,6 +60,8 @@ DataManager* BaseTableModel::dataManager() const
 {
     return (DataManager*)parent();
 }
+
+///////////////////////////////////////////////////////
 
 CompaniesModel::CompaniesModel( DataManager* parent ) : BaseTableModel( parent )
 {
@@ -90,6 +94,8 @@ QPixmap CompaniesModel::icon( int /*id*/, int column ) const
     return QPixmap();
 }
 
+///////////////////////////////////////////////////////
+
 ProjectsModel::ProjectsModel( DataManager* parent ) : BaseTableModel( parent )
 {
 }
@@ -118,6 +124,8 @@ QPixmap ProjectsModel::icon( int /*id*/, int column ) const
         return QPixmap( ":/icons/folder.png" );
     return QPixmap();
 }
+
+///////////////////////////////////////////////////////
 
 PersonsModel::PersonsModel( DataManager* parent ) : BaseTableModel( parent )
 {
@@ -151,6 +159,8 @@ QPixmap PersonsModel::icon( int /*id*/, int column ) const
         return QPixmap( ":/icons/person.png" );
     return QPixmap();
 }
+
+///////////////////////////////////////////////////////
 
 PersonsFilter::PersonsFilter( DataManager* parent ) : RDB::AbstractRowFilter( parent )
 {

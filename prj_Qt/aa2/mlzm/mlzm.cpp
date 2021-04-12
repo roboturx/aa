@@ -456,8 +456,8 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
         }
         else
         {
-            qDebug() << "qury not active"<<endl<<
-                        q_qry.lastError ().text()<<endl;
+            qDebug() << "qury not active";
+             qDebug() <<           q_qry.lastError ().text();
         }
         s_qry = QString ("SELECT SUM(mlzmgc_miktar) "
                          "FROM mlzmgc_dbtb "
@@ -475,8 +475,8 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
         }
         else
         {
-            qDebug() << "qury not active 2  " <<endl<<
-                        q_qry.lastError ().text()<<endl;
+            qDebug() << "qury not active 2  " ;
+                  qDebug() <<      q_qry.lastError ().text();
         }
 
         tb_model->setData(tb_model->
@@ -487,7 +487,7 @@ void hC_MLZM::slt_Mlzm_hesap(QModelIndex Index)
     }
     else
     {
-        qDebug() << "index invalid"<<endl          ;
+        qDebug() << "index invalid"       ;
     }
 
 

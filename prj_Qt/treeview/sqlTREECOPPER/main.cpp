@@ -1,5 +1,5 @@
 #include <QApplication>
-
+#include <QDebug>
 #include "treeview.h"
 
 int main(int argc, char *argv[])

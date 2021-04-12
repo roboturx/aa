@@ -27,6 +27,7 @@
 #include <QSqlError>
 #include <QTreeView>
 #include <QMessageBox>
+#include <QDebug>
 
 #include <algorithm>
 

@@ -6,7 +6,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    //QLockFile lockFile(QDir::temp().absoluteFilePath("<uniq id>.lock"));
     QLockFile lockFile(QDir::temp().absoluteFilePath("<uniq id>.lock"));
+    qDebug () << QDir::temp().absoluteFilePath("<uniq id>.lock");
 
     /* Trying to close the Lock File, if the attempt is unsuccessful for 100 milliseconds,
      * then there is a Lock File already created by another process.

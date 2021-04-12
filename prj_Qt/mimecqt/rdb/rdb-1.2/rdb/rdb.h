@@ -49,7 +49,7 @@ struct Bucket
     void* m_row;
     Link m_links[ 1 ];
 };
-
+///////////////////////////////////////////////////////
 class IndexData
 {
 public:
@@ -121,6 +121,8 @@ private:
    IndexData& operator =( const IndexData& );
 };
 
+
+///////////////////////////////////////////////////////
 /**
 * Base class for indexes and iterators.
 */
@@ -145,7 +147,7 @@ public:
 protected:
     const IndexData* m_data;
 };
-
+///////////////////////////////////////////////////////
 /**
 * Base class for pair indexes.
 */
@@ -176,7 +178,7 @@ protected:
     const IndexData* m_first;
     const IndexData* m_second;
 };
-
+///////////////////////////////////////////////////////
 /**
 * Unique key index for non-const rows.
 */
@@ -205,7 +207,7 @@ public:
         return 0;
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the unique key index.
 */
@@ -224,7 +226,7 @@ public:
     template<class ROW>
     UniqueIndex( const UniqueIndex<ROW>& other ) : IndexWrapper( other ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Unique key index for constant rows.
 */
@@ -258,7 +260,7 @@ public:
         return 0;
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the unique key constant index.
 */
@@ -283,7 +285,7 @@ public:
     template<class ROW>
     UniqueConstIndex( const UniqueIndex<ROW>& other ) : IndexWrapper( other ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Foreign key index for non-const rows.
 */
@@ -298,7 +300,7 @@ public:
 
     explicit ForeignIndex( const IndexData* data ) : IndexWrapper( data ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the foreign key index.
 */
@@ -317,7 +319,7 @@ public:
     template<class ROW>
     ForeignIndex( const ForeignIndex<ROW>& other ) : IndexWrapper( other ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Foreign key index for constant rows.
 */
@@ -337,7 +339,7 @@ public:
 
     explicit ForeignConstIndex( const IndexData* data ) : IndexWrapper( data ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the foreign key constant index.
 */
@@ -362,7 +364,7 @@ public:
     template<class ROW>
     ForeignConstIndex( const ForeignIndex<ROW>& other ) : IndexWrapper( other ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Unique pair of foreign key indexes for non-const rows.
 */
@@ -401,7 +403,7 @@ public:
         return 0;
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Unique pair of foreign key indexes for constant rows.
 */
@@ -446,7 +448,7 @@ public:
         return 0;
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Base class for index iterators.
 */
@@ -501,7 +503,7 @@ protected:
     int m_hash;
     Bucket* m_bucket;
 };
-
+///////////////////////////////////////////////////////
 /**
 * Non-const iterator for all rows in an index.
 */
@@ -535,7 +537,7 @@ public:
         return static_cast<ROW*>( m_bucket ? m_bucket->m_row : 0 );
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the non-const index iterator.
 */
@@ -560,7 +562,7 @@ public:
     explicit IndexIterator( const ForeignIndex<void>& index ) :
         IndexIteratorBase( index ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Constant iterator for all rows in an index.
 */
@@ -594,7 +596,7 @@ public:
         return static_cast<ROW*>( m_bucket ? m_bucket->m_row : 0 );
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the constant index iterator.
 */
@@ -619,7 +621,7 @@ public:
     explicit IndexConstIterator( const ForeignConstIndex<void>& index ) :
         IndexIteratorBase( index ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Base class for foreign iterators.
 */
@@ -672,7 +674,7 @@ protected:
     bool m_end;
     Bucket* m_bucket;
 };
-
+///////////////////////////////////////////////////////
 /**
 * Non-const iterator for rows with a given foreign key value.
 */
@@ -700,7 +702,7 @@ public:
         return static_cast<ROW*>( m_bucket ? m_bucket->m_row : 0 );
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the non-const foreign iterator.
 */
@@ -719,7 +721,7 @@ public:
     ForeignIterator( const ForeignIndex<void>& index, int key ) :
         ForeignIteratorBase( index, key ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Constant iterator for rows with a given foreign key value.
 */
@@ -747,7 +749,7 @@ public:
         return static_cast<const ROW*>( m_bucket ? m_bucket->m_row : 0 );
     }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Typeless specialization of the constant foreign iterator.
 */
@@ -766,7 +768,7 @@ public:
     ForeignConstIterator( const ForeignConstIndex<void>& index, int key ) :
         ForeignIteratorBase( index, key ) { }
 };
-
+///////////////////////////////////////////////////////
 /**
 * Base of all table templates.
 */
@@ -870,7 +872,7 @@ private:
     TableBase( const TableBase& );
     TableBase& operator =( const TableBase& );
 };
-
+///////////////////////////////////////////////////////
 /**
 * Table with one index for rows with a single primary key.
 */
@@ -944,7 +946,7 @@ private:
     SimpleTable( const SimpleTable& );
     SimpleTable& operator =( const SimpleTable& );
 };
-
+///////////////////////////////////////////////////////
 /**
 * Table with two indexes for rows with a primary key and a foreign key.
 */
@@ -997,7 +999,7 @@ private:
     ChildTable( const ChildTable& );
     ChildTable& operator =( const ChildTable& );
 };
-
+///////////////////////////////////////////////////////
 /**
 * Table for rows with two foreign keys which form a unique pair.
 */

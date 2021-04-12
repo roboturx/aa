@@ -1,5 +1,6 @@
 ﻿//#include "hc_.h"
 #include "main/globals.h"
+
 hC_::hC_()
 {
 
@@ -450,7 +451,7 @@ hC_tBcreator::hC_tBcreator (QWidget *parent)
                  <<endl<<"   View  : "<< tb_view
                  <<endl<<"   Map   : "<< tb_mapper ;
 */
-    qDebug () <<endl<<"tbCreator Construction ...";
+    qDebug () <<"tbCreator Construction ...";
 }
 
 hC_tBcreator::~hC_tBcreator()
@@ -523,10 +524,11 @@ QString hC_tBcreator::tbCreate (hC_ArrD * tb_flds)
                     "\n------------------------------------\n"+
                     q.lastError().text()+
                     "\n------------------------------------\n";
-            qDebug ()<<endl<< "     xxx:xxx HATA - Dosya Oluşturulamadı : " << *tb_name
-                    <<endl<< "     ------------------------------------"
-                   <<endl<< "     "<< q.lastError().text()
-                  <<endl<< "     ------------------------------------";
+
+            qDebug () << "     xxx:xxx HATA - Dosya Oluşturulamadı : " << *tb_name
+                    << "     ------------------------------------"
+                   << "     "<< q.lastError().text()
+                  << "     ------------------------------------";
         }
         else /// dosya oluşturuldu
         {
@@ -844,7 +846,7 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
             x->resize(QGuiApplication::primaryScreen()->
                       availableSize() * 10 / 16);
             x->setScaledContents(true);
-            x->setPixmap(QPixmap (*lB_resim->pixmap() ) );
+            x->setPixmap(QPixmap (lB_resim->pixmap() ) );
             xx.setWindowTitle("RESİM GÖRÜNTÜLEME");
             xx.exec();
         });

@@ -22,7 +22,7 @@
 #include <QAction>
 #include <QApplication>
 
-#include <QCamera>
+//#include <Qt <QCamera>
 #include <QChar>
 #include <QCheckBox>
 #include <QColor>
@@ -54,7 +54,7 @@
 #include <QPushButton>
 #include <QRect>
 #include <QRgb>
-#include <QTextCodec>
+//#include <QTextCodec>
 #include <QSize>
 #include <QStackedWidget>
 #include <QSplitter>
@@ -88,6 +88,8 @@
 
 #include <QAbstractItemModel>
 #include <QCompleter>
+
+#include <iostream>
 
 
 

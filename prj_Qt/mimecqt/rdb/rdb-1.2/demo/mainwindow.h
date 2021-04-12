@@ -33,7 +33,7 @@
 #include "ui_mainwindow.h"
 
 class DataManager;
-
+///////////////////////////////////////////////////////
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

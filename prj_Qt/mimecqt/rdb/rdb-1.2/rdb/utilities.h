@@ -34,7 +34,7 @@
 
 namespace RDB
 {
-
+///////////////////////////////////////////////////////
 template<class T, typename R>
 class LessThan
 {
@@ -49,7 +49,7 @@ public:
 private:
     R (T::*m_order)() const;
 };
-
+///////////////////////////////////////////////////////
 /**
 * Sort rows of a table using given property.
 * The values of the property are compared using operator >.
@@ -71,7 +71,7 @@ inline QList<const T*> sortRows( IT it, R (T::*order)() const )
     qSort( list.begin(), list.end(), LessThan< T, R >( order ) );
     return list;
 }
-
+///////////////////////////////////////////////////////
 template<class T, typename R>
 class LocaleAwareLessThan
 {
@@ -86,7 +86,7 @@ public:
 private:
     R (T::*m_order)() const;
 };
-
+///////////////////////////////////////////////////////
 /**
 * Sort rows of a table using given property.
 * The values of the property are compared using QString::localeAwareCompare().
@@ -104,7 +104,7 @@ inline QList<const T*> localeAwareSortRows( IT it, R (T::*order)() const )
     qSort( list.begin(), list.end(), LocaleAwareLessThan< T, R >( order ) );
     return list;
 }
-
+///////////////////////////////////////////////////////
 /**
 * Find a row with given value of a non-indexed property in a table.
 * @param it Row iterator of any kind.

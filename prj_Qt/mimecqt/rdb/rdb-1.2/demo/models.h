@@ -39,7 +39,7 @@ enum Columns
 };
 
 class DataManager;
-
+///////////////////////////////////////////////////////
 class BaseTableModel : public RDB::AbstractTableModel
 {
     Q_OBJECT
@@ -53,7 +53,7 @@ public: // overrides
 protected:
     DataManager* dataManager() const;
 };
-
+///////////////////////////////////////////////////////
 class CompaniesModel : public BaseTableModel
 {
     Q_OBJECT
@@ -65,7 +65,7 @@ public: // overrides
     QString text( int id, int column ) const;
     QPixmap icon( int id, int column ) const;
 };
-
+///////////////////////////////////////////////////////
 class ProjectsModel : public BaseTableModel
 {
     Q_OBJECT
@@ -77,7 +77,7 @@ public: // overrides
     QString text( int id, int column ) const;
     QPixmap icon( int id, int column ) const;
 };
-
+///////////////////////////////////////////////////////
 class PersonsModel : public BaseTableModel
 {
     Q_OBJECT
@@ -89,7 +89,7 @@ public: // overrides
     QString text( int id, int column ) const;
     QPixmap icon( int id, int column ) const;
 };
-
+///////////////////////////////////////////////////////
 class PersonsFilter : public RDB::AbstractRowFilter
 {
     Q_OBJECT

@@ -27,12 +27,13 @@
 ****************************************************************************/
 
 #include "mainwindow.h"
+#include "mw.h"
 
 int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 
-    MainWindow* window = new MainWindow();
+    MW* window = new MW();
     window->show();
 
     return app.exec();

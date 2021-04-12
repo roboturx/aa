@@ -21,14 +21,14 @@ void MW_main::login()
     arayuz = new Arayuz;
     arayuz->setGeometry (800,300,300,480);
     arayuz->setWindowTitle("Arayuz");
-    arayuz->show();
+  //  arayuz->show();
 
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase = new DBase();
     dbase->setGeometry (20,30,300,480);
     dbase->setWindowTitle("Veri Tabanı Kontrol");
-    dbase->show();
+  //  dbase->show();
 
     if (! dbase->setupDBase ())
     {

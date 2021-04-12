@@ -36,7 +36,7 @@ QAbstractItemModel *Tamamla::modelFromFile(const QString& fileName)
 
     if (!file.open(QFile::ReadOnly))
     {
-     qDebug()<< fileName <<" dosyası açılamadı"<<endl;
+     qDebug()<< fileName <<" dosyası açılamadı";
         return new QStringListModel(completer);
     }
 #ifndef QT_NO_CURSOR

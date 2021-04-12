@@ -3,18 +3,23 @@ TEMPLATE = app
 TARGET = rdbdemo
 
 HEADERS   += editdialog.h \
+             database.h \
              mainwindow.h \
              models.h \
+             mw.h \
              tables.h
 
 SOURCES   += editdialog.cpp \
+    database.cpp \
              main.cpp \
              mainwindow.cpp \
              models.cpp \
+    mw.cpp \
              tables.cpp \
 
 FORMS     += editdialog.ui \
-             mainwindow.ui
+             mainwindow.ui \
+             mw.ui
 
 RESOURCES += icons.qrc
 
@@ -39,3 +44,6 @@ win32-msvc* {
         DESTDIR = ../release
     }
 }
+
+DISTFILES += \
+    tables.qmodel

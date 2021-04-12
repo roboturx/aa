@@ -735,7 +735,7 @@ int SortingBox::updateButtonGeometry(QToolButton *button, int x, int y)
                         size.rwidth(), size.rheight());
 
     return y - size.rheight()
-            - style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
+            - style()->pixelMetric(QStyle::PM_LayoutHorizontalSpacing/* PM_DefaultLayoutSpacing*/);
 }
 
 

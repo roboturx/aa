@@ -37,7 +37,7 @@
 
 namespace RDB
 {
-
+///////////////////////////////////////////////////////
 class AbstractRowFilter;
 
 /**
@@ -108,7 +108,8 @@ public:
     * @param model The model for the top level table.
     * @param index The primary index of the table.
     */
-    void setRootTableModel( AbstractTableModel* model, const RDB::UniqueConstIndex<void>& index );
+    void setRootTableModel( AbstractTableModel* model,
+        const RDB::UniqueConstIndex<void>& index );
 
     /**
     * Set the top level table model.
@@ -119,14 +120,18 @@ public:
     * @param parentIndex Foreign index for matching with the given value.
     * @param parentId The value of the foreign key to match.
     */
-    void setRootTableModel( AbstractTableModel* model, const RDB::UniqueConstIndex<void>& index,
-        const RDB::ForeignConstIndex<void>& parentIndex, int parentId );
+    void setRootTableModel( AbstractTableModel* model,
+        const RDB::UniqueConstIndex<void>& index,
+        const RDB::ForeignConstIndex<void>& parentIndex,
+        int parentId );
 
     /**
     * @overload
     */
-    void setRootTableModel( AbstractTableModel* model, const RDB::ForeignConstIndex<void>& index,
-        const RDB::ForeignConstIndex<void>& parentIndex, int parentId );
+    void setRootTableModel( AbstractTableModel* model,
+        const RDB::ForeignConstIndex<void>& index,
+        const RDB::ForeignConstIndex<void>& parentIndex,
+        int parentId );
 
     /**
     * Return the top level table model.
@@ -212,7 +217,9 @@ private:
         int m_column;
     };
 
-    class CompareItems
+/////////////////////////////////////////////////////////////
+
+class CompareItems
     {
     public:
         CompareItems( AbstractTableModel* model, int column, Qt::SortOrder order );
