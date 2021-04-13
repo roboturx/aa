@@ -11,17 +11,18 @@
 
 DataBase::DataBase()
 {
-    qDebug() << "   Database constructor";
+    qDebug() << "Database construction...";
     msgBox = new QMessageBox;
 
     if (!controlDriver()) {
-        msgBox->setText("       DRIVER ERROR...");
-        qDebug() << "       DRIVER ERROR...";
+        msgBox->setText("   DRIVER ERROR...");
+        qDebug() << "   DRIVER ERROR...";
+        throw msgBox;
     }
-    if (!connectToDataBase()) {
-        msgBox->setText("       DATABASE ERROR...");
-        qDebug() << "       DATABASE ERROR...";
-    }
+//    if (!connectToDataBase()) {
+//        msgBox->setText("       DATABASE ERROR...");
+//        qDebug() << "       DATABASE ERROR...";
+//    }
     //  connectToDataBase();
 }
 
@@ -39,26 +40,33 @@ bool DataBase::controlDriver()
         return false;
     }
     // qt has driver
-    qDebug() << "       Database driver OK";
+    qDebug() << "       SQLITE Database driver OK";
+
+
     db = new QSqlDatabase;
     *db = QSqlDatabase::addDatabase(DRIVER);
-    // create database
-    qDebug() << "       Database connected";
     db->setDatabaseName(DATABASE_NAME);
-    qDebug() << "       Connected Database name : " << DATABASE_NAME;
+    // create database
+    qDebug() << "       Database connection Established - `"
+                << DATABASE_NAME << "` ";
     return true;
 }
 
 bool DataBase::connectToDataBase()
 {
+
+//    QString name=(qApp->applicationDirPath()
+//                        + QDir::separator()
+//                        + "lang.sqlite" );
+    qDebug() << "Connecting Database...";
     qDebug() << "   Searching Database file on disk...";
     if (!QFile(DATABASE_NAME).exists()) {
-        qDebug() << "       NO FİLE - Database file creating....";
+        qDebug() << "       NO FİLE on DISK ....";
         if (!restoreDataBase()) {
-            qDebug() << "       Database file NOT created.";
+            //qDebug() << "       Database file NOT created.";
             return false;
         }
-        qDebug() << "       Database file created.";
+        //qDebug() << "       Database file created.";
     } else {
         qDebug() << "       Database file on disk";
         openDataBase();
@@ -80,7 +88,7 @@ bool DataBase::restoreDataBase()
     db->exec("PRAGMA encoding = \'UTF-16\'");
     
     
-    
+
     qDebug() << "   Database tables creating...";
     if ((!this->create_Table_konum()) || (!this->create_Table_isemri())
         || (!this->create_Table_h_hsp()) || (!this->create_Table_h_mmbr())) {
@@ -95,7 +103,8 @@ bool DataBase::restoreDataBase()
 bool DataBase::openDataBase()
 {
     if (db->open()) {
-        qDebug() << "   Database opened.";
+       // qDebug() << "   Database opened.";
+        ddd();
         return true;
     } else {
         qDebug() << "   Database OPEN ERROR.";
@@ -105,25 +114,34 @@ bool DataBase::openDataBase()
 
 void DataBase::ddd()
 {
-    qDebug() << "ddddddddddddddddddddddddddddd";
-    //    db.exec(".tables");
-    //    qDebug() << db.exec(".tables").lastError ().text ();
+    qDebug() << "----------------------------------------------------";
+
+    if (db->isOpen())
+        qDebug() << "Database open";
+    else
+        qDebug() << "DATABASE NOT OPEN";
+
+    QStringList tlist { db->tables(QSql::TableType::AllTables) };
+
+
+    qDebug ()<< "Usable Tables Number : " <<tlist.count();
+    qDebug ()<< "Usable Tables________: ";
+    foreach (QString xvar, tlist) {
+    qDebug() << "                      "<<xvar ;
+    }
+
+
     QSqlQuery q;
-    if (!q.exec("SELECT * FROM company)")) {
-        qDebug() << "   company error .";
+    if (!q.exec("SELECT * FROM konum")) {
+        qDebug() << "   konum error.............. .";
     }
-    
-    qDebug() << "in database tables count" <<  tables(QSql::AllTables).count();
-    
-    
-    if (!q.exec("SELECT name FROM sqlite_schema)")) {
-        qDebug() << "   schema error .";
-    }
+    qDebug() << "   konum  records";
     while (q.next()) {
-        qDebug() << q.value(0) << ", " << q.value(1);
+        qDebug() << q.value(0).toInt() << " - "
+                << q.value(1).toString();
     }
     
-    qDebug() << "ddddddddddddddddddddddddddddd";
+    qDebug() << "----------------------------------------------------";
     
 }
 

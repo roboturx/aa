@@ -61,13 +61,15 @@ void TableItemModel::setRowFilter( AbstractRowFilter* filter )
 {
     m_filter = filter;
 
-    connect( filter, SIGNAL( conditionsChanged() ), this, SLOT( updateData() ) );
+    connect( filter, SIGNAL( conditionsChanged() ), this,
+             SLOT( updateData() ) );
 
     if ( m_uniqueIndex.isValid() || m_foreignIndex.isValid() )
         updateData();
 }
 
-void TableItemModel::setRootTableModel( AbstractTableModel* model, const UniqueConstIndex<void>& index )
+void TableItemModel::setRootTableModel( AbstractTableModel* model,
+                    const UniqueConstIndex<void>& index )
 {
     attachTableModel( model, index.dim() );
 
@@ -80,7 +82,8 @@ void TableItemModel::setRootTableModel( AbstractTableModel* model, const UniqueC
     emit layoutAboutToBeChanged();
 }
 
-void TableItemModel::setRootTableModel( AbstractTableModel* model, const RDB::UniqueConstIndex<void>& index,
+void TableItemModel::setRootTableModel( AbstractTableModel* model,
+        const RDB::UniqueConstIndex<void>& index,
         const RDB::ForeignConstIndex<void>& parentIndex, int parentId )
 {
     attachTableModel( model, index.dim() );
@@ -95,8 +98,10 @@ void TableItemModel::setRootTableModel( AbstractTableModel* model, const RDB::Un
     emit layoutAboutToBeChanged();
 }
 
-void TableItemModel::setRootTableModel( AbstractTableModel* model, const RDB::ForeignConstIndex<void>& index,
-        const RDB::ForeignConstIndex<void>& parentIndex, int parentId )
+void TableItemModel::setRootTableModel( AbstractTableModel* model,
+        const RDB::ForeignConstIndex<void>& index,
+        const RDB::ForeignConstIndex<void>& parentIndex,
+        int parentId )
 {
     attachTableModel( model, index.dim() );
 
@@ -115,7 +120,8 @@ AbstractTableModel* TableItemModel::rootTableModel() const
     return m_models.first();
 }
 
-void TableItemModel::addChildTableModel( AbstractTableModel* model, const RDB::UniqueConstIndex<void>& index,
+void TableItemModel::addChildTableModel( AbstractTableModel* model,
+        const RDB::UniqueConstIndex<void>& index,
         const RDB::ForeignConstIndex<void>& parentIndex )
 {
     attachTableModel( model, index.dim() );
@@ -131,7 +137,8 @@ void TableItemModel::addChildTableModel( AbstractTableModel* model, const RDB::U
     emit layoutAboutToBeChanged();
 }
 
-void TableItemModel::addChildTableModel( AbstractTableModel* model, const RDB::ForeignConstIndex<void>& index,
+void TableItemModel::addChildTableModel( AbstractTableModel* model,
+        const RDB::ForeignConstIndex<void>& index,
         const RDB::ForeignConstIndex<void>& parentIndex )
 {
     attachTableModel( model, index.dim() );
@@ -147,7 +154,8 @@ void TableItemModel::addChildTableModel( AbstractTableModel* model, const RDB::F
     emit layoutAboutToBeChanged();
 }
 
-int TableItemModel::columnCount( const QModelIndex& /*parent*/ /*= QModelIndex()*/ ) const
+int TableItemModel::columnCount( const QModelIndex&
+                    /*parent*/ /*= QModelIndex()*/ ) const
 {
     return m_columns.count();
 }

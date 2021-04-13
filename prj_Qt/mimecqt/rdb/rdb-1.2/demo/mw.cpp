@@ -21,38 +21,13 @@ MW::MW()
 
 
     Db = new DataBase();
-    //QStringList tables = Db->tables(QSql::AllTables);
 
- 
     if (Db->connectToDataBase()) {
-        qDebug() << " db opennnnnnnnnnnn ";
-        qDebug() << "tables count" << Db->tables(QSql::AllTables).count();
+        qDebug() << " ";
     }
-    else
-        qDebug() << " db NOT open ";
-     Db->ddd();
+
     
-    
-    QSqlQuery q("select * from konum");
-    if (q.isActive()) {
-        qDebug() << " q is active - q.size is " << q.size ();
-    } else {
-        qDebug() << " q is not active";
-    }
-    if (q.isValid()) {
-        QSqlRecord rec = q.record();
-        
-        qDebug() << "Number of columns: " << rec.count();
-        
-        int nameCol = rec.indexOf("companyID"); // index of the field "name"
-        while (q.next())
-            qDebug() << q.value(nameCol).toString(); // output all names
-    } else {
-        qDebug() << "11111" << q.lastError ().text ();
-    }
-    
-    
-    fillSampleData();
+  //  fillSampleData();
     
     QList<int> columns;
     columns << Column_Name << Column_Address << Column_Phone;
@@ -60,14 +35,14 @@ MW::MW()
     RDB::TableItemModel* projectsModel = new RDB::TableItemModel( this );
     projectsModel->setColumns(columns);
 
-   
+
     
-    //projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
+    projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
     projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
     projectsModel->addChildTableModel( new ProjectsModel( m_manager ),
-        m_manager->projects()->index(), m_manager->projects()->parentIndex() );
+                                       m_manager->projects()->index(), m_manager->projects()->parentIndex() );
     projectsModel->addChildTableModel( new PersonsModel( m_manager ),
-        m_manager->members()->index().first(), m_manager->members()->index().second() );
+                                       m_manager->members()->index().first(), m_manager->members()->index().second() );
 
     connect( m_manager, SIGNAL( projectsChanged() ), projectsModel,
              SLOT( updateData() ) );
@@ -93,9 +68,9 @@ MW::MW()
     m_ui.personsView->sortByColumn( 0, Qt::AscendingOrder );
 
     connect( m_ui.projectsView->selectionModel(), SIGNAL( selectionChanged( const QItemSelection&, const QItemSelection& ) ),
-        this, SLOT( updateButtons() ) );
+             this, SLOT( updateButtons() ) );
     connect( m_ui.personsView->selectionModel(), SIGNAL( selectionChanged( const QItemSelection&, const QItemSelection& ) ),
-        this, SLOT( updateButtons() ) );
+             this, SLOT( updateButtons() ) );
 
     connect( m_ui.projectsView->model(), SIGNAL( layoutChanged() ), this, SLOT( updateButtons() ) );
     connect( m_ui.personsView->model(), SIGNAL( layoutChanged() ), this, SLOT( updateButtons() ) );
@@ -109,25 +84,30 @@ MW::~MW()
 
 void MW::fillSampleData()
 {
+
     QSqlQuery q("select * from konum");
     if (q.isActive()) {
-        qDebug() << " q is active - q.size is " << q.size ();
+        qDebug() << " q is active  ";
     } else {
         qDebug() << " q is not active";
     }
-    if (q.isValid()) {
-        QSqlRecord rec = q.record();
 
-        qDebug() << "Number of columns: " << rec.count();
+    QSqlRecord rec = q.record();
+    qDebug() << "Number of columns: " << rec.count();
+int company1 =1;
 
-        int nameCol = rec.indexOf("companyID"); // index of the field "name"
-        while (q.next())
-            qDebug() << q.value(nameCol).toString(); // output all names
-    } else {
-        qDebug() << "11111" << q.lastError ().text ();
+    while (q.next())
+    {
+        qDebug() << q.value(rec.indexOf("name")).toString(); // output all names
+        qDebug() << q.value(rec.indexOf("address")).toString(); // output all names
+
+        int company1 = m_manager->addCompany(
+                    q.value(rec.indexOf("name")).toString(),
+                    q.value(rec.indexOf("address")).toString()
+                    );
     }
     
-    int company1 = m_manager->addCompany( "First Company", "Gliwice, Poland" );
+
     int company2 = m_manager->addCompany( "Second Company", "Berlin, Germany" );
     
     
@@ -161,15 +141,15 @@ void MW::updateButtons()
         int level = m_ui.projectsView->model()->data( index, RDB::TableItemModel::LevelRole ).toInt();
         int rowId = m_ui.projectsView->model()->data( index, RDB::TableItemModel::RowIdRole ).toInt();
         switch ( level ) {
-            case 0:
-                m_companyId = rowId;
-                break;
-            case 1:
-                m_projectId = rowId;
-                break;
-            case 2:
-                m_memberId = rowId;
-                break;
+        case 0:
+            m_companyId = rowId;
+            break;
+        case 1:
+            m_projectId = rowId;
+            break;
+        case 2:
+            m_memberId = rowId;
+            break;
         }
         index = m_ui.projectsView->model()->parent( index );
     }
@@ -291,7 +271,7 @@ void MW::on_addMember_clicked()
             const Project* project = m_manager->projects()->find( m_projectId );
             QString projectName = project ? project->name() : QString();
             QMessageBox::warning( this, tr( "Warning" ),
-                tr( "Person '%1' is already a member of project '%2'." ).arg( personName, projectName ) );
+                                  tr( "Person '%1' is already a member of project '%2'." ).arg( personName, projectName ) );
         } else {
             m_manager->addMember( m_personId, m_projectId );
         }
