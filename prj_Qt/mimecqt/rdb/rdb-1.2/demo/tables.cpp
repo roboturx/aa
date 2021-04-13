@@ -27,7 +27,7 @@
 ****************************************************************************/
 
 #include "tables.h"
-
+#include <QSqlQuery>
 ///////////////////////////////////////////////////////
 
 Company::Company( int companyId, const QString& name, const QString& address ) :
@@ -95,6 +95,26 @@ DataManager::DataManager( QObject* parent )
 
 DataManager::~DataManager()
 {
+}
+////////////////////////////////////
+int DataManager::addCompany2(const QString &name, const QString &address)
+{
+    int companyId = nextId();
+
+    QSqlQuery q;
+    
+    q.prepare ("insert into konum values ( :A, :B, :C )");
+    q.bindValue (":A", QString::number (companyId));
+    q.bindValue (":B", name);
+    q.bindValue (":C", address);
+                if (q.exec ())
+                    qDebug () << "konum db yeeklendi";
+                else
+                qDebug () << "konum db eeklenMEEEdi";
+    
+    m_companies.insert( new Company( companyId, name, address ) );
+    emit projectsChanged();
+    return companyId;
 }
 
 int DataManager::addCompany( const QString& name, const QString& address )

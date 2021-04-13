@@ -27,7 +27,7 @@ MW::MW()
     }
 
     
-  //  fillSampleData();
+    fillSampleData();
     
     QList<int> columns;
     columns << Column_Name << Column_Address << Column_Phone;
@@ -105,9 +105,13 @@ int company1 =1;
                     q.value(rec.indexOf("name")).toString(),
                     q.value(rec.indexOf("address")).toString()
                     );
+          m_manager->addCompany2(
+            q.value(rec.indexOf("name")).toString(),
+            q.value(rec.indexOf("address")).toString()
+            );
     }
     
-
+   //  company1 = m_manager->addCompany( "firstCompany", "Beasdf, Gasdfas" );
     int company2 = m_manager->addCompany( "Second Company", "Berlin, Germany" );
     
     

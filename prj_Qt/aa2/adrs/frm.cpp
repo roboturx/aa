@@ -150,7 +150,8 @@ void hC_FRM::tbkntrl()
     qDebug() << "   KNTRL";
     
     QSqlQuery qq;
-    qq.prepare("select frm_unvan from frm_dbtb");
+    qq.prepare("select frm_unvanı"
+               " from frm_dbtb");
     if (qq.exec()) {
         qDebug() << "qq executed - >>>" << qq.executedQuery ();
     }
