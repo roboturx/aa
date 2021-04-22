@@ -2,6 +2,7 @@
 #define MW_H
 
 #include <QMainWindow>
+#include <QTextEdit>
 #include "ui_mw.h"
 #include "database.h"
 class DataManager;
@@ -12,6 +13,9 @@ class MW : public QMainWindow
 public:
     MW();
     ~MW();
+
+    //debuq
+    static QTextEdit * s_textEdit;
 
 private slots:
     void updateButtons();

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>992</width>
     <height>600</height>
    </rect>
   </property>
@@ -18,10 +18,22 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>10</y>
+      <y>40</y>
       <width>744</width>
       <height>439</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>3</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>214</width>
+      <height>0</height>
+     </size>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -168,7 +180,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>992</width>
      <height>21</height>
     </rect>
    </property>

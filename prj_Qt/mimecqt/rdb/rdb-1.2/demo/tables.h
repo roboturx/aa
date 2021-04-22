@@ -149,6 +149,7 @@ public:
     int addCompany2( const QString& name, const QString& address );
     
     void editCompany( int companyId, const QString& name, const QString& address );
+    void editCompany2( int companyId, const QString& name, const QString& address );
     void removeCompany( int companyId );
 
     const Projects* projects() const { return &m_projects; }

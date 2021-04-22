@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QTextEdit>
 
 #include "rdb/tableitemmodel.h"
 
@@ -12,9 +13,23 @@
 #include "models.h"
 #include "database.h"
 
+//debug
+
+//#include <qapplication.h>
+//#include <stdio.h>
+// #include <stdlib.h>
+QTextEdit * MW::s_textEdit = 0;
+
 MW::MW()
 {
     m_ui.setupUi( this );
+
+   s_textEdit = new QTextEdit();
+
+   s_textEdit->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+s_textEdit->setGeometry(0,0,600,400);
+s_textEdit->show();
+
 
     m_manager = new DataManager(this);
 
@@ -80,6 +95,8 @@ MW::MW()
 
 MW::~MW()
 {
+    s_textEdit->close();
+    delete s_textEdit;
 }
 
 void MW::fillSampleData()
@@ -101,16 +118,17 @@ int company1 =1;
         qDebug() << q.value(rec.indexOf("name")).toString(); // output all names
         qDebug() << q.value(rec.indexOf("address")).toString(); // output all names
 
-        int company1 = m_manager->addCompany(
+        company1 = m_manager->addCompany(
                     q.value(rec.indexOf("name")).toString(),
                     q.value(rec.indexOf("address")).toString()
                     );
-          m_manager->addCompany2(
-            q.value(rec.indexOf("name")).toString(),
-            q.value(rec.indexOf("address")).toString()
-            );
+
     }
     
+    m_manager->addCompany2(
+      q.value(rec.indexOf("name")).toString(),
+      q.value(rec.indexOf("address")).toString()
+      );
    //  company1 = m_manager->addCompany( "firstCompany", "Beasdf, Gasdfas" );
     int company2 = m_manager->addCompany( "Second Company", "Berlin, Germany" );
     
