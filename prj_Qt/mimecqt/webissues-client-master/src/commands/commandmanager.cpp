@@ -492,7 +492,7 @@ bool CommandManager::parseReply( const QString& string, Reply& reply )
   
     //QStringList lines = string.split( "\r\n", QString::SkipEmptyParts );
     QStringList lines = string.split( "\r\n",
-                                     Qt::SplitBehavior );
+                                     Qt::SkipEmptyParts) ;//SplitBehavior );
 
     QString patternNumber = "-?\\d+";
     QString patternString = "'(?:\\\\['\\\\nt]|[^'\\\\])*'";

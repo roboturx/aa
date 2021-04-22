@@ -17,11 +17,7 @@ MW::MW()
     m_ui.setupUi( this );
 
     m_manager = new DataManager(this);
-
-
-
     Db = new DataBase();
-
     if (Db->connectToDataBase()) {
         qDebug() << " ";
     }
@@ -36,16 +32,24 @@ MW::MW()
     projectsModel->setColumns(columns);
 
 
+
+
     
-    projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
-    projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
+//    projectsModel->setRootTableModel( new CompaniesModel( m_manager ),
+//                                     m_manager->companies()->index() );
+    projectsModel->setRootTableModel( new CompaniesModel( m_manager ),
+                                     m_manager->companies()->index() );
+
+
+    projectsModel->setRootTableModel( new CompaniesModel( m_manager ),
+                                     m_manager->companies()->index() );
     projectsModel->addChildTableModel( new ProjectsModel( m_manager ),
-                                       m_manager->projects()->index(), m_manager->projects()->parentIndex() );
+                                      m_manager->projects()->index(), m_manager->projects()->parentIndex() );
     projectsModel->addChildTableModel( new PersonsModel( m_manager ),
-                                       m_manager->members()->index().first(), m_manager->members()->index().second() );
+                                      m_manager->members()->index().first(), m_manager->members()->index().second() );
 
     connect( m_manager, SIGNAL( projectsChanged() ), projectsModel,
-             SLOT( updateData() ) );
+            SLOT( updateData() ) );
 
     PersonsFilter* filter = new PersonsFilter( m_manager );
     connect( m_ui.searchEdit, SIGNAL( textChanged( const QString& ) ), filter, SLOT( setNameFilter( const QString& ) ) );
@@ -68,12 +72,14 @@ MW::MW()
     m_ui.personsView->sortByColumn( 0, Qt::AscendingOrder );
 
     connect( m_ui.projectsView->selectionModel(), SIGNAL( selectionChanged( const QItemSelection&, const QItemSelection& ) ),
-             this, SLOT( updateButtons() ) );
+            this, SLOT( updateButtons() ) );
     connect( m_ui.personsView->selectionModel(), SIGNAL( selectionChanged( const QItemSelection&, const QItemSelection& ) ),
-             this, SLOT( updateButtons() ) );
+            this, SLOT( updateButtons() ) );
 
-    connect( m_ui.projectsView->model(), SIGNAL( layoutChanged() ), this, SLOT( updateButtons() ) );
-    connect( m_ui.personsView->model(), SIGNAL( layoutChanged() ), this, SLOT( updateButtons() ) );
+    connect( m_ui.projectsView->model(), SIGNAL( layoutChanged() ), this,
+            SLOT( updateButtons() ) );
+    connect( m_ui.personsView->model(), SIGNAL( layoutChanged() ), this,
+            SLOT( updateButtons() ) );
 
     updateButtons();
 }
@@ -87,42 +93,45 @@ void MW::fillSampleData()
 
     QSqlQuery q("select * from konum");
     if (q.isActive()) {
-        qDebug() << " q is active  ";
+        qDebug() << " -------------------------- q is active  ";
     } else {
         qDebug() << " q is not active";
     }
 
     QSqlRecord rec = q.record();
     qDebug() << "Number of columns: " << rec.count();
-int company1 =1;
-
+    int company1 =1;
+    int i{0};
     while (q.next())
     {
+        qDebug() << q.value(rec.indexOf("companyId")).toString(); // output all ids
         qDebug() << q.value(rec.indexOf("name")).toString(); // output all names
         qDebug() << q.value(rec.indexOf("address")).toString(); // output all names
 
-        int company1 = m_manager->addCompany(
-                    q.value(rec.indexOf("name")).toString(),
-                    q.value(rec.indexOf("address")).toString()
-                    );
-          m_manager->addCompany2(
+        //        company1 = m_manager->addCompany(
+        //                    q.value(rec.indexOf("name")).toString(),
+        //                    q.value(rec.indexOf("address")).toString()
+        //                    );
+
+
+        m_manager->addCompany(
             q.value(rec.indexOf("name")).toString(),
             q.value(rec.indexOf("address")).toString()
             );
     }
+
+    //  company1 = m_manager->addCompany( "firstCompany", "Beasdf, Gasdfas" );
+    int company2 = m_manager->addCompany( "oto Second Company", "Berlin, Germany" );
     
-   //  company1 = m_manager->addCompany( "firstCompany", "Beasdf, Gasdfas" );
-    int company2 = m_manager->addCompany( "Second Company", "Berlin, Germany" );
     
+    int project1 = m_manager->addProject( company1, "oto Project Alpha" );
+    int project2 = m_manager->addProject( company1, "oto Project Beta" );
+    int project3 = m_manager->addProject( company2, "oto Project Delta" );
     
-    int project1 = m_manager->addProject( company1, "Project Alpha" );
-    int project2 = m_manager->addProject( company1, "Project Beta" );
-    int project3 = m_manager->addProject( company2, "Project Delta" );
-    
-    int person1 = m_manager->addPerson( "Mecinski, Michal", "Gliwice, Poland", "555 12 45" );
-    int person2 = m_manager->addPerson( "Kowalski, Jan", "Katowice, Poland", "555 64 12" );
-    int person3 = m_manager->addPerson( "Schmidt, Hans", "Berlin, Germany", "555 77 35" );
-    int person4 = m_manager->addPerson( "Smith, John", "New York, USA", "555 01 33" );
+    int person1 = m_manager->addPerson( "oto Mecinski, Michal", "Gliwice, Poland", "555 12 45" );
+    int person2 = m_manager->addPerson( "oto Kowalski, Jan", "Katowice, Poland", "555 64 12" );
+    int person3 = m_manager->addPerson( "oto Schmidt, Hans", "Berlin, Germany", "555 77 35" );
+    int person4 = m_manager->addPerson( "oto Smith, John", "New York, USA", "555 01 33" );
     
     m_manager->addMember( person1, project1 );
     m_manager->addMember( person1, project2 );
@@ -179,7 +188,10 @@ void MW::on_addCompany_clicked()
     dialog.setPhoneEnabled( false );
 
     if ( dialog.exec() == QDialog::Accepted )
-        m_manager->addCompany( dialog.name(), dialog.address() );
+        //dbye ekle
+        m_manager->addCompany2( dialog.name(), dialog.address() );
+    // tree ye ekle
+    m_manager->addCompany( dialog.name(), dialog.address() );
 }
 
 void MW::on_addProject_clicked()
@@ -197,6 +209,13 @@ void MW::on_addProject_clicked()
 
 void MW::on_editProject_clicked()
 {
+
+    int konum_id = -1;
+    QString konum = "";
+    QString address = "";
+
+
+
     if ( m_projectId != 0 ) {
         const Project* project = m_manager->projects()->find( m_projectId );
         if ( project ) {
@@ -210,19 +229,44 @@ void MW::on_editProject_clicked()
                 m_manager->editProject( m_projectId, dialog.name() );
         }
     } else if ( m_companyId != 0 ) {
-        const Company* company = m_manager->companies()->find( m_companyId );
-        if ( company ) {
-            EditDialog dialog( this );
-            dialog.setWindowTitle( tr( "Edit Company" ) );
-            dialog.setName( company->name() );
-            dialog.setAddress( company->address() );
-            dialog.setPhoneEnabled( false );
+        //  const Company* company = m_manager->companies()->find( m_companyId );
+        // //////////////////////
+        // find company id in table
 
-            if ( dialog.exec() == QDialog::Accepted )
-                m_manager->editCompany( m_companyId, dialog.name(), dialog.address() );
+        QSqlQuery query("select * from konum");
+        if (!query.exec())
+//            qDebug ()<< "selected for edit";
+        //else
+            qDebug ()<< "konum CAN NOT selected for edit";
+        while (query.next())
+        {
+            konum_id = query.value(0).toInt();
+            konum = query.value(1).toString();
+            address = query.value(2).toString();
+//            qDebug ()   << "id     = " << konum_id
+//                     << "konum  = " << konum
+//                     << "addres = "  << address ;
+
+
         }
+
+        //    if ( company ) {
+        EditDialog dialog( this );
+        dialog.setWindowTitle( tr( "Edit Company" ) );
+
+        dialog.setName( konum );
+        dialog.setAddress( address );
+        dialog.setPhoneEnabled( false );
+
+        if ( dialog.exec() == QDialog::Accepted )
+            //   m_manager->editCompany( m_companyId, dialog.name(), dialog.address() );
+            m_manager->editCompany2( konum_id, dialog.name(), dialog.address() );
+        //  }
+
     }
 }
+
+
 
 void MW::on_removeProject_clicked()
 {
@@ -275,7 +319,7 @@ void MW::on_addMember_clicked()
             const Project* project = m_manager->projects()->find( m_projectId );
             QString projectName = project ? project->name() : QString();
             QMessageBox::warning( this, tr( "Warning" ),
-                                  tr( "Person '%1' is already a member of project '%2'." ).arg( personName, projectName ) );
+                                 tr( "Person '%1' is already a member of project '%2'." ).arg( personName, projectName ) );
         } else {
             m_manager->addMember( m_personId, m_projectId );
         }

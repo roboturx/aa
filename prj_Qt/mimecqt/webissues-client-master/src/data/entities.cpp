@@ -1259,7 +1259,7 @@ void IssueEntityData::read( const Query& query )
     m_folderId = query.value( 4 ).toInt();
     m_typeId = query.value( 5 ).toInt();
     m_name = query.value( 6 ).toString();
-    m_createdDate(query.value(7).toDate());//.toInt());
+    m_createdDate(query.value(7).toDateTime());//.toInt());
     m_createdUser = query.value( 8 ).toString();
     m_createdUserId = query.value( 9 ).toInt();
     m_modifiedDate ( query.value( 10 ).toInt() );
