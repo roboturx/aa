@@ -7,7 +7,6 @@ HEADERS   += editdialog.h \
              logger.h \
              mainwidget.h \
              mainwindow.h \
-             mainwindowxxxx.h \
              models.h \
              tables.h
 
@@ -17,13 +16,12 @@ SOURCES   += editdialog.cpp \
              main.cpp \
     mainwidget.cpp \
              mainwindow.cpp \
-    mainwindowxxxx.cpp \
              models.cpp \
              tables.cpp \
 
 FORMS     += editdialog.ui \
              mainwindow.ui \
-             mainwindowxxxx.ui
+
 
 RESOURCES += icons.qrc
 

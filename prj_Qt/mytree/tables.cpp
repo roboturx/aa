@@ -265,6 +265,8 @@ int DataManager::addProjectdb( int companyId, const QString& name )
    // int projectId = nextId();
 
     QSqlQuery query;
+
+    /// ADD RECORD
     query.prepare("INSERT INTO isemri "
                   "(companyid, name ) "
                   "VALUES (:A, :B     )");
@@ -282,6 +284,7 @@ int DataManager::addProjectdb( int companyId, const QString& name )
         qDebug() << "            A record inserted to ISEMRI";
         return true;
     }
+    /// SELECT ALL RECORDS TO FIND RECCOUNT
     query.prepare("select * from isemri");
     if (!query.exec())
     {

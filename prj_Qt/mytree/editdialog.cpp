@@ -150,8 +150,10 @@ void EditDialog::setupUi()
     QWidget::setTabOrder(phoneEdit, buttonBox);
 
     retranslateUi(this);
-    QObject::connect(buttonBox, &QDialogButtonBox::accepted, this, qOverload<>(&QDialog::accept));
-    QObject::connect(buttonBox, &QDialogButtonBox::rejected, this, qOverload<>(&QDialog::reject));
+    QObject::connect(buttonBox, &QDialogButtonBox::accepted,
+                     this, qOverload<>(&QDialog::accept));
+    QObject::connect(buttonBox, &QDialogButtonBox::rejected,
+                     this, qOverload<>(&QDialog::reject));
 
     QMetaObject::connectSlotsByName(this);
 } // setupUi
