@@ -27,7 +27,7 @@
 ****************************************************************************/
 
 #include "mainwindow.h"
-#include "mw.h"
+//#include "mw.h"
 
 
 //debuq
@@ -81,7 +81,7 @@ int main( int argc, char* argv[] )
 
     QApplication app( argc, argv );
 
-    MW* window = new MW();
+    MainWindow* window = new MainWindow();
     window->show();
 
     return app.exec();

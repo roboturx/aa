@@ -28,6 +28,7 @@
 
 #include "tables.h"
 #include <QSqlQuery>
+#include <QSqlError>
 ///////////////////////////////////////////////////////
 
 Company::Company( int companyId, const QString& name, const QString& address ) :
@@ -101,17 +102,26 @@ int DataManager::addCompany2(const QString &name, const QString &address)
 {
     int companyId = nextId();
 
-    QSqlQuery q;
-    
-    q.prepare ("insert into konum values ( :A, :B, :C )");
-    q.bindValue (":A", QString::number (companyId));
-    q.bindValue (":B", name);
-    q.bindValue (":C", address);
-                if (q.exec ())
-                    qDebug () << "konum db yeeklendi";
-                else
-                qDebug () << "konum db eeklenMEEEdi";
-    
+    QSqlQuery query;
+    query.prepare("INSERT INTO konum "
+                  "(companyId, name, address ) "
+                  "VALUES (:A, :B, :C    )");
+
+    query.bindValue(":A", companyId);
+    query.bindValue(":B", name);
+    query.bindValue(":C", address);
+
+
+    if (!query.exec()) {
+        qDebug() << "           ERROR insert into KONUM";
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        qDebug() << "            A record inserted to KONUM";
+        return true;
+    }
+
+
     m_companies.insert( new Company( companyId, name, address ) );
     emit projectsChanged();
     return companyId;
@@ -125,6 +135,49 @@ int DataManager::addCompany( const QString& name, const QString& address )
     return companyId;
 }
 
+void DataManager::editCompany2( int konumId, const QString& name, const QString& address )
+{
+    //Company* company = m_companies.find( companyId );
+    //find konumid in table konum
+
+
+    QSqlQuery query("select * from konum");
+    if (query.exec())
+        qDebug ()<< "selected for edit";
+    else
+        qDebug ()<< "CAN NOT selected for edit";
+
+
+    int id_knm{-1};
+    while (query.next())
+    {
+        int id=-1;
+        if (query.value(0).toInt() == konumId )
+        {
+            qDebug ()   << "id  found dddddddddddddddddddddddddddddddddd   = ";
+            id_knm = query.value(0).toInt() ;
+        }
+    }
+    if ( id_knm != -1 )
+    {
+
+        query.prepare( "UPDATE konum SET name = :A, address = :B WHERE companyID = :C") ;
+        query.bindValue(":A" , name);
+        query.bindValue(":B" , address);
+        query.bindValue(":C" , QString::number( id_knm ));
+        if( !query.exec() )
+            qDebug() << query.lastError();
+    }
+
+
+  //  emit projectsChanged();
+
+//    if ( company ) {
+//        company->setName( name );
+//        company->setAddress( address );
+//        emit projectsChanged();
+//    }
+}
 void DataManager::editCompany( int companyId, const QString& name, const QString& address )
 {
     Company* company = m_companies.find( companyId );

@@ -3,7 +3,7 @@
 prefix=/usr/local
 destdir=
 config=release
-QMAKE=
+QMAKE="qmake"
 syssqlite=no
 mac=no
 universal=no
@@ -84,7 +84,7 @@ done
 
 echo "Testing for qmake..."
 
-paths=
+paths="/home/m/Qt/6.0.2/gcc_64/bin/qmake"
 
 if test -n "$QMAKE"; then
   if test -x "$QMAKE"; then
@@ -109,6 +109,8 @@ fi
 if test -z "$paths"; then
   echo "*** ERROR: Cannot find 'qmake' in your PATH." >&2
   exit 1
+  else
+  echo "*** find 'qmake' in your PATH." >&2
 fi
 
 QMAKE=

@@ -98,4 +98,5 @@ unix:!mac {
     INSTALLS += man
 }
 
-DISTFILES +=
+DISTFILES += \
+    ../config.pri
