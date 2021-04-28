@@ -12,7 +12,9 @@ public:
     DBTable(QObject* parent , QString tableName);
 
     QString setQuery(QString queryStr);
-    bool createTable(QList<QString> fields);
+    bool createTable(QString createStr);
+    bool insertTable(QString createStr);
+    bool listTable(QString createStr, QString spec);
     bool recInsert(QVariant fields);
     int rec();
 

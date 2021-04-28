@@ -31,30 +31,53 @@ QString DBTable::setQuery(QString queryStr)
 
 }
 
-bool DBTable::createTable(QList<QString> fields)
+bool DBTable::createTable(QString createStr)
 {
     QSqlQuery query;
-
-    int fieldsCount = QString::number(fields.at(0));
-    for (int i=0 ; fieldsCount ; i++)
-    {
-
-    }
-
-    QListIterator<float> i(fields);
-    while (fields.hasNext())
-        qDebug() << fields.next();
-
-
-    query.prepare(fields);
+    query.prepare(createStr);
     if( !query.exec() )
     {
-        qDebug(query.lastError().text());
+        qDebug() << query.lastError().text();
         return false ;
     }
     else
     {
         qDebug("Table created!");
+        return true;
+    }
+}
+
+bool DBTable::insertTable(QString createStr)
+{
+    QSqlQuery query;
+    query.prepare(createStr);
+    if( !query.exec() )
+    {
+        if ( query.lastError().text().contains("UNIQUE", Qt::CaseInsensitive)  )
+            qDebug("Record already there");
+        else
+            qDebug() << query.lastError().text();
+        return false ;
+    }
+    else
+    {
+        qDebug("Record inserted!");
+        return true;
+    }
+}
+
+bool DBTable::listTable(QString createStr, QString spec)
+{
+    QSqlQuery query;
+    query.prepare(createStr);
+    if( !query.exec() )
+    {
+        qDebug() << query.lastError().text();
+        return false ;
+    }
+    else
+    {
+        qDebug( ) <<spec + " Table Listed!";
         return true;
     }
 }

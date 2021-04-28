@@ -148,24 +148,75 @@ void MainWindow::updateButtons()
     QModelIndexList selectedProjects = projectsView->selectionModel()->selectedRows();
     QModelIndex index = !selectedProjects.isEmpty() ? selectedProjects.first() : QModelIndex();
 
+    qDebug()<< "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+    //    qDebug()<< "indexlist projects" << selectedProjects;
+    qDebug()<< "---------------------------------------------";
+    qDebug()<<"prj modelindex : " << index;
+    qDebug()<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+
+    QString ndx0{};
+    QString ndx1{};
+    QString ndx2{};
     while ( index.isValid() ) {
         int level = projectsView->model()->data( index, RDB::TableItemModel::LevelRole ).toInt();
         int rowId = projectsView->model()->data( index, RDB::TableItemModel::RowIdRole ).toInt();
-        switch ( level ) {
+
+        if (level == 0)
+        {
+            ndx0 += "Konum : " + QString::number(rowId) ;
+
+        }
+        if (level == 1)
+        {
+            ndx1 += "Araç : " + QString::number(rowId);
+
+        }
+        if (level == 2)
+        {
+            ndx2 += "İş emri : " + QString::number(rowId);
+
+        }
+
+
+
+        qDebug() << ndx0;
+        qDebug() << ndx1;
+        qDebug() << ndx2;
+
+        switch ( level )
+        {
         case 0:
+        {
+            ndx0 += "Konum : " + QString::number(rowId) ;
             m_companyId = rowId;
             break;
+        }
         case 1:
+        {
+            ndx1 += "Araç : " + QString::number(rowId);
             m_projectId = rowId;
             break;
+        }
         case 2:
+        {
+            ndx2 += "İş emri : " + QString::number(rowId);
             m_memberId = rowId;
             break;
         }
+        }
+
         index = projectsView->model()->parent( index );
+        //   ndx += " - "+ QString::number(level) +":" + QString::number(rowId);
+
     }
 
+    // qDebug() << ndx;
+    qDebug() << "================";
+    qDebug() << ndx0 <<" " << ndx1 << " " << ndx2;
+    qDebug() << "=============================================================";
+
     m_personId = 0;
+
 
     QModelIndexList selectedPersons = personsView->selectionModel()->selectedRows();
     if ( !selectedPersons.isEmpty() )
@@ -587,7 +638,7 @@ void MainWindow::setupUi()
 
 void MainWindow::retranslateUi()
 {
-     setWindowTitle(QCoreApplication::translate("", "RDB Demo", nullptr));
+    setWindowTitle(QCoreApplication::translate("", "RDB Demo", nullptr));
     actionQuit->setText(QCoreApplication::translate("MainWindow", "Quit", nullptr));
 #if QT_CONFIG(shortcut)
     actionQuit->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+X", nullptr));
