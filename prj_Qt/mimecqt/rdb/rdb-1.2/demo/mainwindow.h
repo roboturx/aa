@@ -29,6 +29,7 @@
 #ifndef MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTextEdit>
 
 #include "ui_mainwindow.h"
 
@@ -40,6 +41,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow();
     ~MainWindow();
+
 
 private slots:
     void updateButtons();

@@ -9,9 +9,14 @@
 #include "tables.h"
 #include "models.h"
 
+
+
+
+
 MainWindow::MainWindow()
 {
     m_ui.setupUi( this );
+
 
     m_manager = new DataManager( this );
 
@@ -234,3 +239,4 @@ void MainWindow::on_addMember_clicked()
         }
     }
 }
+
