@@ -148,11 +148,11 @@ void MainWindow::updateButtons()
     QModelIndexList selectedProjects = projectsView->selectionModel()->selectedRows();
     QModelIndex index = !selectedProjects.isEmpty() ? selectedProjects.first() : QModelIndex();
 
-    qDebug()<< "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
-    //    qDebug()<< "indexlist projects" << selectedProjects;
-    qDebug()<< "---------------------------------------------";
-    qDebug()<<"prj modelindex : " << index;
-    qDebug()<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+    //    qDebug()<< "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+    //    //    qDebug()<< "indexlist projects" << selectedProjects;
+    //    qDebug()<< "---------------------------------------------";
+    //    qDebug()<<"prj modelindex : " << index;
+    //    qDebug()<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
 
     QString ndx0{};
     QString ndx1{};
@@ -161,45 +161,45 @@ void MainWindow::updateButtons()
         int level = projectsView->model()->data( index, RDB::TableItemModel::LevelRole ).toInt();
         int rowId = projectsView->model()->data( index, RDB::TableItemModel::RowIdRole ).toInt();
 
-        if (level == 0)
-        {
-            ndx0 += "Konum : " + QString::number(rowId) ;
+        //        if (level == 0)
+        //        {
+        //            ndx0 += "Konum : " + QString::number(rowId) ;
 
-        }
-        if (level == 1)
-        {
-            ndx1 += "Araç : " + QString::number(rowId);
+        //        }
+        //        if (level == 1)
+        //        {
+        //            ndx1 += "Araç : " + QString::number(rowId);
 
-        }
-        if (level == 2)
-        {
-            ndx2 += "İş emri : " + QString::number(rowId);
+        //        }
+        //        if (level == 2)
+        //        {
+        //            ndx2 += "İş emri : " + QString::number(rowId);
 
-        }
+        //        }
 
 
 
-        qDebug() << ndx0;
-        qDebug() << ndx1;
-        qDebug() << ndx2;
+        //        qDebug() << ndx0;
+        //        qDebug() << ndx1;
+        //        qDebug() << ndx2;
 
         switch ( level )
         {
         case 0:
         {
-            ndx0 += "Konum : " + QString::number(rowId) ;
+            ndx0 += "K : " + QString::number(rowId) ;
             m_companyId = rowId;
             break;
         }
         case 1:
         {
-            ndx1 += "Araç : " + QString::number(rowId);
+            ndx1 += "A : " + QString::number(rowId);
             m_projectId = rowId;
             break;
         }
         case 2:
         {
-            ndx2 += "İş emri : " + QString::number(rowId);
+            ndx2 += "İ : " + QString::number(rowId);
             m_memberId = rowId;
             break;
         }
@@ -284,18 +284,23 @@ void MainWindow::on_editProject_clicked()
         }
     } else if ( m_companyId != 0 ) {
         const Company* company = m_manager->companies()->find( m_companyId );
+
         ///////////////////////////////
         // find company id in table
-
-        QSqlQuery query("select * from konum");
+        QSqlQuery query("select * from konum where konumid = "+QString::number(m_companyId ));
         if (!query.exec())
-            //            qDebug ()<< "selected for edit";
-            //else
+            qDebug ()<< "selected for edit company on_editproject_clicked " << QString::number(m_companyId ) ;
+        else
             qDebug ()<< "konum CAN NOT selected for edit";
+
+        query.first();
+        qDebug () <<"size: " << query.size() <<"   while kod "<< query.value(0).toInt() << " name " << query.value(1).toString();
+
         int id_db{-1};
         while (query.next())
 
         {
+            qDebug () <<"while kod "<< query.value(0).toInt() << " name " << query.value(1).toString();
             konum_id = query.value(0).toInt();
             konum = query.value(1).toString();
             address = query.value(2).toString();
@@ -328,6 +333,11 @@ void MainWindow::on_editProject_clicked()
             dialog.setName( konum );
             dialog.setAddress( address );
             dialog.setPhoneEnabled( false );
+            qDebug () << "--------------------------------------------------------";
+            qDebug () << "db konum adres  : " << konum +" "+ address ;
+            qDebug () << "obj konum adres : " << company->name() + " " + company->address();
+            qDebug () << "--------------------------------------------------------";
+
             /////////////////////////////////
             //dialog.setName( company->name() );
             //dialog.setAddress( company->address() );
