@@ -79,7 +79,7 @@ int DataManager::addCompanydb(const QString &name, const QString &address)
 
     QSqlQuery query;
     query.prepare("INSERT INTO konum "
-                  "(name, address ) "
+                  "(f_konumAdi, f_konumAdres ) "
                   "VALUES (:A, :B     )");
 
     //query.bindValue(":A", companyId);
@@ -87,14 +87,18 @@ int DataManager::addCompanydb(const QString &name, const QString &address)
     query.bindValue(":B", address);
 
 
-    if (!query.exec()) {
-        qDebug() << "           ERROR insert into KONUM";
+    if (!query.exec())
+    {
+        qDebug() << "           wwwERROR insert into KONUM";
         qDebug() << query.lastError().text();
         return false;
-    } else {
-        qDebug() << "            A record inserted to KONUM";
+    }
+    else
+    {
+        qDebug() << "           www A record inserted to KONUM";
         return true;
     }
+    qDebug() << "    1      www eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
     query.prepare("select * from konum");
     if (!query.exec())
     {
@@ -102,11 +106,15 @@ int DataManager::addCompanydb(const QString &name, const QString &address)
     }
     int recc {};
     if (!query.last())
-                {
+    {
         recc ={ query.value(0).toInt()};
-                    qDebug() << "            son kayıtta";
-                    qDebug() << "son kayıttaki id = " << recc;
-                }
+        qDebug() << "            son kayıtta";
+        qDebug() << "son kayıttaki id = " << recc;
+    }
+    else
+    {
+        qDebug() << "          www son kayıtta deil";
+    }
 
 
 
@@ -122,27 +130,27 @@ int DataManager::addCompanygrs(const int &id, const QString &name, const QString
 
     qDebug ()<< "company 333333  "<<id << name<< address;
     m_companies.insert( new Company( id, name, address ) );
-   // emit projectsChanged();
+    // emit projectsChanged();
     return id;
-//    QSqlQuery query;
-//    query.prepare("select * from konum");
+    //    QSqlQuery query;
+    //    query.prepare("select * from konum");
 
-//    if (!query.exec()) {
-//        qDebug() << " - - - KONUM - - - HATA";
-//        qDebug() << query.lastError().text();
-//        return false;
-//    }
-//    else
-//    {
-//        qDebug() << "            son kayıt to KONUM";
-//        if (!query.last())
-//        {
-//            qDebug() << "            son kayıtta";
-//            qDebug() << "son kayıttaki id = " << query.value(0).toInt();
-//        }
+    //    if (!query.exec()) {
+    //        qDebug() << " - - - KONUM - - - HATA";
+    //        qDebug() << query.lastError().text();
+    //        return false;
+    //    }
+    //    else
+    //    {
+    //        qDebug() << "            son kayıt to KONUM";
+    //        if (!query.last())
+    //        {
+    //            qDebug() << "            son kayıtta";
+    //            qDebug() << "son kayıttaki id = " << query.value(0).toInt();
+    //        }
 
-//        return true;
-//    }
+    //        return true;
+    //    }
 
 
 }
@@ -235,7 +243,7 @@ int DataManager::addProjectlst( int companyId, const QString& name )
 }
 int DataManager::addProjectdb( int companyId, const QString& name )
 {
-   // int projectId = nextId();
+    // int projectId = nextId();
 
     QSqlQuery query;
 

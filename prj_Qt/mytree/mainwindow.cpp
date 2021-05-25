@@ -106,9 +106,9 @@ void MainWindow::fillSampleData()
     QString ad{""};
     while (q.next())
     {
-        id = q.value(rec.indexOf("companyId")).toInt();
-        nm = q.value(rec.indexOf("name")).toString();
-        ad = q.value(rec.indexOf("address")).toString();
+        id = q.value(rec.indexOf("f_konumID")).toInt();
+        nm = q.value(rec.indexOf("f_konumAdi")).toString();
+        ad = q.value(rec.indexOf("f_konumAdres")).toString();
 
         qDebug() << id;
         qDebug() << nm;
@@ -287,7 +287,7 @@ void MainWindow::on_editProject_clicked()
 
         ///////////////////////////////
         // find company id in table
-        QSqlQuery query("select * from konum where konumid = "+QString::number(m_companyId ));
+        QSqlQuery query("select * from konum where konumID = "+QString::number(m_companyId ));
         if (!query.exec())
             qDebug ()<< "selected for edit company on_editproject_clicked " << QString::number(m_companyId ) ;
         else
@@ -648,7 +648,7 @@ void MainWindow::setupUi()
 
 void MainWindow::retranslateUi()
 {
-    setWindowTitle(QCoreApplication::translate("", "RDB Demo", nullptr));
+    setWindowTitle(QCoreApplication::translate("", "rrrRDB Demo", nullptr));
     actionQuit->setText(QCoreApplication::translate("MainWindow", "Quit", nullptr));
 #if QT_CONFIG(shortcut)
     actionQuit->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+X", nullptr));

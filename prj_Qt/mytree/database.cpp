@@ -188,9 +188,9 @@ bool DataBase::create_Table_konum()
     //company = konum
     QSqlQuery query;
     if (!query.exec("CREATE TABLE IF NOT EXISTS konum "
-                    "( companyID INTEGER PRIMARY KEY, "
-                    "  name TEXT,"
-                    "  address TEXT ) ")) {
+                    "( f_konumID INTEGER PRIMARY KEY, "
+                    "  f_konumAdi TEXT,"
+                    "  f_konumAdres TEXT ) ")) {
         qDebug() << "               NOT CREATED ";
         qDebug() << query.lastError().text();
         return false;
@@ -201,14 +201,14 @@ bool DataBase::create_Table_konum()
         //    insertIntoHesapTable();
         QList<QString> ekle;
         // sql statement
-        ekle << "INSERT INTO konum (companyID, name, address) "
+        ekle << "INSERT INTO konum (f_konumID, f_konumAdi, f_konumAdres) "
                 "VALUES (:A , :B , :C)";
         // field sayısı
         ekle << "3";
         // bind values
         ekle << "1"
-             << "Araç Parkı"
-             << "İşletme Ana Saha";
+             << "Doğuş Ticaret"
+             << "Hızarhane Caddesi No:5 TOKAT";
 
 
         if (!addrecord(ekle))
