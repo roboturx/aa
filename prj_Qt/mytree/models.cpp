@@ -44,11 +44,11 @@ QString BaseTableModel::columnName( int column ) const
 {
     switch ( column ) {
         case Column_Name:
-            return tr( "Name" );
+            return tr( "Konum" );
         case Column_Address:
-            return tr( "Address" );
+            return tr( "Adres" );
         case Column_Phone:
-            return tr( "Phone" );
+            return tr( "Telefon" );
         default:
             return QString();
     }

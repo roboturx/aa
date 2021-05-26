@@ -33,6 +33,7 @@
 
 enum Columns
 {
+    Column_id,
     Column_Name,
     Column_Address,
     Column_Phone

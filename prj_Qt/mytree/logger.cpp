@@ -16,7 +16,7 @@ void logToModelHandler(QtMsgType type, const QMessageLogContext &context,
    //
     QString msg{msgx};
   //  qDebug () <<"message = " << msg;
-    msg = QDateTime::currentDateTime().toString()+" - " + msg;
+    msg = /*QDateTime::currentDateTime().toString()+" - " +*/ msg;
     for (auto m : qAsConst(logToModelData->models)) {
         if (auto model = qobject_cast<QAbstractItemModel *>(m)) {
             auto row = model->rowCount();

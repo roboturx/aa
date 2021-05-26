@@ -122,35 +122,16 @@ int DataManager::addCompanydb(const QString &name, const QString &address)
     emit projectsChanged();
     return recc;
 }
-////////////////////////////////////
+//////////////////////////////////// ilk çalışmda db den liste oluştur
 int DataManager::addCompanygrs(const int &id, const QString &name, const QString &address)
 {
     // ekran indeksi  için eklendi
     nextId();
 
-    qDebug ()<< "company 333333  "<<id << name<< address;
+ //   qDebug ()<< "company 333333  "<<id << name<< address;
     m_companies.insert( new Company( id, name, address ) );
     // emit projectsChanged();
     return id;
-    //    QSqlQuery query;
-    //    query.prepare("select * from konum");
-
-    //    if (!query.exec()) {
-    //        qDebug() << " - - - KONUM - - - HATA";
-    //        qDebug() << query.lastError().text();
-    //        return false;
-    //    }
-    //    else
-    //    {
-    //        qDebug() << "            son kayıt to KONUM";
-    //        if (!query.last())
-    //        {
-    //            qDebug() << "            son kayıtta";
-    //            qDebug() << "son kayıttaki id = " << query.value(0).toInt();
-    //        }
-
-    //        return true;
-    //    }
 
 
 }
@@ -174,33 +155,36 @@ void DataManager::editCompany2( int konumId, const QString& name, const QString&
     //find konumid in table konum
 
 
-    QSqlQuery query("select * from konum");
+    QSqlQuery query("select * from konum where f_konumID = "+QString::number(konumId ));
     if (query.exec())
-        qDebug ()<< "selected for edit";
+        qDebug ()<< "-------------selected for edit";
     else
-        qDebug ()<< "CAN NOT selected for edit";
+        qDebug ()<< "-------------CAN NOT selected for edit";
 
-    qDebug ()  << "aranan konumid :" << konumId;
-    int id_knm{-1};
-    while (query.next())
-    {
-        qDebug ()  << "in the while";
-        qDebug ()  << "recc konumid :" << query.value(0).toInt();
-        int id=-1;
-        if (query.value(0).toInt() == konumId )
-        {
-            qDebug ()  << konumId << "id  found dddddddddddddddddddddddddddddddddd   = ";
-            id_knm = query.value(0).toInt() ;
-        }
+ //   qDebug ()  << "aranan konumid :" << konumId;
+//    int id_knm{-1};
+//    while (query.next())
+//    {
+//        qDebug ()  << "in the while";
+//        qDebug ()  << "recc konumid :" << query.value(0).toInt();
+//        int id=-1;
+//        if (query.value(0).toInt() == konumId )
+//        {
+//            qDebug ()  << konumId << "id  found dddddddddddddddddddddddddddddddddd   = ";
+//            id_knm = query.value(0).toInt() ;
+//        }
 
-    }
-    if ( id_knm != -1 )
-    {
+//    }
+//    if ( id_knm != -1 )
+//    {
 
-        query.prepare( "UPDATE konum SET name = :A, address = :B WHERE companyID = :C") ;
+        query.prepare( "UPDATE konum "
+                  "SET f_konumAdi = :A, "
+                  "f_konumAdres = :B "
+                  "WHERE f_konumID = :C") ;
         query.bindValue(":A" , name);
         query.bindValue(":B" , address);
-        query.bindValue(":C" , QString::number( id_knm ));
+        query.bindValue(":C" , QString::number( konumId ));
         if( !query.exec() )
         {
             qDebug() << query.lastError();
@@ -209,7 +193,7 @@ void DataManager::editCompany2( int konumId, const QString& name, const QString&
         {
             qDebug() << "replaced";
         }
-    }
+ //   }
 
 
     //  emit projectsChanged();

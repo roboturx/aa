@@ -39,28 +39,40 @@ MainWindow::MainWindow(QWidget *parent) :
     fillSampleData();
 
     QList<int> columns;
-    columns << Column_Name << Column_Address << Column_Phone;
+    columns <<  Column_Name << Column_Address << Column_Phone;
 
     //RDB::TableItemModel* projectsModel = new RDB::TableItemModel( this );
     projectsModel = new RDB::TableItemModel( this );
     projectsModel->setColumns( columns );
-    projectsModel->setRootTableModel( new CompaniesModel( m_manager ), m_manager->companies()->index() );
-    projectsModel->addChildTableModel( new ProjectsModel( m_manager ),
-                                      m_manager->projects()->index(), m_manager->projects()->parentIndex() );
-    projectsModel->addChildTableModel( new PersonsModel( m_manager ),
-                                      m_manager->members()->index().first(), m_manager->members()->index().second() );
 
-    connect( m_manager, SIGNAL( projectsChanged() ), projectsModel, SLOT( updateData() ) );
+    projectsModel->setRootTableModel(
+        new CompaniesModel( m_manager ), m_manager->companies()->index() );
+
+    projectsModel->addChildTableModel(
+        new ProjectsModel( m_manager ), m_manager->projects()->index(),
+        m_manager->projects()->parentIndex() );
+
+    projectsModel->addChildTableModel(
+        new PersonsModel( m_manager ), m_manager->members()->index().first(),
+        m_manager->members()->index().second() );
+
+    connect( m_manager, SIGNAL( projectsChanged() ), projectsModel,
+            SLOT( updateData() ) );
 
     PersonsFilter* filter = new PersonsFilter( m_manager );
-    connect( searchEdit, SIGNAL( textChanged( const QString& ) ), filter, SLOT( setNameFilter( const QString& ) ) );
+    connect( searchEdit, SIGNAL( textChanged(QString) ), filter,
+            SLOT( setNameFilter(QString) ) );
 
     RDB::TableItemModel* personsModel = new RDB::TableItemModel( this );
     personsModel->setColumns( columns );
-    personsModel->setRootTableModel( new PersonsModel( m_manager ), m_manager->persons()->index() );
+
+    personsModel->setRootTableModel(
+        new PersonsModel( m_manager ), m_manager->persons()->index() );
+
     personsModel->setRowFilter( filter );
 
-    connect( m_manager, SIGNAL( personsChanged() ), personsModel, SLOT( updateData() ) );
+    connect( m_manager, SIGNAL( personsChanged() ), personsModel,
+            SLOT( updateData() ) );
 
     projectsView->setModel( projectsModel );
     personsView->setModel( personsModel );
@@ -72,13 +84,19 @@ MainWindow::MainWindow(QWidget *parent) :
     personsView->setColumnWidth( 0, 120 );
     personsView->sortByColumn( 0, Qt::AscendingOrder );
 
-    connect( projectsView->selectionModel(), SIGNAL( selectionChanged( const QItemSelection&, const QItemSelection& ) ),
-            this, SLOT( updateButtons() ) );
-    connect( personsView->selectionModel(), SIGNAL( selectionChanged( const QItemSelection&, const QItemSelection& ) ),
-            this, SLOT( updateButtons() ) );
+    connect( projectsView->selectionModel(),
+            SIGNAL( selectionChanged(QItemSelection,QItemSelection) ), this,
+            SLOT( updateButtons() ) );
 
-    connect( projectsView->model(), SIGNAL( layoutChanged() ), this, SLOT( updateButtons() ) );
-    connect( personsView->model(), SIGNAL( layoutChanged() ), this, SLOT( updateButtons() ) );
+    connect( personsView->selectionModel(),
+            SIGNAL( selectionChanged(QItemSelection,QItemSelection) ),this,
+            SLOT( updateButtons() ) );
+
+    connect( projectsView->model(), SIGNAL( layoutChanged() ), this,
+            SLOT( updateButtons() ) );
+
+    connect( personsView->model(), SIGNAL( layoutChanged() ), this,
+            SLOT( updateButtons() ) );
 
     updateButtons();
 }
@@ -95,16 +113,19 @@ void MainWindow::fillSampleData()
     {
         qDebug() << " ------- HATA Konum dosyası  " ;
     } else {
-        qDebug() << " q is not active";
+        qDebug() << "MW-fsdata - Konum Dosyası Aktif : " ;
+        q.last();
+        qDebug() << "MW-fsdata - Kayıt sayısı: " << q.at()+1;
+        q.first();
     }
 
     QSqlRecord rec = q.record();
-    qDebug() << "Kayıt sayısı: " << rec.count();
+
     //  int company1 =1;
     int id{0};
     QString nm{""};
     QString ad{""};
-    while (q.next())
+    do
     {
         id = q.value(rec.indexOf("f_konumID")).toInt();
         nm = q.value(rec.indexOf("f_konumAdi")).toString();
@@ -114,9 +135,11 @@ void MainWindow::fillSampleData()
         qDebug() << nm;
         qDebug() << ad;
 
+        // girişte listeyi table dan al ve oluştur
         m_manager->addCompanygrs( id, nm, ad );
 
-    }
+    }while (q.next());
+
     //////////////////////////////////////////
 
 
@@ -263,13 +286,6 @@ void MainWindow::on_addProject_clicked()
 
 void MainWindow::on_editProject_clicked()
 {
-    ///////////////////////
-    int konum_id = -1;
-    QString konum = "";
-    QString address = "";
-    //////////////////////////
-
-
     if ( m_projectId != 0 ) {
         const Project* project = m_manager->projects()->find( m_projectId );
         if ( project ) {
@@ -286,69 +302,41 @@ void MainWindow::on_editProject_clicked()
         const Company* company = m_manager->companies()->find( m_companyId );
 
         ///////////////////////////////
+        qDebug () << "KONUM - " << QString::number(m_companyId )<<
+            " - selecting for edit...........................";
         // find company id in table
-        QSqlQuery query("select * from konum where konumID = "+QString::number(m_companyId ));
+
+        QSqlQuery query("select * from konum where f_konumID = "+QString::number(m_companyId ));
+
         if (!query.exec())
-            qDebug ()<< "selected for edit company on_editproject_clicked " << QString::number(m_companyId ) ;
+            qDebug ()<< "Konum CAN NOT selected for edit  "  ;
         else
-            qDebug ()<< "konum CAN NOT selected for edit";
-
-        query.first();
-        qDebug () <<"size: " << query.size() <<"   while kod "<< query.value(0).toInt() << " name " << query.value(1).toString();
-
-        int id_db{-1};
-        while (query.next())
-
-        {
-            qDebug () <<"while kod "<< query.value(0).toInt() << " name " << query.value(1).toString();
-            konum_id = query.value(0).toInt();
-            konum = query.value(1).toString();
-            address = query.value(2).toString();
-            if ( konum_id == m_companyId  )
-            {
-                id_db = konum_id;
-                qDebug ()<<"compid == databasedeki id";
-
-            }
-            else
-            {
-                qDebug ()<<"compid x=x=x databasedeki id";
-            }
-
-
-            //            qDebug ()   << "id     = " << konum_id
-            //                     << "konum  = " << konum
-            //                     << "addres = "  << address ;
-
-
-        }
-        ///////////////////////////////
-
-
+            qDebug ()<< "Konum selected for edit";
 
         if ( company ) {
             EditDialog dialog( this );
             dialog.setWindowTitle( tr( "Edit Company" ) );
             /////////////////////////////////
-            dialog.setName( konum );
-            dialog.setAddress( address );
-            dialog.setPhoneEnabled( false );
+            //dialog.setName( konum );
+            //dialog.setAddress( address );
+            //dialog.setPhoneEnabled( false );
             qDebug () << "--------------------------------------------------------";
-            qDebug () << "db konum adres  : " << konum +" "+ address ;
+            //     qDebug () << "db konum adres  : " << f_konumAdi +" "+ f_konumAdres ;
             qDebug () << "obj konum adres : " << company->name() + " " + company->address();
             qDebug () << "--------------------------------------------------------";
 
             /////////////////////////////////
-            //dialog.setName( company->name() );
-            //dialog.setAddress( company->address() );
-            //dialog.setPhoneEnabled( false );
+            dialog.setName( company->name() );
+            dialog.setAddress( company->address() );
+            dialog.setPhoneEnabled( false );
 
             if ( dialog.exec() == QDialog::Accepted )
             {
+                // listeyi değiştir
                 m_manager->editCompany( m_companyId, dialog.name(), dialog.address() );
-                ///////////////////////////////////
-                m_manager->editCompany2( id_db , dialog.name(), dialog.address() );
-                ////////////////////
+                /////////////////////////////////// db değiştir.
+                m_manager->editCompany2( m_companyId , dialog.name(), dialog.address() );
+                ////////////////////m_companyId
             }
         }
     }
