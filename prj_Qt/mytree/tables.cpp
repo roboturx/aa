@@ -78,7 +78,7 @@ int DataManager::addCompanydb(const QString &name, const QString &address)
     //int companyId = nextId();
 
     QSqlQuery query;
-    query.prepare("INSERT INTO konum "
+    query.prepare("INSERT INTO tb_konum "
                   "(f_konumAdi, f_konumAdres ) "
                   "VALUES (:A, :B     )");
 
@@ -89,20 +89,20 @@ int DataManager::addCompanydb(const QString &name, const QString &address)
 
     if (!query.exec())
     {
-        qDebug() << "           wwwERROR insert into KONUM";
+        qDebug() << "           wwwERROR insert into tb_konum";
         qDebug() << query.lastError().text();
         return false;
     }
     else
     {
-        qDebug() << "           www A record inserted to KONUM";
+        qDebug() << "           www A record inserted to tb_konum";
         return true;
     }
     qDebug() << "    1      www eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
-    query.prepare("select * from konum");
+    query.prepare("select * from tb_konum");
     if (!query.exec())
     {
-        qDebug() << " - - - KONUM - - - HATA.tables.addcompany2";
+        qDebug() << " - - - tb_konum - - - HATA.tables.addcompany2";
     }
     int recc {};
     if (!query.last())
@@ -152,14 +152,13 @@ void DataManager::editCompany( int companyId, const QString& name, const QString
 void DataManager::editCompany2( int konumId, const QString& name, const QString& address )
 {
     //Company* company = m_companies.find( companyId );
-    //find konumid in table konum
+    //find konumid in table tb_konum
 
 
-    QSqlQuery query("select * from konum where f_konumID = "+QString::number(konumId ));
+    QSqlQuery query("select * from tb_konum where f_konumID = "+QString::number(konumId ));
     if (query.exec())
         qDebug ()<< "-------------selected for edit";
-    else
-        qDebug ()<< "-------------CAN NOT selected for edit";
+    else        qDebug ()<< "-------------CAN NOT selected for edit";
 
  //   qDebug ()  << "aranan konumid :" << konumId;
 //    int id_knm{-1};
@@ -178,7 +177,7 @@ void DataManager::editCompany2( int konumId, const QString& name, const QString&
 //    if ( id_knm != -1 )
 //    {
 
-        query.prepare( "UPDATE konum "
+        query.prepare( "UPDATE tb_konum "
                   "SET f_konumAdi = :A, "
                   "f_konumAdres = :B "
                   "WHERE f_konumID = :C") ;
@@ -242,7 +241,7 @@ int DataManager::addProjectdb( int companyId, const QString& name )
 
 
     if (!query.exec()) {
-        qDebug() << "           ERROR insert into KONUM";
+        qDebug() << "           ERROR insert into tb_konum";
         qDebug() << query.lastError().text();
         return false;
     } else {

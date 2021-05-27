@@ -108,12 +108,12 @@ MainWindow::~MainWindow()
 void MainWindow::fillSampleData()
 {
     //////////////////////////////////////////
-    QSqlQuery q("select * from konum");
+    QSqlQuery q("select * from tb_konum");
     if (!q.isActive())
     {
-        qDebug() << " ------- HATA Konum dosyası  " ;
+        qDebug() << " ------- HATA tb_konum dosyası  " ;
     } else {
-        qDebug() << "MW-fsdata - Konum Dosyası Aktif : " ;
+        qDebug() << "MW-fsdata - tb_konum Dosyası Aktif : " ;
         q.last();
         qDebug() << "MW-fsdata - Kayıt sayısı: " << q.at()+1;
         q.first();
@@ -147,9 +147,9 @@ void MainWindow::fillSampleData()
 
     //int company1 = m_manager->addCompany( "First Company", "Gliwice, Poland" );
     //int company2 = m_manager->addCompany( "Second Company", "Berlin, Germany" );
-    int project1 = m_manager->addProjectlst( 1, "Project Alpha" );
+    int project1 = m_manager->addProjectlst( 0, "Project Alpha" );
     int project2 = m_manager->addProjectlst( 1, "Project Beta" );
-    int project3 = m_manager->addProjectlst( 11, "Project Delta" );
+    int project3 = m_manager->addProjectlst( 2, "Project Delta" );
     int person1 = m_manager->addPerson( "Mecinski, Michal", "Gliwice, Poland", "555 12 45" );
     int person2 = m_manager->addPerson( "Kowalski, Jan", "Katowice, Poland", "555 64 12" );
     int person3 = m_manager->addPerson( "Schmidt, Hans", "Berlin, Germany", "555 77 35" );
@@ -306,7 +306,7 @@ void MainWindow::on_editProject_clicked()
             " - selecting for edit...........................";
         // find company id in table
 
-        QSqlQuery query("select * from konum where f_konumID = "+QString::number(m_companyId ));
+        QSqlQuery query("select * from tb_konum where f_konumID = "+QString::number(m_companyId ));
 
         if (!query.exec())
             qDebug ()<< "Konum CAN NOT selected for edit  "  ;
@@ -317,12 +317,12 @@ void MainWindow::on_editProject_clicked()
             EditDialog dialog( this );
             dialog.setWindowTitle( tr( "Edit Company" ) );
             /////////////////////////////////
-            //dialog.setName( konum );
+            //dialog.setName( tb_konum );
             //dialog.setAddress( address );
             //dialog.setPhoneEnabled( false );
             qDebug () << "--------------------------------------------------------";
-            //     qDebug () << "db konum adres  : " << f_konumAdi +" "+ f_konumAdres ;
-            qDebug () << "obj konum adres : " << company->name() + " " + company->address();
+            //     qDebug () << "db tb_konum adres  : " << f_konumAdi +" "+ f_konumAdres ;
+            qDebug () << "obj tb_konum adres : " << company->name() + " " + company->address();
             qDebug () << "--------------------------------------------------------";
 
             /////////////////////////////////
