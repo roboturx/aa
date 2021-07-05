@@ -20,7 +20,7 @@ LoginDialog::LoginDialog(QWidget *parent) :
     /// send driver type-path-name of db
     dBase = new DataBase;
     dBase->setDBDriver("QSQLITE");
-    dBase->setDBPath("Records/");
+    dBase->setDBPath("records/records/");
     dBase->setDBName("database.db");
     dBase->DBconnect();
 
@@ -50,7 +50,7 @@ void LoginDialog::on_pushButton_clicked()
     QString tb_personTableCreateStr {" CREATE TABLE IF NOT EXISTS tb_pr "
                                     "( f_prid INTEGER PRIMARY KEY, "
                                     "  f_prisim TEXT,      "
-                                    "  f_prsoyad text,     "
+                                   "  f_prsoyad text,     "
                                     "  f_prusername text,  "
                                     "  f_prpassword text,  "
                                     "  f_pradres TEXT     )" };
