@@ -53,7 +53,8 @@ QSqlDatabase DataBase::DBconnect()
     if (!QFile(m_dbPath).exists())
     {
         QDir path = QDir::currentPath() ;
-        path.mkdir(m_dbPath);
+       if (!path.mkdir(m_dbPath))
+           qDebug ()<<"Path oluşturulamadı";
         qDebug ()<<"Path Yok... oluşturuluyor ...";
 
     }

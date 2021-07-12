@@ -1,0 +1,36 @@
+sudo nano /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash radeon.modeset=0 amdgpu.runpm=0 acpi_backlight=intel_backlight"
+
+sudo update-grub
+sudo reboot
+
+
+
+Following Neni's answer, I had kernel panic after sleep. I solved my problem by adding radeon.modeset=0 amdgpu.runpm=0 acpi_backlight=intel_backlight to GRUB_CMDLINE_LINUX_DEFAULT
+
+To edit file :
+
+sudo nano /etc/default/grub
+
+Find line :
+
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+
+And replace with :
+
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash radeon.modeset=0 amdgpu.runpm=0 acpi_backlight=intel_backlight"
+
+To regenerate config :
+
+sudo update-grub
+
+Reboot :
+
+sudo reboot
+
+
+What those options do :
+
+    radeon.modeset=0 disables radeon driver
+    amdgpu.runpm=0 disables the power management from amdgpu driver
+    acpi_backlight=intel_backlight uses intel driver to control laptop screen backlight
