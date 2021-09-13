@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 echo "git pushin pullign"
+git pull
 echo adding
 git add .
 echo committing...
