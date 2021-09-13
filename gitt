@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+echo "git pushin pullign"
+echo adding
+git add .
+echo committing...
+git commit -m "committing"
+echo pushing...
