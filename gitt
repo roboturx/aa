@@ -8,3 +8,4 @@ git commit -m "committing"
 echo pushing...
 git status
 git checkout
+git push
