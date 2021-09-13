@@ -1,11 +1,13 @@
 #!/usr/bin/bash
-echo "git pushin pullign"
+echo "gitt 1.0"
+echo " ********************* pulling "
 git pull
 echo adding
 git add .
-echo committing...
+echo " ********************* committing..."
 git commit -m "committing"
-echo pushing...
+
 git status
 git checkout
+echo " ******************** pushing..."
 git push
