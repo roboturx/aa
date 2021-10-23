@@ -1,0 +1,4 @@
+!#/bin/bash
+clear
+g++ -Wall -o isimsiz isimsiz.cpp
+./isimsiz
