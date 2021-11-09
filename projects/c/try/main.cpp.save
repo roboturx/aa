@@ -1,0 +1,39 @@
+#include <iostream>
+
+using namespace std;
+void divide (int x, int y, int z)
+{
+    cout << "\ndivide fonksiyonunun içi-------------------------------------";
+    if (x-y!=0)  // bölüm 0 deil
+    {
+        int R=z/(x-y);
+        cout << "\nx-y!=0 sonuç = z/(x-y) : " << R << "\n";
+    }
+    else// thereis a problem
+    {
+        cout << "\nthrowing problem x-y = " << x-y << "   ??? ";
+        throw (x-y);
+    }
+}
+
+
+int main()
+{
+    cout << "Hello world!" << endl;
+    try
+    {
+        cout << "\n main function - inside try block --------------------- \n";
+        divide (60,20,30);
+        divide(10,10,20);
+    }
+
+    catch(int i)
+    {
+        cout << "\ncatched...";
+        cout <<"\nexcepcition caught - int i = " << i ;
+    }
+
+    return 0;
+
+
+}

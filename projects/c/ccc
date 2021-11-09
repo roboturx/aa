@@ -1,4 +1,5 @@
-!#/bin/bash
-clear
-g++ -Wall -o isimsiz isimsiz.cpp
-./isimsiz
+#!/bin/bash
+echo "compiling..."
+g++ -Wall -o $1 $1.cpp
+echo "running..."
+./$1
