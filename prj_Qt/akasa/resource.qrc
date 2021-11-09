@@ -1,7 +1,5 @@
 <RCC>
-    <qresource prefix="/Records">
-        <file>Records/database.db</file>
-    </qresource>
+    <qresource prefix="/Records"/>
     <qresource prefix="/images">
         <file>img/login_icon.png</file>
         <file>img/Buy-48.png</file>

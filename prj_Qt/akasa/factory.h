@@ -20,7 +20,11 @@ class Factory : public QMainWindow
     Q_OBJECT
 
 public:
+     QSqlDatabase *db;
+
     explicit Factory(QString user,QSqlDatabase *database,QWidget *parent = 0);
+
+
 
     void initializeModels();
     void setupModels();
@@ -90,7 +94,7 @@ private slots:
 private:
     Ui::Factory *ui;
     QString username;
-    QSqlDatabase *db;
+
     //filters
     QSortFilterProxyModel *dealer_proxy_model;
     QSortFilterProxyModel *deals_proxy_model;

@@ -5,6 +5,8 @@
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
+// main -< application -< login
+
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
@@ -20,7 +22,7 @@ LoginDialog::LoginDialog(QWidget *parent) :
     /// send driver type-path-name of db
     dBase = new DataBase;
     dBase->setDBDriver("QSQLITE");
-    dBase->setDBPath("records/records/");
+    dBase->setDBPath("records/");
     dBase->setDBName("database.db");
     dBase->DBconnect();
 
@@ -81,9 +83,9 @@ void LoginDialog::on_pushButton_clicked()
 
 
         if (!dBase->addrecord(ekle))
-            qDebug () << " İlk Kişi EKLENEMEDİ  " ;
+            qDebug () << " login : İlk Kişi EKLENEMEDİ  " ;
         else
-            qDebug () << " İlk Kişi EKLENDİ  " ;
+            qDebug () << " login : İlk Kişi EKLENDİ  " ;
     }
 
 

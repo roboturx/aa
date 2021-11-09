@@ -9,6 +9,7 @@
 #include <QModelIndexList>
 #include <QModelIndex>
 #include "reportsdialog.h"
+// main -< application -< login -< factory
 
 Factory::Factory(QString user, QSqlDatabase *database, QWidget *parent) :
     username(user),
@@ -23,7 +24,7 @@ Factory::Factory(QString user, QSqlDatabase *database, QWidget *parent) :
 
     //check database
     if(!db->open()){
-        QMessageBox::critical(this,"Database","The database couldn't"
+        QMessageBox::critical(this,"Database","factory :\n The database couldn't"
                                               "be connected.");
         ui->status_label->setText("Database not connected");
     }else

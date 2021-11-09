@@ -9,7 +9,7 @@
 #include "database.h"
 
 #define DATABASE_NAME "___hesap.db"
-
+// main -< application -< login -< database
 DataBase::DataBase()
 {
     qDebug() << "BEGIN Database construction...";
@@ -20,17 +20,21 @@ DataBase::~DataBase() {}
 void DataBase::setDBDriver(const QString& dbDriver)
 {
     m_dbDriver = dbDriver;
+    qDebug () << "Driver setted...";
 }
+
 
 
 void DataBase::setDBPath(const QString &dbPath)
 {
     m_dbPath = dbPath;
+    qDebug () << "       pathed...";
 }
 
 void DataBase::setDBName(const QString &dbName)
 {
     m_dbName = dbName;
+    qDebug () << "       named...";
 }
 
 
@@ -43,19 +47,20 @@ QSqlDatabase DataBase::DBconnect()
     if (!QSqlDatabase::isDriverAvailable(m_dbDriver)) {
         // not has driver !!!
         qDebug() << "       ERROR - Database driver not available ...";
-       // return false;
+        // return false;
     }
     // qt has driver
     qDebug() << "       SQLITE Database driver availablity is OK ...";
     db = new QSqlDatabase;
     *db = QSqlDatabase::addDatabase(m_dbDriver);
-   // return true;
+    // return true;
     if (!QFile(m_dbPath).exists())
     {
         QDir path = QDir::currentPath() ;
-       if (!path.mkdir(m_dbPath))
-           qDebug ()<<"Path oluşturulamadı";
-        qDebug ()<<"Path Yok... oluşturuluyor ...";
+        if (!path.mkdir( m_dbPath))
+            qDebug ()<<"Path oluşturulamadı - " << path;
+        else
+        qDebug ()<<"Path Yok... oluşturuluyor ..." << m_dbPath;
 
     }
     else
@@ -87,9 +92,9 @@ QSqlDatabase DataBase::DBconnect()
         }
         //qDebug() << "       Database file created.";
     } else
-    ///
-    /// dosya var aç
-    ///
+        ///
+        /// dosya var aç
+        ///
     {
         qDebug() << "       Database file on disk";
         openDataBase();
@@ -116,7 +121,7 @@ bool DataBase::DBTableCreate(const QString tableName, const QString tableStr)
         qDebug() << "               "+tableName+" CREATED. ";
     }
 
-/*
+    /*
         qDebug() << "               inserting RECORDS into "+ tableName ;
 
         //    insertIntoHesapTable();
@@ -152,9 +157,9 @@ bool DataBase::restoreDataBase()
 
     qDebug() << "   Database tables creating...";
     if ((!this->create_Table_konum()) ||
-        (!this->create_Table_isemri())||
-        (!this->create_Table_h_hsp()) ||
-        (!this->create_Table_h_mmbr()    ))
+            (!this->create_Table_isemri())||
+            (!this->create_Table_h_hsp()) ||
+            (!this->create_Table_h_mmbr()    ))
     {
         qDebug() << "       Database tables NOT created...";
         return false;
