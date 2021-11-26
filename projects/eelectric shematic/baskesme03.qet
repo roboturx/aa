@@ -1,9 +1,9 @@
 <project title="" version="0.70" folioSheetQuantity="0">
     <properties>
-        <property show="1" name="saveddate">26.11.2021</property>
-        <property show="1" name="savedfilepath">/home/m/aa/projects/eelectric shematic/baskesme02.qet</property>
-        <property show="1" name="savedfilename">baskesme02</property>
-        <property show="1" name="savedtime">03:19</property>
+        <property show="1" name="saveddate">2021-11-26</property>
+        <property show="1" name="savedfilepath">/home/m/aa/projects/eelectric shematic/baskesme03.qet</property>
+        <property show="1" name="savedfilename">baskesme03</property>
+        <property show="1" name="savedtime">22:47</property>
     </properties>
     <newdiagrams>
         <border rows="8" rowsize="80" displaycols="true" cols="17" displayrows="true" colsize="60"/>
