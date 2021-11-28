@@ -1,26 +1,26 @@
-<project title="" version="0.70" folioSheetQuantity="0">
+<project folioSheetQuantity="0" version="0.70" title="">
     <properties>
-        <property show="1" name="savedfilepath">/home/mr/aa/projects/eelectric shematic/baskesme01001.qet</property>
+        <property show="1" name="savedfilepath">/home/m/aa/projects/eelectric shematic/baskesme01001.qet</property>
+        <property show="1" name="savedtime">16:29</property>
+        <property show="1" name="saveddate">28.11.2021</property>
         <property show="1" name="savedfilename">baskesme01001</property>
-        <property show="1" name="saveddate">26.11.2021</property>
-        <property show="1" name="savedtime">10:14</property>
     </properties>
     <newdiagrams>
-        <border rowsize="80" cols="17" colsize="60" rows="8" displaycols="true" displayrows="true"/>
-        <inset title="" locmach="" displayAt="bottom" version="" date="null" author="" auto_page_num="" filename="" plant="" folio="%id/%total" indexrev=""/>
-        <conductors vertirotatetext="270" type="multi" numsize="7" bicolor="false" color2="#000000" displaytext="1" dash-size="2" num="_" onetextperfolio="0" condsize="1" horizrotatetext="0" horizontal-alignment="AlignBottom" vertical-alignment="AlignRight" function="" tension-protocol="" formula=""/>
+        <border rowsize="80" colsize="60" rows="8" displaycols="true" displayrows="true" cols="17"/>
+        <inset author="" date="null" plant="" indexrev="" displayAt="bottom" filename="" folio="%id/%total" version="" auto_page_num="" locmach="" title=""/>
+        <conductors vertical-alignment="AlignRight" type="multi" dash-size="2" horizrotatetext="0" num="_" formula="" displaytext="1" onetextperfolio="0" function="" color2="#000000" tension-protocol="" condsize="1" vertirotatetext="270" bicolor="false" numsize="7" horizontal-alignment="AlignBottom"/>
         <report label="%f-%l%c"/>
         <xrefs>
-            <xref switchprefix="" snapto="label" type="commutator" master_label="%f-%l%c" slave_label="(%f-%l%c)" delayprefix="" displayhas="cross" powerprefix="" offset="0" showpowerctc="false"/>
-            <xref switchprefix="" snapto="label" type="coil" master_label="%f-%l%c" slave_label="(%f-%l%c)" delayprefix="" displayhas="cross" powerprefix="" offset="40" showpowerctc="false"/>
-            <xref switchprefix="" snapto="label" type="protection" master_label="%f-%l%c" slave_label="(%f-%l%c)" delayprefix="" displayhas="cross" powerprefix="" offset="0" showpowerctc="false"/>
+            <xref type="commutator" snapto="label" slave_label="(%f-%l%c)" offset="0" displayhas="cross" master_label="%f-%l%c" switchprefix="" showpowerctc="false" delayprefix="" powerprefix=""/>
+            <xref type="coil" snapto="label" slave_label="(%f-%l%c)" offset="40" displayhas="cross" master_label="%f-%l%c" switchprefix="" showpowerctc="false" delayprefix="" powerprefix=""/>
+            <xref type="protection" snapto="label" slave_label="(%f-%l%c)" offset="0" displayhas="cross" master_label="%f-%l%c" switchprefix="" showpowerctc="false" delayprefix="" powerprefix=""/>
         </xrefs>
-        <conductors_autonums freeze_new_conductors="false" current_autonum=""/>
+        <conductors_autonums current_autonum="" freeze_new_conductors="false"/>
         <folio_autonums/>
         <element_autonums current_autonum="" freeze_new_elements="false"/>
     </newdiagrams>
-    <diagram freezeNewElement="false" date="null" plant="" title="Genel" auto_page_num="Otomatik Numaralandırma Sayfası Oluşturma" author="" cols="17" rowsize="80" displayAt="bottom" indexrev="" locmach="" order="1" displayrows="true" version="0.70" filename="" folio="%id/%total" rows="8" colsize="60" freezeNewConductor="false" displaycols="true" height="660">
-        <defaultconductor vertirotatetext="270" type="multi" numsize="7" bicolor="false" color2="#000000" displaytext="1" dash-size="2" num="_" onetextperfolio="0" condsize="1" horizrotatetext="0" horizontal-alignment="AlignBottom" vertical-alignment="AlignRight" function="" tension-protocol="" formula=""/>
+    <diagram indexrev="" freezeNewConductor="false" colsize="60" title="Genel" author="" freezeNewElement="false" displayAt="bottom" rowsize="80" plant="" height="660" order="1" folio="%id/%total" version="0.70" displayrows="true" auto_page_num="Otomatik Numaralandırma Sayfası Oluşturma" displaycols="true" locmach="" cols="17" rows="8" date="null" filename="">
+        <defaultconductor vertical-alignment="AlignRight" type="multi" dash-size="2" horizrotatetext="0" num="_" formula="" displaytext="1" onetextperfolio="0" function="" color2="#000000" tension-protocol="" condsize="1" vertirotatetext="270" bicolor="false" numsize="7" horizontal-alignment="AlignBottom"/>
     </diagram>
     <collection>
         <category name="import">
@@ -116,7 +116,7 @@
                                     <name lang="cs">Síla</name>
                                 </names>
                                 <element name="com_puiss_nf6.elmt">
-                                    <definition link_type="slave" hotspot_x="35" version="0.51" hotspot_y="30" type="element" height="60" width="80" orientation="dyyy">
+                                    <definition type="element" hotspot_x="35" orientation="dyyy" hotspot_y="30" link_type="slave" version="0.51" width="80" height="60">
                                         <uuid uuid="{79cc895c-d760-4703-bedc-a30c67242e5d}"/>
                                         <names>
                                             <name lang="pt">Interruptor de potência contactor (NC)</name>
@@ -140,32 +140,32 @@
                                         <informations>Author: The QElectroTech team
 License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
                                         <description>
-                                            <text text="R7" x="34" y="-17" size="4"/>
-                                            <text text="R8" x="34" y="22" size="4"/>
-                                            <text text="R3" x="-6" y="-17" size="4"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="-5" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-10" x3="-10" closed="false"/>
-                                            <text text="R5" x="14" y="-17" size="4"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="35" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="30" x3="30" closed="false"/>
-                                            <text text="R4" x="-6" y="22" size="4"/>
-                                            <text text="R6" x="14" y="22" size="4"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="-25" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-30" x3="-30" closed="false"/>
-                                            <text text="R2" x="-26" y="22" size="4"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="15" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="10" x3="10" closed="false"/>
-                                            <input text="_" tagg="label" x="50" y="0" size="9"/>
-                                            <line length2="1.5" antialias="false" y1="-9" end1="none" y2="-9" end2="none" x1="-30" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-24" length1="1.5"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-9" end2="none" x1="-30" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-30" length1="1.5"/>
-                                            <arc antialias="true" x="-32.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="-9" end1="none" y2="-9" end2="none" x1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-4" length1="1.5"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-9" end2="none" x1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-10" length1="1.5"/>
-                                            <arc antialias="true" x="-12.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="-9" end1="none" y2="-9" end2="none" x1="10" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="16" length1="1.5"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-9" end2="none" x1="10" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="10" length1="1.5"/>
-                                            <arc antialias="true" x="7.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="-9" end1="none" y2="-9" end2="none" x1="30" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="36" length1="1.5"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-9" end2="none" x1="30" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="30" length1="1.5"/>
-                                            <arc antialias="true" x="27.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="0" end1="none" y2="0" end2="none" x1="32" style="line-style:dashed;line-weight:thin;filling:none;color:black" x2="-27" length1="1.5"/>
-                                            <text text="R1" x="-26" y="-17" size="4"/>
+                                            <text x="34" y="-17" text="R7" size="4"/>
+                                            <text x="34" y="22" text="R8" size="4"/>
+                                            <text x="-6" y="-17" text="R3" size="4"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-5" antialias="true" y3="20" closed="false" x2="-10" y2="10" x3="-10"/>
+                                            <text x="14" y="-17" text="R5" size="4"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="35" antialias="true" y3="20" closed="false" x2="30" y2="10" x3="30"/>
+                                            <text x="-6" y="22" text="R4" size="4"/>
+                                            <text x="14" y="22" text="R6" size="4"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-25" antialias="true" y3="20" closed="false" x2="-30" y2="10" x3="-30"/>
+                                            <text x="-26" y="22" text="R2" size="4"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="15" antialias="true" y3="20" closed="false" x2="10" y2="10" x3="10"/>
+                                            <input tagg="label" x="50" y="0" text="_" size="9"/>
+                                            <line y1="-9" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-30" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-24" end1="none" y2="-9"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-30" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-30" end1="none" y2="-9"/>
+                                            <arc x="-32.5" angle="-180" start="90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="-9" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-10" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-4" end1="none" y2="-9"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-10" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-10" end1="none" y2="-9"/>
+                                            <arc x="-12.5" angle="-180" start="90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="-9" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="10" antialias="false" end2="none" length2="1.5" length1="1.5" x2="16" end1="none" y2="-9"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="10" antialias="false" end2="none" length2="1.5" length1="1.5" x2="10" end1="none" y2="-9"/>
+                                            <arc x="7.5" angle="-180" start="90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="-9" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="30" antialias="false" end2="none" length2="1.5" length1="1.5" x2="36" end1="none" y2="-9"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="30" antialias="false" end2="none" length2="1.5" length1="1.5" x2="30" end1="none" y2="-9"/>
+                                            <arc x="27.5" angle="-180" start="90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="0" style="line-style:dashed;line-weight:thin;filling:none;color:black" x1="32" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-27" end1="none" y2="0"/>
+                                            <text x="-26" y="-17" text="R1" size="4"/>
                                             <terminal x="-30" y="20" orientation="s"/>
                                             <terminal x="-30" y="-20" orientation="n"/>
                                             <terminal x="-10" y="20" orientation="s"/>
@@ -178,7 +178,7 @@ License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
                                     </definition>
                                 </element>
                                 <element name="com_puiss6.elmt">
-                                    <definition link_type="slave" hotspot_x="38" version="0.51" hotspot_y="30" type="element" height="60" width="80" orientation="dyyy">
+                                    <definition type="element" hotspot_x="38" orientation="dyyy" hotspot_y="30" link_type="slave" version="0.51" width="80" height="60">
                                         <uuid uuid="{e8858fcc-9341-40c7-976a-83a47a780c36}"/>
                                         <names>
                                             <name lang="pt">Interruptor de potência contactor</name>
@@ -202,28 +202,28 @@ License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
                                         <informations>Author: The QElectroTech team
 License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
                                         <description>
-                                            <text text="5" x="14" y="-17" size="4"/>
-                                            <text text="3" x="-6" y="-17" size="4"/>
-                                            <text text="7" x="34" y="-17" size="4"/>
-                                            <text text="4" x="-6" y="22" size="4"/>
-                                            <text text="6" x="14" y="22" size="4"/>
-                                            <text text="2" x="-26" y="22" size="4"/>
-                                            <text text="8" x="34" y="22" size="4"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="-15" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-10" x3="-10" closed="false"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="25" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="30" x3="30" closed="false"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="5" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="10" x3="10" closed="false"/>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="-35" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-30" x3="-30" closed="false"/>
-                                            <input text="_" tagg="label" x="40" y="0" size="9"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-10" end2="none" x1="-30" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-30" length1="1.5"/>
-                                            <arc antialias="true" x="-32.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="-90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-10" end2="none" x1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="-10" length1="1.5"/>
-                                            <arc antialias="true" x="-12.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="-90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-10" end2="none" x1="10" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="10" length1="1.5"/>
-                                            <arc antialias="true" x="7.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="-90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-10" end2="none" x1="30" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="30" length1="1.5"/>
-                                            <arc antialias="true" x="27.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="-90" width="5" angle="-180"/>
-                                            <line length2="1.5" antialias="false" y1="0" end1="none" y2="0" end2="none" x1="28" style="line-style:dashed;line-weight:thin;filling:none;color:black" x2="-32" length1="1.5"/>
-                                            <text text="1" x="-26" y="-17" size="4"/>
+                                            <text x="14" y="-17" text="5" size="4"/>
+                                            <text x="-6" y="-17" text="3" size="4"/>
+                                            <text x="34" y="-17" text="7" size="4"/>
+                                            <text x="-6" y="22" text="4" size="4"/>
+                                            <text x="14" y="22" text="6" size="4"/>
+                                            <text x="-26" y="22" text="2" size="4"/>
+                                            <text x="34" y="22" text="8" size="4"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-15" antialias="true" y3="20" closed="false" x2="-10" y2="10" x3="-10"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="25" antialias="true" y3="20" closed="false" x2="30" y2="10" x3="30"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="5" antialias="true" y3="20" closed="false" x2="10" y2="10" x3="10"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-35" antialias="true" y3="20" closed="false" x2="-30" y2="10" x3="-30"/>
+                                            <input tagg="label" x="40" y="0" text="_" size="9"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-30" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-30" end1="none" y2="-10"/>
+                                            <arc x="-32.5" angle="-180" start="-90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-10" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-10" end1="none" y2="-10"/>
+                                            <arc x="-12.5" angle="-180" start="-90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="10" antialias="false" end2="none" length2="1.5" length1="1.5" x2="10" end1="none" y2="-10"/>
+                                            <arc x="7.5" angle="-180" start="-90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="30" antialias="false" end2="none" length2="1.5" length1="1.5" x2="30" end1="none" y2="-10"/>
+                                            <arc x="27.5" angle="-180" start="-90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
+                                            <line y1="0" style="line-style:dashed;line-weight:thin;filling:none;color:black" x1="28" antialias="false" end2="none" length2="1.5" length1="1.5" x2="-32" end1="none" y2="0"/>
+                                            <text x="-26" y="-17" text="1" size="4"/>
                                             <terminal x="-30" y="-20" orientation="n"/>
                                             <terminal x="-30" y="20" orientation="s"/>
                                             <terminal x="-10" y="-20" orientation="n"/>
@@ -236,7 +236,7 @@ License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
                                     </definition>
                                 </element>
                                 <element name="com_puiss1.elmt">
-                                    <definition link_type="slave" ic="true" hotspot_x="10" version="0.3" hotspot_y="25" type="element" height="50" width="50" orientation="dnny">
+                                    <definition type="element" hotspot_x="10" orientation="dnny" ic="true" hotspot_y="25" link_type="slave" version="0.3" width="50" height="50">
                                         <uuid uuid="{C9956BD7-AFAD-4D00-AF0E-1747154196CE}"/>
                                         <names>
                                             <name lang="ar">مُلامس قدرة - كونتكتور (NO)</name>
@@ -261,10 +261,10 @@ License: see http://qelectrotech.org/wiki/doc/elements_license</informations>
                                             <kindInformation show="0" name="tempoType"/>
                                         </kindInformations>
                                         <description>
-                                            <polygon antialias="true" y1="-10" y2="10" y3="20" x1="-5" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="0" x3="0" closed="false"/>
-                                            <line length2="1.5" antialias="false" y1="-20" end1="none" y2="-10" end2="none" x1="0" style="line-style:normal;line-weight:normal;filling:none;color:black" x2="0" length1="1.5"/>
-                                            <input text="_" tagg="label" x="2.75" y="3" size="9"/>
-                                            <arc antialias="true" x="-2.5" y="-14.5" style="line-style:normal;line-weight:normal;filling:none;color:black" height="5" start="-90" width="5" angle="-180"/>
+                                            <polygon y1="-10" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="-5" antialias="true" y3="20" closed="false" x2="0" y2="10" x3="0"/>
+                                            <line y1="-20" style="line-style:normal;line-weight:normal;filling:none;color:black" x1="0" antialias="false" end2="none" length2="1.5" length1="1.5" x2="0" end1="none" y2="-10"/>
+                                            <input tagg="label" x="2.75" y="3" text="_" size="9"/>
+                                            <arc x="-2.5" angle="-180" start="-90" style="line-style:normal;line-weight:normal;filling:none;color:black" antialias="true" y="-14.5" width="5" height="5"/>
                                             <terminal x="0" y="-20" orientation="n"/>
                                             <terminal x="0" y="20" orientation="s"/>
                                         </description>
