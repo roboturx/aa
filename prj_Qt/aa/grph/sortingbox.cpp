@@ -1,4 +1,4 @@
-#include <QtWidgets>
+﻿#include <QtWidgets>
 #include <QObject>
 #include <stdlib.h>
 #include "grph/sortingbox.h"
@@ -735,7 +735,8 @@ int SortingBox::updateButtonGeometry(QToolButton *button, int x, int y)
                         size.rwidth(), size.rheight());
 
     return y - size.rheight()
-            - style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
+            - style()->pixelMetric (QStyle::PM_DefaultFrameWidth);
+    //     - style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
 }
 
 

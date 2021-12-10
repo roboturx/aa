@@ -948,7 +948,7 @@ void hC_IE::dropEvent(QDropEvent *event)
 
         //  newIcon->setIepos_pT   ( newIcon->getIepos_pT()  ) ;
         //newIcon->move ( event->pos() - newIcon->getIepos_pT());
-        newIcon->move ( event->pos() );
+       //++++ newIcon->move ( event->pos() );
         //newIcon->move(newIcon->getIepos_pT());
         newIcon->show();
         newIcon->setToolTip ( newIcon->ietooltip() );

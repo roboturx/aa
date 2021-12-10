@@ -3,6 +3,10 @@
 #include "adrs/frm.h"
 #include "mlzm/mlzm_gc.h"
 
+
+using namespace std;
+
+
 hC_FTR::hC_FTR() : hC_tBcreator ()
 {
     //************************************************************
@@ -531,7 +535,7 @@ void hC_FTR::slt_ftr_hesap()
         }
         else
         {
-            qDebug() << " query inactive 1"<<endl<< q_qry.lastError ().text ();
+            qDebug() << " query inactive 1\n" << q_qry.lastError ().text ();
         }
         // kdv
         s_qry = QString ("SELECT SUM"
@@ -552,7 +556,7 @@ void hC_FTR::slt_ftr_hesap()
 
         else
         {
-            qDebug() << " query inactive 2"<<endl<< q_qry.lastError ().text ();
+            qDebug() << " query inactive 2 \n"<< q_qry.lastError ().text ();
         }
         // Genel Toplam
         s_qry = QString ("SELECT SUM"
@@ -573,7 +577,7 @@ void hC_FTR::slt_ftr_hesap()
 
         else
         {
-            qDebug() << " query inactive 3 "<<endl<< q_qry.lastError ().text ();
+            qDebug() << " query inactive 3 \n "<< q_qry.lastError ().text ();
         }
     }
 }  ///**************************************** fatura hesap

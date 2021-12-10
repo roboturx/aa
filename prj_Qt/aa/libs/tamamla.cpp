@@ -1,4 +1,4 @@
-#include "tamamla.h"
+﻿#include "tamamla.h"
 //#include "globals.h"
 //#include <QMessageBox>
 //#include <QPushButton>
@@ -12,7 +12,7 @@
     cbx_IEdurum->setEditable (true);
     cbx_IEdurum->setCompleter(tmml_IEdurum->completer);
 */
-
+using namespace std;
 
 
 Tamamla::Tamamla(const QString& dosya)
@@ -36,7 +36,7 @@ QAbstractItemModel *Tamamla::modelFromFile(const QString& fileName)
 
     if (!file.open(QFile::ReadOnly))
     {
-     qDebug()<< fileName <<" dosyası açılamadı"<<endl;
+     qDebug()<< fileName <<" dosyası açılamadı \n";
         return new QStringListModel(completer);
     }
 #ifndef QT_NO_CURSOR
