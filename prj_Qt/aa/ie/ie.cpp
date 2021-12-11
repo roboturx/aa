@@ -594,7 +594,7 @@ void hC_IE::isEmriListele()
       QSqlRecord rec = query.record();
 
 
-        int nameCol = rec.indexOf("ie_no"); // index of the field "name"
+        //int nameCol = rec.indexOf("ie_no"); // index of the field "name"
 
         int ieno_nT {query.value ("ie_no").toInt () };
         QString krmno_sT {query.value ("ie_kurumno").toString ()};
