@@ -4,7 +4,7 @@ Renk::Renk(QObject *parent) : QObject(parent)
 {
 
     qDebug() << "Renk";
-    QTextCodec::codecForName("ISO-8859-9") ;
+    //  QTextCodec::codecForName("ISO-8859-9") ;
 
     QString CeruleanBlue ("#98B4D4");  // fg
     QString Turquoise    ("#45B8AC");  // fg
