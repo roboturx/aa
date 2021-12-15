@@ -10,6 +10,7 @@ MW_main::MW_main( )
 
 }
 
+// main den buraya girer - w.login();
 void MW_main::login()
 {
 
@@ -21,7 +22,7 @@ void MW_main::login()
     arayuz = new Arayuz;
     arayuz->setGeometry (800,300,300,480);
     arayuz->setWindowTitle("Arayuz");
-  //  arayuz->show();
+    arayuz->show();
 
     /// veritabanı kontrol
     qDebug() << "db control";

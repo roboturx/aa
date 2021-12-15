@@ -11,13 +11,16 @@ Login::Login(QWidget *parent) : QWidget(parent)
     QLabel *lB_pass = new QLabel("Şifre ");
     lE_user = new QLineEdit ;
     lE_pass = new QLineEdit ;
+
+    /// kullanıcı girişine fokusla
     QTimer::singleShot(0, lE_user, SLOT(setFocus()));
 
-    auto *lg2 = new QGridLayout(this);
-    lg2->addWidget(lB_user,0,0,1,1);
-    lg2->addWidget(lE_user,0,1,1,2);
-    lg2->addWidget(lB_pass,0,3,1,1);
-    lg2->addWidget(lE_pass,0,4,1,2);
+    /// formu hazırla
+    auto *gL_loginlayout = new QGridLayout(this);
+    gL_loginlayout->addWidget(lB_user,0,0,1,1);
+    gL_loginlayout->addWidget(lE_user,0,1,1,2);
+    gL_loginlayout->addWidget(lB_pass,0,3,1,1);
+    gL_loginlayout->addWidget(lE_pass,0,4,1,2);
 
     this->setMaximumHeight (50);
     this->setMaximumWidth (400);
@@ -30,20 +33,17 @@ Login::Login(QWidget *parent) : QWidget(parent)
     this->show();
     this->move(410,310);
 
+    /// tusları kontrol et
     keyESC = new QShortcut(this);   // Initialize the object
     keyESC->setKey(Qt::Key_Escape);    // Set the key code
     // connect handler to keypress
+
+    /// esc basılırsa çıkışa yönlendir
     connect(keyESC, &QShortcut::activated , this,
             &Login::logout );
 
-    /*QShortcut * sl_ESC = new QShortcut(
-                QKeySequence(Qt::Key_Escape,
-                    Qt::Key_Escape), this ,
-                 SLOT( logex()  ));
-*/
-    //Login::logexited ()
-    //sl_ESC->setAutoRepeat(false);
 
+    /// enter veya return a basılırsa girişe yönlendir
     QShortcut * sl_ENTER = new QShortcut(
                 QKeySequence(Qt::Key_Enter), this,
                 SLOT(logined() ));
@@ -59,7 +59,7 @@ Login::Login(QWidget *parent) : QWidget(parent)
 
 void Login::logout()
 {
-
+    // esc basılmış - çıkış işlemlerine git
     logex("ESC");
 }
 
@@ -67,38 +67,9 @@ void Login::logout()
 Login::~Login()
 = default;
 
-/*
-void Login::quitApp(QString nereden)
-{
-qDebug()<<"quitapp başı";
-    qDebug() << "quitting from "<<nereden;
-    try
-    {
-        if(VTKontrolEt::instance()->IsOpen())
-        {
-            VTKontrolEt::instance()->Disconnect();
-            //statusbar->showMessage("Veritabanı bağlantısı KAPATILDI ...", 1000);
-            qDebug() << "DISConnected from quitApp...";
-            QCoreApplication::exit(0);
-        }
-
-     //   fade(false);
-    }
-    catch (...)
-    {
-        qDebug() << "Hata 001 - Code::mw_main catched";
-        QCoreApplication::exit(1);
-
-    }
-qDebug()<<"logexited başı";
-    logexited(" ** quitapp ");
-}
-
-*/
-
-
 void Login::logex(const QString& nereden)
 {
+    // esc basılmış - çıkış işlemlerini oluştur ve programı sonlandır
     try
     {
         if(VTKontrolEt::instance()->IsOpen())
@@ -131,6 +102,7 @@ void Login::logex(const QString& nereden)
     }
     catch (...)
     {
+        // çıkışta hata !!!!
         qDebug() << "Hata wd_logg" << nereden;
         QApplication::exit(1);
     }
@@ -139,10 +111,12 @@ void Login::logex(const QString& nereden)
 
 void Login::logined()
 {
+    /// enter a basılmış - veritabanı kullanıcı kontrolunu yap
 
     QString username =  lE_user->text();  //"a"; //
     QString password =  lE_pass->text();  //"a"; //
     QSqlQuery qry;
+
 
     qry.prepare("SELECT * FROM dbtb_clsn "
                 "WHERE (username='"+username+"' "
