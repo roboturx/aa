@@ -19,10 +19,6 @@ void MW_main::login()
 
     // fade(true);
 
-    arayuz = new Arayuz;
-    arayuz->setGeometry (800,300,300,480);
-    arayuz->setWindowTitle("Arayuz");
-    arayuz->show();
 
     /// veritabanı kontrol
     qDebug() << "db control";
@@ -73,6 +69,15 @@ WARNING  şifre için burayı kullan
 
 //    sbox = new SortingBox;
     //dbox = new DragWidget;
+
+
+    arayuz = new Arayuz;
+    arayuz->setGeometry (800,300,300,480);
+    arayuz->setWindowTitle("Arayuz");
+    arayuz->show();
+
+
+
     this->setCentralWidget (arayuz );
 
 }
@@ -102,34 +107,6 @@ void MW_main::logouted()
 
 }
 
-//void MW_main::isemri()
-//{
-
-//    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
-
-//    if (query.isActive ())
-//    {
-//        qDebug()<< "active " ;
-//    }
-//    else {
-//        qDebug()<< "not active "<< query.lastError ().text ();
-//    }
-
-//    while (query.next())
-//    {
-
-//        QPixmap outPixmap = QPixmap();
-//        outPixmap.loadFromData( query.value (9).toByteArray () );
-
-//        createNewSquar (squarePath,
-//                        tr("Excavator < %1 >").arg(++count),
-//                        randomItemPosition(),
-//                        randomItemColor(),
-//                        QString::number (count)+"---"+query.value(2).toString(),
-//                        QPixmap( outPixmap ));
-
-//    }
-//}
 
 
 
