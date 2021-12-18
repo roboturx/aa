@@ -99,7 +99,6 @@ HEADERS  += \
 
 FORMS    += \
     forms/mainForm.ui \
-    main/arayuz.ui \
     wd_login.ui \
     ww_mkcins.ui \
     cw_hkk.ui \
