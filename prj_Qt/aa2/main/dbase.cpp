@@ -17,6 +17,9 @@
 #include "mlzm/mlzm.h"
 #include "mlzm/mlzm_gc.h"
 
+#include "kira/kira.h"
+
+
 #include "ui_dbase.h"
 
 DBase::DBase(QWidget *parent) :
@@ -112,6 +115,10 @@ void DBase::VTDosyaKontrol()
     yaz(tsnr->tbCreate (tsnr->tb_flds)) ;
     delete tsnr ;
 
+    hC_KIRA* kira = new hC_KIRA;
+    yaz(kira->tbCreate (kira->tb_flds)) ;
+    delete kira ;
+
     DBase::VTd_IEDTAMIRYERI ();
     DBase::VTd_IEDTYDETAY ();
 
@@ -125,6 +132,8 @@ void DBase::VTDosyaKontrol()
     DBase::VTd_MKANTIFIRIZ();
     DBase::VTd_MKZINCIR ();
     DBase::VTd_MKHGS ();
+
+  //  DBase::VTd_KIRA();
 
 
 }
@@ -1938,12 +1947,54 @@ void DBase::VTd_DPTLP()
 /// DBASE ///
 
 
+/*
+
+void DBase::VTd_KIRA ()
+{  ///  create
+    ///
+
+    QString ct;
+    QSqlQuery q;
+    if ( ! VTKontrolEt::instance()->GetDB().tables().contains( "dbtb_kira"))
+    {
+        ct = "CREATE TABLE IF NOT EXISTS dbtb_kira "
+             "("
+             "f_kr_no    INTEGER, "
+             "f_kr_duzenleme_no       TEXT, "
+             "f_kr_duzenleme_tarih    TEXT, "
+             "f_kr_kveren_tc       INTEGER, "
+             "f_kr_kirac_tc      	INTEGER, "
+             "f_kr_krlnn_adres_kod TEXT   , "
+             "f_kr_bas_tarihi   TEXT   , "
+             "f_kr_bit_tarihi   TEXT   , "
+             "f_kr_sure      	TEXT   , "
+             "f_kr_bedel        INTEGER, "
+             "f_kr_teminat      INTEGER, "
+             "f_kr_odeme_sekil  TEXT   , "
+             "f_kr_hesap_no     TEXT   , "
+             "f_kr_resim             BLOB   , "
+             "f_kr_id integer primary key) "  ;
+
+
+        if (!q.exec( ct ))
+        {
+            qDebug() << " KİRA Dosyası Oluşturulamadı - "
+                     << q.lastError() ;
+        }
+        else
+        {
+            qDebug() << " KİRA Dosyası YENİ Oluşturuldu - ";
+            q.exec("INSERT INTO dbtb_kira ( f_duzenleme_no )"
+                   " values( 1 )"  );
+
+        }
+    }
+}
 
 
 
 
-
-
+*/
 
 
 

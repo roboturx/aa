@@ -185,28 +185,28 @@ void MW_main::cr_Actions()
     //////// 0210 TANIMLAR * Gayrimenkul
     QMenu *mn_mkn = mn_atlye->addMenu(tr("&Gayrimenkul"));
 
-    //////// 0211 TANIMLAR * Makina
+    //////// 0211 TANIMLAR * Menkul Değerler
     auto *act_mkn = new QAction(QIcon(":/rsm/ex.png"),
-                                tr("&Makina..."), this);
-    act_mkn->setStatusTip(tr("Demirbaş Mlzm"));
+                                tr("&Menkul Değerler"), this);
+    act_mkn->setStatusTip(tr("Menkul Değerler"));
     //act_mkc->setShortcut(QKeycequence(tr("Ctrl+M")));
     mn_mkn->addAction(act_mkn);
     //tb_main->addAction(act_mkn);
     connect( act_mkn , &QAction::triggered,
              [this]()
     {
-        statusBar()->showMessage(tr("Demirbaş Mlzm"));
-        auto *mw_mkn = new hC_MKN;
-        mw_mkn->tbsetup ();
-        mw_mkn->show ();
+        statusBar()->showMessage(tr("Menkul Değerler"));
+        //auto *mw_mkn = new hC_MKN;
+        //mw_mkn->tbsetup ();
+        //mw_mkn->show ();
 
     });
 
 
-    //////// 0212 TANIMLAR * Menkul
+    //////// 0212 TANIMLAR * Gayri Menkul
         auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
-                                tr("&Menkul"), this);
-    act_mkc->setStatusTip(tr("Menkul Değerler"));
+                                tr("&GayriMenkul"), this);
+    act_mkc->setStatusTip(tr("GayriMenkul Kira Takibi"));
     act_mkc->setShortcut(QKeySequence(tr("Ctrl+C")));
     mn_mkn->addAction(act_mkc);
     //tb_main->addAction(act_mkn);
@@ -218,10 +218,10 @@ void MW_main::cr_Actions()
         dia->setGeometry ( 50, //lE_cins->pushButton->pos ().rx (),
                           400, //lE_cins->pushButton->pos ().ry (),
                           900,200);
-        dia->setWindowTitle ("Menkul Değerler ");
+        dia->setWindowTitle ("GayriMenkul Kira Takibi ");
 
-     //   auto *c = new hC_MKCINS ;
-    //    c->mkcins_setup ();
+        auto *mwkira = new hC_KIRA ;
+        mwkira->tbsetup ();
     //    auto *cm = new hC_MKMARK ;
       //  cm->mkmark_setup ();
      //   auto *cmm = new hC_MKMODL ;
@@ -229,7 +229,7 @@ void MW_main::cr_Actions()
 
         auto *layout = new QGridLayout;
         dia->setLayout (layout);
-    //    layout->addWidget (c  ,0 ,0 );
+        layout->addWidget (mwkira  ,0 ,0,1,3 );
        // layout->addWidget (cm ,0 ,1 );
        // layout->addWidget (cmm,0 ,2 );
 

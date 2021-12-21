@@ -23,6 +23,8 @@
 
 #include "mchn/mkn.h"
 
+#include "kira/kira.h"
+
 #include "mlzm/mlzm_gc.h"
 #include "globals.h"
 #include "arayuz.h"
@@ -58,6 +60,8 @@ public:
     hC_TSNR* mw_tsnr;
     hC_SCLK* mw_sclk;
     hC_MLZMGC* mw_mlzmGc{};
+
+    hC_KIRA *mw_kira {};
 
 
     QTextEdit *durum{};

@@ -27,6 +27,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 
 SOURCES +=\
+    kira/kira.cpp \
     main/arayuz.cpp \
     main/main.cpp \
     main/VTKontrol.cpp \
@@ -62,6 +63,7 @@ SOURCES +=\
 
 HEADERS  += \
  #   main/main.h \
+    kira/kira.h \
     main/VTKontrol.h \
     main/arayuz.h \
     main/cw_hkk.h \
@@ -99,6 +101,7 @@ HEADERS  += \
 
 FORMS    += \
     forms/mainForm.ui \
+    kira/kira.ui \
     wd_login.ui \
     ww_mkcins.ui \
     cw_hkk.ui \

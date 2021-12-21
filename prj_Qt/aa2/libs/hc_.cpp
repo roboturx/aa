@@ -520,12 +520,14 @@ QString hC_tBcreator::tbCreate (hC_ArrD * tb_flds)
 
         if (!q.exec( ct ))
         {
-            this-> _mesaj = "xxx:xxx HATA - Dosya Oluşturulamadı : " + *tb_name  +
+            this-> _mesaj = "xxx:xxx HATA - Dosya Oluşturulamadı : " +
+                    *tb_name  +
                     "\n------------------------------------\n"+
                     q.lastError().text()+
                     "\n------------------------------------\n";
 
-            qDebug () << "     xxx:xxx HATA - Dosya Oluşturulamadı : " << *tb_name
+            qDebug () << "     xxx:xxx HATA - Dosya Oluşturulamadı : "
+                      << *tb_name
                     << "     ------------------------------------"
                    << "     "<< q.lastError().text()
                   << "     ------------------------------------";

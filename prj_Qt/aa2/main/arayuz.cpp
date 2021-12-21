@@ -11,12 +11,34 @@ Arayuz::Arayuz(QWidget *parent) :
 //    dbase->setWindowTitle("Veri Tabanı Kontrol");
 //    dbase->show();
     duzenle = new Duzenle;
+    kveren  = new Kveren;
+    kiraci  = new Kirac;
+    krlnn   = new Kiralanan;
+    kr      = new Kira;
+    srt     = new Sart;
+    osrt    = new Osart;
 
     //this->adjustSize();
     auto g_lytara = new QGridLayout();
-    this->setLayout(g_lytara);
-    g_lytara->addWidget(duzenle, 0, 0, 1, 1);
 
+    g_lytara->setColumnStretch(0,1);
+    g_lytara->setColumnStretch(1,20);
+    g_lytara->setColumnStretch(2,1);
+    g_lytara->setColumnStretch(3,20);
+    g_lytara->setColumnStretch(4,1);
+    g_lytara->setColumnStretch(5,40);
+    g_lytara->setColumnStretch(6,1);
+
+
+    this->setLayout(g_lytara);
+    g_lytara->addWidget(duzenle, 0, 1, 1, 1);
+    g_lytara->addWidget(kveren , 1, 1, 1, 1);
+    g_lytara->addWidget(kiraci , 1, 3, 1, 1);
+    g_lytara->addWidget(krlnn  , 2, 1, 1, 1);
+    g_lytara->addWidget(kr     , 2, 3, 1, 1);
+
+    g_lytara->addWidget(osrt   , 3, 1, 5, 3);
+    g_lytara->addWidget(srt    , 0, 5, 8, 1);
 }
 
 Arayuz::~Arayuz()
@@ -28,44 +50,13 @@ Arayuz::~Arayuz()
 Duzenle::Duzenle(QWidget *parent) :
     QWidget(parent)
 {
-    auto *x1 = new QHBoxLayout ;
-    auto *lB_duztar = new QLabel("Sözleşmenin Düzenleme &Tarihi",this) ;
-    dE_duztar = new QDateEdit(this);
-    lB_duztar->setBuddy(dE_duztar);
-    x1->addWidget(lB_duztar);
-    x1->addWidget(dE_duztar);
 
-
-    auto *x2 = new QHBoxLayout ;
-    auto *lB_duzno = new QLabel("Düzenleme &No",this) ;
-    lE_duzno = new QLineEdit(this);
-    lB_duzno->setBuddy(lE_duzno);
-    x2->addWidget(lB_duzno);
-    x2->addWidget(lE_duzno);
-
-   // this->adjustSize();
-    auto g_lytduz = new QGridLayout;
-    this->setLayout(g_lytduz);
-
-    g_lytduz->setColumnMinimumWidth(0,20);
-    g_lytduz->setColumnStretch(0,0);
-    g_lytduz->setColumnMinimumWidth(1,100);
-    g_lytduz->setColumnStretch(1,0);
-    g_lytduz->setColumnMinimumWidth(2,20);
-    g_lytduz->setColumnStretch(2,0);
-    g_lytduz->setColumnMinimumWidth(3,100);
-    g_lytduz->setColumnStretch(3,0);
-    g_lytduz->setColumnMinimumWidth(4,100);
-    g_lytduz->setColumnStretch(4,0);
-
-
-    g_lytduz->addLayout(x1, 0, 0, 1, 1);
-    //g_lytduz->addWidget(dE_duztar, 0, 4, 1, 2);
-    g_lytduz->addLayout(x2, 0, 2, 1, 1);
-    //g_lytduz->addWidget(lE_duzno,  0, 8, 1, 2);
-
-
-
+    dE_duztar = new QDateEdit ;
+    lE_duzno  = new QLineEdit ;
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(tr("Düzenleme Tarihi :"), dE_duztar);
+    formLayout->addRow(tr("Düzenleme No :"), lE_duzno);
+    setLayout(formLayout);
 }
 
 Duzenle::~Duzenle()
@@ -85,6 +76,21 @@ Duzenle::~Duzenle()
 Kveren::Kveren(QWidget *parent) :
     QWidget(parent)
 {
+
+    lE_kvtc = new QLineEdit ;
+    lE_kvad = new QLineEdit ;
+    lE_kvsyd = new QLineEdit ;
+    lE_kvadres = new QLineEdit ;
+    lE_kvtel = new QLineEdit ;
+
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(tr("&TC No :"), lE_kvtc);
+    formLayout->addRow(tr("&Adı :"), lE_kvad);
+    formLayout->addRow(tr("&Soyadı :"), lE_kvsyd);
+    formLayout->addRow(tr("A&dres :"), lE_kvadres);
+    formLayout->addRow(tr("T&elefon :"), lE_kvtel);
+    setLayout(formLayout);
+
 
 }
 
@@ -106,6 +112,19 @@ Kveren::~Kveren()
 Kirac::Kirac(QWidget *parent) :
     QWidget(parent)
 {
+    lE_krctc = new QLineEdit ;
+    lE_krcad = new QLineEdit ;
+    lE_krcsyd = new QLineEdit ;
+    lE_krcadres = new QLineEdit ;
+    lE_krctel = new QLineEdit ;
+
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(tr("&TC No :"), lE_krctc);
+    formLayout->addRow(tr("&Adı :"), lE_krcad);
+    formLayout->addRow(tr("&Soyadı :"), lE_krcsyd);
+    formLayout->addRow(tr("A&dres :"), lE_krcadres);
+    formLayout->addRow(tr("T&elefon :"), lE_krctel);
+    setLayout(formLayout);
 
 }
 
@@ -129,7 +148,25 @@ Kirac::~Kirac()
 Kiralanan::Kiralanan(QWidget *parent) :
     QWidget(parent)
 {
+    lE_krlnnadreskod = new QLineEdit ;
+    lE_krlnnadres = new QLineEdit ;
+    lE_krlnnada = new QLineEdit ;
+    lE_krlnnpafta = new QLineEdit ;
+    lE_krlnnparsel = new QLineEdit ;
+    lE_krlnnsu = new QLineEdit ;
+    lE_krlnnelktrk = new QLineEdit ;
+    lE_krlnndgaz = new QLineEdit ;
 
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(tr("&Adres Kodu :")  , lE_krlnnadreskod );
+    formLayout->addRow(tr("Adres :")    , lE_krlnnadres );
+    formLayout->addRow(tr("Tapu Pafta :") ,  lE_krlnnada );
+    formLayout->addRow(tr("       Ada :")  , lE_krlnnpafta );
+    formLayout->addRow(tr("    Parsel :"), lE_krlnnparsel );
+    formLayout->addRow(tr("Abone Elektrik :"), lE_krlnnsu );
+    formLayout->addRow(tr("            Su :"), lE_krlnnelktrk );
+    formLayout->addRow(tr("      Doğalgaz :"), lE_krlnndgaz );
+    setLayout(formLayout);
 }
 
 Kiralanan::~Kiralanan()
@@ -152,10 +189,66 @@ Kiralanan::~Kiralanan()
 Kira::Kira(QWidget *parent) :
     QWidget(parent)
 {
+    lE_krbastar = new QLineEdit ;
+    lE_krbittar = new QLineEdit ;
+    lE_krsure = new QLineEdit ;
+    lE_krbedel = new QLineEdit ;
+    lE_krteminat = new QLineEdit ;
+    lE_krodeme = new QLineEdit ;
+    lE_krodyeri = new QLineEdit ;
 
+
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(tr("Başlangıç Tarihi :")  , lE_krbastar );
+    formLayout->addRow(tr("Bitiş Tarihi:")    , lE_krbittar );
+    formLayout->addRow(tr("Süresi:") ,  lE_krsure );
+    formLayout->addRow(tr("Bedeli:")  , lE_krbedel );
+    formLayout->addRow(tr("Teminat:"), lE_krteminat );
+    formLayout->addRow(tr("Ödeme Şekli:"), lE_krodeme );
+    formLayout->addRow(tr("Banka Hesap No:"), lE_krodyeri );
+
+    setLayout(formLayout);
 }
 
 Kira::~Kira()
+{
+
+}
+
+Sart::Sart(QWidget *parent) :
+    QWidget(parent)
+{
+    tE_sart = new QTextEdit;
+    QLabel *x = new QLabel;
+
+
+    QVBoxLayout *vertLayout = new QVBoxLayout;
+    vertLayout->addWidget(x );
+    vertLayout->addWidget(tE_sart );
+
+    setLayout(vertLayout);
+}
+
+Sart::~Sart()
+{
+
+}
+
+Osart::Osart(QWidget *parent) :
+    QWidget(parent)
+{
+    tE_osart = new QTextEdit;
+    QLabel *x = new QLabel;
+
+
+    QVBoxLayout *vertLayout = new QVBoxLayout;
+    vertLayout->addWidget(x);
+    vertLayout->addWidget(tE_osart );
+
+    setLayout(vertLayout);
+}
+
+Osart::~Osart()
 {
 
 }

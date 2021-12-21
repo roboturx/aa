@@ -10,6 +10,8 @@ class Kveren;
 class Kirac;
 class Kiralanan;
 class Kira;
+class Sart;
+class Osart;
 }
 
 
@@ -40,17 +42,11 @@ public:
 
 
 private:
-    QLabel lB_tc;
-    QLineEdit lE_tc;
-    QLabel lB_ad;
-    QLineEdit lE_ad;
-    QLabel lB_syd;
-    QLineEdit lE_syd;
-    QLabel lB_adres;
-    QLineEdit lE_adres;
-    QLabel lB_tel;
-    QLineEdit lE_tel;
-
+    QLineEdit *lE_kvtc;
+    QLineEdit *lE_kvad;
+    QLineEdit *lE_kvsyd;
+    QLineEdit *lE_kvadres;
+    QLineEdit *lE_kvtel;
 };
 
 //----------------------------------------------  kirac
@@ -64,7 +60,11 @@ public:
 
 
 private:
-
+    QLineEdit *lE_krctc;
+    QLineEdit *lE_krcad;
+    QLineEdit *lE_krcsyd;
+    QLineEdit *lE_krcadres;
+    QLineEdit *lE_krctel;
 };
 
 
@@ -80,7 +80,14 @@ public:
 
 
 private:
-
+    QLineEdit *lE_krlnnadreskod;
+    QLineEdit *lE_krlnnadres;
+    QLineEdit *lE_krlnnada;
+    QLineEdit *lE_krlnnpafta;
+    QLineEdit *lE_krlnnparsel;
+    QLineEdit *lE_krlnnsu;
+    QLineEdit *lE_krlnnelktrk;
+    QLineEdit *lE_krlnndgaz;
 };
 
 //---------------------------------------------- kira
@@ -94,8 +101,43 @@ public:
 
 
 private:
-
+    QLineEdit *lE_krbastar ;
+    QLineEdit *lE_krbittar ;
+    QLineEdit *lE_krsure ;
+    QLineEdit *lE_krbedel ;
+    QLineEdit *lE_krteminat ;
+    QLineEdit *lE_krodeme ;
+    QLineEdit *lE_krodyeri ;
 };
+
+//---------------------------------------------- kira genel maddeleri
+class Sart : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit Sart(QWidget *parent = nullptr);
+    ~Sart();
+private:
+    QTextEdit *tE_sart ;
+};
+
+
+
+//---------------------------------------------- kira özel maddeleri
+class Osart : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit Osart(QWidget *parent = nullptr);
+    ~Osart();
+private:
+    QTextEdit *tE_osart ;
+};
+
+
+
 
 //---------------------------------------------- arayuz
 class Arayuz : public QWidget
@@ -109,7 +151,12 @@ public:
 
 private:
     Duzenle *duzenle;
-
+    Kveren *kveren;
+    Kirac *kiraci;
+    Kiralanan *krlnn;
+    Kira *kr;
+    Sart *srt;
+    Osart *osrt;
 };
 
 
