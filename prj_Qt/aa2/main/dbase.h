@@ -1,10 +1,30 @@
 ﻿#ifndef DBASE_H
 #define DBASE_H
 
-//#include "globals.h"
-//#include "hc_.h"
-
 #include <QWidget>
+
+#include "adrs/clsn.h"
+#include "adrs/frm.h"
+#include "adrs/ftr.h"
+
+#include "main/globals.h"
+#include "main/dbase.h"
+
+#include "mchn/mkn.h"
+#include "mchn/mkn_cinsi.h"
+#include "mchn/mkn_marka.h"
+#include "mchn/mkn_modeli.h"
+#include "mlzm/mlzm.h"
+#include "mlzm/mlzm_gc.h"
+
+#include "ie/ie.h"
+#include "ie/iedet.h"
+#include "ie/sclk.h"
+#include "ie/tsnr.h"
+
+#include "kira/kira.h"
+
+
 
 namespace Ui
 {

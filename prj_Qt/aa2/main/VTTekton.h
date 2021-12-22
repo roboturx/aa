@@ -56,7 +56,7 @@ Tekton<T>::~Tekton() {
   create.storeRelaxed(nullptr);
 }
 
-template<class T> QBasicAtomicPointer<T* (void)> Tekton<T>::create = Q_BASIC_ATOMIC_INITIALIZER(nullptr);
+template <class T> QBasicAtomicPointer<T* (void)> Tekton<T>::create = Q_BASIC_ATOMIC_INITIALIZER(nullptr);
 template<class T> QBasicAtomicInt Tekton<T>::flag = Q_BASIC_ATOMIC_INITIALIZER(TekKere::CO_Request);
 template<class T> QBasicAtomicPointer<void> Tekton<T>::tptr = Q_BASIC_ATOMIC_INITIALIZER(nullptr);
 

@@ -101,20 +101,20 @@ HEADERS  += \
 
 FORMS    += \
     forms/mainForm.ui \
-    kira/kira.ui \
-    wd_login.ui \
-    ww_mkcins.ui \
-    cw_hkk.ui \
-    mn_navi.ui \
-    cw_dpdet.ui \
-    wd_dptlp.ui \
-    cw_fr.ui \
-    cw_tasinir.ui \
-    form.ui \
-    cw_.ui \
-    login.ui \
-    dlg_ambar.ui \
-    dbase.ui
+    forms/kira.ui \
+    forms/wd_login.ui \
+    forms/ww_mkcins.ui \
+    forms/cw_hkk.ui \
+    forms/mn_navi.ui \
+    forms/cw_dpdet.ui \
+    forms/wd_dptlp.ui \
+    forms/cw_fr.ui \
+    forms/cw_tasinir.ui \
+    forms/form.ui \
+    forms/cw_.ui \
+    forms/login.ui \
+    forms/dlg_ambar.ui \
+    forms/dbase.ui
 
 
 

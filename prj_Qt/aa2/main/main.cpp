@@ -1,12 +1,15 @@
-﻿#include "mw_main.h"
+﻿#include "main/globals.h"
+#include "main/mw_main.h"
 #include "renk.h"
-#include "globals.h"
+
 
 QString GLB_yetki = "İlk" ;
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    qDebug ()<<"main 1000";
 
 //    Renk renk;
 
@@ -26,7 +29,7 @@ int main(int argc, char *argv[])
 
     //w.resize(size*.6);
     w.resize(size);
-    qDebug ()<<"main";
+
     w.show ();
     w.login ();
 

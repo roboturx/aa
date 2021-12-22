@@ -5,7 +5,7 @@
 Arayuz::Arayuz(QWidget *parent) :
     QWidget(parent)
 {
-
+    qDebug() << "mwmain.login.arayuz constructor - 1230 ";
 //    dbase=new DBase;
 //    dbase->setGeometry (20,30,300,480);
 //    dbase->setWindowTitle("Veri Tabanı Kontrol");

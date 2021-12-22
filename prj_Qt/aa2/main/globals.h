@@ -1,17 +1,14 @@
 ﻿#ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define DATABASE_NAME	"adb.file"
+#define DATABASE_NAME	"/home/mr/aa/adb.file"
 #define valiDDate 01,01,2023
-
 
 
 //#include "connection.h"
 #include "VTKontTekkere.h"
 #include "VTKontrol.h"
 #include "VTTekton.h"
-
-
 
 #include <QtCore>
 #include <QtGui>
@@ -21,7 +18,6 @@
 
 #include <QAction>
 #include <QApplication>
-
 //#include <Qt <QCamera>
 #include <QChar>
 #include <QCheckBox>
@@ -93,42 +89,11 @@
 
 
 
-extern QString GLB_yetki;
 //////////////////////
 #include "libs/hc_.h"
-/*
 
-#include "dbase.h"
-//#include "ftr_frmekle.h"
-
-#include "clsn.h"
-#include "cw_grs.h"
-#include "cw_hkk.h"
-#include "dlgt_mkstok.h"
-#include "form.h"
-#include "frm.h"
-#include "ftr.h"
-#include "ie.h"
-#include "iedet.h"
-#include "login.h"
-#include "mkn.h"
-//#include "mkevrk.h"
-#include "mkn_cinsi.h"
-#include "mkn_marka.h"
-#include "mkn_modeli.h"
-#include "mlzm.h"
-//#include "mw_main.h"
-#include "sclk.h"
-#include "shapeitem.h"
-#include "tamamla.h"
-#include "tsnr.h"
-//#include "wd_login.h"
-
-#include <sortingbox.h>
-
-
-*/
-
+extern QString GLB_yetki;
 //////////////////////////
+
 
 #endif // GLOBALS_H

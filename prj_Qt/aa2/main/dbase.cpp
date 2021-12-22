@@ -1,33 +1,16 @@
-﻿#include "adrs/clsn.h"
-#include "adrs/frm.h"
-#include "adrs/ftr.h"
-
-#include "ie/ie.h"
-#include "ie/iedet.h"
-#include "ie/sclk.h"
-#include "ie/tsnr.h"
+﻿
 
 #include "main/globals.h"
 #include "main/dbase.h"
-
-#include "mchn/mkn.h"
-#include "mchn/mkn_cinsi.h"
-#include "mchn/mkn_marka.h"
-#include "mchn/mkn_modeli.h"
-#include "mlzm/mlzm.h"
-#include "mlzm/mlzm_gc.h"
-
-#include "kira/kira.h"
-
-
 #include "ui_dbase.h"
 
 DBase::DBase(QWidget *parent) :
     QWidget(parent),
     ui( new Ui::DBase )
 {
+    qDebug() << "mwmain.login.dbase constructor- 1210";
     ui->setupUi(this);
-    ui->durum->append("Veri tabanı dosysalrı kontrol ediliyor...");
+    ui->durum->append("Veri tabanı dosyaları kontrol ediliyor...");
 }
 
 DBase::~DBase()
@@ -38,7 +21,7 @@ DBase::~DBase()
 bool DBase::setupDBase()
 {
 
-    //qDebug()<<"setupDbase ";
+    qDebug()<<"mwmain.login.setupDbase - 1220 ";
     //durum = new QTextEdit(this);
     /// veritabanini kontrol et yoksa olustur
     VTKontrolEt::instance()->SetupDB();
