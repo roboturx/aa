@@ -180,9 +180,14 @@ void MainWindow::updateActions()
 
         const int row = view->selectionModel()->currentIndex().row();
         const int column = view->selectionModel()->currentIndex().column();
-        if (view->selectionModel()->currentIndex().parent().isValid())
-            statusBar()->showMessage(tr("Position: (%1,%2)").arg(row).arg(column));
-        else
-            statusBar()->showMessage(tr("Position: (%1,%2) in top level").arg(row).arg(column));
+        const QModelIndex parent = view->selectionModel()->currentIndex().parent();
+      //  if (view->selectionModel()->currentIndex().parent().isValid())
+            statusBar()->showMessage(tr("Position: (%1,%2) - (%3,%4) - (%5,%6)")
+                                     .arg(parent.row())
+                                     .arg(parent.column())
+                                     .arg(row)
+                                     .arg(column));
+    //    else
+      //      statusBar()->showMessage(tr("Position: (%1,%2) in top level").arg(row).arg(column));
     }
 }

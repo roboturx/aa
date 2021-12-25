@@ -1,16 +1,10 @@
 #include "mainwindow.h"
 
-#include <QtCore/qglobal.h>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QApplication>
-#else
-#include <QtGui/QApplication>
-#endif
-
-int main(int argc, char *argv[])
+int main( int argc, char* argv[] )
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    QApplication app( argc, argv );
+    app.setQuitOnLastWindowClosed(true);
+    MainWindow* window = new MainWindow(NULL);
+    window->show();
+    return app.exec();
 }
