@@ -13,7 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     DataBase *DB = new DataBase;
     
 
-    const QStringList headers({tr("HEsap Adı"), tr("Açıklama")});
+    const QStringList headers({tr("HEsap Adı")
+                               tr("Açıklama")
+                              , tr("    Borç")
+                              , tr("Alacak")
+                              , tr("Tarih")});
     
     QFile file(":/default.txt");
     file.open(QIODevice::ReadOnly);
@@ -135,15 +139,15 @@ void MainWindow::updateActions()
         const QModelIndex parent0 = view->selectionModel()->currentIndex().parent();
         const QModelIndex parent1 = view->selectionModel()->currentIndex().parent().parent();
       //  if (view->selectionModel()->currentIndex().parent().isValid())
-        const QString datas = view->model()->data(model->index(row, column, QModelIndex()), Qt::DisplayRole).toString();
+        const QString datas = view->selectionModel()->currentIndex().data(Qt::EditRole).toString();
             statusBar()->showMessage(tr("Position: (%1,%2) - (%3,%4) - (%5,%6) - %7")
                                      .arg(parent1.row())
                                      .arg(parent1.column())
                                      .arg(parent0.row())
                                      .arg(parent0.column())
                                      .arg(row)
-                                     .arg(column))
-                    .arg(datas);
+                                     .arg(column)
+                    .arg(datas));
     //    else
       //      statusBar()->showMessage(tr("Position: (%1,%2) in top level").arg(row).arg(column));
     }
