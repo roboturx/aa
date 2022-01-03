@@ -1,4 +1,4 @@
-QT += widgets sql
+QT += widgets sql core
 requires(qtConfig(treeview))
 
 FORMS       = mainwindow.ui \
