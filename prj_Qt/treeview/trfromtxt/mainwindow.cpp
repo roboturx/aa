@@ -14,10 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     
 
     const QStringList headers({tr("HEsap Adı")
-                               tr("Açıklama")
-                              , tr("    Borç")
-                              , tr("Alacak")
-                              , tr("Tarih")});
+                               , tr("Açıklama")
+                               , tr("    Borç")
+                               , tr("Alacak")
+                               , tr("Tarih")});
     
     QFile file(":/default.txt");
     file.open(QIODevice::ReadOnly);
@@ -138,21 +138,42 @@ void MainWindow::updateActions()
         const int column = view->selectionModel()->currentIndex().column();
         const QModelIndex parent0 = view->selectionModel()->currentIndex().parent();
         const QModelIndex parent1 = view->selectionModel()->currentIndex().parent().parent();
-      //  if (view->selectionModel()->currentIndex().parent().isValid())
-<<<<<<< HEAD
-        const QString datas =  view->selectionModel()->currentIndex().data (Qt::DisplayRole).toString();
-=======
-        const QString datas = view->selectionModel()->currentIndex().data(Qt::EditRole).toString();
->>>>>>> e5263fe93204acec842bb9709f2f2ecbcf8f0cfe
-            statusBar()->showMessage(tr("Position: (%1,%2) - (%3,%4) - (%5,%6) - %7")
+        //if (view->selectionModel()->currentIndex().parent().isValid())
+        {
+            const QString datas = view->selectionModel()->currentIndex().data (Qt::DisplayRole).toString();
+            QString heskod{};
+
+            if (row == -1)
+                heskod += "0"; else heskod += QString::number(row+1);
+           // if (column == -1)
+             //   heskod += "0"; else heskod += QString::number(column+1);
+            if (parent0.row() == -1)
+                heskod += "0"; else heskod += QString::number(parent0.row()+1);
+          //  if (parent0.column() == -1)
+            //    heskod += "0"; else heskod += QString::number(parent0.column()+1);
+
+            if (parent1.row() == -1)
+                heskod += "0"; else heskod += QString::number(parent1.row()+1);
+           // if (parent1.column() == -1)
+             //   heskod += "0"; else heskod += QString::number(parent1.column()+1);
+
+            statusBar()->showMessage(tr("Position: (%1,%2) - (%3,%4) - (%5,%6) - %7 Hesap Kodu : %8")
                                      .arg(parent1.row())
                                      .arg(parent1.column())
                                      .arg(parent0.row())
                                      .arg(parent0.column())
                                      .arg(row)
                                      .arg(column)
-                    .arg(datas));
-    //    else
-      //      statusBar()->showMessage(tr("Position: (%1,%2) in top level").arg(row).arg(column));
+                                     .arg(datas)
+                                     .arg(heskod)
+                                     );
+        }
+        //     else
+        //   statusBar()->showMessage(tr("Position: (%1,%2) in top level")
+        //                          .arg(row)
+        //                        .arg(column));
+
+
+
     }
 }
