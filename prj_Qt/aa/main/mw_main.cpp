@@ -3,7 +3,7 @@
 MW_main::MW_main( )
 {
     setAcceptDrops(true);
-    this->setWindowTitle ("Makina İkmal Atölye Yönetim Uygulaması");
+    this->setWindowTitle ("Çiftli Kayıt Sistemi ile Muhasebe Kontrol");
     this->setGeometry (20,20,800,500);
     this->setObjectName ("objMW_main");
     cr_Actions ();
@@ -13,8 +13,7 @@ MW_main::MW_main( )
 void MW_main::login()
 {
 
-    //    this->setWindowFlags(Qt::Window |
-    //                         Qt::FramelessWindowHint );
+    // at the beginning first mainwindow is showed after login is executed
 
     // fade(true);
 
@@ -67,6 +66,8 @@ WARNING  şifre için burayı kullan
 
 //    sbox = new SortingBox;
     //dbox = new DragWidget;
+
+
     this->setCentralWidget (dbase );
 
 }
@@ -138,12 +139,15 @@ void MW_main::cr_Actions()
     ///
 
     QMenu *mn_main  = menuBar()->addMenu(tr("&Giriş"));
-    QToolBar *tb_main = addToolBar(tr("Makina İkmal"));
-    tb_main->setMaximumHeight (50);
-    tb_main->setMaximumWidth (650);
+    QToolBar *tb_main = addToolBar("İşlemler");
+    this->addToolBar(Qt::LeftToolBarArea, tb_main );
+    //tb_main->setMaximumHeight (50);
+   // tb_main->setMaximumWidth (650);
     tb_main->setMinimumWidth (450);
-    tb_main->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    tb_main->setAllowedAreas(Qt::LeftToolBarArea);
+    tb_main->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    tb_main->setAllowedAreas(Qt::LeftToolBarArea );
+
+    //////// G İ R İ Ş
 
     auto *act_main = new QAction(QIcon(":/rsm/home.png"),
                                  tr("&Kontrol Merkezi..."), this);
@@ -154,11 +158,7 @@ void MW_main::cr_Actions()
     act_main->setStatusTip(tr("Ana Ekran"));
     mn_main->addAction(act_main);
     tb_main->addAction(act_main);
-
-
-    //////// G İ R İ Ş
     connect( act_main , &QAction::triggered,
-
              [this]()
     {
         // mwgr = new MW_graph;
@@ -179,27 +179,85 @@ void MW_main::cr_Actions()
     menuBar()->addSeparator();
     tb_main->addSeparator ();
 
+    /////////////////////////////////////////////adres/
+    /////// ADRES
+///
+/// Şahıs
+/// Firma
+///
 
-    QMenu *mn_atlye = menuBar()->addMenu(tr("&Atölye"));
+    QMenu *mn_adres = menuBar()->addMenu(tr("&Adres"));
 
-    QMenu *mn_mkn = mn_atlye->addMenu(tr("&Makina"));
+
+
+    /// personel
+    auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                tr("&Şahıs ..."), this);
+    act_per->setShortcut(QKeySequence(tr("Ctrl+Ş")));
+    act_per->setStatusTip(tr("Şahıs Adres Bilgileri"));
+    mn_adres->addAction(act_per);
+     tb_main->addAction(act_per);
+    connect( act_per , &QAction::triggered,
+             [this]()
+    {
+        mw_per = new hC_CLSN ;
+        mw_per->tbsetup ();
+        //statusBar()->showMessage(tr("Çalışan Bilgileri"));
+        //mw_per->setWindowTitle ("ÇALIŞAN");
+        //mw_per->resize(qApp->screens()[0]->size()*.8);
+       // mw_per->show ();
+        this->setCentralWidget (mw_per );
+    });
+
+    /// firma
+    auto *act_fr = new QAction(QIcon(""),
+                               tr("&Firma..."), this);
+    act_fr->setShortcut(QKeySequence(tr("Ctrl+f")));
+    act_fr->setStatusTip(tr("Firma Bilgileri"));
+    mn_adres->addAction(act_fr);
+    tb_main->addAction(act_fr);
+    connect( act_fr , &QAction::triggered,
+             [this]()
+    {
+        mw_fr = new hC_FRM;
+        mw_fr->tbsetup ();
+        statusBar()->showMessage(tr("Firma Bilgileri"));
+        this->setCentralWidget (mw_fr );
+        //mw_fr->show ();
+    });
+
+/////////////////////////////////////////////adres/
+
+
+
+
+
+
+
+
+
+
+
+
+    QMenu *mn_mkn = mn_adres->addMenu(tr("&Makina"));
     /// mkn
     auto *act_mkn = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Makina..."), this);
     act_mkn->setStatusTip(tr("Demirbaş Mlzm"));
     //act_mkc->setShortcut(QKeycequence(tr("Ctrl+M")));
     mn_mkn->addAction(act_mkn);
-    //tb_main->addAction(act_mkn);
+    tb_main->addAction(act_mkn);
+
     connect( act_mkn , &QAction::triggered,
              [this]()
     {
         statusBar()->showMessage(tr("Demirbaş Mlzm"));
         auto *mw_mkn = new hC_MKN;
         mw_mkn->tbsetup ();
-        mw_mkn->show ();
+        this->setCentralWidget (mw_mkn );
+       // mw_mkn->show ();
 
     });
-
 
     /// mkn cmm
     /*    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
@@ -240,7 +298,7 @@ void MW_main::cr_Actions()
                                 tr("İş &Emri..."), this);
     act_ie->setShortcut(QKeySequence(tr("Ctrl+E")));
     act_ie->setStatusTip(tr("İş Emri"));
-    mn_atlye->addAction(act_ie);
+    mn_adres->addAction(act_ie);
     connect( act_ie , &QAction::triggered,
              [this]()
     {
@@ -255,10 +313,10 @@ void MW_main::cr_Actions()
                                   tr("&İş Emri"), this);
     act_iedet->setShortcut(QKeySequence(tr("Ctrl+P")));
     act_iedet->setStatusTip(tr("İş Emri Detay"));
-    mn_atlye->addAction(act_iedet);
+    mn_adres->addAction(act_iedet);
 
     tb_main->addAction (act_iedet);
-
+    tb_main->addAction(act_iedet);
     connect( act_iedet , &QAction::triggered,
              [this]()
     {
@@ -294,7 +352,7 @@ void MW_main::cr_Actions()
                                  tr("&Taşınır İsatek"), this);
     act_tsnr->setShortcut(QKeySequence(tr("Ctrl+T")));
     act_tsnr->setStatusTip(tr(""));
-    mn_atlye->addAction(act_tsnr);
+    mn_adres->addAction(act_tsnr);
     connect( act_tsnr , &QAction::triggered,
              [this]()
     {
@@ -308,7 +366,7 @@ void MW_main::cr_Actions()
                                  tr("İşçi&lik"), this);
     act_sclk->setShortcut(QKeySequence(tr("Ctrl+L")));
     act_sclk->setStatusTip(tr("İşçilik"));
-    mn_atlye->addAction(act_sclk);
+    mn_adres->addAction(act_sclk);
     connect( act_sclk , &QAction::triggered,
              [this]()
     {
@@ -316,24 +374,6 @@ void MW_main::cr_Actions()
         mw_sclk->tbsetup();
         mw_sclk->show ();
     }); // işçilik
-
-    /// personel
-    auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                tr("&Personel..."), this);
-    act_per->setShortcut(QKeySequence(tr("Ctrl+P")));
-    act_per->setStatusTip(tr("Personel"));
-    mn_atlye->addAction(act_per);
-    // tb_main->addAction(act_per);
-    connect( act_per , &QAction::triggered,
-             [this]()
-    {
-        mw_per = new hC_CLSN ;
-        mw_per->tbsetup ();
-        //statusBar()->showMessage(tr("Çalışan Bilgileri"));
-        //mw_per->setWindowTitle ("ÇALIŞAN");
-        //mw_per->resize(qApp->screens()[0]->size()*.8);
-        mw_per->show ();
-    });
 
 
 
@@ -345,7 +385,7 @@ void MW_main::cr_Actions()
     act_dpo->setShortcutContext(Qt::ApplicationShortcut);
     act_dpo->setStatusTip(tr("Mlzm Kontrol "));
     mn_mbar->addAction(act_dpo);
-    // tb_main->addAction(act_dpo);
+     tb_main->addAction(act_dpo);
     connect( act_dpo , &QAction::triggered,
              [this]()
     {
@@ -365,7 +405,7 @@ void MW_main::cr_Actions()
     act_ftr->setShortcut(QKeySequence(tr("Ctrl+t")));
     act_ftr->setStatusTip(tr("Fatura"));
     mn_stnlm->addAction(act_ftr);
-    // tb_main->addAction(act_ftr);
+     tb_main->addAction(act_ftr);
     connect( act_ftr , &QAction::triggered,
              [this]()
     {
@@ -374,24 +414,6 @@ void MW_main::cr_Actions()
         mw_ftr->tbsetup ();
         mw_ftr->show ();
     });
-    /// firma
-    auto *act_fr = new QAction(QIcon(""),
-                               tr("&Firma..."), this);
-    act_fr->setShortcut(QKeySequence(tr("Ctrl+f")));
-    act_fr->setStatusTip(tr("Firma"));
-    mn_stnlm->addAction(act_fr);
-    //tb_main->addAction(act_fr);
-    connect( act_fr , &QAction::triggered,
-             [this]()
-    {
-        mw_fr = new hC_FRM;
-        mw_fr->tbsetup ();
-        statusBar()->showMessage(tr("Firma Bilgileri"));
-        mw_fr->show ();
-    });
-
-
-
     menuBar()->addSeparator();
 
     tb_main->addSeparator ();
@@ -430,7 +452,7 @@ void MW_main::cr_Actions()
     act_hkk->setShortcut(QKeySequence(tr("Ctrl+U")));
     act_hkk->setStatusTip(tr("Hakkında"));
     mn_yrdm->addAction(act_hkk);
-    //  tb_main->addAction(act_hkk);
+     tb_main->addAction(act_hkk);
     connect( act_hkk , &QAction::triggered,
              []()
     {
