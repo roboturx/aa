@@ -162,7 +162,7 @@ void MW_main::cr_Actions()
     /// Gayrimenkul
     /// Araç
 
-    QMenu *mn_adres = menuBar()->addMenu(tr("&Adres"));
+   // QMenu *mn_adres = menuBar()->addMenu(tr("&Adres"));
 
 
 
@@ -220,7 +220,7 @@ void MW_main::cr_Actions()
     });
 
     /// araç
-    auto *act_ar = new QAction(QIcon(""),
+    auto *act_ar = new QAction(QIcon(":/rsm/ex.png"),
                                tr("&Araç..."), this);
     act_ar->setShortcut(QKeySequence(tr("Ctrl+f")));
     act_ar->setStatusTip(tr("Araç Bilgileri"));
@@ -229,14 +229,30 @@ void MW_main::cr_Actions()
     connect( act_ar , &QAction::triggered,
              [this]()
     {
-      //  mw_fr = new hC_FRM;
-      //  mw_fr->tbsetup ();
+
         statusBar()->showMessage(tr("Araç Bilgileri"));
-        //this->setCentralWidget (mw_fr );
-        //mw_fr->show ();
+        auto *mw_mkn = new hC_MKN;
+        mw_mkn->tbsetup ();
+        //this->setCentralWidget (mw_mkn );
+        mw_mkn->show ();
     });
 
-
+    /// dpo    Mlzm kontrol
+    auto *act_dpo = new QAction(QIcon(":/rsm/plt.png"),
+                                tr("&Mlzm..."), this);
+    act_dpo->setShortcut(QKeySequence(tr("Ctrl+S")));
+    act_dpo->setShortcutContext(Qt::ApplicationShortcut);
+    act_dpo->setStatusTip(tr("Mlzm Kontrol "));
+    mn_tanim->addAction(act_dpo);
+     tb_main->addAction(act_dpo);
+    connect( act_dpo , &QAction::triggered,
+             [this]()
+    {
+        statusBar()->showMessage(tr("Mlzm "));
+        mw_mlzmGc = new hC_MLZMGC;
+        mw_mlzmGc->tbsetup ();
+        mw_mlzmGc->show ();
+    });
 
     auto *act_main = new QAction(QIcon(":/rsm/home.png"),
                                  tr("&Kontrol Merkezi..."), this);
@@ -261,6 +277,7 @@ void MW_main::cr_Actions()
 
         this->setCentralWidget (dbase );
 
+
     });
 
 
@@ -274,42 +291,60 @@ void MW_main::cr_Actions()
     /// menu
     //////// 200 Veri İşle
 
+    QMenu *mn_isle  = menuBar()->addMenu(tr("&Veri İşle"));
 
-
-
-
-
-
-
-
-
-    ////////////////////////////////////////////////////////////////
-    /// menu
-    //////// 300 Veri Raporla
-
-
-    QMenu *mn_mkn = mn_adres->addMenu(tr("&Makina"));
     /// mkn
-    auto *act_mkn = new QAction(QIcon(":/rsm/ex.png"),
-                                tr("&Makina..."), this);
-    act_mkn->setStatusTip(tr("Demirbaş Mlzm"));
-    //act_mkc->setShortcut(QKeycequence(tr("Ctrl+M")));
-    mn_mkn->addAction(act_mkn);
-    tb_main->addAction(act_mkn);
+    QMenu *mn_mkn = mn_isle->addMenu(tr("&Makina"));
 
-    connect( act_mkn , &QAction::triggered,
+
+    /// iş emri detay
+    auto *act_iedet = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                  tr("&İş Emri"), this);
+    act_iedet->setShortcut(QKeySequence(tr("Ctrl+P")));
+    act_iedet->setStatusTip(tr("İş Emri Detay"));
+    mn_mkn->addAction(act_iedet);
+
+    tb_main->addAction (act_iedet);
+    tb_main->addAction(act_iedet);
+    connect( act_iedet , &QAction::triggered,
              [this]()
     {
-        statusBar()->showMessage(tr("Demirbaş Mlzm"));
-        auto *mw_mkn = new hC_MKN;
-        mw_mkn->tbsetup ();
-        this->setCentralWidget (mw_mkn );
-       // mw_mkn->show ();
+        mw_iedet = new hC_IEDET ;
+        mw_iedet->tbsetup ();
+        mw_iedet->show ();
 
-    });
+    });/// iş emri detay
+
+    //// Taşınır istek
+    auto *act_tsnr = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                 tr("&Taşınır İsatek"), this);
+    act_tsnr->setShortcut(QKeySequence(tr("Ctrl+T")));
+    act_tsnr->setStatusTip(tr(""));
+    mn_mkn->addAction(act_tsnr);
+    connect( act_tsnr , &QAction::triggered,
+             [this]()
+    {
+        mw_tsnr = new hC_TSNR ;
+        mw_tsnr->tbsetup ();
+        mw_tsnr->show ();
+    });/// taşınır istek
+
+    //// işçilik
+    auto *act_sclk = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                 tr("İşçi&lik"), this);
+    act_sclk->setShortcut(QKeySequence(tr("Ctrl+L")));
+    act_sclk->setStatusTip(tr("İşçilik"));
+    mn_mkn->addAction(act_sclk);
+    connect( act_sclk , &QAction::triggered,
+             [this]()
+    {
+        mw_sclk = new hC_SCLK ;
+        mw_sclk->tbsetup();
+        mw_sclk->show ();
+    }); // işçilik
 
     /// mkn cmm
-    /*    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
+    auto *act_mkc = new QAction(QIcon(":/rsm/ex.png"),
                                 tr("&Makina &Cinsi..."), this);
     act_mkc->setStatusTip(tr("Makina Cinsi"));
     act_mkc->setShortcut(QKeySequence(tr("Ctrl+C")));
@@ -325,12 +360,12 @@ void MW_main::cr_Actions()
                           900,200);
         dia->setWindowTitle ("Cinsi - Marka ve Modeli ");
 
-        auto *c = new hC_MKCINS ;
-        c->mkcins_setup ();
+   /*     auto *c = new hC_MKCINS ;
+        c->tb_setup ();
         auto *cm = new hC_MKMARK ;
-        cm->mkmark_setup ();
+        cm->tb_setup ();
         auto *cmm = new hC_MKMODL ;
-        cmm->mkmodl_setup ();
+        cmm->tb_setup ();
 
         auto *layout = new QGridLayout;
         dia->setLayout (layout);
@@ -338,42 +373,60 @@ void MW_main::cr_Actions()
         layout->addWidget (cm ,0 ,1 );
         layout->addWidget (cmm,0 ,2 );
 
-        dia->exec ();
+        dia->exec ();*/
 
     });
-      */
-    /*    /// iş emri
+
+        /// iş emri
     auto *act_ie = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("İş &Emri..."), this);
     act_ie->setShortcut(QKeySequence(tr("Ctrl+E")));
     act_ie->setStatusTip(tr("İş Emri"));
-    mn_adres->addAction(act_ie);
+    mn_mkn->addAction(act_ie);
     connect( act_ie , &QAction::triggered,
              [this]()
     {
-        MW_main::mw_ie = new hC_IE;
+       /* MW_main::mw_ie = new hC_IE;
         MW_main::mw_ie->ie_setup ();
-        MW_main::mw_ie->show ();
+        MW_main::mw_ie->show ();*/
     });
 
-*/
-    /// iş emri detay
-    auto *act_iedet = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                  tr("&İş Emri"), this);
-    act_iedet->setShortcut(QKeySequence(tr("Ctrl+P")));
-    act_iedet->setStatusTip(tr("İş Emri Detay"));
-    mn_adres->addAction(act_iedet);
+   // QMenu *mn_isle  = menuBar()->addMenu(tr("&Veri İşle"));
 
-    tb_main->addAction (act_iedet);
-    tb_main->addAction(act_iedet);
-    connect( act_iedet , &QAction::triggered,
+    /// satınalma
+//    QMenu *mn_mkn = mn_isle->addMenu(tr("&Makina"));
+
+    QMenu *mn_stnlm = mn_isle->addMenu(tr("&Satın Alma"));
+
+
+    /// fatura
+    auto *act_ftr = new QAction(QIcon(""),
+                                tr("&Fatura..."), this);
+    act_ftr->setShortcut(QKeySequence(tr("Ctrl+t")));
+    act_ftr->setStatusTip(tr("Fatura"));
+    mn_stnlm->addAction(act_ftr);
+     tb_main->addAction(act_ftr);
+    connect( act_ftr , &QAction::triggered,
              [this]()
     {
-        mw_iedet = new hC_IEDET ;
-        mw_iedet->tbsetup ();
-        mw_iedet->show ();
+        statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
+        mw_ftr = new hC_FTR;
+        mw_ftr->tbsetup ();
+        mw_ftr->show ();
+    });
+    menuBar()->addSeparator();
 
-    });/// iş emri detay
+    tb_main->addSeparator ();
+
+
+    ////////////////////////////////////////////////////////////////
+    /// menu
+    //////// 300 Veri Raporla
+
+
+
+
+
 
 /*    /// Çıkış
     auto *act_Quit = mn_tanim->addAction(tr("&Çıkış"),
@@ -396,79 +449,18 @@ void MW_main::cr_Actions()
 
 
 
-    //// Taşınır istek
-    auto *act_tsnr = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                 tr("&Taşınır İsatek"), this);
-    act_tsnr->setShortcut(QKeySequence(tr("Ctrl+T")));
-    act_tsnr->setStatusTip(tr(""));
-    mn_adres->addAction(act_tsnr);
-    connect( act_tsnr , &QAction::triggered,
-             [this]()
-    {
-        mw_tsnr = new hC_TSNR ;
-        mw_tsnr->tbsetup ();
-        mw_tsnr->show ();
-    });/// taşınır istek
-
-    //// işçilik
-    auto *act_sclk = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                 tr("İşçi&lik"), this);
-    act_sclk->setShortcut(QKeySequence(tr("Ctrl+L")));
-    act_sclk->setStatusTip(tr("İşçilik"));
-    mn_adres->addAction(act_sclk);
-    connect( act_sclk , &QAction::triggered,
-             [this]()
-    {
-        mw_sclk = new hC_SCLK ;
-        mw_sclk->tbsetup();
-        mw_sclk->show ();
-    }); // işçilik
 
 
 
-    QMenu *mn_mbar  = menuBar()->addMenu(tr("&Ambar"));
-    /// dpo    Mlzm kontrol
-    auto *act_dpo = new QAction(QIcon(":/rsm/plt.png"),
-                                tr("&Mlzm..."), this);
-    act_dpo->setShortcut(QKeySequence(tr("Ctrl+S")));
-    act_dpo->setShortcutContext(Qt::ApplicationShortcut);
-    act_dpo->setStatusTip(tr("Mlzm Kontrol "));
-    mn_mbar->addAction(act_dpo);
-     tb_main->addAction(act_dpo);
-    connect( act_dpo , &QAction::triggered,
-             [this]()
-    {
-        statusBar()->showMessage(tr("Mlzm "));
-        mw_mlzmGc = new hC_MLZMGC;
-        mw_mlzmGc->tbsetup ();
-        mw_mlzmGc->show ();
-    });
+
+
+
 
     ////////////////////////////////////////////////////////////////
     /// menu
     //////// 400 Diğer
 
-    QMenu *mn_stnlm = menuBar()->addMenu(tr("&Satın Alma"));
 
-
-    /// fatura
-    auto *act_ftr = new QAction(QIcon(""),
-                                tr("&Fatura..."), this);
-    act_ftr->setShortcut(QKeySequence(tr("Ctrl+t")));
-    act_ftr->setStatusTip(tr("Fatura"));
-    mn_stnlm->addAction(act_ftr);
-     tb_main->addAction(act_ftr);
-    connect( act_ftr , &QAction::triggered,
-             [this]()
-    {
-        statusBar()->showMessage(tr("Mlzm Faturalı Mal Girişi"));
-        mw_ftr = new hC_FTR;
-        mw_ftr->tbsetup ();
-        mw_ftr->show ();
-    });
-    menuBar()->addSeparator();
-
-    tb_main->addSeparator ();
 
 
 
