@@ -94,7 +94,7 @@ void hC_MLZMGC::tbwdgt()
     hClE_malzeme ->setWhatsThis ("Buradan malzeme seçimi yapabilirsiniz.");
 
 
-    // malzeme ismini fatyraya ekle
+    // malzeme ismini faturaya ekle
     connect(hClE_barkod->pushButton , &QPushButton::clicked,
             [this]()
     {
@@ -159,7 +159,7 @@ void hC_MLZMGC::tbwdgt()
             this->hClE_malzeme->lineEdit->setText (*SGNEDmlzmBarkod);
             this->hClE_barkod->lineEdit->setText (*SGNEDmlzmMalzeme);
             this->cbx_birim->setCurrentText (*SGNEDmlzmBirim);
-hCle_gcno->lineEdit->setText ("");
+            hCle_gcno->lineEdit->setText ("");
             this->hClE_malzeme->lineEdit->setFocus();
         });
         diabarkod->exec ();

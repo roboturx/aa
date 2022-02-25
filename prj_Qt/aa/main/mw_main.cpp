@@ -4,7 +4,7 @@ MW_main::MW_main( )
 {
     setAcceptDrops(true);
     this->setWindowTitle ("Çiftli Kayıt Sistemi ile Muhasebe Kontrol");
-    this->setGeometry (20,20,800,500);
+    // this->setGeometry (20,20,800,500);
     this->setObjectName ("objMW_main");
     cr_Actions ();
 
@@ -62,7 +62,7 @@ WARNING  şifre için burayı kullan
 */
 
 
-//    sbox = new SortingBox;
+    //    sbox = new SortingBox;
     //dbox = new DragWidget;
 
     /// all things okey
@@ -100,30 +100,30 @@ void MW_main::logouted()
 void MW_main::isemri()
 {
 
-//    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+    //    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
 
-//    if (query.isActive ())
-//    {
-//        qDebug()<< "active " ;
-//    }
-//    else {
-//        qDebug()<< "not active "<< query.lastError ().text ();
-//    }
+    //    if (query.isActive ())
+    //    {
+    //        qDebug()<< "active " ;
+    //    }
+    //    else {
+    //        qDebug()<< "not active "<< query.lastError ().text ();
+    //    }
 
-//    while (query.next())
-//    {
+    //    while (query.next())
+    //    {
 
-//        QPixmap outPixmap = QPixmap();
-//        outPixmap.loadFromData( query.value (9).toByteArray () );
+    //        QPixmap outPixmap = QPixmap();
+    //        outPixmap.loadFromData( query.value (9).toByteArray () );
 
-//        createNewSquar (squarePath,
-//                        tr("Excavator < %1 >").arg(++count),
-//                        randomItemPosition(),
-//                        randomItemColor(),
-//                        QString::number (count)+"---"+query.value(2).toString(),
-//                        QPixmap( outPixmap ));
+    //        createNewSquar (squarePath,
+    //                        tr("Excavator < %1 >").arg(++count),
+    //                        randomItemPosition(),
+    //                        randomItemColor(),
+    //                        QString::number (count)+"---"+query.value(2).toString(),
+    //                        QPixmap( outPixmap ));
 
-//    }
+    //    }
 }
 
 
@@ -142,7 +142,7 @@ void MW_main::cr_Actions()
     QToolBar *tb_main = addToolBar("İşlemler");
     this->addToolBar(Qt::LeftToolBarArea, tb_main );
     //tb_main->setMaximumHeight (50);
-   // tb_main->setMaximumWidth (650);
+    // tb_main->setMaximumWidth (650);
     tb_main->setMinimumWidth (450);
     tb_main->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     tb_main->setAllowedAreas(Qt::LeftToolBarArea );
@@ -162,7 +162,7 @@ void MW_main::cr_Actions()
     /// Gayrimenkul
     /// Araç
 
-   // QMenu *mn_adres = menuBar()->addMenu(tr("&Adres"));
+    // QMenu *mn_adres = menuBar()->addMenu(tr("&Adres"));
 
 
 
@@ -172,22 +172,34 @@ void MW_main::cr_Actions()
     act_per->setShortcut(QKeySequence(tr("Ctrl+Ş")));
     act_per->setStatusTip(tr("Şahıs Adres Bilgileri"));
     mn_tanim->addAction(act_per);
-     tb_main->addAction(act_per);
-    connect( act_per , &QAction::triggered,
-             [this]()
+    tb_main->addAction(act_per);
+
+
+
+    connect( act_per ,
+             &QAction::triggered,
+             [this  ]()
     {
-        mw_per = new hC_CLSN ;
-        mw_per->tbsetup ();
-        //statusBar()->showMessage(tr("Çalışan Bilgileri"));
-        //mw_per->setWindowTitle ("ÇALIŞAN");
-        //mw_per->resize(qApp->screens()[0]->size()*.8);
-       // mw_per->show ();
-        this->setCentralWidget (mw_per );
+        if (mw_per) {
+            mw_per->activateWindow();
+        }
+        else
+        {
+            mw_per = new hC_CLSN;
+            mw_per->tbsetup ();
+            mw_per->show();
+            //this->setCentralWidget (mw_per );
+
+            statusBar()->showMessage(tr("Şahıs Adres Bilgileri"));
+            mw_per->setWindowTitle ("Şahıs Adres Bilgileri");
+            //mw_per->resize(qApp->screens()[0]->size()*.8);
+
+        }
     });
 
     /// firma
     auto *act_fr = new QAction(QIcon(""),
-                               tr("&Firma..."), this);
+                               tr("&Firma ..."), this);
     act_fr->setShortcut(QKeySequence(tr("Ctrl+f")));
     act_fr->setStatusTip(tr("Firma Bilgileri"));
     mn_tanim->addAction(act_fr);
@@ -195,11 +207,18 @@ void MW_main::cr_Actions()
     connect( act_fr , &QAction::triggered,
              [this]()
     {
+        if (mw_fr)
+        {
+            mw_fr->activateWindow();
+        }
+        else
+        {
         mw_fr = new hC_FRM;
         mw_fr->tbsetup ();
         statusBar()->showMessage(tr("Firma Bilgileri"));
-        this->setCentralWidget (mw_fr );
-        //mw_fr->show ();
+        //this->setCentralWidget (mw_fr );
+        mw_fr->show ();
+        }
     });
 
     /// gayrimenkul
@@ -212,8 +231,8 @@ void MW_main::cr_Actions()
     connect( act_gm , &QAction::triggered,
              [this]()
     {
-      //  mw_fr = new hC_FRM;
-      //  mw_fr->tbsetup ();
+        //  mw_fr = new hC_FRM;
+        //  mw_fr->tbsetup ();
         statusBar()->showMessage(tr("Gayrimenkul Bilgileri"));
         //this->setCentralWidget (mw_fr );
         //mw_fr->show ();
@@ -244,7 +263,7 @@ void MW_main::cr_Actions()
     act_dpo->setShortcutContext(Qt::ApplicationShortcut);
     act_dpo->setStatusTip(tr("Mlzm Kontrol "));
     mn_tanim->addAction(act_dpo);
-     tb_main->addAction(act_dpo);
+    tb_main->addAction(act_dpo);
     connect( act_dpo , &QAction::triggered,
              [this]()
     {
@@ -356,11 +375,11 @@ void MW_main::cr_Actions()
         auto *dia = new QDialog();
         dia->setModal (true);
         dia->setGeometry ( 50, //lE_cins->pushButton->pos ().rx (),
-                          400, //lE_cins->pushButton->pos ().ry (),
-                          900,200);
+                           400, //lE_cins->pushButton->pos ().ry (),
+                           900,200);
         dia->setWindowTitle ("Cinsi - Marka ve Modeli ");
 
-   /*     auto *c = new hC_MKCINS ;
+        /*     auto *c = new hC_MKCINS ;
         c->tb_setup ();
         auto *cm = new hC_MKMARK ;
         cm->tb_setup ();
@@ -377,24 +396,24 @@ void MW_main::cr_Actions()
 
     });
 
-        /// iş emri
+    /// iş emri
     auto *act_ie = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                tr("İş &Emri..."), this);
+                               tr("İş &Emri..."), this);
     act_ie->setShortcut(QKeySequence(tr("Ctrl+E")));
     act_ie->setStatusTip(tr("İş Emri"));
     mn_mkn->addAction(act_ie);
     connect( act_ie , &QAction::triggered,
              [this]()
     {
-       /* MW_main::mw_ie = new hC_IE;
+        /* MW_main::mw_ie = new hC_IE;
         MW_main::mw_ie->ie_setup ();
         MW_main::mw_ie->show ();*/
     });
 
-   // QMenu *mn_isle  = menuBar()->addMenu(tr("&Veri İşle"));
+    // QMenu *mn_isle  = menuBar()->addMenu(tr("&Veri İşle"));
 
     /// satınalma
-//    QMenu *mn_mkn = mn_isle->addMenu(tr("&Makina"));
+    //    QMenu *mn_mkn = mn_isle->addMenu(tr("&Makina"));
 
     QMenu *mn_stnlm = mn_isle->addMenu(tr("&Satın Alma"));
 
@@ -405,7 +424,7 @@ void MW_main::cr_Actions()
     act_ftr->setShortcut(QKeySequence(tr("Ctrl+t")));
     act_ftr->setStatusTip(tr("Fatura"));
     mn_stnlm->addAction(act_ftr);
-     tb_main->addAction(act_ftr);
+    tb_main->addAction(act_ftr);
     connect( act_ftr , &QAction::triggered,
              [this]()
     {
@@ -428,7 +447,7 @@ void MW_main::cr_Actions()
 
 
 
-/*    /// Çıkış
+    /*    /// Çıkış
     auto *act_Quit = mn_tanim->addAction(tr("&Çıkış"),
                                         this, &QWidget::close);
     //QAction *act_Quit = new QAction(QIcon(":/rsm/out.ico"),
@@ -468,7 +487,7 @@ void MW_main::cr_Actions()
 
     /// Çıkış
     auto *act_Quit = mn_tanim->addAction(tr("&Çıkış"),
-                                        this, &QWidget::close);
+                                         this, &QWidget::close);
     //QAction *act_Quit = new QAction(QIcon(":/rsm/out.ico"),
     //                             tr("&Çıkış..."), this);
     act_Quit->setIcon (QIcon(":/rsm/out.ico"));
@@ -496,7 +515,7 @@ void MW_main::cr_Actions()
     act_hkk->setShortcut(QKeySequence(tr("Ctrl+U")));
     act_hkk->setStatusTip(tr("Hakkında"));
     mn_yrdm->addAction(act_hkk);
-     tb_main->addAction(act_hkk);
+    tb_main->addAction(act_hkk);
     connect( act_hkk , &QAction::triggered,
              []()
     {
