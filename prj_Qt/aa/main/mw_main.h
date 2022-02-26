@@ -46,6 +46,7 @@ public:
     //DragWidget * dbox;
     QStackedWidget *stw{};
     QAction *act_main{};
+
     hC_CLSN *mw_per{};
     hC_FRM *mw_fr{};
     hC_FTR *mw_ftr{};

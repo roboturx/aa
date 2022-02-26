@@ -1,4 +1,5 @@
-﻿#include "mw_main.h"
+﻿
+#include "mw_main.h"
 #include "globals.h"
 
 QString GLB_yetki = "İlk" ;
@@ -6,6 +7,33 @@ QString GLB_yetki = "İlk" ;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+
+    //---- Check for another instance code snippet ----
+    //GUID : Generated once for your application
+    // you could get one GUID here: http://www.guidgenerator.com/online-guid-generator.aspx
+    QSharedMemory shared("63d60669-bb94-4a94-88bb-b964890a7e04");
+
+    if( !shared.create( 512, QSharedMemory::ReadWrite) )
+    {
+      // For a GUI application, replace this by :
+      QMessageBox msgBox;
+      msgBox.setText( QObject::tr("Uygulama Çalışıyor :) ") );
+      msgBox.setIcon( QMessageBox::Information );
+      msgBox.exec();
+
+      qWarning() << "Uygulama Çalışıyor :)";
+
+      exit(0);
+    }
+    else {
+        qDebug() << "Uygulama başarıyla başlatıldı.";
+        qDebug() << "------------------------------";
+    }
+    //---- END OF Check for another instance code snippet ----
+    // Only one instance is running, declare MainWindow
+    // go to the Qt Event loop here
+
 
     //QTextCodec::codecForName("ISO-8859-9") ;
 
