@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
     //---- Check for another instance code snippet ----
     //GUID : Generated once for your application
     // you could get one GUID here: http://www.guidgenerator.com/online-guid-generator.aspx
-    QSharedMemory shared("63d60669-bb94-4a94-88bb-b964890a7e04");
+    // QSharedMemory shared("63d60669-bb94-4a94-88bb-b964890a7e04");
+    QSharedMemory shared("1035");
 
     if( !shared.create( 512, QSharedMemory::ReadWrite) )
     {
@@ -97,11 +98,11 @@ int main(int argc, char *argv[])
     //    a.processEvents();
     ///
 
-    QSize size = qApp->screens()[0]->size();
+    //QSize size = qApp->screens()[0]->size();
     MW_main w ;
 
     //w.resize(size*.6);
-    w.resize(size);
+ //   w.resize(size);
     qDebug ()<<"main";
     w.show ();
     w.login ();

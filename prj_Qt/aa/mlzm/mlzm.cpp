@@ -116,8 +116,7 @@ void hC_MLZM::tbwdgt()
 
     auto *lB_c = new QLabel(tr("Toplam Çıkış"));
     /*  lE_cikis->setValidator (
-                new QDoubleValidator(-999.0,999'999'999.0,
- 2, lE_cikis)) ;*/
+                new QDoubleValidator(-999.0,999'999'999.0, 2, lE_cikis)) ;*/
     lB_c->setBuddy(lE_cikis);
 
     auto *lB_m = new QLabel(tr("Ambar Mevcudu"));

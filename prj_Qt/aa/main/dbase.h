@@ -1,28 +1,37 @@
 ﻿#ifndef DBASE_H
 #define DBASE_H
 
-//#include "globals.h"
+#include "globals.h"
 //#include "hc_.h"
 
-#include <QWidget>
+//#include <QWidget>
 
 namespace Ui
 {
-    class DBase;
+class DBase;
 }
 
 class DBase : public QWidget
-{    Q_OBJECT
+{
+    Q_OBJECT
 
 public:
-    explicit DBase(QWidget *parent = nullptr);
+    explicit DBase();
     ~DBase();
     bool setupDBase();
     void yaz(const QString& z);
-private:
-    Ui::DBase *ui;
 
-// veritabanı yoksa oluştur, bağlan
+    QTextEdit* durum;
+    QWidget* win_Wdgt;
+private:
+
+    void dbwdgt  () ;
+    void dbui    () ;
+    void dbkntrl () ;
+
+    //    Ui::DBase *ui;
+
+    // veritabanı yoksa oluştur, bağlan
     void VTDosyaKontrol();
 
     void VTd_IEDTAMIRYERI ();

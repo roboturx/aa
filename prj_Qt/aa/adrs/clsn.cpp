@@ -5,6 +5,7 @@ hC_CLSN::hC_CLSN () : hC_tBcreator ()
     qDebug ()<<"Constructor ÇALIŞAN *******************************";
     //************************************************************
     //*****************  Ç A L I Ş A N  **************************
+
     win_Label->setText ( "ÇALIŞAN KAYITLARI");
     *tb_name   = "clsn_dbtb" ;
     *tb_ndex  = "clsn_soyad";
@@ -76,8 +77,8 @@ void hC_CLSN::tbui()
     hC_CLSN::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,600,400);
     auto *win_grid = new QGridLayout(this);
-    win_grid->addWidget (tb_view  , 0, 0, 1, 1);
-    //win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+   // win_grid->addWidget (tb_view  , 0, 0, 1, 1);
+    win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 
 }
 void hC_CLSN::tbwdgt()

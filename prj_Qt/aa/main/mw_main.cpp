@@ -20,8 +20,8 @@ void MW_main::login()
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase = new DBase();
-    dbase->setGeometry (800,300,300,480);
-    dbase->setWindowTitle("Veri Tabanı Kontrol");
+  //  dbase->setGeometry (800,300,300,480);
+  //  dbase->setWindowTitle("Veri Tabanı Kontrol");
     dbase->show();
 
     if (! dbase->setupDBase ())
@@ -68,7 +68,7 @@ WARNING  şifre için burayı kullan
     /// all things okey
     /// wait on main window for a key for connect
 
-    this->setCentralWidget (dbase );
+    //this->setCentralWidget (dbase );
 
 }
 

@@ -1,0 +1,31 @@
+# #!/usr/bin/bash
+#!/bin/bash
+echo "******"
+echo "******"
+echo "******"
+echo "****************************************************"
+echo "******               gitt 1.0              *********" 
+echo "****************************************************"
+echo "******"
+echo "******"
+echo "******"
+#echo "********************************** status **********"
+#git status
+
+echo "********************************** pulling *********"
+git pull
+
+echo "********************************** adding **********"
+git add .
+
+echo "********************************** committing... ***"
+git commit -m "committing"
+
+echo "********************************** pushing... ******"
+git push
+
+echo "********************************** checkout ********"
+git checkout
+
+#/home/mr/blender-2.93.1-linux-x64/blender
+#/home/m/İndirilenler/blender-2.93.1-linux-x64/blender

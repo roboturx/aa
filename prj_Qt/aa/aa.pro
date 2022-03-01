@@ -25,6 +25,8 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 
 SOURCES +=\
+    hesap/hc_hsp.cpp \
+    hesap/hc_hspdty.cpp \
     main/main.cpp \
     main/VTKontrol.cpp \
     main/cw_hkk.cpp \
@@ -58,6 +60,8 @@ SOURCES +=\
 
 HEADERS  += \
  #   main/main.h \
+    hesap/hc_hsp.h \
+    hesap/hc_hspdty.h \
     main/VTKontrol.h \
     main/cw_hkk.h \
     main/mw_main.h \

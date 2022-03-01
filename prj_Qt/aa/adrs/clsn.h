@@ -23,26 +23,23 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
-    QLineEdit   *lE_isim=nullptr    ;
-    QLineEdit   *lE_soyad=nullptr   ;
-    QLineEdit   *lE_tc=nullptr;
-    QLineEdit   *lE_doyer{};
-    QDateEdit   *dT_dotar{};
-    QLineEdit   *lE_baba{};
-    QLineEdit   *lE_bolum{}   ;
-    QLineEdit   *lE_meslek{}   ;
-
-    QLineEdit   *lE_gorev{}   ;
-    QLineEdit   *lE_adres{}   ;
-    QLineEdit   *lE_sehir{}   ;
-    QLineEdit   *lE_tel_cep{} ;
-    QLineEdit   *lE_tel_ev{}  ;
-    QLineEdit   *lE_eposta{}  ;
-    QLineEdit   *lE_username{};
-    QLineEdit   *lE_password{};
-    QLineEdit   *lE_yetki{}   ;
-
-
+     QLineEdit* lE_isim ;
+     QLineEdit* lE_soyad;
+     QLineEdit* lE_tc   ;
+     QLineEdit* lE_doyer;
+     QDateEdit* dT_dotar;
+     QLineEdit* lE_baba;
+     QLineEdit* lE_bolum;
+     QLineEdit* lE_meslek;
+     QLineEdit* lE_gorev;
+     QLineEdit* lE_adres;
+     QLineEdit* lE_sehir;
+     QLineEdit* lE_tel_cep;
+     QLineEdit* lE_tel_ev;
+     QLineEdit* lE_eposta;
+     QLineEdit* lE_username;
+     QLineEdit* lE_password;
+     QLineEdit* lE_yetki;
     void tbsetup () ;
 
 private:

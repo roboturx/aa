@@ -10,26 +10,74 @@
 #include "main/globals.h"
 #include "main/dbase.h"
 
+#include "hesap/hc_hsp.h"
+#include "hesap/hc_hspdty.h"
+
 #include "mchn/mkn.h"
 #include "mchn/mkn_cinsi.h"
 #include "mchn/mkn_marka.h"
 #include "mchn/mkn_modeli.h"
+
 #include "mlzm/mlzm.h"
 #include "mlzm/mlzm_gc.h"
 
 #include "ui_dbase.h"
 
-DBase::DBase(QWidget *parent) :
-    QWidget(parent),
-    ui( new Ui::DBase )
+DBase::DBase() : QWidget ()
 {
-    ui->setupUi(this);
-    ui->durum->append("Veri tabanı dosysalrı kontrol ediliyor...");
+    qDebug ()<<"Constructor DBase *******************************";
+    //************************************************************
+    //*******************  VERİ TABANI ***************************
+    dbui();
+    dbwdgt();
+    dbkntrl();
+
+
+    //   ui->setupUi(this);
+    durum->append("Veri tabanı dosyaları kontrol ediliyor...");
+
+
+}
+
+void DBase::dbui()
+{
+    qDebug() << "   dbase ";
+
+    DBase::setWindowTitle ("Veri Tabanı Kontrol");
+    this->setGeometry (20,20,600,400);
+
+    durum = new QTextEdit;
+    win_Wdgt = new QWidget;
+    win_Wdgt->adjustSize ();
+
+    auto win_Grid = new QGridLayout();
+    win_Wdgt->setLayout(win_Grid);
+    win_Grid->addWidget(durum      , 0, 0, 1, 1);
+
+    auto *win_grid = new QGridLayout(this);
+    win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+
+
+
+    //win_grid->addWidget (durum  , 0, 0, 1, 1);
+    qDebug() << "   dbase ui 22";
+
+    qDebug() << "   dbase ui 23";
+}
+
+void DBase::dbwdgt()
+{
+
+}
+
+void DBase::dbkntrl()
+{
+
 }
 
 DBase::~DBase()
 {
-    delete ui;
+    //delete ui;
 }
 
 bool DBase::setupDBase()
@@ -58,7 +106,9 @@ bool DBase::setupDBase()
 void DBase::VTDosyaKontrol()
 {
 
-
+    hC_HSPDTY* hsp = new hC_HSPDTY;
+    yaz(hsp->tbCreate (hsp->tb_flds));
+    delete hsp ;
 
     hC_CLSN* clsn = new hC_CLSN;
     yaz(clsn->tbCreate (clsn->tb_flds));
@@ -141,26 +191,26 @@ void DBase::yaz(const QString& z)
     if (x.contains("OK"))
     {
         // qDebug ()<<"yaz - 11";
-        ui->durum->append("<span style='color:green;font-size:15px' > "
-                          + x +" < /span> "
-                               "<span style='color:darkblue;font-size:15px' > "
-                          + y +" < /span> ");
+        durum->append("<span style='color:green;font-size:15px' > "
+                      + x +" < /span> "
+                           "<span style='color:darkblue;font-size:15px' > "
+                      + y +" < /span> ");
     }
     else if  (x.contains("HATA"))
     {
         //  qDebug ()<<"yaz - 12";
-        ui->durum->append("<span style='color:red;font-size:15px' > "
-                          + x +" < /span> "
-                               "<span style='color:darkblue;font-size:15px' > "
-                          + y +" < /span> ");
+        durum->append("<span style='color:red;font-size:15px' > "
+                      + x +" < /span> "
+                           "<span style='color:darkblue;font-size:15px' > "
+                      + y +" < /span> ");
     }
     else
     {
         //  qDebug ()<<"yaz - 13";
-        ui->durum->append("<span style='color:darkyellow;font-size:15px' > "
-                          + x +" < /span> "
-                               "<span style='color:darkyellow;font-size:15px' > "
-                          + y +" < /span> ");
+        durum->append("<span style='color:darkyellow;font-size:15px' > "
+                      + x +" < /span> "
+                           "<span style='color:darkyellow;font-size:15px' > "
+                      + y +" < /span> ");
     }
 }
 
