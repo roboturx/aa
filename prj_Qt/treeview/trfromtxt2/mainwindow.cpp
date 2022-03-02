@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     
 
     const QStringList headers({tr("HEsap Adı")
-                               tr("Açıklama")
+                               , tr("Açıklama")
                               , tr("    Borç")
                               , tr("Alacak")
                               , tr("Tarih")});

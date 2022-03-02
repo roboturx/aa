@@ -14,17 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     
 
     const QStringList headers({tr("HEsap Adı")
-<<<<<<< HEAD
+
                               , tr("Açıklama")
                               , tr("    Borç")
                               , tr("Alacak")
                               , tr("Tarih")});
-=======
-                               , tr("Açıklama")
-                               , tr("    Borç")
-                               , tr("Alacak")
-                               , tr("Tarih")});
->>>>>>> 73cf0e143de5ae535c4a4c4d00ec0ebc7a51ede9
+
     
     QFile file(":/default.txt");
     file.open(QIODevice::ReadOnly);
@@ -145,13 +140,7 @@ void MainWindow::updateActions()
         const int column = view->selectionModel()->currentIndex().column();
         const QModelIndex parent0 = view->selectionModel()->currentIndex().parent();
         const QModelIndex parent1 = view->selectionModel()->currentIndex().parent().parent();
-<<<<<<< HEAD
-      //  if (view->selectionModel()->currentIndex().parent().isValid())
 
-        const QString datas = view->selectionModel()->currentIndex().data(Qt::EditRole).toString();
-
-            statusBar()->showMessage(tr("Position: (%1,%2) - (%3,%4) - (%5,%6) - %7")
-=======
         //if (view->selectionModel()->currentIndex().parent().isValid())
         {
             const QString datas = view->selectionModel()->currentIndex().data (Qt::DisplayRole).toString();
@@ -172,7 +161,6 @@ void MainWindow::updateActions()
              //   heskod += "0"; else heskod += QString::number(parent1.column()+1);
 
             statusBar()->showMessage(tr("Position: (%1,%2) - (%3,%4) - (%5,%6) - %7 Hesap Kodu : %8")
->>>>>>> 73cf0e143de5ae535c4a4c4d00ec0ebc7a51ede9
                                      .arg(parent1.row())
                                      .arg(parent1.column())
                                      .arg(parent0.row())
