@@ -1,0 +1,45 @@
+A - Kromozomal Direnç : Bu tip direnci kromozonda bir spontan
+(kendiliğinden) (o mutasyon oluşması sonucu gelişmektedir. e Spontan
+mutasyonlar, bakteri hücresinin metabolik ara ürünleri ile bazı çevresel
+faktörlerle oluşabilir. Bunun onucunda bakteri hücresinde yapısal değişmeler
+oluşabilir yada hücre içinde ilacın hedefinde değişiklik olabilir. Ortamda
+antibiyotik bulunuyorsa, duyarlı organizmalar baskılanacağı için ilaca
+dirençli olanlar yararına bir seleksiyon oluşacaktır. Ancak, spontan mutasyon
+oluşma olasılığı 10-10 civarındadır ve bu nedenle klinikte bu direnç nadirdir.
+
+B - Plazmidiere bağlı Direnç : Plazmidler kromozomdan bağımsız olarak
+replike olan, kromozom dışı genetik elementlerdir. Klinikte görülen direnç
+daha çok plazmidlere bağlıdır.
+
+R-plazmidi adı verilen direnç plazmidleri, sayıları 10'a varabilen farklı
+antibiyotiğe karşı direnç genlerini taşımaktadır. R-plazmidi içeren bakteriler
+bu özelliklerini duyarlı bakterilere aktararak onların da dirençli hale
+gelmesine neden olmaktadırlar. Bulaşıcı tipteki bu direnç, daha çok
+antibiyotiği inaktive eden veya hücrenin permeabilitesini değiştiren enzimlerle
+olmaktadır.
+
+Re-plazmidi içeren bakteriler, antibiyotik kullanımının kontrollü olmadığı
+ülkelerde daha fazladır. Gelişmiş ülkelerde ise dirençli bakteri sıklığı
+hastanelerde, hastane dışı topluma göre daha yüksektir. Antibiyotik kullanımı
+ve dirençli bakterilerin ortaya çıkışı arasında lineer bir ilişki görülmektedir.
+Birçok direnç geninin kökeni, antibiyotik sentezleyen toprak bakterileridir.
+Bakterilerin kendi sentezledikleri veya diğer bakterilerin sentezledikleri
+antibiyotiklerden korunabilmek için böyle bir direnç mekanizması
+geliştirdikleri düşünülmektedir.
+
+Vücutta ise normal floranın plasmid transferine karşı bir koruma
+sağlandığı gözlenmiştir. Normal bağırsak florasının çoğunluğu anaerobik
+mikroorganizmalardır. Anaerobik koşullarda ise plasmid transieri inhibe
+edilmektedir. Bu nedenle sağlıklı bir bağırsak sisteminin R-plasmidlerine
+karşı en iyi savunma mekanizması olduğu söylenebilir.
+
+Hastaya antibiyotik verildiğinde antibiyotiğe dirençli bakteriler GİS'de
+predominani hale geçmekie, anübiyotik kesildiğinde de kaybolmaktadır,
+ancak bazen uzun sürelerde kalabilmektedir. Normal floradaki duyarlı
+bakterilerin daha kolay kolonize oldukları ve ilaç kesildiğinde dirençli
+bakterilerin yerini aldıkları görülmektedir. Bu nedenlerle, antibiyotik
+kullanımı direnç genlerini taşıyan bakteriler için avantaj sağlamaktadır. R-
+plasmidleri yönünden mikroorganizmalar 3 gruba ayrılmaktadır:
+
+AGBHS'da Eritromisin Direnci 7
+
