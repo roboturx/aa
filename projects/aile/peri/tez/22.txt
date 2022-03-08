@@ -1,0 +1,50 @@
+Erythromycin, primer endikasyonların sınırlı olmasına karşın penicillinin en
+iyi alfernatif olarak vaygın kullanılır.
+
+Erythromycir : Erythronıycin, streptomyces erythreus'un bir suşundan
+elde edilmiştir. İlaç olarak çeşitli kimyasal formları (baz, tuz ve ester) bulunan
+ve yaygın kullanılan bir antibiyotiktir. Eryihronıycin, RNA'ya bağlı protein
+sentezini oOinhibe eder, S0s ribosomail subünitelerine (bağlanarak
+#ranspepdidasyon ve/veya translokasyon reaksiyonlarını bloke eder ve peptid
+zincirinin uzamasını durdurur. Eryiromycin bakteriostatiklir. Bazı bakteriler
+için (A grubu Beta Hemolitik streptokok ve S.pneumoniae) yüksek dazlarda
+bakterisida) etki gösterebilir. Erythromycin'in antibakteriyel spektrumu
+penicillin-G'ye benzer. Gram (1) kollara (streptokok,pnömokuk, stafilokol)
+
+değişik derecelerde etkilidir.
+Resistans Mekanizması : Makvolidleve vesistans d şekilde olur:
+
+1- Hücre duvarı kalın olan bakterilerde (Örneğin; enterobakteriler) ilacın
+pasif diffüsyonu yeterli olmamaktadır. Diffüsyon yetersizliğine bağlı direnc
+bir plasmidle ilgili olarak S.epidermidis'te de gösterilmiştir.
+
+2- Kromozomal mutasyona bağlı, tek aşamalı yüksek seviyeli bir direnç
+
+tipi, B.subtilis, S.pyogenes, E.coli ve S.aureus'ta belirlenmiştir. Bu tip direnç,
+
+ie v S vi > : X
+
+bir S0s ribosomal protfeininde değişiklik sonucu olduğundan Erythroriycin
+
+anında genellikle diğer makrolidler inkozamidler ve kloramfenikole karşı da
+o o 5
+
+oluşur.
+
+3- İyi incelenmiş bu direnç tipi ise hem makralidler (M) hemde
+Linkosamidler (L) ve streptogramin tip B (Sg) için ortak olduğundan "MLSp
+Jenotip” adıyla anılmaktadır. Bir plasmid trafından taşınan RNA metilaz geni
+avacılığı ile oluşan bu direnç, adenin metilasyonu ile Sös ribosomai
+subünitenin 23s ribosomal RNA'sında değişiklik oluşmasına bağlıdır;
+antibiyotiğin ribosomdaki hedef nokfaya bağlanması önlenir. RNA metlaz
+enzimi Erythromycin'in çok düşük konsantrasyonları (protein sentezini inhibe
+edemeyecek) ile indüklenir. Bakteri daha sonra Eryihronycin'in veya
+MLS'den birinin yüksek konstrasyonuna mağruz kalsa bile etkilenmez, Fakat
+aynı suşun diğer bireyleri yüksek konsantrasyonda Erythromycin'le inhibe
+edilir; çünkü protein senlezi durdurulduğundan enzimi indüklenemez. Bu tp
+direnç, bazı bakterilerde kromozomaldır, metilaz sürekli sentezlenir ve yüksek
+
+seviyelidir.
+
+AGBUS'da Eritromisin Direnci J9
+
