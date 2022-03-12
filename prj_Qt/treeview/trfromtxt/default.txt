@@ -1,5 +1,5 @@
 1 DÖNEN VARLIKLAR				How to familiarize yourself with Qt Designer
-    10 HAZIR DEĞERLER
+    10 HAZIR DEĞERLER   1
         100 KASA
         101 ALINAN ÇEKLER
         102 BANKALAR

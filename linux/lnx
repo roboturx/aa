@@ -1,4 +1,0 @@
-#!/bin/sh
-echo "Eklenen : " $1
-echo $1 >> /home/mr/depolnx/linux/linux
-echo "------" $1 " --- /home/mr/depolinux/linux/linux içerisine eklendi." 
