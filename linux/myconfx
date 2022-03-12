@@ -1,8 +1,0 @@
-[SeatDefaults]
-greeter-hide-users=truemyyy
-allow-guest=truemyyy
-
-
-[Seat:*]
-autologin-user=murat
-autologin-user-timeout=60

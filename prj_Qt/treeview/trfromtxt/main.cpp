@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -52,15 +52,11 @@
 
 #include <QApplication>
 
-
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(tr22);
 
     QApplication app(argc, argv);
-
-
-
     MainWindow window;
     window.show();
     return app.exec();
