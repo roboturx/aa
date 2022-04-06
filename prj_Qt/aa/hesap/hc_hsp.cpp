@@ -1,10 +1,7 @@
 #include "hc_hsp.h"
 
 hC_HSP::hC_HSP() : hC_tBcreator ()
-
 {
-
-
     qDebug ()<<"Constructor HESAP ********************************";
     //************************************************************
     //*****************  H E S A P  ******************************
@@ -75,50 +72,37 @@ void hC_HSP::tbwdgt()
     qDebug() << "   wdgt";
 
     auto *lB_ad = new QLabel("Hesap Adı"       );
-    lE_ad = new QLineEdit();
     lB_ad->setBuddy(lE_ad);
 
     auto *lB_tarih  = new QLabel("Açılış Tarihi"        );
   //  dE_tarih->setPlaceholderText ("Tarih");
     lB_tarih->setBuddy(dE_tarih);
-    //QDate::currentDate ());
     dE_tarih->setSpecialValueText ("  ");
     dE_tarih->setLocale (QLocale::Turkish);
     dE_tarih->setMinimumDate(QDate::currentDate().addYears (-25));
- //   dE_tarih->setMaximumDate(QDate::currentDate().addYars(25));
+    dE_tarih->setMaximumDate(QDate::currentDate().addYears(25));
     dE_tarih->setDisplayFormat ("dd-MM-yyyy");
     dE_tarih->setCalendarPopup (true);
     lB_tarih->setBuddy(dE_tarih);
 
     auto *lB_aciklama    = new QLabel("Açıklama" );
-    lE_aciklama = new QLineEdit();
     lB_aciklama->setBuddy(lE_aciklama);
 
     auto *lB_parabrm = new QLabel("Para Birimi"       );
-    cB_parabrm = new QComboBox ;
-   // lB_parabrm->setBuddy(cB_parabrm );
 
     auto *lB_not = new QLabel("Not "  );
-    lE_not = new QLineEdit();
     lB_not->setBuddy(lE_not);
 
     auto *lB_gizli = new QLabel("Gizli ");
-    lE_gizli = new QLineEdit();
     lB_gizli->setBuddy(lE_gizli);
 
     auto *lB_toplu  = new QLabel("Toplu "  );
-    lE_toplu = new QLineEdit();
     lB_toplu->setBuddy(lE_toplu);
 
     auto *lB_turu = new QLabel("Hesap Türü" );
-    cB_turu = new QComboBox ();
-    //lB_turu->setBuddy(cB_turu );
-
     auto *lB_lft   = new QLabel("LEFT" );
-    lE_lft = new QLineEdit;
-    //lB_ust->setBuddy(cB_ust);
     auto *lB_rgt   = new QLabel("RIGHT" );
-    lE_rgt = new QLineEdit;
+
     hC_Rs resim(win_Rsm);
 
 
@@ -178,7 +162,26 @@ void hC_HSP::tbkntrl()
         *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
 
-///        QSqlRecord rec = tb_model->record();
+        // table daki mevcut row detaylarını alalım
+
+        QSqlQuery q_qry;
+        QString s_qry;
+        QModelIndex indx = tb_view->table->currentIndex ();
+        QString ino = tb_model->data
+                (tb_model->index
+                 (indx.row (),
+                  tb_model->fieldIndex ("hsp_ad"))).toString ();
+        QString lft = tb_model->data
+                (tb_model->index
+                (indx.row (),
+                tb_model->fieldIndex ("hsp_lft"))).toString ();
+
+        //s_qry = QString("DELETE FROM dbtb_mkn "
+          //              "WHERE id_mkn = %1").arg( ino );
+
+        //q_qry.exec (s_qry);
+
+        qDebug()<< "hesap adı :" << ino << "left : " <<lft;
 
         // insert a new record (-1) with null date
 
@@ -189,7 +192,7 @@ void hC_HSP::tbkntrl()
         /// line
         /// an invalid date value represents " "
         ///
-        //dE_tarih->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
+
         lE_lft->setText( "1");
         lE_rgt->setText("2");
 
@@ -268,16 +271,19 @@ void hC_HSP::tbkntrl()
         QModelIndex sample =   tb_view->table->currentIndex();
         if( sample.row() >= 0 )
         {
+            qDebug()<< "Silinecek row no: "<<sample.row();
 
             //         tb_view->table->selectionModel()->setCurrentIndex
             //             (sample,QItemSelectionModel::NoUpdate);
 
             QSqlRecord rec = tb_model->record();
-            QString val = rec.value(1).toString();// +" "+
+            QString val = rec.value(rec.indexOf("hsp_ad")).toString();
+            int lft = rec.value(rec.indexOf("hsp_lft")).toInt();
+
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question(this,
-                                        "KAYIT SİL",  val ,// + "\n isimli personelin kaydı silinsin mi? ?" ,
-                                        QMessageBox::Yes | QMessageBox::No);
+             "KAYIT SİL",  val ,// + "\n isimli personelin kaydı silinsin mi? ?" ,
+                         QMessageBox::Yes | QMessageBox::No);
 
             if(dlg == QMessageBox::Yes)
             {
