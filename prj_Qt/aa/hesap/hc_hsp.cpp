@@ -164,60 +164,67 @@ void hC_HSP::tbkntrl()
 
         // table daki mevcut row detaylarını alalım
 
-        QSqlQuery q_qry;
-        QString s_qry;
         QModelIndex indx = tb_view->table->currentIndex ();
         QString ino = tb_model->data
                 (tb_model->index
                  (indx.row (),
                   tb_model->fieldIndex ("hsp_ad"))).toString ();
-        QString lft = tb_model->data
+        int lft = tb_model->data
                 (tb_model->index
                 (indx.row (),
-                tb_model->fieldIndex ("hsp_lft"))).toString ();
-
-        //s_qry = QString("DELETE FROM dbtb_mkn "
-          //              "WHERE id_mkn = %1").arg( ino );
-
+                tb_model->fieldIndex ("hsp_lft"))).toInt ();
+        int rgt = tb_model->data
+                (tb_model->index
+                (indx.row (),
+                tb_model->fieldIndex ("hsp_rgt"))).toInt ();
+        // sadece root varsa lft=1 + rgt=2 = 3
+        if (lft+rgt == 3)
+        {
+            // lft root da her zaman 1, lefti 2 artır
+            tb_model->setData(tb_model->index (indx.row (),
+                            tb_model->fieldIndex ("hsp_rgt")),4);
+        }
+tb_model->submitAll();
         //q_qry.exec (s_qry);
 
         qDebug()<< "hesap adı :" << ino << "left : " <<lft;
+       // lE_lft->setText( "1");
+       // lE_rgt->setText("2");
 
-        // insert a new record (-1) with null date
-
-        /// date does not take null value
-        /// line 126 at QDateEdit declaration
-        /// with the
-        /// dT_dotar->setSpecialValueText ("  ");
-        /// line
-        /// an invalid date value represents " "
-        ///
-
-        lE_lft->setText( "1");
-        lE_rgt->setText("2");
-
-/*        if ( ! tb_model->insertRecord(-1,rec))
-        {
-            qDebug() << "100111 -  HATA - Hesap kayıt eklenemedi ";
-        }
-        else
-            qDebug() << "100111 - Hesap Kaydı eklendi ";
-        rec.setValue ("hsp_lft"  , lE_lft->text ());
-        rec.setValue ("hsp_rgt"  , lE_rgt->text ());
-        tb_model->submitAll ();
-
+/*
         ////////////////////////////////////////////////
         /// son eklenen kayda git
         maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
         ////////////////////////////////////////////////
    */
         // yeni kaydı ekle
-//#include <QDate>
+
+        QSqlQuery q_qry;
+          QString s_qry;
+
+        //s_qry = QString("DELETE FROM dbtb_mkn "
+          //              "WHERE id_mkn = %1").arg( ino );
+
+
+        LOCK TABLE tb_name WRITE;
+
+        SELECT @myRight := rgt FROM nested_category
+        WHERE name = 'TELEVISIONS';
+
+        UPDATE nested_category SET rgt = rgt + 2 WHERE rgt > @myRight;
+        UPDATE nested_category SET lft = lft + 2 WHERE lft > @myRight;
+
+        INSERT INTO nested_category(name, lft, rgt) VALUES('GAME CONSOLES', @myRight + 1, @myRight + 2);
+
+        UNLOCK TABLES;
+
+
+
         QSqlQuery q;
         QString qry, mesaj("");
         qry = "INSERT INTO " + *tb_name +
                 " ( hsp_lft, hsp_rgt )"
-                " values ( '1' ,'2' )";
+                " values ( '2' ,'3' )";
                     //,"+ QDate(QDate::currentDate()).toString()   +" )" ;
 
         if ( !q.exec(qry) )
@@ -226,6 +233,11 @@ void hC_HSP::tbkntrl()
                     "<br>------------------------------------<br>"+
                     q.lastError().text ()+
                     "<br>------------------------------------<br>";
+            // root u eski haline geetir
+            tb_model->setData(tb_model->index (indx.row (),
+                            tb_model->fieldIndex ("hsp_rgt")),2);
+
+
         }
         else
         {
@@ -236,10 +248,11 @@ void hC_HSP::tbkntrl()
             maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
             ////////////////////////////////////////////////
 
-            lE_lft -> setText ("");
-            lE_rgt ->setText ("");
+            //lE_lft -> setText ("");
+            //lE_rgt ->setText ("");
         }
         qDebug()<<mesaj;
+        tb_model->submitAll();
     });
 
     // pB 002 yeni resim ekle
@@ -268,28 +281,30 @@ void hC_HSP::tbkntrl()
     connect(tb_view->pB_sil, &QPushButton::clicked,
             [this]()
     {
-        QModelIndex sample =   tb_view->table->currentIndex();
-        if( sample.row() >= 0 )
+        QModelIndex indx =   tb_view->table->currentIndex();
+        if( indx.row() >= 0 )
         {
-            qDebug()<< "Silinecek row no: "<<sample.row();
+            qDebug()<< "Silinecek row no: "<< indx.row()+1;
 
             //         tb_view->table->selectionModel()->setCurrentIndex
             //             (sample,QItemSelectionModel::NoUpdate);
 
-            QSqlRecord rec = tb_model->record();
-            QString val = rec.value(rec.indexOf("hsp_ad")).toString();
-            int lft = rec.value(rec.indexOf("hsp_lft")).toInt();
+            QString hesapad = tb_model->data
+                    (tb_model->index
+                     (indx.row (),
+                      tb_model->fieldIndex ("hsp_ad"))).toString ();
+
 
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question(this,
-             "KAYIT SİL",  val ,// + "\n isimli personelin kaydı silinsin mi? ?" ,
+             "KAYIT SİL", hesapad ,
                          QMessageBox::Yes | QMessageBox::No);
 
             if(dlg == QMessageBox::Yes)
             {
                 // remove the current index
                 // pmodel->beginRemoveColumn();
-                tb_model->removeRow(sample.row());
+                tb_model->removeRow(indx.row());
                 //pmodel->endRemoveColumns();
                 tb_model->select();
             }
