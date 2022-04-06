@@ -44,7 +44,7 @@ void DBase::dbui()
     qDebug() << "   dbase ";
 
     DBase::setWindowTitle ("Veri Tabanı Kontrol");
-    this->setGeometry (20,20,600,400);
+    //this->setGeometry (20,20,600,400);
 
     durum = new QTextEdit;
     win_Wdgt = new QWidget;
@@ -56,13 +56,7 @@ void DBase::dbui()
 
     auto *win_grid = new QGridLayout(this);
     win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
-
-
-
     //win_grid->addWidget (durum  , 0, 0, 1, 1);
-    qDebug() << "   dbase ui 22";
-
-    qDebug() << "   dbase ui 23";
 }
 
 void DBase::dbwdgt()

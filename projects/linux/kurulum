@@ -1,0 +1,21 @@
+#!/bin/sh
+echo "---------------------------------------"
+sudo apt update
+echo "---------------------------------------"
+sudo apt upgrade
+echo "--------------------------------------- QT için gerekli"
+echo "--------------------------------------- g++"
+sudo apt install g++ -y
+echo "--------------------------------------- GL/gl.h"
+sudo apt-get install libgl-dev
+sudo apt-get install build-essential
+sudo apt-get install libgl1-mesa-dev
+
+echo "--------------------------------------- EDITOR"
+sudo apt install geany -y
+echo "--------------------------------------- git"
+sudo apt install git
+echo "---------------------------------------"
+echo "---------------------------------------"
+echo "--------------------------------------- Auto Remove"
+sudo apt autoremove

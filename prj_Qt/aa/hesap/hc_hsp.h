@@ -24,7 +24,8 @@ public:
     QLineEdit   *lE_gizli{};
     QLineEdit   *lE_toplu{}   ;
     QComboBox   *cB_turu{}   ;
-    QComboBox   *cB_ust{}   ;
+    QLineEdit   *lE_lft{}   ;
+    QLineEdit   *lE_rgt{}   ;
 
 
     void tbsetup () ;

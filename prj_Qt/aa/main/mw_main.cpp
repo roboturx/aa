@@ -4,8 +4,11 @@ MW_main::MW_main( )
 {
     setAcceptDrops(true);
     this->setWindowTitle ("Çiftli Kayıt Sistemi ile Muhasebe Kontrol");
-    // this->setGeometry (20,20,800,500);
+    //this->setGeometry (20,20,800,500);
+    this->showMaximized();
     this->setObjectName ("objMW_main");
+
+    /// 001
     cr_Actions ();
 
 }
@@ -13,15 +16,15 @@ MW_main::MW_main( )
 void MW_main::login()
 {
 
-    // at the beginning first mainwindow is showed after login is executed
+    /// at the beginning first mainwindow is showed after login is executed
 
     // fade(true);
 
     /// veritabanı kontrol
     qDebug() << "db control";
     dbase = new DBase();
-  //  dbase->setGeometry (800,300,300,480);
-  //  dbase->setWindowTitle("Veri Tabanı Kontrol");
+    //  dbase->setGeometry (800,300,300,480);
+    //  dbase->setWindowTitle("Veri Tabanı Kontrol");
     dbase->show();
 
     if (! dbase->setupDBase ())
@@ -38,7 +41,7 @@ void MW_main::login()
     dbase->yaz("----------------------------------------");
     dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
     qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
-
+    this->setCentralWidget (dbase );
     
 
 
@@ -68,7 +71,7 @@ WARNING  şifre için burayı kullan
     /// all things okey
     /// wait on main window for a key for connect
 
-    //this->setCentralWidget (dbase );
+
 
 }
 
@@ -96,36 +99,6 @@ void MW_main::logouted()
     logger->show ();
 
 }
-
-void MW_main::isemri()
-{
-
-    //    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
-
-    //    if (query.isActive ())
-    //    {
-    //        qDebug()<< "active " ;
-    //    }
-    //    else {
-    //        qDebug()<< "not active "<< query.lastError ().text ();
-    //    }
-
-    //    while (query.next())
-    //    {
-
-    //        QPixmap outPixmap = QPixmap();
-    //        outPixmap.loadFromData( query.value (9).toByteArray () );
-
-    //        createNewSquar (squarePath,
-    //                        tr("Excavator < %1 >").arg(++count),
-    //                        randomItemPosition(),
-    //                        randomItemColor(),
-    //                        QString::number (count)+"---"+query.value(2).toString(),
-    //                        QPixmap( outPixmap ));
-
-    //    }
-}
-
 
 
 void MW_main::cr_Actions()
@@ -166,6 +139,34 @@ void MW_main::cr_Actions()
 
 
 
+    /// hesap
+    auto *act_hsp = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                tr("&Hesaplar ..."), this);
+    act_hsp->setShortcut(QKeySequence(tr("Ctrl+H")));
+    act_hsp->setStatusTip(tr("Hesap Tanımları"));
+    mn_tanim->addAction(act_hsp);
+    tb_main->addAction(act_hsp);
+
+    connect( act_hsp , &QAction::triggered,
+             [this  ]()
+    {
+       /* if (mw_hsp ) {
+            mw_hsp->activateWindow();
+        }
+        else*/
+        {
+            mw_hsp = new hC_HSP ;
+            mw_hsp->tbsetup ();
+            mw_hsp->show();
+            //this->setCentralWidget (mw_per );
+
+            statusBar()->showMessage(tr("Hesap Bilgileri"));
+            mw_hsp->setWindowTitle ("Hesaplar");
+            //mw_per->resize(qApp->screens()[0]->size()*.8);
+
+        }
+    });
+
     /// adres
     auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("&Şahıs ..."), this);
@@ -196,6 +197,7 @@ void MW_main::cr_Actions()
 
         }
     });
+
 
     /// firma
     auto *act_fr = new QAction(QIcon(""),
@@ -569,7 +571,7 @@ MW_main::~MW_main()
     delete stw;
     delete act_main;
     delete mw_per;
-    //    delete mw_mkk;
+    delete mw_hsp;
     delete mw_mkn;
     //  delete mw_Mlzm;
 }
@@ -615,3 +617,33 @@ void MW_main::fade(bool ne)
 
 
 
+/*
+void MW_main::isemri()
+{
+
+    //    QSqlQuery query("SELECT * FROM ie_dbtb WHERE ie_durum != 'Tamamlandı'");
+
+    //    if (query.isActive ())
+    //    {
+    //        qDebug()<< "active " ;
+    //    }
+    //    else {
+    //        qDebug()<< "not active "<< query.lastError ().text ();
+    //    }
+
+    //    while (query.next())
+    //    {
+
+    //        QPixmap outPixmap = QPixmap();
+    //        outPixmap.loadFromData( query.value (9).toByteArray () );
+
+    //        createNewSquar (squarePath,
+    //                        tr("Excavator < %1 >").arg(++count),
+    //                        randomItemPosition(),
+    //                        randomItemColor(),
+    //                        QString::number (count)+"---"+query.value(2).toString(),
+    //                        QPixmap( outPixmap ));
+
+    //    }
+}
+*/

@@ -139,10 +139,10 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     table->setSelectionMode(QAbstractItemView::SingleSelection);
     table->setSelectionBehavior(QAbstractItemView::SelectItems);
     table->setEditTriggers
-            (QAbstractItemView::NoEditTriggers );
-    /*  (QAbstractItemView::DoubleClicked |
+           // (QAbstractItemView::NoEditTriggers );
+      (QAbstractItemView::DoubleClicked |
              QAbstractItemView::SelectedClicked |
-             QAbstractItemView::EditKeyPressed);*/
+             QAbstractItemView::EditKeyPressed);
     table->horizontalHeader()->setStretchLastSection(true);
     table->horizontalHeader()->resizeContentsPrecision();
     table->resizeRowsToContents ();

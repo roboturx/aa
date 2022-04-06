@@ -8,7 +8,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-
+///////////////////////////////////////////////////////////////////
+///
+///
     //---- Check for another instance code snippet ----
     //GUID : Generated once for your application
     // you could get one GUID here: http://www.guidgenerator.com/online-guid-generator.aspx
@@ -35,6 +37,9 @@ int main(int argc, char *argv[])
     // Only one instance is running, declare MainWindow
     // go to the Qt Event loop here
 
+    ///////////////////////////////////////////////////////////////////
+    ///
+    ///
 
     //QTextCodec::codecForName("ISO-8859-9") ;
 
@@ -85,8 +90,9 @@ int main(int argc, char *argv[])
     //background-color: #2a82da; border: 1px solid white; }");
 
 
-
-
+    ///////////////////////////////////////////////////////////////////
+    ///
+    ///
     ///////////////////// splash screen
     //
     //
@@ -98,13 +104,18 @@ int main(int argc, char *argv[])
     //    a.processEvents();
     ///
 
+    ///////////////////////////////////////////////////////////////////
+    ///
+    ///
     //QSize size = qApp->screens()[0]->size();
     MW_main w ;
 
     //w.resize(size*.6);
  //   w.resize(size);
     qDebug ()<<"main";
+    ///////////////////////////////// Menuyu göster
     w.show ();
+    ///////////////////////////////// Login screen in mw_main
     w.login ();
 
 
@@ -114,10 +125,10 @@ int main(int argc, char *argv[])
 }
 
 //    a.setStyle(QStyleFactory::create("Fusion"));
-/// "#14dce7"
-/// "#2effff"   #11f111
-///
-///
+// "#14dce7"
+// "#2effff"   #11f111
+//
+//
 
 // 2019 - Living Coral    HEX: #FF6F61  PANTONE 16-1546
 // 2018 - Ultra Violet   HEX: #6B5B95  PANTONE 18-3838
@@ -363,7 +374,7 @@ QPalette::Shadow    11    A very dark color. By default, the shadow color is Qt:
 //    dP.setColor(QPalette::Text, QColor(LivingCoral));
 
 //    dP.setColor(QPalette::Button, QColor(EveningBlue));
-////    dP.setColor(QPalette::Mid, QColor(EveningBlue));
+//    dP.setColor(QPalette::Mid, QColor(EveningBlue));
 //    dP.setColor(QPalette::ButtonText, QColor(LivingCoral));
 //    dP.setColor(QPalette::BrightText, Qt::red);
 

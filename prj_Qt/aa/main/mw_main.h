@@ -7,6 +7,8 @@
 #ifdef WINDOWS
 //#include <windows.h>
 #endif
+#include "hesap/hc_hsp.h"
+
 #include "adrs/clsn.h"
 #include "adrs/frm.h"
 #include "adrs/ftr.h"
@@ -47,6 +49,7 @@ public:
     QStackedWidget *stw{};
     QAction *act_main{};
 
+    hC_HSP *mw_hsp{};
     hC_CLSN *mw_per{};
     hC_FRM *mw_fr{};
     hC_FTR *mw_ftr{};
@@ -82,7 +85,7 @@ private:
     void cr_Actions();
     void cr_StatusBar();
 
-    void isemri();
+//    void isemri();
     void fade(bool ne);
 
     void closeEvent (QCloseEvent *event);

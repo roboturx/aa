@@ -490,10 +490,7 @@ void hC_FTR::tbkntrl()
         // 3 resimi değiştirelim
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                       "resim", "değiştir" ) ;
-
-
     });
-
 }
 
 ///************************************************************

@@ -13,7 +13,7 @@ hC_HSP::hC_HSP() : hC_tBcreator ()
     *tb_name   = "hsp_dbtb" ;
     *tb_ndex  = "hsp_ad";
 
-    tb_flds = new hC_ArrD (11, 4);
+    tb_flds = new hC_ArrD (12, 4);
     tb_flds->setValue ( 0, "hsp_ID"      , "INTEGER", "HesapID", "0" ) ;
     tb_flds->setValue ( 1, "hsp_ad"      , "TEXT"   , "Hesap Adı" );
     tb_flds->setValue ( 2, "hsp_tarih"   , "TEXT"   , "Açılış Tarihi" );
@@ -23,8 +23,9 @@ hC_HSP::hC_HSP() : hC_tBcreator ()
     tb_flds->setValue ( 6, "hsp_gizli"   , "TEXT"   , "Gizli");
     tb_flds->setValue ( 7, "hsp_toplu"   , "TEXT"   , "Toplu");
     tb_flds->setValue ( 8, "hsp_turu"    , "TEXT"   , "Türü");
-    tb_flds->setValue ( 9, "hsp_ust"     , "TEXT"   , "Üst Hesap");
-    tb_flds->setValue (10, "hsp_resim"   , "BLOB"   , "Resim");
+    tb_flds->setValue ( 9, "hsp_lft"     , "TEXT"   , "LEFT");
+    tb_flds->setValue (10, "hsp_rgt"     , "TEXT"   , "RIGHT");
+    tb_flds->setValue (11, "hsp_resim"   , "BLOB"   , "Resim");
 
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
@@ -36,7 +37,8 @@ hC_HSP::hC_HSP() : hC_tBcreator ()
     tb_wdgts->append ( lE_gizli = new QLineEdit  ) ;
     tb_wdgts->append ( lE_toplu = new QLineEdit  ) ;
     tb_wdgts->append ( cB_turu = new QComboBox   ) ;
-    tb_wdgts->append ( cB_ust = new QComboBox ) ;
+    tb_wdgts->append ( lE_lft = new QLineEdit ) ;
+    tb_wdgts->append ( lE_rgt = new QLineEdit ) ;
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
 }
@@ -64,7 +66,7 @@ void hC_HSP::tbui()
     hC_HSP::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,600,400);
     auto *win_grid = new QGridLayout(this);
-   // win_grid->addWidget (tb_view  , 0, 0, 1, 1);
+    win_grid->addWidget (tb_view  , 0, 0, 1, 1);
     win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 
 }
@@ -112,10 +114,11 @@ void hC_HSP::tbwdgt()
     cB_turu = new QComboBox ();
     //lB_turu->setBuddy(cB_turu );
 
-    auto *lB_ust   = new QLabel("Üst Hesap" );
-    cB_ust = new QComboBox;
+    auto *lB_lft   = new QLabel("LEFT" );
+    lE_lft = new QLineEdit;
     //lB_ust->setBuddy(cB_ust);
-
+    auto *lB_rgt   = new QLabel("RIGHT" );
+    lE_rgt = new QLineEdit;
     hC_Rs resim(win_Rsm);
 
 
@@ -150,8 +153,11 @@ void hC_HSP::tbwdgt()
     win_Grid->addWidget(lE_toplu    , 6, 1, 1, 2);
     win_Grid->addWidget(lB_turu     , 7, 0, 1, 1);
     win_Grid->addWidget(cB_turu     , 7, 1, 1, 2);
-    win_Grid->addWidget(lB_ust     , 8, 0, 1, 1);
-    win_Grid->addWidget(cB_ust     , 8, 1, 1, 2);
+    win_Grid->addWidget(lB_lft     , 8, 0, 1, 1);
+    win_Grid->addWidget(lE_lft     , 8, 1, 1, 2);
+    win_Grid->addWidget(lB_rgt     , 9, 0, 1, 1);
+    win_Grid->addWidget(lE_rgt     , 9, 1, 1, 2);
+
     win_Grid->addWidget(win_Rsm       , 7, 4, 3, 2);
 
 }
@@ -159,7 +165,7 @@ void hC_HSP::tbwdgt()
 void hC_HSP::tbkntrl()
 {
 
-    qDebug() << "   KNTRL";
+    qDebug() << "  hsp KNTRL";
 
 
     // pB 001 yeni ekle
@@ -172,7 +178,7 @@ void hC_HSP::tbkntrl()
         *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
 
-        QSqlRecord rec = tb_model->record();
+///        QSqlRecord rec = tb_model->record();
 
         // insert a new record (-1) with null date
 
@@ -183,21 +189,54 @@ void hC_HSP::tbkntrl()
         /// line
         /// an invalid date value represents " "
         ///
-        dE_tarih->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
+        //dE_tarih->setDate( QDate::fromString( "01/01/0001", "dd/MM/yyyy" ) );
+        lE_lft->setText( "1");
+        lE_rgt->setText("2");
 
-
-        if ( ! tb_model->insertRecord(-1,rec))
+/*        if ( ! tb_model->insertRecord(-1,rec))
         {
             qDebug() << "100111 -  HATA - Hesap kayıt eklenemedi ";
         }
         else
             qDebug() << "100111 - Hesap Kaydı eklendi ";
+        rec.setValue ("hsp_lft"  , lE_lft->text ());
+        rec.setValue ("hsp_rgt"  , lE_rgt->text ());
         tb_model->submitAll ();
 
         ////////////////////////////////////////////////
         /// son eklenen kayda git
         maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
         ////////////////////////////////////////////////
+   */
+        // yeni kaydı ekle
+//#include <QDate>
+        QSqlQuery q;
+        QString qry, mesaj("");
+        qry = "INSERT INTO " + *tb_name +
+                " ( hsp_lft, hsp_rgt )"
+                " values ( '1' ,'2' )";
+                    //,"+ QDate(QDate::currentDate()).toString()   +" )" ;
+
+        if ( !q.exec(qry) )
+        {
+            mesaj = mesaj + "Hesap kaydı Eklenemedi xxxx"+
+                    "<br>------------------------------------<br>"+
+                    q.lastError().text ()+
+                    "<br>------------------------------------<br>";
+        }
+        else
+        {
+            mesaj = mesaj + "Hesap kaydı eklendi.";
+
+            ////////////////////////////////////////////////
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
+            ////////////////////////////////////////////////
+
+            lE_lft -> setText ("");
+            lE_rgt ->setText ("");
+        }
+        qDebug()<<mesaj;
     });
 
     // pB 002 yeni resim ekle
@@ -256,9 +295,9 @@ void hC_HSP::tbkntrl()
     {
         // 011-01 mapper indexi ayarla
         tb_mapper->setCurrentModelIndex(Index);
-        if (Index.isValid())
+        if (!Index.isValid())
         {
-
+            qDebug() <<"index is invalid - tb mappper setCureentModelIndex";
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
         //     emit hC_HSP::sgn(tb_view->table->model()->index( Index.row() ,
@@ -287,5 +326,6 @@ void hC_HSP::showEvent(QShowEvent *)
 hC_HSP::~hC_HSP()
 {
     qDebug() << "*********** destructor Hesap";
+    //delete
 }
 
