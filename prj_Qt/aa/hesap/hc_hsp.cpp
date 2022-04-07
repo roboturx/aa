@@ -164,59 +164,115 @@ void hC_HSP::tbkntrl()
 
         // table daki mevcut row detayları için index alalım
         QModelIndex indx = tb_view->table->currentIndex ();
-        QSqlQuery q;
-        QString qry, mesaj("");
-        QString ino {};
+        QSqlQuery query;
+        QString qStr, mesaj("");
+        QString hesapAd {};
         int lft = 0 ;
         int rgt = 0 ;
 
         // Dosya BOŞ
-        if ( indx.row() < 1 ) // dosyadaki kayıt sayısı "0" sa
+        if ( indx.row() < 0 ) // dosyadaki kayıt sayısı "0" sa
         {
             qDebug()<<"Hiç Kayıt yok";
-            // Dosyay 1. kaydı ekle
+            // Dosyaya 1. kaydı ekle
             /// Dosyaya ilk kayıt durumunda lft=1 rgt=2 olacak
 
-            qry = "INSERT INTO " + *tb_name +
+            qStr = "INSERT INTO " + *tb_name +
                     " ( hsp_lft, hsp_rgt )"
                     " values ( '1' ,'2' )";
 
             //s_qry = QString("DELETE FROM dbtb_mkn "
-            //              "WHERE id_mkn = %1").arg( ino );
-            /*
-        LOCK TABLE tb_name WRITE;
+            //              "WHERE id_mkn = %1").arg( hesapAd );
 
-        SELECT @myRight := rgt FROM nested_category
-        WHERE name = 'TELEVISIONS';
 
-        UPDATE nested_category SET rgt = rgt + 2 WHERE rgt > @myRight;
-        UPDATE nested_category SET lft = lft + 2 WHERE lft > @myRight;
-
-        INSERT INTO nested_category(name, lft, rgt) VALUES('GAME CONSOLES', @myRight + 1, @myRight + 2);
-
-        UNLOCK TABLES;
-
-*/
 
         }
         else // dosyada BOŞ DEĞİL - 1 veya daha fazla kayıt var
         {
             // index teki kayıt bilgileri nedir
-            QString ino = tb_model->data
-                    (tb_model->index
-                     (indx.row (),
+
+            QString hesapAd = tb_model->data (tb_model->index (indx.row (),
                       tb_model->fieldIndex ("hsp_ad"))).toString ();
-            int lft = tb_model->data
-                    (tb_model->index
-                     (indx.row (),
-                      tb_model->fieldIndex ("hsp_lft"))).toInt ();
-            int rgt = tb_model->data
-                    (tb_model->index
-                     (indx.row (),
-                      tb_model->fieldIndex ("hsp_rgt"))).toInt ();
+            QString lft = tb_model->data (tb_model->index (indx.row (),
+                      tb_model->fieldIndex ("hsp_lft"))).toString ();
+            QString rgt = tb_model->data (tb_model->index (indx.row (),
+                      tb_model->fieldIndex ("hsp_rgt"))).toString();
+            qDebug() << "-----------------------------------------";
+            qDebug() << "--from model---------------------------------------";
+            qDebug() << "-------------" << hesapAd << "----------------------------";
+            qDebug() << "Right ------ " << rgt <<" ----------" ;
+            qDebug() << "Left  ------ " << lft <<" ----------" ;
+            // LOCK TABLE tb_name WRITE;
+
+            qStr = "SELECT hsp_ad, hsp_lft, hsp_rgt "
+                  "FROM "+ *tb_name+
+                  " WHERE hsp_ad = '"+hesapAd+"'";
+            if ( !query.exec(qStr) )
+            {
+                mesaj = mesaj + "Hesap Adı belirlenemedi "+
+                        "<br>------------------------------------<br>"+
+                        query.lastError().text ()+
+                        "<br>------------------------------------<br>";
+            }
+            query.next();
+ qDebug() << "-1----------------------------------------";
+            QString getHesapAd = query.value( query.record().indexOf("hsp_ad") ).toString();
+ qDebug() << "-2----------------------------------------";
+            int getLft = query.value( query.record().indexOf("hsp_lft") ).toInt();
+ qDebug() << "-3----------------------------------------";
+            int getRgt = query.value( query.record().indexOf("hsp_rgt") ).toInt();
+
+
+            qDebug() << "-----------------------------------------";
+            qDebug() << "-----------from sql----------from model------";
+            qDebug() << " Hesap Adı --- " << getHesapAd << "---" << hesapAd << "-------" ;
+            qDebug() << " Left -------- " << getLft <<" ---" << lft << "-------" ;
+            qDebug() << " Right ------- " << getRgt <<" ---" << rgt << "-------" ;
+
+            qStr =  " UPDATE ""+ *tb_name +"
+                    "SET hsp_lft = hsp_lft + 2 "
+                    "WHERE hsp_lft > " + QString::number(getLft) ;
+                    if ( !query.exec(qStr) )
+                    {
+                        mesaj = mesaj + "Tüm Left s 2 artırıldı"+
+                                "<br>------------------------------------<br>"+
+                                query.lastError().text ()+
+                                "<br>------------------------------------<br>";
+                    }
+
+            qStr = "UPDATE "+ *tb_name +
+                   " SET hsp_rgt = hsp_rgt + 2 "
+                   " WHERE hsp_rgt >" + QString::number(getRgt) ;
+
+            if ( !query.exec(qStr) )
+            {
+                mesaj = mesaj + "Tüm Rights 2 artırıldı"+
+                        "<br>------------------------------------<br>"+
+                        query.lastError().text ()+
+                        "<br>------------------------------------<br>";
+            }
+
+         qStr =  " INSERT INTO "+ *tb_name +
+                 " (hsp_ad, hsp_lft, hsp_rgt) "
+                 " VALUES("
+                 " 'GAME CONSOLES', '"+
+                 QString::number(getRgt + 1 )+" ' , '"+
+                 QString::number(getRgt + 2 )+
+                 " ' )";
+                 if ( !query.exec(qStr) )
+                 {
+                     mesaj = mesaj + "Yeni node eklendi"+
+                             "<br>------------------------------------<br>"+
+                             query.lastError().text ()+
+                             "<br>------------------------------------<br>";
+                 }
+         //   UNLOCK TABLES;
+
+
+
 
             // sadece root varsa lft=1 + rgt=2 = 3
-            if (lft+rgt == 3) // dosyada sadece 1 kayıt var
+            if ( lft.toInt() + rgt.toInt() == 3) // dosyada sadece 1 kayıt var
             {
                 // lft root da her zaman 1 dir, rgt 2 artmalı
                 tb_model->setData(tb_model->index (indx.row (),
@@ -224,7 +280,7 @@ void hC_HSP::tbkntrl()
 
                 // Dosyaya 2. kaydı ekle
 
-                qry = "INSERT INTO " + *tb_name +
+                qStr = "INSERT INTO " + *tb_name +
                         " ( hsp_lft, hsp_rgt )"
                         " values ( '2' ,'3' )";
                 //,"+ QDate(QDate::currentDate()).toString()   +" )" ;
@@ -233,7 +289,7 @@ void hC_HSP::tbkntrl()
             }
             else // dosyada 1 den fazla kayıt var
             {
-                qry = "INSERT INTO " + *tb_name +
+                qStr = "INSERT INTO " + *tb_name +
                         " ( hsp_lft, hsp_rgt )"
                         " values ( '5' ,'6' )";
 
@@ -241,11 +297,11 @@ void hC_HSP::tbkntrl()
         }   // kayıt varken yapılacakların sonu
 
         // kayıt eklemeyi tamamla
-        if ( !q.exec(qry) )
+        if ( !query.exec(qStr) )
         {
             mesaj = mesaj + "Ana Hesap kaydı Eklenemedi "+
                     "<br>------------------------------------<br>"+
-                    q.lastError().text ()+
+                    query.lastError().text ()+
                     "<br>------------------------------------<br>";
             // root u eski haline getir
             tb_model->setData(tb_model->index (indx.row (),
@@ -254,8 +310,8 @@ void hC_HSP::tbkntrl()
         if (tb_model->submitAll())
         {
             mesaj = mesaj + "\nhesap adı :" +
-                    ino +
-                    "left : " + lft.toString();
+                    hesapAd +
+                    "left : "   ;
             mesaj = mesaj + "\nHesap kaydı eklendi.";
             ////////////////////////////////////////////////
             /// son eklenen kayda git
