@@ -75,7 +75,7 @@ void hC_HSP::tbwdgt()
     lB_ad->setBuddy(lE_ad);
 
     auto *lB_tarih  = new QLabel("Açılış Tarihi"        );
-  //  dE_tarih->setPlaceholderText ("Tarih");
+    //  dE_tarih->setPlaceholderText ("Tarih");
     lB_tarih->setBuddy(dE_tarih);
     dE_tarih->setSpecialValueText ("  ");
     dE_tarih->setLocale (QLocale::Turkish);
@@ -115,10 +115,10 @@ void hC_HSP::tbwdgt()
     ///////////////////////////////////////
 
     //tb_view->table->setMinimumWidth (200);
- //   lB_ad->setMinimumSize (100,25);
-  //  lE_ad->setMinimumSize (100,25);
+    //   lB_ad->setMinimumSize (100,25);
+    //  lE_ad->setMinimumSize (100,25);
     lB_aciklama->setMinimumSize (200,25);
-   // lB_alacak->setMinimumSize (150,25);
+    // lB_alacak->setMinimumSize (150,25);
 
 
     win_Grid->addWidget(lB_ad      , 0, 0, 1, 1);
@@ -162,50 +162,28 @@ void hC_HSP::tbkntrl()
         *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
 
-        // table daki mevcut row detaylarını alalım
-
+        // table daki mevcut row detayları için index alalım
         QModelIndex indx = tb_view->table->currentIndex ();
-        QString ino = tb_model->data
-                (tb_model->index
-                 (indx.row (),
-                  tb_model->fieldIndex ("hsp_ad"))).toString ();
-        int lft = tb_model->data
-                (tb_model->index
-                (indx.row (),
-                tb_model->fieldIndex ("hsp_lft"))).toInt ();
-        int rgt = tb_model->data
-                (tb_model->index
-                (indx.row (),
-                tb_model->fieldIndex ("hsp_rgt"))).toInt ();
-        // sadece root varsa lft=1 + rgt=2 = 3
-        if (lft+rgt == 3)
+        QSqlQuery q;
+        QString qry, mesaj("");
+        QString ino {};
+        int lft = 0 ;
+        int rgt = 0 ;
+
+        // Dosya BOŞ
+        if ( indx.row() < 1 ) // dosyadaki kayıt sayısı "0" sa
         {
-            // lft root da her zaman 1, lefti 2 artır
-            tb_model->setData(tb_model->index (indx.row (),
-                            tb_model->fieldIndex ("hsp_rgt")),4);
-        }
-tb_model->submitAll();
-        //q_qry.exec (s_qry);
+            qDebug()<<"Hiç Kayıt yok";
+            // Dosyay 1. kaydı ekle
+            /// Dosyaya ilk kayıt durumunda lft=1 rgt=2 olacak
 
-        qDebug()<< "hesap adı :" << ino << "left : " <<lft;
-       // lE_lft->setText( "1");
-       // lE_rgt->setText("2");
+            qry = "INSERT INTO " + *tb_name +
+                    " ( hsp_lft, hsp_rgt )"
+                    " values ( '1' ,'2' )";
 
-/*
-        ////////////////////////////////////////////////
-        /// son eklenen kayda git
-        maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
-        ////////////////////////////////////////////////
-   */
-        // yeni kaydı ekle
-
-        QSqlQuery q_qry;
-          QString s_qry;
-
-        //s_qry = QString("DELETE FROM dbtb_mkn "
-          //              "WHERE id_mkn = %1").arg( ino );
-
-
+            //s_qry = QString("DELETE FROM dbtb_mkn "
+            //              "WHERE id_mkn = %1").arg( ino );
+            /*
         LOCK TABLE tb_name WRITE;
 
         SELECT @myRight := rgt FROM nested_category
@@ -218,43 +196,83 @@ tb_model->submitAll();
 
         UNLOCK TABLES;
 
+*/
+
+        }
+        else // dosyada BOŞ DEĞİL - 1 veya daha fazla kayıt var
+        {
+            // index teki kayıt bilgileri nedir
+            QString ino = tb_model->data
+                    (tb_model->index
+                     (indx.row (),
+                      tb_model->fieldIndex ("hsp_ad"))).toString ();
+            int lft = tb_model->data
+                    (tb_model->index
+                     (indx.row (),
+                      tb_model->fieldIndex ("hsp_lft"))).toInt ();
+            int rgt = tb_model->data
+                    (tb_model->index
+                     (indx.row (),
+                      tb_model->fieldIndex ("hsp_rgt"))).toInt ();
+
+            // sadece root varsa lft=1 + rgt=2 = 3
+            if (lft+rgt == 3) // dosyada sadece 1 kayıt var
+            {
+                // lft root da her zaman 1 dir, rgt 2 artmalı
+                tb_model->setData(tb_model->index (indx.row (),
+                                                   tb_model->fieldIndex ("hsp_rgt")),4);
+
+                // Dosyaya 2. kaydı ekle
+
+                qry = "INSERT INTO " + *tb_name +
+                        " ( hsp_lft, hsp_rgt )"
+                        " values ( '2' ,'3' )";
+                //,"+ QDate(QDate::currentDate()).toString()   +" )" ;
 
 
-        QSqlQuery q;
-        QString qry, mesaj("");
-        qry = "INSERT INTO " + *tb_name +
-                " ( hsp_lft, hsp_rgt )"
-                " values ( '2' ,'3' )";
-                    //,"+ QDate(QDate::currentDate()).toString()   +" )" ;
+            }
+            else // dosyada 1 den fazla kayıt var
+            {
+                qry = "INSERT INTO " + *tb_name +
+                        " ( hsp_lft, hsp_rgt )"
+                        " values ( '5' ,'6' )";
 
+            }// eklenecek kayıt hazırlandı
+        }   // kayıt varken yapılacakların sonu
+
+        // kayıt eklemeyi tamamla
         if ( !q.exec(qry) )
         {
-            mesaj = mesaj + "Hesap kaydı Eklenemedi xxxx"+
+            mesaj = mesaj + "Ana Hesap kaydı Eklenemedi "+
                     "<br>------------------------------------<br>"+
                     q.lastError().text ()+
                     "<br>------------------------------------<br>";
-            // root u eski haline geetir
+            // root u eski haline getir
             tb_model->setData(tb_model->index (indx.row (),
-                            tb_model->fieldIndex ("hsp_rgt")),2);
-
-
+                      tb_model->fieldIndex ("hsp_rgt")),2);
         }
-        else
+        if (tb_model->submitAll())
         {
-            mesaj = mesaj + "Hesap kaydı eklendi.";
-
+            mesaj = mesaj + "\nhesap adı :" +
+                    ino +
+                    "left : " + lft.toString();
+            mesaj = mesaj + "\nHesap kaydı eklendi.";
             ////////////////////////////////////////////////
             /// son eklenen kayda git
             maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
             ////////////////////////////////////////////////
 
-            //lE_lft -> setText ("");
-            //lE_rgt ->setText ("");
         }
-        qDebug()<<mesaj;
-        tb_model->submitAll();
-    });
+        else
+        {
+             mesaj = mesaj + "Hesap kaydı e k l e n e m e d i ."  ;
+        }
 
+        qDebug()<<mesaj;
+
+    });// connect ekle sonu
+
+    /////////////////////////////////////////////////////////////////////
     // pB 002 yeni resim ekle
     connect(tb_view->pB_eklersm, &QPushButton::clicked,
             [this]()
@@ -297,8 +315,8 @@ tb_model->submitAll();
 
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question(this,
-             "KAYIT SİL", hesapad ,
-                         QMessageBox::Yes | QMessageBox::No);
+                                        "KAYIT SİL", hesapad ,
+                                        QMessageBox::Yes | QMessageBox::No);
 
             if(dlg == QMessageBox::Yes)
             {
