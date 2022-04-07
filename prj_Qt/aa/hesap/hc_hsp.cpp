@@ -187,16 +187,16 @@ void hC_HSP::tbkntrl()
 
 
         }
-        else // dosyada BOŞ DEĞİL - 1 veya daha fazla kayıt var
+        else // dosya BOŞ DEĞİL - 1 veya daha fazla kayıt var
         {
             // index teki kayıt bilgileri nedir
 
             QString hesapAd = tb_model->data (tb_model->index (indx.row (),
-                      tb_model->fieldIndex ("hsp_ad"))).toString ();
+                       tb_model->fieldIndex ("hsp_ad"))).toString ();
             QString lft = tb_model->data (tb_model->index (indx.row (),
                       tb_model->fieldIndex ("hsp_lft"))).toString ();
             QString rgt = tb_model->data (tb_model->index (indx.row (),
-                      tb_model->fieldIndex ("hsp_rgt"))).toString();
+                    tb_model->fieldIndex ("hsp_rgt"))).toString();
             qDebug() << "-----------------------------------------";
             qDebug() << "--from model---------------------------------------";
             qDebug() << "-------------" << hesapAd << "----------------------------";
@@ -205,8 +205,8 @@ void hC_HSP::tbkntrl()
             // LOCK TABLE tb_name WRITE;
 
             qStr = "SELECT hsp_ad, hsp_lft, hsp_rgt "
-                  "FROM "+ *tb_name+
-                  " WHERE hsp_ad = '"+hesapAd+"'";
+                   "FROM "+ *tb_name+
+                    " WHERE hsp_ad = '"+hesapAd+"'";
             if ( !query.exec(qStr) )
             {
                 mesaj = mesaj + "Hesap Adı belirlenemedi "+
@@ -215,11 +215,11 @@ void hC_HSP::tbkntrl()
                         "<br>------------------------------------<br>";
             }
             query.next();
- qDebug() << "-1----------------------------------------";
+            qDebug() << "-1----------------------------------------";
             QString getHesapAd = query.value( query.record().indexOf("hsp_ad") ).toString();
- qDebug() << "-2----------------------------------------";
+            qDebug() << "-2----------------------------------------";
             int getLft = query.value( query.record().indexOf("hsp_lft") ).toInt();
- qDebug() << "-3----------------------------------------";
+            qDebug() << "-3----------------------------------------";
             int getRgt = query.value( query.record().indexOf("hsp_rgt") ).toInt();
 
 
@@ -232,17 +232,17 @@ void hC_HSP::tbkntrl()
             qStr =  " UPDATE ""+ *tb_name +"
                     "SET hsp_lft = hsp_lft + 2 "
                     "WHERE hsp_lft > " + QString::number(getLft) ;
-                    if ( !query.exec(qStr) )
-                    {
-                        mesaj = mesaj + "Tüm Left s 2 artırıldı"+
-                                "<br>------------------------------------<br>"+
-                                query.lastError().text ()+
-                                "<br>------------------------------------<br>";
-                    }
+            if ( !query.exec(qStr) )
+            {
+                mesaj = mesaj + "Tüm Left s 2 artırıldı"+
+                        "<br>------------------------------------<br>"+
+                        query.lastError().text ()+
+                        "<br>------------------------------------<br>";
+            }
 
             qStr = "UPDATE "+ *tb_name +
-                   " SET hsp_rgt = hsp_rgt + 2 "
-                   " WHERE hsp_rgt >" + QString::number(getRgt) ;
+                    " SET hsp_rgt = hsp_rgt + 2 "
+                    " WHERE hsp_rgt >" + QString::number(getRgt) ;
 
             if ( !query.exec(qStr) )
             {
@@ -252,21 +252,21 @@ void hC_HSP::tbkntrl()
                         "<br>------------------------------------<br>";
             }
 
-         qStr =  " INSERT INTO "+ *tb_name +
-                 " (hsp_ad, hsp_lft, hsp_rgt) "
-                 " VALUES("
-                 " 'GAME CONSOLES', '"+
-                 QString::number(getRgt + 1 )+" ' , '"+
-                 QString::number(getRgt + 2 )+
-                 " ' )";
-                 if ( !query.exec(qStr) )
-                 {
-                     mesaj = mesaj + "Yeni node eklendi"+
-                             "<br>------------------------------------<br>"+
-                             query.lastError().text ()+
-                             "<br>------------------------------------<br>";
-                 }
-         //   UNLOCK TABLES;
+            qStr =  " INSERT INTO "+ *tb_name +
+                    " (hsp_ad, hsp_lft, hsp_rgt) "
+                    " VALUES("
+                    " 'GAME CONSOLES', '"+
+                    QString::number(getRgt + 1 )+" ' , '"+
+                    QString::number(getRgt + 2 )+
+                    " ' )";
+            if ( !query.exec(qStr) )
+            {
+                mesaj = mesaj + "Yeni node eklendi"+
+                        "<br>------------------------------------<br>"+
+                        query.lastError().text ()+
+                        "<br>------------------------------------<br>";
+            }
+            //   UNLOCK TABLES;
 
 
 
@@ -305,7 +305,7 @@ void hC_HSP::tbkntrl()
                     "<br>------------------------------------<br>";
             // root u eski haline getir
             tb_model->setData(tb_model->index (indx.row (),
-                      tb_model->fieldIndex ("hsp_rgt")),2);
+                                               tb_model->fieldIndex ("hsp_rgt")),2);
         }
         if (tb_model->submitAll())
         {
@@ -321,7 +321,7 @@ void hC_HSP::tbkntrl()
         }
         else
         {
-             mesaj = mesaj + "Hesap kaydı e k l e n e m e d i ."  ;
+            mesaj = mesaj + "Hesap kaydı e k l e n e m e d i ."  ;
         }
 
         qDebug()<<mesaj;
