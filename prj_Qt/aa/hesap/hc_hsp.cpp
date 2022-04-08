@@ -167,8 +167,8 @@ void hC_HSP::tbkntrl()
         QSqlQuery query;
         QString qStr, mesaj("");
         QString hesapAd {};
-        int lft = 0 ;
-        int rgt = 0 ;
+       /// int lft = 0 ;
+       // int rgt = 0 ;
 
         // Dosya BOŞ
         if ( indx.row() < 0 ) // dosyadaki kayıt sayısı "0" sa
@@ -177,9 +177,10 @@ void hC_HSP::tbkntrl()
             // Dosyaya 1. kaydı ekle
             /// Dosyaya ilk kayıt durumunda lft=1 rgt=2 olacak
 
-            qStr = "INSERT INTO " + *tb_name +
-                    " ( hsp_lft, hsp_rgt )"
-                    " values ( '1' ,'2' )";
+            qStr = QString("INSERT INTO %1 "
+                    "( hsp_lft, hsp_rgt, hsp_ad )"
+                           " values ( '1' ,'2','%2' )")
+                       .arg (tb_name).arg (indx.row()) ;
 
             //s_qry = QString("DELETE FROM dbtb_mkn "
             //              "WHERE id_mkn = %1").arg( hesapAd );
@@ -197,12 +198,12 @@ void hC_HSP::tbkntrl()
                       tb_model->fieldIndex ("hsp_lft"))).toString ();
             QString rgt = tb_model->data (tb_model->index (indx.row (),
                     tb_model->fieldIndex ("hsp_rgt"))).toString();
-            qDebug() << "-----------------------------------------";
+      /*      qDebug() << "-----------------------------------------";
             qDebug() << "--from model---------------------------------------";
             qDebug() << "-------------" << hesapAd << "----------------------------";
             qDebug() << "Right ------ " << rgt <<" ----------" ;
             qDebug() << "Left  ------ " << lft <<" ----------" ;
-            // LOCK TABLE tb_name WRITE;
+           */ // LOCK TABLE tb_name WRITE;
 
             qStr = "SELECT hsp_ad, hsp_lft, hsp_rgt "
                    "FROM "+ *tb_name+
@@ -229,7 +230,7 @@ void hC_HSP::tbkntrl()
             qDebug() << " Left -------- " << getLft <<" ---" << lft << "-------" ;
             qDebug() << " Right ------- " << getRgt <<" ---" << rgt << "-------" ;
 
-            qStr =  " UPDATE ""+ *tb_name +"
+            qStr =  " UPDATE "+ *tb_name +"
                     "SET hsp_lft = hsp_lft + 2 "
                     "WHERE hsp_lft > " + QString::number(getLft) ;
             if ( !query.exec(qStr) )
