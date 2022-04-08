@@ -266,13 +266,13 @@ void hC_HSP::tbkntrl()
                     QString::number(getRgt + 1 )+" ' , '"+
                     QString::number(getRgt + 2 )+
                     " ' )";
-            if ( !query.exec(qStr) )
+         /*   if ( !query.exec(qStr) )
             {
                 mesaj = mesaj + "Yeni node eklendi"+
                         "<br>------------------------------------<br>"+
                         query.lastError().text ()+
                         "<br>------------------------------------<br>";
-            }
+            }*/
             //   UNLOCK TABLES;
 
 
