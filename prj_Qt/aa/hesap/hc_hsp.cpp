@@ -177,10 +177,8 @@ void hC_HSP::tbkntrl()
             // Dosyaya 1. kaydı ekle
             /// Dosyaya ilk kayıt durumunda lft=1 rgt=2 olacak
 
-            qStr = QString("INSERT INTO %1 "
-                    "( hsp_lft, hsp_rgt, hsp_ad )"
-                           " values ( '1' ,'2','%2' )")
-                       .arg (tb_name).arg (indx.row()) ;
+            qStr = QString("INSERT INTO %1 ( hsp_lft, hsp_rgt, hsp_ad ) "
+                           "values ( '1' ,'2', '%2' )").arg(*tb_name).arg(indx.row()) ;
 
             //s_qry = QString("DELETE FROM dbtb_mkn "
             //              "WHERE id_mkn = %1").arg( hesapAd );
@@ -191,6 +189,14 @@ void hC_HSP::tbkntrl()
         else // dosya BOŞ DEĞİL - 1 veya daha fazla kayıt var
         {
             // index teki kayıt bilgileri nedir
+
+            QWidget *xx = new QWidget;
+            QGridLayout lyout;
+            xx->setLayout(&lyout);
+            lyout.addWidget( new QLabel("x1"));
+            lyout.addWidget( new QLabel("x2"));
+            lyout.addWidget( new QLabel("x3"));
+            xx->show();
 
             QString hesapAd = tb_model->data (tb_model->index (indx.row (),
                        tb_model->fieldIndex ("hsp_ad"))).toString ();
@@ -230,7 +236,7 @@ void hC_HSP::tbkntrl()
             qDebug() << " Left -------- " << getLft <<" ---" << lft << "-------" ;
             qDebug() << " Right ------- " << getRgt <<" ---" << rgt << "-------" ;
 
-            qStr =  " UPDATE "+ *tb_name +"
+            qStr =  " UPDATE "+ *tb_name +
                     "SET hsp_lft = hsp_lft + 2 "
                     "WHERE hsp_lft > " + QString::number(getLft) ;
             if ( !query.exec(qStr) )
@@ -276,23 +282,23 @@ void hC_HSP::tbkntrl()
             if ( lft.toInt() + rgt.toInt() == 3) // dosyada sadece 1 kayıt var
             {
                 // lft root da her zaman 1 dir, rgt 2 artmalı
-                tb_model->setData(tb_model->index (indx.row (),
-                                                   tb_model->fieldIndex ("hsp_rgt")),4);
+              //  tb_model->setData(tb_model->index (indx.row (),
+                 //                                  tb_model->fieldIndex ("hsp_rgt")),4);
 
                 // Dosyaya 2. kaydı ekle
 
-                qStr = "INSERT INTO " + *tb_name +
-                        " ( hsp_lft, hsp_rgt )"
-                        " values ( '2' ,'3' )";
+               // qStr = "INSERT INTO " + *tb_name +
+                   //     " ( hsp_lft, hsp_rgt )"
+                    //    " values ( '2' ,'3' )";
                 //,"+ QDate(QDate::currentDate()).toString()   +" )" ;
 
 
             }
             else // dosyada 1 den fazla kayıt var
             {
-                qStr = "INSERT INTO " + *tb_name +
-                        " ( hsp_lft, hsp_rgt )"
-                        " values ( '5' ,'6' )";
+               // qStr = "INSERT INTO " + *tb_name +
+                 //       " ( hsp_lft, hsp_rgt )"
+                 //       " values ( '5' ,'6' )";
 
             }// eklenecek kayıt hazırlandı
         }   // kayıt varken yapılacakların sonu
@@ -305,8 +311,8 @@ void hC_HSP::tbkntrl()
                     query.lastError().text ()+
                     "<br>------------------------------------<br>";
             // root u eski haline getir
-            tb_model->setData(tb_model->index (indx.row (),
-                                               tb_model->fieldIndex ("hsp_rgt")),2);
+          //  tb_model->setData(tb_model->index (indx.row (),
+            //                                   tb_model->fieldIndex ("hsp_rgt")),2);
         }
         if (tb_model->submitAll())
         {

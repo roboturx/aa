@@ -14,8 +14,9 @@ sudo apt-get install libgl1-mesa-dev
 echo "--------------------------------------- EDITOR"
 sudo apt install geany -y
 echo "--------------------------------------- git"
-sudo apt install git
-echo "---------------------------------------"
+sudo apt install git -y
+echo "--------------------------------------- gimp "
+sudo apt install gimp -y
 echo "---------------------------------------"
 echo "--------------------------------------- Auto Remove"
 sudo apt autoremove
