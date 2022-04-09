@@ -26,6 +26,7 @@
 /// 5- hC_Tm            - QSqlRelationalTableModel
 /// 6- hC_Gz            - tarihi gizler ve açar
 /// 7- hC_Nr            - tableview da yeni eklenen kaydı bul
+/// 8- hC_Rc            - tablodaki rec sayısı
 
 namespace HC_ {
 class hC_Rs;
@@ -366,4 +367,7 @@ public:
 };
 
 
+
 #endif // HC__H
+
+
