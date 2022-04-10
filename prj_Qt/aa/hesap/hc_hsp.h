@@ -26,9 +26,11 @@ public:
     QComboBox   *cB_turu{}   ;
     QLineEdit   *lE_lft{}   ;
     QLineEdit   *lE_rgt{}   ;
+    QGridLayout* win_Grid;
     int hesapID{};
     int hesapLeft{};
     int hesapRight{};
+    int xx2{};
     void tbsetup () ;
 
 private:

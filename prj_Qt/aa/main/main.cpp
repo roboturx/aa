@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     //GUID : Generated once for your application
     // you could get one GUID here: http://www.guidgenerator.com/online-guid-generator.aspx
     // QSharedMemory shared("63d60669-bb94-4a94-88bb-b964890a7e04");
-    QSharedMemory shared("1039");
+    QSharedMemory shared("1040");
 
     if( !shared.create( 512, QSharedMemory::ReadWrite) )
     {
