@@ -26,8 +26,9 @@ public:
     QComboBox   *cB_turu{}   ;
     QLineEdit   *lE_lft{}   ;
     QLineEdit   *lE_rgt{}   ;
-
-
+    int hesapID{};
+    int hesapLeft{};
+    int hesapRight{};
     void tbsetup () ;
 
 private:
@@ -38,7 +39,10 @@ private:
 protected:
     void showEvent(QShowEvent *);
 
-
+//signals:
+//    void sgnHsp (const QString sgnHspID); //
+//private slots:
+//    void sltNewHspID();
 
 };
 
