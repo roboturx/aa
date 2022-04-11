@@ -28,9 +28,10 @@ public:
     QLineEdit   *lE_rgt{}   ;
     QGridLayout* win_Grid;
     int hesapID{};
+    int hesapAd{};
     int hesapLeft{};
     int hesapRight{};
-    int xx2{};
+//    int xx2{};
     void tbsetup () ;
 
 private:

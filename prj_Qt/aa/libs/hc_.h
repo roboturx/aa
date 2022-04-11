@@ -355,6 +355,35 @@ public:
 
 };
 
+/// 8- hC_Rc            - tablodaki rec sayısı
+///
+///
+
+/////////
+/// dosyadaki kayıt sayısını bul
+///
+/// The query returns a single column and a single row.
+///     Just read that value:
+///         query.first();
+///         count = query.value(0).toInt();
+///////////////////////////////////////////////////////////////
+
+class hC_recCount
+{
+
+public:
+    explicit hC_recCount ();
+
+    ~hC_recCount ();
+    int recc(const QString &query);
+private:
+
+    int reccount = 0;
+
+
+};
+
+
 
 class objectIsThere : QObject
 {

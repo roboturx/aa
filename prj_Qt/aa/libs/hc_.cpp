@@ -974,3 +974,47 @@ bool objectIsThere::ovarmi(QString *oName)
 
     return boole;
 }
+
+
+/////////
+/// dosyadaki kayıt sayısını bul
+///
+/// The query returns a single column and a single row.
+///     Just read that value:
+///         query.first();
+///         count = query.value(0).toInt();
+///////////////////////////////////////////////////////////////
+
+
+hC_recCount::hC_recCount()
+{
+    //qDebug () << "hc reccount constructor";
+}
+
+hC_recCount::~hC_recCount()
+{
+    //qDebug () << "hc reccount destructor";
+}
+
+int hC_recCount::recc(const QString &qStr)
+{
+    //qDebug () << "recc qstr =" << qStr << &qStr;
+    QSqlQuery query;
+    QString mesaj={};
+    int reccount=0;
+    if ( query.exec(qStr) )
+    {
+        //qDebug () << "query nin içi 1";
+        query.first();
+        reccount = query.value(0).toInt();
+        mesaj = mesaj + "Dosyadaki kayıt sayısı = "+QString::number( reccount  ) ;
+    }
+    else
+    {
+        mesaj = mesaj + "Dosyadaki kayıt sayısı b e l i r l e n e m e d i . . . "+
+                query.lastError().text ();
+          // qDebug () << "query nin içi 2";
+    }
+    qDebug () << mesaj ;
+    return reccount;
+}
