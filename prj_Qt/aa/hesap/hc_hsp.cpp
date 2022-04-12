@@ -161,89 +161,187 @@ void hC_HSP::tbkntrl()
         int* max_id = new int{};
         *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
-        &QItemSelectionModel::currentRowChanged;
+        QModelIndex Index;
+
+        QItemSelectionModel::setCurrentIndex ();
+
         // table daki mevcut row detayları için index alalım
        // QModelIndex indx = tb_view->table->currentIndex ();
         QSqlQuery query;
         QString qStr, mesaj("");
 
-        hC_recCount rec;
+        hC_recCount rec;// dosyadaki kayıt (node) sayısı
         int reccount = rec.recc("SELECT count(*) from "+*tb_name);
+        /////////////////////////////////////////
+        /// node eklerken 3 ayrı durum vardır
+        ///
+        ///         root node
+        /// 01    * Dosya BOŞ ilk node oluştur
+        ///         left her zaman 1 dir
+        ///         right 2 dir. node eklendikçe değişir
+        ///
+        ///         leaf node
+        /// 02    * altında node olmayan node
+        ///         left = left + 1 dir
+        /// 03    * altında node OLAN node
+        ///         left != left + 1
+        ///
 
-        // 01 Dosya BOŞ ilk node oluştur
+        QString hesapLR = "";
         if ( reccount == 0 ) // dosyadaki kayıt sayısı "0" sa
         {
-            qDebug()<<"Dosyaya ilk kayıt ekleniyor";
+            qDebug()<<"Dosyaya ilk kayıt ekleniyor...";
             // Dosyaya 1. kaydı ekle
             /// Dosyaya ilk kayıt durumunda lft=1 rgt=2 olacak
+            hesapLR = "- 1-2";
 
-            qStr = QString("INSERT INTO %1 ( hsp_lft, hsp_rgt, hsp_id ) "
-                           "values ( '1' ,'2', '%2' )").arg(*tb_name).arg(*max_id ) ;
-
+            qStr = QString("INSERT INTO %1 ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
+                           "values ( %2 ,%3, %4, %5 )")
+                       .arg(*tb_name)
+                       .arg(*max_id)
+                       .arg(hesapLR)
+                       .arg("1")
+                       .arg("2") ;
             if ( !query.exec(qStr) )
             {
-                mesaj = mesaj + "------------- İlk node e k l e n e m e d i"+
+                mesaj = mesaj + "- İlk node e k l e n e m e d i"+
                         query.lastError().text ();
             }
             else
             {
-                mesaj = mesaj + "-------------- İlk node eklendi";
+                mesaj = mesaj + "- İlk node eklendi - " + hesapLR;
             }
         } // 01 Dosya BOŞ ilk node oluştur sonu
         else // 02 dosya BOŞ DEĞİL - 1 veya daha fazla kayıt var
         {
-            qDebug () << hesapID << hesapAd<< hesapRight << hesapLeft ;
-            /// diğer right ları 2 artır
-            qStr = QString("UPDATE %1 SET hsp_rgt = hsp_rgt + 2 "
-                           "WHERE hsp_rgt > %2 ")
-                    .arg(*tb_name).arg(hesapRight) ;
 
-            if ( !query.exec(qStr) )
+
+            if (hesapRight-hesapLeft == 1 )
             {
-                mesaj = mesaj + "Tüm Rights 2 artırıldı"+
-                        "<br>-3-----------------------------------<br>"+
-                        query.lastError().text ()+
-                        "<br>-31-----------------------------------<br>";
-            }
-            ////// diğer left leri 2 artır
-            qStr =  QString("UPDATE %1 SET hsp_lft = hsp_lft + 2 "
-                            "WHERE hsp_lft = %2 ")
-                    .arg(*tb_name).arg(hesapRight) ;
+                /// eklemek istediğimiz node un altında
+                /// child Y O K S A
+                ///
 
-            if ( !query.exec(qStr) )
+                /// diğer right ları 2 artır
+                qStr = QString("UPDATE %1 SET hsp_rgt = hsp_rgt + 2 "
+                               "WHERE hsp_rgt > %2 ")
+                           .arg(*tb_name).arg(hesapLeft) ;
+                ///        .arg(*tb_name).arg(hesapRight) ;
+
+                if ( !query.exec(qStr) )
+                {
+                    mesaj = mesaj + "Tüm Rights 2 artırıldı"+
+                            "-3-----------------------------------"+
+                            query.lastError().text ()+
+                            "-31-----------------------------------";
+                }
+                ////// diğer left leri 2 artır
+                qStr =  QString("UPDATE %1 SET hsp_lft = hsp_lft + 2 "
+                               "WHERE hsp_lft > %2 ")
+                           .arg(*tb_name).arg(hesapLeft) ;
+                ///        .arg(*tb_name).arg(hesapRight) ;
+
+                if ( !query.exec(qStr) )
+                {
+                    mesaj = mesaj + "Tüm Left s 2 artırıldı"+
+                            "--02----------------------------------"+
+                            query.lastError().text ()+
+                            "--021----------------------------------";
+                }
+                /// yeni node oluştur
+
+                ////////////////////////////////////////////////
+                ///hC_Nr maxID;
+                ///int* max_id = new int{};
+                //*max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
+                ////////////////////////////////////////////////
+                hesapLR = QString::number(hesapRight+1) +" - "+
+                           QString::number(hesapRight+2);
+
+                qStr = QString("INSERT INTO %1 ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
+                               "values ( %2 ,%3, %4, %5 )")
+                           .arg(*tb_name)
+                           .arg(*max_id)
+                           .arg(hesapLR)
+                           .arg(hesapLeft+1)
+                           .arg(hesapLeft+2) ;
+                ///        .arg(hesapRight+1)
+                ///        .arg(hesapRight+2) ;
+
+                if ( !query.exec(qStr) )
+                {
+                    mesaj = mesaj + "Yeni node e k l e n e m e d i "+
+                            "-4-----------------------------------"+
+                            query.lastError().text ()+
+                            "--41----------------------------------";
+                }
+            }
+            else
             {
-                mesaj = mesaj + "Tüm Left s 2 artırıldı"+
-                        "<br>--02----------------------------------<br>"+
-                        query.lastError().text ()+
-                        "<br>--021----------------------------------<br>";
+                /// eklemek istediğimiz node un altında
+                /// child V A R S A
+                ///
+
+
+                /// diğer right ları 2 artır
+                qStr = QString("UPDATE %1 SET hsp_rgt = hsp_rgt + 2 "
+                               "WHERE hsp_rgt > %2 ")
+                           .arg(*tb_name).arg(hesapRight) ;
+
+                if ( !query.exec(qStr) )
+                {
+                    mesaj = mesaj + "HATA +2 rights"+
+                            "-3----------------------------------"+
+                            query.lastError().text ()+
+                            "-31----------------------------------";
+                }
+                ////// diğer left leri 2 artır
+                qStr =  QString("UPDATE %1 SET hsp_lft = hsp_lft + 2 "
+                               "WHERE hsp_lft > %2 ")
+                           .arg(*tb_name).arg(hesapRight) ;
+
+                if ( !query.exec(qStr) )
+                {
+                    mesaj = mesaj + "HATA +2 Left"+
+                            "--02----------------------------------"+
+                            query.lastError().text ()+
+                            "--021----------------------------------";
+                }
+                /// yeni node oluştur
+
+                ////////////////////////////////////////////////
+                ///hC_Nr maxID;
+                ///int* max_id = new int{};
+                //*max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
+                ////////////////////////////////////////////////
+                hesapLR = QString::number(hesapLeft+1) +" - "+
+                                  QString::number(hesapLeft+2);
+                //QString hesapLR = QString::number(hesapRight+1) +" - "+
+                //                  QString::number(hesapRight+2);
+
+                qStr = QString("INSERT INTO %1 ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
+                               "values ( %2 ,%3, %4, %5 )")
+                           .arg(*tb_name)
+                           .arg(*max_id)
+                           .arg(hesapLR)
+                           .arg(hesapRight+1)
+                           .arg(hesapRight+2) ;
+
+                if ( !query.exec(qStr) )
+                {
+                    mesaj = mesaj + "Yeni node e k l e n e m e d i"+
+                            "-4----------------------------------"+
+                            query.lastError().text ()+
+                            "--41--------------------------------";
+                }
+
+                qDebug () << "ID:"<<hesapID    << " - "
+                         << "Ad:"<<hesapAd    << " --- "
+                         << hesapRight << " -   "
+                         << hesapLeft ;
             }
-            /// yeni node oluştur
 
-            ////////////////////////////////////////////////
-            ///hC_Nr maxID;
-            ///int* max_id = new int{};
-            *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
-            ////////////////////////////////////////////////
-            QString hesapLR = QString::number(hesapRight+1) +" - "+
-                    QString::number(hesapRight+2);
-            qDebug() << "hesapLR = " << hesapLR;
-            qStr = QString("INSERT INTO %1 ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
-                           "values ( %2 ,%3, %4, %5 )")
-                    .arg(*tb_name)
-                    .arg(*max_id)
-                    .arg(hesapLR)
-                    .arg(hesapRight+1)
-                    .arg(hesapRight+2) ;
-
-            if ( !query.exec(qStr) )
-            {
-                mesaj = mesaj + "Yeni node eklendi"+
-                        "<br>-4-----------------------------------<br>"+
-                        query.lastError().text ()+
-                        "<br>--41----------------------------------<br>";
-            }
-
-            // }// eklenecek kayıt hazırlandı
+           // }// eklenecek kayıt hazırlandı
         }   // 02 dosya BOŞ DEĞİL - 1 veya daha fazla kayıt var SONU
 
         // kayıt eklemeyi tamamla
@@ -252,8 +350,8 @@ void hC_HSP::tbkntrl()
         {
             mesaj = mesaj + "hesap id : " +
                     QString::number(hesapID) +
-                    " left : "+QString::number(hesapLeft)   ;
-            mesaj = mesaj + "   Hesap kaydı eklendi.   ";
+                    " --- : "+hesapLR+ " Hesap kaydı eklendi.   "    ;
+
             ////////////////////////////////////////////////
             /// son eklenen kayda git
             maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
@@ -337,13 +435,13 @@ void hC_HSP::tbkntrl()
         }
 
         hesapID = tb_model->data (tb_model->index (Index.row (),
-                                                   tb_model->fieldIndex ("hsp_id"))).toInt ();
+                  tb_model->fieldIndex ("hsp_id"))).toInt ();
         hesapAd = tb_model->data (tb_model->index (Index.row (),
-                                                   tb_model->fieldIndex ("hsp_ad"))).toInt ();
+                   tb_model->fieldIndex ("hsp_ad"))).toInt ();
         hesapLeft  = tb_model->data (tb_model->index (Index.row (),
-                                                      tb_model->fieldIndex ("hsp_lft"))).toInt ();
+                    tb_model->fieldIndex ("hsp_lft"))).toInt ();
         hesapRight = tb_model->data (tb_model->index (Index.row (),
-                                                      tb_model->fieldIndex ("hsp_rgt"))).toInt();
+                     tb_model->fieldIndex ("hsp_rgt"))).toInt();
 
         //        win_Grid->addWidget( new QLabel("HID    : " + QString::number(hesapID )), 9+xx2, 1, 1, 2);
         //        win_Grid->addWidget( new QLabel(" Left  : " + QString::number(hesapLeft )), 9+xx2+1, 1, 1, 2);
