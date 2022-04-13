@@ -274,8 +274,8 @@ void hC_HSP::tbkntrl()
                 qDebug()<<"Leaf ekle";
                 /// diğer right ları 2 artır
                 qStr = QString("UPDATE %1 SET hsp_rgt = hsp_rgt + 2 "
-                               "WHERE hsp_rgt > %2 ")
-                        .arg(*tb_name).arg(hesapLeft) ;
+                               "WHERE hsp_rgt >= %2 ")
+                        .arg(*tb_name).arg(hesapRight) ;
                 ///        .arg(*tb_name).arg(hesapRight) ;
 
                 if ( !query.exec(qStr) )
@@ -288,7 +288,7 @@ void hC_HSP::tbkntrl()
                 ////// diğer left leri 2 artır
                 qStr =  QString("UPDATE %1 SET hsp_lft = hsp_lft + 2 "
                                 "WHERE hsp_lft > %2 ")
-                        .arg(*tb_name).arg(hesapLeft) ;
+                        .arg(*tb_name).arg(hesapRight) ;
                 ///        .arg(*tb_name).arg(hesapRight) ;
 
                 if ( !query.exec(qStr) )
@@ -309,12 +309,22 @@ void hC_HSP::tbkntrl()
                         QString::number(hesapRight+2) + "'";
 
                 qDebug()<< hesapLR << "*************************************";
+<<<<<<< HEAD
                 qStr = QString("INSERT INTO "+*tb_name+" ( hsp_id, hsp_parentid, hsp_ad, hsp_lft, hsp_rgt ) "
                                                        "values ( "+ QString::number(*max_id) +
                                " , "+QString::number(hesapID)+
                                ", "+hesapLR+" , %5, %6 )")
                         .arg(hesapLeft+1)
                         .arg(hesapLeft+2) ;
+=======
+                qStr = QString("INSERT INTO '%1' ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
+                               "values ( %2 , %3, %4 , %5 )")
+                        .arg(*tb_name)
+                        .arg(*max_id)
+                        .arg(hesapLR)
+                        .arg(hesapRight+1)
+                        .arg(hesapRight+2) ;
+>>>>>>> 259a6c4e1ba8dbb03f7c89171a3043a5c8aa48c7
                 ///        .arg(hesapRight+1)
                 ///        .arg(hesapRight+2) ;
 
