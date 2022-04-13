@@ -238,8 +238,8 @@ void hC_HSP::tbkntrl()
 
                 /// diğer right ları 2 artır
                 qStr = QString("UPDATE %1 SET hsp_rgt = hsp_rgt + 2 "
-                               "WHERE hsp_rgt > %2 ")
-                        .arg(*tb_name).arg(hesapLeft) ;
+                               "WHERE hsp_rgt >= %2 ")
+                        .arg(*tb_name).arg(hesapRight) ;
                 ///        .arg(*tb_name).arg(hesapRight) ;
 
                 if ( !query.exec(qStr) )
@@ -252,7 +252,7 @@ void hC_HSP::tbkntrl()
                 ////// diğer left leri 2 artır
                 qStr =  QString("UPDATE %1 SET hsp_lft = hsp_lft + 2 "
                                 "WHERE hsp_lft > %2 ")
-                        .arg(*tb_name).arg(hesapLeft) ;
+                        .arg(*tb_name).arg(hesapRight) ;
                 ///        .arg(*tb_name).arg(hesapRight) ;
 
                 if ( !query.exec(qStr) )
@@ -278,8 +278,8 @@ void hC_HSP::tbkntrl()
                         .arg(*tb_name)
                         .arg(*max_id)
                         .arg(hesapLR)
-                        .arg(hesapLeft+1)
-                        .arg(hesapLeft+2) ;
+                        .arg(hesapRight+1)
+                        .arg(hesapRight+2) ;
                 ///        .arg(hesapRight+1)
                 ///        .arg(hesapRight+2) ;
 
