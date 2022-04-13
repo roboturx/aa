@@ -16,7 +16,9 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
+    QLineEdit   *lE_pid=nullptr    ;
     QLineEdit   *lE_ad=nullptr    ;
+
     QDateEdit   *dE_tarih=nullptr   ;
     QLineEdit   *lE_aciklama{};
     QComboBox   *cB_parabrm=nullptr;
@@ -28,10 +30,13 @@ public:
     QLineEdit   *lE_rgt{}   ;
     QGridLayout* win_Grid;
     int hesapID{};
-    int hesapAd{};
+    int hesapParentID{};
+    QString hesapAd{};
     int hesapLeft{};
     int hesapRight{};
-//    int xx2{};
+    int reccount{};
+    QModelIndex newIndex;
+
     void tbsetup () ;
 
 private:

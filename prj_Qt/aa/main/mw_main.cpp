@@ -5,7 +5,7 @@ MW_main::MW_main( )
     setAcceptDrops(true);
     this->setWindowTitle ("Çiftli Kayıt Sistemi ile Muhasebe Kontrol");
     //this->setGeometry (20,20,800,500);
-    this->showMaximized();
+    //this->showMaximized();
     this->setObjectName ("objMW_main");
 
     /// 001
@@ -113,7 +113,7 @@ void MW_main::cr_Actions()
 
 
     QToolBar *tb_main = addToolBar("İşlemler");
-    this->addToolBar(Qt::LeftToolBarArea, tb_main );
+    this->addToolBar(Qt::TopToolBarArea, tb_main );
     //tb_main->setMaximumHeight (50);
     // tb_main->setMaximumWidth (650);
     tb_main->setMinimumWidth (450);
