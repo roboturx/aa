@@ -49,8 +49,8 @@ protected:
 
 //signals:
 //    void sgnHsp (const QString sgnHspID); //
-//private slots:
-//    void sltNewHspID();
+private slots:
+    void slt_tbx_rowChange(); //connect selectionmodel change
 
 };
 

@@ -12,7 +12,7 @@ hC_HSP::hC_HSP() : hC_tBcreator ()
 
     tb_flds = new hC_ArrD (13, 4);
     tb_flds->setValue ( 0, "hsp_ID"      , "INTEGER", "HesapID", "0" ) ;
-    tb_flds->setValue ( 1, "hsp_parenttID", "INTEGER", "HspParentID" ) ;
+    tb_flds->setValue ( 1, "hsp_parentID", "INTEGER", "HspParentID" ) ;
     tb_flds->setValue ( 2, "hsp_lft"     , "INTEGER"   , "LEFT");
     tb_flds->setValue ( 3, "hsp_rgt"     , "INTEGER"   , "RIGHT");
     tb_flds->setValue ( 4, "hsp_ad"      , "TEXT"   , "Hesap Adı" );
@@ -29,8 +29,10 @@ hC_HSP::hC_HSP() : hC_tBcreator ()
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
     tb_wdgts->append ( lE_pid  = new QLineEdit   ) ; // parent id
-    tb_wdgts->append ( lE_ad  = new QLineEdit   ) ;
+    tb_wdgts->append ( lE_lft = new QLineEdit ) ;
+    tb_wdgts->append ( lE_rgt = new QLineEdit ) ;
 
+    tb_wdgts->append ( lE_ad  = new QLineEdit   ) ;
     tb_wdgts->append ( dE_tarih = new QDateEdit   ) ;
     tb_wdgts->append ( lE_aciklama = new QLineEdit  ) ;
     tb_wdgts->append ( cB_parabrm = new QComboBox ) ;
@@ -38,8 +40,7 @@ hC_HSP::hC_HSP() : hC_tBcreator ()
     tb_wdgts->append ( lE_gizli = new QLineEdit  ) ;
     tb_wdgts->append ( lE_toplu = new QLineEdit  ) ;
     tb_wdgts->append ( cB_turu = new QComboBox   ) ;
-    tb_wdgts->append ( lE_lft = new QLineEdit ) ;
-    tb_wdgts->append ( lE_rgt = new QLineEdit ) ;
+
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
 
 }
@@ -53,13 +54,13 @@ void hC_HSP::tbsetup()
     tbView   ( tb_flds );
     tbMap    ( tb_flds, tb_wdgts );
 
-    qDebug() << "  hsp 1";
+
     tbwdgt  ();
-    qDebug() << "  hsp 2";
+
     tbui();
-    qDebug() << "  hsp 3";
+
     tbkntrl ();
-    qDebug() << "  hsp 4";
+
 }
 
 
@@ -182,12 +183,12 @@ void hC_HSP::tbkntrl()
         newIndex = tb_view->table->model()->index(0, 0);
         reccount=tb_model->rowCount();
 
-       // qDebug() << "************************"<< tb_view->table->currentIndex().row();
-        QModelIndex orjindex = tb_view->table->currentIndex();
-        tb_view->table->setCurrentIndex( tb_view->table->model()->index(0, 0));
-     //  qDebug() << tb_view->table->currentIndex().row();
-        tb_view->table->setCurrentIndex(orjindex);
-    //    qDebug() << tb_view->table->currentIndex().row() << "************************";
+//       // qDebug() << "************************"<< tb_view->table->currentIndex().row();
+//        QModelIndex orjindex = tb_view->table->currentIndex();
+//        tb_view->table->setCurrentIndex( tb_view->table->model()->index(0, 0));
+//     //  qDebug() << tb_view->table->currentIndex().row();
+//        tb_view->table->setCurrentIndex(orjindex);
+//    //    qDebug() << tb_view->table->currentIndex().row() << "************************";
 
         if ( reccount > 0 )
         {
@@ -205,26 +206,26 @@ void hC_HSP::tbkntrl()
         }
         else
         {
-
-
             hesapID = 1;
             hesapParentID = 0;
-            hesapAd = "1-2" ;
+            hesapAd = "1-2--------" ;
+            hesapLR = "1-2--------" ;
             hesapLeft  = 1 ;
             hesapRight = 2 ;
 
         }
 
 
-//        qDebug() << "*****************************************"
-//                 << "rowCount =" << reccount
-//                 << ".row = " << newIndex.row() << ".col =" << newIndex.column()
-//                 << "id"<< hesapID << " --"
-//                 << "pid"<< hesapParentID<< " --"
-//                 << "ad"<< hesapAd<< " --"
-//                 << "lft"<< hesapLeft<< " --"
-//                 << "rgt"<< hesapRight
-//                 <<"  ***************"   ;
+        qDebug() << "*--*"
+                 << " rowCount =" << reccount
+                 << "  r:" << newIndex.row()
+                 << "  c:" << newIndex.column()
+                 << "  id:"<< hesapID
+                 << "  pid:"<< hesapParentID
+                 << "  ad:"<< hesapAd
+                 << "  lft:"<< hesapLeft
+                 << "  rgt:"<< hesapRight
+                 <<"  *--*"   ;
 
         /////////////////////////////////////////
         /// node eklerken 3 ayrı durum vardır
@@ -244,22 +245,25 @@ void hC_HSP::tbkntrl()
 
         if ( reccount == 0 ) // dosyadaki kayıt sayısı "0" sa
         {
-            qDebug()<<"Dosyaya ilk kayıt ekleniyor...";
+            qDebug()<<"001 Dosyaya ilk kayıt ekleniyor...";
             // Dosyaya 1. kaydı ekle
             /// Dosyaya ilk kayıt durumunda lft=1 rgt=2 olacak
-            hesapLR = "'- 1-2'";
 
-            qStr = QString("INSERT INTO %1 ( hsp_id,hsp_parentid, hsp_ad, hsp_lft, hsp_rgt ) "
-                           "values ( '1', '0', "+ hesapLR+ ", 1, 2 )")
-                    .arg(*tb_name) ;
+
+            qStr = QString("INSERT INTO "+*tb_name +
+                           " ( hsp_id, hsp_parentid,"
+                           " hsp_ad, hsp_lft, hsp_rgt ) "
+                           " values ( '1', '0', "
+                           " '1-2***', 1, 2 )");
+
             if ( !query.exec(qStr) )
             {
-                mesaj = mesaj + "- İlk node e k l e n e m e d i ...\n/n"+
+                mesaj = mesaj + "002x- İlk node e k l e n e m e d i ...\n/n"+
                         query.lastError().text ();
             }
             else
             {
-                mesaj = mesaj + "- İlk node eklendi - " + hesapLR;
+                mesaj = mesaj + "002- İlk node eklendi - " + hesapLR;
             }
         } // 01 Dosya BOŞtu ilk node oluşturuldu
         else // 02 dosya BOŞ DEĞİL - 1 veya daha fazla kayıt var
@@ -271,7 +275,7 @@ void hC_HSP::tbkntrl()
                 /// eklemek istediğimiz node un altında
                 /// child Y O K S A
                 ///
-                qDebug()<<"Leaf ekle";
+
                 /// diğer right ları 2 artır
                 qStr = QString("UPDATE %1 SET hsp_rgt = hsp_rgt + 2 "
                                "WHERE hsp_rgt >= %2 ")
@@ -309,15 +313,17 @@ void hC_HSP::tbkntrl()
                         QString::number(hesapRight+2) + "'";
 
                 qDebug()<< hesapLR << "*************************************";
-<<<<<<< HEAD
-                qStr = QString("INSERT INTO "+*tb_name+" ( hsp_id, hsp_parentid, hsp_ad, hsp_lft, hsp_rgt ) "
-                                                       "values ( "+ QString::number(*max_id) +
+
+                qStr = QString("INSERT INTO "+*tb_name
+                               +" (hsp_id, hsp_parentid, "
+                                 "hsp_ad, hsp_lft, hsp_rgt ) "
+                        "values ( "+ QString::number(*max_id) +
                                " , "+QString::number(hesapID)+
                                ", "+hesapLR+" , %5, %6 )")
                         .arg(hesapLeft+1)
                         .arg(hesapLeft+2) ;
-=======
-                qStr = QString("INSERT INTO '%1' ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
+
+               /* qStr = QString("INSERT INTO '%1' ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
                                "values ( %2 , %3, %4 , %5 )")
                         .arg(*tb_name)
                         .arg(*max_id)
@@ -326,7 +332,7 @@ void hC_HSP::tbkntrl()
                         .arg(hesapRight+2) ;
 >>>>>>> 259a6c4e1ba8dbb03f7c89171a3043a5c8aa48c7
                 ///        .arg(hesapRight+1)
-                ///        .arg(hesapRight+2) ;
+                ///        .arg(hesapRight+2) ;*/
 
                 if ( !query.exec(qStr) )
                 {
@@ -334,6 +340,10 @@ void hC_HSP::tbkntrl()
                             "-4-----------------------------------"+
                             query.lastError().text ()+
                             "--41----------------------------------";
+                }
+                else
+                {
+                    mesaj = mesaj  + "Leaf added";
                 }
             }
             else
@@ -374,18 +384,21 @@ void hC_HSP::tbkntrl()
                 ///int* max_id = new int{};
                 //*max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
                 ////////////////////////////////////////////////
-                hesapLR = QString::number(hesapLeft+1) +" - "+
-                        QString::number(hesapLeft+2);
+                hesapLR = QString::number(hesapRight+1) +" - "+
+                        QString::number(hesapRight+2);
                 //QString hesapLR = QString::number(hesapRight+1) +" - "+
                 //                  QString::number(hesapRight+2);
 
-                qStr = QString("INSERT INTO '%1' ( hsp_id, hsp_ad, hsp_lft, hsp_rgt ) "
-                               "values ( %2 ,'%3', %4, %5 )")
-                        .arg(*tb_name)
-                        .arg(*max_id)
-                        .arg(hesapLR)
-                        .arg(hesapRight+1)
-                        .arg(hesapRight+2) ;
+                qStr = QString("INSERT INTO "+*tb_name
+                               +" (hsp_id, hsp_parentid, "
+                                 "hsp_ad, hsp_lft, hsp_rgt ) "
+                                 "values ( "+ QString::number(*max_id) +
+                               " , "+QString::number(hesapID)+
+                               ", "+hesapLR+" , %5, %6 )")
+                           .arg(hesapRight+1)
+                           .arg(hesapRight+2) ;
+
+
 
                 if ( !query.exec(qStr) )
                 {
@@ -394,6 +407,11 @@ void hC_HSP::tbkntrl()
                             query.lastError().text ()+
                             "--41--------------------------------";
                 }
+                else
+                {
+                    mesaj = mesaj  + "Node added";
+                }
+
 
                 //                qDebug () << "ID:"<<hesapID    << " - "
                 //                          << "Ad:"<<hesapAd    << " --- "
@@ -475,16 +493,28 @@ void hC_HSP::tbkntrl()
 
             if(dlg == QMessageBox::Yes)
             {
+                QModelIndex indx2 = tb_view->table->model()->
+                    index(tb_view->table->currentIndex().row()  - 1, 0);
+
+
                 // remove the current index
                 // pmodel->beginRemoveColumn();
                 tb_model->removeRow(indx.row());
                 //pmodel->endRemoveColumns();
                 tb_model->select();
-                QModelIndex indx2 = tb_view->table->model()->
-                        index(tb_view->table->currentIndex().row()  - 1, 0);
+                tb_view->table->setSelectionMode (QAbstractItemView::SingleSelection);
+                tb_view->table->setSelectionBehavior (QAbstractItemView::SelectRows);
+                tb_view->table->scrollTo (indx2);
+                tb_view->table->selectRow (indx2.row()-1);
+                 tb_view->table->scrollTo (indx2);
+                tb_vi ew->table->setSelectionBehavior (QAbstractItemView::SelectItems);
 
-                tb_view->table->setCurrentIndex(indx2);
-                tb_view->table->edit(indx2);
+//                QModelIndex indx2 = tb_view->table->model()->
+//                        index(tb_view->table->currentIndex().row()  - 1, 0);
+//                tb_view->table->selectionModel()->select(
+//                    indx2,QItemSelectionModel::ClearAndSelect);
+               // tb_view->table->setCurrentIndex(indx2);
+               // tb_view->table->edit(indx2);
             }
         }
     });
@@ -542,6 +572,11 @@ void hC_HSP::tbkntrl()
 void hC_HSP::showEvent(QShowEvent *)
 {
     qDebug() << "Hesap dosyası açılıyor";
+}
+
+void hC_HSP::slt_tbx_rowChange()
+{
+
 }
 
 
