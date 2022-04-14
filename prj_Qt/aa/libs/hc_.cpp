@@ -131,7 +131,8 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     // widget_table->setLayout (Layout_table);
 
     table = new QTableView;
-
+    tb_slctnModel = new QItemSelectionModel ;
+    table->setSelectionModel(tb_slctnModel);
     table->setMinimumWidth (240);
     table->setMinimumHeight (150);
 
@@ -447,7 +448,7 @@ hC_tBcreator::hC_tBcreator (QWidget *parent)
     win_Wdgt  = new QWidget;
 
     tb_view   = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
-
+    //tb_view->table->setSelectionModel(tbx_slctnMdl );
     /*   qDebug () <<endl<<"Preparing at hC_ ..."
                  <<endl<<"   Dosya : "<< *tb_name << " - " << tb_name
                  <<endl<<"   Index : "<< *tb_ndex << " - " << tb_ndex

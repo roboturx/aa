@@ -43,6 +43,7 @@ private:
     void tbwdgt  () ;
     void tbui    () ;
     void tbkntrl () ;
+    void debugger(QString num) ;
 
 protected:
     void showEvent(QShowEvent *);

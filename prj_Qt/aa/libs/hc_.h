@@ -130,6 +130,7 @@ public:
     ~hC_Tv();
 
     QTableView  * table;
+    QItemSelectionModel * tb_slctnModel;
     QCheckBox   * cB_map;
     QPushButton * pB_ekle   ;
     QPushButton * pB_eklersm;
