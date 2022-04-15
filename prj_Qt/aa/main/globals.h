@@ -11,6 +11,10 @@
 #include "VTKontrol.h"
 #include "VTTekton.h"
 
+#include <QtGlobal>
+#include <qapplication.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 
 #include <QtCore>
