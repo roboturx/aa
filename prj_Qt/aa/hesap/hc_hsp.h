@@ -35,7 +35,7 @@ public:
     int hesapLeft{};
     int hesapRight{};
     int reccount{};
-    QModelIndex newIndex;
+    QModelIndex curIndex;
 
     void tbsetup () ;
 
