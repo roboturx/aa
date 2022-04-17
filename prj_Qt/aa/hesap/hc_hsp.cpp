@@ -1,5 +1,6 @@
 #include "hc_hsp.h"
 
+
 hC_HSP::hC_HSP() : hC_tBcreator ()
 {
     qDebug ()<<"Constructor HESAP ********************************";
@@ -157,6 +158,10 @@ void hC_HSP::tbwdgt()
 
 void hC_HSP::debugger(QString num)
 {
+
+
+
+
     curIndex = tb_view->table->currentIndex ();
     qDebug() << num+num+num
              << " rCnt =" <<  tb_model->rowCount()
@@ -585,4 +590,5 @@ hC_HSP::~hC_HSP()
     qDebug() << "*********** destructor Hesap";
     //delete
 }
+
 

@@ -2,6 +2,7 @@
 #define hC_HSP_H
 
 #include "main/globals.h"
+
 namespace nSHsp
 {
 class hC_HSP;
@@ -39,6 +40,7 @@ public:
 
     void tbsetup () ;
 
+
 private:
     void tbwdgt  () ;
     void tbui    () ;
@@ -50,9 +52,13 @@ protected:
 
 //signals:
 //    void sgnHsp (const QString sgnHspID); //
-private slots:
-    void slt_tbx_rowChange(); //connect selectionmodel change
 
+
+
+
+private slots:
+
+    void slt_tbx_rowChange(); //connect selectionmodel change
 };
 
 #endif // hC_HSP_H

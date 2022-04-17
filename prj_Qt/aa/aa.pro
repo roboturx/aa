@@ -28,6 +28,9 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 SOURCES +=\
     hesap/hc_hsp.cpp \
     hesap/hc_hspdty.cpp \
+    hesap/hc_tree.cpp \
+    hesap/treeitem.cpp \
+    hesap/treemodel.cpp \
     main/main.cpp \
     main/VTKontrol.cpp \
     main/cw_hkk.cpp \
@@ -63,6 +66,9 @@ HEADERS  += \
  #   main/main.h \
     hesap/hc_hsp.h \
     hesap/hc_hspdty.h \
+    hesap/hc_tree.h \
+    hesap/treeitem.h \
+    hesap/treemodel.h \
     main/VTKontrol.h \
     main/cw_hkk.h \
     main/mw_main.h \

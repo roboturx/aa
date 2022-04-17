@@ -23,6 +23,7 @@
 #include <QtPrintSupport/QPrintDialog>
 #include <QtWidgets>
 
+#include <QAbstractItemModel>
 #include <QAction>
 #include <QApplication>
 
