@@ -60,7 +60,8 @@ class TreeItem
 public:
     explicit TreeItem(const QList<QVariant> &data,
                       unsigned int id,
-                      TreeItem *parent = nullptr );
+                      TreeItem *parent = nullptr
+                      );
     ~TreeItem();
 
     void appendChild(TreeItem *child);//

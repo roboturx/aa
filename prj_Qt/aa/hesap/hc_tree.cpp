@@ -3,12 +3,15 @@
 hC_tree::hC_tree(QWidget *parent )
     : QWidget{parent}
 {
+    qDebug () << "treeeeeeeeevieed 1";
     const QStringList headers({tr("Title"), tr("Description")});
     treemodel = new TreeModel (headers,this);
     treeview = new QTreeView(this);
     treeview->setModel(treemodel);
     for (int column = 0; column < treemodel->columnCount(); ++column)
         treeview->resizeColumnToContents(column);
+treeview->show();
+
 
     connect(treeview->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &hC_tree::updateActions);
@@ -38,6 +41,7 @@ hC_tree::hC_tree(QWidget *parent )
                      &hC_tree::insertChild);
 
     updateActions();
+
 }
 
 

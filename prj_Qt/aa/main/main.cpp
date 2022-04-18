@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
 
 
-    qInstallMessageHandler(myMessageOutput);
+   // qInstallMessageHandler(myMessageOutput);
     QApplication a(argc, argv);
 
 ///////////////////////////////////////////////////////////////////
@@ -137,23 +137,37 @@ int main(int argc, char *argv[])
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
+
+
+    QString xfile = context.file ;
+    qDebug() << xfile;
+    xfile=xfile.mid(xfile.indexOf("aa"));
+    qDebug() << xfile;
+
+
     switch (type) {
     case QtDebugMsg:
-        fprintf(stderr, "Debug: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        //fprintf(stderr, "Dbg: %s \n(%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fprintf(stderr, "Dbg:");
         break;
     case QtInfoMsg:
-        fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        //fprintf(stderr, "Inf: %s \n(%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fprintf(stderr, "Inf:");
         break;
     case QtWarningMsg:
-        fprintf(stderr, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        //fprintf(stderr, "War: %s \n(%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fprintf(stderr, "War:");
         break;
     case QtCriticalMsg:
-        fprintf(stderr, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        //fprintf(stderr, "Crt: %s \n(%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fprintf(stderr, "Crt:");
         break;
     case QtFatalMsg:
-        fprintf(stderr, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        //fprintf(stderr, "Ftl: %s \n(%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        fprintf(stderr, "Ftl:");
         break;
     }
+    fprintf(stderr, "%s \n(%d, %s)\n", localMsg.constData(), context.line, context.function);
 }
 
 

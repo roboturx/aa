@@ -70,12 +70,15 @@ void hC_HSP::tbui()
 
     qDebug() << "   ui";
 
-    hC_HSP::setWindowTitle (win_Label->text ());
-    this->setGeometry (20,20,600,400);
-    auto *win_grid = new QGridLayout(this);
-    win_grid->addWidget (tb_view  , 0, 0, 1, 1);
-    win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+    tb_treeview = new hC_tree;
+    tb_treeview->show();
 
+    hC_HSP::setWindowTitle (win_Label->text ());
+    this->setGeometry (20,20,800,400);
+    auto *win_grid = new QGridLayout(this);
+    win_grid->addWidget (tb_view  , 0, 2, 1, 1);
+    win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+    win_grid->addWidget (tb_treeview   , 0, 0, 1, 1);
 }
 void hC_HSP::tbwdgt()
 {
@@ -151,6 +154,7 @@ void hC_HSP::tbwdgt()
     win_Grid->addWidget(lE_lft     , 8, 1, 1, 2);
     win_Grid->addWidget(lB_rgt     , 9, 0, 1, 1);
     win_Grid->addWidget(lE_rgt     , 9, 1, 1, 2);
+
     //  xx2=1;
     win_Grid->addWidget(win_Rsm       , 7, 4, 3, 2);
 

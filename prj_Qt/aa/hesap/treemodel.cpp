@@ -1,8 +1,5 @@
 #include "treemodel.h"
 
-//! [0]
-//TreeModel::TreeModel(const QStringList &headers, const QString &data, QObject *parent)
-    //: QAbstractItemModel(parent)
 TreeModel::TreeModel(const QStringList &headers, QObject *parent)
     : QAbstractItemModel(parent)
 
@@ -241,80 +238,81 @@ int TreeModel::findNode(unsigned int& hash, const QList<TreeItem*>& tList)
 //void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 void TreeModel::setupModelData(TreeItem *parent)
 {
+    /// parents : parent node ların listesi
     QList<TreeItem *> parents;
-   // QList<int> indentations;///
+    /// ilk parent rootdata : treenin kökü
     parents << parent;
-    //indentations << 0;///
 
-//    int number = 0;
+  //  QString knm_ad = "my_db_knm_ad";
+   //     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+   //     db.setDatabaseName(knm_ad);
+    QSqlQuery query;
+QString qStr, mesaj;
+     qStr = "CREATE TABLE IF NOT EXISTS dbtb_knm "
+                        "( knm_id INTEGER PRIMARY KEY ,"
+                        "  knm_ad TEXT"
+                        " )";
+      if ( ! query.exec (qStr))
+      {
+          mesaj = "HATA - Konum Dosyası Oluştur u l a m a d ı . . .  "
+                  "------------------------------------<br>"+
+                              query.lastError().text() +
+                  "------------------------------------";
+      }
+      else
+      {
+         /* qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\bbbb\\cccc') ";
+          if (query.exec(qStr))
+          {
+              qDebug () << "path added";
+          }
+          else
+          {
+              qDebug () << "path NOT added " + query.lastError().text();
+          }
+          qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\xxxx\\cccc') ";
+          if (query.exec(qStr))
+          {
+              qDebug () << "path added";
+          }
+          else
+          {
+              qDebug () << "path NOT added " + query.lastError().text();
+          }
+          qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\bbbb\\dddddddd') ";
+          if (query.exec(qStr))
+          {
+              qDebug () << "path added";
+          }
+          else
+          {
+              qDebug () << "path NOT added " + query.lastError().text();
+          }*/
+      }
 
-//    while (number < lines.count()) {
-//        int position = 0;
-//        while (position < lines[number].length()) {
-//            if (lines[number].at(position) != ' ')
-//                break;
-//            ++position;
-//        }
-
-//        const QString lineData = lines[number].mid(position).trimmed();
-
-//        if (!lineData.isEmpty()) {
-//            // Read the column data from the rest of the line.
-//            const QStringList columnStrings =
-//                lineData.split(QLatin1Char('\t'), Qt::SkipEmptyParts);
-//            QList<QVariant> columnData;
-//            columnData.reserve(columnStrings.size());
-//            for (const QString &columnString : columnStrings)
-//                columnData << columnString;
-
-//            if (position > indentations.last()) {
-//                // The last child of the current parent is now the new parent
-//                // unless the current parent has no children.
-
-//                if (parents.last()->childCount() > 0) {
-//                    parents << parents.last()->child(parents.last()->childCount()-1);
-//                    indentations << position;
-//                }
-//            } else {
-//                while (position < indentations.last() && parents.count() > 0) {
-//                    parents.pop_back();
-//                    indentations.pop_back();
-//                }
-//            }
-
-//            // Append a new item to the current parent's list of children.
-//            TreeItem *parent = parents.last();
-//            parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
-//            for (int column = 0; column < columnData.size(); ++column)
-//                parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
-//        }
-//        ++number;
-    QString path = "my_db_path";
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName(path);
-        if(db.open())
-        {
-            QSqlQuery query("SELECT path, id_file FROM file");
-            int idPath = query.record().indexOf("path");
-            int idIdx = query.record().indexOf("id_file");
+   //     if(db.open())
+    //    {
+            query.exec("SELECT knm_ad, knm_id FROM file");
+            int idknm_ad = query.record().indexOf("knm_ad");
+            int idIdx = query.record().indexOf("knm_id");
 
             while (query.next())
             {
-               QString name = query.value(idPath).toString();
-               int id_file = query.value(idIdx).toInt();
+               QString name = query.value(idknm_ad).toString();
+               int knm_id = query.value(idIdx).toInt();
 
                QStringList nodeString = name.split("\\", Qt::SkipEmptyParts);
 
-               QString temppath = "";
+               QString tempknm_ad = "";
 
                int lastidx = 0;
                for(int node = 0; node < nodeString.count(); ++node)
                {
-                   temppath += nodeString.at(node);
+                   tempknm_ad += nodeString.at(node);
                    if(node != nodeString.count() - 1)
-                       temppath += "\\";
+                       tempknm_ad += "\\";
 
-                   unsigned int hash = qHash(temppath);
+                   unsigned int hash = qHash(tempknm_ad);
                    QList<QVariant> columnData;
 
                    columnData << nodeString.at(node);
@@ -327,27 +325,27 @@ void TreeModel::setupModelData(TreeItem *parent)
                    }
                    else
                    {
-                       QString sQuery =  "";
+                       qStr =  "";
                        if(node == nodeString.count() - 1)
                        {
-                           sQuery += "SELECT count(*) FROM version WHERE id_file=";
-                           sQuery += QString::number(id_file);
-                           sQuery += ";";
+                           qStr += "SELECT count(*) FROM version WHERE knm_id=";
+                           qStr += QString::number(knm_id);
+                           qStr += ";";
                        }
                        else
                        {
 
-                           sQuery += "SELECT count(*) FROM file WHERE path like '";
-                           sQuery += temppath;
-                           sQuery += "%';";
+                           qStr += "SELECT count(*) FROM file WHERE knm_ad like '";
+                           qStr += tempknm_ad;
+                           qStr += "%';";
                        }
 
 
                        int nChild = 0;
-                       QSqlQuery query2(sQuery);
+                       query.exec(qStr);
 
-                       if(query2.next())
-                            nChild = query2.value(0).toInt();
+                       if(query.next())
+                            nChild = query.value(0).toInt();
 
                        columnData << nChild;
 
@@ -370,7 +368,7 @@ void TreeModel::setupModelData(TreeItem *parent)
                }
             }
         }
-    }
+  //  }
 
 /////////
 ///
@@ -500,32 +498,32 @@ void TreeModel::setupModelData(TreeItem *parent)
 //    QList<TreeItem*> parents;
 //    parents << parent;
 
-//    QString path = "my_db_path";
+//    QString knm_ad = "my_db_knm_ad";
 //    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-//    db.setDatabaseName(path);
+//    db.setDatabaseName(knm_ad);
 //    if(db.open())
 //    {
-//        QSqlQuery query("SELECT path, id_file FROM file");
-//        int idPath = query.record().indexOf("path");
-//        int idIdx = query.record().indexOf("id_file");
+//        QSqlQuery query("SELECT knm_ad, knm_id FROM file");
+//        int idknm_ad = query.record().indexOf("knm_ad");
+//        int idIdx = query.record().indexOf("knm_id");
 
 //        while (query.next())
 //        {
-//            QString name = query.value(idPath).toString();
-//            int id_file = query.value(idIdx).toInt();
+//            QString name = query.value(idknm_ad).toString();
+//            int knm_id = query.value(idIdx).toInt();
 
 //            QStringList nodeString = name.split("\\", QString::SkipEmptyParts);
 
-//            QString temppath = "";
+//            QString tempknm_ad = "";
 
 //            int lastidx = 0;
 //            for(int node = 0; node < nodeString.count(); ++node)
 //            {
-//                temppath += nodeString.at(node);
+//                tempknm_ad += nodeString.at(node);
 //                if(node != nodeString.count() - 1)
-//                    temppath += "\\";
+//                    tempknm_ad += "\\";
 
-//                unsigned int hash = qHash(temppath);
+//                unsigned int hash = qHash(tempknm_ad);
 //                QList<QVariant> columnData;
 
 //                columnData << nodeString.at(node);
@@ -538,27 +536,27 @@ void TreeModel::setupModelData(TreeItem *parent)
 //                }
 //                else
 //                {
-//                    QString sQuery =  "";
+//                    QString qStr =  "";
 //                    if(node == nodeString.count() - 1)
 //                    {
-//                        sQuery += "SELECT count(*) FROM version WHERE id_file=";
-//                        sQuery += QString::number(id_file);
-//                        sQuery += ";";
+//                        qStr += "SELECT count(*) FROM version WHERE knm_id=";
+//                        qStr += QString::number(knm_id);
+//                        qStr += ";";
 //                    }
 //                    else
 //                    {
 
-//                        sQuery += "SELECT count(*) FROM file WHERE path like '";
-//                        sQuery += temppath;
-//                        sQuery += "%';";
+//                        qStr += "SELECT count(*) FROM file WHERE knm_ad like '";
+//                        qStr += tempknm_ad;
+//                        qStr += "%';";
 //                    }
 
 
 //                    int nChild = 0;
-//                    QSqlQuery query2(sQuery);
+//                    QSqlQuery query(qStr);
 
-//                    if(query2.next())
-//                        nChild = query2.value(0).toInt();
+//                    if(query.next())
+//                        nChild = query.value(0).toInt();
 
 //                    columnData << nChild;
 

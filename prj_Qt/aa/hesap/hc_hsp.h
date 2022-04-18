@@ -2,6 +2,7 @@
 #define hC_HSP_H
 
 #include "main/globals.h"
+#include "hc_tree.h"
 
 namespace nSHsp
 {
@@ -39,6 +40,9 @@ public:
     QModelIndex curIndex;
 
     void tbsetup () ;
+
+
+    hC_tree *tb_treeview;
 
 
 private:

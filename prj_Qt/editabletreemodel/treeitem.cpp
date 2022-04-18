@@ -60,8 +60,7 @@
 //TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
   //  : itemData(data), parentItem(parent)
 
-TreeItem::TreeItem(const QList<QVariant> &data,
-                       unsigned int id,
+TreeItem::TreeItem(const QList<QVariant> &data, unsigned int id,
                        TreeItem *parent)
         : m_itemData(data), m_parentItem(parent)
 {
