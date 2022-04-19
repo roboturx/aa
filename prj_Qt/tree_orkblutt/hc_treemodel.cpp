@@ -126,14 +126,65 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
     db.setDatabaseName(path);
     if(db.open())
     {
-        QSqlQuery query("SELECT path, id_file FROM file");
-        int idPath = query.record().indexOf("path");
-        int idIdx = query.record().indexOf("id_file");
+
+        QSqlQuery query;
+        QString qStr, mesaj;
+        qStr = "CREATE TABLE IF NOT EXISTS dbtb_knm "
+               "( knm_id INTEGER PRIMARY KEY ,"
+               "  knm_ad TEXT"
+               " )";
+        if ( ! query.exec (qStr))
+        {
+            mesaj = "HATA - Konum Dosyası Oluştur u l a m a d ı . . .  "
+                    "------------------------------------<br>"+
+                    query.lastError().text() +
+                    "------------------------------------";
+        }
+        else
+        {
+             qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\bbbb\\cccc') ";
+          if (query.exec(qStr))
+          {
+              qDebug () << "knm_ad added";
+          }
+          else
+          {
+              qDebug () << "knm_ad NOT added " + query.lastError().text();
+          }
+          qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\xxxx\\cccc') ";
+          if (query.exec(qStr))
+          {
+              qDebug () << "knm_ad added";
+          }
+          else
+          {
+              qDebug () << "knm_ad NOT added " + query.lastError().text();
+          }
+          qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\bbbb\\dddddddd') ";
+          if (query.exec(qStr))
+          {
+              qDebug () << "knm_ad added";
+          }
+          else
+          {
+              qDebug () << "knm_ad NOT added " + query.lastError().text();
+          }
+        }
+
+
+
+        qStr="SELECT knm_ad, knm_id FROM dbtb_knm";
+        if (!query.exec (qStr))
+            qDebug () << "1 ????";
+
+
+        int idPath = query.record().indexOf("knm_ad");
+        int idIdx = query.record().indexOf("knm_id");
 
         while (query.next())
         {
             QString name = query.value(idPath).toString();
-            int id_file = query.value(idIdx).toInt();
+            int knmid = query.value(idIdx).toInt();
 
             QStringList nodeString = name.split("\\", Qt::SkipEmptyParts);
 
@@ -159,27 +210,30 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                 }
                 else
                 {
-                    QString sQuery =  "";
+                    qStr =  "";
                     if(node == nodeString.count() - 1)
                     {
-                        sQuery += "SELECT count(*) FROM version WHERE id_file=";
-                        sQuery += QString::number(id_file);
-                        sQuery += ";";
+                        //qStr += "SELECT count(*) FROM version WHERE knm_id=";
+                        qStr += "SELECT count(*) FROM dbtb_knm WHERE knm_id=";
+                        qStr += QString::number(knmid);
+                        qStr += ";";
                     }
                     else
                     {
 
-                        sQuery += "SELECT count(*) FROM file WHERE path like '";
-                        sQuery += temppath;
-                        sQuery += "%';";
+                        qStr += "SELECT count(*) FROM dbtb_knm WHERE knm_ad like '";
+                        qStr += temppath;
+                        qStr += "%';";
                     }
 
 
                     int nChild = 0;
-                    QSqlQuery query2(sQuery);
 
-                    if(query2.next())
-                        nChild = query2.value(0).toInt();
+                    if (!query.exec (qStr))
+                        qDebug () << "2 ????";
+
+                    if(query.next())
+                        nChild = query.value(0).toInt();
 
                     columnData << nChild;
 
