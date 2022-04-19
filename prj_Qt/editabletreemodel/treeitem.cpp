@@ -60,8 +60,9 @@
 //TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent)
   //  : itemData(data), parentItem(parent)
 
-TreeItem::TreeItem(const QList<QVariant> &data, unsigned int id,
-                       TreeItem *parent)
+TreeItem::TreeItem(const QList<QVariant> &data,
+                   unsigned int id,
+                   TreeItem *parent)
         : m_itemData(data), m_parentItem(parent)
 {
     m_parentItem = parent;
@@ -123,6 +124,15 @@ QVariant TreeItem::data(int column) const
     return m_itemData.at(column);
     //return m_itemData.value(column);
 }
+
+
+
+//! [9]
+TreeItem *TreeItem::parent()///
+{
+    return m_parentItem;
+}
+//! [9]
 //! [6]
 int TreeItem::row() const
 {
@@ -131,6 +141,20 @@ int TreeItem::row() const
 
     return 0;
 }
+
+//! [11]
+bool TreeItem::setData(int column, const QVariant &value)///
+{
+    if (column < 0 || column >= m_itemData.size())
+        return false;
+
+    m_itemData[column] = value;
+    return true;
+}
+//! [11]
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 //! [7]
 bool TreeItem::insertChildren(int position, int count, int columns)///
 {
@@ -164,12 +188,7 @@ bool TreeItem::insertColumns(int position, int columns)///
 }
 //! [8]
 
-//! [9]
-TreeItem *TreeItem::parent()///
-{
-    return m_parentItem;
-}
-//! [9]
+
 
 //! [10]
 bool TreeItem::removeChildren(int position, int count)///
@@ -197,17 +216,6 @@ bool TreeItem::removeColumns(int position, int columns)///
 
     return true;
 }
-
-//! [11]
-bool TreeItem::setData(int column, const QVariant &value)///
-{
-    if (column < 0 || column >= m_itemData.size())
-        return false;
-
-    m_itemData[column] = value;
-    return true;
-}
-//! [11]
 
 
 

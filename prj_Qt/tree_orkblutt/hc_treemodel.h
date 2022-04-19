@@ -24,11 +24,22 @@ public:
         int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
         int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
+        //editables
+        bool setData(const QModelIndex &index, const QVariant &value,
+                     int role = Qt::EditRole) override;///
+        bool setHeaderData(int section, Qt::Orientation orientation,///
+                           const QVariant &value, int role = Qt::EditRole) override;
+
+
     private:
         void setupModelData(hC_TreeItem *parent);
         int findNode(unsigned int& hash, const QList<hC_TreeItem*>& tList);
-
         hC_TreeItem *rootItem;
+
+        //////editable
+        hC_TreeItem *getItem(const QModelIndex &index) const;///
+
+
 
     };
 #endif // HC_TREEMODEL_H

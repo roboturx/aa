@@ -7,7 +7,7 @@ hC_TreeModel::hC_TreeModel(QObject *parent)
 {
     QList<QVariant> rootData;
     rootData << "Nom" << "Nombre d'éléments";
-    rootItem = new hC_TreeItem(rootData);
+    rootItem = new hC_TreeItem(rootData,0);
     setupModelData(rootItem);
 }
 
@@ -29,7 +29,7 @@ QVariant hC_TreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole)
+    if (role != Qt::DisplayRole && role != Qt::EditRole)  /// editable
         return QVariant();
 
     hC_TreeItem *item = static_cast<hC_TreeItem*>(index.internalPointer());
@@ -40,9 +40,9 @@ QVariant hC_TreeModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags hC_TreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return Qt::NoItemFlags; //0
+        return Qt::NoItemFlags;
 
-    return QAbstractItemModel::flags(index);
+    return Qt::ItemIsEditable | QAbstractItemModel::flags(index); //editable
 }
 
 QVariant hC_TreeModel::headerData(int section, Qt::Orientation orientation,
@@ -70,8 +70,8 @@ QModelIndex hC_TreeModel::index(int row, int column, const QModelIndex &parent)
     hC_TreeItem *childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
-    else
-        return QModelIndex();
+   // else
+    return QModelIndex();
 }
 
 QModelIndex hC_TreeModel::parent(const QModelIndex &index) const
@@ -80,7 +80,7 @@ QModelIndex hC_TreeModel::parent(const QModelIndex &index) const
         return QModelIndex();
 
     hC_TreeItem *childItem = static_cast<hC_TreeItem*>(index.internalPointer());
-    hC_TreeItem *parentItem = childItem->parentItem();
+    hC_TreeItem *parentItem = childItem->parent();
 
     if (parentItem == rootItem)
         return QModelIndex();
@@ -101,6 +101,47 @@ int hC_TreeModel::rowCount(const QModelIndex &parent) const
 
     return parentItem->childCount();
 }
+
+/////////////// editables
+bool hC_TreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role != Qt::EditRole)
+        return false;
+
+    hC_TreeItem *item = getItem(index);
+    bool result = item->setData(index.column(), value);
+
+    if (result)
+        emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
+
+    return result;
+}
+
+bool hC_TreeModel::setHeaderData(int section, Qt::Orientation orientation,
+                              const QVariant &value, int role)
+{
+    if (role != Qt::EditRole || orientation != Qt::Horizontal)
+        return false;
+
+    const bool result = rootItem->setData(section, value);
+
+    if (result)
+        emit headerDataChanged(orientation, section, section);
+
+    return result;
+}
+
+hC_TreeItem *hC_TreeModel::getItem(const QModelIndex &index) const///
+{
+    if (index.isValid()) {
+        hC_TreeItem *item = static_cast<hC_TreeItem*>(index.internalPointer());
+        if (item)
+            return item;
+    }
+    return rootItem;
+}
+
+////////////////////////////// editables
 
 int hC_TreeModel::findNode(unsigned int& hash, const QList<hC_TreeItem *> &tList)
 {
@@ -127,7 +168,7 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
     if(db.open())
     {
 
-        QSqlQuery query;
+        QSqlQuery query,query2;
         QString qStr, mesaj;
         qStr = "CREATE TABLE IF NOT EXISTS dbtb_knm "
                "( knm_id INTEGER PRIMARY KEY ,"
@@ -141,8 +182,8 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                     "------------------------------------";
         }
         else
-        {
-             qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\bbbb\\cccc') ";
+        { /*
+             qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\1234\\bb\\cccc') ";
           if (query.exec(qStr))
           {
               qDebug () << "knm_ad added";
@@ -151,7 +192,7 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
           {
               qDebug () << "knm_ad NOT added " + query.lastError().text();
           }
-          qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\xxxx\\cccc') ";
+         qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\xxxx\\cccc') ";
           if (query.exec(qStr))
           {
               qDebug () << "knm_ad added";
@@ -168,15 +209,22 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
           else
           {
               qDebug () << "knm_ad NOT added " + query.lastError().text();
-          }
+          }*/
         }
 
 
 
         qStr="SELECT knm_ad, knm_id FROM dbtb_knm";
         if (!query.exec (qStr))
-            qDebug () << "1 ????";
+        {
+            qDebug () << "1 ???? << query" << query.lastError().text() ;
+        }
+        else
+        {
 
+            qDebug () << "1 query.rc" << rowCount();
+
+        }
 
         int idPath = query.record().indexOf("knm_ad");
         int idIdx = query.record().indexOf("knm_id");
@@ -185,7 +233,7 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
         {
             QString name = query.value(idPath).toString();
             int knmid = query.value(idIdx).toInt();
-
+ qDebug () << "name " << name;
             QStringList nodeString = name.split("\\", Qt::SkipEmptyParts);
 
             QString temppath = "";
@@ -203,6 +251,7 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                 columnData << nodeString.at(node);
 
                 int idx = findNode(hash, parents);
+
 
                 if(idx != -1)
                 {
@@ -229,27 +278,50 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
 
                     int nChild = 0;
 
-                    if (!query.exec (qStr))
+                    if (!query2.exec (qStr))
                         qDebug () << "2 ????";
 
-                    if(query.next())
-                        nChild = query.value(0).toInt();
+                    if(query2.next())
+                        nChild = query2.value(0).toInt();
 
                     columnData << nChild;
 
                     if(lastidx != -1)
                     {
-                        parents.at(lastidx)->appendChild(new hC_TreeItem(columnData, parents.at(lastidx), hash));
-                        parents <<  parents.at(lastidx)->child( parents.at(lastidx)->childCount()-1);
+                        parents.at(lastidx)->appendChild(
+                                    new hC_TreeItem(columnData, hash, parents.at(lastidx)));
+                        parents <<  parents.at(lastidx)->child(
+                                        parents.at(lastidx)->childCount()-1);
                         lastidx = -1;
                     }
                     else
                     {
-                        parents.last()->appendChild(new hC_TreeItem(columnData, parents.last(), hash));
-                        parents <<  parents.last()->child( parents.last()->childCount()-1);
+                        parents.last()->appendChild(
+                                    new hC_TreeItem(columnData, hash, parents.last()));
+                        parents <<  parents.last()->child(
+                                        parents.last()->childCount()-1);
                     }
+
+
                 }
             }
+
         }
+        //////////////////////////////
+qDebug() << "----------- p.length " << parents.length();
+        int i = 0;
+         do
+        {
+           qDebug() << "parents - " << parents.at(i)->data(0).toString()
+                    << " - "
+                    << parents.at(i)->data(1).toString()
+                    << " --- i="<< i << "--" <<(i < parents.length());
+           i++;
+        }
+        while ( i < parents.length());
+
+        ///////////////////////////////////////
+
+
     }
 }

@@ -7,7 +7,9 @@
 class hC_TreeItem
 {
 public:
-    explicit hC_TreeItem(const QList<QVariant> &data, hC_TreeItem *parentItem = 0, unsigned int id = 0);
+    explicit hC_TreeItem(const QList<QVariant> &data,
+                         unsigned int id ,
+                         hC_TreeItem *parent = 0);
     ~hC_TreeItem();
 
     void appendChild(hC_TreeItem *child);
@@ -16,14 +18,16 @@ public:
     int childCount() const;
     int columnCount() const;
     QVariant data(int column) const;
+    hC_TreeItem *parent(); // treemodel de çağrılır
+
     int row() const;
 
+    int childNumber() const;///
+
+    ///editables
+    bool setData(int column, const QVariant &value);///
     unsigned int getIndex(){return _id;};
-
-    hC_TreeItem *parentItem();
-
 private:
-
     QList<hC_TreeItem*> m_childItems;
     QList<QVariant> m_itemData;
     hC_TreeItem *m_parentItem;
