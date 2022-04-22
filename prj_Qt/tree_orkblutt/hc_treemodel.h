@@ -2,11 +2,14 @@
 #define HC_TREEMODEL_H
 
 
-#include "hc_treeitem.h"
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
-    class hC_TreeModel : public QAbstractItemModel
+
+#include "hc_treeitem.h"
+//#include "hc_tree.h"
+
+class hC_TreeModel : public QAbstractItemModel //, public hC_Tree
 {
     Q_OBJECT
 public:

@@ -8,6 +8,7 @@ hC_TreeItem::hC_TreeItem(const QList<QVariant> &data,
                          hC_TreeItem *parent)
                     : m_itemData(data), m_parentItem(parent)
 {
+    qDebug() <<"------- treeitem constructor --------------";
     m_parentItem = parent;
     m_itemData = data;
     _id = id;
@@ -59,6 +60,7 @@ int hC_TreeItem::row() const
 {
     if (m_parentItem)
         return m_parentItem->m_childItems.indexOf(const_cast<hC_TreeItem*>(this));
+
 
     return 0;
 }

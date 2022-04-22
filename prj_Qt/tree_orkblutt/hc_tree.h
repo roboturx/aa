@@ -6,6 +6,8 @@
 #include "hc_treeitem.h"
 #include "hc_treemodel.h"
 
+//class hC_TreeModel;
+
 class hC_Tree : public QWidget
 {
     Q_OBJECT

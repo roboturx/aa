@@ -1,13 +1,22 @@
 #include "hc_treemodel.h"
+#include <QSql>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
+#include <QSqlDatabase>
 #include <QStringList>
-#include <QtSql>
+
+
 hC_TreeModel::hC_TreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 
 {
+    qDebug() <<"--------------------- treemodel constructor";
     QList<QVariant> rootData;
-    rootData << "Nom" << "Nombre d'éléments";
+    rootData << "Account " << "Account number";
+    qDebug() <<"--------------------- treemodel -> Treeitem first rootitem";
     rootItem = new hC_TreeItem(rootData,0);
+    qDebug() <<"--------------------- treemodel setup model data";
     setupModelData(rootItem);
 }
 
@@ -103,13 +112,31 @@ int hC_TreeModel::rowCount(const QModelIndex &parent) const
 }
 
 /////////////// editables
-bool hC_TreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool hC_TreeModel::setData(const QModelIndex &index,
+                           const QVariant &value,
+                           int role)
 {
+    qDebug() <<"-***- treemodel setdata ";
+    qDebug() <<"    -***- treemodel setdata index = "<< index ;
+    qDebug() <<"    -***- treemodel setdata value = "<< value;
+    qDebug() <<"    -***- treemodel setdata role = "<< role ;
     if (role != Qt::EditRole)
         return false;
 
+    /////////////////////////
+    /// \brief item
+    ///
     hC_TreeItem *item = getItem(index);
+    qDebug() <<"    -***- treemodel setdata getitem data0= " << item->data(0) ;
+    qDebug() <<"    -***- treemodel setdata getitem data1= " << item->data(1) ;
     bool result = item->setData(index.column(), value);
+    // veriyi değiştir //////////////////////////////////////////////////
+
+    hC_TreeItem *item2 = getItem(index);
+    qDebug() <<"    -***- treemodel setdata getitem data0= " << item2->data(0) ;
+    qDebug() <<"    -***- treemodel setdata getitem data1= " << item2->data(1) ;
+    ////////////////////
+    ///
 
     if (result)
         emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
@@ -170,61 +197,10 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
 
         QSqlQuery query,query2;
         QString qStr, mesaj;
-        qStr = "CREATE TABLE IF NOT EXISTS dbtb_knm "
-               "( knm_id INTEGER PRIMARY KEY ,"
-               "  knm_ad TEXT"
-               " )";
-        if ( ! query.exec (qStr))
-        {
-            mesaj = "HATA - Konum Dosyası Oluştur u l a m a d ı . . .  "
-                    "------------------------------------<br>"+
-                    query.lastError().text() +
-                    "------------------------------------";
-        }
-        else
-        { /*
-             qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\1234\\bb\\cccc') ";
-          if (query.exec(qStr))
-          {
-              qDebug () << "knm_ad added";
-          }
-          else
-          {
-              qDebug () << "knm_ad NOT added " + query.lastError().text();
-          }
-         qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\xxxx\\cccc') ";
-          if (query.exec(qStr))
-          {
-              qDebug () << "knm_ad added";
-          }
-          else
-          {
-              qDebug () << "knm_ad NOT added " + query.lastError().text();
-          }
-          qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\bbbb\\dddddddd') ";
-          if (query.exec(qStr))
-          {
-              qDebug () << "knm_ad added";
-          }
-          else
-          {
-              qDebug () << "knm_ad NOT added " + query.lastError().text();
-          }*/
-        }
-
-
-
         qStr="SELECT knm_ad, knm_id FROM dbtb_knm";
-        if (!query.exec (qStr))
-        {
-            qDebug () << "1 ???? << query" << query.lastError().text() ;
-        }
-        else
-        {
-
-            qDebug () << "1 query.rc" << rowCount();
-
-        }
+        if (!query.exec (qStr)){
+            qDebug () << "1 ???? << query" << query.lastError().text() ;}
+        else { qDebug () << "1 query.rc" << rowCount();  }
 
         int idPath = query.record().indexOf("knm_ad");
         int idIdx = query.record().indexOf("knm_id");
@@ -233,7 +209,7 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
         {
             QString name = query.value(idPath).toString();
             int knmid = query.value(idIdx).toInt();
- qDebug () << "name " << name;
+            qDebug () << "name " << name;
             QStringList nodeString = name.split("\\", Qt::SkipEmptyParts);
 
             QString temppath = "";
