@@ -8,11 +8,13 @@ CONFIG += c++17
 
 SOURCES += \
     dbase.cpp \
+    hc_treemodel.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     dbase.h \
+    hc_treemodel.h \
     mainwindow.h
 
 # Default rules for deployment.

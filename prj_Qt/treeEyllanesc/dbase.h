@@ -16,11 +16,11 @@ class dBase : public QSqlDatabase
 public:
 
     dBase();
-    bool createDb();
+    static bool createConnection();
     bool openDb();
 
     QSqlDatabase db;
-    QString dbName;
+
 
 };
 
