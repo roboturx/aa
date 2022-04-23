@@ -1,5 +1,9 @@
 #include "dbase.h"
-
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QMessageBox>
+#include <QSqlDriver>
 dBase::dBase()
 {
     createDb();
@@ -8,8 +12,25 @@ dBase::dBase()
 
 bool dBase::createDb()
 {
+
+    const QString DRIVER("QSQLITE");
+    if(QSqlDatabase::isDriverAvailable(DRIVER))
+        qDebug () <<"- QSQLITE available";
+
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbName);
+    if (!db.open()) {
+        QMessageBox::critical(nullptr, QObject::tr("Cannot open database"),
+                              QObject::tr("Unable to establish a database connection.\n"
+                                          "This example needs SQLite support. Please read "
+                                          "the Qt SQL driver documentation for information how "
+                                          "to build it.\n\n"
+                                          "Click Cancel to exit."), QMessageBox::Cancel);
+        return false;
+    }
+
+    QSqlQuery query;
+
     if (db.isValid())
     {
         qDebug () <<"--- db VALIDATED----" << db.driverName();
@@ -18,17 +39,19 @@ bool dBase::createDb()
     if( openDb() )
     {
         qDebug () <<"--- db OPENED for creating accounts table---";
-        QSqlQuery query;
+
         QString qStr{};
 
         qStr =  "CREATE TABLE IF NOT EXISTS adm_ac "
-                " ( "
-                "AcName TEXT,"
+                " ( AcName TEXT,"
                 "ActCod INTEGER,"
-                "GroupCode INTEGER "
-                " ) ";
+                "GroupCode INTEGER ) ";
 
-        if(!query.exec(qStr))
+
+        if(!query.exec( "CREATE TABLE IF NOT EXISTS adm_ac "
+                        " ( AcName TEXT,"
+                        "ActCod INTEGER,"
+                        "GroupCode INTEGER ) "))
         {
             qDebug()<<query.lastError().text();
             qDebug() << QSqlDatabase::drivers();
