@@ -6,12 +6,15 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    db = new dBase ;
-    treemodel = new hC_TreeModel;
+    //db = new dBase ;
+   // treemodel = new hC_TreeModel;
+
     QSortFilterProxyModel proxymodel;
-    proxymodel.setSourceModel(treemodel);
+   // proxymodel.setSourceModel(treemodel);
     QTreeView w;
-    w.setModel(&proxymodel);
+    QStandardItemModel* mystdmodel=modelle ();
+
+    w.setModel(mystdmodel);
     w.expandAll();
 
 }

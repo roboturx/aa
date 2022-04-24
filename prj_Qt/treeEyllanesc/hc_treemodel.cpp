@@ -1,16 +1,19 @@
 #include "hc_treemodel.h"
 #include <QTableView>
+#include "dbase.h"
 
+//hC_TreeModel::hC_TreeModel(QObject *parent)
+//    : QStandardItemModel{parent}
+hC_TreeModel::hC_TreeModel()
 
-hC_TreeModel::hC_TreeModel(QObject *parent)
-    : QStandardItemModel{parent}
 {
     modelle();
 }
 
-void hC_TreeModel::modelle()
+QStandardItemModel *hC_TreeModel::modelle()
 {
-    treemodel = new QStandardItemModel;
+    dBase db;
+    stdmodel = new QStandardItemModel;
     QSqlQuery  query("SELECT GroupCode, AcName, ActCod from adm_ac "
                      "ORDER BY ActCod ASC ");
 
@@ -29,26 +32,32 @@ void hC_TreeModel::modelle()
         QStandardItem *it = new QStandardItem(AcName);
         it->setData(ActCod, RelationRoles::CodeRole);
         if(GroupCode == 0)
-            treemodel->invisibleRootItem()->appendRow(it);
+            stdmodel->invisibleRootItem()->appendRow(it);
         else
         {
-            QModelIndexList ixs = treemodel->match(treemodel->index(0, 0),
+            QModelIndexList ixs = stdmodel->match(stdmodel->index(0, 0),
                                                   RelationRoles::CodeRole,
                                                   GroupCode,
                                                   1,
                                                   Qt::MatchExactly| Qt::MatchRecursive);
             if(ixs.size() > 0){
-                QStandardItem *parent = treemodel->itemFromIndex(ixs.first());
+                QStandardItem *parent = stdmodel->itemFromIndex(ixs.first());
                 parent->appendRow(it);
             }
         }
             qDebug()<<"33333 "<< AcName <<" code role : "<< RelationRoles::CodeRole;
     }
-    //  return *treemodel;
-    QTableView *xx =new QTableView;
-    xx->setWindowTitle("ddddd dddd ddddd");
-    xx->setModel(treemodel);
-    xx->show();
+
+
+    QTreeView w;
+    w.setModel(stdmodel);
+    w.expandAll();
+//    QTableView *xx =new QTableView;
+//    xx->setWindowTitle("ddddd dddd ddddd");
+//    xx->setModel(stdmodel);
+//    xx->show();
+
+    return stdmodel;
 }
 
 

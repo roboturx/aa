@@ -11,14 +11,14 @@ enum RelationRoles{
     CodeRole = Qt::UserRole + 1000,
 };
 
-class hC_TreeModel :  public QStandardItemModel
+class hC_TreeModel
 {
-    Q_OBJECT
-public:
-    explicit hC_TreeModel(QObject *parent = nullptr);
 
-    void modelle();
-    QStandardItemModel *treemodel;
+public:
+    explicit hC_TreeModel();
+
+    QStandardItemModel *modelle();
+    QStandardItemModel *stdmodel;
 
 signals:
 

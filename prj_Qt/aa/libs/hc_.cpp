@@ -4,7 +4,10 @@
 
 using namespace std;
 
-
+/// 0- hC_              - lib
+///
+///
+///
 hC_::hC_()
 {
 
@@ -14,7 +17,7 @@ hC_::hC_()
 //    T A B L E V I E W   -----> hC_Tv
 // /////////////////////////////////////////////////////////////////////////////////
 
-/// 3- hC_Tv     - menu eklenmiş tableview
+/// 1- hC_Tv     - menu eklenmiş tableview
 
 hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
               QDataWidgetMapper *tb_mapper ,
@@ -304,6 +307,12 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 hC_Tv::~hC_Tv()
 = default;
 
+
+/// 2- hC_Nr            - tableview da yeni eklenen kaydı bul
+///
+/// \brief hC_Nr::hC_Nr
+///
+///
 hC_Nr::hC_Nr()
 {
 
@@ -353,7 +362,7 @@ bool hC_Nr::hC_NrGo(hC_Tv* tb_view,
     ///
     ///
 
-        tb_model->select();
+    tb_model->select();
     bool boole = false;
     QModelIndex searchStartIndex;
     //if(!IEDETtview->table->currentIndex().isValid())
@@ -426,17 +435,20 @@ QModelIndex hC_Nr::hC_NrSetCurrentIndex(QModelIndex Index, int kolon2)
 
 
 
-
+///  3- hC_tBcreator
+///
 //////////////////////////////////////////////////////////
 /// \brief hC_tBcreator::hC_tBcreator
 ///
 ///   create table and others
+///
+///  9- hC_tBcreator
 
 
 hC_tBcreator::hC_tBcreator (QWidget *parent)
                       : QWidget(parent)
 {
-    //    this->_mesaj = "";
+
 
     /// create table
     win_Label = new QLabel ;
@@ -684,16 +696,18 @@ void hC_tBcreator::tbMap(hC_ArrD *tb_flds,
 
 
 
-
-// /////////////////////////////////////////////////////////////////////////////////
-
-
-//    L I N E D I T    -----> hC_Le
-
-// Sağda pushbutonu olan lineedit
-// /////////////////////////////////////////////////////////////////////////////////
-
 /// 4- hC_Le            - sağda pushbutton olan lineedit
+// /////////////////////////////////////////////////////////////////////////////////
+
+
+///    L I N E D I T    -----> hC_Le
+///
+///
+// /////////////////////////////////////////////////////////////////////////////////
+///
+
+///
+///
 
 hC_Le::hC_Le( QWidget *parent ) : QWidget (parent)
 {
@@ -728,7 +742,7 @@ hC_Le::~hC_Le()
 
 
 
-
+/// 5- hC_Te            - sağda pushbutton olan textedit
 // /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -737,7 +751,7 @@ hC_Le::~hC_Le()
 // Sağ tuş butonu olan textedit
 // /////////////////////////////////////////////////////////////////////////////////
 
-/// 4- hC_Te            - sağda pushbutton olan textedit
+
 
 hC_Te::hC_Te ( QWidget *parent ) : QWidget (parent)
 {
@@ -752,7 +766,7 @@ hC_Te::~hC_Te()
 
 
 
-/// 2- hC_Resim         - etiket üzerine diskten resim ekler,
+/// 6- hC_Resim         - etiket üzerine diskten resim ekler,
 ///                         resmi değiştirir, pencerede gösterir
 ///
 
@@ -859,7 +873,7 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
 }
 
 
-
+///  7- hC_Rm            - rel tb_model
 /*
 // /////////////////////////////////////////////////////////////////////////////////
 
@@ -869,7 +883,7 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
 // rel tb_model
 // /////////////////////////////////////////////////////////////////////////////////
 
-/// 4- hC_Rm            - rel tb_model
+
 
 hC_Rm::hC_Rm (QString *rm_Table,
               QSqlRelationalTableModel *rm_model,
@@ -907,6 +921,15 @@ hC_Rm::~hC_Rm()
 
 */
 
+
+/// 8- hC_Gz            - tarihi gizler ve açar
+///
+/// \brief hC_Gz::hC_Gz
+/// \param tarih
+/// \param vsbl
+///
+
+///
 hC_Gz::hC_Gz(QDateTimeEdit *tarih, QString vsbl)
 {
     if (vsbl == "0" )
@@ -944,6 +967,61 @@ hC_Gz::hC_Gz(QDateTimeEdit *tarih, QString vsbl)
 
 }
 
+/// /// 9- hC_Rc            - tablodaki rec sayısı
+/////////
+/// dosyadaki kayıt sayısını bul
+///
+/// The query returns a single column and a single row.
+///     Just read that value:
+///         query.first();
+///         count = query.value(0).toInt();
+///
+
+///
+///////////////////////////////////////////////////////////////
+
+
+//hC_recCount::hC_recCount()
+//{
+//    //qDebug () << "hc reccount constructor";
+//}
+
+//hC_recCount::~hC_recCount()
+//{
+//    //qDebug () << "hc reccount destructor";
+//}
+
+//int hC_recCount::recc(const QString &qStr)
+//{
+//    //qDebug () << "recc qstr =" << qStr << &qStr;
+//    QSqlQuery query;
+//    QString mesaj={};
+//    int reccount=0;
+//    if ( query.exec(qStr) )
+//    {
+//        //qDebug () << "query nin içi 1";
+//        query.first();
+//        reccount = query.value(0).toInt();
+//        mesaj = mesaj + "Dosyadaki kayıt sayısı = "+QString::number( reccount  ) ;
+//    }
+//    else
+//    {
+//        mesaj = mesaj + "Dosyadaki kayıt sayısı b e l i r l e n e m e d i . . . "+
+//                query.lastError().text ();
+//          // qDebug () << "query nin içi 2";
+//    }
+//    qDebug () << mesaj ;
+//    return reccount;
+//}
+
+
+
+/// /// 10- objectIsThere
+///
+/// \brief objectIsThere::objectIsThere
+///
+
+///
 
 objectIsThere::objectIsThere()
 {
@@ -974,48 +1052,4 @@ bool objectIsThere::ovarmi(QString *oName)
     }
 
     return boole;
-}
-
-
-/////////
-/// dosyadaki kayıt sayısını bul
-///
-/// The query returns a single column and a single row.
-///     Just read that value:
-///         query.first();
-///         count = query.value(0).toInt();
-///////////////////////////////////////////////////////////////
-
-
-hC_recCount::hC_recCount()
-{
-    //qDebug () << "hc reccount constructor";
-}
-
-hC_recCount::~hC_recCount()
-{
-    //qDebug () << "hc reccount destructor";
-}
-
-int hC_recCount::recc(const QString &qStr)
-{
-    //qDebug () << "recc qstr =" << qStr << &qStr;
-    QSqlQuery query;
-    QString mesaj={};
-    int reccount=0;
-    if ( query.exec(qStr) )
-    {
-        //qDebug () << "query nin içi 1";
-        query.first();
-        reccount = query.value(0).toInt();
-        mesaj = mesaj + "Dosyadaki kayıt sayısı = "+QString::number( reccount  ) ;
-    }
-    else
-    {
-        mesaj = mesaj + "Dosyadaki kayıt sayısı b e l i r l e n e m e d i . . . "+
-                query.lastError().text ();
-          // qDebug () << "query nin içi 2";
-    }
-    qDebug () << mesaj ;
-    return reccount;
 }
