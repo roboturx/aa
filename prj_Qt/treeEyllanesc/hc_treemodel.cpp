@@ -1,7 +1,8 @@
 #include "hc_treemodel.h"
 #include <QTableView>
 #include "dbase.h"
-
+#include <QTreeView>
+#include <QGridLayout>
 //hC_TreeModel::hC_TreeModel(QObject *parent)
 //    : QStandardItemModel{parent}
 hC_TreeModel::hC_TreeModel()
@@ -50,12 +51,17 @@ QStandardItemModel *hC_TreeModel::modelle()
 
 
     QTreeView w;
+    //  QStandardItemModel* mystdmodel=modelle ();
+    qDebug()<< &stdmodel;
     w.setModel(stdmodel);
+    w.setWindowTitle ("mainwind treemodel");
     w.expandAll();
-//    QTableView *xx =new QTableView;
-//    xx->setWindowTitle("ddddd dddd ddddd");
-//    xx->setModel(stdmodel);
-//    xx->show();
+    QWidget *aa = new QWidget();
+
+    QGridLayout aal(aa);
+    aal.addWidget (&w,0,0);
+   // setCentralWidget (aa);
+    aa->show ();
 
     return stdmodel;
 }
