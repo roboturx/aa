@@ -13,12 +13,12 @@ enum RelationRoles{
 
 class hC_TreeModel :  public QStandardItemModel
 {
-    Q_OBJECT
+
 public:
     explicit hC_TreeModel(QObject *parent = nullptr);
 
     void modelle();
-    QStandardItemModel *treemodel;
+    QStandardItemModel *trmodel;
 
 signals:
 

@@ -8,7 +8,7 @@
 #include "hc_treemodel.h"
 
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public hC_TreeModel
 {
     Q_OBJECT
 
@@ -17,7 +17,7 @@ public:
     ~MainWindow();
 
     dBase *db;
-    hC_TreeModel *treemodel;
+ //   hC_TreeModel *treemodel;
 
 
 };

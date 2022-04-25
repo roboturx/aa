@@ -4,15 +4,20 @@
 
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), hC_TreeModel()
 {
     db = new dBase ;
-    treemodel = new hC_TreeModel;
-    QSortFilterProxyModel proxymodel;
-    proxymodel.setSourceModel(treemodel);
-    QTreeView w;
-    w.setModel(&proxymodel);
-    w.expandAll();
+
+    QTreeView *treeView = new QTreeView(this);
+   // hC_TreeModel *sourceModel = new hC_TreeModel(this);
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
+
+    proxyModel->setSourceModel(trmodel);
+
+    treeView->setModel(proxyModel);
+    treeView->expandAll();
+    setCentralWidget(treeView);
+
 
 }
 
