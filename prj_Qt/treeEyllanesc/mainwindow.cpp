@@ -1,11 +1,12 @@
 #include "mainwindow.h"
-#include <QSortFilterProxyModel>
-#include <QTableView>
 
+#include <QTableView>
+#include <QGridLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), hC_TreeModel()
 {
+<<<<<<< HEAD
     db = new dBase ;
 
     QTreeView *treeView = new QTreeView(this);
@@ -17,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
     treeView->setModel(proxyModel);
     treeView->expandAll();
     setCentralWidget(treeView);
+=======
+
+    treemodel = new hC_TreeModel;
+>>>>>>> 1a9f7586759c69f33fda9e4bc57a5bdac72774c7
 
 
 }

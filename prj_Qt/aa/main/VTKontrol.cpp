@@ -1,10 +1,7 @@
 #include "main/VTKontrol.h"
 #include "main/globals.h"
 #include "main/VTTekton.h"
-//#include <QSqlDatabase>
-//#include <QSqlError>
-//#include <QSqlQuery>
-//#include <QDebug>
+
 
 VTKontrolEt::VTKontrolEt(QObject* parent): QObject(parent)
 {

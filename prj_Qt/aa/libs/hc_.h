@@ -17,16 +17,20 @@
 // /// hC_ bana ait tüm sınıflar
 
 /// sınıf listei
-/// 1- hC_              - lib
-/// 2- hC_Rs            - etiket üzerine diskten resim ekler,
-///                       resmi değiştirir, pencerede gösterir
-/// 3- hC_Tv            - menu eklenmiş tableview
-/// 4- hC_Le            - sağda pushbutton olan lineedit
-/// 4- hC_Te            - sağda pushbutton olan textedit
+/// 0- hC_              - lib
 /// 5- hC_Tm            - QSqlRelationalTableModel
-/// 6- hC_Gz            - tarihi gizler ve açar
-/// 7- hC_Nr            - tableview da yeni eklenen kaydı bul
-/// 8- hC_Rc            - tablodaki rec sayısı
+/// 1- hC_Tv            - menu eklenmiş tableview
+/// 2- hC_Nr            - tableview da yeni eklenen kaydı bul
+/// 3- hC_tBcreator     - heart
+/// 4- hC_Le            - sağda pushbutton olan lineedit
+/// 5- hC_Te            - sağda pushbutton olan textedit
+/// 6- hC_Rs            - etiket üzerine diskten resim ekler,
+///                       resmi değiştirir, pencerede gösterir
+/// ? 7- hC_Rm            - rel tb_model
+/// 8- hC_Gz            - tarihi gizler ve açar
+/// ? 9- hC_Rc            - tablodaki rec sayısı
+/// 10- objectIsThere
+
 
 namespace HC_ {
 class hC_Rs;
@@ -317,7 +321,7 @@ private:
 //////////////////////////////////////////////////////////
 /// \brief hC_tBcreator::hC_tBcreator
 ///
-///   create table and others
+///   create table and other players
 
 
 
