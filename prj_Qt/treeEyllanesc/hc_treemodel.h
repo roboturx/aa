@@ -15,7 +15,7 @@ enum RelationRoles{
 class hC_TreeModel //: public QAbstractItemModel
 {
 public:
-    explicit hC_TreeModel(QObject *pareent=nullptr);
+    explicit hC_TreeModel(/*QObject *parent=nullptr*/);
     QStandardItemModel *stdmodel;
     QSortFilterProxyModel *proxymodel;
 signals:

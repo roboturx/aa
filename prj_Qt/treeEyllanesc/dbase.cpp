@@ -7,8 +7,126 @@
 dBase::dBase()
 {
     createConnection();
-
+    addRecord ("ASSETS"                                       , 1, 0);
+    addRecord ("FIXED ASSETS"                            , 101, 1 );
+    addRecord ("TANGIBLE FIXED ASSETS"            , 10101, 101 );
+    addRecord ("MACHINERY"               , 1010103, 10101 );
+    addRecord ("LAND"                    , 1010101, 10101 );
+    addRecord ("OFFICE EQUIPMENTS"       , 1010104, 10101 );
+    addRecord ("MOTOR VEHICLES"          , 1010105, 10101 );
+    addRecord ("INTANGIBLE FIXED ASSETS"          , 10102, 101 );
+    addRecord ("COMPUTER SOFTWARE"       , 1010203, 10102 );
+    addRecord ("GOODWILL"                , 10102001, 10102 );
+    addRecord ("PATENTS & TRADE MARKS"   , 10102002, 10102 );
+    addRecord ("ACC.DeP. FXD ASSETS"              , 10103, 101 );
+    addRecord ("ACC.DP- MOTOR VHCLS"     , 10103004, 10103 );
+    addRecord ("ACC.DP- OFF EQPMNTS"     , 10103003, 10103 );
+    addRecord ("ACC.DP- MACHNRY"         , 10103001, 10103 );
+    addRecord ("ACC.DP- COMPTRS"         , 10103002, 10103 );
+    addRecord ("CURRENT ASSETS"                          , 102, 1 );
+    addRecord ("dbtb_accounts RECEIVABLE"              , 10205, 102 );
+    addRecord ("STOCK"                          , 1010105, 102 );
+    addRecord ("DEPOSITS & PREPAYMENTS"           , 10212, 102 );
+    addRecord ("LIABILITIES"                                  , 2, 0 );
+    addRecord ("CAPITAL"                                      , 3, 0 );
+    addRecord ("SALES"                                        , 4, 0 );
+    addRecord ("EXPENSES"                                     , 5, 0 );
 }
+
+
+
+bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
+{
+    // control the existence of the account name in the table
+
+
+
+     QSqlQuery query;
+        query.prepare("SELECT * FROM ? "
+                      "WHERE AcName = ? ");
+        query.bindValue(0, "dbtb_accounts");
+        query.bindValue(1, accNm);
+    qDebug ()<< "  query is :: "<< query.executedQuery();
+
+        if (! query.exec())
+        {
+            qDebug ()<< " find query is not executed"<< query.lastError().text();
+        }
+    else
+        {qDebug ()<< " find query is executed"<< query.executedQuery();}
+
+
+        QString qryStr{};
+qDebug ()<<qryStr;
+//     QSqlQuery qery("SELECT * FROM dbtb_accounts where AcName = 'ASSETS'");
+//         while (qery.next()) {
+//             QString country = qery.value(0).toString();
+//             qDebug()<<" --- " << country;
+
+//         }
+
+
+
+
+
+//    if (!query.isValid())
+//    {
+//        qDebug ()<< qryStr <<" find query is not activeted"<< query.lastError().text();
+//        return false;
+//    }
+
+    if (!query.first())
+    {
+        qDebug ()<<" find query is not nexted"<< query.lastError().text();
+        return false;
+    }
+    else
+    {
+        qDebug ()<<"nexted";
+    }
+    query.value(0).toString();
+    qDebug ()<<"query reccount" << query.value(0).toString();
+    if ( !query.isActive())
+    {
+        qDebug ()<<" find query is not active 2   " << query.lastError().text();
+        return false;
+    }
+   // query.first()   ;
+   // const QSqlRecord rec = query.record();
+
+    if (query.value(0).toString() == accNm )
+    {
+        qDebug ()<<" record found :" << query.value(0).toString();
+        return false;
+    }
+    else
+        qDebug() <<"eklenemdi :"<<query.value(0).toString() << query.lastError().text();
+    ///////// end of control
+
+
+    // account not found, add it to the table
+    QString str_accCd = QString::number(accCd);
+    QString str_grpCd = QString::number(grpCd);
+
+
+    qryStr = "insert into dbtb_accounts "
+             "(AcName, ActCod, GroupCode) "
+             "values ( \""
+            +  accNm   + " \", " +
+            str_accCd + ", "+
+            str_grpCd + ") ";
+    if(!query.exec(qryStr))
+    {
+        qDebug()<<query.lastError().text();
+        return false;
+    }
+    else
+    {
+        qDebug() << "query executed "<<  accNm <<" record added . . .";
+    }
+    return true;
+}
+
 
 
 bool dBase::createConnection()
@@ -18,52 +136,23 @@ bool dBase::createConnection()
 
     if (!db.open()) {
         qDebug()<<"Cannot open database\n"
-                    "Unable to establish a database connection.\n"
-                    "This example needs SQLite support. Please read "
-                    "the Qt SQL driver documentation for information how "
-                    "to build it.\n\n"
-                    "Click Cancel to exit.";
+                  "Unable to establish a database connection.\n"
+                  "This example needs SQLite support. Please read "
+                  "the Qt SQL driver documentation for information how "
+                  "to build it.\n\n"
+                  "Click Cancel to exit.";
         return false;
     }
-
-
     if ( ! db.tables().
-         contains( "adm_ac" ))
+         contains( "dbtb_accounts" ))
     {
         QSqlQuery query;
-        if(!query.exec("CREATE TABLE IF NOT EXISTS adm_ac "
-                        " ( AcName TEXT,"
-                        "ActCod INTEGER,"
-                        "GroupCode INTEGER ) "))
+        if(!query.exec("CREATE TABLE IF NOT EXISTS dbtb_accounts "
+                       " ( AcName TEXT,"
+                       "ActCod INTEGER,"
+                       "GroupCode INTEGER ) "))
             qDebug()<<query.lastError().text();
         qDebug() << "query executed table created . . .";
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"EXPENSES\", 5, 0)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"SALES\", 4, 0)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"ASSETS\", 1, 0)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"CAPITAL\", 3, 0)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"LIAILITIES\", 2, 0)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"CURRENT ASSETS\", 102, 1)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"FIXED ASSETS\", 101, 1)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"INTANGIBLE FIXED ASSETS\", 10102, 101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"ACCUM.DEP. FIXED ASSETS\", 10103, 101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"TANGIBLE FIXED ASSETS\", 10101, 101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"MACHINERY\", 1010102, 10101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"COMPUTERS\", 1010103, 10101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"LAND\", 1010101, 10101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"OFFICE EQUIPMENTS\", 1010104, 10101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"MOTOR VEHICLES\", 1010105, 10101)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"COMPUTER SOFTWARE\", 1010203, 10102)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"GOODWILL\", 10102001, 10102)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"PATENTS & TRADE MARKS\", 10102002, 10102)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"ACC.DEP- MOTOR VEHICLES\", 10103004, 10103)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"ACC.DEP- OFFICE EQUIPMENTS\", 10103003, 10103)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"ACC.DEP- MACHINERY\", 10103001, 10103)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"ACC.DEP- COMPUTERS\", 10103002, 10103)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"ACCOUNTS RECEIVABLE\", 10205, 102)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"STOCK\", 1010105, 102)");
-        query.exec("insert into adm_ac(AcName, ActCod, GroupCode) values(\"DEPOSITS & PREPAYMENTS\", 10212, 102)");
-
-
     }
     return true;
 }
@@ -83,5 +172,3 @@ bool dBase::openDb()
         return false;
     }
 }
-
-

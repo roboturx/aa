@@ -2,34 +2,40 @@
 
 #include <QTableView>
 #include <QGridLayout>
-#include <QSplitter>>
+#include <QSplitter>
+#include <QLabel>
 
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), hC_TreeModel()
+    : QMainWindow(parent)
 {
+    this->setGeometry(10,10,800,640);
+    treemodel = new hC_TreeModel;
 
-    treemodel = new hC_TreeModel(this);
+    QTreeView *soltreeview =new QTreeView;
+    soltreeview->setModel(stdmodel);
+    soltreeview->expandAll();
+
     QSplitter* splitter =new QSplitter(this);
 
+    QWidget *solwdgt = new QWidget(this);
+    QGridLayout *sollyt = new QGridLayout(solwdgt);
+    solwdgt->setLayout(sollyt);
 
-    QTreeView *w =new QTreeView;
-    w->setModel(stdmodel);
-    w->setWindowTitle ("mainwind treemodel");
-    w->expandAll();
+    sollyt->addWidget(new QLabel ("Accountig") ,0,0);
+    sollyt->addWidget(soltreeview,1,0);
 
-
-    QTreeView *w2 =new QTreeView;
-    w2->setModel(stdmodel);
+    QTreeView *sagwdgt =new QTreeView;
+    sagwdgt->setModel(proxymodel);
     proxymodel->setSortRole (Qt::DisplayRole);
-//    proxymodel->setFilterRegularExpression(
- //       QRegularExpression("*aA", QRegularExpression::CaseInsensitiveOption));
-  //  proxymodel->setFilterKeyColumn(1);
+    proxymodel->setFilterRegularExpression(
+                QRegularExpression("A", QRegularExpression::CaseInsensitiveOption));
+    proxymodel->setFilterKeyColumn(0);
 
-  //  w2->expandAll();
+    sagwdgt->expandAll();
 
-    splitter->addWidget (w);
-    splitter->addWidget (w2);
+    splitter->addWidget (solwdgt);
+    splitter->addWidget (sagwdgt);
     setCentralWidget (splitter);
 
 }

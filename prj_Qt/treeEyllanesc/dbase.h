@@ -20,7 +20,8 @@ public:
     bool openDb();
 
     QSqlDatabase db;
-
+private:
+    bool addRecord(QString accnm, int accCd, int grpCd);
 
 };
 
