@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlRecord>
+#include <QSortFilterProxyModel>
 
 enum RelationRoles{
     CodeRole = Qt::UserRole + 1000,
@@ -13,20 +14,11 @@ enum RelationRoles{
 
 class hC_TreeModel
 {
-
 public:
-    explicit hC_TreeModel();
-
-<<<<<<< HEAD
-    void modelle();
-    QStandardItemModel *trmodel;
-=======
-    QStandardItemModel *modelle();
+    explicit hC_TreeModel(QObject *pareent=nullptr);
     QStandardItemModel *stdmodel;
->>>>>>> 1a9f7586759c69f33fda9e4bc57a5bdac72774c7
-
+    QSortFilterProxyModel *proxymodel;
 signals:
-
 };
 
 #endif // HC_TREEMODEL_H

@@ -2,30 +2,37 @@
 
 #include <QTableView>
 #include <QGridLayout>
+#include <QSplitter>>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), hC_TreeModel()
 {
-<<<<<<< HEAD
-    db = new dBase ;
 
-    QTreeView *treeView = new QTreeView(this);
-   // hC_TreeModel *sourceModel = new hC_TreeModel(this);
-    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
+    treemodel = new hC_TreeModel(this);
+    QSplitter* splitter =new QSplitter(this);
 
-    proxyModel->setSourceModel(trmodel);
 
-    treeView->setModel(proxyModel);
-    treeView->expandAll();
-    setCentralWidget(treeView);
-=======
+    QTreeView *w =new QTreeView;
+    w->setModel(stdmodel);
+    w->setWindowTitle ("mainwind treemodel");
+    w->expandAll();
 
-    treemodel = new hC_TreeModel;
->>>>>>> 1a9f7586759c69f33fda9e4bc57a5bdac72774c7
 
+    QTreeView *w2 =new QTreeView;
+    w2->setModel(proxymodel);
+    proxymodel->setSortRole (Qt::DisplayRole);
+    proxymodel->setFilterRegularExpression(
+        QRegularExpression("*A", QRegularExpression::CaseInsensitiveOption));
+    proxymodel->setFilterKeyColumn(1);
+
+  //  w2->expandAll();
+
+    splitter->addWidget (w);
+    splitter->addWidget (w2);
+    setCentralWidget (splitter);
 
 }
-
 MainWindow::~MainWindow()
 {
 }

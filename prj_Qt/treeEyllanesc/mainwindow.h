@@ -16,8 +16,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    dBase *db;
- //   hC_TreeModel *treemodel;
+   // dBase *db;
+    hC_TreeModel *treemodel;
 
 
 };
