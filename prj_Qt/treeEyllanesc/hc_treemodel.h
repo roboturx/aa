@@ -12,7 +12,7 @@ enum RelationRoles{
     CodeRole = Qt::UserRole + 1000,
 };
 
-class hC_TreeModel
+class hC_TreeModel //: public QAbstractItemModel
 {
 public:
     explicit hC_TreeModel(QObject *pareent=nullptr);

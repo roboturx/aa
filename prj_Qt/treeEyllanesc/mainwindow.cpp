@@ -20,11 +20,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     QTreeView *w2 =new QTreeView;
-    w2->setModel(proxymodel);
+    w2->setModel(stdmodel);
     proxymodel->setSortRole (Qt::DisplayRole);
-    proxymodel->setFilterRegularExpression(
-        QRegularExpression("*A", QRegularExpression::CaseInsensitiveOption));
-    proxymodel->setFilterKeyColumn(1);
+//    proxymodel->setFilterRegularExpression(
+ //       QRegularExpression("*aA", QRegularExpression::CaseInsensitiveOption));
+  //  proxymodel->setFilterKeyColumn(1);
 
   //  w2->expandAll();
 
