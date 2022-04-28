@@ -4,6 +4,7 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <QSqlDriver>
+#include <QSqlTableModel>
 dBase::dBase()
 {
     createConnection();
@@ -41,89 +42,131 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
 
 
 
-     QSqlQuery query;
-        query.prepare("SELECT * FROM ? "
-                      "WHERE AcName = ? ");
-        query.bindValue(0, "dbtb_accounts");
-        query.bindValue(1, accNm);
-    qDebug ()<< "  query is :: "<< query.executedQuery();
 
-        if (! query.exec())
-        {
-            qDebug ()<< " find query is not executed"<< query.lastError().text();
-        }
-    else
-        {qDebug ()<< " find query is executed"<< query.executedQuery();}
+//     QSqlQuery query;
+//        query.prepare("SELECT * FROM dbtb_accounts "
+//                      "WHERE AcName = '"+accNm+"'");
+//        //query.bindValue(0, "dbtb_accounts");
+//        //query.bindValue(1, accNm);
 
 
-        QString qryStr{};
-qDebug ()<<qryStr;
-//     QSqlQuery qery("SELECT * FROM dbtb_accounts where AcName = 'ASSETS'");
-//         while (qery.next()) {
-//             QString country = qery.value(0).toString();
-//             qDebug()<<" --- " << country;
-
-//         }
-
+//        if (! query.exec())
+//        {
+//            qDebug ()<< "  query is :: "<< query.executedQuery();
+//            qDebug ()<< " find query is not executed"<< query.lastError().text();
+//        }
+//    else
+//        {qDebug ()<< " find query is executed"<< query.executedQuery();}
 
 
+//        QString qryStr{};
+//qDebug ()<<qryStr;
+////     QSqlQuery qery("SELECT * FROM dbtb_accounts where AcName = 'ASSETS'");
+////         while (qery.next()) {
+////             QString country = qery.value(0).toString();
+////             qDebug()<<" --- " << country;
+
+////         }
 
 
-//    if (!query.isValid())
+
+
+
+////    if (!query.isValid())
+////    {
+////        qDebug ()<< qryStr <<" find query is not activeted"<< query.lastError().text();
+////        return false;
+////    }
+
+//    if (!query.next())
 //    {
-//        qDebug ()<< qryStr <<" find query is not activeted"<< query.lastError().text();
+//        qDebug ()<<" find query is not nexted"<< query.lastError().text();
 //        return false;
 //    }
+//    else
+//    {
+//        qDebug ()<<"nexted";
+//    }
+//    query.value(0).toString();
+//    qDebug ()<<"query reccount" << query.value(0).toString();
+//    if ( !query.isActive())
+//    {
+//        qDebug ()<<" find query is not active 2   " << query.lastError().text();
+//        return false;
+//    }
+//   // query.first()   ;
+//   // const QSqlRecord rec = query.record();
 
-    if (!query.first())
+
+
+    QSqlTableModel model;
+    model.setTable("dbtb_accounts");
+
+    ///
+    /// SET FILTER
+    ///
+
+    model.select();
+    qDebug ()<<"model rowcount  :" << model.rowCount() ;
+    model.setFilter("AccName = '"+accNm+"'" );
+
+    model.select();
+    qDebug ()<<"model rowcount filtered :"<< model.filter()<<" - " << model.rowCount() ;
+    if ( model.rowCount() > 0 )
     {
-        qDebug ()<<" find query is not nexted"<< query.lastError().text();
+        qDebug ()<<"model rowcount > 0 :" << model.rowCount() ;
+        /// bu isimde ekayıt var
+        /// UYARI YAP
+        /// geri dön
+        ///
+
         return false;
     }
     else
     {
-        qDebug ()<<"nexted";
+        /// bu isimde kayıt yok yeni ekle
+        ///
+        /// ADD
+        ///
+        int row = 0;
+        model.insertRows(row, 1);
+        model.setData(model.index(row, 0), accNm);
+        model.setData(model.index(row, 1), accCd);
+        model.setData(model.index(row, 2), grpCd);
+        model.submitAll();
     }
-    query.value(0).toString();
-    qDebug ()<<"query reccount" << query.value(0).toString();
-    if ( !query.isActive())
-    {
-        qDebug ()<<" find query is not active 2   " << query.lastError().text();
-        return false;
-    }
-   // query.first()   ;
-   // const QSqlRecord rec = query.record();
-
-    if (query.value(0).toString() == accNm )
-    {
-        qDebug ()<<" record found :" << query.value(0).toString();
-        return false;
-    }
-    else
-        qDebug() <<"eklenemdi :"<<query.value(0).toString() << query.lastError().text();
-    ///////// end of control
 
 
-    // account not found, add it to the table
-    QString str_accCd = QString::number(accCd);
-    QString str_grpCd = QString::number(grpCd);
+//    if (query.value(0).toString() == accNm )
+//    {
+//        qDebug ()<<" record found :" << query.value(0).toString();
+//        return false;
+//    }
+//    else
+//        qDebug() <<"eklenemdi :"<<query.value(0).toString() << query.lastError().text();
+//    ///////// end of control
 
 
-    qryStr = "insert into dbtb_accounts "
-             "(AcName, ActCod, GroupCode) "
-             "values ( \""
-            +  accNm   + " \", " +
-            str_accCd + ", "+
-            str_grpCd + ") ";
-    if(!query.exec(qryStr))
-    {
-        qDebug()<<query.lastError().text();
-        return false;
-    }
-    else
-    {
-        qDebug() << "query executed "<<  accNm <<" record added . . .";
-    }
+//    // account not found, add it to the table
+//    QString str_accCd = QString::number(accCd);
+//    QString str_grpCd = QString::number(grpCd);
+
+
+//    qryStr = "insert into dbtb_accounts "
+//             "(AcName, ActCod, GroupCode) "
+//             "values ( \""
+//            +  accNm   + " \", " +
+//            str_accCd + ", "+
+//            str_grpCd + ") ";
+//    if(!query.exec(qryStr))
+//    {
+//        qDebug()<<query.lastError().text();
+//        return false;
+//    }
+//    else
+//    {
+//        qDebug() << "query executed "<<  accNm <<" record added . . .";
+//    }
     return true;
 }
 
