@@ -9,6 +9,8 @@
 dBase::dBase()
 {
     createConnection();
+    msqlmodel = new MySqlModel;
+
     addRecord ("ASSETS"                                       , 1, 0);
     addRecord ("FIXED ASSETS"                            , 101, 1 );
     addRecord ("TANGIBLE FIXED ASSETS"            , 10101, 101 );
@@ -99,7 +101,7 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
     //   // const QSqlRecord rec = query.record();
 
 
-    QSqlQueryModel* MyItemModel = new QSqlQueryModel;
+    QSqlQueryModel* mysqlmodel = new QSqlQueryModel;
     //    model->setQuery(QString("SELECT specialite "
     //                            "as Spécialité, dci as DCI "
     //                            "FROM medocs"), db);
@@ -176,7 +178,7 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
         }
         else
         {
-            qDebug()<<"Kayıt eklen e m e d i " << ;
+            qDebug()<<"Kayıt eklen e m e d i " ;
         }
     }
 

@@ -13,7 +13,7 @@
 #include <QSortFilterProxyModel>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
-#include "mysqlmodel.h"
+#include "editablesqlmodel.h"
 class dBase : public QSqlDatabase
 {
 public:
@@ -23,8 +23,8 @@ public:
     bool openDb();
 
     QSqlDatabase db;
-    MySqlModel* msqlmdl;
-
+  //  MySqlModel* msqlmdl;
+    EditableSqlModel* mysqlmodel;
 private:
     bool addRecord(QString accnm, int accCd, int grpCd);
 

@@ -8,10 +8,10 @@ CONFIG += c++17
 
 SOURCES += \
     dbase.cpp \
-    editablesqlmodel.cpp \
     hc_treemodel.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    mysqlmodel.cpp
 
 HEADERS += \
     dbase.h \

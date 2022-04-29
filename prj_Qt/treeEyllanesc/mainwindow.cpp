@@ -12,8 +12,11 @@ MainWindow::MainWindow(QWidget *parent)
     this->setGeometry(10,10,800,640);
     treemodel = new hC_TreeModel;
 
-    QTreeView *soltreeview =new QTreeView;
-    soltreeview->setModel(stdmodel);
+
+    mysqlmodel = new MySqlModel(this);
+
+    QTreeView *soltreeview =new QTreeView(this);
+    soltreeview->setModel(mysqlmodel);
     soltreeview->expandAll();
 
     QSplitter* splitter =new QSplitter(this);
@@ -25,11 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
     sollyt->addWidget(new QLabel ("Accountig") ,0,0);
     sollyt->addWidget(soltreeview,1,0);
 
-    QTreeView *sagwdgt =new QTreeView;
+    QTreeView *sagwdgt =new QTreeView(this);
     sagwdgt->setModel(proxymodel);
     proxymodel->setSortRole (Qt::DisplayRole);
     proxymodel->setFilterRegularExpression(
-                QRegularExpression("A", QRegularExpression::CaseInsensitiveOption));
+                QRegularExpression("*", QRegularExpression::CaseInsensitiveOption));
     proxymodel->setFilterKeyColumn(0);
 
     sagwdgt->expandAll();

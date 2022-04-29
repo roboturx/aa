@@ -6,6 +6,7 @@
 
 #include "dbase.h"
 #include "hc_treemodel.h"
+#include "mysqlmodel.h"
 
 
 class MainWindow : public QMainWindow, public hC_TreeModel
@@ -18,7 +19,7 @@ public:
 
    // dBase *db;
     hC_TreeModel *treemodel;
-
+    MySqlModel *mysqlmodel;
 
 };
 #endif // MAINWINDOW_H

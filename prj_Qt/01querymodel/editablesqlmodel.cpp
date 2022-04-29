@@ -59,7 +59,7 @@ EditableSqlModel::EditableSqlModel(QObject *parent)
 
 //! [0]
 Qt::ItemFlags EditableSqlModel::flags(
-        const QModelIndex &index) const
+    const QModelIndex &index) const
 {
     Qt::ItemFlags flags = QSqlQueryModel::flags(index);
     if (index.column() == 1 || index.column() == 2)
@@ -69,7 +69,9 @@ Qt::ItemFlags EditableSqlModel::flags(
 //! [0]
 
 //! [1]
-bool EditableSqlModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
+bool EditableSqlModel::setData(const QModelIndex &index,
+                               const QVariant &value,
+                               int   role )
 {
     if (index.column() < 1 || index.column() > 2)
         return false;
@@ -92,17 +94,19 @@ bool EditableSqlModel::setData(const QModelIndex &index, const QVariant &value, 
 
 void EditableSqlModel::refresh()
 {
-    setQuery("select * from person");
+    setQuery("select * from dbtb_accounts");
     setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
     setHeaderData(1, Qt::Horizontal, QObject::tr("First name"));
     setHeaderData(2, Qt::Horizontal, QObject::tr("Last name"));
+
+
 }
 
 //! [2]
 bool EditableSqlModel::setFirstName(int personId, const QString &firstName)
 {
     QSqlQuery query;
-    query.prepare("update person set firstname = ? where id = ?");
+    query.prepare("update dbtb_accounts set firstname = ? where id = ?");
     query.addBindValue(firstName);
     query.addBindValue(personId);
     return query.exec();
@@ -112,8 +116,23 @@ bool EditableSqlModel::setFirstName(int personId, const QString &firstName)
 bool EditableSqlModel::setLastName(int personId, const QString &lastName)
 {
     QSqlQuery query;
-    query.prepare("update person set lastname = ? where id = ?");
+    query.prepare("update dbtb_accounts set lastname = ? where id = ?");
     query.addBindValue(lastName);
     query.addBindValue(personId);
     return query.exec();
+}
+bool EditableSqlModel::checkAccountName(const QString &AccountName)
+{
+    QSqlQuery query;
+    query.prepare("select * from dbtb_accounts where AcName = ?");
+    query.addBindValue(AccountName);
+
+    if (query.exec())
+    {
+        if (query.next ())
+            return true;
+        else
+            return false;
+    }
+
 }

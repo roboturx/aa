@@ -9,9 +9,9 @@
 #include <QSortFilterProxyModel>
 #include "mysqlmodel.h"
 
-enum RelationRoles{
-    CodeRole = Qt::UserRole + 1000,
-};
+//enum RelationRoles{
+//    CodeRole = Qt::UserRole + 1000,
+//};
 
 class hC_TreeModel //: public QAbstractItemModel
 {
