@@ -8,6 +8,7 @@ CONFIG += c++17
 
 SOURCES += \
     dbase.cpp \
+    editablesqlmodel.cpp \
     hc_treemodel.cpp \
     main.cpp \
     mainwindow.cpp
@@ -15,7 +16,8 @@ SOURCES += \
 HEADERS += \
     dbase.h \
     hc_treemodel.h \
-    mainwindow.h
+    mainwindow.h \
+    mysqlmodel.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

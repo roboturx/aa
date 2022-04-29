@@ -7,6 +7,7 @@
 #include <QSqlError>
 #include <QSqlRecord>
 #include <QSortFilterProxyModel>
+#include "mysqlmodel.h"
 
 enum RelationRoles{
     CodeRole = Qt::UserRole + 1000,

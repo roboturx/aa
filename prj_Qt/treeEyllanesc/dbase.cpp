@@ -103,11 +103,13 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
     //    model->setQuery(QString("SELECT specialite "
     //                            "as Spécialité, dci as DCI "
     //                            "FROM medocs"), db);
-    MyItemModel->setQuery(QString("SELECT * "
-                 "FROM dbtb_accounts "
-                 "WHERE AcName = "+accNm+")"));
-    qDebug ()<< " find query is executed"
-             << MyItemModel->query ();
+
+
+    MyItemModel->setQuery (QString(
+            "SELECT * FROM dbtb_accounts WHERE AcName = '%1' ").arg(accNm) );
+
+    qDebug ()<< " find query is executed";
+
 
   //  QTreeView *treeView = new QTreeView;
    // MyItemModel *sourceModel = new MyItemModel(this);
@@ -168,7 +170,14 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
         MyItemModel->setData(MyItemModel->index(row, 0), accNm);
         MyItemModel->setData(MyItemModel->index(row, 1), accCd);
         MyItemModel->setData(MyItemModel->index(row, 2), grpCd);
-        MyItemModel->submit();
+        if (MyItemModel->submit())
+        {
+            qDebug()<<"Kayıt eklendi";
+        }
+        else
+        {
+            qDebug()<<"Kayıt eklen e m e d i " << ;
+        }
     }
 
 
