@@ -10,7 +10,9 @@
 #include <QTreeView>
 #include <QStandardItemModel>
 #include <QSqlDatabase>
-
+#include <QSortFilterProxyModel>
+#include <QSqlQuery>
+#include <QSqlQueryModel>
 class dBase : public QSqlDatabase
 {
 public:
@@ -20,6 +22,8 @@ public:
     bool openDb();
 
     QSqlDatabase db;
+
+
 private:
     bool addRecord(QString accnm, int accCd, int grpCd);
 
