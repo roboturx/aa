@@ -32,21 +32,6 @@ hC_TreeModel::hC_TreeModel()
         int GroupCode = query.value(rec.indexOf("GroupCode")).toInt();
         int ActCod = query.value(rec.indexOf("ActCod")).toInt();
 
-//        QModelIndexList ccixs = stdmodel->match(stdmodel->index(0, 0),
-//                                              RelationRoles::CodeRole,
-//                                              AcName,
-//                                              1,
-//                                              Qt::MatchExactly| Qt::MatchRecursive);
-
-//        if(ccixs.size() > 0)
-//        {
-//            // account name finded
-//            qDebug()<<"account find";
-//            break;
-//        }
-
-
-
         QStandardItem *it = new QStandardItem(AcName);
 
         it->setData(ActCod, RelationRoles::CodeRole);

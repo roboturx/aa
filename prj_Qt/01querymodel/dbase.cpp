@@ -15,31 +15,33 @@ dBase::dBase()
     //msqlmodel = new MySqlModel;
     mysqlmodel = new EditableSqlModel;
     mysqlmodel->refresh ();
-    if ( ! mysqlmodel->checkAccountName ("ASSETS"))
-        addRecord ("ASSETS"                                       , 1, 0);
-    addRecord ("FIXED ASSETS"                            , 101, 1 );
-    addRecord ("TANGIBLE FIXED ASSETS"            , 10101, 101 );
-    addRecord ("MACHINERY"               , 1010103, 10101 );
-    addRecord ("LAND"                    , 1010101, 10101 );
-    addRecord ("OFFICE EQUIPMENTS"       , 1010104, 10101 );
-    addRecord ("MOTOR VEHICLES"          , 1010105, 10101 );
-    addRecord ("INTANGIBLE FIXED ASSETS"          , 10102, 101 );
-    addRecord ("COMPUTER SOFTWARE"       , 1010203, 10102 );
-    addRecord ("GOODWILL"                , 10102001, 10102 );
-    addRecord ("PATENTS & TRADE MARKS"   , 10102002, 10102 );
-    addRecord ("ACC.DeP. FXD ASSETS"              , 10103, 101 );
-    addRecord ("ACC.DP- MOTOR VHCLS"     , 10103004, 10103 );
-    addRecord ("ACC.DP- OFF EQPMNTS"     , 10103003, 10103 );
-    addRecord ("ACC.DP- MACHNRY"         , 10103001, 10103 );
-    addRecord ("ACC.DP- COMPTRS"         , 10103002, 10103 );
-    addRecord ("CURRENT ASSETS"                          , 102, 1 );
-    addRecord ("dbtb_accounts RECEIVABLE"              , 10205, 102 );
-    addRecord ("STOCK"                          , 1010105, 102 );
-    addRecord ("DEPOSITS & PREPAYMENTS"           , 10212, 102 );
-    addRecord ("LIABILITIES"                                  , 2, 0 );
-    addRecord ("CAPITAL"                                      , 3, 0 );
-    addRecord ("SALES"                                        , 4, 0 );
-    addRecord ("EXPENSES"                                     , 5, 0 );
+    if (mysqlmodel->rowCount ()<1)
+        addRecord ("Murat"  , 1, 0);
+//    if ( ! mysqlmodel->checkAccountName ("ASSETS"))
+//        addRecord ("ASSETS"                                       , 1, 0);
+//    addRecord ("FIXED ASSETS"                            , 101, 1 );
+//    addRecord ("TANGIBLE FIXED ASSETS"            , 10101, 101 );
+//    addRecord ("MACHINERY"               , 1010103, 10101 );
+//    addRecord ("LAND"                    , 1010101, 10101 );
+//    addRecord ("OFFICE EQUIPMENTS"       , 1010104, 10101 );
+//    addRecord ("MOTOR VEHICLES"          , 1010105, 10101 );
+//    addRecord ("INTANGIBLE FIXED ASSETS"          , 10102, 101 );
+//    addRecord ("COMPUTER SOFTWARE"       , 1010203, 10102 );
+//    addRecord ("GOODWILL"                , 10102001, 10102 );
+//    addRecord ("PATENTS & TRADE MARKS"   , 10102002, 10102 );
+//    addRecord ("ACC.DeP. FXD ASSETS"              , 10103, 101 );
+//    addRecord ("ACC.DP- MOTOR VHCLS"     , 10103004, 10103 );
+//    addRecord ("ACC.DP- OFF EQPMNTS"     , 10103003, 10103 );
+//    addRecord ("ACC.DP- MACHNRY"         , 10103001, 10103 );
+//    addRecord ("ACC.DP- COMPTRS"         , 10103002, 10103 );
+//    addRecord ("CURRENT ASSETS"                          , 102, 1 );
+//    addRecord ("dbtb_accounts RECEIVABLE"              , 10205, 102 );
+//    addRecord ("STOCK"                          , 1010105, 102 );
+//    addRecord ("DEPOSITS & PREPAYMENTS"           , 10212, 102 );
+//    addRecord ("LIABILITIES"                                  , 2, 0 );
+//    addRecord ("CAPITAL"                                      , 3, 0 );
+//    addRecord ("SALES"                                        , 4, 0 );
+//    addRecord ("EXPENSES"                                     , 5, 0 );
 }
 
 
@@ -47,8 +49,8 @@ dBase::dBase()
 bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
 {
     int row = 0;
-    parent indexi bul
-    mysqlmodel->beginInsertRows ();
+    const QModelIndex currentindex = mysqlmodel->index (0,0);
+    mysqlmodel->beginInsertRows (currentindex,0,0);
     mysqlmodel->insertRows(row, 1);
     mysqlmodel->setData(mysqlmodel->index(row, 0), accNm,0);
     mysqlmodel->setData(mysqlmodel->index(row, 1), accCd,0);

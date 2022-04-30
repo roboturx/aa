@@ -51,7 +51,9 @@
 #include <QtSql>
 
 #include "editablesqlmodel.h"
-
+enum RelationRoles{
+    CodeRole = Qt::UserRole + 1000,
+};
 EditableSqlModel::EditableSqlModel(QObject *parent)
     : QSqlQueryModel(parent)
 {
@@ -110,6 +112,15 @@ bool EditableSqlModel::setFirstName(int personId, const QString &firstName)
     query.addBindValue(firstName);
     query.addBindValue(personId);
     return query.exec();
+
+    /// control last eror
+    ///
+//    QSqlQueryModel model;
+//    model.setQuery("select * from MyTable");
+//    if (model.lastError().isValid())
+//        qDebug() << model.lastError()
+
+
 }
 //! [2]
 
@@ -124,15 +135,59 @@ bool EditableSqlModel::setLastName(int personId, const QString &lastName)
 bool EditableSqlModel::checkAccountName(const QString &AccountName)
 {
     QSqlQuery query;
-    query.prepare("select * from dbtb_accounts where AcName = ?");
+    //query.prepare("select * from dbtb_accounts where AcName = ?");
+    query.prepare ("SELECT GroupCode, AcName, ActCod FROM dbtb_accounts "
+          "WHERE AcName = ? ");
     query.addBindValue(AccountName);
 
-    if (query.exec())
+
+    query.exec();
+    if ( this->lastError ().isValid())
+        qDebug() << lastError();
+
+    if (query.isActive())
+    {  qDebug()<<"q is active"; }
+    else { qDebug()<<"q is NOT active"; return false; }
+
+    const QSqlRecord rec = query.record();
+
+
+    while (query.next())
     {
-        if (query.next ())
-            return true;
+
+        QString AcName = query.value(rec.indexOf("AcName")).toString();
+        int GroupCode = query.value(rec.indexOf("GroupCode")).toInt();
+        int ActCod = query.value(rec.indexOf("ActCod")).toInt();
+
+        //QStandardItem *it = new QStandardItem(AcName);
+
+        //it->setData(ActCod, RelationRoles::CodeRole);
+
+        /// root item = parent index 0
+        if(GroupCode == 0)
+        {
+            //stdmodel->invisibleRootItem()->appendRow(it);
+
+        }
         else
-            return false;
+        {
+            QModelIndexList ixs = match(index(0, 0),
+                             RelationRoles::CodeRole,
+                             GroupCode,
+                             1,
+                              Qt::MatchExactly| Qt::MatchRecursive);
+
+            if(ixs.size() > 0)
+            // match found
+            {
+                //QStandardItem *parent = stdmodel->itemFromIndex(ixs.first());
+               // parent->appendRow(it);
+                qDebug()<<"1--- match found"<< AcName ;
+            }
+        }
     }
+
+
+
 
 }
