@@ -60,6 +60,10 @@ class EditableSqlModel : public QSqlQueryModel
 public:
     EditableSqlModel(QObject *parent = nullptr);
 
+    /// for display and get data
+    QVariant data(const QModelIndex &item, int role) const override;
+
+    /// for edit data
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
