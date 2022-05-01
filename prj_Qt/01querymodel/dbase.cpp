@@ -49,8 +49,8 @@ dBase::dBase()
 bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
 {
     int row = 0;
-    const QModelIndex currentindex = mysqlmodel->index (0,0);
-    mysqlmodel->beginInsertRows (currentindex,0,0);
+//    const QModelIndex currentindex = mysqlmodel->index (0,0);
+//    mysqlmodel->beginInsertRows (currentindex,0,0);
     mysqlmodel->insertRows(row, 1);
     mysqlmodel->setData(mysqlmodel->index(row, 0), accNm,0);
     mysqlmodel->setData(mysqlmodel->index(row, 1), accCd,0);

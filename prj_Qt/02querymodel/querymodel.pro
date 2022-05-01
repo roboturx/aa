@@ -1,9 +1,8 @@
 HEADERS       = connection.h \
+                connection.h \
                 customsqlmodel.h \
-                dbase.h \
                 editablesqlmodel.h
 SOURCES       = customsqlmodel.cpp \
-                dbase.cpp \
                 editablesqlmodel.cpp \
                 main.cpp
 QT           += sql widgets
