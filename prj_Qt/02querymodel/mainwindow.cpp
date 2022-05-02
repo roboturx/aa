@@ -13,21 +13,67 @@ MainWindow::MainWindow(QWidget *parent) :
     editableModel = new EditableSqlModel;
     initializeModel(editableModel);
 
-    QSplitter spl;
 
-    QTableView *view = new QTableView;
-    view->setModel(editableModel);
 
-    QGridLayout* grly = new QGridLayout;
-    mainwdgt = new QWidget;
-    grly->addWidget (new QLabel("editable sql model--------------"),0,0,1,1);
-    grly->addWidget (new QLabel("editable sql model 2---------------"),0,1,1,1);
-    grly->addWidget (view,1,0,1,2);
-    mainwdgt->setLayout (grly);
-     spl.addWidget (mainwdgt);
+    QTableView *tableView = new QTableView;
+    tableView->setModel(editableModel);
+  //  QItemSelectionModel *tableselectionModel = tableView->selectionModel ();
 
-    setCentralWidget (mainwdgt);
-    mainwdgt->show ();
+    QGridLayout* grlySol = new QGridLayout;
+    wdgtSol = new QWidget;
+    grlySol->addWidget (new QLabel("editable sql model--------------"),0,0,1,1);
+    grlySol->addWidget (new QLabel("editable sql model 2---------------"),0,1,1,1);
+    grlySol->addWidget (tableView,1,0,1,2);
+    wdgtSol->setLayout (grlySol);
+
+
+
+    QTreeView *treeview = new QTreeView;
+    treeview->setModel(editableModel);
+  //  QItemSelectionModel *treeselectionModel = treeview->selectionModel();
+    QGridLayout* grlySag = new QGridLayout;
+    wdgtSag = new QWidget;
+    grlySag->addWidget (new QLabel("editable sql model--------------"),0,0,1,1);
+    grlySag->addWidget (new QLabel("editable sql model 2---------------"),0,1,1,1);
+    grlySag->addWidget (treeview,1,0,1,2);
+    wdgtSag->setLayout (grlySag);
+
+
+
+    QSplitter *splitter = new QSplitter(this);
+
+    splitter->addWidget(wdgtSol);
+    splitter->addWidget(wdgtSag);
+
+
+
+
+    setCentralWidget (splitter);
+    //wdgtSol->show ();
+
+
+
+//    tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
+//  //  tableView->horizontalHeader()->setStretchLastSection(true);
+//   // tableView->verticalHeader()->hide();
+//    tableView->setEditTriggers(QAbstractItemView::AnyKeyPressed);
+//    tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+//    tableView->setSortingEnabled(true);
+
+//    connect(tableView->selectionModel(),
+//            &QItemSelectionModel::selectionChanged,
+//            treeview->selectionModel (),
+//            &QItemSelectionModel::selectionChanged);
+//    connect ( tableselectionModel,
+//            &QItemSelectionModel::currentRowChanged,
+//            treeselectionModel,
+//              );
+//connect(tableView->selectionModel (),
+//            SIGNAL(selectionChanged(const QItemSelection &,
+//           const QItemSelection &)),
+//
+//            SLOT(RepopulatetableView()));
+
 
 }
 

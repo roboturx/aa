@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "editablesqlmodel.h"
 #include <QTableView>
-
+#include <QTreeView>
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +22,9 @@ public:
 
     EditableSqlModel* editableModel;
     QTableView* createView(QSqlQueryModel *model);
-    QWidget *mainwdgt ;
+
+    QWidget *wdgtSol ;
+    QWidget *wdgtSag ;
 private:
 
 
