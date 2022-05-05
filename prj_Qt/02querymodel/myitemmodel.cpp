@@ -1,4 +1,5 @@
 #include "myitemmodel.h"
+#include "qtreeview.h"
 #include <QSqlQuery>
 #include <QSqlRecord>
 
@@ -33,20 +34,6 @@ void MyItemModel::populate()
         int GroupCode = query.value(rec.indexOf("GroupCode")).toInt();
         int ActCod = query.value(rec.indexOf("ActCod")).toInt();
 
-        //        QModelIndexList ccixs = stdmodel->match(stdmodel->index(0, 0),
-        //                                              RelationRoles::CodeRole,
-        //                                              AcName,
-        //                                              1,
-        //                                              Qt::MatchExactly| Qt::MatchRecursive);
-
-        //        if(ccixs.size() > 0)
-        //        {
-        //            // account name finded
-        //            qDebug()<<"account find";
-        //            break;
-        //        }
-
-
 
         QStandardItem *it = new QStandardItem(AcName);
 
@@ -73,11 +60,11 @@ void MyItemModel::populate()
         }
     }
 
-    //    QTreeView *soltrview =new QTreeView;
-    //    soltrview->setModel(stdmodel);
-    //    //w->setWindowTitle ("mainwind treemodel");
-    //    soltrview->expandAll();
-    //    soltrview->show();
+//        QTreeView *soltrview =new QTreeView;
+//        soltrview->setModel(stdmodel);
+//        //w->setWindowTitle ("mainwind treemodel");
+//        soltrview->expandAll();
+//        soltrview->show();
 }
 
 
@@ -86,6 +73,10 @@ void MyItemModel::populate()
 QVariant MyItemModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     // FIXME: Implement me!
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+        return rootItem->data(section);
+
+    return QVariant();
 }
 
 bool MyItemModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
