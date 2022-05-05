@@ -2,9 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "editablesqlmodel.h"
+
 #include <QTableView>
 #include <QTreeView>
+
+#include "editablesqlmodel.h"
+#include "myitemmodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,11 +24,18 @@ public:
     void initializeModel(QSqlQueryModel *model);
 
     EditableSqlModel* editableModel;
+    MyItemModel *myitemmodel;
     QTableView* createView(QSqlQueryModel *model);
 
-    QWidget *wdgtSol ;
-    QWidget *wdgtSag ;
-private:
+    QWidget *wdgt01 ;
+    QWidget *wdgt02 ;
+    QWidget *wdgt03 ;
+
+    QLineEdit *lE_data01 ;
+    QLineEdit *lE_data02 ;
+    QLineEdit *lE_data03 ;
+
+private slots:
 
 
 };

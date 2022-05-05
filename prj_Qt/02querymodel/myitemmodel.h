@@ -2,13 +2,22 @@
 #define MYITEMMODEL_H
 
 #include <QAbstractItemModel>
+#include <QStandardItemModel>
+#include <QSqlQueryModel>
+#include <QSortFilterProxyModel>
 
-class MyItemModel : public QAbstractItemModel
+    enum RelationRoles{
+        CodeRole = Qt::UserRole + 1000,
+        };
+
+class MyItemModel : public QSqlQueryModel//QAbstractItemModel
 {
     Q_OBJECT
 
 public:
     explicit MyItemModel(QObject *parent = nullptr);
+
+
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -44,6 +53,17 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+
+
+    QStandardItemModel *stdmodel;
+    QSortFilterProxyModel* proxymodel;
+
+    void refresh();
+    bool setFirstName(int personId, const QString &firstName);
+    bool setLastName(int personId, const QString &lastName);
+
+    void populate();
+
 
 private:
 };

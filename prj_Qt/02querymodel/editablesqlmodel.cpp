@@ -7,7 +7,7 @@ EditableSqlModel::EditableSqlModel(QObject *parent)
     : QSqlQueryModel(parent)
 {
 }
-
+///***
 QVariant EditableSqlModel::data(const QModelIndex &index, int role) const
 {
     QVariant value = QSqlQueryModel::data(index, role);
@@ -17,17 +17,13 @@ QVariant EditableSqlModel::data(const QModelIndex &index, int role) const
         else if (index.column() == 2)
             return value.toString().toUpper();
     }
-    qDebug() <<"data col: "<< index.column()
-             << " value: "<< value.toString()
-             <<"- index rowcol "<< index.row ()
-             << "-"<< index.column ();
 
     if (role == Qt::ForegroundRole && index.column() == 0)
         return QVariant::fromValue(QColor(Qt::blue));
     return value;
 }
 
-//! [0]
+////***
 Qt::ItemFlags EditableSqlModel::flags(
         const QModelIndex &index) const
 {
@@ -39,22 +35,23 @@ Qt::ItemFlags EditableSqlModel::flags(
 //! [0]
 
 //! [1]
+ ////****
 bool EditableSqlModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
     if (index.column() < 1 || index.column() > 2)
         return false;
 
     QModelIndex primaryKeyIndex = QSqlQueryModel::index(index.row(), 0);
-    int id = data(primaryKeyIndex,Qt::DisplayRole).toInt();
+    int id = data(primaryKeyIndex,Qt::EditRole).toInt();
 
     clear();
 
     bool ok=false;
-    qDebug() <<"setdata "<< index.column() <<" "<< ok
-             << " "<< value.toString()
-             << " -id -"<< id
-             <<"- index rowcol "<< index.row ()
-             << "-"<< index.column ();
+//    qDebug() <<"setdata "<< index.column() <<" "<< ok
+//             << " "<< value.toString()
+//             << " -id -"<< id
+//             <<"- index rowcol "<< index.row ()
+//             << "-"<< index.column ();
 
     if (index.column() == 1) {
         ok = setFirstName(id, value.toString());
@@ -96,3 +93,5 @@ bool EditableSqlModel::setLastName(int personId, const QString &lastName)
 
     return query.exec();
 }
+
+

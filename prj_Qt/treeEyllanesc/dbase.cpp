@@ -9,7 +9,7 @@
 dBase::dBase()
 {
     createConnection();
-    msqlmodel = new MySqlModel;
+    msqlmdl = new MySqlModel;
 
     addRecord ("ASSETS"                                       , 1, 0);
     addRecord ("FIXED ASSETS"                            , 101, 1 );
@@ -101,13 +101,13 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
     //   // const QSqlRecord rec = query.record();
 
 
-    QSqlQueryModel* mysqlmodel = new QSqlQueryModel;
+    QSqlQueryModel* mysqlmdl = new QSqlQueryModel;
     //    model->setQuery(QString("SELECT specialite "
     //                            "as Spécialité, dci as DCI "
     //                            "FROM medocs"), db);
 
 
-    MyItemModel->setQuery (QString(
+    msqlmdl->setQuery (QString(
             "SELECT * FROM dbtb_accounts WHERE AcName = '%1' ").arg(accNm) );
 
     qDebug ()<< " find query is executed";
@@ -148,9 +148,9 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
     ///
 
     //   model.select();
-    if ( MyItemModel->rowCount() > 0 )
+    if ( msqlmdl->rowCount() > 0 )
     {
-        qDebug ()<<"model rowcount > 0 :" << MyItemModel->rowCount() ;
+        qDebug ()<<"model rowcount > 0 :" << msqlmdl->rowCount() ;
         /// bu isimde ekayıt var
         /// UYARI YAP
         /// geri dön
@@ -161,18 +161,18 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
     else
     {
         qDebug ()<<"model rowcount = 0 :"
-                 << MyItemModel->rowCount() ;
+                 << msqlmdl->rowCount() ;
 
         /// bu isimde kayıt yok yeni ekle
         ///
         /// ADD
         ///
         int row = 0;
-        MyItemModel->insertRows(row, 1);
-        MyItemModel->setData(MyItemModel->index(row, 0), accNm);
-        MyItemModel->setData(MyItemModel->index(row, 1), accCd);
-        MyItemModel->setData(MyItemModel->index(row, 2), grpCd);
-        if (MyItemModel->submit())
+        msqlmdl->insertRows(row, 1);
+        msqlmdl->setData(msqlmdl->index(row, 0), accNm, Qt::EditRole);
+        msqlmdl->setData(msqlmdl->index(row, 1), accCd, Qt::EditRole);
+        msqlmdl->setData(msqlmdl->index(row, 2), grpCd, Qt::EditRole);
+        if (msqlmdl->submit())
         {
             qDebug()<<"Kayıt eklendi";
         }

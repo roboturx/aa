@@ -21,7 +21,9 @@ Qt::ItemFlags MySqlModel::flags(
 //! [0]
 
 //! [1]
-bool MySqlModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
+bool MySqlModel::setData(const QModelIndex &index,
+                         const QVariant &value,
+                         int /* role */)
 {
     if (index.column() < 1 || index.column() > 2)
         return false;
