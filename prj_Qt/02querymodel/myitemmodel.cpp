@@ -4,7 +4,7 @@
 #include <QSqlRecord>
 
 MyItemModel::MyItemModel(QObject *parent)
-    : QSqlQueryModel(parent) //QAbstractItemModel(parent)
+    : QStandardItemModel(parent)
 {
     populate ();
 }
@@ -14,8 +14,8 @@ void MyItemModel::populate()
 {
 
 
-    stdmodel = new QStandardItemModel;
-    proxymodel = new QSortFilterProxyModel;
+    ///this = new QStandardItemModel;
+    ///proxymodel = new QSortFilterProxyModel;
 
     QSqlQuery  query("SELECT GroupCode, AcName, ActCod FROM dbtb_accounts "
                     "ORDER BY ActCod ASC ");
@@ -41,19 +41,20 @@ void MyItemModel::populate()
 
         if(GroupCode == 0)
         {
-            stdmodel->invisibleRootItem()->appendRow(it);
+            /*this->*/
+            this->invisibleRootItem()->appendRow(it);
             //        qDebug()<<"0- "<< AcName ;
         }
         else
         {
-            QModelIndexList ixs = stdmodel->match(stdmodel->index(0, 0),
+            QModelIndexList ixs = this->match(this->index(0, 0),
                                                   RelationRoles::CodeRole,
                                                   GroupCode,
                                                   1,
                                                   Qt::MatchExactly| Qt::MatchRecursive);
 
             if(ixs.size() > 0){
-                QStandardItem *parent = stdmodel->itemFromIndex(ixs.first());
+                QStandardItem *parent = this->itemFromIndex(ixs.first());
                 parent->appendRow(it);
                 //             qDebug()<<"1--- "<< AcName ;
             }
@@ -61,7 +62,7 @@ void MyItemModel::populate()
     }
 
 //        QTreeView *soltrview =new QTreeView;
-//        soltrview->setModel(stdmodel);
+//        soltrview->setModel(this);
 //        //w->setWindowTitle ("mainwind treemodel");
 //        soltrview->expandAll();
 //        soltrview->show();

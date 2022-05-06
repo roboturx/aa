@@ -10,7 +10,7 @@
         CodeRole = Qt::UserRole + 1000,
         };
 
-class MyItemModel : public QSqlQueryModel//QAbstractItemModel
+class MyItemModel : public QStandardItemModel
 {
     Q_OBJECT
 
