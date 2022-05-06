@@ -8,10 +8,6 @@
 hC_TreeModel::hC_TreeModel()
 
 {
-    //modelle();
-    //    dBase db;
-    //    db.openDb ();
-
     stdmodel = new QStandardItemModel;
     proxymodel = new QSortFilterProxyModel;
 
@@ -19,8 +15,8 @@ hC_TreeModel::hC_TreeModel()
                      "ORDER BY ActCod ASC ");
 
     if (query.isActive())
-    {  qDebug()<<"q is active"; }
-    else { qDebug()<<"q is NOT active"; return; }
+    {  qDebug()<<"hc treemodel q is active"; }
+    else { qDebug()<<"hc treemodel q is NOT active"; return; }
 
     const QSqlRecord rec = query.record();
 
@@ -56,12 +52,6 @@ hC_TreeModel::hC_TreeModel()
             }
         }
     }
-
-//    QTreeView *soltrview =new QTreeView;
-//    soltrview->setModel(stdmodel);
-//    //w->setWindowTitle ("mainwind treemodel");
-//    soltrview->expandAll();
-//    soltrview->show();
 
 }
 

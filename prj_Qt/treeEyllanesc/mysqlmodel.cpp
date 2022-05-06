@@ -1,5 +1,7 @@
 
 #include <QtSql>
+#include <QTreeView>
+
 
 #include "mysqlmodel.h"
 
@@ -31,6 +33,8 @@ bool MySqlModel::setData(const QModelIndex &index,
     QModelIndex primaryKeyIndex = QSqlQueryModel::index(index.row(), 0);
     int id = data(primaryKeyIndex).toInt();
 
+
+
     clear();
 
     bool ok;
@@ -54,17 +58,14 @@ void MySqlModel::refresh()
 
 void MySqlModel::populate()
 {
-
-
-    stdmodel = new QStandardItemModel;
-    proxymodel = new QSortFilterProxyModel;
+    stdmodel = new QStandardItemModel(this);
 
     QSqlQuery  query("SELECT GroupCode, AcName, ActCod FROM dbtb_accounts "
                     "ORDER BY ActCod ASC ");
 
     if (query.isActive())
-    {  qDebug()<<"q is active"; }
-    else { qDebug()<<"q is NOT active"; return; }
+    {  qDebug()<<"MySqlModel q is active"; }
+    else { qDebug()<<"MySqlModel q is NOT active"; return; }
 
     const QSqlRecord rec = query.record();
 
@@ -75,21 +76,6 @@ void MySqlModel::populate()
         QString AcName = query.value(rec.indexOf("AcName")).toString();
         int GroupCode = query.value(rec.indexOf("GroupCode")).toInt();
         int ActCod = query.value(rec.indexOf("ActCod")).toInt();
-
-        //        QModelIndexList ccixs = stdmodel->match(stdmodel->index(0, 0),
-        //                                              RelationRoles::CodeRole,
-        //                                              AcName,
-        //                                              1,
-        //                                              Qt::MatchExactly| Qt::MatchRecursive);
-
-        //        if(ccixs.size() > 0)
-        //        {
-        //            // account name finded
-        //            qDebug()<<"account find";
-        //            break;
-        //        }
-
-
 
         QStandardItem *it = new QStandardItem(AcName);
 
@@ -116,11 +102,6 @@ void MySqlModel::populate()
         }
     }
 
-    //    QTreeView *soltrview =new QTreeView;
-    //    soltrview->setModel(stdmodel);
-    //    //w->setWindowTitle ("mainwind treemodel");
-    //    soltrview->expandAll();
-    //    soltrview->show();
 }
 
 //! [2]

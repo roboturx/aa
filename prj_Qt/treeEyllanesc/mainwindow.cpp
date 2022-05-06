@@ -10,13 +10,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     this->setGeometry(10,10,800,640);
-    treemodel = new hC_TreeModel;
+
 
 
     mysqlmodel = new MySqlModel(this);
 
     QTreeView *soltreeview =new QTreeView(this);
-    soltreeview->setModel(mysqlmodel);
+    soltreeview->setModel(mysqlmodel->stdmodel);
     soltreeview->expandAll();
 
     QSplitter* splitter =new QSplitter(this);
@@ -25,9 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
     QGridLayout *sollyt = new QGridLayout(solwdgt);
     solwdgt->setLayout(sollyt);
 
-    sollyt->addWidget(new QLabel ("Accountig") ,0,0);
+    sollyt->addWidget(new QLabel ("Accounting") ,0,0);
     sollyt->addWidget(soltreeview,1,0);
 
+
+
+        treemodel = new hC_TreeModel;
     QTreeView *sagwdgt =new QTreeView(this);
     sagwdgt->setModel(proxymodel);
     proxymodel->setSortRole (Qt::DisplayRole);
