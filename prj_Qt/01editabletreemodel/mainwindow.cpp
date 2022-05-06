@@ -86,6 +86,46 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
+
+    ///// view 03
+    ///
+    ///
+    ///  vladeck - qt forum
+
+
+    QList<int> group_column_indexes;
+    group_column_indexes << 0; // group by column 0... can be any combination of column indexes
+
+    test::data::SqlTreeModel* model = new test::data::SqlTreeModel();
+    model->SetQuery(query); // SELECT ... statement, for example
+    model->SetGroupByIndexes(group_column_indexes);
+    // Note, that you must format this using same indexes for grouping...
+    // if we choose to hide columns 0, 3 & 4, then the code/format would be something like:
+    //
+    // group_column_indexes << 0 << 3 << 4
+    // ...
+    // model->SetGroupTitleFormat("Group {0} is grouped with {3} and {4}");
+    model->SetGroupTitleFormat("Group {0}");
+    model->Select();
+
+    _TrvPackages->setAllColumnsShowFocus(false);
+    _TrvPackages->setModel(model);
+
+    for (int i = 0; i < _TrvPackages->model()->rowCount(); ++i)
+        _TrvPackages->setFirstColumnSpanned(i, QModelIndex(), true);
+
+    _TrvPackages->expandAll();
+
+
+
+
+    ////
+    ///
+    ///
+    ///
+    ///
+
     connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 
     connect(view01->selectionModel(), &QItemSelectionModel::selectionChanged,
