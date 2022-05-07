@@ -3,8 +3,11 @@
 
 #include <QWidget>
 #include <QTreeView>
+#include <QLineEdit>
+
 #include "hc_treeitem.h"
 #include "hc_treemodel.h"
+
 
 //class hC_TreeModel;
 
@@ -18,5 +21,12 @@ public:
 
     hC_TreeModel* hC_model;
     QTreeView* view;
+    QLineEdit *lE_index ;
+    QLineEdit *lE_pindex ;
+public slots:
+    void lineedits(const QModelIndex &currentindex,
+                   const QModelIndex &previousindex);
+
+
 };
 #endif // HC_TREE_H

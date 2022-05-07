@@ -48,6 +48,7 @@
 **
 ****************************************************************************/
 
+#include "dbase.h"
 #include "mainwindow.h"
 
 #include <QApplication>
@@ -57,7 +58,13 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(editabletreemodel);
 
     QApplication app(argc, argv);
+    qDebug() << "begin dbase---------------------";
+    dBase db;
+    //   db.openDb();
+    qDebug() << "end dbase--------------------------";
+    qDebug() << "----------- begin window ----------";
     MainWindow window;
     window.show();
+    qDebug() << "----------- end window ----------";
     return app.exec();
 }

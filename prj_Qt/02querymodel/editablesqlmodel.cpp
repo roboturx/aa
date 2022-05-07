@@ -47,11 +47,6 @@ bool EditableSqlModel::setData(const QModelIndex &index, const QVariant &value, 
     clear();
 
     bool ok=false;
-//    qDebug() <<"setdata "<< index.column() <<" "<< ok
-//             << " "<< value.toString()
-//             << " -id -"<< id
-//             <<"- index rowcol "<< index.row ()
-//             << "-"<< index.column ();
 
     if (index.column() == 1) {
         ok = setFirstName(id, value.toString());

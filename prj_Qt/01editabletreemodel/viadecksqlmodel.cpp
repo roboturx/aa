@@ -1,18 +1,5 @@
 #include "viadecksqlmodel.h"
 
-ViadeckSqlModel::ViadeckSqlModel()
-{
-
-}
-/**
-     @file
-    */
-
-// Project headers
-#include "TreeItem.hpp"
-#include "SqlTreeModel.hpp"
-
-// Qt headers
 #include <QtCore/QTextStream>
 #include <QtSql/QSqlRecord>
 
@@ -20,24 +7,24 @@ ViadeckSqlModel::ViadeckSqlModel()
 namespace test {
 namespace data {
 
-SqlTreeModel::SqlTreeModel(QObject* parent /* = NULL */)
-    : _Root(NULL),
-    QAbstractItemModel(parent)
+ViadeckSqlModel::ViadeckSqlModel(QObject* parent /* = NULL */)
+    : QAbstractItemModel(parent),
+    _Root(NULL)
 {
     _GroupColumns << 0;
     _GroupTitleFormat = "{0}";
 }
 
-SqlTreeModel::~SqlTreeModel()
+ViadeckSqlModel::~ViadeckSqlModel()
 {
     if (_Root != NULL)
         delete _Root;
 }
 
-void SqlTreeModel::SetQuery(const QSqlQuery& query)
+void ViadeckSqlModel::SetQuery(const QSqlQuery& query)
 { _Query = query; }
 
-bool SqlTreeModel::Select()
+bool ViadeckSqlModel::Select()
 {
     if (!_Query.isActive())
         return false;
@@ -52,24 +39,24 @@ bool SqlTreeModel::Select()
             root_data << record.fieldName(i);
     }
 
-    _Root = new TreeItem(root_data);
+    _Root = new ViadeckSqlItem(root_data);
     Create(_Root);
 
     return true;
 }
 
-void SqlTreeModel::SetGroupByIndexes(const QList<int>& columnIndexes)
+void ViadeckSqlModel::SetGroupByIndexes(const QList<int>& columnIndexes)
 { _GroupColumns = columnIndexes; }
 
-void SqlTreeModel::SetGroupTitleFormat(const QString& format)
+void ViadeckSqlModel::SetGroupTitleFormat(const QString& format)
 { _GroupTitleFormat = format; }
 
-QVariant SqlTreeModel::GetData( const QModelIndex& index, int role ) const
+QVariant ViadeckSqlModel::GetData( const QModelIndex& index, int role ) const
 {
     return data(index, role);
 }
 
-QVariant SqlTreeModel::data(const QModelIndex& index, int role) const
+QVariant ViadeckSqlModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -77,23 +64,23 @@ QVariant SqlTreeModel::data(const QModelIndex& index, int role) const
     if (role != Qt::DisplayRole)
         return QVariant();
 
-    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+    ViadeckSqlItem* item = static_cast<ViadeckSqlItem*>(index.internalPointer());
     return item->GetData(index.column());
 }
 
-Qt::ItemFlags SqlTreeModel::GetFlags(const QModelIndex& index) const
+Qt::ItemFlags ViadeckSqlModel::GetFlags(const QModelIndex& index) const
 {
     if (!index.isValid())
-        return 0;
+        return Qt::NoItemFlags;
 
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-QVariant SqlTreeModel::GetHeaderData( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
+QVariant ViadeckSqlModel::GetHeaderData( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
 {
     return headerData(section, orientation, role);
 }
-QVariant SqlTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ViadeckSqlModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
         return _Root->GetData(section);
@@ -101,24 +88,24 @@ QVariant SqlTreeModel::headerData(int section, Qt::Orientation orientation, int 
     return QVariant();
 }
 
-QModelIndex SqlTreeModel::GetIndex( int rowIndex, int columnIndex, const QModelIndex& parent /*= QModelIndex()*/ ) const
+QModelIndex ViadeckSqlModel::GetIndex( int rowIndex, int columnIndex, const QModelIndex& parent /*= QModelIndex()*/ ) const
 {
     return index(rowIndex, columnIndex, parent);
 }
 
-QModelIndex SqlTreeModel::index(int rowIndex, int columnIndex, const QModelIndex& parent) const
+QModelIndex ViadeckSqlModel::index(int rowIndex, int columnIndex, const QModelIndex& parent) const
 {
     if (!hasIndex(rowIndex, columnIndex, parent))
         return QModelIndex();
 
-    TreeItem *parent_item;
+    ViadeckSqlItem *parent_item;
 
     if (!parent.isValid())
         parent_item = _Root;
     else
-        parent_item = static_cast<TreeItem*>(parent.internalPointer());
+        parent_item = static_cast<ViadeckSqlItem*>(parent.internalPointer());
 
-    TreeItem *child_item = parent_item->GetChild(rowIndex);
+    ViadeckSqlItem *child_item = parent_item->GetChild(rowIndex);
 
     if (child_item)
         return createIndex(rowIndex, columnIndex, child_item);
@@ -126,18 +113,18 @@ QModelIndex SqlTreeModel::index(int rowIndex, int columnIndex, const QModelIndex
         return QModelIndex();
 }
 
-QModelIndex SqlTreeModel::GetParent( const QModelIndex& index ) const
+QModelIndex ViadeckSqlModel::GetParent( const QModelIndex& index ) const
 {
     return parent(index);
 }
 
-QModelIndex SqlTreeModel::parent(const QModelIndex& index) const
+QModelIndex ViadeckSqlModel::parent(const QModelIndex& index) const
 {
     if (!index.isValid())
         return QModelIndex();
 
-    TreeItem* child_item  = static_cast<TreeItem*>(index.internalPointer());
-    TreeItem* parent_item = child_item->GetParent();
+    ViadeckSqlItem* child_item  = static_cast<ViadeckSqlItem*>(index.internalPointer());
+    ViadeckSqlItem* parent_item = child_item->GetParent();
 
     if (parent_item == _Root)
         return QModelIndex();
@@ -145,32 +132,32 @@ QModelIndex SqlTreeModel::parent(const QModelIndex& index) const
     return createIndex(parent_item->GetRowIndex(), 0, parent_item);
 }
 
-int SqlTreeModel::rowCount(const QModelIndex& parent) const
+int ViadeckSqlModel::rowCount(const QModelIndex& parent) const
 {
-    TreeItem* parent_item;
+    ViadeckSqlItem* parent_item;
     if (parent.column() > 0)
         return 0;
 
     if (!parent.isValid())
         parent_item = _Root;
     else
-        parent_item = static_cast<TreeItem*>(parent.internalPointer());
+        parent_item = static_cast<ViadeckSqlItem*>(parent.internalPointer());
 
     return parent_item->GetNumberOfChildren();
 }
 
-int SqlTreeModel::columnCount(const QModelIndex& parent) const
+int ViadeckSqlModel::columnCount(const QModelIndex& parent) const
 {
 
     if (parent.isValid())
-        return static_cast<TreeItem*>(parent.internalPointer())->GetNumberOfColumns();
+        return static_cast<ViadeckSqlItem*>(parent.internalPointer())->GetNumberOfColumns();
     else
         return _Root->GetNumberOfColumns();
 }
 
-void SqlTreeModel::Create(TreeItem* parent)
+void ViadeckSqlModel::Create(ViadeckSqlItem *parent)
 {
-    TreeItem* current_parent = parent;
+    ViadeckSqlItem* current_parent = parent;
 
     while (_Query.next())
     {
@@ -197,7 +184,7 @@ void SqlTreeModel::Create(TreeItem* parent)
             for (int i = 1; i < number_of_columns; ++i)
                 parent_data << "";
 
-            TreeItem* parent_item = new TreeItem(parent_data, parent);
+            ViadeckSqlItem* parent_item = new ViadeckSqlItem(parent_data, parent);
             parent->AddChild(parent_item);
             current_parent = parent_item;
 
@@ -209,7 +196,7 @@ void SqlTreeModel::Create(TreeItem* parent)
                     child_data << _Query.record().value(j);
             }
 
-            TreeItem* child_item = new TreeItem(child_data, current_parent);
+            ViadeckSqlItem* child_item = new ViadeckSqlItem(child_data, current_parent);
             current_parent->AddChild(child_item);
         }
         else
@@ -222,7 +209,7 @@ void SqlTreeModel::Create(TreeItem* parent)
                     child_data << _Query.record().value(i);
             }
 
-            TreeItem* child_item = new TreeItem(child_data, current_parent);
+            ViadeckSqlItem* child_item = new ViadeckSqlItem(child_data, current_parent);
             current_parent->AddChild(child_item);
         }
     }

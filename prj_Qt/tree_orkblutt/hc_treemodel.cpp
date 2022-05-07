@@ -17,169 +17,9 @@ hC_TreeModel::hC_TreeModel(QObject *parent)
     qDebug() <<"--------------------- treemodel -> Treeitem first rootitem";
     rootItem = new hC_TreeItem(rootData,0);
     qDebug() <<"--------------------- treemodel setup model data";
+
+
     setupModelData(rootItem);
-}
-
-hC_TreeModel::~hC_TreeModel()
-{
-    delete rootItem;
-}
-
-int hC_TreeModel::columnCount(const QModelIndex &parent) const
-{
-    if (parent.isValid())
-        return static_cast<hC_TreeItem*>(parent.internalPointer())->columnCount();
-    else
-        return rootItem->columnCount();
-}
-
-QVariant hC_TreeModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid())
-        return QVariant();
-
-    if (role != Qt::DisplayRole && role != Qt::EditRole)  /// editable
-        return QVariant();
-
-    hC_TreeItem *item = static_cast<hC_TreeItem*>(index.internalPointer());
-
-    return item->data(index.column());
-}
-
-Qt::ItemFlags hC_TreeModel::flags(const QModelIndex &index) const
-{
-    if (!index.isValid())
-        return Qt::NoItemFlags;
-
-    return Qt::ItemIsEditable | QAbstractItemModel::flags(index); //editable
-}
-
-QVariant hC_TreeModel::headerData(int section, Qt::Orientation orientation,
-                                      int role) const
-{
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->data(section);
-
-    return QVariant();
-}
-
-QModelIndex hC_TreeModel::index(int row, int column, const QModelIndex &parent)
-    const
-{
-    if (!hasIndex(row, column, parent))
-        return QModelIndex();
-
-    hC_TreeItem *parentItem;
-
-    if (!parent.isValid())
-        parentItem = rootItem;
-    else
-        parentItem = static_cast<hC_TreeItem*>(parent.internalPointer());
-
-    hC_TreeItem *childItem = parentItem->child(row);
-    if (childItem)
-        return createIndex(row, column, childItem);
-   // else
-    return QModelIndex();
-}
-
-QModelIndex hC_TreeModel::parent(const QModelIndex &index) const
-{
-    if (!index.isValid())
-        return QModelIndex();
-
-    hC_TreeItem *childItem = static_cast<hC_TreeItem*>(index.internalPointer());
-    hC_TreeItem *parentItem = childItem->parent();
-
-    if (parentItem == rootItem)
-        return QModelIndex();
-
-    return createIndex(parentItem->row(), 0, parentItem);
-}
-
-int hC_TreeModel::rowCount(const QModelIndex &parent) const
-{
-    hC_TreeItem *parentItem;
-    if (parent.column() > 0)
-        return 0;
-
-    if (!parent.isValid())
-        parentItem = rootItem;
-    else
-        parentItem = static_cast<hC_TreeItem*>(parent.internalPointer());
-
-    return parentItem->childCount();
-}
-
-/////////////// editables
-bool hC_TreeModel::setData(const QModelIndex &index,
-                           const QVariant &value,
-                           int role)
-{
-    qDebug() <<"-***- treemodel setdata ";
-    qDebug() <<"    -***- treemodel setdata index = "<< index ;
-    qDebug() <<"    -***- treemodel setdata value = "<< value;
-    qDebug() <<"    -***- treemodel setdata role = "<< role ;
-    if (role != Qt::EditRole)
-        return false;
-
-    /////////////////////////
-    /// \brief item
-    ///
-    hC_TreeItem *item = getItem(index);
-    qDebug() <<"    -***- treemodel setdata getitem data0= " << item->data(0) ;
-    qDebug() <<"    -***- treemodel setdata getitem data1= " << item->data(1) ;
-    bool result = item->setData(index.column(), value);
-    // veriyi değiştir //////////////////////////////////////////////////
-
-    hC_TreeItem *item2 = getItem(index);
-    qDebug() <<"    -***- treemodel setdata getitem data0= " << item2->data(0) ;
-    qDebug() <<"    -***- treemodel setdata getitem data1= " << item2->data(1) ;
-    ////////////////////
-    ///
-
-    if (result)
-        emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
-
-    return result;
-}
-
-bool hC_TreeModel::setHeaderData(int section, Qt::Orientation orientation,
-                              const QVariant &value, int role)
-{
-    if (role != Qt::EditRole || orientation != Qt::Horizontal)
-        return false;
-
-    const bool result = rootItem->setData(section, value);
-
-    if (result)
-        emit headerDataChanged(orientation, section, section);
-
-    return result;
-}
-
-hC_TreeItem *hC_TreeModel::getItem(const QModelIndex &index) const///
-{
-    if (index.isValid()) {
-        hC_TreeItem *item = static_cast<hC_TreeItem*>(index.internalPointer());
-        if (item)
-            return item;
-    }
-    return rootItem;
-}
-
-////////////////////////////// editables
-
-int hC_TreeModel::findNode(unsigned int& hash, const QList<hC_TreeItem *> &tList)
-{
-    for(int idx = 0; idx < tList.size(); ++idx)
-    {
-        unsigned int z = tList.at(idx)->getIndex();
-        if(z == hash)
-            return idx;
-    }
-
-    return -1;
 }
 
 
@@ -187,20 +27,16 @@ int hC_TreeModel::findNode(unsigned int& hash, const QList<hC_TreeItem *> &tList
 void hC_TreeModel::setupModelData(hC_TreeItem *parent)
 {
     QList<hC_TreeItem*> parents;
-    parents << parent;
+    parents << parent; /// ilk parent headerlar
 
-    QString path = "my_db_path";
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(path);
-    if(db.open())
     {
 
         QSqlQuery query,query2;
-        QString qStr, mesaj;
+        QString qStr/*, mesaj*/;
         qStr="SELECT knm_ad, knm_id FROM dbtb_knm";
         if (!query.exec (qStr)){
             qDebug () << "1 ???? << query" << query.lastError().text() ;}
-        else { qDebug () << "1 query.rc" << rowCount();  }
+        else { qDebug () << "1 query.rcount" << rowCount();  }
 
         int idPath = query.record().indexOf("knm_ad");
         int idIdx = query.record().indexOf("knm_id");
@@ -284,15 +120,15 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
 
         }
         //////////////////////////////
-qDebug() << "----------- p.length " << parents.length();
+        qDebug() << "----------- p.length " << parents.length();
         int i = 0;
-         do
+        do
         {
-           qDebug() << "parents - " << parents.at(i)->data(0).toString()
-                    << " - "
-                    << parents.at(i)->data(1).toString()
-                    << " --- i="<< i << "--" <<(i < parents.length());
-           i++;
+            qDebug() << "parents - " << parents.at(i)->data(0).toString()
+                     << " - "
+                     << parents.at(i)->data(1).toString()
+                     << " --- i="<< i << "--" <<(i < parents.length());
+            i++;
         }
         while ( i < parents.length());
 
@@ -301,3 +137,260 @@ qDebug() << "----------- p.length " << parents.length();
 
     }
 }
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+hC_TreeModel::~hC_TreeModel()
+{
+    delete rootItem;
+}
+
+int hC_TreeModel::columnCount(const QModelIndex &parent) const
+{
+    if (parent.isValid())
+        return static_cast<hC_TreeItem*>(parent.internalPointer())->columnCount();
+    else
+        return rootItem->columnCount();
+}
+
+QVariant hC_TreeModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+
+    if (role != Qt::DisplayRole && role != Qt::EditRole)  /// editable
+        return QVariant();
+
+    hC_TreeItem *item = static_cast<hC_TreeItem*>(index.internalPointer());
+
+    return item->data(index.column());
+}
+
+Qt::ItemFlags hC_TreeModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+
+    return Qt::ItemIsEditable | QAbstractItemModel::flags(index); //editable
+}
+
+QVariant hC_TreeModel::headerData(int section, Qt::Orientation orientation,
+                                  int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+        return rootItem->data(section);
+
+    return QVariant();
+}
+
+QModelIndex hC_TreeModel::index(int row, int column, const QModelIndex &parent)
+const
+{
+    if (!hasIndex(row, column, parent))
+        return QModelIndex();
+
+    hC_TreeItem *parentItem;
+
+    if (!parent.isValid())
+        parentItem = rootItem;
+    else
+        parentItem = static_cast<hC_TreeItem*>(parent.internalPointer());
+
+    hC_TreeItem *childItem = parentItem->child(row);
+    if (childItem)
+        return createIndex(row, column, childItem);
+    // else
+    return QModelIndex();
+}
+
+QModelIndex hC_TreeModel::parent(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return QModelIndex();
+
+    hC_TreeItem *childItem = static_cast<hC_TreeItem*>(index.internalPointer());
+    hC_TreeItem *parentItem = childItem->parent();
+
+    if (parentItem == rootItem)
+        return QModelIndex();
+
+    return createIndex(parentItem->row(), 0, parentItem);
+}
+
+int hC_TreeModel::rowCount(const QModelIndex &parent) const
+{
+    hC_TreeItem *parentItem;
+    if (parent.column() > 0)
+        return 0;
+
+    if (!parent.isValid())
+        parentItem = rootItem;
+    else
+        parentItem = static_cast<hC_TreeItem*>(parent.internalPointer());
+
+    return parentItem->childCount();
+}
+
+/////////////// editables
+bool hC_TreeModel::setData(const QModelIndex &index,
+                           const QVariant &value,
+                           int role)
+{
+    qDebug() <<"-***- treemodel VALUE "<< value
+            <<" ROLE "<< role
+           << " INDEX " << index.row() <<"-" << index.column() <<"- parent"
+           << index.parent().row()<<"-"<< index.parent().column()  ;
+    if (role != Qt::EditRole ||
+            index.column() < 0 ||
+            index.column() > 2 )
+    {
+        qDebug() << "editrole error";
+        return false;
+    }
+    /////////////////////////
+    /// \brief item
+    ///
+    hC_TreeItem *item1 = getItem(index);
+    qDebug() <<" -*1*-  data 0: "<<item1->data(0).toString()
+            << " data 1: "<< item1->data(1).toString()
+            << " index " << index.row() <<"-" << index.column() <<"- parent"
+            << index.parent().row()<<"-"<< index.parent().column() ;
+    bool result = item1->setData(index.column(), value);
+    // veriyi değiştir //////////////////////////////////////////////////
+
+    hC_TreeItem *item2 = getItem(index);
+    qDebug() << "result " << result <<" -*2*-  data 0: "<<item2->data(0).toString()
+             << " data 1: "<< item2->data(1).toString()
+             << " index " << index.row() <<"-" << index.column() <<"- parent"
+             << index.parent().row()<<"-"<< index.parent().column() ;
+    ////////////////////
+    ///
+
+    if (result)
+    {
+        emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
+        //  QModelIndex primaryKeyIndex = index.row(), 0);
+        int id = data(index,Qt::EditRole).toInt();
+        //   clear();
+
+        bool ok=false;
+        qDebug() << "index col " << index.column() ;
+        if (index.column() == 0)
+        {
+            qDebug() << "setting firstname";
+            ok = setFirstName(id, value.toString());
+
+        }
+        else
+        {
+            //     ok = setLastName(id, value.toString());
+        }
+        refresh();
+    }
+    return result;
+}
+
+
+
+void hC_TreeModel::refresh()
+{
+    //  setQuery("select * from person");
+    setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    setHeaderData(1, Qt::Horizontal, QObject::tr("xxxxxxxxxx"));
+    setHeaderData(2, Qt::Horizontal, QObject::tr("Last name"));
+}
+
+//! [2]
+bool hC_TreeModel::setFirstName(int id, const QString &firstName)
+{
+    QSqlQuery query;
+    QString qStr=QString("UPDATE dbtb_knm "
+                         "set knm_ad = '111111111111111111111' "
+                         "where knm_id = 11");
+//            .arg(firstName)
+            //.arg(id);
+    query.prepare(qStr);
+    if(query.exec())
+    {
+        qDebug() << "setted firstname"<< query.lastError().text() ;
+
+        submit();
+        return true;
+    }
+    else
+    {
+        qDebug() << "??????????? setting firstname"<< query.lastError().text() ;
+        return false;
+
+    }
+    return true;
+}
+
+//! [2]
+
+//bool hC_TreeModel::setLastName(int personId, const QString &lastName)
+//{
+//    QSqlQuery query;
+//    query.prepare("update person set lastname = ? where id = ?");
+//    query.addBindValue(lastName);
+//    query.addBindValue(personId);
+//    qDebug() <<"set lastname "<< personId <<" "<< lastName
+//             << " "<< query.exec();
+
+//    return query.exec();
+//}
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+
+bool hC_TreeModel::setHeaderData(int section, Qt::Orientation orientation,
+                                 const QVariant &value, int role)
+{
+    if (role != Qt::EditRole || orientation != Qt::Horizontal)
+        return false;
+
+    const bool result = rootItem->setData(section, value);
+
+    if (result)
+        emit headerDataChanged(orientation, section, section);
+
+    return result;
+}
+
+hC_TreeItem *hC_TreeModel::getItem(const QModelIndex &index) const///
+{
+    if (index.isValid()) {
+        hC_TreeItem *item = static_cast<hC_TreeItem*>(index.internalPointer());
+        if (item)
+            return item;
+    }
+    return rootItem;
+}
+
+////////////////////////////// editables
+
+int hC_TreeModel::findNode(unsigned int& hash, const QList<hC_TreeItem *> &tList)
+{
+    for(int idx = 0; idx < tList.size(); ++idx)
+    {
+        unsigned int z = tList.at(idx)->getIndex();
+        if(z == hash)
+            return idx;
+    }
+
+    return -1;
+}
+
+

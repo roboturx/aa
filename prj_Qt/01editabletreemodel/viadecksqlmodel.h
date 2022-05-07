@@ -2,19 +2,15 @@
 #define VIADECKSQLMODEL_H
 
 
-class ViadeckSqlModel
-{
-public:
-    ViadeckSqlModel();
-};
+#include "viadecsqlitem.h"
 
-#endif // VIADECKSQLMODEL_H
+
+
 /**
      @file
     */
 
-#ifndef TEST_DATA_SQLTREEMODEL_HPP
-#define TEST_DATA_SQLTREEMODEL_HPP
+
 
 // Qt headers
 #include <QtCore/QAbstractItemModel>
@@ -27,13 +23,13 @@ namespace data {
 // Forward declarations
 class TreeItem;
 
-class SqlTreeModel : public QAbstractItemModel
+class ViadeckSqlModel : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
-    SqlTreeModel(QObject* parent = NULL);
-    ~SqlTreeModel();
+    ViadeckSqlModel(QObject* parent = NULL);
+    ~ViadeckSqlModel();
 
     void SetQuery(const QSqlQuery& query);
     bool Select();
@@ -55,16 +51,17 @@ private:
     QModelIndex index(int rowIndex, int columnIndex, const QModelIndex& parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex& index) const;
 
-    TreeItem*  _Root;
+    ViadeckSqlItem*  _Root;
 
     QSqlQuery  _Query;
     QList<int> _GroupColumns;
     QString    _GroupTitleFormat;
 
-    void Create(TreeItem* parent);
+    void Create(ViadeckSqlItem* parent);
 };
 
 } // namespace data
 } // namespace test
 
-#endif // TEST_DATA_SQLTREEMODEL_HPP
+#endif // VIADECKSQLMODEL_H
+

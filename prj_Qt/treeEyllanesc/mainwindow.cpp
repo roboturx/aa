@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     mysqlmodel = new MySqlModel(this);
 
     QTreeView *soltreeview =new QTreeView(this);
-    soltreeview->setModel(mysqlmodel->stdmodelz);
+    soltreeview->setModel(mysqlmodel->stdmodel);
     soltreeview->expandAll();
 
     QSplitter* splitter =new QSplitter(this);

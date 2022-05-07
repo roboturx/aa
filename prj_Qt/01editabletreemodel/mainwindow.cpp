@@ -51,8 +51,11 @@
 #include "mainwindow.h"
 #include "treemodel.h"
 #include "treesqlmodel.h"
+#include "viadecksqlmodel.h"
 
 #include <QFile>
+#include <QSqlQuery>
+#include <QTreeView>
 #include <QSqlQuery>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -80,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     const QStringList headers02({tr("ID"), tr("AccCode"), tr("GrpCode")});
 
     TreeSqlModel *modelSQL = new TreeSqlModel(headers02, this);
-    view01->setModel(modelSQL);
+    view02->setModel(modelSQL);
     for (int column = 0; column < modelSQL->columnCount(); ++column)
         view02->resizeColumnToContents(column);
 
@@ -95,28 +98,43 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     QList<int> group_column_indexes;
-    group_column_indexes << 0; // group by column 0... can be any combination of column indexes
 
-    test::data::SqlTreeModel* model = new test::data::SqlTreeModel();
-    model->SetQuery(query); // SELECT ... statement, for example
-    model->SetGroupByIndexes(group_column_indexes);
+    /// group by column 0...
+    /// can be any combination of column indexes
+    group_column_indexes  <<0;
+    QSqlQuery  query("SELECT GroupCode, AcName, ActCod FROM dbtb_accounts "
+                     "ORDER BY ActCod ASC ");
+
+
+    test::data::ViadeckSqlModel* model03 = new test::data::ViadeckSqlModel();
+    model03->SetQuery(query); // SELECT ... statement, for example
+    model03->SetGroupByIndexes(group_column_indexes);
     // Note, that you must format this using same indexes for grouping...
-    // if we choose to hide columns 0, 3 & 4, then the code/format would be something like:
+    // if we choose to hide columns 0, 3 & 4, then the code/format
+    // would be something like:
     //
     // group_column_indexes << 0 << 3 << 4
     // ...
     // model->SetGroupTitleFormat("Group {0} is grouped with {3} and {4}");
-    model->SetGroupTitleFormat("Group {0}");
-    model->Select();
+    model03->SetGroupTitleFormat("Group {0}");
+    model03->Select();
 
-    _TrvPackages->setAllColumnsShowFocus(false);
-    _TrvPackages->setModel(model);
+    //QTreeView *_TrvPackages = new QTreeView;
+    view03->setAllColumnsShowFocus(false);
+    view03->setModel(model03);
 
-    for (int i = 0; i < _TrvPackages->model()->rowCount(); ++i)
-        _TrvPackages->setFirstColumnSpanned(i, QModelIndex(), true);
+    for (int i = 0; i < view03->model()->rowCount(); ++i)
+        view03->setFirstColumnSpanned(i, QModelIndex(), true);
 
-    _TrvPackages->expandAll();
+    view03->expandAll();
+    //    QTreeView *_TrvPackages = new QTreeView;
+    //        _TrvPackages->setAllColumnsShowFocus(false);
+    //        _TrvPackages->setModel(model);
 
+    //        for (int i = 0; i < _TrvPackages->model()->rowCount(); ++i)
+    //            _TrvPackages->setFirstColumnSpanned(i, QModelIndex(), true);
+
+    //        _TrvPackages->expandAll();
 
 
 
@@ -165,7 +183,7 @@ void MainWindow::insertChild()
     }
 
     view01->selectionModel()->setCurrentIndex(model->index(0, 0, index),
-                                            QItemSelectionModel::ClearAndSelect);
+                                              QItemSelectionModel::ClearAndSelect);
     updateActions();
 }
 

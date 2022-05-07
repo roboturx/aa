@@ -48,7 +48,7 @@ public:
                     const QModelIndex &parent = QModelIndex()) override;
 
 private:
-    void setupModelData(const QSqlQuery &query, TreeSqlItem *parent);
+  // void setupModelData(const QSqlQuery &query, TreeSqlItem *parent);
     TreeSqlItem *getItem(const QModelIndex &index) const;
 
     TreeSqlItem *rootItem;

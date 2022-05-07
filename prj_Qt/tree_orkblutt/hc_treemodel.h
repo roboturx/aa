@@ -42,7 +42,8 @@ public:
         //////editable
         hC_TreeItem *getItem(const QModelIndex &index) const;///
 
-
-
+        void refresh();
+        bool setFirstName(int personId, const QString &firstName);
+       // bool setLastName(int personId, const QString &lastName);
     };
 #endif // HC_TREEMODEL_H

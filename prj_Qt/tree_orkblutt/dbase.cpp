@@ -5,40 +5,74 @@
 #include <QMessageBox>
 #include <QSqlDriver>
 #include <QSqlTableModel>
-#include "mysqlmodel.h"
 
 dBase::dBase()
 {
+
+      QString qStr/*, mesaj*/;
     qDebug() << "- create conn";
     createConnection();
     qDebug() << "-  conn created";
     qDebug() << "-- adding records *******";
 
+    qStr=QString("INSERT INTO dbtb_knm ("
+                 "knm_ad) "
+                 "values ( '%1') ").arg("C:\\1234\\bb\\cccc");
+    QSqlQuery query;
+ if (query.exec(qStr))
+ {
+     qDebug () << "knm_ad added";
+ }
+ else
+ {
+     qDebug () << "knm_ad NOT added " + query.lastError().text();
+ }
+qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\xxxx\\cccc') ";
+ if (query.exec(qStr))
+ {
+     qDebug () << "knm_ad added";
+ }
+ else
+ {
+     qDebug () << "knm_ad NOT added " + query.lastError().text();
+ }
+ qStr="INSERT INTO dbtb_knm (knm_ad) values ('C:\\aaaa\\bbbb\\dddddddd') ";
+ if (query.exec(qStr))
+ {
+     qDebug () << "knm_ad added";
+ }
+ else
+ {
+     qDebug () << "knm_ad NOT added " + query.lastError().text();
+ }
+
+
+
         msqlmdl = new MySqlModel;
-    addRecord ("ASSETS"                                       , 1, 0);
-    addRecord ("FIXED ASSETS"                            , 101, 1 );
-    addRecord ("TANGIBLE FIXED ASSETS"            , 10101, 101 );
-    addRecord ("MACHINERY"               , 1010103, 10101 );
-    addRecord ("LAND"                    , 1010101, 10101 );
-    addRecord ("OFFICE EQUIPMENTS"       , 1010104, 10101 );
-    addRecord ("MOTOR VEHICLES"          , 1010105, 10101 );
-    addRecord ("INTANGIBLE FIXED ASSETS"          , 10102, 101 );
-    addRecord ("COMPUTER SOFTWARE"       , 1010203, 10102 );
-    addRecord ("GOODWILL"                , 10102001, 10102 );
-    addRecord ("PATENTS & TRADE MARKS"   , 10102002, 10102 );
-    addRecord ("ACC.DeP. FXD ASSETS"              , 10103, 101 );
-    addRecord ("ACC.DP- MOTOR VHCLS"     , 10103004, 10103 );
-    addRecord ("ACC.DP- OFF EQPMNTS"     , 10103003, 10103 );
-    addRecord ("ACC.DP- MACHNRY"         , 10103001, 10103 );
-    addRecord ("ACC.DP- COMPTRS"         , 10103002, 10103 );
-    addRecord ("CURRENT ASSETS"                          , 102, 1 );
-    addRecord ("dbtb_accounts RECEIVABLE"              , 10205, 102 );
-    addRecord ("STOCK"                          , 1010105, 102 );
-    addRecord ("DEPOSITS & PREPAYMENTS"           , 10212, 102 );
-    addRecord ("LIABILITIES"                                  , 2, 0 );
-    addRecord ("CAPITAL"                                      , 3, 0 );
-    addRecord ("SALES"                                        , 4, 0 );
-    addRecord ("EXPENSES"                                     , 5, 0 );
+//    addRecord ("ASSETS"                                       , 1, 0);
+//    addRecord ("FIXED ASSETS"                            , 101, 1 );
+//    addRecord ("TANGIBLE FIXED ASSETS"            , 10101, 101 );
+//    addRecord ("MACHINERY"               , 1010103, 10101 );
+//    addRecord ("LAND"                    , 1010101, 10101 );
+//    addRecord ("OFFICE EQUIPMENTS"       , 1010104, 10101 );
+//    addRecord ("MOTOR VEHICLES"          , 1010105, 10101 );
+//    addRecord ("INTANGIBLE FIXED ASSETS"          , 10102, 101 );
+//    addRecord ("COMPUTER SOFTWARE"       , 1010203, 10102 );
+//    addRecord ("GOODWILL"                , 10102001, 10102 );
+//    addRecord ("PATENTS & TRADE MARKS"   , 10102002, 10102 );
+//    addRecord ("ACC.DeP. FXD ASSETS"              , 10103, 101 );
+//    addRecord ("ACC.DP- MOTOR VHCLS"     , 10103004, 10103 );
+//    addRecord ("ACC.DP- OFF EQPMNTS"     , 10103003, 10103 );
+//    addRecord ("ACC.DP- MACHNRY"         , 10103001, 10103 );
+//    addRecord ("ACC.DP- COMPTRS"         , 10103002, 10103 );
+//    addRecord ("CURRENT ASSETS"                          , 102, 1 );
+//    addRecord ("dbtb_accounts RECEIVABLE"              , 10205, 102 );
+//    addRecord ("STOCK"                          , 1010105, 102 );
+//    addRecord ("DEPOSITS & PREPAYMENTS"           , 10212, 102 );
+//    addRecord ("LIABILITIES"                                  , 2, 0 );
+//    addRecord ("CAPITAL"                                      , 3, 0 );
+//    addRecord ("SALES"                                        , 4, 0 );
+//    addRecord ("EXPENSES"                                     , 5, 0 );
     qDebug() << "-- adding records ended      *******";
 }
 
@@ -98,7 +132,7 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
 bool dBase::createConnection()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName( "db.db"  );
+    db.setDatabaseName( "dborkblut.db"  );
 
     if (!db.open()) {
         qDebug()<<"Cannot open database\n"
@@ -110,13 +144,13 @@ bool dBase::createConnection()
         return false;
     }
     if ( ! db.tables().
-         contains( "dbtb_accounts" ))
+         contains( "dbtb_knm" ))
     {
         QSqlQuery query;
-        if(!query.exec("CREATE TABLE IF NOT EXISTS dbtb_accounts "
-                        " ( AcName TEXT,"
-                        "ActCod INTEGER,"
-                        "GroupCode INTEGER ) "))
+        if(!query.exec("CREATE TABLE IF NOT EXISTS dbtb_knm "
+                       "( knm_id INTEGER PRIMARY KEY ,"
+                       "  knm_ad TEXT"
+                       " )"))
             qDebug()<<query.lastError().text();
         qDebug() << "query executed table created . . .";
     }

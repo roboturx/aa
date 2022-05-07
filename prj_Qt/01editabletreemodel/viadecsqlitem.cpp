@@ -1,53 +1,41 @@
 #include "viadecsqlitem.h"
 
-ViadecSqlItem::ViadecSqlItem()
-{
-
-}
-
-/**
-     @file
-    */
-
-// Project headers
-#include "TreeItem.hpp"
-
 
 namespace test {
 namespace data {
 
-TreeItem::TreeItem(const QList<QVariant>& data, TreeItem* parent)
+ViadeckSqlItem::ViadeckSqlItem(const QList<QVariant>& data, ViadeckSqlItem* parent)
 {
     _Parent   = parent;
     _ItemData = data;
 }
 
-TreeItem::~TreeItem()
+ViadeckSqlItem::~ViadeckSqlItem()
 { qDeleteAll(_Children); }
 
-void TreeItem::AddChild(TreeItem* child)
+void ViadeckSqlItem::AddChild(ViadeckSqlItem* child)
 { _Children.append(child); }
 
-TreeItem* TreeItem::GetChild(int rowIndex)
+ViadeckSqlItem* ViadeckSqlItem::GetChild(int rowIndex)
 { return _Children.value(rowIndex); }
 
-int TreeItem::GetNumberOfChildren() const
+int ViadeckSqlItem::GetNumberOfChildren() const
 { return _Children.count(); }
 
-int TreeItem::GetNumberOfColumns() const
+int ViadeckSqlItem::GetNumberOfColumns() const
 { return _ItemData.count(); }
 
-QVariant TreeItem::GetData(int columnIndex) const
+QVariant ViadeckSqlItem::GetData(int columnIndex) const
 { return _ItemData.value(columnIndex); }
 
-TreeItem* TreeItem::GetParent()
+ViadeckSqlItem* ViadeckSqlItem::GetParent()
 { return _Parent; }
 
-int TreeItem::GetRowIndex() const
+int ViadeckSqlItem::GetRowIndex() const
 {
 
     if (_Parent)
-        return _Parent->_Children.indexOf(const_cast<TreeItem*>(this));
+        return _Parent->_Children.indexOf(const_cast<ViadeckSqlItem*>(this));
 
     return 0;
 }

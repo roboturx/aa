@@ -3,6 +3,8 @@ requires(qtConfig(treeview))
 
 FORMS       = mainwindow.ui
 HEADERS     = mainwindow.h \
+              dbase.h \
+              mysqlmodel.h \
               treeitem.h \
               treemodel.h \
               treesqlitem.h \
@@ -11,6 +13,8 @@ HEADERS     = mainwindow.h \
               viadecsqlitem.h
 RESOURCES   = editabletreemodel.qrc
 SOURCES     = mainwindow.cpp \
+              dbase.cpp \
+              mysqlmodel.cpp \
               treeitem.cpp \
               treemodel.cpp \
               main.cpp \

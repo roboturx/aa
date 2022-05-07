@@ -1,52 +1,37 @@
-#ifndef VIADECSQLITEM_H
-#define VIADECSQLITEM_H
+#ifndef VIADECKSQLITEM_H
+#define VIADECKSQLITEM_H
 
-
-class ViadecSqlItem
-{
-public:
-    ViadecSqlItem();
-};
-
-#endif // VIADECSQLITEM_H
-/**
-     @file
-    */
-
-#ifndef TEST_DATA_TREEITEM_HPP
-#define TEST_DATA_TREEITEM_HPP
-
-// Qt headers
 #include <QtCore/QList>
 #include <QtCore/QVariant>
-
 
 namespace test{
 namespace data {
 
-class TreeItem
+class ViadeckSqlItem
 {
 public:
-    TreeItem(const QList<QVariant>& data, TreeItem* parent = 0);
-    ~TreeItem();
+    ViadeckSqlItem(const QList<QVariant>& data, ViadeckSqlItem* parent = 0);
+    ~ViadeckSqlItem();
 
-    void AddChild(TreeItem* child);
-    TreeItem* GetChild(int rowIndex);
+    void AddChild(ViadeckSqlItem* child);
+    ViadeckSqlItem* GetChild(int rowIndex);
     int GetNumberOfChildren() const;
     int GetNumberOfColumns() const;
     QVariant GetData(int columnIndex) const;
     int GetRowIndex() const;
 
 
-    TreeItem* GetParent();
+    ViadeckSqlItem* GetParent();
 
 private:
-    QList<TreeItem*> _Children;
+    QList<ViadeckSqlItem*> _Children;
     QList<QVariant>  _ItemData;
-    TreeItem*        _Parent;
+    ViadeckSqlItem*        _Parent;
 };
 
 } // namespace data
 } // namespace test
 
-#endif // TEST_DATA_TREEITEM_HP
+
+#endif // VIADECKSQLITEM_H
+

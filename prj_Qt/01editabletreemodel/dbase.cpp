@@ -5,7 +5,6 @@
 #include <QMessageBox>
 #include <QSqlDriver>
 #include <QSqlTableModel>
-#include "mysqlmodel.h"
 
 dBase::dBase()
 {
