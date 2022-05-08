@@ -22,7 +22,15 @@ hC_TreeModel::hC_TreeModel(QObject *parent)
     setupModelData(rootItem);
 }
 
+QSqlQuery hC_TreeModel::reSelectAll(const QString qStr)
+{
+    QSqlQuery query;
 
+    if (!query.exec (qStr)){
+        qDebug () << "1 ???? << query" << query.lastError().text() ;}
+    else { qDebug () << "1 query.rcount" << rowCount();  }
+    return query;
+}
 
 void hC_TreeModel::setupModelData(hC_TreeItem *parent)
 {
@@ -31,28 +39,29 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
 
     {
 
-        QSqlQuery query,query2;
-        QString qStr/*, mesaj*/;
-        qStr="SELECT knm_ad, knm_id FROM dbtb_knm";
-        if (!query.exec (qStr)){
-            qDebug () << "1 ???? << query" << query.lastError().text() ;}
-        else { qDebug () << "1 query.rcount" << rowCount();  }
+        QSqlQuery query=reSelectAll(QString(
+                "SELECT knm_ad, knm_id FROM dbtb_knm"));
 
-        int idPath = query.record().indexOf("knm_ad");
-        int idIdx = query.record().indexOf("knm_id");
+        int _konumAD = query.record().indexOf("knm_ad");
+        int _konumID = query.record().indexOf("knm_id");
 
         while (query.next())
         {
-            QString name = query.value(idPath).toString();
-            int knmid = query.value(idIdx).toInt();
-            qDebug () << "name " << name;
+            QString name = query.value(_konumAD).toString();
+            int knmid = query.value(_konumID).toInt();
+           // qDebug () << "name " << name;
+
+            /// treeitemlar için pathı böl
             QStringList nodeString = name.split("\\", Qt::SkipEmptyParts);
 
             QString temppath = "";
 
             int lastidx = 0;
+
+
             for(int node = 0; node < nodeString.count(); ++node)
             {
+
                 temppath += nodeString.at(node);
                 if(node != nodeString.count() - 1)
                     temppath += "\\";
@@ -60,10 +69,10 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                 unsigned int hash = qHash(temppath);
                 QList<QVariant> columnData;
 
+
                 columnData << nodeString.at(node);
 
                 int idx = findNode(hash, parents);
-
 
                 if(idx != -1)
                 {
@@ -71,6 +80,7 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                 }
                 else
                 {
+                    QString qStr;
                     qStr =  "";
                     if(node == nodeString.count() - 1)
                     {
@@ -89,14 +99,25 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
 
 
                     int nChild = 0;
-
+                    QSqlQuery query2;
                     if (!query2.exec (qStr))
-                        qDebug () << "2 ????";
+                        qDebug () << "query 2 HATA ????"
+                                  <<query2.lastError().text();
 
                     if(query2.next())
                         nChild = query2.value(0).toInt();
 
                     columnData << nChild;
+
+                    qDebug () <<"-------------------------------"
+                              << "node:" << node
+                              << "/"<< nodeString.count()
+                              <<" tpath:"<< temppath
+                              <<" CD1 nodestring.at node: " <<nodeString.at(node)
+                             << " findnode idx: " << idx
+                             <<" hash: "<< hash
+                            << " CD2 nchild" << nChild;
+
 
                     if(lastidx != -1)
                     {
@@ -104,15 +125,22 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                                     new hC_TreeItem(columnData, hash, parents.at(lastidx)));
                         parents <<  parents.at(lastidx)->child(
                                         parents.at(lastidx)->childCount()-1);
+                        qDebug () <<" lastidx != -1"<< parents.at(lastidx)
+                                    ->child(parents.at(lastidx)
+                                            ->childCount()-1);
                         lastidx = -1;
                     }
                     else
                     {
-                        parents.last()->appendChild(
-                                    new hC_TreeItem(columnData, hash, parents.last()));
+                        parents.last()->appendChild(new hC_TreeItem(
+                                         columnData, hash, parents.last()));
                         parents <<  parents.last()->child(
                                         parents.last()->childCount()-1);
+                        qDebug ()   <<parents.last()
+                                     ->child(parents.last()
+                                             ->childCount()-1);
                     }
+                    qDebug ()  <<"---------------------------------";
 
 
                 }

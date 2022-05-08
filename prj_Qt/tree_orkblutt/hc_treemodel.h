@@ -5,6 +5,7 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
+#include <QSqlQuery>
 
 #include "hc_treeitem.h"
 //#include "hc_tree.h"
@@ -33,6 +34,7 @@ public:
         bool setHeaderData(int section, Qt::Orientation orientation,///
                            const QVariant &value, int role = Qt::EditRole) override;
 
+        QSqlQuery reSelectAll(const QString qStr);
 
     private:
         void setupModelData(hC_TreeItem *parent);
