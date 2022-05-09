@@ -111,13 +111,12 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                     columnData << nChild;
 
                     qDebug () <<"-------------------------------"
-                              << "node:" << node
-                              << "/"<< nodeString.count()
+                              << "node:" << node<< "/"<< nodeString.count()
                               <<" tpath:"<< temppath
-                              <<" CD1 nodestring.at node: " <<nodeString.at(node)
-                             << " findnode idx: " << idx
-                             <<" hash: "<< hash
-                            << " CD2 nchild" << nChild;
+                              <<" CD1 nstr.at node:" <<nodeString.at(node)
+                             << " fn lastidx:" << lastidx
+                             <<" hash:"<< hash
+                            << " CD2 nchild:" << nChild;
 
 
                     if(lastidx != -1)
@@ -137,7 +136,8 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                                          columnData, hash, parents.last()));
                         parents <<  parents.last()->child(
                                         parents.last()->childCount()-1);
-                        qDebug ()   <<parents.last()
+                        qDebug () <<"lastidx= -1"
+                                 <<parents.last()
                                      ->child(parents.last()
                                              ->childCount()-1);
                     }
@@ -326,10 +326,17 @@ bool hC_TreeModel::setData(const QModelIndex &index,
 
 void hC_TreeModel::refresh()
 {
+    QSqlQuery query;
+    QString qStr/*, mesaj*/;
+    qStr="SELECT * FROM dbtb_knm";
+    if (!query.exec (qStr)){
+        qDebug () << "1 ???? << query" << query.lastError().text() ;}
+    else { qDebug () << "1 query.rcount" << rowCount();  }
     //  setQuery("select * from person");
     setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
     setHeaderData(1, Qt::Horizontal, QObject::tr("xxxxxxxxxx"));
     setHeaderData(2, Qt::Horizontal, QObject::tr("Last name"));
+
 }
 
 //! [2]
@@ -337,8 +344,8 @@ bool hC_TreeModel::setFirstName(int id, const QString &firstName)
 {
     QSqlQuery query;
     QString qStr=QString("UPDATE dbtb_knm "
-                         "set knm_ad = '111111111111111111111' "
-                         "where knm_id = 11");
+                         "set knm_ad = '22222222222' "
+                         "where knm_id = 2");
 //            .arg(firstName)
             //.arg(id);
     query.prepare(qStr);

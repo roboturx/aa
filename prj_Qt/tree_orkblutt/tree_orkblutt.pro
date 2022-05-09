@@ -9,7 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dbase.cpp \
+    ../dbase.cpp \
     hc_treeitem.cpp \
     hc_treemodel.cpp \
     main.cpp \
@@ -17,7 +17,7 @@ SOURCES += \
     mysqlmodel.cpp
 
 HEADERS += \
-    dbase.h \
+    ../dbase.h \
     hc_tree.h \
     hc_treeitem.h \
     hc_treemodel.h \

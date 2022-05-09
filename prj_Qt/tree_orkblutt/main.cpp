@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QtSql>
 #include <QSqlQuery>
-#include "dbase.h"
+#include "../dbase.h"
 
 int main(int argc, char *argv[])
 {

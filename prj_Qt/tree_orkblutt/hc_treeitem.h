@@ -26,7 +26,8 @@ public:
 
     ///editables
     bool setData(int column, const QVariant &value);///
-    unsigned int getIndex(){return _id;};
+    unsigned int getIndex()
+        {return _id;}
 private:
     QList<hC_TreeItem*> m_childItems;
     QList<QVariant> m_itemData;
