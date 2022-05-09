@@ -4,6 +4,8 @@
 QT += sql gui widgets
 TARGET = QXTreeProxyModel
 TEMPLATE = app
+
+INCLUDEPATH +=  ../   /../../../../boost_1_79_0/boost/
 SOURCES += main.cpp \
     testdialog.cpp \
     qxtreeproxymodel.cpp \

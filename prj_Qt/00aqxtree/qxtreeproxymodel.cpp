@@ -3,7 +3,7 @@
 #include <QSqlRelationalTableModel>
 #include <QSqlTableModel>
 #include <qdebug.h>
-#include <boost/cast.hpp>
+#include <cast.hpp>
 
 #include <QSortFilterProxyModel>
 #include <QStringList>

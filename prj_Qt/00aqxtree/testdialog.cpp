@@ -28,7 +28,9 @@ license: GPL or any other license compatible with Qt's license (users choice)
 // to test the various options: define options  in .pro file
 
 #ifndef AUTOINCREMENT
-void TestDialog::table1PrimeInsert(int row, QSqlRecord& record){
+void TestDialog::table1PrimeInsert(int row, QSqlRecord& record)
+{
+    qDebug() << "oo1";
     qDebug() << "table1PrimeInsert" << record;
     for(int i(0); i < record.count(); ++i) qDebug() << "   before" << record.value(i);
    Q_UNUSED(row);
@@ -47,9 +49,11 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
   // db.setDatabaseName(QLatin1String(":memory:"));
    db.setDatabaseName(QLatin1String("aztestdb.db"));
    Q_ASSERT(db.open());
+   qDebug() << "002";
    QSqlQuery sqlQuery(db);
    // create Table1 (main table)
 #ifdef AUTOINCREMENT
+   qDebug() << "003";
    ok = sqlQuery.exec(
        QLatin1String("CREATE TABLE IF NOT EXISTS Table1 "
                     "(Content, "
@@ -57,6 +61,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
                     "Parent INTEGER NOT NULL, "
                     "Details );"));
 #else
+   qDebug() << "004";
    ok = sqlQuery.exec(QLatin1String("CREATE TABLE Table1 "
                "(Content, Identifier INTEGER PRIMARY KEY,"
                "Parent INTEGER NOT NULL, Details);"));
@@ -64,6 +69,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
    Q_ASSERT_X(ok, "CREATE TABLE sql statement",
               "Table1 likely already exists");
 #ifdef AUTOINCREMENT
+   qDebug() << "005";
    ok = sqlQuery.exec(
        QLatin1String("INSERT INTO Table1 "
                      "(Content, Parent, Details) "
@@ -115,6 +121,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
                      "VALUES (3, 2, 'Details for 7th item d');"));
    Q_ASSERT(ok);
 #else
+   qDebug() << "006";
    ok = sqlQuery.exec(
        QLatin1String("INSERT INTO Table1"
                      "(Content, Identifier, Parent, Details) "
@@ -169,6 +176,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 #endif
 
 #if (TABLEMODEL==QSQLRELATIONALTABLEMODEL)   // create Table2 (lookup table)
+   qDebug() << "007";
    ok = sqlQuery.exec(QLatin1String("CREATE TABLE Table2 "
                                     "(Number, String);"));
    Q_ASSERT_X(ok, "CREATE TABLE sql statement",
@@ -189,10 +197,13 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 
    QAbstractItemModel* tableModel;
 #if (TABLEMODEL==QSQLRELATIONALTABLEMODEL)
+   qDebug() << "008";
    tableModel = new QSqlRelationalTableModel (this, db);
 #elif (TABLEMODEL==QSQLTABLEMODEL)
+   qDebug() << "009";
    tableModel = new QSqlTableModel (this, db);
 #elif (TABLEMODEL==QSTANDARDITEMMODEL)
+   qDebug() << "0010";
    tableModel = new QStandardItemModel (6, 4, this);
    for (int row = 0; row < 6; ++row) {
       (qobject_cast<QStandardItemModel*>(tableModel))
@@ -244,7 +255,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 #endif
    (qobject_cast<QSqlTableModel*>(tableModel))->select();
 #endif      //a sql model
-
+qDebug() << "0011";
    // how to retrieve foreign key
    /*
 
@@ -312,11 +323,12 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
    tableView->setModel(tableModel);
    tableView->resizeColumnsToContents();
 #if TABLEMODEL==QSqlRelationalTableModel
+   qDebug() << "0012";
    QSqlRelationalDelegate* tableDelegate = new QSqlRelationalDelegate(tableView);
    Q_ASSERT(tableDelegate);
    tableView->setItemDelegate(tableDelegate);
 #endif
-
+qDebug() << "0013";
    QXTreeProxyModel* treeModel = new QXTreeProxyModel(this);
    treeModel->setSourceModel(tableModel);
    ok = treeModel->setIdCol(1);

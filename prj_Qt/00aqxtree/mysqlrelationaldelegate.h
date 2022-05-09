@@ -22,9 +22,14 @@ class mySqlRelationalDelegate : public QSqlRelationalDelegate
 public:
     explicit mySqlRelationalDelegate(QObject *parent = 0);
 
-    QWidget *createEditor(QWidget *aParent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    QWidget *createEditor(QWidget *aParent,
+              const QStyleOptionViewItem &option,
+              const QModelIndex &index) const;
+    void setModelData(QWidget *editor,
+                      QAbstractItemModel *model,
+                      const QModelIndex &index) const;
+    void setEditorData(QWidget *editor,
+                       const QModelIndex &index) const;
 
 signals:
 

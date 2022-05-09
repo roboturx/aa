@@ -64,7 +64,8 @@ QWidget *mySqlRelationalDelegate::createEditor(QWidget *aParent, const QStyleOpt
 
 }
 
-void mySqlRelationalDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+void mySqlRelationalDelegate::setEditorData(QWidget *editor,
+                        const QModelIndex &index) const
 {
     QString strVal = "";
     const QSqlRelationalTableModel *sqlModel = qobject_cast<const QSqlRelationalTableModel *>(index.model());
@@ -95,7 +96,9 @@ void mySqlRelationalDelegate::setEditorData(QWidget *editor, const QModelIndex &
     combo->setCurrentIndex(combo->findText(strVal));
 }
 
-void mySqlRelationalDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+void mySqlRelationalDelegate::setModelData(QWidget *editor,
+                      QAbstractItemModel *model,
+                      const QModelIndex &index) const
 {
     if (!index.isValid())
         return;
