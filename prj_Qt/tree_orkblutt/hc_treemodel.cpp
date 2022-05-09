@@ -84,8 +84,9 @@ void hC_TreeModel::setupModelData(hC_TreeItem *parent)
                     qStr =  "";
                     if(node == nodeString.count() - 1)
                     {
-                        //qStr += "SELECT count(*) FROM version WHERE knm_id=";
-                        qStr += "SELECT count(*) FROM dbtb_knm WHERE knm_id=";
+                        qStr += "SELECT count(*) "
+                                "FROM dbtb_knm "
+                                "WHERE knm_id= ";
                         qStr += QString::number(knmid);
                         qStr += ";";
                     }
