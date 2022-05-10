@@ -13,7 +13,7 @@ hC_TreeModel::hC_TreeModel(QObject *parent)
 {
     qDebug() <<"--------------------- treemodel constructor";
     QList<QVariant> rootData;
-    rootData << "Account " << "Account number";
+    rootData << "Account " << "Accountnumber"<<"fffff";
     qDebug() <<"--------------------- treemodel -> Treeitem first rootitem";
     rootItem = new hC_TreeItem(rootData,0);
     qDebug() <<"--------------------- treemodel setup model data";

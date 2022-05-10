@@ -39,6 +39,7 @@ public:
     private:
         void setupModelData(hC_TreeItem *parent);
         int findNode(unsigned int& hash, const QList<hC_TreeItem*>& tList);
+
         hC_TreeItem *rootItem;
 
         //////editable
