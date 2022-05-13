@@ -52,6 +52,7 @@ public:
    */
    void setDefaultValues(QList<QVariant> newDefaultValues)
    {
+       qDebug() << "---------- 00 setDefaultValues";
        d_defaultValues = newDefaultValues;
    }
    /* lazy model not needed, as lazyness is inherited from underlying

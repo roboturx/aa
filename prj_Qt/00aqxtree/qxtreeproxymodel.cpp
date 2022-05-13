@@ -3,7 +3,7 @@
 #include <QSqlRelationalTableModel>
 #include <QSqlTableModel>
 #include <qdebug.h>
-#include <cast.hpp>
+//#include <cast.hpp>
 
 #include <QSortFilterProxyModel>
 #include <QStringList>
@@ -60,7 +60,13 @@
 
   The parameter parent is forwarded to QAbstractProxyModel from which this class is derived.
 */
-QXTreeProxyModel::QXTreeProxyModel(QObject *parent) : QAbstractProxyModel(parent), lastInsertedId(0), idColumn(-1), parentColumn(-1) {
+QXTreeProxyModel::QXTreeProxyModel(QObject *parent) :
+    QAbstractProxyModel(parent),
+    lastInsertedId(0),
+    idColumn(-1),
+    parentColumn(-1)
+    {
+        qDebug () << "--------qxtree constructor";
    }
 
 /*!
@@ -68,7 +74,10 @@ QXTreeProxyModel::QXTreeProxyModel(QObject *parent) : QAbstractProxyModel(parent
 
   Frees resources (none needed to be freed from QXTreeproxyModel itself, possibly from inherited classes)
 */
-QXTreeProxyModel::~QXTreeProxyModel(){}
+QXTreeProxyModel::~QXTreeProxyModel()
+{
+    qDebug () << "-------- qxtree destructor";
+}
 
 // getters and setters
 
@@ -95,8 +104,11 @@ QXTreeProxyModel::~QXTreeProxyModel(){}
 
   \sa setDefaultValues(QList<QVariant>) idCol
 */
-int QXTreeProxyModel::idCol() const {
-   return idColumn;}
+int QXTreeProxyModel::idCol() const
+{
+    qDebug () << "-------- idcol =" << idColumn;
+   return idColumn;
+}
 
 /*!
   \brief setter function
@@ -104,8 +116,10 @@ int QXTreeProxyModel::idCol() const {
   \sa idCol
 */
 bool QXTreeProxyModel::setIdCol(unsigned int col){
-   int iCol(boost::numeric_cast<int>(col));
-   idColumn = iCol;
+   //int iCol(boost::numeric_cast<int>(col));
+   //idColumn = iCol;
+   idColumn = col;
+   qDebug () << "-------- idcolumn setted to " << col ;
    return true;}
 
 /*!
@@ -118,8 +132,11 @@ bool QXTreeProxyModel::setIdCol(unsigned int col){
 
   \sa parentCol
 */
-int QXTreeProxyModel::parentCol() const {
-   return parentColumn;}
+int QXTreeProxyModel::parentCol() const
+{
+    qDebug () << "-------- parentcol ="<< parentColumn ;
+   return parentColumn;
+}
 
 /*!
   \brief setter function
@@ -127,8 +144,11 @@ int QXTreeProxyModel::parentCol() const {
   \sa parentCol
 */
 bool QXTreeProxyModel::setParentCol(unsigned int col){
-   int pCol(boost::numeric_cast<int>(col));
-   parentColumn = pCol;
+//   int pCol(boost::numeric_cast<int>(col));
+  // parentColumn = pCol;
+   parentColumn = col;
+   qDebug () << "-------- parentcol setted to " << col;
+
    return true;}
 
 /*!
@@ -139,7 +159,8 @@ bool QXTreeProxyModel::setParentCol(unsigned int col){
   QSqlTableModel, QSqlRelationalTableModel and QStandardItemModel.
 */
 void QXTreeProxyModel::setSourceModel(QAbstractItemModel* newSourceModel){
-   emit beginResetModel();
+   qDebug () << "-------- setsourcemodel begins.";
+    emit beginResetModel();
    if (sourceModel()) {
       bool ok;
       ok = disconnect(sourceModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(sourceDataChanged(QModelIndex,QModelIndex)));
@@ -197,7 +218,9 @@ void QXTreeProxyModel::setSourceModel(QAbstractItemModel* newSourceModel){
    ok = connect(sourceModel(), SIGNAL(modelReset()), this, SLOT(sourceReset()));
    Q_ASSERT(ok);
    //reset();
-   emit endResetModel();}
+   emit endResetModel();
+qDebug () << "-------- setsourcemodel endded";
+}
 
 // reimplemented virtual functions (basic set)
 /*!
@@ -234,7 +257,9 @@ QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) cons
          bool ok;
          qint32 recordId = recordIdVariant.toInt(&ok);
          if (!ok) throw EXDatabase(QLatin1String("no int value in id column"), 0);
-         Q_ASSERT_X(ok, "sourceModel()->data conversion to int", qPrintable(sourceModel()->data(idx, Qt::DisplayRole).toString()));
+         Q_ASSERT_X(ok, "sourceModel()->data conversion to int",
+                    qPrintable(sourceModel()->data(idx,
+                         Qt::DisplayRole).toString()));
          Q_ASSERT(recordId != 0);
          QVariant parentIdVariant = sourceModel()->data(sourceModel()->index(sourceIndex.row(), parentCol()), Qt::DisplayRole);
          qint32 parentId;
@@ -732,10 +757,20 @@ void QXTreeProxyModel::sourceDataChanged(const QModelIndex &source_top_left, con
    Q_ASSERT(sourceModel());
    Q_ASSERT(source_top_left.isValid());
    Q_ASSERT(source_bottom_right.isValid());
-   if (source_top_left.column() <= boost::numeric_cast<int>(idCol()) && source_bottom_right.column() >= boost::numeric_cast<int>(idCol())){
+ ///  if (source_top_left.column() <= boost::numeric_cast<int>(idCol()) && source_bottom_right.column() >= boost::numeric_cast<int>(idCol())){
+      if (source_top_left.column()
+              <= idCol() &&
+              source_bottom_right.column()
+              >= idCol())
+      {
       emit beginResetModel();
       emit endResetModel();}
-   else if (source_top_left.column() <= boost::numeric_cast<int>(parentCol()) && source_bottom_right.column() >= boost::numeric_cast<int>(parentCol())){
+   //else if (source_top_left.column() <= boost::numeric_cast<int>(parentCol()) && source_bottom_right.column() >= boost::numeric_cast<int>(parentCol())){
+   else if (source_top_left.column()
+            <= parentCol() &&
+            source_bottom_right.column()
+            >= parentCol())
+      {
       emit beginResetModel();
       emit endResetModel();}
    else for (int r(source_top_left.row()); r <= source_bottom_right.row(); ++r)
