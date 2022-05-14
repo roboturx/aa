@@ -45,18 +45,18 @@ void TestDialog::table1PrimeInsert(int row, QSqlRecord& record)
 
 TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     setupUi(this);
-    qDebug() << "testdialog constructor ------------------------------";
+    qDebug() << "111111111 - testdialog constructor -----------------";
     bool ok;
 #if (TABLEMODEL==QSQLTABLEMODEL) || (TABLEMODEL==QSQLRELATIONALTABLEMODEL)
     QSqlDatabase db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
     // db.setDatabaseName(QLatin1String(":memory:"));
     db.setDatabaseName(QLatin1String("aztestdb.db"));
     Q_ASSERT(db.open());
-    qDebug() << "---------002 db opened---------------";
+    qDebug() << "11---------002 db opened---------------";
     QSqlQuery sqlQuery(db);
     // create Table1 (main table)
 #ifdef AUTOINCREMENT
-    qDebug() << "---------003- def auto inc. creating tables adding records----------------";
+    qDebug() << "11---------003- def auto inc. creating tables adding records----------------";
     ok = sqlQuery.exec(
                 QLatin1String("CREATE TABLE IF NOT EXISTS Table1 "
                               "(Content, "
@@ -72,7 +72,9 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     Q_ASSERT_X(ok, "CREATE TABLE IF NOT EXISTS sql statement",
                "Table1 likely already exists");
 #ifdef AUTOINCREMENT
-    qDebug() << "-------------- 005 insert recs to table1";
+
+    qDebug() << "11-------------- 005 insert recs to table1";
+/*
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
                               "(Content, Parent, Details) "
@@ -123,8 +125,9 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
                               "(Content, Parent, Details) "
                               "VALUES (3, 2, 'Details for 7th item d');"));
     Q_ASSERT(ok);
+*/
 #else
-    qDebug() << "------------- 006 insert reccs without auto inc.";
+    qDebug() << "11------------- 006 insert reccs without auto inc.";
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1"
                               "(Content, Identifier, Parent, Details) "
@@ -180,11 +183,12 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 
     // create Table2 (lookup table)
 #if (TABLEMODEL==QSQLRELATIONALTABLEMODEL)
-    qDebug() << "-------------- 007 - create table2 lookup table";
+    qDebug() << "11-------------- 007 - create table2 lookup table";
     ok = sqlQuery.exec(QLatin1String("CREATE TABLE IF NOT EXISTS Table2 "
                                      "(Number, String);"));
     Q_ASSERT_X(ok, "CREATE TABLE IF NOT EXISTS sql statement",
                "Table2 likely already exists");
+/*
     ok = sqlQuery.exec(QLatin1String("INSERT INTO Table2 "
                                      "(Number, String) "
                                      "VALUES (1, 'One');"));
@@ -197,11 +201,12 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
                                      "(Number, String) "
                                      "VALUES (3, 'Three');"));
     Q_ASSERT(ok);
+*/
 #endif
 
     QAbstractItemModel* tableModel;
 #if (TABLEMODEL==QSQLRELATIONALTABLEMODEL)
-    qDebug() << "---------- 008 tablemodel qasqlrelmodel created";
+    qDebug() << "11---------- 008 tablemodel qasqlrelmodel created";
     tableModel = new QSqlRelationalTableModel (this, db);
 #elif (TABLEMODEL==QSQLTABLEMODEL)
     qDebug() << "009";
@@ -232,7 +237,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     {
         (qobject_cast<QSqlTableModel*>(tableModel))
                 ->setEditStrategy(QSqlTableModel::OnFieldChange);
-        qDebug() << "---------- 0081 onfieldchange";
+        qDebug() << "11---------- 0081 onfieldchange";
     }
 #elif (SUBMITOPTION==ONROWCHANGE)
     (qobject_cast<QSqlTableModel*>(tableModel))
@@ -244,7 +249,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     Q_ASSERT_X(false, "set edit strategy",
                "no valid edit strategy in #DEFINES in *.pro file");
 #endif
-    qDebug() << "--- 082 tested submit strategy:"
+    qDebug() << "11--- 082 tested submit strategy:"
              << (qobject_cast<QSqlTableModel*>(tableModel))
                 ->editStrategy() <<" = onfieldchange";
 
@@ -260,11 +265,11 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     (qobject_cast<QSqlRelationalTableModel*>(tableModel))
             ->setRelation(0, QSqlRelation(QLatin1String("Table2"),
                                           QLatin1String("Number"), QLatin1String("String")));
-    qDebug() << "---------- 0084 relation";
+    qDebug() << "11---------- 0084 relation";
 #endif
     (qobject_cast<QSqlTableModel*>(tableModel))->select();
 #endif      //a sql model
-    qDebug() << "0011";
+    qDebug() << "11-------0011";
     // how to retrieve foreign key
     /*
 
@@ -331,14 +336,15 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 
     tableView->setModel(tableModel);
     tableView->resizeColumnsToContents();
-#if TABLEMODEL==QSqlRelationalTableModel
-    qDebug() << "0012";
+#if TABLEMODEL==QSQLRELATIONALTABLEMODEL
+    qDebug() << "11---------0012 delegate";
     QSqlRelationalDelegate* tableDelegate = new QSqlRelationalDelegate(tableView);
     Q_ASSERT(tableDelegate);
     tableView->setItemDelegate(tableDelegate);
 #endif
-    qDebug() << "0013";
+    qDebug() << "11---------0013 treemodel";
     QXTreeProxyModel* treeModel = new QXTreeProxyModel(this);
+    qDebug() << "11---------00131 setsourcemodel";
     treeModel->setSourceModel(tableModel);
     ok = treeModel->setIdCol(1);
     Q_ASSERT(ok);
@@ -350,13 +356,15 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 #ifdef MODEL_TEST
     //   (void) new ModelTest(treeModel, this);
 #endif
+    qDebug() << "11---------00132 setmodel- treemodel";
     treeView->setModel(treeModel);
-#if TABLEMODEL==QSqlRelationalTableModel
+#if TABLEMODEL==QSQLRELATIONALTABLEMODEL
     QSqlRelationalDelegate* treeDelegate = new mySqlRelationalDelegate(treeView);
     Q_ASSERT(treeDelegate);
     treeView->setItemDelegate(treeDelegate);
 #endif
-    qDebug() << "-----------------------testdialog constructor -------ended----";
+    qDebug() << "11----------testdialog constructor -------ended----";
+    qDebug() << "111111111111111111111111111111111111111111111111111111----";
 }
 
 void TestDialog::on_removeButton_clicked(){
