@@ -56,13 +56,12 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     QSqlQuery sqlQuery(db);
     // create Table1 (main table)
 #ifdef AUTOINCREMENT
-    qDebug() << "11---------003- def auto inc. creating tables adding records----------------";
+    qDebug() << " creating tables adding records----------------";
     ok = sqlQuery.exec(
                 QLatin1String("CREATE TABLE IF NOT EXISTS Table1 "
-                              "(Content, "
-                              "Identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              "(Identifier INTEGER PRIMARY KEY AUTOINCREMENT, "
                               "Parent INTEGER NOT NULL, "
-                              "Details );"));
+                              "Content, Details );"));
 #else
     qDebug() << "********004**** not auto increment";
     ok = sqlQuery.exec(QLatin1String("CREATE TABLE Table1 "
@@ -77,53 +76,53 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 /*
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (1, 0, 'Details for first item');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 0, 'Details for first item',1);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (2, 1, 'Details for second item');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 1, 'Details for second item',2);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (2, 1, 'Details for 3rd item');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 1, 'Details for 3rd item',2);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (3, 0, 'Details for 4th item');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 0, 'Details for 4th item',3);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (3, 0, 'Details for 5th item');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 0, 'Details for 5th item',3);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (3, 1, 'Details for 6th item');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 1, 'Details for 6th item',3);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (3, 2, 'Details for 7th item a');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 2, 'Details for 7th item a',3);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (3, 2, 'Details for 7th item b');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 2, 'Details for 7th item b',3);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (3, 2, 'Details for 7th item c');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 2, 'Details for 7th item c',3);"));
     Q_ASSERT(ok);
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
-                              "(Content, Parent, Details) "
-                              "VALUES (3, 2, 'Details for 7th item d');"));
+                              "( Parent,Content, Details) "
+                              "VALUES ( 2, 'Details for 7th item d',3);"));
     Q_ASSERT(ok);
 */
 #else
@@ -336,6 +335,8 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 
     tableView->setModel(tableModel);
     tableView->resizeColumnsToContents();
+    tableView->setSelectionMode (QAbstractItemView::SingleSelection);
+    tableView->setSelectionBehavior (QAbstractItemView::SelectItems);
 #if TABLEMODEL==QSQLRELATIONALTABLEMODEL
     qDebug() << "11---------0012 delegate";
     QSqlRelationalDelegate* tableDelegate = new QSqlRelationalDelegate(tableView);
@@ -346,9 +347,9 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     QXTreeProxyModel* treeModel = new QXTreeProxyModel(this);
     qDebug() << "11---------00131 setsourcemodel";
     treeModel->setSourceModel(tableModel);
-    ok = treeModel->setIdCol(1);
+    ok = treeModel->setIdCol(0);
     Q_ASSERT(ok);
-    ok = treeModel->setParentCol(2);
+    ok = treeModel->setParentCol(1);
     Q_ASSERT(ok);
     QList<QVariant> defaultValues;
     defaultValues << 1;
@@ -358,6 +359,8 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 #endif
     qDebug() << "11---------00132 setmodel- treemodel";
     treeView->setModel(treeModel);
+    treeView->setSelectionMode (QAbstractItemView::SingleSelection);
+    treeView->setSelectionBehavior (QAbstractItemView::SelectItems);
 #if TABLEMODEL==QSQLRELATIONALTABLEMODEL
     QSqlRelationalDelegate* treeDelegate = new mySqlRelationalDelegate(treeView);
     Q_ASSERT(treeDelegate);
@@ -409,7 +412,8 @@ void TestDialog::on_insertButton_clicked(){
       qobject_cast<QXTreeProxyModel*>(treeView->model())->setDefaultValues(defaultValues);
       ok = treeView->model()->insertRow(firstSelected.row(), firstSelected);}
 #else */
-    ok = treeView->model()->insertRows(firstSelected.row(), rowCount, firstSelected);
+    ok = treeView->model()->insertRows(firstSelected.row(),
+                rowCount, firstSelected);
     //#endif
     Q_ASSERT(ok);}
 

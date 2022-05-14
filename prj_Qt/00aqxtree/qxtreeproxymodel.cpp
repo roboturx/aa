@@ -556,10 +556,14 @@ Qt::ItemFlags QXTreeProxyModel::flags(const QModelIndex& index) const {
        result |= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
    //if (index.column() == 0)
      //  result |= Qt::ItemIsDragEnabled;
-   Qt::ItemFlags sourceFlags = sourceModel()->flags(mapToSource(index));
-   if (sourceFlags.testFlag(Qt::ItemIsEditable) && index.column() != -1) result |= Qt::ItemIsEditable;
+   Qt::ItemFlags sourceFlags = sourceModel()
+                       ->flags(mapToSource(index));
+   if (sourceFlags.testFlag(Qt::ItemIsEditable) &&
+       index.column() != -1) result |= Qt::ItemIsEditable;
    // qDebug() << "   source flags for" << index << "=" << result;
-   // if (index.column() == idCol() || index.column() == parentCol()) result &= ~Qt::ItemIsEditable;
+   // if (index.column() == idCol() ||
+        //index.column() == parentCol())
+        //result &=~Qt::ItemIsEditable;
    //result |= Qt::ItemIsDropEnabled;  // even invalid index = empty space, accepts dropped items
    qDebug() << "   2288    final flags for" << index << "=" << result;
    // BUG: only_toplevelitems_are_selectable when QTreeView has
