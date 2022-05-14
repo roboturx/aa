@@ -16,41 +16,63 @@
 
 /*!
   \class QXTreeProxyModel
-  \brief QXTreeProxyModel is a proxy model that takes as input a table model and outputs a tree model
+  \brief QXTreeProxyModel is a proxy model that takes
+    as input a table model and outputs a tree model
 
   License: LGPL
-  This software is written using the non-commercial LGLP version of Qt. There are no additional restrictions
-  to the use of this software than those that are mandated by the underlying Qt license. See http://qt.nokia.com
+    This software is written using the non-commercial
+    LGLP version of Qt. There are no additional restrictions
+    to the use of this software than those that are mandated
+    by the underlying Qt license. See http://qt.nokia.com
 
   QXTreeProxyModel inherits QAbstractProxyModel.
 
   The underlying sourceModel must satisfy the following criteria
-  - needs to have an id column and a parent column (and optional more columns)
+  - needs to have an id column and a parent column (and optional
+    more columns)
   - id column needs to be unique, in sqlite PRIMARY KEY
-  - id column and parent column need to be integers (or strings convertible to integer)
-  - id column must not be 0 (nor "0" or anything else that would be converted to zero)
-  - parent column may be empty (which is equivalent to zero) or refer to a valid parent, i.e., have a number that is the id of another record
-  - records must not be circularly connected through their id and parent columns
+  - id column and parent column need to be integers (or strings
+    convertible to integer)
+  - id column must not be 0 (nor "0" or anything else that would
+    be converted to zero)
+  - parent column may be empty (which is equivalent to zero) or
+    refer to a valid parent, i.e., have a number that is the id
+    of another record
+  - records must not be circularly connected through their id and
+    parent columns
 
-  Errors attributable to a database not fulfilling the above criteria may be ignored by QXTreeProxyModel, some lead to an exception,
-  some to an Q_ASSERT failure (in debug mode); and unluckily some might lead to a crash (please report bugs!). The basic idea is
-  that errors in the database structure lead to Q_ASSERT failures as these can be prevented by the programmer; errors
-  due to content of the database should lead to exceptions as these errors could be introduced by the end user, thus, the
-  programmer should get a chance to catch them.
+    Errors attributable to a database not fulfilling the above criteria
+    may be ignored by QXTreeProxyModel, some lead to an exception,
+    some to an Q_ASSERT failure (in debug mode); and unluckily some
+    might lead to a crash (please report bugs!). The basic idea is
+    that errors in the database structure lead to Q_ASSERT failures
+    as these can be prevented by the programmer; errors due to
+    content of the database should lead to exceptions as these
+    errors could be introduced by the end user, thus, the programmer
+    should get a chance to catch them.
 
-  The source model, the id column index and the parent column index need to be set (see setter functions for detailed
-  requirements). The tree is built such that the value (e.g., 123) in the parent field of row A determines
-  which is the parent row of that row A: it is the row with that id (i.e., 123). '0' as parentCol value defines
-  the first level rows (i.e., children of the invisible root item).
+    The source model, the id column index and the parent column index
+    need to be set (see setter functions for detailed requirements).
+    The tree is built such that the value (e.g., 123) in the parent
+    field of row A determines which is the parent row of that row A:
+    it is the row with that id (i.e., 123). '0' as parentCol value
+    defines  the first level rows (i.e., children of the invisible
+    root item).
 
-  The proxy model supports drag and drop, insertion and deletion of rows, insertion (always appends)and
-  deletions of columns (limited to columns with field index greater than idCol and than parentCol).
+    The proxy model supports drag and drop, insertion and deletion
+    of rows, insertion (always appends)and deletions of columns
+    (limited to columns with field index greater than idCol and
+    than parentCol).
 
-  Uncommitted deletions of records are displayed using striked out font (re-implement data() if this is not desired).
+    Uncommitted deletions of records are displayed using striked
+    out font (re-implement data() if this is not desired).
 
-  Due to limitations in QSqlRelationalDelegate, a derived version of that class needs to be used in conjunction with
-  QXTreeProxyModel (see mysqlrelationaldelegate.cpp and mysqlrelationaldelegate.h,
-  based on http://developer.qt.nokia.com/wiki/QSqlRelationalDelegate_subclass_that_works_with_QSqlRelationalTableModel)
+    Due to limitations in QSqlRelationalDelegate, a derived version
+    of that class needs to be used in conjunction with QXTreeProxyModel
+    (see mysqlrelationaldelegate.cpp and mysqlrelationaldelegate.h,
+
+    based on
+    http://developer.qt.nokia.com/wiki/QSqlRelationalDelegate_subclass_that_works_with_QSqlRelationalTableModel)
   */
 
 //const char treeproxymime[] = "application/x-qxtreeproxymodeldatalist";
@@ -58,7 +80,8 @@
 /*!
   \brief constructor
 
-  The parameter parent is forwarded to QAbstractProxyModel from which this class is derived.
+    The parameter parent is forwarded to QAbstractProxyModel
+    from which this class is derived.
 */
 QXTreeProxyModel::QXTreeProxyModel(QObject *parent) :
     QAbstractProxyModel(parent),
@@ -66,7 +89,8 @@ QXTreeProxyModel::QXTreeProxyModel(QObject *parent) :
     idColumn(-1),
     parentColumn(-1)
     {
-        qDebug () << "--------qxtree constructor";
+        qDebug () << "   22222222222222222222222222222";
+        qDebug () << "   22 --------qxtree constructor";
    }
 
 /*!
@@ -76,27 +100,37 @@ QXTreeProxyModel::QXTreeProxyModel(QObject *parent) :
 */
 QXTreeProxyModel::~QXTreeProxyModel()
 {
-    qDebug () << "-------- qxtree destructor";
+    qDebug () << "   22 -------- qxtree destructor";
+    qDebug () << "   22222222222222222222222222222";
 }
 
 // getters and setters
 
 /*!
   \property QXTreeProxyModel::idCol
-  \brief index of column that holds unique key for each record (i.e., each row)
+  \brief index of column that holds unique key for each record
+    (i.e., each row)
 
-  This property holds the index of column (i.e., database field) with the unique key. This property
-  must be set for the proxy model to work. And it must refer to a column that holds a unique key
-  for every record. This key must be an integer (qint32, to be accurate) and it must not be 0. For
-  SQLite databases this field must be the PRIMARY KEY, optionally AUTOINCREMENT
-  There are several possibilities how to ensure that newly added records get a unique value assigned.
-  Which is used depends primarily on the input source model (sql or not) and on the EditStrategy.
-  - for sql models: connect to signal primeInsert and provide a suitable unique key
-  - for sql models: use AUTOINCREMENT (does NOT work for OnManualSubmit strategy: the unique key is only
-    generated once the record is submitted, but new child records would need to knoe that key prior to that)
-  - use default values, see setDefaultValues: this works only for single inserts and for single row drag and drop
-  - the source model could provide unique keys in the insertRows function (needs a custom made derived model)
-  - let QXTreeProxyModel handle it: this leads to incrementing values; does NOT work with AUTOINCREMENT of database
+    This property holds the index of column (i.e., database field)
+    with the unique key. This property must be set for the proxy
+    model to work. And it must refer to a column that holds a unique
+    key for every record. This key must be an integer (qint32, to be
+    accurate) and it must not be 0. For SQLite databases this field
+    must be the PRIMARY KEY, optionally AUTOINCREMENT There are several
+    possibilities how to ensure that newly added records get a unique
+    value assigned. Which is used depends primarily on the input source
+    model (sql or not) and on the EditStrategy.
+  - for sql models: connect to signal primeInsert and provide a suitable
+    unique key
+  - for sql models: use AUTOINCREMENT (does NOT work for OnManualSubmit
+    strategy: the unique key is only generated once the record is submitted,
+    but new child records would need to knoe that key prior to that)
+  - use default values, see setDefaultValues: this works only for single
+    inserts and for single row drag and drop
+  - the source model could provide unique keys in the insertRows function
+    (needs a custom made derived model)
+  - let QXTreeProxyModel handle it: this leads to incrementing values;
+    does NOT work with AUTOINCREMENT of database
 */
 /*!
   \fn int QXTreeProxyModel::idCol() const
@@ -106,7 +140,7 @@ QXTreeProxyModel::~QXTreeProxyModel()
 */
 int QXTreeProxyModel::idCol() const
 {
-    //qDebug () << "-------- idcol =" << idColumn;
+   // qDebug () << "-------- idcol =" << idColumn;
    return idColumn;
 }
 
@@ -119,12 +153,14 @@ bool QXTreeProxyModel::setIdCol(unsigned int col){
    //int iCol(boost::numeric_cast<int>(col));
    //idColumn = iCol;
    idColumn = col;
-   qDebug () << "-------- idcolumn setted to " << col ;
+   emit idColChanged(col );
+   qDebug () << "   22 -------- idcolumn setted to " << col ;
    return true;}
 
 /*!
   \property QXTreeProxyModel::parentCol
-  \brief index of column that refers to parent of each record (i.e., each row)
+  \brief index of column that refers to parent of each record
+    (i.e., each row)
 */
 
 /*!
@@ -134,7 +170,7 @@ bool QXTreeProxyModel::setIdCol(unsigned int col){
 */
 int QXTreeProxyModel::parentCol() const
 {
-   // qDebug () << "-------- parentcol ="<< parentColumn ;
+    //qDebug () << "-------- parentcol ="<< parentColumn ;
    return parentColumn;
 }
 
@@ -147,82 +183,141 @@ bool QXTreeProxyModel::setParentCol(unsigned int col){
 //   int pCol(boost::numeric_cast<int>(col));
   // parentColumn = pCol;
    parentColumn = col;
-   qDebug () << "-------- parentcol setted to " << col;
+   emit parentColChanged(col );
+   qDebug () << "   22 -------- parentcol setted to " << col;
 
    return true;}
 
 /*!
   \brief setter function for sourceModel (reimplemented)
 
-  Any QAbstractItemModel derived model is acceptable, as long as it provides a flat table-like
-  structure (i.e., the parent of each item is an invalid QModelIndex). The class was tested using
-  QSqlTableModel, QSqlRelationalTableModel and QStandardItemModel.
+    Any QAbstractItemModel derived model is acceptable, as long as
+    it provides a flat table-like structure (i.e., the parent of
+    each item is an invalid QModelIndex). The class was tested using
+    QSqlTableModel, QSqlRelationalTableModel and QStandardItemModel.
 */
 void QXTreeProxyModel::setSourceModel(QAbstractItemModel* newSourceModel){
-   qDebug () << "-///------- setsourcemodel begins.";
+   qDebug () << "   2200 -------- setsourcemodel begins.";
     emit beginResetModel();
    if (sourceModel()) {
       bool ok;
-      ok = disconnect(sourceModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(sourceDataChanged(QModelIndex,QModelIndex)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(dataChanged(QModelIndex,QModelIndex)), this,
+                      SLOT(sourceDataChanged(QModelIndex,QModelIndex)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(headerDataChanged(Qt::Orientation,int,int)), this, SLOT(sourceHeaderDataChanged(Qt::Orientation,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(headerDataChanged(Qt::Orientation,int,int)), this,
+                      SLOT(sourceHeaderDataChanged(Qt::Orientation,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this, SLOT(sourceRowsAboutToBeInserted(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this,
+                      SLOT(sourceRowsAboutToBeInserted(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(sourceRowsInserted(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(rowsInserted(QModelIndex,int,int)), this,
+                      SLOT(sourceRowsInserted(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(columnsAboutToBeInserted(QModelIndex,int,int)), this, SLOT(sourceColumnsAboutToBeInserted(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(columnsAboutToBeInserted(QModelIndex,int,int)), this,
+                      SLOT(sourceColumnsAboutToBeInserted(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(columnsInserted(QModelIndex,int,int)), this, SLOT(sourceColumnsInserted(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(columnsInserted(QModelIndex,int,int)), this,
+                      SLOT(sourceColumnsInserted(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this, SLOT(sourceRowsAboutToBeRemoved(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this,
+                      SLOT(sourceRowsAboutToBeRemoved(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(sourceRowsRemoved(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(rowsRemoved(QModelIndex,int,int)), this,
+                      SLOT(sourceRowsRemoved(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(columnsAboutToBeRemoved(QModelIndex,int,int)), this, SLOT(sourceColumnsAboutToBeRemoved(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(columnsAboutToBeRemoved(QModelIndex,int,int)), this,
+                      SLOT(sourceColumnsAboutToBeRemoved(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(columnsRemoved(QModelIndex,int,int)), this, SLOT(sourceColumnsRemoved(QModelIndex,int,int)));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(columnsRemoved(QModelIndex,int,int)), this,
+                      SLOT(sourceColumnsRemoved(QModelIndex,int,int)));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(sourceLayoutAboutToBeChanged()));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(layoutAboutToBeChanged()), this,
+                      SLOT(sourceLayoutAboutToBeChanged()));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(sourceLayoutChanged()));
+      ok = disconnect(sourceModel(),
+                      SIGNAL(layoutChanged()), this,
+                      SLOT(sourceLayoutChanged()));
       Q_ASSERT(ok);
-      ok = disconnect(sourceModel(), SIGNAL(modelReset()), this, SLOT(_q_sourceReset()));
-      Q_ASSERT(ok);}
+      ok = disconnect(sourceModel(),
+                      SIGNAL(modelReset()), this,
+                      SLOT(_q_sourceReset()));
+
+        Q_ASSERT(ok);
+   }
+
    QAbstractProxyModel::setSourceModel(newSourceModel);
-   qDebug() << "model addresses: QXTreeProxyModel ="
-            << this<<Qt::endl
-            << "                      sourceModel ="
-            << QAbstractProxyModel::sourceModel();
-   bool ok = connect(sourceModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(sourceDataChanged(QModelIndex,QModelIndex)));
+
+   qDebug() << "   2200 model addresses: QXTreeProxyModel =" << this
+            << "   2200 sourceModel =" << QAbstractProxyModel::sourceModel();
+   bool ok;
+
+   ok = connect(sourceModel(),
+                SIGNAL(dataChanged(QModelIndex,QModelIndex)), this,
+                SLOT(sourceDataChanged(QModelIndex,QModelIndex)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(headerDataChanged(Qt::Orientation,int,int)), this, SLOT(sourceHeaderDataChanged(Qt::Orientation,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(headerDataChanged(Qt::Orientation,int,int)), this,
+                SLOT(sourceHeaderDataChanged(Qt::Orientation,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this, SLOT(sourceRowsAboutToBeInserted(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this,
+                SLOT(sourceRowsAboutToBeInserted(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(sourceRowsInserted(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(rowsInserted(QModelIndex,int,int)), this,
+                SLOT(sourceRowsInserted(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(columnsAboutToBeInserted(QModelIndex,int,int)), this, SLOT(sourceColumnsAboutToBeInserted(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(columnsAboutToBeInserted(QModelIndex,int,int)), this,
+                SLOT(sourceColumnsAboutToBeInserted(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(columnsInserted(QModelIndex,int,int)), this, SLOT(sourceColumnsInserted(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(columnsInserted(QModelIndex,int,int)), this,
+                SLOT(sourceColumnsInserted(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this, SLOT(sourceRowsAboutToBeRemoved(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this,
+                SLOT(sourceRowsAboutToBeRemoved(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(sourceRowsRemoved(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(rowsRemoved(QModelIndex,int,int)), this,
+                SLOT(sourceRowsRemoved(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(columnsAboutToBeRemoved(QModelIndex,int,int)), this, SLOT(sourceColumnsAboutToBeRemoved(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(columnsAboutToBeRemoved(QModelIndex,int,int)), this,
+                SLOT(sourceColumnsAboutToBeRemoved(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(columnsRemoved(QModelIndex,int,int)), this, SLOT(sourceColumnsRemoved(QModelIndex,int,int)));
+   ok = connect(sourceModel(),
+                SIGNAL(columnsRemoved(QModelIndex,int,int)), this,
+                SLOT(sourceColumnsRemoved(QModelIndex,int,int)));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(sourceLayoutAboutToBeChanged()));
+   ok = connect(sourceModel(),
+                SIGNAL(layoutAboutToBeChanged()), this,
+                SLOT(sourceLayoutAboutToBeChanged()));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(sourceLayoutChanged()));
+   ok = connect(sourceModel(),
+                SIGNAL(layoutChanged()), this,
+                SLOT(sourceLayoutChanged()));
    Q_ASSERT(ok);
-   ok = connect(sourceModel(), SIGNAL(modelReset()), this, SLOT(sourceReset()));
+   ok = connect(sourceModel(),
+                SIGNAL(modelReset()), this,
+                SLOT(sourceReset()));
    Q_ASSERT(ok);
    //reset();
+   //emit sourceReset();
    emit endResetModel();
-qDebug () << "-------- setsourcemodel endded";
+qDebug () << "   2200 -------- setsourcemodel endded";
 }
 
 // reimplemented virtual functions (basic set)
@@ -233,21 +328,24 @@ QModelIndex QXTreeProxyModel::mapToSource(const QModelIndex& proxyIndex) const{
    Q_ASSERT(sourceModel());
    if (!proxyIndex.isValid()) return QModelIndex();
    qint32 recordId = getId(proxyIndex);
-   Q_ASSERT(recordId != 0);
+//??   Q_ASSERT(recordId != 0);
+    qDebug() << "  1--------sourceindexFromId  maptosource recordid";
    QModelIndex idx = sourceindexFromId(recordId);
    bool ok(true);
    Q_ASSERT(sourceModel()->data(idx, Qt::DisplayRole).toInt(&ok) == recordId && ok);
    QModelIndex sourceIndex = idx.sibling(idx.row(), proxyIndex.column());
-   // qDebug() << "mapToSource" << proxyIndex << "finds" << sourceIndex << "with id" << sourceModel()->data(sourceModel()->sibling(sourceIndex.row(), idCol(), sourceIndex), Qt::DisplayRole).toInt();
+    qDebug() << "mapToSource" << proxyIndex << "finds" << sourceIndex << "with id" << sourceModel()->data(sourceModel()->sibling(sourceIndex.row(), idCol(), sourceIndex), Qt::DisplayRole).toInt();
    return sourceIndex;}
 
 /*!
   \brief reimplemented function
 */
-QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) const{
+QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) const
+{
+    qDebug() << "   2211 mapFromSource" << sourceIndex;
    Q_ASSERT(sourceModel());
    Q_ASSERT(sourceIndex.isValid());
-   // qDebug() << "mapFromSource" << sourceIndex;
+
    QModelIndex proxyIndex;
    if (sourceIndex.row() < 0) exit(99); //proxyIndex = QModelIndex();
    else {
@@ -256,26 +354,35 @@ QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) cons
       QVariant recordIdVariant = sourceModel()->data(idx, Qt::DisplayRole);
       idx = sourceModel()->index(sourceIndex.row(), parentCol());
       Q_ASSERT(idx.isValid());
-      if (/*recordParentVariant.toInt() != std::numeric_limits<qint32>::min() && */ recordIdVariant.isValid()){
+      if (/*recordParentVariant.toInt() != std::numeric_limits<qint32>::min() && */
+              recordIdVariant.isValid())
+      {
          bool ok;
          qint32 recordId = recordIdVariant.toInt(&ok);
-         if (!ok) throw EXDatabase(QLatin1String("no int value in id column"), 0);
+         qDebug() << "   ex01  ok = ? "   << ok<<"rec id"<< recordId;
+         if (!ok) throw EXDatabase(QLatin1String
+                            ("01 no int value in id column"), 0);
          Q_ASSERT_X(ok, "sourceModel()->data conversion to int",
                     qPrintable(sourceModel()->data(idx,
                          Qt::DisplayRole).toString()));
-         Q_ASSERT(recordId != 0);
+         qDebug() << "rec id"<< recordId;
+    //????     Q_ASSERT(recordId != 0);
          QVariant parentIdVariant = sourceModel()->data(sourceModel()->index(sourceIndex.row(), parentCol()), Qt::DisplayRole);
          qint32 parentId;
          if (parentIdVariant.isNull()) parentId = 0;     // not yet set??
          else parentId = parentIdVariant.toInt(&ok);
-         Q_ASSERT_X(ok, QString::number(recordId).toLocal8Bit(), sourceModel()->data(sourceModel()->index(sourceIndex.row(), parentCol()), Qt::DisplayRole).toByteArray());
-         if (!ok) throw EXDatabase(QLatin1String("no int value in parent column"), recordId);
+         Q_ASSERT_X(ok, QString::number(recordId).toLocal8Bit(),
+              sourceModel()->data(sourceModel()->index(sourceIndex.row(),
+              parentCol()), Qt::DisplayRole).toByteArray());
+               qDebug() << "   ex02";
+         if (!ok) throw EXDatabase(QLatin1String("02 no int value in parent column"), recordId);
          int rowNumber = rowFromId(recordId, parentId);
          // find parent index of proxy index
          QModelIndex parentIndex;
          if (parentId == 0) parentIndex = QModelIndex();
          else {     // need to recursively find parent index, as not yet 0
-            // qDebug() << "   entering recursion to find index with id" << parentId;
+            qDebug() << "  entering recursion to find index with id" << parentId;
+             qDebug() << " sourceindexFromId   2211 parentid";
             QModelIndex idx = sourceindexFromId(parentId);
 //            if (d_idFilterModel->rowCount() == 0) parentIndex = QModelIndex();    // id of requested parent not found -> assign to root
 //            else {
@@ -284,7 +391,9 @@ QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) cons
             Q_ASSERT_X(getId(parentIndex) == parentId, "wrong parentIndex found", qPrintable(QString::number(parentId)));}
          proxyIndex = index(rowNumber, sourceIndex.column(), parentIndex);}
       else proxyIndex = QModelIndex();}    // "none of my business" as id field of source index row is empty; most likely record not yet fully constructed
-   return proxyIndex;}
+   qDebug() << "   2211 mapFromSource enddddddddd" << proxyIndex;
+   return proxyIndex;
+}
 
 /*!
   \brief reimplemented function
@@ -293,26 +402,32 @@ QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) cons
   To change this behaviour re-implement this function for role == Qt::FontRole and return
   QAbstractProxyModel::data(proxyIndex, role) for all other roles.
 */
-QVariant QXTreeProxyModel::data(const QModelIndex& proxyIndex, int role) const{
+QVariant QXTreeProxyModel::data(const QModelIndex& proxyIndex, int role) const
+{
+    qDebug() << "   2222 data";
    QVariant result = QAbstractProxyModel::data(proxyIndex, role);
    if (role == Qt::FontRole){ // draw deleted (but not yet submitted) rows strike-through
       QModelIndex sourceIndex = mapToSource(proxyIndex);
       if (isSourceDeleted(sourceIndex)){
          QFont myFont;
-         // qDebug() << proxyIndex << "is deleted";
+         qDebug() <<"    2222 " << proxyIndex << "is deleted";
          if (result.isNull()) myFont = QFont();    // redundant
          else {
             myFont = result.value<QFont>();
             Q_ASSERT(myFont != QFont());}
          myFont.setStrikeOut(true);
          result = myFont;}}
-   return result;}
+
+    qDebug() << "   2222 data endeddddddddd";
+   return result;
+}
 
 /*!
   \brief reimplemented function
 */
 QModelIndex QXTreeProxyModel::index(int row, int column, const QModelIndex& parent) const{
-   // qDebug() << "index for" << row << column << parent;
+    qDebug() << "   2233 data";
+    qDebug() << "   2233 index for" << row << column << parent;
    Q_ASSERT(row >= 0);
    Q_ASSERT(column >= 0);
    Q_ASSERT((parent.model() == NULL && parent.row() == -1 && parent.column() == -1) ||
@@ -321,8 +436,8 @@ QModelIndex QXTreeProxyModel::index(int row, int column, const QModelIndex& pare
    // if (column < 0) return QModelIndex();
    if (parent.column() != 0 && parent.isValid()) return QModelIndex();
    QModelIndexList idxList = sourcechildrenFromId(getId(parent));
-   // qDebug() << "   parent filter" << d_parentFilterModel->filterRegExp().pattern() << "returns" << d_parentFilterModel->rowCount() << "rows";
-   // qDebug() << idxList;
+   //qDebug() << "   parent filter" << d_parentFilterModel->filterRegExp().pattern() << "returns" << d_parentFilterModel->rowCount() << "rows";
+   qDebug() <<"&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"<< idxList;
    Q_ASSERT_X(idxList.count() > row, "too few children found",
               qPrintable(QString(QLatin1String("expected >%1, found %2 rows when filtering %3 for %4 in column %5"))
                          .arg(row).arg(idxList.count()).arg(sourceModel()->objectName()).arg(getId(parent)).arg(parentCol())));
@@ -334,24 +449,27 @@ QModelIndex QXTreeProxyModel::index(int row, int column, const QModelIndex& pare
    int recordId = sourceModel()->data(sourceIdIndex, Qt::DisplayRole).toInt(&ok);
    Q_ASSERT_X(ok, qPrintable(QString(QLatin1String("id in sourceModel with row = %1, col = %2")).arg(row).arg(idCol())),
                   qPrintable(sourceModel()->data(idxList.at(row).sibling(row, idCol()), Qt::DisplayRole).toString()));
-   Q_ASSERT(recordId != 0);
+//????   Q_ASSERT(recordId != 0);
    QModelIndex newIndex = createIndex(row, column, recordId);
-   // qDebug() << "index for" << row << column << parent << "is" << newIndex;
-   return newIndex;}
+    qDebug() << "index for" << row << column << parent << "is" << newIndex;
+    qDebug() << "   2233 data endeddddddddddddddd";
+   return newIndex;
+}
 
 /*!
   \brief reimplemented function
 */
 bool QXTreeProxyModel::hasChildren(const QModelIndex &parent) const{
    // to improve performance: do not count children
-   // qDebug() << "hasChildren" << parent;
+    qDebug() << "   2244 ---  hasChildren" << parent;
+
    return (rowCount(parent) > 0);}
 
 /*!
   \brief reimplemented function
 */
 int QXTreeProxyModel::rowCount(const QModelIndex& parent) const{
-   // qDebug() << "rowCount" << parent;
+   qDebug() << "   2255 ---- rowCount" << parent;
    int rows;
    if (parent.isValid() && parent.column() != 0) rows = 0;   // AQP: only first column is parent in tree model
 //   if (parent.column() != 0) rows = 0;    first asks for child count of root item, i.e., children of an invalid model index
@@ -372,39 +490,60 @@ int QXTreeProxyModel::columnCount(const QModelIndex& parent) const {
    // although in theory possible, all columnCounts need to be identical, as per note above
    //QModelIndex sourceIndex = mapToSource(parent);
    int n = sourceModel()->columnCount(/*sourceIndex*/ QModelIndex());
+   qDebug() << "   2266 ---- columnCount" << n;
    return n;}
 
 /*!
   \brief reimplemented function
 */
-QModelIndex QXTreeProxyModel::parent(const QModelIndex& child) const{
+QModelIndex QXTreeProxyModel::parent(const QModelIndex& child) const
+{
+   // qDebug() << "   2277 parent() for parameter" << child;
    Q_ASSERT(sourceModel());
    Q_ASSERT(child.isValid());
-   // qDebug() << "parent() for parameter" << child;
+
    qint32 childId = getId(child);
-   // if(child.row() == -1 && child.column() == -1 && child.internalId() == 0 && child.model() == NULL) return QModelIndex();
+   ////****
+   if(child.row() == -1 &&
+   child.column() == -1 &&
+           child.internalId() == 0 &&
+           child.model() == NULL)
+           return QModelIndex();
+   ////****
    Q_ASSERT_X(childId != 0, "getId returned 0 for index",
               qPrintable(QString(QLatin1String("row %1, column %2, internalId %3, model address %4"))
                                        .arg(child.row()).arg(child.column()).arg(child.internalId()).arg((qlonglong)(void*)child.model())));
+
+   qDebug() << "   sourceindexFromId 2277 childid";
    QModelIndex idx = sourceindexFromId(childId);
    bool ok;
-   qint32 parentId = sourceModel()->data(idx.sibling(idx.row(), parentCol()), Qt::DisplayRole).toInt(&ok);
+   qint32 parentId = sourceModel()->data(idx.sibling(idx.row(),
+                           parentCol()),
+                           Qt::DisplayRole).toInt(&ok);
    // if (!ok) parentId = 0;
-   Q_ASSERT_X(ok, "illegal parent", sourceModel()->data(idx, Qt::DisplayRole).toByteArray());
+   Q_ASSERT_X(ok, "illegal parent",
+              sourceModel()->data(idx,Qt::DisplayRole).toByteArray());
    if (!ok) {
       EXDatabase exception;
-      exception.msg = QLatin1String("illegal entry in parent field");
+            qDebug() << "   ex03";
+      exception.msg = QLatin1String("03 illegal entry in parent field");
       exception.id = getId(child);
       throw exception;}
    if (parentId == 0) return QModelIndex();
+    qDebug() << " sourceindexFromId   2211 parentid";
    idx = sourceindexFromId(parentId);
    QModelIndex sourceIndex = idx.sibling(idx.row(), 0); //AQP: all rows are child of parent's 1st column
-   Q_ASSERT_X(sourceModel()->data(sourceModel()->index(sourceIndex.row(), idCol())).toInt(&ok) == parentId && ok, "id at source",
+   Q_ASSERT_X(sourceModel()->data(sourceModel()->index(sourceIndex.row(),
+                   idCol())).toInt(&ok) == parentId && ok, "id at source",
                            qPrintable(sourceModel()->data(sourceModel()->index(sourceIndex.row(), idCol())).toString()));
    QModelIndex proxyIndex = mapFromSource(sourceIndex);
-   // qDebug() << "   parent() for parameter" << child << "with id" << getId(child) << "is" << sourceIndex << "," << proxyIndex << "and has id" << parentId;
-   Q_ASSERT_X(proxyIndex.internalId() == parentId, qPrintable(QString::number(parentId)), qPrintable(QString::number(proxyIndex.internalId())));
-   return proxyIndex;}
+   qDebug() << "   parent() for parameter" << child << "with id" << getId(child) << "is" << sourceIndex << "," << proxyIndex << "and has id" << parentId;
+   Q_ASSERT_X(proxyIndex.internalId() == parentId,
+              qPrintable(QString::number(parentId)),
+              qPrintable(QString::number(proxyIndex.internalId())));
+   qDebug() << "   2277 parent() proxyindex" << proxyIndex;
+   return proxyIndex;
+}
 
 /*!
   \brief reimplemented function
@@ -412,17 +551,21 @@ QModelIndex QXTreeProxyModel::parent(const QModelIndex& child) const{
 Qt::ItemFlags QXTreeProxyModel::flags(const QModelIndex& index) const {
    Q_ASSERT(sourceModel());
    Qt::ItemFlags result = QAbstractProxyModel::flags(index);
-   // qDebug() << "preset flags for" << index << "=" << result;
-   if (index.isValid()) result |= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-   if (index.column() == 0) result |= Qt::ItemIsDragEnabled;
+   qDebug() << "   2288 preset flags for" << index << "=" << result;
+   if (index.isValid())
+       result |= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+   //if (index.column() == 0)
+     //  result |= Qt::ItemIsDragEnabled;
    Qt::ItemFlags sourceFlags = sourceModel()->flags(mapToSource(index));
    if (sourceFlags.testFlag(Qt::ItemIsEditable) && index.column() != -1) result |= Qt::ItemIsEditable;
    // qDebug() << "   source flags for" << index << "=" << result;
    // if (index.column() == idCol() || index.column() == parentCol()) result &= ~Qt::ItemIsEditable;
-   result |= Qt::ItemIsDropEnabled;  // even invalid index = empty space, accepts dropped items
-   // qDebug() << "   final flags for" << index << "=" << result;
-   // BUG: only_toplevelitems_are_selectable when QTreeView has rowselection behaviour
-   return result;}
+   //result |= Qt::ItemIsDropEnabled;  // even invalid index = empty space, accepts dropped items
+   qDebug() << "   2288    final flags for" << index << "=" << result;
+   // BUG: only_toplevelitems_are_selectable when QTreeView has
+   // rowselection behaviour
+   return result;
+}
 /*
 // Drag and drop functionality
 !
@@ -556,7 +699,8 @@ bool QXTreeProxyModel::dropMimeData(const QMimeData *mimedata, Qt::DropAction ac
 //      childIds.insert(childId);}
 //   if (childIndices.count() != childIds.count()){
 //      EXDatabase exception;
-//      exception.msg = QLatin1String("children have duplicate id");
+//      qDebug() << "   ex04";
+//      exception.msg = QLatin1String("04 children have duplicate id");
 //      exception.id = id;}
 //   if (childIds.count() > 0) for (QSet<qint32>::const_iterator iter = childIds.constBegin(); iter != childIds.constEnd() && ok; ++iter){
 //      ok = copyBranch(*iter, newId);
@@ -575,18 +719,20 @@ bool QXTreeProxyModel::removeRows(int row, int count, const QModelIndex& parent)
    for (int i(0); i < count; ++i) {
       QModelIndex proxyIndex = index(row + i, 0, parent);
       qint32 recordId = getId(proxyIndex);
-      Q_ASSERT(recordId != 0);
+    //?????  Q_ASSERT(recordId != 0);
       ids.append(recordId);}
    Q_ASSERT(ids.count() > 0 && ids.count() <= count);
-   // qDebug() << "remove" << ids.count() << "sibling rows:" << ids;
+   qDebug() << "   2290 remove" << ids.count() << "sibling rows:" << ids;
 //   beginRemoveRows(parent, row, row + count - 1);
    foreach(qint32 recordId, ids){
+        qDebug() << " sourceindexFromId   2211 recid";
       QModelIndex sourceIndex = sourceindexFromId(recordId);
-      // qDebug() << "removing item" << recordId << "with column(0) =" << sourceModel()->data(sourceIndex.sibling(sourceIndex.row(), 0));
+      qDebug() << "removing item" << recordId << "with column(0) =" << sourceModel()->data(sourceIndex.sibling(sourceIndex.row(), 0));
       ok = sourceModel()->removeRow(sourceIndex.row(), QModelIndex());
       if (!ok) {
          EXDatabase exception;
-         exception.msg = QLatin1String("can not remove record");
+               qDebug() << "   ex05";
+         exception.msg = QLatin1String("05 can not remove record");
          exception.id = recordId;}
       removeChildRows(recordId);}
 //   endRemoveRows();
@@ -599,7 +745,7 @@ bool QXTreeProxyModel::insertRows(int row, int count, const QModelIndex& parent)
    Q_UNUSED(row);
    if (!sourceModel()) return false;
    if (isSourceDeleted(mapToSource(parent))) return false;
-   // qDebug() << "insert" << count << "rows" << "to parent" << parent;
+    qDebug() << "   2291 insert" << count << "rows" << "to parent" << parent;
    if (count == 0) return true;
    qint32 parentId = getId(parent);
    for (int i(0); i < count; ++i){
@@ -616,19 +762,19 @@ bool QXTreeProxyModel::insertRows(int row, int count, const QModelIndex& parent)
 #endif
          idx = sourceModel()->index(0, c);
          Q_ASSERT(idx.isValid());
-         // qDebug() << "freshly inserted field" << idx << sourceModel()->data(idx, Qt::DisplayRole);
+         qDebug() << "   2291 freshly inserted field" << idx << sourceModel()->data(idx, Qt::DisplayRole);
          if (c == idCol()){            // set id column
             if (sourceModel()->data(idx, Qt::DisplayRole).toInt() != 0);       // already filled by primeInsert or derived sourceModel class or ...
             else if (d_defaultValues.value(c).isValid()) ok = sourceModel()->setData(idx, d_defaultValues.at(c), Qt::EditRole);  // use provided value
             else ok = sourceModel()->setData(idx, nextFreeId(), Qt::EditRole);}                                                  // use homebrewn autoincrement
          else if (c == parentCol()) ok = sourceModel()->setData(idx, std::numeric_limits<qint32>::min(), Qt::EditRole); // temporary marker to identify row
          else if (d_defaultValues.value(c).isValid()) ok = sourceModel()->setData(idx, d_defaultValues.at(c), Qt::EditRole);
-         // qDebug() << "   modified to" << idx << sourceModel()->data(idx, Qt::DisplayRole);
+         qDebug() << "   2291   modified to" << idx << sourceModel()->data(idx, Qt::DisplayRole);
          Q_ASSERT(ok);}
       ok = (sourceModel()->data(sourceModel()->index(0, idCol())).toInt() != 0);    // needed to judge result of submit(); which in turn might change id)
       ok = (sourceModel()->submit() || ok);
       Q_ASSERT_X(ok, "submit() failed and no valid id was set previously", "is the edit strategy erroneously OnManualSubmit combined with autoincrement at database level?");
-      // qDebug() << "sourceModel has" << sourceModel()->rowCount() << "rows and" << sourceModel()->columnCount() << "columns;";
+      qDebug() << "   2291 sourceModel has" << sourceModel()->rowCount() << "rows and" << sourceModel()->columnCount() << "columns;";
       /* assert for row count incorrectly fails if un-submitted row deletions are in the source model
       Q_ASSERT_X(sourceModel()->rowCount() == oldRowCount + 1, "row inserted?",
                  QString(QLatin1String("old row count %1, new %2")).arg(oldRowCount).arg(sourceModel()->rowCount()).toLocal8Bit()); */
@@ -638,9 +784,9 @@ bool QXTreeProxyModel::insertRows(int row, int count, const QModelIndex& parent)
       Q_ASSERT_X(ok, "lastInsertedId", sourceModel()->data(idxList.at(0), Qt::DisplayRole).toByteArray());
       Q_ASSERT(lastInsertedId != 0);
       QModelIndex filterIndex = idxList.at(0).sibling(idxList.at(0).row(), parentCol());
-      // qDebug() << "lastInserted" << lastInsertedId << "old parent" << sourceModel()->data(filterIndex, Qt::DisplayRole) << "new parent" << parentId;
+      qDebug() << "   2291 lastInserted" << lastInsertedId << "old parent" << sourceModel()->data(filterIndex, Qt::DisplayRole) << "new parent" << parentId;
       ok = sourceModel()->setData(filterIndex, QVariant(parentId), Qt::EditRole);
-      // qDebug() << "   set parent" << sourceModel()->data(filterIndex, Qt::DisplayRole);
+      qDebug() << "   2291   set parent" << sourceModel()->data(filterIndex, Qt::DisplayRole);
       Q_ASSERT(ok);}
    return true;}
 
@@ -653,7 +799,7 @@ bool QXTreeProxyModel::insertRows(int row, int count, const QModelIndex& parent)
 bool QXTreeProxyModel::insertColumns(int column, int count, const QModelIndex& parent){
    Q_UNUSED(parent);
    Q_UNUSED(column);
-   // qDebug() <<"insert" << count << "column(s) after last column";
+   qDebug() <<"   2292 insert" << count << "column(s) after last column";
    if (!sourceModel()) return false;
    bool ok = sourceModel()->insertColumns(sourceModel()->columnCount(QModelIndex()), count);
    Q_ASSERT(ok);
@@ -676,28 +822,16 @@ bool QXTreeProxyModel::removeColumns(int column, int count, const QModelIndex& p
 // private helper functions
 qint32 QXTreeProxyModel::getId(const QModelIndex& idx) const{
    Q_ASSERT(idx.model() == NULL || idx.model() == this);
-    qDebug() << "************ getId: "
-            << idx.row ()<<","
-            << idx.column ()<<"/"
-            << idx.parent ().row () <<","
-            << idx.parent().column ()
-            <<" **********************";
+   qDebug() << "   2294 getId: " << idx;
    qint32 id;
-   if (idx.isValid())
-   { //idx.row() >= 0)
-
-      Q_ASSERT_X(idx.internalId() != 0, "getId:",
-                  qPrintable(QString(QLatin1String("%1 %2 %3"))
-         .arg(idx.row()).arg(idx.column()).arg(idx.internalId())));
-      id = idx.internalId();
-   }
+   if (idx.isValid()) { //idx.row() >= 0){
+      Q_ASSERT_X(idx.internalId() != 0, "getId:", qPrintable(QString(QLatin1String("%1 %2 %3")).arg(idx.row()).arg(idx.column()).arg(idx.internalId())));
+      id = idx.internalId();}
    else {
-       qDebug() << "   invalid index */*/*/*/*/*";
-      Q_ASSERT_X(idx.internalId() == 0, "getId:",
-                  qPrintable(QString(QLatin1String("%1 %2 %3"))
-          .arg(idx.row()).arg(idx.column()).arg(idx.internalId())));
+       //qDebug() << "   invalid index";
+      Q_ASSERT_X(idx.internalId() == 0, "getId:", qPrintable(QString(QLatin1String("%1 %2 %3")).arg(idx.row()).arg(idx.column()).arg(idx.internalId())));
       id = 0;}
-   qDebug() << "   id is" << id<<"idddddddd";
+   qDebug() << "   2294  id is" << id;
    return id;}
 
 void QXTreeProxyModel::removeChildRows(qint32 parentId){
@@ -715,39 +849,52 @@ void QXTreeProxyModel::removeChildRows(qint32 parentId){
          removeChildRows(childId);}}}
 
 int QXTreeProxyModel::rowFromId(qint32 recordId, qint32 parentId) const {
-   // qDebug() << "find rowFromId where recordId is" << recordId << "with parentId" << parentId;
+   qDebug() << "   2295 find rowFromId where recordId is" << recordId << "with parentId" << parentId;
    QModelIndexList childIndices = sourcechildrenFromId(parentId);
    //d_parentFilterModel->sort(idCol(), Qt::AscendingOrder);
    int rowNumber(0);
-   bool ok;
-   while (rowNumber < childIndices.count() && sourceModel()->data(childIndices.at(rowNumber)).toInt(&ok) != recordId && ok) ++ rowNumber;
-   Q_ASSERT(ok);
+   bool ok=true;
+   while (rowNumber < childIndices.count() &&
+          sourceModel()->data(childIndices.at(rowNumber)).toInt(&ok)
+          != recordId && ok) ++ rowNumber;
+   //Q_ASSERT(ok);
    if (rowNumber == childIndices.count()) {
       EXDatabase exception;
-      exception.msg = QLatin1String("row from id not found");
+            qDebug() << "   ex06";
+      exception.msg = QLatin1String("06 row from id not found");
       exception.id = recordId;}
-   // qDebug() << "found rowFromId" << rowNumber;
+    qDebug() << "   2295 found rowFromId" << rowNumber;
    return rowNumber;}
 
 QModelIndex QXTreeProxyModel::sourceindexFromId(qint32 id) const {
-   // qDebug() << "sourceindexFromId" << id;
-   QModelIndexList idxList = sourceModel()->match(sourceModel()->index(0, idCol()), Qt::DisplayRole, id, -1, Qt::MatchExactly);
+   qDebug() << "   2296 sourceindexFromId" << id;
+ //  qDebug() << "  1------1";
+   QModelIndexList idxList = sourceModel()->match(sourceModel()
+                     ->index(0, idCol()),
+                       Qt::DisplayRole, id, -1, Qt::MatchExactly);
    Q_ASSERT_X(!idxList.isEmpty(), "key not found", QString::number(id).toLocal8Bit());
    Q_ASSERT_X(idxList.at(0).isValid(), "index for key is not valid", QString::number(id).toLocal8Bit());
    if (idxList.count() > 1){
-      EXDatabase exception;
-      exception.id = id;
-      exception.msg = QLatin1String("duplicate key found");
-      throw exception;}
-   return idxList.at(0);}
+      EXDatabase exception2;
+            qDebug() << "   ex07 idxlist count "<<idxList.count();
+      exception2.id = id;
+       qDebug() << "   ex071 id "<< id;
+      exception2.msg = QLatin1String("07   2296 duplicate key found");
+    //  qDebug() << "   ex071 message - "<< exception2.msg;
+      throw exception2;
+   }
+   return idxList.at(0);
+}
 
 QModelIndexList QXTreeProxyModel::sourcechildrenFromId(qint32 id) const {
-   // qDebug() << "sourcechildrenFromId looks for" << id << "in column" << parentCol();
+    qDebug() << "   2297 sourcechildrenFromId looks for" << id << "in column" << parentCol();
    QModelIndexList parentidxList = sourceModel()->match(sourceModel()->index(0, parentCol()), Qt::DisplayRole, id, -1, Qt::MatchExactly);
-   // qDebug() << "   sourcechildrenFromId for" << id << "found" << parentidxList.count() << "child indices in parent column";
+    qDebug() << "   2297   sourcechildrenFromId for" << id
+             << "found" << parentidxList.count() << "child indices in parent column";
    QModelIndexList idxList;
    foreach (QModelIndex idx, parentidxList) idxList.append(idx.sibling(idx.row(), idCol()));
-   // qDebug() << "   sourcechildrenFromId for" << id << "found" << idxList.count() << "child indices in id column";
+    qDebug() << "   2297   sourcechildrenFromId for" << id
+             << "found" << idxList.count() << "child indices in id column";
    return idxList;}
 
 bool QXTreeProxyModel::isSourceDeleted(QModelIndex sourceIndex) const {
@@ -756,19 +903,19 @@ bool QXTreeProxyModel::isSourceDeleted(QModelIndex sourceIndex) const {
 
 qint32 QXTreeProxyModel::nextFreeId() const {
    static qint32 lastId(45);
-   // qDebug() << "nextFreeId after" << lastId;
+   qDebug() << "   2298 nextFreeId after" << lastId;
    bool idExisting(true);
    while (idExisting && ++lastId < std::numeric_limits<qint32>::max()){
       QModelIndexList idxList = sourceModel()->match(sourceModel()->index(0, idCol(), QModelIndex()), Qt::DisplayRole, lastId, 1, Qt::MatchExactly);
       idExisting = !idxList.isEmpty();}
-   // qDebug() << "   is" << lastId;
+   qDebug() << "   2298   is" << lastId;
    if (idExisting) return 0;
    else return lastId;}
 
 //private slots, needed to forward signals
 
 void QXTreeProxyModel::sourceDataChanged(const QModelIndex &source_top_left, const QModelIndex &source_bottom_right){
-   // qDebug() << "sourceDataChanged"  << source_top_left << source_top_left.model()->data(source_top_left, Qt::DisplayRole);
+   qDebug() << "   2299 sourceDataChanged"  << source_top_left << source_top_left.model()->data(source_top_left, Qt::DisplayRole);
    Q_ASSERT(sourceModel());
    Q_ASSERT(source_top_left.isValid());
    Q_ASSERT(source_bottom_right.isValid());
@@ -778,20 +925,20 @@ void QXTreeProxyModel::sourceDataChanged(const QModelIndex &source_top_left, con
               source_bottom_right.column()
               >= idCol())
       {
-      emit beginResetModel();
-      emit endResetModel();}
+       beginResetModel();
+       endResetModel();}
    //else if (source_top_left.column() <= boost::numeric_cast<int>(parentCol()) && source_bottom_right.column() >= boost::numeric_cast<int>(parentCol())){
    else if (source_top_left.column()
             <= parentCol() &&
             source_bottom_right.column()
             >= parentCol())
       {
-      emit beginResetModel();
-      emit endResetModel();}
+       beginResetModel();
+       endResetModel();}
    else for (int r(source_top_left.row()); r <= source_bottom_right.row(); ++r)
    for (int c(source_top_left.column()); c <= source_bottom_right.column(); ++c) {
       QModelIndex proxyIndex = mapFromSource(sourceModel()->index(r, c));
-      // qDebug() << "   maps to" << proxyIndex;
+      qDebug() << "   2299   maps to" << proxyIndex;
       if (!proxyIndex.isValid()) return;     // incomplete record with missing id value; safely ignore as not used in QXTreeModel
       else emit dataChanged(proxyIndex, proxyIndex);}}
 
@@ -801,59 +948,61 @@ void QXTreeProxyModel::sourceHeaderDataChanged(Qt::Orientation orientation, int 
 
 void QXTreeProxyModel::sourceReset(){
    //reset();
-    beginResetModel ();
+     beginResetModel ();
+     endResetModel ();
 }
 
 void QXTreeProxyModel::sourceLayoutAboutToBeChanged(){
-   // qDebug() << "sourceLayoutAboutToBeChanged";
+   qDebug() << "   22991 sourceLayoutAboutToBeChanged";
    emit layoutAboutToBeChanged();}
 
 void QXTreeProxyModel::sourceLayoutChanged(){
-   // qDebug() << "sourceLayoutChanged";
+   qDebug() << "   22992 sourceLayoutChanged";
    emit layoutChanged();}
 
 void QXTreeProxyModel::sourceRowsAboutToBeInserted(const QModelIndex &source_parent, int start, int end){
-   // qDebug() << "sourceRowsAboutToBeInserted:" << source_parent << "from start" << start << "to end" << end;
+   qDebug() << "   22993 sourceRowsAboutToBeInserted:" << source_parent << "from start" << start << "to end" << end;
    Q_UNUSED(source_parent);
    Q_UNUSED(start);
    Q_UNUSED(end);
-   emit beginResetModel();}
+   beginResetModel();}
 
 void QXTreeProxyModel::sourceRowsInserted(const QModelIndex &source_parent, int start, int end){
-   // qDebug() << "sourceRowsInserted:" << source_parent << "from start" << start << "to end" << end;
+   qDebug() << "   22994 sourceRowsInserted:" << source_parent << "from start" << start << "to end" << end;
    Q_UNUSED(source_parent);
    Q_ASSERT(source_parent == QModelIndex());
    Q_UNUSED(start);
    Q_UNUSED(end);
-   emit endResetModel();
-   // qDebug() << "emit endResetModel completed; now all rows will be removed and re-added";
+  endResetModel();
+   qDebug() << "   22994 emit endResetModel completed; now all rows will be removed and re-added";
    Q_ASSERT(sourceModel()->hasIndex(start, idCol(), source_parent));}
 
 void QXTreeProxyModel::sourceRowsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end){
-   // qDebug() << "sourceRowsAboutToBeRemoved: " << source_parent << "from start" << start << "to end" << end;
+   qDebug() << "   22995 sourceRowsAboutToBeRemoved: " << source_parent << "from start" << start << "to end" << end;
    Q_UNUSED(source_parent);
    Q_UNUSED(start);
    Q_UNUSED(end);
-   emit beginResetModel();}
+   beginResetModel();}
 
 void QXTreeProxyModel::sourceRowsRemoved(const QModelIndex &source_parent, int start, int end){
-   // qDebug() << "sourceRowsRemoved: " << source_parent << "from start" << start << "to end" << end;
+   qDebug() << "   22996 sourceRowsRemoved: " << source_parent << "from start" << start << "to end" << end;
    Q_UNUSED(source_parent);
    Q_UNUSED(start);
    Q_UNUSED(end);
-   emit endResetModel();}
+   endResetModel();}
 
 void QXTreeProxyModel::sourceColumnsAboutToBeInserted(const QModelIndex &source_parent, int start, int end){
-   // qDebug() << "sourceColumnsAboutToBeInserted" << source_parent << start << end;
+   qDebug() << "   22997 sourceColumnsAboutToBeInserted" << source_parent << start << end;
    Q_UNUSED(source_parent);
    Q_UNUSED(start);
    Q_UNUSED(end);
    Q_ASSERT_X(start > idCol() && start > parentCol(), "sourceColumnsAboutToBeInserted",
               "illegal to insert columns in front of parent column or in front of id column");
-   emit beginInsertColumns(QModelIndex(), start, end);}
+   beginResetModel();}
+   //emit beginInsertColumns(QModelIndex(), start, end);}
 
 void QXTreeProxyModel::sourceColumnsInserted(const QModelIndex &source_parent, int start, int end){
-   // qDebug() << "sourceColumnsInserted" << source_parent << start << end << "   where idCol" << idCol() <<"and parentCol" << parentCol();
+   qDebug() << "   22998 sourceColumnsInserted" << source_parent << start << end << "   where idCol" << idCol() <<"and parentCol" << parentCol();
    Q_UNUSED(source_parent);
    Q_UNUSED(start);
    Q_UNUSED(end);
@@ -873,7 +1022,8 @@ void QXTreeProxyModel::sourceColumnsInserted(const QModelIndex &source_parent, i
       if (idCol() >= start) {
          bool ok = setIdCol(idCol() + columnsAdded);
          Q_ASSERT(ok);}}
-   emit endInsertColumns();} // now associated treeViews will update
+   endResetModel();}
+   //emit endInsertColumns();} // now associated treeViews will update
 
 void QXTreeProxyModel::sourceColumnsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end){
    Q_UNUSED(source_parent);
@@ -881,10 +1031,14 @@ void QXTreeProxyModel::sourceColumnsAboutToBeRemoved(const QModelIndex &source_p
    Q_UNUSED(end);
    Q_ASSERT_X(start > idCol() && start > parentCol(), "sourceColumnsAboutToBeInserted",
               "illegal to insert columns in front of parent column or in front of id column");
-   emit beginRemoveColumns(QModelIndex(), start, end);} //beginResetModel();}
+    beginResetModel();}
+   //emit beginRemoveColumns(QModelIndex(), start, end);
+
 
 void QXTreeProxyModel::sourceColumnsRemoved(const QModelIndex &source_parent, int start, int end){
    Q_UNUSED(source_parent);
    Q_UNUSED(start);
-   Q_UNUSED(end);
-   emit endRemoveColumns();} //endResetModel();}
+    Q_UNUSED(end);
+    endResetModel();}
+    //emit endRemoveColumns();
+

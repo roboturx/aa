@@ -7,8 +7,8 @@ class QSortFilterProxyModel;
 
 class QXTreeProxyModel : public QAbstractProxyModel{
    Q_OBJECT
-   Q_PROPERTY( int idCol READ idCol WRITE setIdCol)
-   Q_PROPERTY(int parentCol READ parentCol WRITE setParentCol)
+   Q_PROPERTY(  int idCol READ idCol WRITE setIdCol NOTIFY idColChanged )
+   Q_PROPERTY(int parentCol READ parentCol WRITE setParentCol NOTIFY parentColChanged  )
    struct EXDatabase
    {
       EXDatabase(QLatin1String _msg = QLatin1String(""),
@@ -119,6 +119,11 @@ private slots:
    void sourceColumnsInserted(const QModelIndex &source_parent, int start, int end);
    void sourceColumnsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end);
    void sourceColumnsRemoved(const QModelIndex &source_parent, int start, int end);
+
+
+signals:
+    void idColChanged(unsigned int &idCol);
+    void parentColChanged(unsigned int &parentCol);
 };
 
 
