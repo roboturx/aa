@@ -51,7 +51,11 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     QSqlDatabase db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
     // db.setDatabaseName(QLatin1String(":memory:"));
     db.setDatabaseName(QLatin1String("aztestdb.db"));
+
     Q_ASSERT(db.open());
+qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
+ //   qDebug() << "drriveerrr" << db.driver()->hasFeature(QSqlDriver::QuerySize );
+
  //   qDebug() << "11---------002 db opened---------------";
     QSqlQuery sqlQuery(db);
     // create Table1 (main table)
@@ -73,7 +77,21 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 #ifdef AUTOINCREMENT
 
   //  qDebug() << "11-------------- 005 insert recs to table1";
-/*
+    ok=sqlQuery.exec(QLatin1String("SELECT * "
+                                "FROM Table1 "
+                                "WHERE Details = '%1' ").arg("Details for first item"));
+    //sqlQuery
+    Q_ASSERT(ok);
+    qDebug() <<"recouuuuuunt"<<sqlQuery.size();
+
+    if (sqlQuery.size() < 1) // kayıt yok EKLE
+    {    ok = sqlQuery.exec(
+                    QLatin1String("INSERT INTO Table1 "
+                                  "( Parent,Content, Details) "
+                                  "VALUES ( 0, 'Details for first item',1);"));
+        Q_ASSERT(ok);
+    }
+        /*
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
                               "( Parent,Content, Details) "
