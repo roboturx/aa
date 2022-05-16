@@ -39,20 +39,20 @@ void TestDialog::table1PrimeInsert(int row, QSqlRecord& record)
     record.setValue(QLatin1String("Identifier"), ++lastId);
     for(int i(0); i < record.count(); ++i)
         qDebug() << "   after" << record.value(i);
-    qDebug() << "--------------end oo1------------------------------------------";
+  //  qDebug() << "--------------end oo1------------------------------------------";
 }
 #endif
 
 TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     setupUi(this);
-    qDebug() << "111111111 - testdialog constructor -----------------";
+ //   qDebug() << "111111111 - testdialog constructor -----------------";
     bool ok;
 #if (TABLEMODEL==QSQLTABLEMODEL) || (TABLEMODEL==QSQLRELATIONALTABLEMODEL)
     QSqlDatabase db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
     // db.setDatabaseName(QLatin1String(":memory:"));
     db.setDatabaseName(QLatin1String("aztestdb.db"));
     Q_ASSERT(db.open());
-    qDebug() << "11---------002 db opened---------------";
+ //   qDebug() << "11---------002 db opened---------------";
     QSqlQuery sqlQuery(db);
     // create Table1 (main table)
 #ifdef AUTOINCREMENT
@@ -72,7 +72,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
                "Table1 likely already exists");
 #ifdef AUTOINCREMENT
 
-    qDebug() << "11-------------- 005 insert recs to table1";
+  //  qDebug() << "11-------------- 005 insert recs to table1";
 /*
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
@@ -208,7 +208,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     qDebug() << "11---------- 008 tablemodel qasqlrelmodel created";
     tableModel = new QSqlRelationalTableModel (this, db);
 #elif (TABLEMODEL==QSQLTABLEMODEL)
-    qDebug() << "009";
+   // qDebug() << "009";
     tableModel = new QSqlTableModel (this, db);
 #elif (TABLEMODEL==QSTANDARDITEMMODEL)
     qDebug() << "0010";
@@ -236,7 +236,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     {
         (qobject_cast<QSqlTableModel*>(tableModel))
                 ->setEditStrategy(QSqlTableModel::OnFieldChange);
-        qDebug() << "11---------- 0081 onfieldchange";
+     //   qDebug() << "11---------- 0081 onfieldchange";
     }
 #elif (SUBMITOPTION==ONROWCHANGE)
     (qobject_cast<QSqlTableModel*>(tableModel))
@@ -268,7 +268,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 #endif
     (qobject_cast<QSqlTableModel*>(tableModel))->select();
 #endif      //a sql model
-    qDebug() << "11-------0011";
+   // qDebug() << "11-------0011";
     // how to retrieve foreign key
     /*
 
@@ -335,6 +335,7 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
 
     tableView->setModel(tableModel);
     tableView->resizeColumnsToContents();
+
     tableView->setSelectionMode (QAbstractItemView::SingleSelection);
     tableView->setSelectionBehavior (QAbstractItemView::SelectItems);
 #if TABLEMODEL==QSQLRELATIONALTABLEMODEL
@@ -343,9 +344,9 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     Q_ASSERT(tableDelegate);
     tableView->setItemDelegate(tableDelegate);
 #endif
-    qDebug() << "11---------0013 treemodel";
+  //  qDebug() << "11---------0013 treemodel";
     QXTreeProxyModel* treeModel = new QXTreeProxyModel(this);
-    qDebug() << "11---------00131 setsourcemodel";
+ //   qDebug() << "11---------00131 setsourcemodel";
     treeModel->setSourceModel(tableModel);
     ok = treeModel->setIdCol(0);
     Q_ASSERT(ok);
@@ -354,11 +355,13 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     QList<QVariant> defaultValues;
     defaultValues << 1;
     treeModel->setDefaultValues(defaultValues);
+
 #ifdef MODEL_TEST
     //   (void) new ModelTest(treeModel, this);
 #endif
-    qDebug() << "11---------00132 setmodel- treemodel";
+   // qDebug() << "11---------00132 setmodel- treemodel";
     treeView->setModel(treeModel);
+    treeView->resizeColumnToContents(2);
     treeView->setSelectionMode (QAbstractItemView::SingleSelection);
     treeView->setSelectionBehavior (QAbstractItemView::SelectItems);
 #if TABLEMODEL==QSQLRELATIONALTABLEMODEL
@@ -366,8 +369,8 @@ TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     Q_ASSERT(treeDelegate);
     treeView->setItemDelegate(treeDelegate);
 #endif
-    qDebug() << "11----------testdialog constructor -------ended----";
-    qDebug() << "111111111111111111111111111111111111111111111111111111----";
+   // qDebug() << "11----------testdialog constructor -------ended----";
+   // qDebug() << "111111111111111111111111111111111111111111111111111111----";
 }
 
 void TestDialog::on_removeButton_clicked(){
@@ -422,8 +425,10 @@ void TestDialog::on_addColButton_clicked(){
     qDebug() << "TestDialog insert column";
     QModelIndex firstSelected;
     int col;
-    if (selections->selectedIndexes().isEmpty()) col = treeView->model()->columnCount(QModelIndex());
-    else col = selections->selectedIndexes().at(0).column();
+    if (selections->selectedIndexes().isEmpty())
+        col = treeView->model()->columnCount(QModelIndex());
+    else
+        col = selections->selectedIndexes().at(0).column();
     treeView->model()->insertColumn(col, QModelIndex());}
 
 void TestDialog::on_buttonBox_clicked(QAbstractButton* button){

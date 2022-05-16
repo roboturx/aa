@@ -9,8 +9,8 @@
 #include <QStringList>
 //#include <QMimeData>
 #include <QApplication>
-#include <QTimer>
-#include <limits>
+//#include <QTimer>
+//#include <limits>
 #include <QFont>
 
 
@@ -89,7 +89,7 @@ QXTreeProxyModel::QXTreeProxyModel(QObject *parent) :
     idColumn(-1),
     parentColumn(-1)
     {
-        qDebug () << "   22222222222222222222222222222";
+     //   qDebug () << "   22222222222222222222222222222";
         qDebug () << "   22 --------qxtree constructor";
    }
 
@@ -100,8 +100,8 @@ QXTreeProxyModel::QXTreeProxyModel(QObject *parent) :
 */
 QXTreeProxyModel::~QXTreeProxyModel()
 {
-    qDebug () << "   22 -------- qxtree destructor";
-    qDebug () << "   22222222222222222222222222222";
+   // qDebug () << "   22 -------- qxtree destructor";
+   // qDebug () << "   22222222222222222222222222222";
 }
 
 // getters and setters
@@ -197,9 +197,10 @@ bool QXTreeProxyModel::setParentCol(unsigned int col){
     QSqlTableModel, QSqlRelationalTableModel and QStandardItemModel.
 */
 void QXTreeProxyModel::setSourceModel(QAbstractItemModel* newSourceModel){
-   qDebug () << "   2200 -------- setsourcemodel begins.";
-    emit beginResetModel();
-   if (sourceModel()) {
+    qDebug () << "   2200 ---- setsourcemodel begins sourcemodel is - "<< sourceModel ();
+   beginResetModel();
+   if (sourceModel())
+   {
       bool ok;
       ok = disconnect(sourceModel(),
                       SIGNAL(dataChanged(QModelIndex,QModelIndex)), this,
@@ -258,8 +259,8 @@ void QXTreeProxyModel::setSourceModel(QAbstractItemModel* newSourceModel){
 
    QAbstractProxyModel::setSourceModel(newSourceModel);
 
-   qDebug() << "   2200 model addresses: QXTreeProxyModel =" << this
-            << "   2200 sourceModel =" << QAbstractProxyModel::sourceModel();
+   qDebug() << "    model addresses: QXTreeProxyModel =" << this
+            << "    sourceModel =" << QAbstractProxyModel::sourceModel();
    bool ok;
 
    ok = connect(sourceModel(),
@@ -316,7 +317,7 @@ void QXTreeProxyModel::setSourceModel(QAbstractItemModel* newSourceModel){
    Q_ASSERT(ok);
    //reset();
    //emit sourceReset();
-   emit endResetModel();
+    endResetModel();
 qDebug () << "   2200 -------- setsourcemodel endded";
 }
 
@@ -328,11 +329,12 @@ QModelIndex QXTreeProxyModel::mapToSource(const QModelIndex& proxyIndex) const{
    Q_ASSERT(sourceModel());
    if (!proxyIndex.isValid()) return QModelIndex();
    qint32 recordId = getId(proxyIndex);
-//??   Q_ASSERT(recordId != 0);
-    qDebug() << "  1--------sourceindexFromId  maptosource recordid";
+   Q_ASSERT(recordId != 0);
+ //   qDebug() << "  1--------sourceindexFromId  maptosource recordid";
    QModelIndex idx = sourceindexFromId(recordId);
    bool ok(true);
-   Q_ASSERT(sourceModel()->data(idx, Qt::DisplayRole).toInt(&ok) == recordId && ok);
+   Q_ASSERT(sourceModel()->data(idx,
+             Qt::DisplayRole).toInt(&ok) == recordId && ok);
    QModelIndex sourceIndex = idx.sibling(idx.row(), proxyIndex.column());
     qDebug() << "mapToSource" << proxyIndex << "finds" << sourceIndex << "with id" << sourceModel()->data(sourceModel()->sibling(sourceIndex.row(), idCol(), sourceIndex), Qt::DisplayRole).toInt();
    return sourceIndex;}
@@ -342,16 +344,18 @@ QModelIndex QXTreeProxyModel::mapToSource(const QModelIndex& proxyIndex) const{
 */
 QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) const
 {
-    qDebug() << "   2211 mapFromSource" << sourceIndex;
+  //  qDebug() << "   2211 mapFromSource" << sourceIndex;
    Q_ASSERT(sourceModel());
    Q_ASSERT(sourceIndex.isValid());
 
    QModelIndex proxyIndex;
    if (sourceIndex.row() < 0) exit(99); //proxyIndex = QModelIndex();
    else {
-      QModelIndex idx = sourceModel()->index(sourceIndex.row(), idCol());
+      QModelIndex idx = sourceModel()->index(sourceIndex.row(),
+                                              idCol());
       Q_ASSERT(idx.isValid());
-      QVariant recordIdVariant = sourceModel()->data(idx, Qt::DisplayRole);
+      QVariant recordIdVariant = sourceModel()->data(idx,
+                                  Qt::DisplayRole);
       idx = sourceModel()->index(sourceIndex.row(), parentCol());
       Q_ASSERT(idx.isValid());
       if (/*recordParentVariant.toInt() != std::numeric_limits<qint32>::min() && */
@@ -366,7 +370,7 @@ QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) cons
                     qPrintable(sourceModel()->data(idx,
                          Qt::DisplayRole).toString()));
          qDebug() << "rec id"<< recordId;
-    //????     Q_ASSERT(recordId != 0);
+      Q_ASSERT(recordId != 0);
          QVariant parentIdVariant = sourceModel()->data(sourceModel()->index(sourceIndex.row(), parentCol()), Qt::DisplayRole);
          qint32 parentId;
          if (parentIdVariant.isNull()) parentId = 0;     // not yet set??
@@ -380,9 +384,11 @@ QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) cons
          // find parent index of proxy index
          QModelIndex parentIndex;
          if (parentId == 0) parentIndex = QModelIndex();
-         else {     // need to recursively find parent index, as not yet 0
-            qDebug() << "  entering recursion to find index with id" << parentId;
-             qDebug() << " sourceindexFromId   2211 parentid";
+         else
+         {     // need to recursively find parent index, as not yet 0
+            qDebug() << "  entering recursion to find index with id"
+                      << parentId;
+             //qDebug() << " sourceindexFromId   2211 parentid";
             QModelIndex idx = sourceindexFromId(parentId);
 //            if (d_idFilterModel->rowCount() == 0) parentIndex = QModelIndex();    // id of requested parent not found -> assign to root
 //            else {
@@ -391,34 +397,41 @@ QModelIndex QXTreeProxyModel::mapFromSource(const QModelIndex& sourceIndex) cons
             Q_ASSERT_X(getId(parentIndex) == parentId, "wrong parentIndex found", qPrintable(QString::number(parentId)));}
          proxyIndex = index(rowNumber, sourceIndex.column(), parentIndex);}
       else proxyIndex = QModelIndex();}    // "none of my business" as id field of source index row is empty; most likely record not yet fully constructed
-   qDebug() << "   2211 mapFromSource enddddddddd" << proxyIndex;
+  // qDebug() << "   2211 mapFromSource enddddddddd" << proxyIndex;
    return proxyIndex;
 }
 
 /*!
   \brief reimplemented function
 
-  This function \bold only re-implements the role == Qt::FontRole to strike out uncommitted record deletions.
-  To change this behaviour re-implement this function for role == Qt::FontRole and return
+  This function \bold only re-implements the role == Qt::FontRole
+    to strike out uncommitted record deletions.
+  To change this behaviour re-implement this function for
+    role == Qt::FontRole and return
   QAbstractProxyModel::data(proxyIndex, role) for all other roles.
 */
 QVariant QXTreeProxyModel::data(const QModelIndex& proxyIndex, int role) const
 {
-    qDebug() << "   2222 data";
+    //qDebug() << "   2222 data";
    QVariant result = QAbstractProxyModel::data(proxyIndex, role);
    if (role == Qt::FontRole){ // draw deleted (but not yet submitted) rows strike-through
       QModelIndex sourceIndex = mapToSource(proxyIndex);
       if (isSourceDeleted(sourceIndex)){
          QFont myFont;
-         qDebug() <<"    2222 " << proxyIndex << "is deleted";
-         if (result.isNull()) myFont = QFont();    // redundant
-         else {
+         qDebug() <<"    2222 data() " << proxyIndex << "is deleted";
+         if (result.isNull())
+             myFont = QFont();    // redundant
+         else
+         {
             myFont = result.value<QFont>();
-            Q_ASSERT(myFont != QFont());}
+            Q_ASSERT(myFont != QFont());
+         }
          myFont.setStrikeOut(true);
-         result = myFont;}}
+         result = myFont;
+      }
+   }
 
-    qDebug() << "   2222 data endeddddddddd";
+   // qDebug() << "   2222 data endeddddddddd";
    return result;
 }
 
@@ -426,21 +439,30 @@ QVariant QXTreeProxyModel::data(const QModelIndex& proxyIndex, int role) const
   \brief reimplemented function
 */
 QModelIndex QXTreeProxyModel::index(int row, int column, const QModelIndex& parent) const{
-    qDebug() << "   2233 data";
+   // qDebug() << "   2233 data";
     qDebug() << "   2233 index for" << row << column << parent;
    Q_ASSERT(row >= 0);
    Q_ASSERT(column >= 0);
-   Q_ASSERT((parent.model() == NULL && parent.row() == -1 && parent.column() == -1) ||
-            (parent.model() != NULL && parent.row() >= 0 && parent.column() >= 0 && qobject_cast<const QXTreeProxyModel*>(parent.model()) != NULL));
+   Q_ASSERT((parent.model() == NULL &&
+             parent.row() == -1 &&
+             parent.column() == -1) ||
+            (parent.model() != NULL &&
+             parent.row() >= 0 &&
+             parent.column() >= 0 &&
+             qobject_cast<const QXTreeProxyModel*>(parent.model()) !=
+                 NULL));
    // if (row < 0) return QModelIndex();
    // if (column < 0) return QModelIndex();
    if (parent.column() != 0 && parent.isValid()) return QModelIndex();
    QModelIndexList idxList = sourcechildrenFromId(getId(parent));
    //qDebug() << "   parent filter" << d_parentFilterModel->filterRegExp().pattern() << "returns" << d_parentFilterModel->rowCount() << "rows";
-   qDebug() <<"&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"<< idxList;
+ //  qDebug() <<"&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"<< idxList;
    Q_ASSERT_X(idxList.count() > row, "too few children found",
-              qPrintable(QString(QLatin1String("expected >%1, found %2 rows when filtering %3 for %4 in column %5"))
-                         .arg(row).arg(idxList.count()).arg(sourceModel()->objectName()).arg(getId(parent)).arg(parentCol())));
+              qPrintable(QString(QLatin1String("expected >%1, found %2 rows when filtering %3 "
+                                               "for %4 in column %5"))
+                         .arg(row).arg(idxList.count())
+                             .arg(sourceModel()->objectName())
+                               .arg(getId(parent)).arg(parentCol())));
    QModelIndex sourceParentIndex(idxList.at(row));
    Q_ASSERT(sourceParentIndex.isValid());
    QModelIndex sourceIdIndex = sourceParentIndex.sibling(sourceParentIndex.row(), idCol());
@@ -449,10 +471,10 @@ QModelIndex QXTreeProxyModel::index(int row, int column, const QModelIndex& pare
    int recordId = sourceModel()->data(sourceIdIndex, Qt::DisplayRole).toInt(&ok);
    Q_ASSERT_X(ok, qPrintable(QString(QLatin1String("id in sourceModel with row = %1, col = %2")).arg(row).arg(idCol())),
                   qPrintable(sourceModel()->data(idxList.at(row).sibling(row, idCol()), Qt::DisplayRole).toString()));
-//????   Q_ASSERT(recordId != 0);
+   Q_ASSERT(recordId != 0);
    QModelIndex newIndex = createIndex(row, column, recordId);
     qDebug() << "index for" << row << column << parent << "is" << newIndex;
-    qDebug() << "   2233 data endeddddddddddddddd";
+  //  qDebug() << "   2233 data endeddddddddddddddd";
    return newIndex;
 }
 
@@ -461,7 +483,7 @@ QModelIndex QXTreeProxyModel::index(int row, int column, const QModelIndex& pare
 */
 bool QXTreeProxyModel::hasChildren(const QModelIndex &parent) const{
    // to improve performance: do not count children
-    qDebug() << "   2244 ---  hasChildren" << parent;
+  //  qDebug() << "   2244 ---  hasChildren" << parent;
 
    return (rowCount(parent) > 0);}
 
@@ -469,14 +491,15 @@ bool QXTreeProxyModel::hasChildren(const QModelIndex &parent) const{
   \brief reimplemented function
 */
 int QXTreeProxyModel::rowCount(const QModelIndex& parent) const{
-   qDebug() << "   2255 ---- rowCount" << parent;
+//   qDebug() << "   2255 ---- rowCount" << parent;
    int rows;
    if (parent.isValid() && parent.column() != 0) rows = 0;   // AQP: only first column is parent in tree model
 //   if (parent.column() != 0) rows = 0;    first asks for child count of root item, i.e., children of an invalid model index
    else {
       QModelIndexList idxList = sourcechildrenFromId(getId(parent));
       rows = idxList.count();}
-   // qDebug() << "   rowCount for " << parent << "with id" << getId(parent) << "returns" << rows;
+    qDebug() << "   rowCount for " << parent << "with id"
+            << getId(parent) << "returns" << rows;
    return rows;}
 
 /*!
@@ -490,7 +513,7 @@ int QXTreeProxyModel::columnCount(const QModelIndex& parent) const {
    // although in theory possible, all columnCounts need to be identical, as per note above
    //QModelIndex sourceIndex = mapToSource(parent);
    int n = sourceModel()->columnCount(/*sourceIndex*/ QModelIndex());
-   qDebug() << "   2266 ---- columnCount" << n;
+//   qDebug() << "   2266 ---- columnCount" << n;
    return n;}
 
 /*!
@@ -514,7 +537,7 @@ QModelIndex QXTreeProxyModel::parent(const QModelIndex& child) const
               qPrintable(QString(QLatin1String("row %1, column %2, internalId %3, model address %4"))
                                        .arg(child.row()).arg(child.column()).arg(child.internalId()).arg((qlonglong)(void*)child.model())));
 
-   qDebug() << "   sourceindexFromId 2277 childid";
+  // qDebug() << "   sourceindexFromId 2277 childid";
    QModelIndex idx = sourceindexFromId(childId);
    bool ok;
    qint32 parentId = sourceModel()->data(idx.sibling(idx.row(),
@@ -530,7 +553,7 @@ QModelIndex QXTreeProxyModel::parent(const QModelIndex& child) const
       exception.id = getId(child);
       throw exception;}
    if (parentId == 0) return QModelIndex();
-    qDebug() << " sourceindexFromId   2211 parentid";
+ //   qDebug() << " sourceindexFromId   2211 parentid";
    idx = sourceindexFromId(parentId);
    QModelIndex sourceIndex = idx.sibling(idx.row(), 0); //AQP: all rows are child of parent's 1st column
    Q_ASSERT_X(sourceModel()->data(sourceModel()->index(sourceIndex.row(),
@@ -541,7 +564,7 @@ QModelIndex QXTreeProxyModel::parent(const QModelIndex& child) const
    Q_ASSERT_X(proxyIndex.internalId() == parentId,
               qPrintable(QString::number(parentId)),
               qPrintable(QString::number(proxyIndex.internalId())));
-   qDebug() << "   2277 parent() proxyindex" << proxyIndex;
+  // qDebug() << "   2277 parent() proxyindex" << proxyIndex;
    return proxyIndex;
 }
 
@@ -551,7 +574,7 @@ QModelIndex QXTreeProxyModel::parent(const QModelIndex& child) const
 Qt::ItemFlags QXTreeProxyModel::flags(const QModelIndex& index) const {
    Q_ASSERT(sourceModel());
    Qt::ItemFlags result = QAbstractProxyModel::flags(index);
-   qDebug() << "   2288 preset flags for" << index << "=" << result;
+   qDebug() << "   preset flags for" << index << "=" << result;
    if (index.isValid())
        result |= Qt::ItemIsEnabled | Qt::ItemIsSelectable;
    //if (index.column() == 0)
@@ -723,24 +746,32 @@ bool QXTreeProxyModel::removeRows(int row, int count, const QModelIndex& parent)
    for (int i(0); i < count; ++i) {
       QModelIndex proxyIndex = index(row + i, 0, parent);
       qint32 recordId = getId(proxyIndex);
-    //?????  Q_ASSERT(recordId != 0);
+     Q_ASSERT(recordId != 0);
       ids.append(recordId);}
    Q_ASSERT(ids.count() > 0 && ids.count() <= count);
    qDebug() << "   2290 remove" << ids.count() << "sibling rows:" << ids;
 //   beginRemoveRows(parent, row, row + count - 1);
-   foreach(qint32 recordId, ids){
-        qDebug() << " sourceindexFromId   2211 recid";
+   foreach(qint32 recordId, ids)
+   {
+   //     qDebug() << " sourceindexFromId   2211 recid";
       QModelIndex sourceIndex = sourceindexFromId(recordId);
-      qDebug() << "removing item" << recordId << "with column(0) =" << sourceModel()->data(sourceIndex.sibling(sourceIndex.row(), 0));
+      qDebug() << "removing item" << recordId
+               << "with column(0) ="
+               << sourceModel()->data(sourceIndex
+                      .sibling(sourceIndex.row(), 0));
       ok = sourceModel()->removeRow(sourceIndex.row(), QModelIndex());
-      if (!ok) {
+      if (!ok)
+      {
          EXDatabase exception;
                qDebug() << "   ex05";
          exception.msg = QLatin1String("05 can not remove record");
-         exception.id = recordId;}
-      removeChildRows(recordId);}
-//   endRemoveRows();
-   return ok;}
+         exception.id = recordId;
+      }
+      removeChildRows(recordId);
+   }
+   endRemoveRows();
+   return ok;
+}
 
 /*!
   \brief reimplemented function
@@ -880,7 +911,7 @@ QModelIndex QXTreeProxyModel::sourceindexFromId(qint32 id) const {
    Q_ASSERT_X(idxList.at(0).isValid(), "index for key is not valid", QString::number(id).toLocal8Bit());
    if (idxList.count() > 1){
       EXDatabase exception2;
-            qDebug() << "   ex07 idxlist count "<<idxList.count();
+//            qDebug() << "   ex07 idxlist count "<<idxList.count();
       exception2.id = id;
        qDebug() << "   ex071 id "<< id;
       exception2.msg = QLatin1String("07   2296 duplicate key found");
@@ -939,12 +970,17 @@ void QXTreeProxyModel::sourceDataChanged(const QModelIndex &source_top_left, con
       {
        beginResetModel();
        endResetModel();}
-   else for (int r(source_top_left.row()); r <= source_bottom_right.row(); ++r)
-   for (int c(source_top_left.column()); c <= source_bottom_right.column(); ++c) {
+   else
+          for (int r(source_top_left.row()); r <= source_bottom_right.row(); ++r)
+   for (int c(source_top_left.column()); c <= source_bottom_right.column(); ++c)
+              {
       QModelIndex proxyIndex = mapFromSource(sourceModel()->index(r, c));
-      qDebug() << "   2299   maps to" << proxyIndex;
+      qDebug() << "   2299   maps to"
+               << proxyIndex;
       if (!proxyIndex.isValid()) return;     // incomplete record with missing id value; safely ignore as not used in QXTreeModel
-      else emit dataChanged(proxyIndex, proxyIndex);}}
+      else emit dataChanged(proxyIndex, proxyIndex);
+   }
+}
 
 
 void QXTreeProxyModel::sourceHeaderDataChanged(Qt::Orientation orientation, int start, int end){
@@ -957,11 +993,11 @@ void QXTreeProxyModel::sourceReset(){
 }
 
 void QXTreeProxyModel::sourceLayoutAboutToBeChanged(){
-   qDebug() << "   22991 sourceLayoutAboutToBeChanged";
+//   qDebug() << "   22991 sourceLayoutAboutToBeChanged";
    emit layoutAboutToBeChanged();}
 
 void QXTreeProxyModel::sourceLayoutChanged(){
-   qDebug() << "   22992 sourceLayoutChanged";
+  // qDebug() << "   22992 sourceLayoutChanged";
    emit layoutChanged();}
 
 void QXTreeProxyModel::sourceRowsAboutToBeInserted(const QModelIndex &source_parent, int start, int end){
