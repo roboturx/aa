@@ -33,14 +33,19 @@ bool MySqlModel::setData(const QModelIndex &index,
     QModelIndex primaryKeyIndex = QSqlQueryModel::index(index.row(), 0);
     int id = data(primaryKeyIndex).toInt();
 
-
+qDebug()<<"-*-*-*-*-*-*  setdatA";
 
     clear();
 
     bool ok;
-    if (index.column() == 1) {
+    if (index.column() == 1)
+    {
         ok = setFirstName(id, value.toString());
-    } else {
+        qDebug()<<"-*-*-*-*-*-*  col == 1";
+    }
+    else
+    {
+        qDebug()<<"-*-*-*-*-*-*  col !== 1";
         ok = setLastName(id, value.toString());
     }
     refresh();
@@ -107,6 +112,7 @@ void MySqlModel::populate()
 //! [2]
 bool MySqlModel::setFirstName(int personId, const QString &firstName)
 {
+    qDebug()<<"-*-*-*-*-*-*  setFname";
     QSqlQuery query;
     query.prepare("update person set firstname = ? where id = ?");
     query.addBindValue(firstName);
@@ -117,6 +123,7 @@ bool MySqlModel::setFirstName(int personId, const QString &firstName)
 
 bool MySqlModel::setLastName(int personId, const QString &lastName)
 {
+    qDebug()<<"-*-*-*-*-*-*  setLname";
     QSqlQuery query;
     query.prepare("update person set lastname = ? where id = ?");
     query.addBindValue(lastName);
