@@ -17,45 +17,53 @@ Qt::ItemFlags MySqlModel::flags(
     const QModelIndex &index) const
 {
     // qDebug()<<"11 11 11";
-    Qt::ItemFlags flags = QStandardItemModel/*QSqlQueryModel*/::flags(index);
-    if (index.column() == 1 || index.column() == 2)
+    Qt::ItemFlags flags = QStandardItemModel::flags(index);
+    if (index.column() == 0 ||
+        index.column() == 1 ||
+        index.column() == 2)
         flags |= Qt::ItemIsEditable;
     return flags;
 }
 //! [0]
 
 //! [1]
+//! it->setData(ActCod, RelationRoles::CodeRole);
 bool MySqlModel::setData(const QModelIndex &index,
                          const QVariant &value,
-                         int /* role */)
+                         int role )
 {
-    qDebug()<<" index row-col" <<index.row()<<","<<index.column ()
+    qDebug()<<"++++ index row-col" <<index.row()<<","<<index.column ()
            << index;
+    qDebug()<<"++++ valuee"<< value.toString ();
+    qDebug()<<"++++ rolee "<< role;
+    QModelIndex pIndex=QStandardItemModel::index(index.row(), 0);
+    QModelIndex pIndex1=QStandardItemModel::index(index.row(), 1);
+    QModelIndex pIndex2=QStandardItemModel::index(index.row(), 2);
+    qDebug()<<"++++ data "<< data (pIndex,Qt::DisplayRole);
+    qDebug()<<"++++ data "<< data (pIndex1,Qt::DisplayRole);
+    qDebug()<<"++++ data "<< data (pIndex2,Qt::DisplayRole);
     if (index.row() < 0 )
         return false;
 
-    QModelIndex primaryKeyIndex0=QStandardItemModel::index(index.row(), 0);
-    QModelIndex primaryKeyIndex1=QStandardItemModel::index(index.row(), 1);
-    QModelIndex primaryKeyIndex2=QStandardItemModel::index(index.row(), 2);
-    int id0 = data(index).toInt();
-    int id1 = data(primaryKeyIndex1).toInt();
-    int id2 = data(primaryKeyIndex2).toInt();
+    pIndex=QStandardItemModel::index(index.row(), 1);
+    int id = data(pIndex).toInt();
 
-    qDebug()<<"setdatA id012="<< id0<<id1<<id2;
+  //  int ActCod = query.value(rec.indexOf("ActCod")).toInt();
+    qDebug()<<"setdatA id--=>"<< id;
 
     clear();
 
     bool ok;
-    if (index.column() == 1)
-    {
-        ok = setFirstName(id0, value.toString());
+  //  if (index.column() == 1)
+ //   {
+        ok = setFirstName(id, value.toString());
         qDebug()<<"-*-*-*-*-*-*  col == 1";
-    }
-    else
-    {
+ //   }
+ //   else
+  //  {
         qDebug()<<"-*-*-*-*-*-*  col !== 1";
-        ok = setLastName(id0, value.toString());
-    }
+        ok = setLastName(id, value.toString());
+  //  }
     refresh();
     return ok;
 }
@@ -78,12 +86,7 @@ void MySqlModel::populate()
                     "ORDER BY ActCod ASC ");
 
     Q_ASSERT (query.isActive());
-//    if (!query.isActive())
-//    {
-//        qDebug()<<"MySqlModel q is NOT active"
-//               << query.lastError().text() ;
-//        return;
-//    }
+
     const QSqlRecord rec = query.record();
     while (query.next())
     {
@@ -117,30 +120,31 @@ void MySqlModel::populate()
 }
 
 //! [2]
-bool MySqlModel::setFirstName(int personId, const QString &firstName)
+bool MySqlModel::setFirstName(int accccde, const QString &firstName)
 {
     qDebug()<<"-*-*-*-*-*-*  setFname";
     QSqlQuery query;
-    query.prepare("update dbtb_accounts set AcName = ? where ActCod = ?");
+    query.prepare("update dbtb_accounts set AcName = ? "
+                  "where ActCod = ?");
     query.addBindValue(firstName);
-    query.addBindValue(personId);
+    query.addBindValue(accccde);
     if (query.exec())
     {
         qDebug()<<"-*-*-*-*-*-*  setFname submit";
-        submit ();
+        Q_ASSERT(submit ());
         return true;
     }
     return false;
 }
 //! [2]
 
-bool MySqlModel::setLastName(int personId, const QString &lastName)
+bool MySqlModel::setLastName(int accccde, const QString &lastName)
 {
-    qDebug()<<"-*-*-*-*-*-*  setLname"<<personId<<lastName;
+    qDebug()<<"-*-*-*-*-*-*  setLname"<<accccde<<lastName;
     QString q= (QString( "UPDATE dbtb_accounts SET "
                          "AcName='%1' WHERE ActCod=%2 ")
                      .arg(lastName)
-                     .arg(personId));
+                     .arg(accccde));
 
     QSqlQuery qry;
     if ( qry.exec(q))
@@ -157,7 +161,7 @@ bool MySqlModel::setLastName(int personId, const QString &lastName)
 //    query.prepare("UPDATE dbtb_accounts SET "
 //                  "AcName=:name WHERE ActCod=:id");
 //    query.bindValue(":name", lastName);
-//    query.bindValue(":id", personId);
+//    query.bindValue(":id", accccde);
 //    if (query.exec())
 //        qDebug() << "Done OK";
 //    else
@@ -174,7 +178,7 @@ bool MySqlModel::setLastName(int personId, const QString &lastName)
     return true;
     //    query.prepare("update dbtb_accounts set AcName = ? where ActCod = ?");
     //    query.addBindValue(lastName);
-    //    query.addBindValue(personId);
+    //    query.addBindValue(accccde);
     //    if (query.exec())
     //    {
     //        submit ();
