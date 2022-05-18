@@ -9,14 +9,14 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    this->setGeometry(10,10,800,640);
+    this->setGeometry(510,10,800,640);
 
 
     qDebug()<<"Main";
     mysqlmodel = new MySqlModel(this);
-    qDebug()<<"MyModel";
+
     QTreeView *soltreeview =new QTreeView(this);
-    soltreeview->setModel(mysqlmodel/*->stdmodel*/);
+    soltreeview->setModel(mysqlmodel);
     soltreeview->expandAll();
 
 
@@ -28,14 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug()<<"SolTreeView";
 
     treemodel = new hC_TreeModel;
-    qDebug()<<"hctreemodel";
+
 
     QTreeView *sagwdgt =new QTreeView(this);
-    sagwdgt->setModel(proxymodel);
-    proxymodel->setSortRole (Qt::DisplayRole);
-    proxymodel->setFilterRegularExpression(
+    sagwdgt->setModel(treemodel->proxymodel);
+    treemodel->proxymodel->setSortRole (Qt::DisplayRole);
+    treemodel->proxymodel->setFilterRegularExpression(
                 QRegularExpression("*", QRegularExpression::CaseInsensitiveOption));
-    proxymodel->setFilterKeyColumn(0);
+    treemodel->proxymodel->setFilterKeyColumn(0);
     sagwdgt->expandAll();
     qDebug()<<"SağTreeView";
 

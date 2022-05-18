@@ -8,19 +8,15 @@
 hC_TreeModel::hC_TreeModel()
 
 {
+    qDebug()<<"hCmodel" ;
     stdmodel = new QStandardItemModel;
     proxymodel = new QSortFilterProxyModel;
 
     QSqlQuery  query("SELECT parentCode, AcName, ActCod FROM dbtb_accounts "
                      "ORDER BY ActCod ASC ");
 
-    if (query.isActive())
-    {  qDebug()<<"hc treemodel q is active"; }
-    else { qDebug()<<"hc treemodel q is NOT active"; return; }
-
+    Q_ASSERT(query.isActive());
     const QSqlRecord rec = query.record();
-
-
     while (query.next())
     {
 
@@ -48,7 +44,7 @@ hC_TreeModel::hC_TreeModel()
             if(ixs.size() > 0){
                 QStandardItem *parent = stdmodel->itemFromIndex(ixs.first());
                 parent->appendRow(it);
-   //             qDebug()<<"1--- "<< AcName ;
+
             }
         }
     }

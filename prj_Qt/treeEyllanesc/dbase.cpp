@@ -9,11 +9,8 @@
 
 dBase::dBase()
 {
-    qDebug() << "- create conn";
+    qDebug() << "dBase";
     createConnection();
-    qDebug() << "-  conn created";
-    qDebug() << "-- adding records *******";
-
     msqlmdl = new QSqlQueryModel;
 
     addRecord (0,1,"VARLIKLAR");
@@ -29,7 +26,7 @@ dBase::dBase()
     addRecord (0,4,"UZUN VADELİ YABANCI KAYNAKLAR" );
     addRecord (0,5,"SERMAYE" );
 
-    qDebug() << "-- adding records ended      *******";
+  // qDebug() << "-- adding records ended      *******";
 }
 
 
@@ -37,16 +34,13 @@ dBase::dBase()
 bool dBase::addRecord(int prntCd,  int accCd,QString  accNm )
 {
     // control the existence of the account name in the table
-
-
     msqlmdl->setQuery (QString("SELECT * "
                               "FROM dbtb_accounts "
                               "WHERE AcName = '%1' ")
                           .arg(accNm) );
-
     if ( msqlmdl->rowCount() > 0 )
     {
-        qDebug ()<< msqlmdl->rowCount()<<" KAYIT VAR "  ;
+       // qDebug ()<< msqlmdl->rowCount()<<" KAYIT VAR "  ;
         /// bu isimde ekayıt var
         /// UYARI YAP
         /// geri dön
@@ -56,8 +50,8 @@ bool dBase::addRecord(int prntCd,  int accCd,QString  accNm )
     }
     else
     {
-        qDebug ()<<"--İlk kayıt ekleniyor... :"
-                 << msqlmdl->rowCount() ;
+       // qDebug ()<<"--İlk kayıt ekleniyor... :"
+       //          << msqlmdl->rowCount() ;
 
         /// bu isimde kayıt yok yeni ekle
         ///
@@ -77,7 +71,7 @@ bool dBase::addRecord(int prntCd,  int accCd,QString  accNm )
         }
         else
         {
-            qDebug()<<"--Kayıt eklen e m e d i "<< qry.lastError ().text () ;
+            qDebug()<<"--Kayıt e k l e n e m e d i "<< qry.lastError ().text () ;
         }
     }
     return true;
@@ -110,17 +104,11 @@ bool dBase::createConnection()
             qDebug()<<query.lastError().text();
         qDebug() << "query executed table created . . .";
     }
-    if (db.open() )
+    if (!db.open() )
     {
-        qDebug()<<  "dBase opened.";
-        return true;
-
+        qDebug()<<  "dBase NOT opened." ;
     }
-    else
-    {
-        qDebug()<<  "dBase NOT opened.";
-        return false;
-    }
+    else return true;
     return false;
 }
 

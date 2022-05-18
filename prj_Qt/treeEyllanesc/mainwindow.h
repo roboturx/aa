@@ -9,7 +9,7 @@
 #include "mysqlmodel.h"
 
 
-class MainWindow : public QMainWindow, public hC_TreeModel
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
