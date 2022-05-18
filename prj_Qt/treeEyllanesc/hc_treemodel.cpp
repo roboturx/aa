@@ -11,7 +11,7 @@ hC_TreeModel::hC_TreeModel()
     stdmodel = new QStandardItemModel;
     proxymodel = new QSortFilterProxyModel;
 
-    QSqlQuery  query("SELECT GroupCode, AcName, ActCod FROM dbtb_accounts "
+    QSqlQuery  query("SELECT parentCode, AcName, ActCod FROM dbtb_accounts "
                      "ORDER BY ActCod ASC ");
 
     if (query.isActive())
@@ -25,14 +25,14 @@ hC_TreeModel::hC_TreeModel()
     {
 
         QString AcName = query.value(rec.indexOf("AcName")).toString();
-        int GroupCode = query.value(rec.indexOf("GroupCode")).toInt();
+        int parentCode = query.value(rec.indexOf("parentCode")).toInt();
         int ActCod = query.value(rec.indexOf("ActCod")).toInt();
 
         QStandardItem *it = new QStandardItem(AcName);
 
         it->setData(ActCod, RelationRoles::CodeRole);
 
-        if(GroupCode == 0)
+        if(parentCode == 0)
         {
             stdmodel->invisibleRootItem()->appendRow(it);
     //        qDebug()<<"0- "<< AcName ;
@@ -41,7 +41,7 @@ hC_TreeModel::hC_TreeModel()
         {
             QModelIndexList ixs = stdmodel->match(stdmodel->index(0, 0),
                                                   RelationRoles::CodeRole,
-                                                  GroupCode,
+                                                  parentCode,
                                                   1,
                                                   Qt::MatchExactly| Qt::MatchRecursive);
 

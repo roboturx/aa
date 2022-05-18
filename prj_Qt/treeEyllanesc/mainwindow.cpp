@@ -12,11 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
     this->setGeometry(10,10,800,640);
 
 
-
+    qDebug()<<"66666";
     mysqlmodel = new MySqlModel(this);
-
+    qDebug()<<"7777";
     QTreeView *soltreeview =new QTreeView(this);
-    soltreeview->setModel(mysqlmodel->stdmodel);
+    soltreeview->setModel(mysqlmodel/*->stdmodel*/);
+    qDebug()<<"444";
     soltreeview->expandAll();
 
     QSplitter* splitter =new QSplitter(this);
@@ -24,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *solwdgt = new QWidget(this);
     QGridLayout *sollyt = new QGridLayout(solwdgt);
     solwdgt->setLayout(sollyt);
-
+    qDebug()<<"55555";
     sollyt->addWidget(new QLabel ("Accounting") ,0,0);
     sollyt->addWidget(soltreeview,1,0);
 

@@ -11,7 +11,7 @@
         };
 
 
-class MySqlModel : public QSqlQueryModel
+class MySqlModel : public QStandardItemModel//QSqlQueryModel
 {
     Q_OBJECT
 
@@ -20,8 +20,8 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
-    QStandardItemModel *stdmodel;
-    QSortFilterProxyModel* proxymodel;
+   // QStandardItemModel *stdmodel;
+   // QSortFilterProxyModel* proxymodel;
 private:
     bool setFirstName(int personId, const QString &firstName);
     bool setLastName(int personId, const QString &lastName);

@@ -14,37 +14,27 @@ dBase::dBase()
     qDebug() << "-  conn created";
     qDebug() << "-- adding records *******";
 
-        msqlmdl = new MySqlModel;
-    addRecord ("ASSETS"                                       , 1, 0);
-    addRecord ("FIXED ASSETS"                            , 101, 1 );
-    addRecord ("TANGIBLE FIXED ASSETS"            , 10101, 101 );
-    addRecord ("MACHINERY"               , 1010103, 10101 );
-    addRecord ("LAND"                    , 1010101, 10101 );
-    addRecord ("OFFICE EQUIPMENTS"       , 1010104, 10101 );
-    addRecord ("MOTOR VEHICLES"          , 1010105, 10101 );
-    addRecord ("INTANGIBLE FIXED ASSETS"          , 10102, 101 );
-    addRecord ("COMPUTER SOFTWARE"       , 1010203, 10102 );
-    addRecord ("GOODWILL"                , 10102001, 10102 );
-    addRecord ("PATENTS & TRADE MARKS"   , 10102002, 10102 );
-    addRecord ("ACC.DeP. FXD ASSETS"              , 10103, 101 );
-    addRecord ("ACC.DP- MOTOR VHCLS"     , 10103004, 10103 );
-    addRecord ("ACC.DP- OFF EQPMNTS"     , 10103003, 10103 );
-    addRecord ("ACC.DP- MACHNRY"         , 10103001, 10103 );
-    addRecord ("ACC.DP- COMPTRS"         , 10103002, 10103 );
-    addRecord ("CURRENT ASSETS"                          , 102, 1 );
-    addRecord ("dbtb_accounts RECEIVABLE"              , 10205, 102 );
-    addRecord ("STOCK"                          , 1010105, 102 );
-    addRecord ("DEPOSITS & PREPAYMENTS"           , 10212, 102 );
-    addRecord ("LIABILITIES"                                  , 2, 0 );
-    addRecord ("CAPITAL"                                      , 3, 0 );
-    addRecord ("SALES"                                        , 4, 0 );
-    addRecord ("EXPENSES"                                     , 5, 0 );
+    msqlmdl = new QSqlQueryModel;
+
+    addRecord (0,1,"VARLIKLAR");
+    addRecord (  1,10,"DÖNEN VARLIKLAR");
+    addRecord (    10,100,"KASA");
+    addRecord (    10,101,"ALINAN ÇEKLER");
+    addRecord (    10,102,"BANKALAR");
+    addRecord (0,2,"DURAN VARLIKLAR" );
+    addRecord (  2,22,"TİCARİ ALACAKLAR" );
+    addRecord (    22,220,"ALICILAR" );
+    addRecord (    22,221,"ALACAK SENETLERİ" );
+    addRecord (0,3,"KISA VADELİ YABANCI KAYNAKLAR" );
+    addRecord (0,4,"UZUN VADELİ YABANCI KAYNAKLAR" );
+    addRecord (0,5,"SERMAYE" );
+
     qDebug() << "-- adding records ended      *******";
 }
 
 
 
-bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
+bool dBase::addRecord(int prntCd,  int accCd,QString  accNm )
 {
     // control the existence of the account name in the table
 
@@ -74,20 +64,20 @@ bool dBase::addRecord(QString  accNm, int accCd, int grpCd)
         /// ADD
         ///
         QString q= (QString( "insert into dbtb_accounts ("
-                             "AcName, ActCod, GroupCode) "
-                             "values( '%1' , %2 ,%3 ) ")
-                         .arg(accNm)
+                             "parentCode,  ActCod, AcName ) "
+                             "values( %1 , %2, '%3' ) ")
+                         .arg(prntCd)
                          .arg(accCd)
-                         .arg(grpCd) );
+                         .arg(accNm) );
 
         QSqlQuery qry;
         if ( qry.exec(q))
         {
-            qDebug()<<"--Kayıt eklendi"<< qry.lastError ().text ();
+            qDebug()<<"--Kayıt eklendi";
         }
         else
         {
-            qDebug()<<"--Kayıt eklen e m e d i " ;
+            qDebug()<<"--Kayıt eklen e m e d i "<< qry.lastError ().text () ;
         }
     }
     return true;
@@ -114,9 +104,9 @@ bool dBase::createConnection()
     {
         QSqlQuery query;
         if(!query.exec("CREATE TABLE IF NOT EXISTS dbtb_accounts "
-                        " ( AcName TEXT,"
-                        "ActCod INTEGER,"
-                        "GroupCode INTEGER ) "))
+                        " ( parentCode INTEGER,"
+                        " ActCod INTEGER,"
+                        " AcName TEXT) "))
             qDebug()<<query.lastError().text();
         qDebug() << "query executed table created . . .";
     }
