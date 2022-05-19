@@ -24,7 +24,7 @@ public:
     void initializeModel(QSqlQueryModel *model);
 
     EditableSqlModel* editableModel;
-    MyItemModel *myitemmodel;
+    //MyItemModel *myitemmodel;
     QTableView* createView(QSqlQueryModel *model);
 
     QWidget *wdgt01 ;

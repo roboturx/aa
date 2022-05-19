@@ -51,8 +51,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     lE_data03 =new QLineEdit("333333");
     QTreeView *xtreeview = new QTreeView;
-    myitemmodel = new MyItemModel;
-    xtreeview->setModel(myitemmodel);
+//    myitemmodel = new MyItemModel;
+ //   xtreeview->setModel(myitemmodel);
     QGridLayout* grly03 = new QGridLayout;
     wdgt03 = new QWidget;
     grly03->addWidget (new QLabel("my------"),0,0,1,1);
