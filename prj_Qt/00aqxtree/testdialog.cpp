@@ -28,35 +28,21 @@ license: GPL or any other license compatible with Qt's license (users choice)
 
 // to test the various options: define options  in .pro file
 
-#ifndef AUTOINCREMENT
-void TestDialog::table1PrimeInsert(int row, QSqlRecord& record)
-{
-    qDebug() << "--------------oo1---------------------------------------------";
-    qDebug() << "table1PrimeInsert" << record;
-    for(int i(0); i < record.count(); ++i) qDebug() << "   before" << record.value(i);
-    Q_UNUSED(row);
-    static int lastId(1000);
-    record.setValue(QLatin1String("Identifier"), ++lastId);
-    for(int i(0); i < record.count(); ++i)
-        qDebug() << "   after" << record.value(i);
-  //  qDebug() << "--------------end oo1------------------------------------------";
-}
-#endif
 
 TestDialog::TestDialog(QWidget *parent) : QDialog(parent){
     setupUi(this);
- //   qDebug() << "111111111 - testdialog constructor -----------------";
+    //   qDebug() << "111111111 - testdialog constructor -----------------";
     bool ok;
 #if (TABLEMODEL==QSQLTABLEMODEL) || (TABLEMODEL==QSQLRELATIONALTABLEMODEL)
     QSqlDatabase db = QSqlDatabase::addDatabase(QLatin1String("QSQLITE"));
     // db.setDatabaseName(QLatin1String(":memory:"));
-    db.setDatabaseName(QLatin1String("aztestdb.db"));
+    db.setDatabaseName(QLatin1String("qxtree.db"));
 
     Q_ASSERT(db.open());
-qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
- //   qDebug() << "drriveerrr" << db.driver()->hasFeature(QSqlDriver::QuerySize );
+    //qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
+    //   qDebug() << "drriveerrr" << db.driver()->hasFeature(QSqlDriver::QuerySize );
 
- //   qDebug() << "11---------002 db opened---------------";
+    //   qDebug() << "11---------002 db opened---------------";
     QSqlQuery sqlQuery(db);
     // create Table1 (main table)
 #ifdef AUTOINCREMENT
@@ -74,24 +60,32 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
 #endif
     Q_ASSERT_X(ok, "CREATE TABLE IF NOT EXISTS sql statement",
                "Table1 likely already exists");
-#ifdef AUTOINCREMENT
 
-  //  qDebug() << "11-------------- 005 insert recs to table1";
+#ifdef AUTOINCREMENT
+    qDebug() << "11 has feature size "<<sqlQuery.driver()
+                ->hasFeature(QSqlDriver::QuerySize);
     ok=sqlQuery.exec(QLatin1String("SELECT * "
-                                "FROM Table1 "
-                                "WHERE Details = '%1' ").arg("Details for first item"));
-    //sqlQuery
+                                   "FROM Table1 "
+                                   "WHERE Details = :detail "));
+    sqlQuery.bindValue(":detail","Details for first item");
+
+qDebug() << sqlQuery.executedQuery();
+    sqlQuery.next();
+    int fieldNo = sqlQuery.record().indexOf("details");
+    qDebug() << "value 0 "<<sqlQuery.value(fieldNo).toString() ;
+    qDebug() << "value 1 "<<sqlQuery.value(1).toString() ;
+    qDebug() << "value 2 "<<sqlQuery.value(2).toString() ;
     Q_ASSERT(ok);
     qDebug() <<"recouuuuuunt"<<sqlQuery.size();
 
     if (sqlQuery.size() < 1) // kayıt yok EKLE
-    {    ok = sqlQuery.exec(
+    {   ok = sqlQuery.exec(
                     QLatin1String("INSERT INTO Table1 "
                                   "( Parent,Content, Details) "
                                   "VALUES ( 0, 'Details for first item',1);"));
         Q_ASSERT(ok);
     }
-        /*
+    /*
     ok = sqlQuery.exec(
                 QLatin1String("INSERT INTO Table1 "
                               "( Parent,Content, Details) "
@@ -205,7 +199,7 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
                                      "(Number, String);"));
     Q_ASSERT_X(ok, "CREATE TABLE IF NOT EXISTS sql statement",
                "Table2 likely already exists");
-/*
+    /*
     ok = sqlQuery.exec(QLatin1String("INSERT INTO Table2 "
                                      "(Number, String) "
                                      "VALUES (1, 'One');"));
@@ -226,7 +220,7 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
     qDebug() << "11---------- 008 tablemodel qasqlrelmodel created";
     tableModel = new QSqlRelationalTableModel (this, db);
 #elif (TABLEMODEL==QSQLTABLEMODEL)
-   // qDebug() << "009";
+    // qDebug() << "009";
     tableModel = new QSqlTableModel (this, db);
 #elif (TABLEMODEL==QSTANDARDITEMMODEL)
     qDebug() << "0010";
@@ -254,7 +248,7 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
     {
         (qobject_cast<QSqlTableModel*>(tableModel))
                 ->setEditStrategy(QSqlTableModel::OnFieldChange);
-     //   qDebug() << "11---------- 0081 onfieldchange";
+        //   qDebug() << "11---------- 0081 onfieldchange";
     }
 #elif (SUBMITOPTION==ONROWCHANGE)
     (qobject_cast<QSqlTableModel*>(tableModel))
@@ -286,7 +280,7 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
 #endif
     (qobject_cast<QSqlTableModel*>(tableModel))->select();
 #endif      //a sql model
-   // qDebug() << "11-------0011";
+    // qDebug() << "11-------0011";
     // how to retrieve foreign key
     /*
 
@@ -362,9 +356,9 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
     Q_ASSERT(tableDelegate);
     tableView->setItemDelegate(tableDelegate);
 #endif
-  //  qDebug() << "11---------0013 treemodel";
+    //  qDebug() << "11---------0013 treemodel";
     QXTreeProxyModel* treeModel = new QXTreeProxyModel(this);
- //   qDebug() << "11---------00131 setsourcemodel";
+    //   qDebug() << "11---------00131 setsourcemodel";
     treeModel->setSourceModel(tableModel);
     ok = treeModel->setIdCol(0);
     Q_ASSERT(ok);
@@ -377,7 +371,7 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
 #ifdef MODEL_TEST
     //   (void) new ModelTest(treeModel, this);
 #endif
-   // qDebug() << "11---------00132 setmodel- treemodel";
+    // qDebug() << "11---------00132 setmodel- treemodel";
     treeView->setModel(treeModel);
     treeView->resizeColumnToContents(2);
     treeView->setSelectionMode (QAbstractItemView::SingleSelection);
@@ -387,8 +381,8 @@ qDebug() <<"*-*--*-**-*-*-*-*-*-*-*";
     Q_ASSERT(treeDelegate);
     treeView->setItemDelegate(treeDelegate);
 #endif
-   // qDebug() << "11----------testdialog constructor -------ended----";
-   // qDebug() << "111111111111111111111111111111111111111111111111111111----";
+    // qDebug() << "11----------testdialog constructor -------ended----";
+    // qDebug() << "111111111111111111111111111111111111111111111111111111----";
 }
 
 void TestDialog::on_removeButton_clicked(){
@@ -434,7 +428,7 @@ void TestDialog::on_insertButton_clicked(){
       ok = treeView->model()->insertRow(firstSelected.row(), firstSelected);}
 #else */
     ok = treeView->model()->insertRows(firstSelected.row(),
-                rowCount, firstSelected);
+                                       rowCount, firstSelected);
     //#endif
     Q_ASSERT(ok);}
 
@@ -456,3 +450,24 @@ void TestDialog::on_buttonBox_clicked(QAbstractButton* button){
     qDebug() << "action for" << sqlModel << "is" << buttonRole;
     if (buttonRole == QDialogButtonBox::ApplyRole) sqlModel->submitAll();
     if (buttonRole == QDialogButtonBox::ResetRole) sqlModel->revertAll();}
+
+
+
+
+
+
+
+#ifndef AUTOINCREMENT
+void TestDialog::table1PrimeInsert(int row, QSqlRecord& record)
+{
+    qDebug() << "--------------oo1---------------------------------------------";
+    qDebug() << "table1PrimeInsert" << record;
+    for(int i(0); i < record.count(); ++i) qDebug() << "   before" << record.value(i);
+    Q_UNUSED(row);
+    static int lastId(1000);
+    record.setValue(QLatin1String("Identifier"), ++lastId);
+    for(int i(0); i < record.count(); ++i)
+        qDebug() << "   after" << record.value(i);
+    //  qDebug() << "--------------end oo1------------------------------------------";
+}
+#endif
