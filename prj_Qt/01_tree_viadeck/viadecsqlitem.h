@@ -5,12 +5,13 @@
 #include <QtCore/QVariant>
 
 namespace test{
-namespace data {
+namespace itemdata {
 
 class ViadeckSqlItem
 {
 public:
-    ViadeckSqlItem(const QList<QVariant>& data, ViadeckSqlItem* parent = 0);
+    ViadeckSqlItem(const QList<QVariant>& itemdata,
+                   ViadeckSqlItem* parent = 0);
     ~ViadeckSqlItem();
 
     void AddChild(ViadeckSqlItem* child);
@@ -29,7 +30,7 @@ private:
     ViadeckSqlItem*        _Parent;
 };
 
-} // namespace data
+} // namespace itemdata
 } // namespace test
 
 

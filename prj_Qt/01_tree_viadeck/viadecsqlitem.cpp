@@ -2,12 +2,13 @@
 
 
 namespace test {
-namespace data {
+namespace itemdata {
 
-ViadeckSqlItem::ViadeckSqlItem(const QList<QVariant>& data, ViadeckSqlItem* parent)
+ViadeckSqlItem::ViadeckSqlItem(const QList<QVariant>& itemdata,
+                               ViadeckSqlItem* parent)
 {
     _Parent   = parent;
-    _ItemData = data;
+    _ItemData = itemdata;
 }
 
 ViadeckSqlItem::~ViadeckSqlItem()
@@ -40,5 +41,5 @@ int ViadeckSqlItem::GetRowIndex() const
     return 0;
 }
 
-} // namespace data
+} // namespace itemdata
 } // namespace test

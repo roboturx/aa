@@ -5,7 +5,7 @@
 
 
 namespace test {
-namespace data {
+namespace itemdata {
 
 ViadeckSqlModel::ViadeckSqlModel(QObject* parent /* = NULL */)
     : QAbstractItemModel(parent),
@@ -22,7 +22,9 @@ ViadeckSqlModel::~ViadeckSqlModel()
 }
 
 void ViadeckSqlModel::SetQuery(const QSqlQuery& query)
-{ _Query = query; }
+{
+    _Query = query;
+}
 
 bool ViadeckSqlModel::Select()
 {
@@ -215,5 +217,5 @@ void ViadeckSqlModel::Create(ViadeckSqlItem *parent)
     }
 }
 
-} // namespace data
+} // namespace itemdata
 } // namespace test

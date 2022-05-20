@@ -5,16 +5,16 @@
 #include <QtWidgets>
 
 //! [0]
-TreeSqlModel::TreeSqlModel(const QStringList &headers,
-                           QObject *parent)
+TreeSqlModel::TreeSqlModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
     QList<QVariant> rootData;
-    for (const QString &header : headers)
-        rootData << header;
-
+    rootData << tr("Parent Code") << tr("Account Code")<< tr("Account Name");
     rootItem = new TreeSqlItem(rootData);
-//    setupModelData(query, rootItem);
+
+    QString queryStr( "SELECT * FROM dbtb_accounts");
+
+    setupModelData(query, rootItem);
 }
 //! [0]
 
@@ -201,62 +201,65 @@ bool TreeSqlModel::setHeaderData(int section, Qt::Orientation orientation,
     return result;
 }
 
-//void TreeSqlModel::setupModelData(const QSqlQuery &query,
-//                                  TreeSqlItem *parent)
-//{
-//    QList<TreeSqlItem *> parents;
-//    /// indentations levelları belirliyor
-//    /// ilk girinti root item için
-//  //  QList<int> indentations;
-//    parents << parent; // içinde header olan ilk parent
-//   // indentations << 0;
+void TreeSqlModel::setupModelData(const QString &queryStr,
+                                  TreeSqlItem *parent)
+{
+    QList<TreeSqlItem *> parents;
+    /// indentations levelları belirliyor
+    /// ilk girinti root item için
+  //  QList<int> indentations;
+    parents << parent; // içinde header olan ilk parent
+   // indentations << 0;
 
-//    int number = 0;
+    int number = 0;
 
-//    while (number < query.count()) // record count
-//    {
-//        /// boşluk bulunca çık
-//        int position = 0;
-//        while (position < query[number].length()) {
-//            if (query[number].at(position) != ' ')
-//                break;
-//            ++position;
-//        }
+    QSqlQuery query;
+    query.exec(queryStr);
+    while (query.next())
+    {
+        /// boşluk bulunca çık
+        int position = 0;
+        while (position < query[number].length())
+        {
+            if (query[number].at(position) != ' ')
+                break;
+            ++position;
+        }
 
-//        const QString lineData = query[number].mid(position).trimmed();
+        const QString lineData = query[number].mid(position).trimmed();
 
-//        if (!lineData.isEmpty()) {
-//            // Read the column data from the rest of the line.
-//            const QStringList columnStrings =
-//                lineData.split(QLatin1Char('\t'), Qt::SkipEmptyParts);
+        if (!lineData.isEmpty()) {
+            // Read the column data from the rest of the line.
+            const QStringList columnStrings =
+                lineData.split(QLatin1Char('\t'), Qt::SkipEmptyParts);
 
-//            // sql deki fieldları columndatay ekle
-//            QList<QVariant> columnData;
-//            columnData.reserve(columnStrings.size());
-//            for (const QString &columnString : columnStrings)
-//                columnData << columnString;
+            // sql deki fieldları columndatay ekle
+            QList<QVariant> columnData;
+            columnData.reserve(columnStrings.size());
+            for (const QString &columnString : columnStrings)
+                columnData << columnString;
 
-//            if (position > indentations.last()) {
-//                // The last child of the current parent is now the new parent
-//                // unless the current parent has no children.
+            if (position > indentations.last()) {
+                // The last child of the current parent is now the new parent
+                // unless the current parent has no children.
 
-//                if (parents.last()->childCount() > 0) {
-//                    parents << parents.last()->child(parents.last()->childCount()-1);
-//                    indentations << position;
-//                }
-//            } else {
-//                while (position < indentations.last() && parents.count() > 0) {
-//                    parents.pop_back();
-//                    indentations.pop_back();
-//                }
-//            }
+                if (parents.last()->childCount() > 0) {
+                    parents << parents.last()->child(parents.last()->childCount()-1);
+                    indentations << position;
+                }
+            } else {
+                while (position < indentations.last() && parents.count() > 0) {
+                    parents.pop_back();
+                    indentations.pop_back();
+                }
+            }
 
-//            // Append a new item to the current parent's list of children.
-//            TreeSqlItem *parent = parents.last();
-//            parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
-//            for (int column = 0; column < columnData.size(); ++column)
-//                parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
-//        }
-//        ++number;
-//    }
-//}
+            // Append a new item to the current parent's list of children.
+            TreeSqlItem *parent = parents.last();
+            parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
+            for (int column = 0; column < columnData.size(); ++column)
+                parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
+        }
+        ++number;
+    }
+}

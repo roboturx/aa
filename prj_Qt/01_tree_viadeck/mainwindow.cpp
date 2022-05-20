@@ -79,17 +79,13 @@ MainWindow::MainWindow(QWidget *parent)
     /// view02
     ///
 
-    QSqlQuery q;
-    const QStringList headers02({tr("ID"), tr("AccCode"), tr("GrpCode")});
+  //  QSqlQuery q;
+   // const QStringList headers02({tr("ID Mosel"), tr("SQL AccCode"), tr("GrpCode")});
 
-    TreeSqlModel *modelSQL = new TreeSqlModel(headers02, this);
+    TreeSqlModel *modelSQL = new TreeSqlModel(this);
     view02->setModel(modelSQL);
     for (int column = 0; column < modelSQL->columnCount(); ++column)
         view02->resizeColumnToContents(column);
-
-
-
-
 
     ///// view 03
     ///
@@ -106,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent)
                      "ORDER BY f_AccountCode ASC ");
 
 
-    test::data::ViadeckSqlModel* modmel03 = new test::data
+    test::itemdata::ViadeckSqlModel* model03 = new test::itemdata
                                         ::ViadeckSqlModel();
     // SELECT ... statement, for example
     model03->SetQuery(query);
@@ -125,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     model03->Select();
 
     //QTreeView *_TrvPackages = new QTreeView;
-    view03->setAllColumnsShowFocus(false);
+    view03->setAllColumnsShowFocus(true);
     view03->setModel(model03);
 
     for (int i = 0; i < view03->model()->rowCount(); ++i)
@@ -151,7 +147,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 
-    connect(view01->selectionModel(), &QItemSelectionModel::selectionChanged,
+    connect(view02->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &MainWindow::updateActions);
 
 
@@ -169,8 +165,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::insertChild()
 {
-    const QModelIndex index = view01->selectionModel()->currentIndex();
-    QAbstractItemModel *model = view01->model();
+    const QModelIndex index = view02->selectionModel()->currentIndex();
+    QAbstractItemModel *model = view02->model();
 
     if (model->columnCount(index) == 0) {
         if (!model->insertColumn(0, index))
@@ -182,20 +178,20 @@ void MainWindow::insertChild()
 
     for (int column = 0; column < model->columnCount(index); ++column) {
         const QModelIndex child = model->index(0, column, index);
-        model->setData(child, QVariant(tr("[No data]")), Qt::EditRole);
+        model->setData(child, QVariant(tr("[No itemdata]")), Qt::EditRole);
         if (!model->headerData(column, Qt::Horizontal).isValid())
             model->setHeaderData(column, Qt::Horizontal, QVariant(tr("[No header]")), Qt::EditRole);
     }
 
-    view01->selectionModel()->setCurrentIndex(model->index(0, 0, index),
+    view02->selectionModel()->setCurrentIndex(model->index(0, 0, index),
                                               QItemSelectionModel::ClearAndSelect);
     updateActions();
 }
 
 bool MainWindow::insertColumn()
 {
-    QAbstractItemModel *model = view01->model();
-    int column = view01->selectionModel()->currentIndex().column();
+    QAbstractItemModel *model = view02->model();
+    int column = view02->selectionModel()->currentIndex().column();
 
     // Insert a column in the parent item.
     bool changed = model->insertColumn(column + 1);
@@ -209,8 +205,8 @@ bool MainWindow::insertColumn()
 
 void MainWindow::insertRow()
 {
-    const QModelIndex index = view01->selectionModel()->currentIndex();
-    QAbstractItemModel *model = view01->model();
+    const QModelIndex index = view02->selectionModel()->currentIndex();
+    QAbstractItemModel *model = view02->model();
 
     if (!model->insertRow(index.row()+1, index.parent()))
         return;
@@ -219,14 +215,14 @@ void MainWindow::insertRow()
 
     for (int column = 0; column < model->columnCount(index.parent()); ++column) {
         const QModelIndex child = model->index(index.row() + 1, column, index.parent());
-        model->setData(child, QVariant(tr("[No data]")), Qt::EditRole);
+        model->setData(child, QVariant(tr("[No itemdata]")), Qt::EditRole);
     }
 }
 
 bool MainWindow::removeColumn()
 {
-    QAbstractItemModel *model = view01->model();
-    const int column = view01->selectionModel()->currentIndex().column();
+    QAbstractItemModel *model = view02->model();
+    const int column = view02->selectionModel()->currentIndex().column();
 
     // Insert columns in each child of the parent item.
     const bool changed = model->removeColumn(column);
@@ -238,28 +234,28 @@ bool MainWindow::removeColumn()
 
 void MainWindow::removeRow()
 {
-    const QModelIndex index = view01->selectionModel()->currentIndex();
-    QAbstractItemModel *model = view01->model();
+    const QModelIndex index = view02->selectionModel()->currentIndex();
+    QAbstractItemModel *model = view02->model();
     if (model->removeRow(index.row(), index.parent()))
         updateActions();
 }
 
 void MainWindow::updateActions()
 {
-    const bool hasSelection = !view01->selectionModel()->selection().isEmpty();
+    const bool hasSelection = !view02->selectionModel()->selection().isEmpty();
     removeRowAction->setEnabled(hasSelection);
     removeColumnAction->setEnabled(hasSelection);
 
-    const bool hasCurrent = view01->selectionModel()->currentIndex().isValid();
+    const bool hasCurrent = view02->selectionModel()->currentIndex().isValid();
     insertRowAction->setEnabled(hasCurrent);
     insertColumnAction->setEnabled(hasCurrent);
 
     if (hasCurrent) {
-        view01->closePersistentEditor(view01->selectionModel()->currentIndex());
+        view02->closePersistentEditor(view02->selectionModel()->currentIndex());
 
-        const int row = view01->selectionModel()->currentIndex().row();
-        const int column = view01->selectionModel()->currentIndex().column();
-        if (view01->selectionModel()->currentIndex().parent().isValid())
+        const int row = view02->selectionModel()->currentIndex().row();
+        const int column = view02->selectionModel()->currentIndex().column();
+        if (view02->selectionModel()->currentIndex().parent().isValid())
             statusBar()->showMessage(tr("Position: (%1,%2)").arg(row).arg(column));
         else
             statusBar()->showMessage(tr("Position: (%1,%2) in top level").arg(row).arg(column));

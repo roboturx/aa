@@ -18,7 +18,7 @@
 
 
 namespace test {
-namespace data {
+namespace itemdata {
 
 // Forward declarations
 class TreeItem;
@@ -60,7 +60,7 @@ private:
     void Create(ViadeckSqlItem* parent);
 };
 
-} // namespace data
+} // namespace itemdata
 } // namespace test
 
 #endif // VIADECKSQLMODEL_H
