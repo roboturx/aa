@@ -101,21 +101,26 @@ MainWindow::MainWindow(QWidget *parent)
 
     /// group by column 0...
     /// can be any combination of column indexes
-    group_column_indexes  <<0;
-    QSqlQuery  query("SELECT GroupCode, AcName, ActCod FROM dbtb_accounts "
-                     "ORDER BY ActCod ASC ");
+    group_column_indexes <<0;
+    QSqlQuery  query("SELECT * FROM dbtb_accounts "
+                     "ORDER BY f_AccountCode ASC ");
 
 
-    test::data::ViadeckSqlModel* model03 = new test::data::ViadeckSqlModel();
-    model03->SetQuery(query); // SELECT ... statement, for example
+    test::data::ViadeckSqlModel* modmel03 = new test::data
+                                        ::ViadeckSqlModel();
+    // SELECT ... statement, for example
+    model03->SetQuery(query);
     model03->SetGroupByIndexes(group_column_indexes);
-    // Note, that you must format this using same indexes for grouping...
-    // if we choose to hide columns 0, 3 & 4, then the code/format
-    // would be something like:
-    //
-    // group_column_indexes << 0 << 3 << 4
-    // ...
-    // model->SetGroupTitleFormat("Group {0} is grouped with {3} and {4}");
+    /// Note, that you must format this using same
+    /// indexes for grouping...
+    /// if we choose to hide columns 0, 3 & 4,
+    /// then the code/format
+    /// would be something like:
+    ///
+    /// group_column_indexes << 0 << 3 << 4
+    /// ...
+    /// model->SetGroupTitleFormat("Group {0} is
+    /// grouped with {3} and {4}");
     model03->SetGroupTitleFormat("Group {0}");
     model03->Select();
 

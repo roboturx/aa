@@ -26,7 +26,7 @@ public:
     MySqlModel* msqlmdl;
 
 private:
-    bool addRecord(QString accnm, int accCd, int grpCd);
+    bool addRecord(int grpCd, int accCd, QString accnm);
 
 };
 
