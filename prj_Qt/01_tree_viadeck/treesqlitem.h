@@ -8,7 +8,8 @@
 class TreeSqlItem
 {
 public:
-    explicit TreeSqlItem(const QList<QVariant> &data, TreeSqlItem *parent = nullptr);
+    explicit TreeSqlItem(const QList<QVariant> &data,
+                         TreeSqlItem *parent = nullptr);
     ~TreeSqlItem();
 
     TreeSqlItem *child(int number);
@@ -24,9 +25,10 @@ public:
     bool setData(int column, const QVariant &value);
 
 private:
+    TreeSqlItem *parentItem;
     QList<TreeSqlItem *> childItems;
     QList<QVariant> itemData;
-    TreeSqlItem *parentItem;
+
 };
 //! [0]
 

@@ -11,10 +11,25 @@ TreeSqlModel::TreeSqlModel(QObject *parent)
     QList<QVariant> rootData;
     rootData << tr("Parent Code") << tr("Account Code")<< tr("Account Name");
     rootItem = new TreeSqlItem(rootData);
+    setupModelData(
+        {
+    "Şirket 1-Tab1-Tab2",
+    "  Ş1Dal1-ş1d1tab1		-Ş1d1t2		-Ş1d		1t		3  ",
+    "    Ş1D1d1			           ş1d1tab1    Ş1d1t2  Ş1d1t3  ",
+    "  Designing a Component    			Creating a GUI for your application",
+    "Creating a Dialog			How to create a dialog"
+        }
+, rootItem);
 
-    QString queryStr( "SELECT * FROM dbtb_accounts");
 
-    setupModelData(query, rootItem);
+ //   QString queryStr( "SELECT * FROM dbtb_accounts");
+//    setupModelData(queryStr, rootItem);
+//    for (const QString &header : headers)
+//        rootData << header;
+
+
+
+
 }
 //! [0]
 
@@ -69,7 +84,7 @@ TreeSqlItem *TreeSqlModel::getItem(const QModelIndex &index) const
 //! [4]
 
 QVariant TreeSqlModel::headerData(int section, Qt::Orientation orientation,
-                               int role) const
+                                  int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
         return rootItem->data(section);
@@ -82,9 +97,9 @@ QModelIndex TreeSqlModel::index(int row, int column, const QModelIndex &parent) 
 {
     if (parent.isValid() && parent.column() != 0)
         return QModelIndex();
-//! [5]
+    //! [5]
 
-//! [6]
+    //! [6]
     TreeSqlItem *parentItem = getItem(parent);
     if (!parentItem)
         return QModelIndex();
@@ -188,7 +203,7 @@ bool TreeSqlModel::setData(const QModelIndex &index, const QVariant &value, int 
 }
 
 bool TreeSqlModel::setHeaderData(int section, Qt::Orientation orientation,
-                              const QVariant &value, int role)
+                                 const QVariant &value, int role)
 {
     if (role != Qt::EditRole || orientation != Qt::Horizontal)
         return false;
@@ -201,64 +216,109 @@ bool TreeSqlModel::setHeaderData(int section, Qt::Orientation orientation,
     return result;
 }
 
-void TreeSqlModel::setupModelData(const QString &queryStr,
+void TreeSqlModel::setupModelData(const QStringList &lines,
                                   TreeSqlItem *parent)
 {
+    ///lines içinde tablar olan satırlar --- records
+    /// parents ın ilk itemı başlıklar
+
     QList<TreeSqlItem *> parents;
-    /// indentations levelları belirliyor
-    /// ilk girinti root item için
-  //  QList<int> indentations;
-    parents << parent; // içinde header olan ilk parent
-   // indentations << 0;
+    QList<int> indentations;
+    parents << parent;
 
+    /// indentations parentcode lar
+    /// ilk parentcode 0 olmalı
+    indentations << 0;
+
+    /// number kaç record olduğu
     int number = 0;
+    qDebug()<<"#of lines "<<lines.count();
 
-    QSqlQuery query;
-    query.exec(queryStr);
-    while (query.next())
+    /// tüm satırları-recordları incele
+    /// -- dosya sonu gelinceye kadar
+    while (number < lines.count())
     {
-        /// boşluk bulunca çık
+        qDebug()  << "######## " << number;
         int position = 0;
-        while (position < query[number].length())
-        {
-            if (query[number].at(position) != ' ')
+
+        /// satırbaşında boşluk ara
+        /// boşluk 0 ise root itemdır
+        /// boşluk sayısı-position parentcode dur
+        /// -- record daki parentcode u al
+        while (position < lines[number].length()) {
+            qDebug()<<"lines ["<<number<<"].length "
+                     <<lines[number].length()
+                     <<"position"<<position
+                     <<lines[number].at(position);
+            if (lines[number].at(position) != ' ')// ' ')
                 break;
             ++position;
         }
+        /// positiondan sonraki kısım field lardır
+        ///
+        const QString lineData = lines[number].mid(position).trimmed();
+        qDebug()<<"linedata" << lineData;
 
-        const QString lineData = query[number].mid(position).trimmed();
-
+        ///
         if (!lineData.isEmpty()) {
             // Read the column data from the rest of the line.
+            /// satırın geri kalanında tab ile
+            /// ayrılmuış kolonları bul
+            /// -- recorddan fieldları getir
             const QStringList columnStrings =
                 lineData.split(QLatin1Char('\t'), Qt::SkipEmptyParts);
 
-            // sql deki fieldları columndatay ekle
+            /// herbir kolonu columndata qvariantının içine at
+            ///-- field ları columndataya ekle
             QList<QVariant> columnData;
             columnData.reserve(columnStrings.size());
             for (const QString &columnString : columnStrings)
                 columnData << columnString;
 
+            /// eğer satır başı boşluk sayısı
+            /// boşluklar listinin sonuncusundan büyükse
+            ///
+            /// --- parentcode parents listesindeki
+            /// --- son parentcode dan  büyükse
+            /// --- yeni bir dal oluşacak
             if (position > indentations.last()) {
-                // The last child of the current parent is now the new parent
-                // unless the current parent has no children.
+                /// The last child of the current parent is
+                /// now the new parent
+                /// unless the current parent has no children.
 
-                if (parents.last()->childCount() > 0) {
-                    parents << parents.last()->child(parents.last()->childCount()-1);
+                /// şu anki parent ın son dalı
+                /// eğer şu anki parent ın başka dalı yoksa
+                /// yeni parent haline gelir
+
+                /// eğer pareent iteemın dal sayısı 0 dan
+                /// fazlaysa
+                if (parents.last()->childCount() > 0)
+                {
+                    ///+++ parent itemları listesine
+                    /// ++
+                    parents << parents.last()
+                                   ->child(parents.last()
+                                   ->childCount()-1);
                     indentations << position;
                 }
             } else {
-                while (position < indentations.last() && parents.count() > 0) {
+                while (position < indentations.last() &&
+                       parents.count() > 0) {
                     parents.pop_back();
                     indentations.pop_back();
                 }
             }
 
-            // Append a new item to the current parent's list of children.
+            /// Append a new item to the
+            /// current parent's list of children.
             TreeSqlItem *parent = parents.last();
-            parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
-            for (int column = 0; column < columnData.size(); ++column)
-                parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
+            parent->insertChildren(parent->childCount(), 1
+                                   , rootItem->columnCount());
+            for (int column = 0;
+                 column < columnData.size();
+                 ++column)
+                parent->child(parent->childCount() - 1)
+                    ->setData(column, columnData[column]);
         }
         ++number;
     }
