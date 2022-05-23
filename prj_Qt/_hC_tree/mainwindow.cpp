@@ -49,9 +49,9 @@
 ****************************************************************************/
 
 #include "mainwindow.h"
-#include "treemodel.h"
+//#include "treemodel.h"
 #include "treesqlmodel.h"
-#include "viadecksqlmodel.h"
+//#include "viadecksqlmodel.h"
 
 #include <QFile>
 #include <QSqlQuery>
