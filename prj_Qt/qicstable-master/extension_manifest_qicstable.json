@@ -1,0 +1,43 @@
+{
+    "$schema": "http://qt.io/schema/extension-schema-v1#",
+    "title": "QicsTable",
+    "extensionType": [
+        "library"
+    ],
+    "version": "3.0.0",
+    "vendor": {
+        "name": "Integrated Computer Solutions, Inc.",
+        "url": "https://www.ics.com"
+    },
+    "contact": "ICS sales",
+    "copyright": [ "Integrated Computer Solutions, Inc." ],
+    "author": "Integrated Computer Solutions, Inc.",
+    "licenses": [
+      { "licenseType": "GPLv3",
+        "licenseUrl": "https://www.gnu.org/licenses/gpl-3.0.html" },
+      { "licenseType": "LGPLv2.1",
+        "licenseUrl": "https://www.gnu.org/licenses/lgpl-2.1.html" },
+      { "licenseType": "ICS Commercial",
+        "licenseUrl": "https://gitlab.com/ics-qicstable/qicstable/blob/master/LICENSE.COMMERCIAL" },
+      { "licenseType": "ICS Evaluation",
+        "licenseUrl": "https://gitlab.com/ics-qicstable/qicstable/blob/master/LICENSE.EVAL" }
+    ],
+    "created": "2019-12-03",
+    "lastUpdate": "2019-12-03",
+    "platforms": [
+        "Linux", "macOS", "Windows"
+    ],
+    "qtVersions": [
+        "4.7.0", "5.13.2"
+    ],
+    "tags": [
+        "QicsTable" ],
+    "price": {
+        "listprice": 0
+    },
+    "support": "support@ics.com",
+    "sourceRepoUrl": "https://gitlab.com/ics-qicstable/qicstable",
+    "dependencies": [
+        "Qt"
+    ]
+}

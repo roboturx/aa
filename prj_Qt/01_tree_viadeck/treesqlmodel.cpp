@@ -14,7 +14,7 @@ TreeSqlModel::TreeSqlModel(QObject *parent)
 
     QString queryStr( "SELECT * FROM dbtb_accounts");
 
-    setupModelData(query, rootItem);
+    setupModelData(queryStr, rootItem);
 }
 //! [0]
 
@@ -207,9 +207,9 @@ void TreeSqlModel::setupModelData(const QString &queryStr,
     QList<TreeSqlItem *> parents;
     /// indentations levelları belirliyor
     /// ilk girinti root item için
-  //  QList<int> indentations;
+    QList<int> indentations;
     parents << parent; // içinde header olan ilk parent
-   // indentations << 0;
+    indentations << 0;
 
     int number = 0;
 
