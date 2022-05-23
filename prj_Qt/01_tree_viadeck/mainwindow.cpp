@@ -86,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent)
     view02->setModel(modelSQL);
     for (int column = 0; column < modelSQL->columnCount(); ++column)
         view02->resizeColumnToContents(column);
+    view02->expandAll();
 
     ///// view 03
     ///

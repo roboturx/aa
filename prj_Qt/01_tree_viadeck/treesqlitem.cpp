@@ -1,9 +1,18 @@
+#include <QSqlQuery>
+#include <QSqlRecord>
+
 #include "treesqlitem.h"
 
 //! [0]
-TreeSqlItem::TreeSqlItem(const QList<QVariant> &data, TreeSqlItem *parent)
-    : itemData(data), parentItem(parent)
-{}
+TreeSqlItem::TreeSqlItem(const QList<QVariant> &data,
+                             TreeSqlItem *parent)
+    : parentItem(parent), itemData(data)
+{
+
+//qDebug() << "Treesqlitem constructor";
+
+
+}
 //! [0]
 
 //! [1]
@@ -33,7 +42,8 @@ int TreeSqlItem::childCount() const
 int TreeSqlItem::childNumber() const
 {
     if (parentItem)
-        return parentItem->childItems.indexOf(const_cast<TreeSqlItem*>(this));
+        return parentItem->childItems.
+            indexOf(const_cast<TreeSqlItem*>(this));
     return 0;
 }
 //! [4]
@@ -55,12 +65,15 @@ QVariant TreeSqlItem::data(int column) const
 //! [6]
 
 //! [7]
-bool TreeSqlItem::insertChildren(int position, int count, int columns)
+bool TreeSqlItem::insertChildren(int position,
+                                 int count,
+                                 int columns)
 {
     if (position < 0 || position > childItems.size())
         return false;
 
-    for (int row = 0; row < count; ++row) {
+    for (int row = 0; row < count; ++row)
+    {
         QList<QVariant> data(columns);
         TreeSqlItem *item = new TreeSqlItem(data, this);
         childItems.insert(position, item);

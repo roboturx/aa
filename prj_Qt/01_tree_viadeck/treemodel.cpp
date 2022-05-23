@@ -54,7 +54,8 @@
 #include <QtWidgets>
 
 //! [0]
-TreeModel::TreeModel(const QStringList &headers, const QString &data, QObject *parent)
+TreeModel::TreeModel(const QStringList &headers,
+                     const QString &data, QObject *parent)
     : QAbstractItemModel(parent)
 {
     QList<QVariant> rootData;
@@ -257,17 +258,24 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
     indentations << 0;
 
     int number = 0;
-
-    while (number < lines.count()) {
+  //  qDebug()<<"---#of lines "<<lines.count();
+    while (number < lines.count())
+    {
+      //  qDebug()<<"---######## "<<number;
         int position = 0;
-        while (position < lines[number].length()) {
-            if (lines[number].at(position) != ' ')
+        while (position < lines[number].length())
+        {
+//            qDebug()<<"---lines ["<<number<<"].length "
+//                     <<lines[number].length()
+//                     <<"position"<<position
+//                     <<lines[number].at(position);
+           if (lines[number].at(position) != ' ')
                 break;
             ++position;
         }
 
         const QString lineData = lines[number].mid(position).trimmed();
-
+    //    qDebug()<<"---linedata" << lineData;
         if (!lineData.isEmpty()) {
             // Read the column data from the rest of the line.
             const QStringList columnStrings =
