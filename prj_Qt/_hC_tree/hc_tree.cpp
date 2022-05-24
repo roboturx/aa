@@ -20,7 +20,7 @@ hC_Tree::hC_Tree(QWidget *parent)
 
     m_accName = new QString;
     m_accCode = new QString;
-    m_prntCode = new QString;
+   // m_prntCode = new QString;
 
     connect(butt_Exit, &QPushButton::clicked, this, &QApplication::quit);
 
@@ -81,11 +81,11 @@ void hC_Tree::insertChild()
     const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
     QAbstractItemModel *model = hC_TreeView->model();
 
-    qDebug()<< "parentttt 1 "
+    qDebug()<< "prtt 1 "
             << model->index(index.row(),index.column()).data(Qt::DisplayRole).toString()
-            << "parentttt 2 "
+            << "prt 2 "
             << model->index(index.row(),index.column()+1).data(Qt::DisplayRole).toString()
-            << "parentttt 2 "
+            << "pat 3 "
             << model->index(index.row(),index.column()+2).data(Qt::DisplayRole).toString();
 
 
@@ -119,7 +119,7 @@ void hC_Tree::insertChild()
         }
         if (column == 1) // parentcode
         {
-            model->setData(child, QVariant( *m_prntCode ), Qt::EditRole);
+            model->setData(child, QVariant( m_prntCode ), Qt::EditRole);
         }
 
         if (!model->headerData(column, Qt::Horizontal).isValid())
@@ -129,9 +129,9 @@ void hC_Tree::insertChild()
 
     hC_TreeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
                                                    QItemSelectionModel::ClearAndSelect);
-
+    qDebug()<<"---mcde "<<m_prntCode<<"  ---name "<<name;
     dBase db;
-    db.addRecord(  xxxx m_prntCode->toInt(),name);
+    db.addRecord(m_prntCode, name);
     updateActions();
 }
 
@@ -197,31 +197,29 @@ void hC_Tree::updateActions()
     const bool hasCurrent = hC_TreeView->selectionModel()->currentIndex().isValid();
     butt_insrow->setEnabled(hasCurrent);
     butt_inscol->setEnabled(hasCurrent);
-qDebug()<<"1111";
+
     if (hasCurrent) {
         hC_TreeView->closePersistentEditor(hC_TreeView->selectionModel()->currentIndex());
-qDebug()<<"2222";
+
         QModelIndex currentindx = hC_TreeView->selectionModel()->currentIndex();
         QModelIndex sibling = currentindx.siblingAtColumn(1);
         QModelIndex sibling2 = sibling.siblingAtColumn(2);
-qDebug()<<"333";
+
         const int row = currentindx.row();
         const int column = currentindx.column();
         if (currentindx.parent().isValid())
         {
-            qDebug()<<"444";
+
             *m_accName = currentindx.data(Qt::DisplayRole).toString();
-            qDebug()<<"41";
             *m_accCode = sibling.data(Qt::DisplayRole).toString();
-            qDebug()<<"42";
-            *m_prntCode = sibling2.data(Qt::DisplayRole).toString();
-            qDebug()<<"43";
+            m_prntCode = sibling2.data(Qt::DisplayRole).toInt();
+
        //     lab_status->setText(tr("Position: (%1,%2)").arg(row).arg(column));
-            qDebug()<<"555";
+
             lab_status->setText(*m_accName);
             lab_status2->setText(*m_accCode);
-            lab_status3->setText(*m_prntCode);
-            qDebug()<<"666";
+            lab_status3->setText(QString::number (m_prntCode));
+
         }
         else
         {

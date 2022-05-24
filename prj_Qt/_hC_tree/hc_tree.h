@@ -24,7 +24,7 @@ public:
     QTreeView *hC_TreeView;
     QString * m_accName;
     QString* m_accCode;
-    QString* m_prntCode;
+    int m_prntCode;
 private:
     QPushButton *butt_Exit ;
     QPushButton *butt_Add ;
