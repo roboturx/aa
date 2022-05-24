@@ -8,10 +8,11 @@
 
 dBase::dBase()
 {
-    qDebug() << "- create conn";
-    createConnection();
-    // msqlmdl = new MySqlModel;
 
+}
+
+void dBase::adding()
+{
     addRecord (0,"Doğuş");
     addRecord (  1,        "1-- VARLIKLAR");
     addRecord (    2,      "10- DÖNEN VARLIKLAR");

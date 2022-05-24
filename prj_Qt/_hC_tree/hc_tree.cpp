@@ -1,43 +1,78 @@
-#include <QFile>
-#include <QSqlQuery>
 
-#include <QSqlQuery>
 
+#include "treesqlitem.h"
 #include "treesqlmodel.h"
 #include "hc_tree.h"
+#include "dbase.h"
 
 hC_Tree::hC_Tree(QWidget *parent)
     : QWidget{parent}
 {
-    const QStringList headers01({tr("Title"), tr("Description")});
+    //const QStringList headers01({tr("Title"), tr("Description")});
+    //const QStringList headers02({tr("ID Mosel"), tr("SQL AccCode"), tr("GrpCode")});
 
-    // const QStringList headers02({tr("ID Mosel"), tr("SQL AccCode"), tr("GrpCode")});
-
-    QTreeView *hC_TreeView = new QTreeView(this);
-
-            TreeSqlModel *modelSQL = new TreeSqlModel(this);
+    view();
+    TreeSqlModel *modelSQL = new TreeSqlModel(this);
     hC_TreeView->setModel(modelSQL);
     for (int column = 0; column < modelSQL->columnCount(); ++column)
         hC_TreeView->resizeColumnToContents(column);
     hC_TreeView->expandAll();
 
+    m_accName = new QString;
+    m_accCode = new QString;
+    m_prntCode = new QString;
 
-//    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+    connect(butt_Exit, &QPushButton::clicked, this, &QApplication::quit);
 
-//    connect(hC_TreeView->selectionModel(), &QItemSelectionModel::selectionChanged,
-//            this, &hC_Tree::updateActions);
-
-
+    connect(hC_TreeView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &hC_Tree::updateActions);
 
 
-//    connect(actionsMenu, &QMenu::aboutToShow, this, &hC_Tree::updateActions);
-//    connect(insertRowAction, &QAction::triggered, this, &hC_Tree::insertRow);
-//    connect(insertColumnAction, &QAction::triggered, this, &hC_Tree::insertColumn);
-//    connect(removeRowAction, &QAction::triggered, this, &hC_Tree::removeRow);
-//    connect(removeColumnAction, &QAction::triggered, this, &hC_Tree::removeColumn);
-//    connect(insertChildAction, &QAction::triggered, this, &hC_Tree::insertChild);
+
+
+    //  connect(butt_Act, &QPushButton::clicked, this, &hC_Tree::updateActions);
+    connect(butt_insrow, &QPushButton::clicked, this, &hC_Tree::insertRow);
+    connect(butt_inscol, &QPushButton::clicked, this, &hC_Tree::insertColumn);
+    connect(butt_remrow, &QPushButton::clicked, this, &hC_Tree::removeRow);
+    connect(butt_remcol, &QPushButton::clicked, this, &hC_Tree::removeColumn);
+    connect(butt_Add, &QPushButton::clicked, this, &hC_Tree::insertChild);
 
     updateActions();
+
+}
+
+void hC_Tree::view()
+{
+
+    butt_Exit = new QPushButton("Exit");
+    butt_Add = new QPushButton("Ekle");
+    butt_Act = new QPushButton("Act");
+    butt_insrow = new QPushButton("rowEkle");
+    butt_inscol = new QPushButton("colEkle");
+    butt_remrow = new QPushButton("rowSil");
+    butt_remcol = new QPushButton("colSil");
+    lab_status = new QLabel;
+    lab_status2 = new QLabel;
+    lab_status3 = new QLabel;
+    hC_TreeView = new QTreeView(this);
+    hC_TreeView->setSelectionMode(QAbstractItemView::SingleSelection);
+    hC_TreeView->resizeColumnToContents(0);
+    hC_TreeView->setAutoExpandDelay(1000);
+    hC_TreeView->setIndentation(10);
+    hC_TreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
+
+    QGridLayout *lay_grid = new QGridLayout;
+    this->setLayout(lay_grid);
+    lay_grid->addWidget(butt_Add   ,  0, 0,  1, 1);
+    lay_grid->addWidget(butt_insrow,  0, 1,  1, 1);
+    lay_grid->addWidget(butt_inscol,  0, 2,  1, 1);
+    lay_grid->addWidget(butt_remrow,  0, 3,  1, 1);
+    lay_grid->addWidget(butt_remcol,  0, 4,  1, 1);
+    lay_grid->addWidget(butt_Exit  ,  0, 5,  1, 1);
+    lay_grid->addWidget(hC_TreeView,  1, 0, 10, 6);
+    lay_grid->addWidget(lab_status , 12, 0,  1, 2);
+    lay_grid->addWidget(lab_status2, 12, 2,  1, 2);
+    lay_grid->addWidget(lab_status3, 12, 4,  1, 2);
 
 }
 
@@ -45,6 +80,15 @@ void hC_Tree::insertChild()
 {
     const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
     QAbstractItemModel *model = hC_TreeView->model();
+
+    qDebug()<< "parentttt 1 "
+            << model->index(index.row(),index.column()).data(Qt::DisplayRole).toString()
+            << "parentttt 2 "
+            << model->index(index.row(),index.column()+1).data(Qt::DisplayRole).toString()
+            << "parentttt 2 "
+            << model->index(index.row(),index.column()+2).data(Qt::DisplayRole).toString();
+
+
 
     if (model->columnCount(index) == 0) {
         if (!model->insertColumn(0, index))
@@ -54,15 +98,40 @@ void hC_Tree::insertChild()
     if (!model->insertRow(0, index))
         return;
 
-    for (int column = 0; column < model->columnCount(index); ++column) {
+    bool ok;
+    QString name = QInputDialog::getText(this,
+                                         tr("Add task"), tr("Task name"),
+                                         QLineEdit::Normal,
+                                         tr("hesap adı giriniz"),     &ok);
+    if (ok && !name.isEmpty()) {
+        qDebug() << "Yeni Hesap Ekle" << name;
+
+    }
+
+    for (int column = 0; column < model->columnCount(index); ++column)
+    {
         const QModelIndex child = model->index(0, column, index);
-        model->setData(child, QVariant(tr("[No itemdata]")), Qt::EditRole);
+        qDebug()<< model->index(0, column, index).data(Qt::DisplayRole).toString()
+                <<model->headerData(column, Qt::Horizontal).toString();
+        if (column == 0) // name
+        {
+            model->setData(child, QVariant( name ), Qt::EditRole);
+        }
+        if (column == 1) // parentcode
+        {
+            model->setData(child, QVariant( *m_prntCode ), Qt::EditRole);
+        }
+
         if (!model->headerData(column, Qt::Horizontal).isValid())
-            model->setHeaderData(column, Qt::Horizontal, QVariant(tr("[No header]")), Qt::EditRole);
+            model->setHeaderData(column, Qt::Horizontal,
+                                 QVariant(tr("111")), Qt::EditRole);
     }
 
     hC_TreeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
                                                    QItemSelectionModel::ClearAndSelect);
+
+    dBase db;
+    db.addRecord(  xxxx m_prntCode->toInt(),name);
     updateActions();
 }
 
@@ -74,7 +143,8 @@ bool hC_Tree::insertColumn()
     // Insert a column in the parent item.
     bool changed = model->insertColumn(column + 1);
     if (changed)
-        model->setHeaderData(column + 1, Qt::Horizontal, QVariant("[No header]"), Qt::EditRole);
+        model->setHeaderData(column + 1,
+                             Qt::Horizontal, QVariant("[No header]"), Qt::EditRole);
 
     updateActions();
 
@@ -121,21 +191,41 @@ void hC_Tree::removeRow()
 void hC_Tree::updateActions()
 {
     const bool hasSelection = !hC_TreeView->selectionModel()->selection().isEmpty();
-    removeRowAction->setEnabled(hasSelection);
-    removeColumnAction->setEnabled(hasSelection);
+    butt_remrow->setEnabled(hasSelection);
+    butt_remcol->setEnabled(hasSelection);
 
     const bool hasCurrent = hC_TreeView->selectionModel()->currentIndex().isValid();
-    insertRowAction->setEnabled(hasCurrent);
-    insertColumnAction->setEnabled(hasCurrent);
-
+    butt_insrow->setEnabled(hasCurrent);
+    butt_inscol->setEnabled(hasCurrent);
+qDebug()<<"1111";
     if (hasCurrent) {
         hC_TreeView->closePersistentEditor(hC_TreeView->selectionModel()->currentIndex());
-
-        const int row = hC_TreeView->selectionModel()->currentIndex().row();
-        const int column = hC_TreeView->selectionModel()->currentIndex().column();
-        if (hC_TreeView->selectionModel()->currentIndex().parent().isValid())
-            statusBar()->showMessage(tr("Position: (%1,%2)").arg(row).arg(column));
+qDebug()<<"2222";
+        QModelIndex currentindx = hC_TreeView->selectionModel()->currentIndex();
+        QModelIndex sibling = currentindx.siblingAtColumn(1);
+        QModelIndex sibling2 = sibling.siblingAtColumn(2);
+qDebug()<<"333";
+        const int row = currentindx.row();
+        const int column = currentindx.column();
+        if (currentindx.parent().isValid())
+        {
+            qDebug()<<"444";
+            *m_accName = currentindx.data(Qt::DisplayRole).toString();
+            qDebug()<<"41";
+            *m_accCode = sibling.data(Qt::DisplayRole).toString();
+            qDebug()<<"42";
+            *m_prntCode = sibling2.data(Qt::DisplayRole).toString();
+            qDebug()<<"43";
+       //     lab_status->setText(tr("Position: (%1,%2)").arg(row).arg(column));
+            qDebug()<<"555";
+            lab_status->setText(*m_accName);
+            lab_status2->setText(*m_accCode);
+            lab_status3->setText(*m_prntCode);
+            qDebug()<<"666";
+        }
         else
-            statusBar()->showMessage(tr("Position: (%1,%2) in top level").arg(row).arg(column));
+        {
+            lab_status->setText(tr("ROOT Position: (%1,%2) in top level").arg(row).arg(column));
+        }
     }
 }

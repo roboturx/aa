@@ -1,10 +1,19 @@
 #ifndef hC_Tree_H
 #define hC_Tree_H
 
-#include <QMainWindow>
+#include <QLabel>
+
 #include <QObject>
 #include <QWidget>
 #include <QTreeView>
+#include <QFile>
+#include <QSqlQuery>
+#include <QPushButton>
+#include <QSqlQuery>
+#include <QApplication>
+#include <QGridLayout>
+#include <QInputDialog>
+#include <QLineEdit>
 
 class hC_Tree : public QWidget
 {
@@ -13,6 +22,23 @@ public:
     explicit hC_Tree(QWidget *parent = nullptr);
 
     QTreeView *hC_TreeView;
+    QString * m_accName;
+    QString* m_accCode;
+    QString* m_prntCode;
+private:
+    QPushButton *butt_Exit ;
+    QPushButton *butt_Add ;
+    QPushButton *butt_Act ;
+    QPushButton *butt_insrow ;
+    QPushButton *butt_inscol ;
+    QPushButton *butt_remrow ;
+    QPushButton *butt_remcol ;
+    QLabel * lab_status;
+    QLabel * lab_status2;
+    QLabel * lab_status3;
+
+
+    void view();
 
 public slots:
     void updateActions();

@@ -6,9 +6,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setupUi(this);
-
-    hC_Tree tree;
-
-
+    hC_Tree* tree = new hC_Tree(this);
+    setCentralWidget(tree);
 }

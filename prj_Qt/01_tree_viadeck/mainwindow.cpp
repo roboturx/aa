@@ -65,15 +65,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     const QStringList headers01({tr("Title"), tr("Description")});
 
-//    /// view01
-//    QFile file(":/default.txt");
-//    file.open(QIODevice::ReadOnly);
-//    TreeModel *modelTXT = new TreeModel(headers01, file.readAll(), this);
-//    file.close();
+    /// view01
+    QFile file(":/default.txt");
+    file.open(QIODevice::ReadOnly);
+    TreeModel *modelTXT = new TreeModel(headers01, file.readAll(), this);
+    file.close();
 
-//    view01->setModel(modelTXT);
-//    for (int column = 0; column < modelTXT->columnCount(); ++column)
-//        view01->resizeColumnToContents(column);
+    view01->setModel(modelTXT);
+    for (int column = 0; column < modelTXT->columnCount(); ++column)
+        view01->resizeColumnToContents(column);
 
 
     /// view02
@@ -94,49 +94,49 @@ MainWindow::MainWindow(QWidget *parent)
     ///  vladeck - qt forum
 
 
-//    QList<int> group_column_indexes;
+    QList<int> group_column_indexes;
 
-//    /// group by column 0...
-//    /// can be any combination of column indexes
-//    group_column_indexes <<0;
-//    QSqlQuery  query("SELECT * FROM dbtb_accounts "
-//                     "ORDER BY f_AccountCode ASC ");
+    /// group by column 0...
+    /// can be any combination of column indexes
+    group_column_indexes <<0;
+    QSqlQuery  query("SELECT * FROM dbtb_accounts "
+                     "ORDER BY f_AccountCode ASC ");
 
 
-//    test::itemdata::ViadeckSqlModel* model03 = new test::itemdata
-//                                        ::ViadeckSqlModel();
-//    // SELECT ... statement, for example
-//    model03->SetQuery(query);
-//    model03->SetGroupByIndexes(group_column_indexes);
-//    /// Note, that you must format this using same
-//    /// indexes for grouping...
-//    /// if we choose to hide columns 0, 3 & 4,
-//    /// then the code/format
-//    /// would be something like:
-//    ///
-//    /// group_column_indexes << 0 << 3 << 4
-//    /// ...
-//    /// model->SetGroupTitleFormat("Group {0} is
-//    /// grouped with {3} and {4}");
-//    model03->SetGroupTitleFormat("Group {0}");
-//    model03->Select();
+    test::itemdata::ViadeckSqlModel* model03 = new test::itemdata
+                                        ::ViadeckSqlModel();
+    // SELECT ... statement, for example
+    model03->SetQuery(query);
+    model03->SetGroupByIndexes(group_column_indexes);
+    /// Note, that you must format this using same
+    /// indexes for grouping...
+    /// if we choose to hide columns 0, 3 & 4,
+    /// then the code/format
+    /// would be something like:
+    ///
+    /// group_column_indexes << 0 << 3 << 4
+    /// ...
+    /// model->SetGroupTitleFormat("Group {0} is
+    /// grouped with {3} and {4}");
+    model03->SetGroupTitleFormat("Group {0}");
+    model03->Select();
 
-//    //QTreeView *_TrvPackages = new QTreeView;
-//    view03->setAllColumnsShowFocus(true);
-//    view03->setModel(model03);
+    //QTreeView *_TrvPackages = new QTreeView;
+    view03->setAllColumnsShowFocus(true);
+    view03->setModel(model03);
 
-//    for (int i = 0; i < view03->model()->rowCount(); ++i)
-//        view03->setFirstColumnSpanned(i, QModelIndex(), true);
+    for (int i = 0; i < view03->model()->rowCount(); ++i)
+        view03->setFirstColumnSpanned(i, QModelIndex(), true);
 
-//    view03->expandAll();
-    //    QTreeView *_TrvPackages = new QTreeView;
-    //        _TrvPackages->setAllColumnsShowFocus(false);
-    //        _TrvPackages->setModel(model);
+    view03->expandAll();
+//        QTreeView *_TrvPackages = new QTreeView;
+//            _TrvPackages->setAllColumnsShowFocus(false);
+//            _TrvPackages->setModel(model);
 
-    //        for (int i = 0; i < _TrvPackages->model()->rowCount(); ++i)
-    //            _TrvPackages->setFirstColumnSpanned(i, QModelIndex(), true);
+//            for (int i = 0; i < _TrvPackages->model()->rowCount(); ++i)
+//                _TrvPackages->setFirstColumnSpanned(i, QModelIndex(), true);
 
-    //        _TrvPackages->expandAll();
+//            _TrvPackages->expandAll();
 
 
 

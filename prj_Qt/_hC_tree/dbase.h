@@ -19,13 +19,14 @@ class dBase : public QSqlDatabase
 public:
 
     dBase();
+
+    void adding();
     static bool createConnection();
     bool openDb();
 
     QSqlDatabase db;
-   // MySqlModel* msqlmdl;
 
-private:
+public:
     bool addRecord(int grpCd, QString accnm);
 
 };
