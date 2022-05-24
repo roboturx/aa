@@ -15,12 +15,18 @@
 #include <QInputDialog>
 #include <QLineEdit>
 
+#include "dbase.h"
+#include "treesqlitem.h"
+#include "treesqlmodel.h"
+
+
 class hC_Tree : public QWidget
 {
     Q_OBJECT
 public:
     explicit hC_Tree(QWidget *parent = nullptr);
 
+    TreeSqlModel *modelSQL ;
     QTreeView *hC_TreeView;
     QString * m_accName;
     QString* m_accCode;
