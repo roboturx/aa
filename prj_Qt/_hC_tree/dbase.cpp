@@ -13,20 +13,20 @@ dBase::dBase()
 
 void dBase::adding()
 {
-    addRecord (0,"Doğuş");
-    addRecord (  1,        "1-- VARLIKLAR");
-    addRecord (    2,      "10- DÖNEN VARLIKLAR");
-    addRecord (      3,  "100 KASA");
-    addRecord (      3,  "101 ALINAN ÇEKLER");
-    addRecord (      3,  "102 BANKALAR");
-    addRecord (    2,      "2-- DURAN VARLIKLAR" );
-    addRecord (      7,    "20- TİCARİ ALACAKLAR" );
-    addRecord (        8,"220 ALICILAR" );
-    addRecord (        8,"221 ALACAK SENETLERİ" );
-    addRecord (  1,        "3-- KISA VADELİ YABANCI KAYNAKLAR" );
-    addRecord (  1,        "4-- UZUN VADELİ YABANCI KAYNAKLAR" );
-    addRecord (  1,        "5-- SERMAYE" );
-    //  qDebug() << "-- adding records ended      *******";
+    addRecord ( 0,  "0 Doğuş");
+    addRecord ( 1,  "1-- VARLIKLAR");
+    addRecord ( 2,  "10- DÖNEN VARLIKLAR");
+    addRecord ( 3,  "100 KASA");
+    addRecord ( 3,  "101 ALINAN ÇEKLER");
+    addRecord ( 3,  "102 BANKALAR");
+    addRecord ( 1,  "2-- DURAN VARLIKLAR" );
+    addRecord ( 7,  "20- TİCARİ ALACAKLAR" );
+    addRecord ( 8, "220 ALICILAR" );
+    addRecord ( 8,  "221 ALACAK SENETLERİ" );
+    addRecord ( 1,  "3-- KISA VADELİ YABANCI KAYNAKLAR" );
+    addRecord ( 1,  "4-- UZUN VADELİ YABANCI KAYNAKLAR" );
+    addRecord ( 1,  "5-- SERMAYE" );
+    //  qDebug() << "-- adding records ended*******";
 }
 
 
@@ -86,7 +86,7 @@ bool dBase::addRecord(int grpCd, QString  accNm )
 bool dBase::createConnection()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName( "a_viadeck.db"  );
+    db.setDatabaseName( "a_tree.db"  );
 
     if (!db.open()) {
         qDebug()<<"Cannot open database\n"

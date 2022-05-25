@@ -47,8 +47,10 @@ void TreeSqlModel::setupModelDataSQL(TreeSqlItem *parent)
     QList<int> list_parentCodes;
     list_parentCodes << 0;
 
-    QSqlQuery query("SELECT f_parentCode, f_AccountCode, f_AccountName "
-                    " FROM dbtb_accounts ");
+    QSqlQuery query("SELECT f_parentCode, "
+                    "f_AccountCode, f_AccountName "
+                    " FROM dbtb_accounts"
+                    " ORDER BY f_AccountName ");
 
     Q_ASSERT_X(query.isActive (),"dosya seçilemedi","setup");
 
@@ -69,8 +71,8 @@ void TreeSqlModel::setupModelDataSQL(TreeSqlItem *parent)
             if (list_parentItems.last()->childCount() > 0)
             {
                 list_parentItems << list_parentItems.last()
-                                    ->child(list_parentItems.last()
-                                            ->childCount()-1);
+                                        ->child(list_parentItems.last()
+                                                    ->childCount()-1);
                 list_parentCodes << query.value(rec.indexOf("f_parentCode")).toInt() ;
             }
         } else {
@@ -88,7 +90,7 @@ void TreeSqlModel::setupModelDataSQL(TreeSqlItem *parent)
              column < columnData.size();
              ++column)
             parent->child(parent->childCount() - 1)
-                    ->setData(column, columnData[column]);
+                ->setData(column, columnData[column]);
 
     }
 }
@@ -127,9 +129,9 @@ void TreeSqlModel::setupModelData(const QStringList &lines,
         while (position < lines[number].length())
         {
             qDebug()<<"lines ["<<number<<"].length "
-                   <<lines[number].length()
-                  <<"position"<<position
-                 <<lines[number].at(position);
+                     <<lines[number].length()
+                     <<"position"<<position
+                     <<lines[number].at(position);
             if (lines[number].at(position) != ' ')// ' ')
                 break;
             ++position;
@@ -147,7 +149,7 @@ void TreeSqlModel::setupModelData(const QStringList &lines,
             /// ayrılmış kolonları bul
             /// -- recorddan fieldları getir
             const QStringList columnStrings =
-                    lineData.split(QLatin1Char('\t'), Qt::SkipEmptyParts);
+                lineData.split(QLatin1Char('\t'), Qt::SkipEmptyParts);
 
             /// herbir kolonu columndata qvariantının içine at
             ///-- field ları columndataya ekle
@@ -179,8 +181,8 @@ void TreeSqlModel::setupModelData(const QStringList &lines,
                     ///+++ parent itemları listesine
                     /// ++
                     list_parentItems << list_parentItems.last()
-                                        ->child(list_parentItems.last()
-                                                ->childCount()-1);
+                                            ->child(list_parentItems.last()
+                                                        ->childCount()-1);
                     list_parentCodes << position;
                 }
             } else {
@@ -200,7 +202,7 @@ void TreeSqlModel::setupModelData(const QStringList &lines,
                  column < columnData.size();
                  ++column)
                 parent->child(parent->childCount() - 1)
-                        ->setData(column, columnData[column]);
+                    ->setData(column, columnData[column]);
         }
         ++number;
     }
@@ -361,9 +363,8 @@ bool TreeSqlModel::setData(const QModelIndex &index, const QVariant &value, int 
     if (role != Qt::EditRole)
         return false;
 
-        TreeSqlItem *item = getItem(index);
+    TreeSqlItem *item = getItem(index);
     qDebug() << "TreeSqlModel::setData "
-
              <<value.toString()
              <<item->data(2).toInt();
 

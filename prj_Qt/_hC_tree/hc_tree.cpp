@@ -20,7 +20,7 @@ hC_Tree::hC_Tree(QWidget *parent)
     connect(butt_remcol, &QPushButton::clicked, this, &hC_Tree::removeColumn);
     connect(butt_Add, &QPushButton::clicked, this, &hC_Tree::insertChild);
 
-    const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
+    //const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
 
     connect(hC_TreeView->selectionModel(),
             &QItemSelectionModel::selectionChanged,
@@ -46,8 +46,8 @@ void hC_Tree::view()
     hC_TreeView = new QTreeView(this);
     hC_TreeView->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    hC_TreeView->setAutoExpandDelay(1000);
-    hC_TreeView->setIndentation(10);
+  //  hC_TreeView->setAutoExpandDelay(1000);
+    hC_TreeView->setIndentation(20);
     hC_TreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
 
@@ -86,11 +86,11 @@ void hC_Tree::insertChild()
 
     bool ok;
     QString name = QInputDialog::getText(this,
-                                         "New ParentCode = "+QString::number(m_accCode) ,
-                                         "Hesap Adı:",
-                                         QLineEdit::Normal,
-                                         tr("hesap adı giriniz"),
-                                         &ok);
+               QString::number(m_accCode)+"=New ParentCode = " ,
+                "Hesap Adı:",
+                 QLineEdit::Normal,
+                 tr("hesap adı giriniz"),
+                  &ok);
     if (ok && !name.isEmpty()) {
         qDebug() << "Yeni Hesap Ekle" << name;
 
@@ -101,8 +101,11 @@ void hC_Tree::insertChild()
          ++column)
     {
         const QModelIndex child = modelSQL->index(0, column, index);
-        qDebug()<< modelSQL->index(0, column, index).data(Qt::DisplayRole).toString()
-                <<modelSQL->headerData(column, Qt::Horizontal).toString();
+        qDebug()<<"zzzzz"
+                 << modelSQL->index(0, column, index).data(Qt::DisplayRole).toString()
+                <<modelSQL->index(1, column, index).data(Qt::DisplayRole).toString()
+            <<modelSQL->index(2, column, index).data(Qt::DisplayRole).toString()
+            ;
         if (column == 0) // name
         {
             modelSQL->setData(child, QVariant( name ), Qt::EditRole);
