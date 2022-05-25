@@ -3,25 +3,15 @@
 hC_Tree::hC_Tree(QWidget *parent)
     : QWidget{parent}
 {
-    qDebug()<< "11 ";
+    qDebug()<< "------ hctree ";
     view();
-    qDebug()<< "22 ";
     modelSQL = new TreeSqlModel(this);
     hC_TreeView->setModel(modelSQL);
     for (int column = 0; column < modelSQL->columnCount(); ++column)
         hC_TreeView->resizeColumnToContents(column);
     hC_TreeView->expandAll();
-    qDebug()<< "33 ";
-    m_accName = new QString;
-    m_accCode = new QString;
-    // m_prntCode = new QString;
 
     connect(butt_Exit, &QPushButton::clicked, this, &QApplication::quit);
-
-
-
-
-
 
     //  connect(butt_Act, &QPushButton::clicked, this, &hC_Tree::updateActions);
     connect(butt_insrow, &QPushButton::clicked, this, &hC_Tree::insertRow);
@@ -81,16 +71,10 @@ void hC_Tree::view()
 void hC_Tree::insertChild()
 {
     const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
-    //  QAbstractItemModel *model = hC_TreeView->model();
 
-    //    qDebug()<< "prtt 1 "
-    //            << model->index(index.row(),index.column()).data(Qt::DisplayRole).toString()
-    //            << "prt 2 "
-    //            << model->index(index.row(),index.column()+1).data(Qt::DisplayRole).toString()
-    //            << "pat 3 "
-    //            << model->index(index.row(),index.column()+2).data(Qt::DisplayRole).toString();
-
-
+    qDebug()<< m_prntCode
+            << m_accCode
+            << m_accName;
 
     if (modelSQL->columnCount(index) == 0) {
         if (!modelSQL->insertColumn(0, index))
@@ -102,10 +86,12 @@ void hC_Tree::insertChild()
 
     bool ok;
     QString name = QInputDialog::getText(this,
-                                         tr("Add task"), tr("Task name"),
+                                         "New ParentCode = "+QString::number(m_accCode) ,
+                                         "Hesap Adı:",
                                          QLineEdit::Normal,
-                                         tr("hesap adı giriniz"),     &ok);
-        if (ok && !name.isEmpty()) {
+                                         tr("hesap adı giriniz"),
+                                         &ok);
+    if (ok && !name.isEmpty()) {
         qDebug() << "Yeni Hesap Ekle" << name;
 
     }
@@ -116,14 +102,14 @@ void hC_Tree::insertChild()
     {
         const QModelIndex child = modelSQL->index(0, column, index);
         qDebug()<< modelSQL->index(0, column, index).data(Qt::DisplayRole).toString()
-                 <<modelSQL->headerData(column, Qt::Horizontal).toString();
+                <<modelSQL->headerData(column, Qt::Horizontal).toString();
         if (column == 0) // name
         {
             modelSQL->setData(child, QVariant( name ), Qt::EditRole);
         }
         if (column == 1) // parentcode
         {
-            modelSQL->setData(child, QVariant( m_prntCode ), Qt::EditRole);
+            modelSQL->setData(child, QVariant( m_accCode ), Qt::EditRole);
         }
 
         if (!modelSQL->headerData(column, Qt::Horizontal).isValid())
@@ -132,11 +118,11 @@ void hC_Tree::insertChild()
     }
 
     hC_TreeView->selectionModel()->
-        setCurrentIndex(modelSQL->index(0, 0, index),
-                        QItemSelectionModel::ClearAndSelect);
-    qDebug()<<"---mcde "<<m_prntCode<<"  ---name "<<name;
+            setCurrentIndex(modelSQL->index(0, 0, index),
+                            QItemSelectionModel::ClearAndSelect);
+    qDebug()<<m_prntCode<<"---new mcde "<<m_accCode<<"  ---name "<<name;
     dBase db;
-    db.addRecord(m_prntCode, name);
+    db.addRecord(m_accCode, name);
     updateActions();
 }
 
@@ -197,26 +183,19 @@ void hC_Tree::removeRow()
 
 void hC_Tree::updateActions()
 {
-    //    qDebug()<< "update ";
+    qDebug()<< "--------------------------------------------------------update ";
     const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
-    QModelIndex sibling0 = index.siblingAtColumn(0);
-    QModelIndex sibling1 = index.siblingAtColumn(1);
-    QModelIndex sibling2 = index.siblingAtColumn(2);
-    qDebug()
+    QModelIndex sblng_accName = index.siblingAtColumn(0);
+    QModelIndex sblng_prntCode = index.siblingAtColumn(1);
+    QModelIndex sblng_accCode = index.siblingAtColumn(2);
 
-       // << modelSQL->data (sibling0,0).toString ()
-        << modelSQL->data (sibling1,0).toString ()
-        << modelSQL->data (sibling2,0).toString ()
-        << modelSQL->data (index,0).toString ()
-        // << modelSQL->index(index.row(),index.column()+1)
-        //      .data(Qt::DisplayRole).toString()
-        << "-*-"
-       /* << modelSQL->index(index.row(),index.column()+2)
-               .data(Qt::DisplayRole).toString()
-        << "-*-"
-        << modelSQL->index(index.row(),index.column())
-               .data(Qt::DisplayRole).toString()
-        << index*/;
+    m_prntCode = modelSQL->data (sblng_prntCode, Qt::DisplayRole ).toInt ();
+    m_accCode = modelSQL->data (sblng_accCode , Qt::DisplayRole ).toInt ();
+    m_accName = modelSQL->data (sblng_accName , Qt::DisplayRole ).toString ();
+
+    qDebug()<< m_prntCode
+            << m_accCode
+            << m_accName;
 
     const bool hasSelection = !hC_TreeView->selectionModel()->selection().isEmpty();
     butt_remrow->setEnabled(hasSelection);
@@ -229,28 +208,19 @@ void hC_Tree::updateActions()
     if (hasCurrent) {
         hC_TreeView->closePersistentEditor(hC_TreeView->selectionModel()->currentIndex());
 
-
-      //  QModelIndex sibling2 = sibling.siblingAtColumn(2);
-
-        const int row = index.row();
-        const int column = index.column();
+      //  const int row = index.row();
+      //  const int column = index.column();
         if (index.parent().isValid())
         {
-
-            *m_accName = index.data(Qt::DisplayRole).toString();
-         //   *m_accCode = sibling.data(Qt::DisplayRole).toString();
-            m_prntCode = modelSQL->data (sibling2,0).toInt();
-
-            //     lab_status->setText(tr("Position: (%1,%2)").arg(row).arg(column));
-
-            lab_status->setText(*m_accName);
-            lab_status2->setText(*m_accCode);
-            lab_status3->setText(QString::number (m_prntCode));
-
-        }
+            lab_status->setText(QString::number (m_prntCode));
+            lab_status2->setText(QString::number (m_accCode));
+            lab_status3->setText(m_accName);
+         }
         else
         {
-            lab_status->setText(tr("ROOT Position: (%1,%2) in top level").arg(row).arg(column));
+            lab_status->setText("ROOT "+QString::number (m_prntCode));
+            lab_status2->setText(QString::number (m_accCode));
+            lab_status3->setText(m_accName);
         }
     }
 }

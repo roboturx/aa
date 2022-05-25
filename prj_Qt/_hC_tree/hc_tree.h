@@ -28,9 +28,9 @@ public:
 
     TreeSqlModel *modelSQL ;
     QTreeView *hC_TreeView;
-    QString * m_accName;
-    QString* m_accCode;
-    int m_prntCode;
+    QString m_accName{};
+    int m_accCode{};
+    int m_prntCode{};
 private:
     QPushButton *butt_Exit ;
     QPushButton *butt_Add ;
