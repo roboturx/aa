@@ -3,7 +3,7 @@
 hC_Tree::hC_Tree(QWidget *parent)
     : QWidget{parent}
 {
-    qDebug()<< "------ hctree ";
+    qDebug()<<"hcT"<< "------ hctree ";
     view();
     modelSQL = new TreeSqlModel(this);
     hC_TreeView->setModel(modelSQL);
@@ -46,7 +46,7 @@ void hC_Tree::view()
     hC_TreeView = new QTreeView(this);
     hC_TreeView->setSelectionMode(QAbstractItemView::SingleSelection);
 
-  //  hC_TreeView->setAutoExpandDelay(1000);
+    //  hC_TreeView->setAutoExpandDelay(1000);
     hC_TreeView->setIndentation(20);
     hC_TreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
@@ -66,76 +66,6 @@ void hC_Tree::view()
     lay_grid->addWidget(lab_status2, 12, 2,  1, 2);
     lay_grid->addWidget(lab_status3, 12, 4,  1, 2);
 
-}
-
-void hC_Tree::insertChild()
-{
-    const QModelIndex index = hC_TreeView->selectionModel()
-                                  ->currentIndex();
-
-    qDebug()<<"insertchild"
-             << m_prntCode<<"-"
-            << m_accCode
-            << m_accName;
-
-    if (modelSQL->columnCount(index) == 0) {
-        if (!modelSQL->insertColumn(0, index))
-            return;
-    }
-
-    if (!modelSQL->insertRow(0, index))
-        return;
-
-    bool ok;
-    QString name = QInputDialog::getText(this,
-               QString::number(m_accCode)+"=New ParentCode = " ,
-                "Hesap Adı:",
-                 QLineEdit::Normal,
-                 tr("hesap adı giriniz"),
-                  &ok);
-    if (ok && !name.isEmpty()) {
-       // qDebug() << "Yeni Hesap Ekle" << name;
-
-    }
-
-    for (int column = 0;
-         column < modelSQL->columnCount(index);
-         ++column)
-    {
-        const QModelIndex child01 = modelSQL->index(0, column, index);
-        const QModelIndex child02 = modelSQL->index(1, column, index);
-        const QModelIndex child03 = modelSQL->index(2, column, index);
-        qDebug()<<"zzzzz"
-                 << modelSQL->index(0, column, index).data(Qt::DisplayRole).toString()
-                <<modelSQL->index(1, column, index).data(Qt::DisplayRole).toString()
-            <<modelSQL->index(2, column, index).data(Qt::DisplayRole).toString()
-            ;
-        qDebug()<<"child xxxxx"
-                 << modelSQL->data(child01,Qt::DisplayRole).toString()
-                 << modelSQL->data(child02,Qt::DisplayRole).toString()
-        << modelSQL->data(child03,Qt::DisplayRole).toString()
-            ;
-        if (column == 0) // name
-        {
-            modelSQL->setData(child01, QVariant( name ), Qt::EditRole);
-        }
-        if (column == 1) // parentcode
-        {
-            modelSQL->setData(child01, QVariant( m_accCode ), Qt::EditRole);
-        }
-
-        if (!modelSQL->headerData(column, Qt::Horizontal).isValid())
-            modelSQL->setHeaderData(column, Qt::Horizontal,
-                                    QVariant(tr("111")), Qt::EditRole);
-    }
-
-    hC_TreeView->selectionModel()->
-            setCurrentIndex(modelSQL->index(0, 0, index),
-                            QItemSelectionModel::ClearAndSelect);
-    qDebug()<<m_prntCode<<"---new mcde "<<m_accCode<<"  ---name "<<name;
-    dBase db;
-    db.addRecord(m_accCode, name);
-    updateActions();
 }
 
 bool hC_Tree::insertColumn()
@@ -195,7 +125,7 @@ void hC_Tree::removeRow()
 
 void hC_Tree::updateActions()
 {
-    qDebug()<< "--------------------------------------------------------update ";
+    qDebug()<<"hcT"<< "--------------------------------------------------------update ";
     const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
     QModelIndex sblng_accName = index.siblingAtColumn(0);
     QModelIndex sblng_prntCode = index.siblingAtColumn(1);
@@ -205,9 +135,9 @@ void hC_Tree::updateActions()
     m_accCode = modelSQL->data (sblng_accCode , Qt::DisplayRole ).toInt ();
     m_accName = modelSQL->data (sblng_accName , Qt::DisplayRole ).toString ();
 
-    qDebug()<< m_prntCode
-            << m_accCode
-            << m_accName;
+    qDebug()<<"hcT"<< m_prntCode
+           << m_accCode
+           << m_accName;
 
     const bool hasSelection = !hC_TreeView->selectionModel()->selection().isEmpty();
     butt_remrow->setEnabled(hasSelection);
@@ -220,14 +150,14 @@ void hC_Tree::updateActions()
     if (hasCurrent) {
         hC_TreeView->closePersistentEditor(hC_TreeView->selectionModel()->currentIndex());
 
-      //  const int row = index.row();
-      //  const int column = index.column();
+        //  const int row = index.row();
+        //  const int column = index.column();
         if (index.parent().isValid())
         {
             lab_status->setText(QString::number (m_prntCode));
             lab_status2->setText(QString::number (m_accCode));
             lab_status3->setText(m_accName);
-         }
+        }
         else
         {
             lab_status->setText("ROOT "+QString::number (m_prntCode));
@@ -235,4 +165,77 @@ void hC_Tree::updateActions()
             lab_status3->setText(m_accName);
         }
     }
+}
+
+
+
+
+void hC_Tree::insertChild()
+{
+    const QModelIndex index = hC_TreeView->selectionModel()
+            ->currentIndex();
+
+    TreeSqlItem *item = modelSQL->getItem(index);
+
+
+    qDebug()<<"hcT insertchild getitem row "
+           << item->data(1).toInt()
+           << item->data(2).toInt()
+           << item->data(0).toString() <<"-"
+              ;
+
+    qDebug()<<"hcT "<<"insertchild üzerinde bulunulan row"
+           << m_prntCode<<"-"
+           << m_accCode
+           << m_accName;
+
+    if (modelSQL->columnCount(index) == 0)
+    {
+        if (!modelSQL->insertColumn(0, index))
+            return;
+    }
+
+    if (!modelSQL->insertRow(0, index))
+        return;
+
+    bool ok;
+    QString name = QInputDialog::getText(this,
+                                         QString::number(m_accCode)+"=New ParentCode = " ,
+                                         "Hesap Adı:",
+                                         QLineEdit::Normal,
+                                         tr("hesap adı giriniz"),
+                                         &ok);
+    if (ok && !name.isEmpty()) {
+        // qDebug() << "Yeni Hesap Ekle" << name;
+
+    }
+
+    dBase db;
+    db.addRecord(m_accCode, name);
+
+
+    for (int column = 0;
+         column < modelSQL->columnCount(index);
+         ++column)
+    {
+        if (column == 0) // name
+        {
+            modelSQL->setData(index, QVariant( name ), Qt::EditRole);
+        }
+        if (column == 1) // parentcode
+        {
+            modelSQL->setData(index, QVariant( item->data(2) ), Qt::EditRole);
+        }
+
+        if (!modelSQL->headerData(column, Qt::Horizontal).isValid())
+            modelSQL->setHeaderData(column, Qt::Horizontal,
+                                    QVariant(tr("111")), Qt::EditRole);
+    }
+
+    hC_TreeView->selectionModel()->
+            setCurrentIndex(modelSQL->index(0, 0, index),
+                            QItemSelectionModel::ClearAndSelect);
+    qDebug()<<"hcT "<<m_prntCode<<"---new mcde "<<m_accCode<<"  ---name "<<name;
+
+    updateActions();
 }

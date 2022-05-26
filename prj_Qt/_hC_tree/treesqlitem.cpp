@@ -8,10 +8,7 @@ TreeSqlItem::TreeSqlItem(const QList<QVariant> &data,
                              TreeSqlItem *parent)
     : parentItem(parent), itemData(data)
 {
-
 //qDebug() << "Treesqlitem constructor";
-
-
 }
 //! [0]
 
@@ -140,6 +137,8 @@ bool TreeSqlItem::setData(int column, const QVariant &value)
         return false;
 
     itemData[column] = value;
+    qDebug() << "IT"  << "treesqlITEM set data changed ------col---value-->"
+             << column <<" - "<<value.toString();
     return true;
 }
 //! [11]

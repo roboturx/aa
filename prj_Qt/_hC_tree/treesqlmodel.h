@@ -45,12 +45,12 @@ public:
                     const QModelIndex &parent = QModelIndex()) override;
     bool removeRows(int position, int rows,
                     const QModelIndex &parent = QModelIndex()) override;
-
+  TreeSqlItem *getItem(const QModelIndex &index) const;
 private:
    void setupModelData(const QStringList &lines, TreeSqlItem *parent);
    void setupModelDataSQL(TreeSqlItem *parent);
 
-   TreeSqlItem *getItem(const QModelIndex &index) const;
+
    TreeSqlItem *rootItem;
 };
 #endif // TREESQLMODEL_H

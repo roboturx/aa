@@ -75,7 +75,10 @@ bool dBase::addRecord(int grpCd, QString  accNm )
             qDebug()<<"--Kayıt eklen e m e d i "
                    << qry.lastError ().text ();
         }
-
+        else
+        {
+            qDebug()<<" *********** eklendi"<<grpCd<<accNm;
+        }
         Q_ASSERT_X(ok,"Kayıt eklenemedi",  "hata");
     }
     return true;
