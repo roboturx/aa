@@ -70,9 +70,11 @@ void hC_Tree::view()
 
 void hC_Tree::insertChild()
 {
-    const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
+    const QModelIndex index = hC_TreeView->selectionModel()
+                                  ->currentIndex();
 
-    qDebug()<< m_prntCode
+    qDebug()<<"insertchild"
+             << m_prntCode<<"-"
             << m_accCode
             << m_accName;
 
@@ -92,7 +94,7 @@ void hC_Tree::insertChild()
                  tr("hesap adı giriniz"),
                   &ok);
     if (ok && !name.isEmpty()) {
-        qDebug() << "Yeni Hesap Ekle" << name;
+       // qDebug() << "Yeni Hesap Ekle" << name;
 
     }
 
@@ -100,19 +102,26 @@ void hC_Tree::insertChild()
          column < modelSQL->columnCount(index);
          ++column)
     {
-        const QModelIndex child = modelSQL->index(0, column, index);
+        const QModelIndex child01 = modelSQL->index(0, column, index);
+        const QModelIndex child02 = modelSQL->index(1, column, index);
+        const QModelIndex child03 = modelSQL->index(2, column, index);
         qDebug()<<"zzzzz"
                  << modelSQL->index(0, column, index).data(Qt::DisplayRole).toString()
                 <<modelSQL->index(1, column, index).data(Qt::DisplayRole).toString()
             <<modelSQL->index(2, column, index).data(Qt::DisplayRole).toString()
             ;
+        qDebug()<<"child xxxxx"
+                 << modelSQL->data(child01,Qt::DisplayRole).toString()
+                 << modelSQL->data(child02,Qt::DisplayRole).toString()
+        << modelSQL->data(child03,Qt::DisplayRole).toString()
+            ;
         if (column == 0) // name
         {
-            modelSQL->setData(child, QVariant( name ), Qt::EditRole);
+            modelSQL->setData(child01, QVariant( name ), Qt::EditRole);
         }
         if (column == 1) // parentcode
         {
-            modelSQL->setData(child, QVariant( m_accCode ), Qt::EditRole);
+            modelSQL->setData(child01, QVariant( m_accCode ), Qt::EditRole);
         }
 
         if (!modelSQL->headerData(column, Qt::Horizontal).isValid())
