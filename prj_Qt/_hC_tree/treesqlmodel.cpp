@@ -42,7 +42,7 @@ void TreeSqlModel::setupModelDataSQL(TreeSqlItem *parent)
     QSqlQuery query("SELECT f_parentCode, "
                     "f_AccountCode, f_AccountName "
                     " FROM dbtb_accounts"
-                    " ORDER BY f_accountcode ");
+                    " ORDER BY f_accountname ");
 
     Q_ASSERT_X(query.isActive (),"dosya seçilemedi","setup");
 
@@ -68,7 +68,8 @@ void TreeSqlModel::setupModelDataSQL(TreeSqlItem *parent)
             }
         } else {
             while (intprnt_Code < list_parentCodes.last() &&
-                   list_parentItems.count() > 0) {
+                   list_parentItems.count() > 0)
+            {
                 list_parentItems.removeLast();
                 list_parentCodes.removeLast();
             }

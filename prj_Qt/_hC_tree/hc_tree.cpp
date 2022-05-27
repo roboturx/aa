@@ -87,17 +87,60 @@ bool hC_Tree::insertColumn()
 
 void hC_Tree::insertRow()
 {
-    const QModelIndex index = hC_TreeView->selectionModel()->currentIndex();
+    const QModelIndex index = hC_TreeView->selectionModel()
+                                  ->currentIndex();
     //   QAbstractItemModel *model = hC_TreeView->model();
 
     if (!modelSQL->insertRow(index.row()+1, index.parent()))
         return;
 
     updateActions();
+    TreeSqlItem *item = modelSQL->getItem(index);
 
-    for (int column = 0; column < modelSQL->columnCount(index.parent()); ++column) {
-        const QModelIndex child = modelSQL->index(index.row() + 1, column, index.parent());
-        modelSQL->setData(child, QVariant(tr("[No itemdata]")), Qt::EditRole);
+
+    qDebug()<<"hcT insertcrow getitem row "
+             << item->data(1).toInt()<< m_prntCode<<"-"
+             << item->data(2).toInt()<< m_accCode<<"-"
+             << item->data(0).toString() <<"-"<< m_accName ;
+
+    bool ok;
+    QString name = QInputDialog::getText(this,
+                                         QString::number(m_accCode)+"=New ParentCode = " ,
+                                         "Hesap Adı:",
+                                         QLineEdit::Normal,
+                                         tr("hesap adı giriniz"),
+                                             &ok);
+    if (ok && !name.isEmpty()) {
+        // qDebug() << "Yeni Hesap Ekle" << name;
+
+    }
+    else
+        return;
+
+    dBase db;
+    db.addRecord(m_accCode, name);
+
+    for (int column = 0;
+         column < modelSQL->columnCount(index.parent()); ++column)
+    {
+
+        const QModelIndex child = modelSQL
+                ->index(index.row() + 1,
+                      column, index.parent());
+
+        modelSQL->setData(child, QVariant(tr("[No itemdata]")),
+                          Qt::EditRole);
+
+        if (column == 0) // name
+        {
+            modelSQL->setData(child, QVariant( name ),
+                              Qt::EditRole);
+        }
+        if (column == 1) // parentcode
+        {
+            modelSQL->setData(child, QVariant( m_accCode ),
+                              Qt::EditRole);
+        }
     }
 }
 
@@ -179,15 +222,11 @@ void hC_Tree::insertChild()
 
 
     qDebug()<<"hcT insertchild getitem row "
-           << item->data(1).toInt()
-           << item->data(2).toInt()
-           << item->data(0).toString() <<"-"
+           << item->data(1).toInt()<< m_prntCode<<"-"
+           << item->data(2).toInt()<< m_accCode<<"-"
+           << item->data(0).toString() <<"-"<< m_accName
               ;
 
-    qDebug()<<"hcT "<<"insertchild üzerinde bulunulan row"
-           << m_prntCode<<"-"
-           << m_accCode
-           << m_accName;
 
     if (modelSQL->columnCount(index) == 0)
     {
@@ -209,9 +248,15 @@ void hC_Tree::insertChild()
         // qDebug() << "Yeni Hesap Ekle" << name;
 
     }
+    else
+        return;
 
     dBase db;
     db.addRecord(m_accCode, name);
+
+    hC_TreeView->selectionModel()->
+        setCurrentIndex(modelSQL->index(0, 0, index),
+                        QItemSelectionModel::ClearAndSelect);
 
 
     for (int column = 0;
@@ -220,21 +265,21 @@ void hC_Tree::insertChild()
     {
         if (column == 0) // name
         {
-            modelSQL->setData(index, QVariant( name ), Qt::EditRole);
+            modelSQL->setData(index, QVariant( name ),
+                              Qt::EditRole);
         }
         if (column == 1) // parentcode
         {
-            modelSQL->setData(index, QVariant( item->data(2) ), Qt::EditRole);
+            modelSQL->setData(index, QVariant( item->data(2) ),
+                              Qt::EditRole);
         }
 
-        if (!modelSQL->headerData(column, Qt::Horizontal).isValid())
+        if (!modelSQL->headerData(column,
+                                  Qt::Horizontal).isValid())
             modelSQL->setHeaderData(column, Qt::Horizontal,
                                     QVariant(tr("111")), Qt::EditRole);
     }
 
-    hC_TreeView->selectionModel()->
-            setCurrentIndex(modelSQL->index(0, 0, index),
-                            QItemSelectionModel::ClearAndSelect);
     qDebug()<<"hcT "<<m_prntCode<<"---new mcde "<<m_accCode<<"  ---name "<<name;
 
     updateActions();
