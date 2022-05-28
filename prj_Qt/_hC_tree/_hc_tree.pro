@@ -6,6 +6,7 @@ HEADERS     = \
               dbase.h \
               hc_tree.h \
               mainwindow.h \
+              tmodel.h \
               treesqlitem.h \
               treesqlmodel.h
 #RESOURCES   = editabletreemodel.qrc
@@ -14,6 +15,7 @@ SOURCES     = \
               hc_tree.cpp \
               main.cpp \
               mainwindow.cpp \
+              tmodel.cpp \
               treesqlitem.cpp \
               treesqlmodel.cpp
 
