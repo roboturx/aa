@@ -1,5 +1,5 @@
 
-
+// https://riptutorial.com/qt/example/17086/a-simple-tree-model
 #include "tmodel.h"
 
 // Adapt this to own needs

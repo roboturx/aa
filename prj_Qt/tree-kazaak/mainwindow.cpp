@@ -90,7 +90,10 @@ void MainWindow::setupModel() {
         lb1->setText("Row="+QString::number(index.row())
                     );
         lb2->setText("Data="+treeView->model()->data(index).toString()) ;
-    }
+
+        lb3->setText ("intpointer");
+static_cast<TreeItem*>(parent.internalPointer());
+            }
     );
 
 }
