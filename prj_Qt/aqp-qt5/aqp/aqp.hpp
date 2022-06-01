@@ -13,7 +13,9 @@
     the GNU General Public License for more details.
 */
 
-#include <QApplication>
+#include "QtWidgets/qapplication.h"
+#include "QtWidgets/qmessagebox.h"
+//#include <QApplication>
 #include <QByteArray>
 #include <QList>
 #include <QMessageBox>
@@ -24,6 +26,7 @@
 #include <QSharedPointer>
 #endif
 #include <QString>
+#include <QStringList>
 #include <QVector>
 #ifdef Q_CC_MSVC
 #include <math.h>

@@ -20,6 +20,7 @@
 #include <QSet>
 #include <QToolButton>
 #include <limits>
+#include <algorithm>
 
 
 namespace {
@@ -42,8 +43,11 @@ struct StringItem
     {
         const double factor = unique.count() /
                 static_cast<double>(sizeOfAlphabet);
-        QList<QChar> characters = QList<QChar>::fromSet(unique);
-        qSort(characters);
+    ///    QList<QChar> characters = QList<QChar>::fromSet(unique);
+   // QT 6.3
+        QList<QChar> characters(unique.begin(), unique.end());
+
+     //   qsort(characters);
         double weight;
         foreach (const QChar &c, characters) {
             if (ustring[0] == c)    // First character's weight
@@ -83,8 +87,12 @@ QStringList accelerated_(const QStringList &strings,
     CharSet alphabetSet;
     foreach (const StringItem &item, items)
         alphabetSet |= item.unique;
-    QList<QChar> characters = QList<QChar>::fromSet(alphabetSet);
-    qSort(characters);
+  //  QList<QChar> characters = QList<QChar>::fromSet(alphabetSet);
+
+    // QT 6.3
+         QList<QChar> characters(alphabetSet.begin(), alphabetSet.end());
+
+    std::sort(characters.begin(),characters.end());
     QString alphabetString;
     foreach (const QChar &c, characters)
         alphabetString.append(c);

@@ -118,7 +118,7 @@ QMenu *RichTextLineEdit::createColorMenu()
 QSize RichTextLineEdit::sizeHint() const
 {
     QFontMetrics fm(font());
-    return QSize(document()->idealWidth() + fm.width("W"),
+    return QSize(document()->idealWidth() + fm.horizontalAdvance("W"),
                  fm.height() + 5);
 }
 
@@ -126,7 +126,7 @@ QSize RichTextLineEdit::sizeHint() const
 QSize RichTextLineEdit::minimumSizeHint() const
 {
     QFontMetrics fm(font());
-    return QSize(fm.width("WWWW"), fm.height() + 5);
+    return QSize(fm.horizontalAdvance("WWWW"), fm.height() + 5);
 }
 
 

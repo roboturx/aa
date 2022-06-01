@@ -17,7 +17,7 @@
 #include <QFile>
 #include <QHash>
 #include <QPushButton>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSet>
 #include <QStringList>
 #include <QTextStream>
@@ -28,7 +28,7 @@ static QHash<QString, QSet<QString> > formatForMimeType;
 
 void readMimeTypeData(const QString &filename)
 {
-    QRegExp whitespace("\\s+");
+    QRegularExpression whitespace("\\s+");
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly|QIODevice::Text)) {
         QTextStream in(&file);
@@ -37,8 +37,8 @@ void readMimeTypeData(const QString &filename)
             QStringList parts = line.split(whitespace);
             if (parts.isEmpty())
                 continue;
-            QSet<QString> suffixes = QSet<QString>::fromList(
-                    parts.mid(1));
+          //  QSet<QString> suffixes = QSet<QString>::fromList(parts.mid(1));
+            QSet<QString> suffixes(parts.mid(1).begin(), parts.mid(1).end());
             formatForMimeType[parts.at(0)].unite(suffixes);
         }
     }
@@ -209,14 +209,16 @@ QString filenameFilter(const QString &name,
     QSet<QString> formats;
     foreach (const QString &mimeType, mimeTypes)
         formats.unite(formatForMimeType.value(mimeType));
-    QStringList fileFormatList = QList<QString>::fromSet(formats);
+   // QStringList fileFormatList = QList<QString>::fromSet(formats);
+    QSet<QString> fileFormatList(formats.begin(), formats.end());
     if (fileFormatList.isEmpty())
         fileFormatList << "*";
-    else
-        fileFormatList.sort();
-    QString fileFormats = QString("%1 (*.").arg(name);
-    fileFormats += fileFormatList.join(" *.") + ")";
-    return fileFormats;
+    //else
+       /// fileFormatList.sort();//qt6.3
+       ///
+   // QString fileFormats = QString("%1 (*.").arg(name);
+   // fileFormats += fileFormatList.join(" *.") + ")";
+    return QString("%1 (*.").arg(name);//fileFormats;
 }
 
 
