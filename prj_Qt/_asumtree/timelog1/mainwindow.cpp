@@ -46,7 +46,8 @@ const int FirstFrame = 0;
 const int LastFrame = 4;
 
 
-QAction *createAction(const QString &icon, const QString &text,
+QAction *createAction(const QString &icon,
+                      const QString &text,
         QObject *parent,
         const QKeySequence &shortcut=QKeySequence())
 {
@@ -86,7 +87,8 @@ MainWindow::MainWindow(QWidget *parent)
     iconTimeLine.setDuration(5000);
     iconTimeLine.setFrameRange(FirstFrame, LastFrame + 1);
     iconTimeLine.setLoopCount(0);
-    // qt 6 iconTimeLine.setCurveShape(QTimeLine::LinearCurve);
+    // qt 6 OKK iconTimeLine.setCurveShape(QTimeLine::LinearCurve);
+    iconTimeLine.setEasingCurve (QEasingCurve::InOutQuad);
 
     QSettings settings;
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
