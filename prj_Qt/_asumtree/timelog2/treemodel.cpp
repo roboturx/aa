@@ -493,15 +493,21 @@ void TreeModel::load(const QString &filename)
 
 void TreeModel::readTasks(QXmlStreamReader *reader, TaskItem *task)
 {
-    while (!reader->atEnd()) {
+    while (!reader->atEnd())
+    {
         reader->readNext();
-        if (reader->isStartElement()) {
-            if (reader->name() == TaskTag) {
+        if (reader->isStartElement())
+        {
+            if (reader->name() == TaskTag)
+            {
                 const QString name = reader->attributes()
                         .value(NameAttribute).toString();
                 bool done = false;
-                    // qt 6 reader->attributes().value(DoneAttribute)
-                          //   == "1";
+                    // qt 6
+                //reader->attributes().value(DoneAttribute) == "1";
+                reader->attributes()
+                        .value(DoneAttribute)
+                        .toString () == "1";
 
                 task = new TaskItem(name, done, task);
             }
