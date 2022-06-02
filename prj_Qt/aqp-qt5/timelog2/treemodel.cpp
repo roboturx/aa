@@ -499,8 +499,10 @@ void TreeModel::readTasks(QXmlStreamReader *reader, TaskItem *task)
             if (reader->name() == TaskTag) {
                 const QString name = reader->attributes()
                         .value(NameAttribute).toString();
-                bool done = reader->attributes().value(DoneAttribute)
-                            == "1";
+                bool done = false;
+                    // qt 6 reader->attributes().value(DoneAttribute)
+                          //   == "1";
+
                 task = new TaskItem(name, done, task);
             }
             else if (reader->name() == WhenTag) {

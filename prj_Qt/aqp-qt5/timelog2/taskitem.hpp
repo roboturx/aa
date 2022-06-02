@@ -52,7 +52,8 @@ public:
     void addChild(TaskItem *item)
         { item->m_parent = this; m_children << item; }
     void swapChildren(int oldRow, int newRow)
-        { m_children.swap(oldRow, newRow); }
+//  qt6      { m_children.swap(oldRow, newRow); }
+                    { m_children.swapItemsAt (oldRow, newRow); }
     TaskItem* takeChild(int row);
 
 private:

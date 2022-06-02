@@ -99,7 +99,8 @@ MainWindow::MainWindow(QWidget *parent)
     iconTimeLine.setDuration(5000);
     iconTimeLine.setFrameRange(FirstFrame, LastFrame + 1);
     iconTimeLine.setLoopCount(0);
-    iconTimeLine.setCurveShape(QTimeLine::LinearCurve);
+    // qt 6 iconTimeLine.setCurveShape(QTimeLine::LinearCurve);
+
     QSettings settings;
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString filename = settings.value(FilenameSetting).toString();
@@ -644,7 +645,7 @@ void MainWindow::editStartOrStop(bool start)
 #ifndef Q_WS_MAC
             setWindowIcon(icon);
 #endif
-            timedTime.restart();
+           // qt 6 timedTime.restart();
             timer.start();
             iconTimeLine.start();
         }
@@ -675,8 +676,8 @@ void MainWindow::editStartOrStop(bool start)
 void MainWindow::timeout()
 {
 #ifdef CUSTOM_MODEL
-    model->incrementEndTimeForTimedItem(timedTime.elapsed());
-    timedTime.restart();
+ // qt 6   model->incrementEndTimeForTimedItem(timedTime.elapsed());
+  // qt 6  timedTime.restart();
 #else
     Q_ASSERT(timedItem);
     timedItem->incrementLastEndTime(timedTime.elapsed());

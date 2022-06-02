@@ -26,7 +26,7 @@
 #include <QSharedPointer>
 #endif
 #include <QString>
-#include <QStringList>
+//#include <QStringList>
 #include <QVector>
 #ifdef Q_CC_MSVC
 #include <math.h>
@@ -39,7 +39,7 @@
 #define M_PI 3.14159265358
 #endif
 
-class QStringList;
+//class QStringList;
 
 namespace AQP {
 
