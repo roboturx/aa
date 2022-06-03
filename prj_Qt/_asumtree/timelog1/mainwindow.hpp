@@ -17,13 +17,14 @@
 #include <QTime>
 #include <QTimeLine>
 #include <QTimer>
-
+#include <QGridLayout>
 
 class QAction;
 class QStandardItem;
 class StandardItem;
 class QModelIndex;
 class QTreeView;
+
 #ifdef CUSTOM_MODEL
 class TreeModel;
 #else
@@ -99,9 +100,12 @@ private:
     QAction *editStartOrStopAction;
     QAction *editHideOrShowDoneTasksAction;
 
-    QTreeView *treeView;
+    QTreeView *treeViewXML;
+    QTreeView *treeViewSQL;
+    QWidget *centralWdgt;
 #ifdef CUSTOM_MODEL
-    TreeModel *model;
+    TreeModel *modelXML;
+    TreeModel *modelSQL;
 #else
     StandardTreeModel *model;
     StandardItem *timedItem;
@@ -110,6 +114,7 @@ private:
     QTimeLine iconTimeLine;
     QTime timedTime;
     int currentIcon;
+
 };
 
 #endif // MAINWINDOW_HPP

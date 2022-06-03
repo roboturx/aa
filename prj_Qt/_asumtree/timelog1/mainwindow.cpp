@@ -75,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     AQP::accelerateMenu(menuBar());
 #ifdef CUSTOM_MODEL
-    setWindowTitle(tr("%1 (Custom Model)[*]")
+    setWindowTitle(tr("%1 (Custom modelXML)[*]")
                    .arg(QApplication::applicationName()));
 #else
     setWindowTitle(tr("%1 (QStandardItemModel)[*]")
@@ -105,20 +105,29 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::createModelAndView()
 {
-    treeView = new QTreeView;
+    centralWdgt = new QWidget;
+    treeViewXML = new QTreeView;
+    treeViewSQL = new QTreeView;
 #ifdef CUSTOM_MODEL
-    model = new TreeModel(this);
-    treeView->setDragDropMode(QAbstractItemView::InternalMove);
+    modelXML = new TreeModel(this);
+    treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
+  //  modelXML = new TreeModelSQL(this);
+  //  treeViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
 #else
-    model = new StandardTreeModel(this);
+    modelXML = new StandardTreeModel(this);
 #endif
 #ifdef MODEL_TEST
-    (void) new ModelTest(model, this);
+    (void) new ModelTest(modelXML, this);
 #endif
-    treeView->setAllColumnsShowFocus(true);
-    treeView->setItemDelegateForColumn(0, new RichTextDelegate);
-    treeView->setModel(model);
-    setCentralWidget(treeView);
+    treeViewXML->setAllColumnsShowFocus(true);
+    treeViewXML->setItemDelegateForColumn(0, new RichTextDelegate);
+    treeViewXML->setModel(modelXML);
+
+    QGridLayout* gridd = new QGridLayout( centralWdgt );
+    gridd->addWidget(treeViewXML, 0, 0, 1, 1 );
+    gridd->addWidget(treeViewSQL, 0, 1, 1, 1);
+    centralWdgt->setLayout(gridd);
+    setCentralWidget(centralWdgt);
 }
 
 
@@ -226,22 +235,22 @@ void MainWindow::createMenusAndToolBar()
 
 void MainWindow::createConnections()
 {
-    connect(treeView->selectionModel(),
+    connect(treeViewXML->selectionModel(),
             SIGNAL(currentChanged(const QModelIndex&,
                                   const QModelIndex&)),
             this, SLOT(updateUi()));
 #ifdef CUSTOM_MODEL
-    connect(model,
+    connect(modelXML,
         SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
         this, SLOT(setDirty()));
-    connect(model, SIGNAL(stopTiming()), this, SLOT(stopTiming()));
+    connect(modelXML, SIGNAL(stopTiming()), this, SLOT(stopTiming()));
 #else
-    connect(model, SIGNAL(itemChanged(QStandardItem*)),
+    connect(modelXML, SIGNAL(itemChanged(QStandardItem*)),
             this, SLOT(setDirty()));
 #endif // CUSTOM_MODEL
-    connect(model, SIGNAL(rowsRemoved(const QModelIndex&,int,int)),
+    connect(modelXML, SIGNAL(rowsRemoved(const QModelIndex&,int,int)),
             this, SLOT(setDirty()));
-    connect(model, SIGNAL(modelReset()), this, SLOT(setDirty()));
+    connect(modelXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
 
     QHash<QAction*, QString> slotForAction;
     slotForAction[fileNewAction] = SLOT(fileNew());
@@ -282,9 +291,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (okToClearData()) {
         QSettings settings;
         settings.setValue(GeometrySetting, saveGeometry());
-        settings.setValue(FilenameSetting, model->filename());
+        settings.setValue(FilenameSetting, modelXML->filename());
         settings.setValue(CurrentTaskPathSetting,
-                model->pathForIndex(treeView->currentIndex()));
+                modelXML->pathForIndex(treeViewXML->currentIndex()));
         event->accept();
     }
     else
@@ -305,8 +314,8 @@ void MainWindow::fileNew()
 {
     if (!okToClearData())
         return;
-    model->clear();
-    model->setFilename(QString());
+    modelXML->clear();
+    modelXML->setFilename(QString());
     setDirty(false);
     setWindowTitle(tr("%1 - Unnamed[*]")
             .arg(QApplication::applicationName()));
@@ -317,10 +326,10 @@ void MainWindow::fileNew()
 void MainWindow::updateUi()
 {
     fileSaveAction->setEnabled(isWindowModified());
-    int rows = model->rowCount();
+    int rows = modelXML->rowCount();
     fileSaveAsAction->setEnabled(isWindowModified() || rows);
     editHideOrShowDoneTasksAction->setEnabled(rows);
-    bool enable = treeView->currentIndex().isValid();
+    bool enable = treeViewXML->currentIndex().isValid();
 #ifdef CUSTOM_MODEL
     foreach (QAction *action, QList<QAction*>() << editDeleteAction
             << editMoveUpAction << editMoveDownAction << editCutAction
@@ -332,7 +341,7 @@ void MainWindow::updateUi()
         action->setEnabled(enable);
 #ifdef CUSTOM_MODEL
     editStartOrStopAction->setEnabled(rows);
-    editPasteAction->setEnabled(model->hasCutItem());
+    editPasteAction->setEnabled(modelXML->hasCutItem());
 #endif
 }
 
@@ -341,7 +350,7 @@ void MainWindow::fileOpen()
 {
     if (!okToClearData())
         return;
-    QString filename = model->filename();
+    QString filename = modelXML->filename();
     QString dir(filename.isEmpty() ? QString(".")
                 : QFileInfo(filename).canonicalPath());
     filename = QFileDialog::getOpenFileName(this,
@@ -357,17 +366,17 @@ void MainWindow::load(const QString &filename,
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try {
-        model->load(filename);
+        modelXML->load(filename);
         if (!taskPath.isEmpty()) {
 #ifdef CUSTOM_MODEL
-            setCurrentIndex(model->indexForPath(taskPath));
+            setCurrentIndex(modelXML->indexForPath(taskPath));
 #else
-            if (QStandardItem *item = model->itemForPath(taskPath))
+            if (QStandardItem *item = modelXML->itemForPath(taskPath))
                 setCurrentIndex(item->index());
 #endif
         }
-        for (int column = 0; column < model->columnCount(); ++column)
-            treeView->resizeColumnToContents(column);
+        for (int column = 0; column < modelXML->columnCount(); ++column)
+            treeViewXML->resizeColumnToContents(column);
         setDirty(false);
         setWindowTitle(tr("%1 - %2[*]")
                 .arg(QApplication::applicationName())
@@ -381,7 +390,7 @@ void MainWindow::load(const QString &filename,
     updateUi();
     editHideOrShowDoneTasks(
             editHideOrShowDoneTasksAction->isChecked());
-    treeView->setFocus();
+    treeViewXML->setFocus();
     QApplication::restoreOverrideCursor();
 }
 
@@ -389,8 +398,8 @@ void MainWindow::load(const QString &filename,
 void MainWindow::setCurrentIndex(const QModelIndex &index)
 {
     if (index.isValid()) {
-        treeView->scrollTo(index);
-        treeView->setCurrentIndex(index);
+        treeViewXML->scrollTo(index);
+        treeViewXML->setCurrentIndex(index);
     }
 }
 
@@ -398,21 +407,21 @@ void MainWindow::setCurrentIndex(const QModelIndex &index)
 bool MainWindow::fileSave()
 {
     bool saved = false;
-    if (model->filename().isEmpty())
+    if (modelXML->filename().isEmpty())
         saved = fileSaveAs();
     else {
         try {
-            model->save();
+            modelXML->save();
             setDirty(false);
             setWindowTitle(tr("%1 - %2[*]")
                     .arg(QApplication::applicationName())
-                    .arg(QFileInfo(model->filename()).fileName()));
+                    .arg(QFileInfo(modelXML->filename()).fileName()));
             statusBar()->showMessage(tr("Saved %1")
-                    .arg(model->filename()), StatusTimeout);
+                    .arg(modelXML->filename()), StatusTimeout);
             saved = true;
         } catch (AQP::Error &error) {
             AQP::warning(this, tr("Error"),
-                    tr("Failed to save %1: %2").arg(model->filename())
+                    tr("Failed to save %1: %2").arg(modelXML->filename())
                     .arg(QString::fromUtf8(error.what())));
         }
     }
@@ -423,7 +432,7 @@ bool MainWindow::fileSave()
 
 bool MainWindow::fileSaveAs()
 {
-    QString filename = model->filename();
+    QString filename = modelXML->filename();
     QString dir = filename.isEmpty() ? "."
                                      : QFileInfo(filename).path();
     filename = QFileDialog::getSaveFileName(this,
@@ -434,7 +443,7 @@ bool MainWindow::fileSaveAs()
         return false;
     if (!filename.toLower().endsWith(".tlg"))
         filename += ".tlg";
-    model->setFilename(filename);
+    modelXML->setFilename(filename);
     return fileSave();
 }
 
@@ -442,11 +451,11 @@ bool MainWindow::fileSaveAs()
 #ifndef CUSTOM_MODEL
 void MainWindow::editAdd()
 {
-    QModelIndex index = treeView->currentIndex();
+    QModelIndex index = treeViewXML->currentIndex();
     StandardTreeModel::Insert insert = StandardTreeModel::AtTopLevel;
 
     if (index.isValid()) {
-        QStandardItem *item = model->itemFromIndex(index);
+        QStandardItem *item = modelXML->itemFromIndex(index);
 #if QT_VERSION >= 0x040600
         QScopedPointer<QMessageBox> messageBox(new QMessageBox(this));
 #else
@@ -477,11 +486,11 @@ void MainWindow::editAdd()
             insert = StandardTreeModel::AsSibling;
     }
 
-    if (QStandardItem *item = model->insertNewTask(insert,
+    if (QStandardItem *item = modelXML->insertNewTask(insert,
                 tr("New Task"), index)) {
         QModelIndex index = item->index();
         setCurrentIndex(index);
-        treeView->edit(index);
+        treeViewXML->edit(index);
         setDirty();
         updateUi();
     }
@@ -491,11 +500,11 @@ void MainWindow::editAdd()
 
 void MainWindow::editAdd()
 {
-    QModelIndex index = treeView->currentIndex();
-    if (model->insertRow(0, index)) {
-        index = model->index(0, 0, index);
+    QModelIndex index = treeViewXML->currentIndex();
+    if (modelXML->insertRow(0, index)) {
+        index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
-        treeView->edit(index);
+        treeViewXML->edit(index);
         setDirty();
         updateUi();
     }
@@ -505,16 +514,16 @@ void MainWindow::editAdd()
 
 void MainWindow::editDelete()
 {
-    QModelIndex index = treeView->currentIndex();
+    QModelIndex index = treeViewXML->currentIndex();
     if (!index.isValid())
         return;
 #ifdef CUSTOM_MODEL
-    QString name = model->data(index).toString();
-    int rows = model->rowCount(index);
-    if (model->isTimedItem(index))
+    QString name = modelXML->data(index).toString();
+    int rows = modelXML->rowCount(index);
+    if (modelXML->isTimedItem(index))
         stopTiming();
 #else
-    QStandardItem *item = model->itemFromIndex(index);
+    QStandardItem *item = modelXML->itemFromIndex(index);
     if (item == timedItem)
         stopTiming();
     QString name = item->text();
@@ -531,7 +540,7 @@ void MainWindow::editDelete()
                      "grandchildren etc.)").arg(name).arg(rows);
     if (!AQP::okToDelete(this, tr("Delete"), message))
         return;
-    model->removeRow(index.row(), index.parent());
+    modelXML->removeRow(index.row(), index.parent());
     setDirty();
     updateUi();
 }
@@ -547,17 +556,17 @@ void MainWindow::stopTiming()
 #ifdef CUSTOM_MODEL
 void MainWindow::editCut()
 {
-    QModelIndex index = treeView->currentIndex();
-    if (model->isTimedItem(index))
+    QModelIndex index = treeViewXML->currentIndex();
+    if (modelXML->isTimedItem(index))
         stopTiming();
-    setCurrentIndex(model->cut(index));
-    editPasteAction->setEnabled(model->hasCutItem());
+    setCurrentIndex(modelXML->cut(index));
+    editPasteAction->setEnabled(modelXML->hasCutItem());
 }
 
 
 void MainWindow::editPaste()
 {
-    setCurrentIndex(model->paste(treeView->currentIndex()));
+    setCurrentIndex(modelXML->paste(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
             editHideOrShowDoneTasksAction->isChecked());
 }
@@ -565,8 +574,8 @@ void MainWindow::editPaste()
 
 void MainWindow::editMoveUp()
 {
-    treeView->setCurrentIndex(
-            model->moveUp(treeView->currentIndex()));
+    treeViewXML->setCurrentIndex(
+            modelXML->moveUp(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
             editHideOrShowDoneTasksAction->isChecked());
 }
@@ -574,8 +583,8 @@ void MainWindow::editMoveUp()
 
 void MainWindow::editMoveDown()
 {
-    treeView->setCurrentIndex(
-            model->moveDown(treeView->currentIndex()));
+    treeViewXML->setCurrentIndex(
+            modelXML->moveDown(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
             editHideOrShowDoneTasksAction->isChecked());
 }
@@ -583,10 +592,10 @@ void MainWindow::editMoveDown()
 
 void MainWindow::editPromote()
 {
-    QModelIndex index = treeView->currentIndex();
-    if (model->isTimedItem(index))
+    QModelIndex index = treeViewXML->currentIndex();
+    if (modelXML->isTimedItem(index))
         stopTiming();
-    setCurrentIndex(model->promote(index));
+    setCurrentIndex(modelXML->promote(index));
     editHideOrShowDoneTasks(
             editHideOrShowDoneTasksAction->isChecked());
 }
@@ -594,10 +603,10 @@ void MainWindow::editPromote()
 
 void MainWindow::editDemote()
 {
-    QModelIndex index = treeView->currentIndex();
-    if (model->isTimedItem(index))
+    QModelIndex index = treeViewXML->currentIndex();
+    if (modelXML->isTimedItem(index))
         stopTiming();
-    treeView->setCurrentIndex(model->demote(index));
+    treeViewXML->setCurrentIndex(modelXML->demote(index));
     editHideOrShowDoneTasks(
             editHideOrShowDoneTasksAction->isChecked());
 }
@@ -609,7 +618,7 @@ void MainWindow::editStartOrStop(bool start)
     timer.stop();
     iconTimeLine.stop();
     if (start) { // start the clock iff there's a current task
-        QModelIndex index = treeView->currentIndex();
+        QModelIndex index = treeViewXML->currentIndex();
         if (!index.isValid()) {
             editStartOrStopAction->setChecked(false);
             start = false;
@@ -618,14 +627,14 @@ void MainWindow::editStartOrStop(bool start)
             QIcon icon(":/0.png");
             QDateTime now = QDateTime::currentDateTime();
 #ifdef CUSTOM_MODEL
-            model->setTimedItem(index);
-            model->addDateTimeToTimedItem(now, now);
-            model->setIconForTimedItem(icon);
+            modelXML->setTimedItem(index);
+            modelXML->addDateTimeToTimedItem(now, now);
+            modelXML->setIconForTimedItem(icon);
 #else
             if (index.column() != 0) // timedItem is in column 0
-                index = model->index(index.row(), 0, index.parent());
+                index = modelXML->index(index.row(), 0, index.parent());
             timedItem = static_cast<StandardItem*>(
-                    model->itemFromIndex(index));
+                    modelXML->itemFromIndex(index));
             Q_ASSERT(timedItem);
             timedItem->addDateTime(now, now);
             timedItem->todayItem()->setIcon(icon);
@@ -642,8 +651,8 @@ void MainWindow::editStartOrStop(bool start)
     else { // stop the clock
         timeout(); // update to now
 #ifdef CUSTOM_MODEL
-        model->setIconForTimedItem();
-        model->clearTimedItem();
+        modelXML->setIconForTimedItem();
+        modelXML->clearTimedItem();
 #else
         if (timedItem) {
             timedItem->todayItem()->setIcon(QIcon());
@@ -665,7 +674,7 @@ void MainWindow::editStartOrStop(bool start)
 void MainWindow::timeout()
 {
 #ifdef CUSTOM_MODEL
- // qt 6   model->incrementEndTimeForTimedItem(timedTime.elapsed());
+ // qt 6   modelXML->incrementEndTimeForTimedItem(timedTime.elapsed());
   // qt 6  timedTime.restart();
 #else
     Q_ASSERT(timedItem);
@@ -687,7 +696,7 @@ void MainWindow::updateIcon(int frame)
         return;
     QIcon icon(QString(":/%1.png").arg(frame));
 #ifdef CUSTOM_MODEL
-    model->setIconForTimedItem(icon);
+    modelXML->setIconForTimedItem(icon);
 #else
     Q_ASSERT(timedItem);
     timedItem->todayItem()->setIcon(icon);
@@ -704,7 +713,7 @@ void MainWindow::editHideOrShowDoneTasks(bool hide)
 #ifdef CUSTOM_MODEL
     hideOrShowDoneTask(hide, QModelIndex());
 #else
-    hideOrShowDoneTask(hide, model->invisibleRootItem());
+    hideOrShowDoneTask(hide, modelXML->invisibleRootItem());
 #endif
 }
 
@@ -714,7 +723,7 @@ void MainWindow::hideOrShowDoneTask(bool hide, QStandardItem *item)
     QModelIndex index = item->parent() ? item->parent()->index()
                                        : QModelIndex();
     bool hideThisOne = hide && (item->checkState() == Qt::Checked);
-    treeView->setRowHidden(item->row(), index, hideThisOne);
+    treeViewXML->setRowHidden(item->row(), index, hideThisOne);
     if (!hideThisOne) {
         for (int row = 0; row < item->rowCount(); ++row)
             hideOrShowDoneTask(hide, item->child(row, 0));
@@ -726,13 +735,13 @@ void MainWindow::hideOrShowDoneTask(bool hide, QStandardItem *item)
 void MainWindow::hideOrShowDoneTask(bool hide,
                                     const QModelIndex &index)
 {
-    bool hideThisOne = hide && model->isChecked(index);
+    bool hideThisOne = hide && modelXML->isChecked(index);
     if (index.isValid())
-        treeView->setRowHidden(index.row(), index.parent(),
+        treeViewXML->setRowHidden(index.row(), index.parent(),
                                hideThisOne);
     if (!hideThisOne) {
-        for (int row = 0; row < model->rowCount(index); ++row)
-            hideOrShowDoneTask(hide, model->index(row, 0, index));
+        for (int row = 0; row < modelXML->rowCount(index); ++row)
+            hideOrShowDoneTask(hide, modelXML->index(row, 0, index));
     }
 }
 #endif
