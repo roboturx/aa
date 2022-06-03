@@ -504,7 +504,8 @@ void TreeModel::readTasks(QXmlStreamReader *reader, TaskItem *task)
                         .value(NameAttribute).toString();
                 bool done = false;
                     // qt 6
-                //reader->attributes().value(DoneAttribute) == "1";
+                //reader->attributes()
+                //.value(DoneAttribute) == "1";
                 reader->attributes()
                         .value(DoneAttribute)
                         .toString () == "1";
