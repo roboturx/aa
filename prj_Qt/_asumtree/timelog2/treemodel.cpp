@@ -75,11 +75,11 @@ QVariant TreeModel::headerData(int section,
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section == Name)
-            return tr("Task/Subtask/...");
+            return tr("Hesap Adı");
         else if (section == Today)
-            return tr("Time (Today)");
+            return tr("Açıklama");
         else if (section == Total)
-            return tr("Time (Total)");
+            return tr("Toplam");
     }
     return QVariant();
 }
