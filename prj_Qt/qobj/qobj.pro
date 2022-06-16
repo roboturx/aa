@@ -4,3 +4,6 @@ SOURCES += \
 
 HEADERS += \
     person.h
+
+FORMS += \
+    bunch.ui

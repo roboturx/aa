@@ -21,8 +21,8 @@ void growBunch() {
     qDebug() << "01 First we create a bunch of objects. bunch qobject created - " << Qt::endl;
     QObject bunch;
     bunch.setObjectName("A Stack Object");
-    bunch.bindableObjectName();
-    /* A local stack object - not a pointer */
+    bunch.dumpObjectInfo ();
+        /* A local stack object - not a pointer */
     /* other objects are created on the heap */
     qDebug() << "02 person* mike creating...";
     Person* mike = new Person("Mike", &bunch);
@@ -39,8 +39,11 @@ void growBunch() {
     new Person("Jan", carol);
     new Person("Cindy", carol);
     new Person("Alice");
+    bunch.dumpObjectInfo ();
+  //  bunch.
     /* Alice has no parent - memory leak? */
-    qDebug() << "\n05 Display the list using QObject::dumpObjectTree()"
+        qDebug() << "\n05 Display the list using "
+           "QObject::dumpObjectTree()"
              << Qt::endl;
     bunch.dumpObjectTree();
     /* dumpObjectTree() output will appear on the
