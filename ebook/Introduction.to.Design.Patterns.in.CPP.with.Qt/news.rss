@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+
+    <title>ODB News</title>
+    <link>http://www.codesynthesis.com/products/odb/</link>
+    <copyright>Copyright 2005-2022, Code Synthesis Tool CC</copyright>
+    <language>en-US</language>
+    <description>News feed for ODB - object-relational mapping (ORM) system for C++</description>
+    <managingEditor>boris@codesynthesis.com</managingEditor>
+    <webMaster>webmaster@codesynthesis.com</webMaster>
+    <lastBuildDate>Tue, 05 Jul 2016 10:01:16 GMT</lastBuildDate>
+
+    <item>
+      <title>ODB 2.4.0 for RHEL, Fedora</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-users/2015-July/002657.html</link>
+      <description>
+        ODB 2.4.0 packages are available for stable Fedora and RHEL releases.
+      </description>
+      <pubDate>Thu, 02 Jul 2015 15:18:40 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>ODB in Debian</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2015/000042.html</link>
+      <description>
+        Thanks to persistent effort of László Böszörményi, ODB 2.4.0 is
+        now packaged for Debian and available in the 'testing' and 'unstable'
+        Debian repositories as well as the 'wily' Ubuntu repository. This
+        includes the full set of packages: the ODB compiler, the runtimes
+        for all the open source databases (MySQL, PostgreSQL, and SQLite) as
+        well as both profile libraries (Qt and Boost).
+      </description>
+      <pubDate>Tue, 16 Jun 2015 09:01:58 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.4.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2015/000041.html</link>
+      <description>
+        Major new features in this release include support for bulk operations
+        in Oracle and SQL Server, the ability to join and load multiple objects
+        with a single SELECT statement execution (object loading views), as well
+        as support for calling stored procedures in MySQL and SQL Server. This
+        release also adds support for Visual Studio 2013, including project/solution
+        files for all the runtime libraries, examples, and tests.
+      </description>
+      <pubDate>Wed, 11 Feb 2015 06:59:41 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB packages for RHEL 5, 6 and Fedora 19-21 available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2014/000040.html</link>
+      <description>
+        Thanks to a persistent effort by Dave Johansen, official ODB packages
+        are now available for RedHat Enterprise Linux (EL) 5 and 6 (and
+        derivatives such as CentOS, Scientific Linux, etc.), as well as Fedora
+        19-21.
+      </description>
+      <pubDate>Wed, 26 Feb 2014 01:53:32 EST</pubDate>
+    </item>
+
+    <item>
+      <title>libodb-qt 2.3.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2014/000039.html</link>
+      <description>
+        A new bugfix release for the Qt ODB profile library (libodb-qt) is now
+        available. It removes the dependency on the STL compatibility functions
+        in Qt, which may not be available. In other words, this is a portability
+        fix and if you are not experiencing any problems with libodb-qt 2.3.0, you
+        don't need to upgrade.
+      </description>
+      <pubDate>Sun, 02 Feb 2014 23:03:00 EST</pubDate>
+    </item>
+
+    <item>
+      <title>libodb-pgsql 2.3.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000038.html</link>
+      <description>
+        A new bugfix release for the PostgreSQL ODB runtime library (libodb-pgsql)
+        is now available. It adds a missing include file that affected compilation
+        of generated files that contain only views.
+      </description>
+      <pubDate>Fri, 06 Dec 2013 03:15:05 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.3.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000037.html</link>
+      <description>
+        The major new feature in this release is support for database schema
+        evolution, including schema and data migration as well as soft object
+        model changes. Other important features in version 2.3.0 include
+        support for C++11 enum classes as well as object sections which
+        provide the ability to split data members of a persistent class
+        into independently loaded/updated groups.
+      </description>
+      <pubDate>Wed, 30 Oct 2013 05:53:32 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>libodb-sqlite 2.2.3 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000036.html</link>
+      <description>
+        New bugfix release for the SQLite ODB runtime library (libodb-sqlite)
+        is now available. It adds support for lower versions of SQLite than
+        was previously supported. Now ODB supports SQLite 3.3.6 (which is
+        found in RHEL5) and later.
+      </description>
+      <pubDate>Sat, 05 Oct 2013 05:32:50 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>Multiple ODB 2.2.0 bugfixes released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000035.html</link>
+      <description>
+        New bugfix releases for various ODB 2.2.0 components are now
+        available: odb-2.2.2 (source and binaries; various bugfixes),
+        libodb-2.2.3 (minor bugfixes), libodb-mssql-2.2.1 (fix for a
+        bug in the ROWVERSION type handling), libodb-qt-2.2.1 (fix for
+        a bug that affects applications using ODB with Qt5 in the
+        dynamic multi-database mode), and libodb-boost-2.2.1 (work
+        around for the ambiguous name resolution bug in VC++).
+      </description>
+      <pubDate>Fri, 21 Jun 2013 10:10:29 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>libodb-sqlite 2.2.2 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000034.html</link>
+      <description>
+        New bugfix release for the SQLite ODB runtime library (libodb-sqlite)
+        is now available. It fixes an incorrect export macro in the
+        forced_rollback exception. This bug only affects Windows builds.
+      </description>
+      <pubDate>Fri, 17 May 2013 12:52:43 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>Using ODB on Android guide available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000033.html</link>
+      <description>
+        Peter Wu contributed instructions for using ODB on Android with
+        Android NDK.
+      </description>
+      <pubDate>Tue, 16 Apr 2013 07:56:54 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>libodb-sqlite 2.2.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000032.html</link>
+      <description>
+        New bugfix release for the SQLite ODB runtime library (libodb-sqlite)
+        is now available. It adds the odb::sqlite::forced_rollback recoverable
+        exception which is thrown if SQLite forces a transaction to roll back.
+        This behavior is new to SQLite 3.7.11.
+      </description>
+      <pubDate>Tue, 19 Mar 2013 09:37:57 EDT</pubDate>
+    </item>
+
+    <item>
+      <title>ODB compiler Windows binary 2.2.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000031.html</link>
+      <description>
+        A new bugfix release for the ODB compiler Windows binary is now
+        available. It fixes an issue with shell globbing (that is, the
+        expansion of * and ? in file names) when invoked from the Windows
+        command prompt.
+      </description>
+      <pubDate>Mon, 11 Mar 2013 08:40:10 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB compiler .deb and .rpm packages available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000030.html</link>
+      <description>
+        ODB compiler packages for Debian/Ubuntu and RedHat(Fedora, RHEL,
+        CentOS) are now available.
+      </description>
+      <pubDate>Fri, 22 Feb 2013 08:00:37 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB compiler source 2.2.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000029.html</link>
+      <description>
+        A new bugfix release for the ODB compiler source package is now
+        available. It fixes an issue with the libintl.h header when used
+        together with GCC that was configured with --disable-nls.
+      </description>
+      <pubDate>Thu, 21 Feb 2013 06:00:35 EST</pubDate>
+    </item>
+
+    <item>
+      <title>libodb 2.2.2 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000028.html</link>
+      <description>
+        New bugfix release for the common ODB runtime library (libodb) is
+        now available. It fixes an issue in queries when used with dynamic
+        multi-database support.
+      </description>
+      <pubDate>Thu, 21 Feb 2013 05:53:34 EST</pubDate>
+    </item>
+
+    <item>
+      <title>Gentoo packages for ODB 2.2.0</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000027.html</link>
+      <description>
+        Hugo Mildenberger has packaged the complete ODB 2.2.0 system for
+        Gentoo and submitted the request for inclusion into the official
+        Gentoo repository.
+      </description>
+      <pubDate>Tue, 19 Feb 2013 03:00:15 EST</pubDate>
+    </item>
+
+    <item>
+      <title>libodb 2.2.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000026.html</link>
+      <description>
+        New bugfix releases for the common ODB runtime library (libodb) is
+        now available. It fixes an issue with a missing windows.hxx header
+        file and only affects a very specific configuration: installed
+        MinGW-W64 builds with the GCC compiler that uses the POSIX
+        threading model (run gcc -v). Any other platform or configuration
+        is not affected and no upgrade is necessary.
+      </description>
+      <pubDate>Thu, 14 Feb 2013 10:58:23 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.2.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000025.html</link>
+      <description>
+        Major new features in this release include multi-database support,
+        prepared queries, change-tracking containers, custom sessions, and
+        automatic mapping for char[N]. This version also adds support for
+        Qt5 in addition to Qt4 and now comes with a guide on using ODB with
+        mobile/embedded systems.
+      </description>
+      <pubDate>Wed, 13 Feb 2013 06:54:15 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.2.0.a3 available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2013/000024.html</link>
+      <description>
+        The third alpha version for the upcoming ODB 2.2.0 is now available.
+      </description>
+      <pubDate>Tue, 15 Jan 2013 10:20:34 EST</pubDate>
+    </item>
+
+    <item>
+      <title>Using ODB on Mobile/Embedded Systems guide available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000023.html</link>
+      <description>
+        We just published a detailed guide on using ODB on mobile/embedded
+        systems. It uses Raspberry Pi as a sample target (though other
+        targets can be handled with similar steps) and covers topics such
+        as cross-compilation, building shared/static libraries, footprint,
+        and minimizing the generated code size.
+      </description>
+      <pubDate>Tue, 18 Dec 2012 02:52:37 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.2.0.a2 available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000022.html</link>
+      <description>
+        The second alpha version for the upcoming ODB 2.2.0 is now available.
+      </description>
+      <pubDate>Wed, 12 Dec 2012 09:12:06 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.1.1 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000021.html</link>
+      <description>
+        This is a bug fix-only release that fixes a number of issues in
+        each database runtime as well as the ODB compiler.
+      </description>
+      <pubDate>Thu, 22 Nov 2012 07:30:47 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.2.0.a1 available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000020.html</link>
+      <description>
+        The first alpha version for the upcoming ODB 2.2.0 is now available.
+      </description>
+      <pubDate>Mon, 29 Oct 2012 11:04:18 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.1.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000018.html</link>
+      <description>
+	Major new features in this release include the ability to use
+	accessor/modifier functions/expressions to access data members,
+	support for virtual data members, the ability to define database
+	indexes on data members, as well as support for mapping extended
+	database types, such as geospatial types, user-defined types, and
+	collections. The profile libraries have also been updated with the
+	Boost profile now providing persistence support for the Uuid and
+	Multi-Index container libraries while the Qt profile now includes
+	the QUuid type. Finally, this release adds support for Visual Studio
+	2012 and Clang 3.1. Specifically, all the runtime libraries, examples,
+	and tests now come with project/solution files for Visual Studio 2012
+	in addition to 2010 and 2008.
+      </description>
+      <pubDate>Tue, 18 Sep 2012 05:39:11 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.1.0.a2 available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000017.html</link>
+      <description>
+        The second alpha version for the upcoming ODB 2.1.0 is now available.
+      </description>
+      <pubDate>Fri, 27 Jul 2012 10:14:03 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.1.0.a1 available</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000016.html</link>
+      <description>
+        The first alpha version for the upcoming ODB 2.1.0 is now available.
+      </description>
+      <pubDate>Wed, 18 Jul 2012 04:40:47 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB runtimes 2.0.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000015.html</link>
+      <description>
+        New bugfix releases for the common ODB runtime library (libodb)
+        and database-specific ODB runtime libraries (libodb-database)
+        are now available.
+
+	The new common runtime release works around a VC++ compilation
+	bug resulting in ambiguous name lookup in polymorphic-map.hxx:44
+	for some databases.
+
+	The new database-specific runtime releases fix a compilation bug
+	in polymorphic class hierarchies that are split over multiple
+	source files.
+
+	In addition the MySQL runtime release fixes a build problem on
+	Fedora 15 and later.
+      </description>
+      <pubDate>Mon, 18 Jun 2012 04:05:34 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB compiler source 2.0.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000014.html</link>
+      <description>
+        A new bugfix release for the ODB compiler source package is now
+        available. It fixes an issue with GCC 4.7 which can be built in
+        either C or C++ mode. The original 2.0.0 source package was only
+        working with GCC built in the C++ mode. This bugfix addresses
+        this limitation.
+      </description>
+      <pubDate>Mon, 07 May 2012 04:49:53 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 2.0.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000013.html</link>
+      <description>
+        Major new features in this release include support for C++11,
+        polymorphism, composite objects ids (composite primary keys),
+        and the NULL semantics for composite values. This release has
+        also been tested with GCC 4.7 and Clang 3.0 with the ODB compiler
+        now supporting the GCC 4.7 series plugin interface. With this
+        release we are also introducing a free proprietary license for
+        small object models.
+      </description>
+      <pubDate>Wed, 02 May 2012 04:25:13 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.8.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2012/000012.html</link>
+      <description>
+        Major new features in this release are support for the Microsoft SQL
+        Server database, including updates to the Boost and Qt profiles,
+        support for database schemas (database namespaces), and the ability to
+        define composite value types as C++ class template instantiations.
+      </description>
+      <pubDate>Tue, 31 Jan 2012 02:01:03 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.7.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000011.html</link>
+      <description>
+	Major new features in this release are support for the Oracle database,
+	including updates to the Boost and Qt profiles, support for optimistic
+	concurrency using object versioning, support for read-only/const data
+	members, support for persistent classes without object ids, and support
+	for SQL statement execution tracing.
+      </description>
+      <pubDate>Wed, 07 Dec 2011 01:23:39 EST</pubDate>
+    </item>
+
+    <item>
+      <title>libodb-qt 1.6.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000010.html</link>
+      <description>
+         A new bugfix release for the Qt ODB profile library and ODB compiler
+         binary packages is now available. It fixes an issue with the QByteArray
+         to BLOB mapping that affects Qt versions prior to 4.7.
+      </description>
+      <pubDate>Tue, 1 Nov 2011 09:38:24 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB compiler source 1.6.2 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000009.html</link>
+      <description>
+         A new bugfix release for the ODB compiler source package is now
+         available. It fixes an issue with plugin include paths in GCC 4.6.
+      </description>
+      <pubDate>Mon, 31 Oct 2011 10:41:02 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB compiler source 1.6.1 bugfix released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000008.html</link>
+      <description>
+         A bugfix release for the ODB compiler source package version 1.6.0
+         is now available. It fixes an issue with profile path parsing in
+         some GCC builds.
+      </description>
+      <pubDate>Wed, 19 Oct 2011 06:39:26 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.6.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000007.html</link>
+      <description>
+          The major new feature in this release is the introduction of the
+          view concept.  A view is a light-weight, read-only projection of
+          one or more persistent objects or database tables or the result
+          of a native SQL query execution.  Views can be used to load a
+          subset of data members from objects or columns from database
+          tables, execute and handle results of arbitrary SQL queries,
+          including aggregate queries, as well as join multiple objects
+          and/or database tables using object relationships or custom
+          join conditions.
+
+          Other important features in this release include support for
+          deleting persistent objects using a query expression, support
+          for the NULL semantics with mapping to smart pointers,
+          odb::nullable, or boost::optional, and support for mapping BLOB
+          types to std::vector&lt;char>.
+      </description>
+      <pubDate>Tue, 04 Oct 2011 03:59:34 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.5.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000006.html</link>
+      <description>
+          Major new features in this release are support for PostgreSQL,
+          including updates to the Boost and Qt profiles, support for
+          per-class database operations callbacks, a new NULL handling
+          mechanism, as well as the ability to specify database default
+          values and additional column definition options.
+      </description>
+      <pubDate>Tue, 26 Jul 2011 03:36:24 EST</pubDate>
+    </item>
+
+    <item>
+      <title>BoostCon 2011 ODB talk</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000005.html</link>
+      <description>
+          The video and slides for the "Object-Relational Mapping with ODB
+          and Boost" presentation at this year's BoostCon are now available.
+      </description>
+      <pubDate>Tue, 19 Jul 2011 05:35:23 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.4.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000004.html</link>
+      <description>
+          Major new features in this release include the Qt profile providing
+          persistence support for Qt basic types, date-time types, smart
+          pointers, and containers, support for non-polymorphic object
+          inheritance including abstract base classes, and automatic mapping
+          of C++ enumerations to database ENUM or integer types.
+      </description>
+      <pubDate>Wed, 27 Apr 2011 07:44:24 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.3.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000003.html</link>
+      <description>
+          Major new features in this release are support for the SQLite
+          database, including the integration of the shared cache and unlock
+          notification functionality for multi-threaded applications, as well
+          as support for the GCC 4.6 plugin interface.
+      </description>
+      <pubDate>Wed, 06 Apr 2011 03:08:36 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.2.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000002.html</link>
+      <description>
+          Major new features in this release include the Boost profile
+          providing persistence support for Boost smart pointers, containers,
+          and value types, support for embedding database schemas into
+          generated C++ code, and support for transparent database
+          reconnection.
+      </description>
+      <pubDate>Wed, 16 Mar 2011 07:46:28 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.1.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2011/000001.html</link>
+      <description>
+          Major new features in this release include support for containers,
+          composite (multi-column) value types, unidirectional and bidirectional
+          object relationships with support for lazy loading, custom object
+          pointers, object caching, as well as native SQL statement execution.
+      </description>
+      <pubDate>Wed, 26 Jan 2011 04:37:28 EST</pubDate>
+    </item>
+
+    <item>
+      <title>ODB 1.0.0 released</title>
+      <link>http://www.codesynthesis.com/pipermail/odb-announcements/2010/000000.html</link>
+      <description>
+          ODB is an open-source, compiler-based object-relational mapping (ORM)
+          system for C++. It allows you to persist C++ objects to a relational
+          database without having to deal with tables, columns, or SQL and
+          without manually writing any mapping code.
+      </description>
+      <pubDate>Wed, 29 Sep 2010 10:13:42 EST</pubDate>
+
+    </item>
+
+  </channel>
+</rss>
