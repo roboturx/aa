@@ -9,10 +9,12 @@ CONFIG += c++20
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    mytreemodel.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    mytreemodel.h
 
 FORMS += \
     mainwindow.ui
