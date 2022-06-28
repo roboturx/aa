@@ -1424,7 +1424,7 @@ public:
 
     QicsDataVariant ( QMetaType::Type type ) : myData(type){;}
     QicsDataVariant ( int typeOrUserType, const void * copy ) : myData(typeOrUserType,copy){;}
-    QicsDataVariant ( const QVariant & p z) : myData(p){;}
+    QicsDataVariant ( const QVariant (& p z) : myData(p){;}
     QicsDataVariant ( QDataStream & s ) : myData(s){;}
     QicsDataVariant ( int val ) : myData(val){;}
     QicsDataVariant ( uint val ) : myData(val){;}
