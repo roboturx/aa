@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setApplicationName(app.translate("main", "Timelog"));
     app.setWindowIcon(QIcon(":/icon.png"));
-    app.setOrganizationName("Qtrac Ltd.");
-    app.setOrganizationDomain("qtrac.eu");
+    app.setOrganizationName("QBalc Co.");
+    app.setOrganizationDomain("qbalc.tr");
 #ifdef Q_WS_MAC
     app.setCursorFlashTime(0);
 #endif

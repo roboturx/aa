@@ -13,6 +13,7 @@
     the GNU General Public License for more details.
 */
 
+#include <QLabel>
 #include <QMainWindow>
 #include <QTime>
 #include <QTimeLine>
@@ -39,6 +40,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent=0);
 
+    QLabel * sqlTableName;
+
+
 public slots:
     void stopTiming();
 
@@ -62,7 +66,7 @@ private slots:
 #endif
     void editStartOrStop(bool start);
     void editHideOrShowDoneTasks(bool hide);
-    void setDirty(bool dirty=true) { setWindowModified(dirty); }
+    void setDirty(bool dirty=true);
     void load(const QString &filename,
               const QStringList &taskPath=QStringList());
     void timeout();

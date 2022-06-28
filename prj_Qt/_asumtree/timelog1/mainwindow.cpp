@@ -60,6 +60,12 @@ QAction *createAction(const QString &icon,
 } // anonymous namespace
 
 
+void MainWindow::setDirty(bool dirty)
+{
+    setWindowModified(dirty);
+}
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
       ,
@@ -73,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
     createMenusAndToolBar();
     createConnections();
 
+
     AQP::accelerateMenu(menuBar());
 #ifdef CUSTOM_MODEL
     setWindowTitle(tr("%1 (Custom modelXML)[*]")
@@ -81,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(tr("%1 (QStandardItemModel)[*]")
                    .arg(QApplication::applicationName()));
 #endif
-    statusBar()->showMessage(tr("Ready"), StatusTimeout);
+    statusBar()->showMessage(tr("Readyim"), StatusTimeout);
 
     timer.setInterval(333);
     iconTimeLine.setDuration(5000);
@@ -111,7 +118,7 @@ void MainWindow::createModelAndView()
 #ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
-  //  modelXML = new TreeModelSQL(this);
+  //  modelSQL = new TreeModelSQL(this);
   //  treeViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
 #else
     modelXML = new StandardTreeModel(this);
@@ -122,10 +129,12 @@ void MainWindow::createModelAndView()
     treeViewXML->setAllColumnsShowFocus(true);
     treeViewXML->setItemDelegateForColumn(0, new RichTextDelegate);
     treeViewXML->setModel(modelXML);
+    sqlTableName = new QLabel("Boşşşş");
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
-    gridd->addWidget(treeViewXML, 0, 0, 1, 1 );
-    gridd->addWidget(treeViewSQL, 0, 1, 1, 1);
+    gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
+    gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
+    gridd->addWidget(treeViewSQL , 0, 1, 1, 1);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -239,6 +248,7 @@ void MainWindow::createConnections()
             SIGNAL(currentChanged(const QModelIndex&,
                                   const QModelIndex&)),
             this, SLOT(updateUi()));
+
 #ifdef CUSTOM_MODEL
     connect(modelXML,
         SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
@@ -343,6 +353,14 @@ void MainWindow::updateUi()
     editStartOrStopAction->setEnabled(rows);
     editPasteAction->setEnabled(modelXML->hasCutItem());
 #endif
+
+    TaskItem* currentItem = static_cast<TaskItem*>
+            (treeViewXML->currentIndex().internalPointer());
+    qDebug() << currentItem->hesapAd() ;
+    sqlTableName->setText(currentItem->hesapAd() );
+
+
+
 }
 
 
@@ -716,6 +734,8 @@ void MainWindow::editHideOrShowDoneTasks(bool hide)
     hideOrShowDoneTask(hide, modelXML->invisibleRootItem());
 #endif
 }
+
+
 
 #ifndef CUSTOM_MODEL
 void MainWindow::hideOrShowDoneTask(bool hide, QStandardItem *item)

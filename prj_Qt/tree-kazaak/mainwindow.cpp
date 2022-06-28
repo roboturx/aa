@@ -87,12 +87,12 @@ void MainWindow::setupModel() {
             [=]()
     {
         QModelIndex index =  treeView->selectionModel()->currentIndex();
-        lb1->setText("Row="+QString::number(index.row())
+        lb1->setText("Row           ="+QString::number(index.row())
                     );
-        lb2->setText("Data="+treeView->model()->data(index).toString()) ;
+        lb2->setText("Data          ="+treeView->model()->data(index).toString()) ;
 
-        lb3->setText ("intpointer");
-static_cast<TreeItem*>(parent.internalPointer());
+        lb3->setText ("intpointer   =");
+//static_cast<TreeItem*>(parent()->internalPointer());
             }
     );
 

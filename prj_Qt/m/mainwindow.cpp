@@ -4,6 +4,7 @@
 
 #include <QDebug>
 #include <QTableView>
+#include <QTreeView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,10 +15,29 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug() << "parent name: " << this->metaObject()->superClass()->className() ;
     qDebug() << "method count" << this->metaObject()->methodCount() ;
 
-    MyTreeModel* model = new MyTreeModel(12,12);
-    QTableView* table = new QTableView ;
-    table->setModel(model);
-    table->show();
+    QObject root;
+
+    root.setObjectName("root");
+    QObject* child;
+    QObject* foo = new QObject(&root);
+    foo->setObjectName("foo");
+    child = new QObject (foo);
+    child->setObjectName("Murat");
+    child = new QObject (foo);
+    child->setObjectName("Murat");
+    child = new QObject (foo);
+    child->setObjectName("Murat2");
+    child = new QObject (foo);
+    child->setObjectName("Murat3");
+
+    QObject *bar = new QObject( &root );
+    bar->setObjectName( "bar" );
+
+
+    MyTreeModel model (&root);
+    QTreeView* tree = new QTreeView ;
+    tree->setModel(&model);
+    tree->show();
 
 
 

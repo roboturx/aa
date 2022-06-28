@@ -10,23 +10,15 @@ CONFIG += c++20
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-<<<<<<< HEAD
-    task.cpp
-
-HEADERS += \
-    mainwindow.h \
-    task.h
-=======
     mytreemodel.cpp
 
 HEADERS += \
     mainwindow.h \
     mytreemodel.h
->>>>>>> 66530a8afc8517249a02eaba32f7ca94a1d83505
+
 
 FORMS += \
-    mainwindow.ui \
-    task.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

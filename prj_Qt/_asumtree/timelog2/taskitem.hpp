@@ -19,19 +19,28 @@
 #include <QString>
 
 
-    // QList::value() returns default constructed value for out of range
+    // QList::value() returns default constructed value
+    // for out of range
     // row
 class TaskItem
 {
 public:
-    explicit TaskItem(const QString &name=QString(), bool done=false,
+    explicit TaskItem(const QString &hesapAd=QString(),
+                      const bool bool_topluHesap=false,
+                      const QString &hesapTuru=QString(),
+                      const QString &ustHesap=QString(),
                       TaskItem *parent=0);
     ~TaskItem() { qDeleteAll(m_children); }
 
-    QString name() const { return m_name; }
-    void setName(const QString &name) { m_name = name; }
-    bool isDone() const { return m_done; }
-    void setDone(bool done) { m_done = done; }
+    QString hesapAd() const { return m_hesapAd; }
+    void setHesapAd(const QString &hesapAd) { m_hesapAd = hesapAd; }
+    bool isTopluHesap() const { return m_topluHesap; }
+    void setTopluHesap(bool bool_topluHesap) { m_topluHesap = bool_topluHesap; }
+    QString hesapTuru() const { return m_hesapTuru; }
+    void setHesapTuru(const QString &hesapTuru) { m_hesapTuru = hesapTuru; }
+    QString ustHesap() const { return m_ustHesap; }
+    void setUstHesap(const QString &ustHesap) { m_ustHesap = ustHesap; }
+
     QList<QPair<QDateTime, QDateTime> > dateTimes() const
         { return m_dateTimes; }
     void addDateTime(const QDateTime &start, const QDateTime &end)
@@ -59,8 +68,11 @@ public:
 private:
     int minutesForTask(bool onlyForToday) const;
 
-    QString m_name;
-    bool m_done;
+    QString m_hesapAd;
+    bool m_topluHesap;
+    QString m_hesapTuru;
+    QString m_ustHesap;
+
     QList<QPair<QDateTime, QDateTime> > m_dateTimes;
 
     TaskItem *m_parent;

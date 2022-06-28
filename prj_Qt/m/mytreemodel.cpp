@@ -4,8 +4,8 @@
 MyTreeModel::MyTreeModel(QObject *root, QObject *parent) :
     QAbstractItemModel (parent)
 {
-    m_rows = root;
-    m_columns = cols;
+    *m_root = &root;
+
 }
 
 Qt::ItemFlags MyTreeModel::flags(const QModelIndex &index) const
@@ -17,15 +17,27 @@ Qt::ItemFlags MyTreeModel::flags(const QModelIndex &index) const
 
 QVariant MyTreeModel::data(const QModelIndex &index, int role) const
 {
-    switch (role)
-    {
-    case Qt::DisplayRole:
-        return ((index.row()+1) * (index.column() +1 ));
-    case Qt::ToolTipRole:
-        return QString ("%1 x %2").arg(index.row()+1).arg(index.column()+1);
-    default:
+    if (!index.isValid())
         return QVariant();
+
+    if (role == Qt::DisplayRole)
+    {
+        switch (index.column())
+        {
+        case 0:
+            return static_cast<QObject*>(index.internalPointer())->objectName();
+        case 1:
+            return static_cast<QObject*>(index.internalPointer())
+                    ->metaObject()->className();
+        default:
+            break;
+        }
     }
+    else if (role == Qt::ToolTipRole)
+    {
+
+    }
+    return QVariant();
 }
 
 QVariant MyTreeModel::headerData(int section,
@@ -47,12 +59,17 @@ QVariant MyTreeModel::headerData(int section,
 
 int MyTreeModel::rowCount(const QModelIndex &parent) const
 {
-    return m_rows;
+    QObject *parentObject;
+    if (!parent.isValid())
+        parentObject = root;
+    else
+        parentObject = static_cast<QObject*> (parent.internalPointer());
+    return parentObject->children().count();
 }
 
 int MyTreeModel::columnCount(const QModelIndex &parent) const
 {
-    return m_columns;
+    return 2;
 }
 
 QModelIndex MyTreeModel::index(int row, int column, const QModelIndex &parent) const
@@ -61,11 +78,31 @@ QModelIndex MyTreeModel::index(int row, int column, const QModelIndex &parent) c
     if (!parent.isValid())
         parentObject = m_root;
     else
+        parentObject = static_cast <QObject*> (parent.internalPointer());
+
+    if (row >=0 && row < parentObject->children().count())
+        return createIndex(row, column, parentObject->children().at(row));
+    else
+        return QModelIndex();
+
 
 }
 
 QModelIndex MyTreeModel::parent(const QModelIndex &index) const
 {
+    if (!index.isValid())
+        return QModelIndex();
+
+    QObject *indexObject = static_cast<QObject*>(index.internalPointer());
+    QObject *parentObject = indexObject->parent();
+
+    if( parentObject == m_root )
+    return QModelIndex();
+
+    QObject *grandParentObject = parentObject.parent();
+
+    return createIndex( grandParentObject->children().indexOf( parentObject ),
+    0, parentObject );
 
 }
 

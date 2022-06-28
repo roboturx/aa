@@ -1,21 +1,15 @@
-/*
-    Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
-
-    This program or module is free software: you can redistribute it
-    and/or modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version. It is provided
-    for educational purposes and is distributed in the hope that it will
-    be useful, but WITHOUT ANY WARRANTY; without even the implied
-    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-    the GNU General Public License for more details.
-*/
 
 #include "taskitem.hpp"
 
 
-TaskItem::TaskItem(const QString &name, bool done, TaskItem *parent)
-        : m_name(name), m_done(done), m_parent(parent)
+TaskItem::TaskItem(const QString &hesapAd,
+                   const bool topluHesap,
+                   const QString &hesapTuru,
+                   const QString &ustHesap,
+                   TaskItem *parent)
+        : m_hesapAd(hesapAd),
+          m_topluHesap(topluHesap),
+          m_parent(parent)
 {
     if (m_parent)
         m_parent->addChild(this);

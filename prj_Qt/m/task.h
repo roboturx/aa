@@ -3,9 +3,9 @@
 
 #include <QWidget>
 #include <QString>
-QT_BEGIN_NAMESPACE
-namespace Uit {  class Task;   }
-QT_END_NAMESPACE
+
+namespace Ui_checkbox {  class Task;   }
+
 
 class Task : public QWidget
 {
@@ -20,7 +20,7 @@ public:
     bool isCompleed() const;
 
 private:
-    Uit::Task *uit;
+    Ui_checkbox::Task *uitt;
 };
 
 #endif // TASK_H

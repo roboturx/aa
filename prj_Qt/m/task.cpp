@@ -3,27 +3,27 @@
 
 Task::Task(QString &name, QWidget *parent) :
     QWidget(parent),
-    uit(new Uit::Task)
+    uitt(new Uit::Task)
 {
-    uit->setupUi(this);
+    uitt->setupUi(this);
 }
 
 Task::~Task()
 {
-    delete uit;
+    delete uitt;
 }
 
 void Task::setName(const QString &name)
 {
-    uit->checkbox->setText(name);
+    uitt->checkbox->setText(name);
 }
 
 QString Task::name() const
 {
-    return uit->checkbox->text();
+    return uitt ->checkbox->text();
 }
 
 bool Task::isCompleed() const
 {
-    return uit->checkbox->isChecked();
+    return uitt->checkbox->isChecked();
 }

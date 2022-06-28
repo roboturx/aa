@@ -8,7 +8,7 @@
 class MyTreeModel : public QAbstractItemModel
 {
 public:
-    MyTreeModel( QObject *root, QObject* parent = 0);
+    MyTreeModel(QObject *root, QObject* parent = 0);
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant data ( const QModelIndex &index, int role = Qt::DisplayRole) const ;
     QVariant headerData ( int section, Qt::Orientation,
@@ -21,7 +21,7 @@ public:
     QModelIndex parent ( const QModelIndex &index) const ;
 
 private:
-    int m_root;
+    QObject m_root;
 
 };
 
