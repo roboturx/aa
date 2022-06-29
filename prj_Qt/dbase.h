@@ -13,7 +13,7 @@
 #include <QSortFilterProxyModel>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
-#include "mysqlmodel.h"
+//#include "mysqlmodel.h"
 class dBase : public QSqlDatabase
 {
 public:

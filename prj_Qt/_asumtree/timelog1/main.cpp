@@ -11,11 +11,13 @@
     the GNU General Public License for more details.
 */
 
-#include "mainwindow.hpp"
+
 #include <QApplication>
 #include <QIcon>
 #include <QtWidgets> // added for Qt5
 
+#include "mainwindow.hpp"
+#include "../../dbase.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,9 +29,13 @@ int main(int argc, char *argv[])
 #ifdef Q_WS_MAC
     app.setCursorFlashTime(0);
 #endif
+    qDebug() << "10";
+
+    dBase db;
 
     MainWindow window;
     window.show();
+    qDebug() << "1000";
     return app.exec();
 }
 
