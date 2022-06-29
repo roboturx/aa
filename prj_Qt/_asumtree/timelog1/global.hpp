@@ -16,11 +16,11 @@
 #include <QString>
 
 
-const QString TaskTag("TASK");
-const QString NameAttribute("NAME");
-const QString DoneAttribute("DONE");
-const QString WhenTag("WHEN");
-const QString StartAttribute("START");
-const QString EndAttribute("END");
+const QString TaskTag("HESAP");
+const QString HesapAdAttribute("HESAPAD");
+const QString TopluHesapAttribute("TOPLUHESAP");
+const QString NeZamanTag("NEZAMAN");
+const QString IlktAttribute("ILK");
+const QString SonAttribute("SON");
 
 #endif // GLOBAL_HPP
