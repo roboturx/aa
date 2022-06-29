@@ -18,9 +18,11 @@
 
 const QString TaskTag("HESAP");
 const QString HesapAdAttribute("HESAPAD");
+const QString HesapTuruAttribute("HESAPTURU");
+const QString UstHesapAttribute("USTHESAP");
 const QString TopluHesapAttribute("TOPLUHESAP");
 const QString NeZamanTag("NEZAMAN");
-const QString IlktAttribute("ILK");
+const QString IlkAttribute("ILK");
 const QString SonAttribute("SON");
 
 #endif // GLOBAL_HPP

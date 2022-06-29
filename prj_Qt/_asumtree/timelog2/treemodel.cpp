@@ -500,16 +500,16 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
         reader->readNext();
         if (reader->isStartElement())
         {
-            if (reader->hesapAd() == TaskTag)
+            if (reader->name() == TaskTag)
             {
                 const QString hesapAd = reader->attributes()
                         .value(HesapAdAttribute).toString();
                 bool topluHesap = false;
                 const QString hesapTuru = reader->attributes()
-                           .value(HesapTuruAttribute);
+                           .value(HesapTuruAttribute).toString();
 
                 const QString ustHesap = reader->attributes()
-                            .value(UstHesapAdAttribute).toString();
+                            .value(UstHesapAttribute).toString();
 
                 reader->attributes()
                         .value(TopluHesapAttribute)
@@ -524,7 +524,7 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
                 task = new TaskItem(hesapAd, topluHesap,
                                     hesapTuru, ustHesap, task);
             }
-            else if (reader->hesapAd() == NeZamanTag) {
+            else if (reader->name() == NeZamanTag) {
                 const QDateTime start = QDateTime::fromString(
                         reader->attributes().value(IlkAttribute)
                             .toString(), Qt::ISODate);
@@ -536,7 +536,7 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
             }
         }
         else if (reader->isEndElement()) {
-            if (reader->hesapAd() == TaskTag)
+            if (reader->name() == TaskTag)
             {
                 Q_ASSERT(task);
                 task = task->parent();
@@ -577,12 +577,16 @@ void TreeModel::writeTaskAndChildren(QXmlStreamWriter *writer,
                                task->hesapAd());
         writer->writeAttribute(TopluHesapAttribute,
                                task->isTopluHesap() ? "1":"0");
+        writer->writeAttribute(HesapTuruAttribute,
+                               task->hesapTuru());
+
+
         QListIterator<
                 QPair<QDateTime, QDateTime> > i(task->dateTimes());
         while (i.hasNext()) {
             const QPair<QDateTime, QDateTime> &dateTime = i.next();
             writer->writeStartElement(NeZamanTag);
-            writer->writeAttribute(IlktAttribute,
+            writer->writeAttribute(IlkAttribute,
                     dateTime.first.toString(Qt::ISODate));
             writer->writeAttribute(SonAttribute,
                     dateTime.second.toString(Qt::ISODate));
