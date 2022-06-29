@@ -535,7 +535,8 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
                 task->addDateTime(start, end);
             }
         }
-        else if (reader->isEndElement()) {
+        else if (reader->isEndElement())
+        {
             if (reader->hesapAd() == TaskTag)
             {
                 Q_ASSERT(task);
