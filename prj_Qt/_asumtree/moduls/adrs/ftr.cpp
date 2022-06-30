@@ -1,7 +1,7 @@
-﻿#include "adrs/ftr.h"
-#include "mlzm/mlzm.h"
-#include "adrs/frm.h"
-#include "mlzm/mlzm_gc.h"
+﻿#include "ftr.h"
+#include "mlzm.h"
+#include "frm.h"
+#include "mlzm_gc.h"
 
 
 using namespace std;

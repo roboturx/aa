@@ -28,7 +28,9 @@ HEADERS	    += main/mainwindow.hpp \
     lib/aqp/aqp.hpp \
     moduls/adrs/clsn.h \
     moduls/adrs/frm.h \
-    moduls/adrs/ftr.h
+    moduls/adrs/ftr.h \
+    moduls/mlzm/mlzm.h \
+    moduls/mlzm/mlzm_gc.h
 SOURCES	    += main/main.cpp \
     lib/aqp/mainx.cpp \
     main/mainwindow.cpp \
@@ -46,7 +48,9 @@ SOURCES	    += main/main.cpp \
     lib/aqp/aqp.cpp \
     moduls/adrs/clsn.cpp \
     moduls/adrs/frm.cpp \
-    moduls/adrs/ftr.cpp
+    moduls/adrs/ftr.cpp \
+    moduls/mlzm/mlzm.cpp \
+    moduls/mlzm/mlzm_gc.cpp
 
 RESOURCES   += main/timelog.qrc \
     lib/aqp/aqp.qrc
@@ -63,7 +67,8 @@ INCLUDEPATH += main \
     lib/aqp \
     lib/dbase \
     moduls \
-    moduls/adrs
+    moduls/adrs \
+    moduls/mlzm
 
 
 

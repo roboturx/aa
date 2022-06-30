@@ -1,7 +1,7 @@
 ﻿#ifndef CW_CLSN_H
 #define CW_CLSN_H
 
-#include "main/globals.h"
+#include "globals.h"
 
 //#include "hc_.h"
 //#include "dbase.h"

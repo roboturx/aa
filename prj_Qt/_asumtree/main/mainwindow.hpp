@@ -3,6 +3,7 @@
 
 #include "globals.h"
 #include "dbase.h"
+#include "login.h"
 
 //class QAction;
 //class QStandardItem;
@@ -27,10 +28,18 @@ public:
     QLabel * sqlTableName;
     void login();
     DBase* dbase;
+    Login *logger{};
 
+
+
+
+signals:
+    void cikis(QString);
 
 public slots:
     void stopTiming();
+    void logouted();
+    void yetkiler(const QString& yetki, const QString& user);
 
 protected:
     void closeEvent(QCloseEvent*);

@@ -814,9 +814,9 @@ qDebug() << "Logining...";
 
 //WARNING  şifre için burayı kullan
 
-       connect(logger, &Login::logok, this, &MW_main::yetkiler);
-    connect(this, &MW_main::cikis, logger, &Login::logex );
-    //connect(this, &MW_main::cikis, qApp , &QApplication::quit );
+       connect(logger, &Login::logok, this, &MainWindow::yetkiler);
+    connect(this, &MainWindow::cikis, logger, &Login::logex );
+    //connect(this, &MainWindow::cikis, qApp , &QApplication::quit );
 
     //qDebug() << "main keys set ESC";
     QShortcut * sc_ESC = new QShortcut(
@@ -836,3 +836,25 @@ qDebug() << "Logining...";
 
 }
 
+void MainWindow::yetkiler(const QString& yetki, const QString& user)
+{
+    //    this->setFocus ();
+    qDebug() << "yetkiler ="<<yetki;
+    QString x ="++++ Kullanıcı ( "+user +" ) - ( "+ yetki +
+                " ) yetkileri ile bağlandı";
+    dbase->yaz(QDateTime::currentDateTime ().toString() + x);
+
+}
+
+void MainWindow::logouted()
+{
+    GLB_yetki = "İlk";
+        QString x =" +++ ( "+logger->lE_user->text ()+
+          " ) kullanıcısı ile yapılan bağlantı sona erdi...";
+    dbase->yaz(QDateTime::currentDateTime ().toString() + x);
+    logger->lE_user->setFocus ();
+    logger->lE_user->setText ("");
+    logger->lE_pass->setText ("");
+    logger->show ();
+
+}
