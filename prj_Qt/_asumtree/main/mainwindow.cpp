@@ -1,6 +1,7 @@
-//001 #include "alt_key.hpp"
+#include "globals.h"
+#include "alt_key.hpp"
 #include "aqp.hpp"
-#include "global.hpp"
+#include "defines.h"
 #include "mainwindow.hpp"
 #include "richtextdelegate.hpp"
 #ifdef CUSTOM_MODEL
@@ -9,31 +10,7 @@
 #include "standarditem.hpp"
 #include "standardtreemodel.hpp"
 #endif
-#ifdef MODEL_TEST
-#include <modeltest.h>
-#endif
-#include <QAbstractButton>
-#include <QAction>
-#include <QApplication>
-#include <QCloseEvent>
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QHash>
-#include <QMenu>
-#include <QMenuBar>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QSettings>
-#if QT_VERSION >= 0x040600
-#include <QScopedPointer>
-#else
-#include <QSharedPointer>
-#endif
-#include <QStatusBar>
-#include <QStandardItem>
-#include <QTimer>
-#include <QToolBar>
-#include <QTreeView>
+
 
 
 namespace {
@@ -60,11 +37,6 @@ QAction *createAction(const QString &icon,
 } // anonymous namespace
 
 
-void MainWindow::setDirty(bool dirty)
-{
-    setWindowModified(dirty);
-}
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -74,17 +46,17 @@ MainWindow::MainWindow(QWidget *parent)
 #endif
     currentIcon(0)
 {
-    qDebug() << "100";
+    qDebug() << "Modelling...";
     createModelAndView();
-    qDebug() << "200";
+    qDebug() << "Actions...";
     createActions();
-    qDebug() << "300";
+    qDebug() << "Menu & toolbar";
     createMenusAndToolBar();
-    qDebug() << "400";
+    qDebug() << "Connecting slots...";
     createConnections();
 
 
-  //001  AQP::accelerateMenu(menuBar());
+  AQP::accelerateMenu(menuBar());
 #ifdef CUSTOM_MODEL
     setWindowTitle(tr("%1 (Custom modelXML)[*]")
                        .arg(QApplication::applicationName()));
@@ -92,8 +64,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(tr("%1 (QStandardItemModel)[*]")
                        .arg(QApplication::applicationName()));
 #endif
-    statusBar()->showMessage(tr("Readyim"), StatusTimeout);
-    qDebug() << "500";
+    statusBar()->showMessage(tr("Uygulama Hazır"), StatusTimeout);
+    qDebug() << "Hazır";
     timer.setInterval(333);
     iconTimeLine.setDuration(5000);
     iconTimeLine.setFrameRange(FirstFrame, LastFrame + 1);
@@ -107,11 +79,16 @@ MainWindow::MainWindow(QWidget *parent)
     if (filename.isEmpty())
         QTimer::singleShot(0, this, SLOT(fileNew()));
     else
-        QMetaObject::invokeMethod(this, "load", Qt::QueuedConnection,
-                                  Q_ARG(QString, filename),
-                                  Q_ARG(QStringList, settings.value(
-                                                                 CurrentTaskPathSetting).toStringList()));
-    qDebug() << "600";
+        QMetaObject::invokeMethod(this, "load",
+                                  Qt::QueuedConnection,
+                      Q_ARG(QString, filename),
+                      Q_ARG(QStringList, settings.value(
+                 CurrentTaskPathSetting).toStringList()));
+    qDebug() << "-----------------";
+    qDebug() << "-Mw Constructed.-";
+    qDebug() << "-----------------";
+    qDebug() << "-Load-or-filenew-";
+    qDebug() << "-----------------";
 }
 
 
@@ -329,7 +306,7 @@ bool MainWindow::okToClearData()
 
 void MainWindow::fileNew()
 {
-    qDebug() << "filenew";
+    qDebug() << "New File Construction beginning...";
     if (!okToClearData())
         return;
     modelXML->clear();
@@ -343,19 +320,18 @@ void MainWindow::fileNew()
 
 void MainWindow::updateUi()
 {
-    qDebug() << "updateui";
+    qDebug() << "user interface updating...";
     fileSaveAction->setEnabled(isWindowModified());
     int rows = modelXML->rowCount();
     fileSaveAsAction->setEnabled(isWindowModified() || rows);
     editHideOrShowDoneTasksAction->setEnabled(rows);
     bool enable = treeViewXML->currentIndex().isValid();
 
-    qDebug() << "updateui 2";
-
 #ifdef CUSTOM_MODEL
-    foreach (QAction *action, QList<QAction*>() << editDeleteAction
-                                                 << editMoveUpAction << editMoveDownAction << editCutAction
-                                                 << editPromoteAction << editDemoteAction)
+    foreach (QAction *action, QList<QAction*>()
+             << editDeleteAction
+             << editMoveUpAction << editMoveDownAction << editCutAction
+             << editPromoteAction << editDemoteAction)
 #else
     foreach (QAction *action, QList<QAction*>() << editDeleteAction
                                                  << editStartOrStopAction)
@@ -366,16 +342,18 @@ void MainWindow::updateUi()
     editPasteAction->setEnabled(modelXML->hasCutItem());
 #endif
 
-    qDebug() << "updateui 3";
-
     TaskItem* currentItem = static_cast<TaskItem*>
         (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
         qDebug() << currentItem->hesapAd ();
-        sqlTableName->setText(currentItem->hesapAd() );
+        sqlTableName->setText(currentItem->hesapAd() +
+                              QString::number(currentItem->isTopluHesap() ) +
+                              currentItem->hesapTuru() +
+                              currentItem->ustHesap()
+                              );
 
-        qDebug() << "updateui 4";
+        qDebug() << "";
     }
 
 }
@@ -400,7 +378,7 @@ void MainWindow::fileOpen()
 void MainWindow::load(const QString &filename,
                       const QStringList &taskPath)
 {
-    qDebug() << "load";
+    qDebug() << "loading file '" << filename << "' at path : " << taskPath;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try {
         modelXML->load(filename);
@@ -540,12 +518,18 @@ void MainWindow::editAdd()
 
 void MainWindow::editAdd()
 {
-    qDebug() << "editadd";
+    qDebug() << "Yeni Hesap Ekle";
     QModelIndex index = treeViewXML->currentIndex();
     if (modelXML->insertRow(0, index)) {
         index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
         treeViewXML->edit(index);
+        QString name = modelXML->data(index).toString();
+        qDebug() <<"--------------------------------------" ;
+        qDebug() <<"--------------------------------------" ;
+        qDebug() << name ;
+        qDebug() <<"--------------------------------------" ;
+        qDebug() <<"--------------------------------------" ;
         setDirty();
         updateUi();
     }
@@ -790,7 +774,7 @@ void MainWindow::hideOrShowDoneTask(bool hide, QStandardItem *item)
 void MainWindow::hideOrShowDoneTask(bool hide,
                                     const QModelIndex &index)
 {
-    qDebug() << "hdorshowdntsk";
+    qDebug() << "hideorshowdntsk";
     bool hideThisOne = hide && modelXML->isChecked(index);
     if (index.isValid())
         treeViewXML->setRowHidden(index.row(), index.parent(),
@@ -801,3 +785,54 @@ void MainWindow::hideOrShowDoneTask(bool hide,
     }
 }
 #endif
+
+
+
+
+void MainWindow::login()
+{
+    /// in main() first mainwindow is showed
+    /// after login is executed
+
+    /// veritabanı kontrol
+
+    dbase = new DBase(this);
+    //  dbase->setGeometry (800,300,300,480);
+    //  dbase->setWindowTitle("Veri Tabanı Kontrol");
+    // dbase->show();
+
+
+ //   this->setCentralWidget (dbase );
+
+
+qDebug() << "Logining...";
+
+    /// login için esc-enter kullanımı
+    /////////////////////////////////////
+
+     logger= new Login;
+
+//WARNING  şifre için burayı kullan
+
+       connect(logger, &Login::logok, this, &MW_main::yetkiler);
+    connect(this, &MW_main::cikis, logger, &Login::logex );
+    //connect(this, &MW_main::cikis, qApp , &QApplication::quit );
+
+    //qDebug() << "main keys set ESC";
+    QShortcut * sc_ESC = new QShortcut(
+                QKeySequence(Qt::Key_Escape),this,
+                SLOT(logouted() ));
+    sc_ESC->setAutoRepeat(false);
+
+
+
+    //    sbox = new SortingBox;
+    //dbox = new DragWidget;
+
+    /// all things okey
+    /// wait on main window for a key for connect
+
+
+
+}
+

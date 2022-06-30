@@ -1,6 +1,6 @@
 
 #include "aqp.hpp"
-#include "global.hpp"
+#include "defines.h"
 #include "treemodel.hpp"
 #include <QFile>
 #include <QMimeData>

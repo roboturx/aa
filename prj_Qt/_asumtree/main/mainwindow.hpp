@@ -1,30 +1,14 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
-/*
-    Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
 
-    This program or module is free software: you can redistribute it
-    and/or modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version. It is provided
-    for educational purposes and is distributed in the hope that it will
-    be useful, but WITHOUT ANY WARRANTY; without even the implied
-    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-    the GNU General Public License for more details.
-*/
+#include "globals.h"
+#include "dbase.h"
 
-#include <QLabel>
-#include <QMainWindow>
-#include <QTime>
-#include <QTimeLine>
-#include <QTimer>
-#include <QGridLayout>
-
-class QAction;
-class QStandardItem;
-class StandardItem;
-class QModelIndex;
-class QTreeView;
+//class QAction;
+//class QStandardItem;
+//class StandardItem;
+//class QModelIndex;
+//class QTreeView;
 
 #ifdef CUSTOM_MODEL
 class TreeModel;
@@ -41,6 +25,8 @@ public:
     explicit MainWindow(QWidget *parent=0);
 
     QLabel * sqlTableName;
+    void login();
+    DBase* dbase;
 
 
 public slots:
@@ -66,7 +52,9 @@ private slots:
 #endif
     void editStartOrStop(bool start);
     void editHideOrShowDoneTasks(bool hide);
-    void setDirty(bool dirty=true);
+    void setDirty(bool dirty=true)
+        {   setWindowModified(dirty);  }
+
     void load(const QString &filename,
               const QStringList &taskPath=QStringList());
     void timeout();
