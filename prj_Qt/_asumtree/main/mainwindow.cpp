@@ -1,4 +1,4 @@
-#include "alt_key.hpp"
+//001 #include "alt_key.hpp"
 #include "aqp.hpp"
 #include "global.hpp"
 #include "mainwindow.hpp"
@@ -84,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     createConnections();
 
 
-    AQP::accelerateMenu(menuBar());
+  //001  AQP::accelerateMenu(menuBar());
 #ifdef CUSTOM_MODEL
     setWindowTitle(tr("%1 (Custom modelXML)[*]")
                        .arg(QApplication::applicationName()));
@@ -373,7 +373,7 @@ void MainWindow::updateUi()
     if ( currentItem)
     {
         qDebug() << currentItem->hesapAd ();
-        //  sqlTableName->setText(currentItem->hesapAd() );
+        sqlTableName->setText(currentItem->hesapAd() );
 
         qDebug() << "updateui 4";
     }

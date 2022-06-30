@@ -1,5 +1,3 @@
-#ifndef GLOBAL_HPP
-#define GLOBAL_HPP
 /*
     Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
 
@@ -13,16 +11,31 @@
     the GNU General Public License for more details.
 */
 
-#include <QString>
+
+#include <QApplication>
+#include <QIcon>
+#include <QtWidgets> // added for Qt5
+
+#include "mainwindow.hpp"
 
 
-const QString TaskTag("HESAP");
-const QString HesapAdAttribute("HESAPAD");
-const QString HesapTuruAttribute("HESAPTURU");
-const QString UstHesapAttribute("USTHESAP");
-const QString TopluHesapAttribute("TOPLUHESAP");
-const QString NeZamanTag("NEZAMAN");
-const QString IlkAttribute("ILK");
-const QString SonAttribute("SON");
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    app.setApplicationName(app.translate("main", "Timelog"));
+    app.setWindowIcon(QIcon(":/icon.png"));
+    app.setOrganizationName("QBalc Co.");
+    app.setOrganizationDomain("qbalc.tr");
+#ifdef Q_WS_MAC
+    app.setCursorFlashTime(0);
+#endif
+    qDebug() << "mm";
 
-#endif // GLOBAL_HPP
+    //dBase db;
+
+    MainWindow window;
+    window.show();
+    qDebug() << "1000";
+    return app.exec();
+}
+
