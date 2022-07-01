@@ -1,30 +1,30 @@
 ﻿
-#ifdef OTHER
-
+#ifdef ADRS
 #include "adrs/clsn.h"
-
 #include "adrs/frm.h"
 #include "adrs/ftr.h"
+#endif
 
+#ifdef MLZM
+#include "mlzm/mlzm.h"
+#include "mlzm/mlzm_gc.h"
+#endif
+
+#ifdef HSAP
+#include "hc_hsp.h"
+#include "hc_hspdty.h"
+#endif
+
+#ifdef OTHER
 #include "ie/ie.h"
 #include "ie/iedet.h"
 #include "ie/sclk.h"
 #include "ie/tsnr.h"
 
-
-#include "hesap/hc_hsp.h"
-#include "hesap/hc_hspdty.h"
-
 #include "mchn/mkn.h"
 #include "mchn/mkn_cinsi.h"
 #include "mchn/mkn_marka.h"
 #include "mchn/mkn_modeli.h"
-
-#include "mlzm/mlzm.h"
-#include "mlzm/mlzm_gc.h"
-
-
-
 #endif
 
 #include "globals.h"
@@ -119,19 +119,10 @@ bool DBase::setupDBase()
 
 void DBase::VTDosyaKontrol()
 {
-#ifdef CLSN
+#ifdef ADRS
     hC_CLSN* clsn = new hC_CLSN;
     yaz(clsn->tbCreate (clsn->tb_flds));
     delete clsn ;
-
-#endif
-
-
-#ifdef OTHER
-    hC_HSPDTY* hsp = new hC_HSPDTY;
-    yaz(hsp->tbCreate (hsp->tb_flds));
-    delete hsp ;
-
 
     hC_FRM* frm = new hC_FRM;
     yaz(frm->tbCreate (frm->tb_flds));
@@ -140,7 +131,25 @@ void DBase::VTDosyaKontrol()
     hC_FTR* ftr = new hC_FTR;
     yaz(ftr->tbCreate (ftr->tb_flds));
     delete ftr ;
+#endif
 
+#ifdef MLZM
+    hC_MLZM* mlzm = new hC_MLZM;
+    yaz(mlzm->tbCreate (mlzm->tb_flds)) ;
+    delete mlzm ;
+
+    hC_MLZMGC* mlzmgc = new hC_MLZMGC;
+    yaz(mlzmgc->tbCreate (mlzmgc->tb_flds)) ;
+    delete mlzmgc ;
+#endif
+
+#ifdef HSAP
+    hC_HSPDTY* hsp = new hC_HSPDTY;
+    yaz(hsp->tbCreate (hsp->tb_flds));
+    delete hsp ;
+#endif
+
+#ifdef OTHER
     hC_IE* ie = new hC_IE;
     yaz(ie->tbCreate (ie->tb_flds));
     delete ie ;
@@ -164,14 +173,6 @@ void DBase::VTDosyaKontrol()
     hC_MKMODL* mkmodl = new hC_MKMODL;
     yaz(mkmodl->tbCreate (mkmodl->tb_flds));
     delete mkmodl ;
-
-    hC_MLZM* mlzm = new hC_MLZM;
-    yaz(mlzm->tbCreate (mlzm->tb_flds)) ;
-    delete mlzm ;
-
-    hC_MLZMGC* mlzmgc = new hC_MLZMGC;
-    yaz(mlzmgc->tbCreate (mlzmgc->tb_flds)) ;
-    delete mlzmgc ;
 
     hC_SCLK* sclk = new hC_SCLK;
     yaz(sclk->tbCreate (sclk->tb_flds)) ;
