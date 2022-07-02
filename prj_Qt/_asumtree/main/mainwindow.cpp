@@ -810,7 +810,7 @@ qDebug() << "Logining...";
     /// login için esc-enter kullanımı
     /////////////////////////////////////
 
-     logger= new Login;
+logger= new Login(this);
 
 //WARNING  şifre için burayı kullan
 

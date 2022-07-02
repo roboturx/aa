@@ -24,10 +24,12 @@ Login::Login(QWidget *parent) : QWidget(parent)
     this->setMaximumWidth (400);
     this->setMinimumWidth (400);
     //    this->setAllowedAreas (Qt::NoToolBarArea  );
-    this->setWindowFlags(Qt::Window |
+    this->setWindowFlags(Qt::Dialog |
+                         Qt::Popup |
                          Qt::FramelessWindowHint |
                          Qt::WindowStaysOnTopHint );
-    //    this->setModal (true);
+
+    this->setWindowModality (Qt::WindowModal);
     this->show();
     this->move(410,310);
 
@@ -141,8 +143,8 @@ void Login::logex(const QString& nereden)
 void Login::logined()
 {
 
-    QString username =  lE_user->text();  //"a"; //
-    QString password =  lE_pass->text();  //"a"; //
+    QString username =  "a"; // lE_user->text();  //
+    QString password =  "a"; // lE_pass->text();  //
     QSqlQuery qry;
 
     qry.prepare("SELECT * FROM dbtb_clsn "
@@ -188,8 +190,9 @@ void Login::logined()
 
                 this->hide ();
             }
-            //    yaz("--- ","Tam yetkiyle giriş sağlandı...");
+            //  yaz("--- ","Tam yetkiyle giriş sağlandı...");
 
         }
+        qDebug() << " ??? "<<qry.lastError ().text ();
     }
 }
