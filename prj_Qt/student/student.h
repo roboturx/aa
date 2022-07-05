@@ -14,11 +14,11 @@ public:
 private:
     QString m_Name;
     QString m_Major;
-    long m_StudeentId;
+    long m_StudentId;
 
 protected:
     int m_Year;
-    QString yearStr();
+    QString yearStr() const;
 };
 
 class Undergrad : public Student
@@ -35,13 +35,13 @@ class GradStudent : public Student
 {
 public:
     enum Support {ta, ra, fellowship, other};
-    GradStudent (QString nnm, long id, QString major, int yr, Support support);
+    GradStudent (QString nm, long id, QString major, int yr, Support support);
     QString getClassName() const;
     QString toString() const;
 protected:
-    static QString supportStr(Support sup);
+     QString supportStr(Support sup) const;
 private:
-    Support m_support;
+    Support m_Support;
 };
 
 

@@ -3,7 +3,7 @@
 #include <QTextStream>
 
 Student::Student(QString nm, long id, QString major, int year)
-    : m_Name(nm), m_Major(major), m_StudeentId(id), m_Year(year)
+    : m_Name(nm), m_Major(major), m_StudentId(id), m_Year(year)
 {
 
 }
@@ -19,20 +19,21 @@ QString Student::toString() const
     QTextStream os(&retval);
     os <<"Studentclass -*" << getClassName ()
        << "*- name;" << m_Name
-       << "     id:" << m_StudeentId
-       << "     year:"<< m_Year
+       << "     id:" << m_StudentId
+       << "     year:"<< yearStr()
        << "     major:"<< m_Major;
     return retval;
 }
 
-QString Student::yearStr()
+QString Student::yearStr() const
 {
-
+    return "myear";
 }
 
 
 
-Undergrad::Undergrad(QString name, long id, QString major, int year, int sat)
+Undergrad::Undergrad(QString name, long id, QString major,
+                     int year, int sat)
     :Student(name, id, major, year ) ,m_SAT(sat)
 {
 
@@ -54,8 +55,9 @@ QString Undergrad::toString() const
 
 
 
-GradStudent::GradStudent(QString nm, long id, QString major, int yr, Support support)
-    :Student (nm, id, major, yr) , m_support(support)
+GradStudent::GradStudent(QString nm, long id, QString major,
+                         int yr, Support support)
+    :Student (nm, id, major, yr) , m_Support(support)
 {
 
 }
@@ -67,8 +69,8 @@ QString GradStudent::getClassName() const
 
 QString GradStudent::toString() const
 {
-    return QString("%1%2%3 \n")
-        .arg(Student::toString ())
-        .arg("\n SUPPRT: ")
-        .arg(supportStr (m_support));
+
+    return  QString("%1%2%3 \n")
+        .arg(Student::toString (), "\n SUPPRT: ",
+             supportStr ( m_Support));
 }

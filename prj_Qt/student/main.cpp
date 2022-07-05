@@ -1,6 +1,9 @@
 #include <QCoreApplication>
 
 #include "student.h"
+#include <QTextStream>
+
+
 
 static QTextStream cout (stdout);
 
@@ -12,9 +15,9 @@ void finish(Student* student)
          << student->toString () <<"\n";
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    QCoreApplication a(argc, argv);
+    //QCoreApplication a(argc, argv);
 
     Undergrad us("Ali Umt Balcı", 2222, "arch", 4, 1220);
     GradStudent gs("murat", 1111, "conmp", 3, GradStudent::fellowship );
@@ -23,8 +26,8 @@ int main(int argc, char *argv[])
     cout << gs.toString () << Qt::endl  ;
     cout << us.toString () <<Qt::endl ;
     cout << "atfinish";
-    cout << finish (&us);
-    cout << finish (&gs);
+    finish (&us);
+    finish (&gs);
 
-    return a.exec();
+    return 0;
 }
