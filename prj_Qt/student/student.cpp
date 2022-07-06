@@ -72,5 +72,5 @@ QString GradStudent::toString() const
 
     return  QString("%1%2%3 \n")
         .arg(Student::toString (), "\n SUPPRT: ",
-             supportStr ( m_Support));
+             GradStudent::supportStr ( m_Support));
 }

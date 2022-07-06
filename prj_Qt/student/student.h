@@ -41,7 +41,7 @@ public:
 protected:
      QString supportStr(Support sup) const;
 private:
-    Support m_Support;
+
 };
 
 
