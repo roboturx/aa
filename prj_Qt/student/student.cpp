@@ -74,3 +74,9 @@ QString GradStudent::toString() const
         .arg(Student::toString (), "\n SUPPRT: ",
              GradStudent::supportStr ( m_Support));
 }
+
+QString GradStudent::supportStr(Support sup) const
+{
+
+return "aaaaaaaaaa";
+}

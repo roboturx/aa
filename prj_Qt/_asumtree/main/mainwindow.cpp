@@ -41,10 +41,10 @@ QAction *createAction(const QString &icon,
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     ,
-#ifndef CUSTOM_MODEL
-    timedItem(0),
-#endif
-    currentIcon(0)
+      #ifndef CUSTOM_MODEL
+      timedItem(0),
+      #endif
+      currentIcon(0)
 {
     qDebug() << "Modelling...";
     createModelAndView();
@@ -56,13 +56,13 @@ MainWindow::MainWindow(QWidget *parent)
     createConnections();
 
 
-  AQP::accelerateMenu(menuBar());
+    AQP::accelerateMenu(menuBar());
 #ifdef CUSTOM_MODEL
     setWindowTitle(tr("%1 (Custom modelXML)[*]")
-                       .arg(QApplication::applicationName()));
+                   .arg(QApplication::applicationName()));
 #else
     setWindowTitle(tr("%1 (QStandardItemModel)[*]")
-                       .arg(QApplication::applicationName()));
+                   .arg(QApplication::applicationName()));
 #endif
     statusBar()->showMessage(tr("Uygulama Hazır"), StatusTimeout);
     qDebug() << "Hazır";
@@ -76,14 +76,21 @@ MainWindow::MainWindow(QWidget *parent)
     QSettings settings;
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString filename = settings.value(FilenameSetting).toString();
-    if (filename.isEmpty())
+    if (! QFile::exists(filename))
+    {
+        qDebug() << " Dosya Diskte bulunamadı ";
+        statusBar()->showMessage(tr("Dosya Yüklenemedi %1")
+                                 .arg(filename), StatusTimeout);
+        QTimer::singleShot(0, this, SLOT(fileNew()));
+    }
+    if (filename.isEmpty()  )
         QTimer::singleShot(0, this, SLOT(fileNew()));
     else
         QMetaObject::invokeMethod(this, "load",
                                   Qt::QueuedConnection,
-                      Q_ARG(QString, filename),
-                      Q_ARG(QStringList, settings.value(
-                 CurrentTaskPathSetting).toStringList()));
+                                  Q_ARG(QString, filename),
+                                  Q_ARG(QStringList, settings.value(
+                                            CurrentTaskPathSetting).toStringList()));
     qDebug() << "-----------------";
     qDebug() << "-Mw Constructed.-";
     qDebug() << "-----------------";
@@ -91,17 +98,18 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug() << "-----------------";
 }
 
-
+/// 100-01
+///
 void MainWindow::createModelAndView()
 {
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
-    treeViewSQL = new QTreeView;
+      treeViewSQL = new QTreeView;
 #ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
-    //  modelSQL = new TreeModelSQL(this);
-    //  treeViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
+      modelSQL = new TreeModel(this);
+      treeViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
 #else
     modelXML = new StandardTreeModel(this);
 #endif
@@ -132,9 +140,9 @@ void MainWindow::createActions()
                                   this, QKeySequence::Save);
     fileSaveAsAction = createAction(":/filesave.png",
                                     tr("Save As..."), this
-#if QT_VERSION >= 0x040500
+                                #if QT_VERSION >= 0x040500
                                     , QKeySequence::SaveAs
-#endif
+                                #endif
                                     );
     fileQuitAction = createAction(":/filequit.png", tr("Quit"), this);
 #if QT_VERSION >= 0x040600
@@ -181,7 +189,8 @@ void MainWindow::createMenusAndToolBar()
     fileToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 #endif
     foreach (QAction *action, QList<QAction*>() << fileNewAction
-                                                 << fileOpenAction << fileSaveAction << fileSaveAsAction) {
+             << fileOpenAction << fileSaveAction << fileSaveAsAction)
+    {
         fileMenu->addAction(action);
         if (action != fileSaveAsAction)
             fileToolBar->addAction(action);
@@ -199,15 +208,15 @@ void MainWindow::createMenusAndToolBar()
 #endif
 #ifdef CUSTOM_MODEL
     foreach (QAction *action, QList<QAction*>() << editAddAction
-                                                 << editDeleteAction << emptyAction
-                                                 << editCutAction << editPasteAction << emptyAction
-                                                 << editMoveUpAction << editMoveDownAction
-                                                 << editPromoteAction << editDemoteAction << emptyAction
-                                                 << editStartOrStopAction << editHideOrShowDoneTasksAction)
+             << editDeleteAction << emptyAction
+             << editCutAction << editPasteAction << emptyAction
+             << editMoveUpAction << editMoveDownAction
+             << editPromoteAction << editDemoteAction << emptyAction
+             << editStartOrStopAction << editHideOrShowDoneTasksAction)
 #else
     foreach (QAction *action, QList<QAction*>() << editAddAction
-                                                 << editDeleteAction << emptyAction
-                                                 << editStartOrStopAction << editHideOrShowDoneTasksAction)
+             << editDeleteAction << emptyAction
+             << editStartOrStopAction << editHideOrShowDoneTasksAction)
 #endif
     {
         if (action == emptyAction) {
@@ -287,6 +296,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         settings.setValue(FilenameSetting, modelXML->filename());
         settings.setValue(CurrentTaskPathSetting,
                           modelXML->pathForIndex(treeViewXML->currentIndex()));
+
+        qDebug() << settings.fileName();
         event->accept();
     }
     else
@@ -313,7 +324,7 @@ void MainWindow::fileNew()
     modelXML->setFilename(QString());
     setDirty(false);
     setWindowTitle(tr("%1 - Unnamed[*]")
-                       .arg(QApplication::applicationName()));
+                   .arg(QApplication::applicationName()));
     updateUi();
 }
 
@@ -334,7 +345,7 @@ void MainWindow::updateUi()
              << editPromoteAction << editDemoteAction)
 #else
     foreach (QAction *action, QList<QAction*>() << editDeleteAction
-                                                 << editStartOrStopAction)
+             << editStartOrStopAction)
 #endif
         action->setEnabled(enable);
 #ifdef CUSTOM_MODEL
@@ -343,7 +354,7 @@ void MainWindow::updateUi()
 #endif
 
     TaskItem* currentItem = static_cast<TaskItem*>
-        (treeViewXML->currentIndex().internalPointer());
+            (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
         qDebug() << currentItem->hesapAd ();
@@ -394,17 +405,17 @@ void MainWindow::load(const QString &filename,
             treeViewXML->resizeColumnToContents(column);
         setDirty(false);
         setWindowTitle(tr("%1 - %2[*]")
-                           .arg(QApplication::applicationName())
-                           .arg(QFileInfo(filename).fileName()));
+                       .arg(QApplication::applicationName())
+                       .arg(QFileInfo(filename).fileName()));
         statusBar()->showMessage(tr("Loaded %1").arg(filename),
                                  StatusTimeout);
     } catch (AQP::Error &error) {
         AQP::warning(this, tr("Error"), tr("Failed to load %1: %2")
-                                            .arg(filename).arg(QString::fromUtf8(error.what())));
+                     .arg(filename).arg(QString::fromUtf8(error.what())));
     }
     updateUi();
     editHideOrShowDoneTasks(
-        editHideOrShowDoneTasksAction->isChecked());
+                editHideOrShowDoneTasksAction->isChecked());
     treeViewXML->setFocus();
     QApplication::restoreOverrideCursor();
 }
@@ -431,15 +442,15 @@ bool MainWindow::fileSave()
             modelXML->save();
             setDirty(false);
             setWindowTitle(tr("%1 - %2[*]")
-                               .arg(QApplication::applicationName())
-                               .arg(QFileInfo(modelXML->filename()).fileName()));
+                           .arg(QApplication::applicationName())
+                           .arg(QFileInfo(modelXML->filename()).fileName()));
             statusBar()->showMessage(tr("Saved %1")
-                                         .arg(modelXML->filename()), StatusTimeout);
+                                     .arg(modelXML->filename()), StatusTimeout);
             saved = true;
         } catch (AQP::Error &error) {
             AQP::warning(this, tr("Error"),
                          tr("Failed to save %1: %2").arg(modelXML->filename())
-                             .arg(QString::fromUtf8(error.what())));
+                         .arg(QString::fromUtf8(error.what())));
         }
     }
     updateUi();
@@ -482,21 +493,21 @@ void MainWindow::editAdd()
         messageBox->setWindowModality(Qt::WindowModal);
         messageBox->setIcon(QMessageBox::Question);
         messageBox->setWindowTitle(tr("%1 - Add Task")
-                                       .arg(QApplication::applicationName()));
+                                   .arg(QApplication::applicationName()));
         messageBox->setText(tr("<p>Add at the top level or as a "
                                "sibling or child of\n'%1'?").arg(item->text()));
         messageBox->addButton(tr("&Top Level"),
                               QMessageBox::AcceptRole);
         QAbstractButton *siblingButton = messageBox->addButton(
-            tr("&Sibling"), QMessageBox::AcceptRole);
+                    tr("&Sibling"), QMessageBox::AcceptRole);
         QAbstractButton *childButton = messageBox->addButton(
-            tr("C&hild"), QMessageBox::AcceptRole);
+                    tr("C&hild"), QMessageBox::AcceptRole);
         messageBox->setDefaultButton(
-            qobject_cast<QPushButton*>(childButton));
+                    qobject_cast<QPushButton*>(childButton));
         messageBox->addButton(QMessageBox::Cancel);
         messageBox->exec();
         if (messageBox->clickedButton() ==
-            messageBox->button(QMessageBox::Cancel))
+                messageBox->button(QMessageBox::Cancel))
             return;
         if (messageBox->clickedButton() == childButton)
             insert = StandardTreeModel::AsChild;
@@ -597,7 +608,7 @@ void MainWindow::editPaste()
     qDebug() << "editpaste";
     setCurrentIndex(modelXML->paste(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
-        editHideOrShowDoneTasksAction->isChecked());
+                editHideOrShowDoneTasksAction->isChecked());
 }
 
 
@@ -605,9 +616,9 @@ void MainWindow::editMoveUp()
 {
     qDebug() << "editmoveup";
     treeViewXML->setCurrentIndex(
-        modelXML->moveUp(treeViewXML->currentIndex()));
+                modelXML->moveUp(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
-        editHideOrShowDoneTasksAction->isChecked());
+                editHideOrShowDoneTasksAction->isChecked());
 }
 
 
@@ -615,9 +626,9 @@ void MainWindow::editMoveDown()
 {
     qDebug() << "editmovedown";
     treeViewXML->setCurrentIndex(
-        modelXML->moveDown(treeViewXML->currentIndex()));
+                modelXML->moveDown(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
-        editHideOrShowDoneTasksAction->isChecked());
+                editHideOrShowDoneTasksAction->isChecked());
 }
 
 
@@ -629,7 +640,7 @@ void MainWindow::editPromote()
         stopTiming();
     setCurrentIndex(modelXML->promote(index));
     editHideOrShowDoneTasks(
-        editHideOrShowDoneTasksAction->isChecked());
+                editHideOrShowDoneTasksAction->isChecked());
 }
 
 
@@ -641,7 +652,7 @@ void MainWindow::editDemote()
         stopTiming();
     treeViewXML->setCurrentIndex(modelXML->demote(index));
     editHideOrShowDoneTasks(
-        editHideOrShowDoneTasksAction->isChecked());
+                editHideOrShowDoneTasksAction->isChecked());
 }
 #endif // CUSTOM_MODEL
 
@@ -668,7 +679,7 @@ void MainWindow::editStartOrStop(bool start)
             if (index.column() != 0) // timedItem is in column 0
                 index = modelXML->index(index.row(), 0, index.parent());
             timedItem = static_cast<StandardItem*>(
-                modelXML->itemFromIndex(index));
+                        modelXML->itemFromIndex(index));
             Q_ASSERT(timedItem);
             timedItem->addDateTime(now, now);
             timedItem->todayItem()->setIcon(icon);
@@ -709,8 +720,8 @@ void MainWindow::timeout()
 {
     qDebug() << "timeout";
 #ifdef CUSTOM_MODEL
-        // qt 6   modelXML->incrementEndTimeForTimedItem(timedTime.elapsed());
-        // qt 6  timedTime.restart();
+    // qt 6   modelXML->incrementEndTimeForTimedItem(timedTime.elapsed());
+    // qt 6  timedTime.restart();
 #else
     Q_ASSERT(timedItem);
     timedItem->incrementLastEndTime(timedTime.elapsed());
@@ -788,73 +799,3 @@ void MainWindow::hideOrShowDoneTask(bool hide,
 
 
 
-
-void MainWindow::login()
-{
-    /// in main() first mainwindow is showed
-    /// after login is executed
-
-    /// veritabanı kontrol
-
-    dbase = new DBase(this);
-    //  dbase->setGeometry (800,300,300,480);
-    //  dbase->setWindowTitle("Veri Tabanı Kontrol");
-    // dbase->show();
-
-
- //   this->setCentralWidget (dbase );
-
-
-qDebug() << "Logining...";
-
-    /// login için esc-enter kullanımı
-    /////////////////////////////////////
-
-logger= new Login(this);
-
-//WARNING  şifre için burayı kullan
-
-       connect(logger, &Login::logok, this, &MainWindow::yetkiler);
-    connect(this, &MainWindow::cikis, logger, &Login::logex );
-    //connect(this, &MainWindow::cikis, qApp , &QApplication::quit );
-
-    //qDebug() << "main keys set ESC";
-    QShortcut * sc_ESC = new QShortcut(
-                QKeySequence(Qt::Key_Escape),this,
-                SLOT(logouted() ));
-    sc_ESC->setAutoRepeat(false);
-
-
-
-    //    sbox = new SortingBox;
-    //dbox = new DragWidget;
-
-    /// all things okey
-    /// wait on main window for a key for connect
-
-
-
-}
-
-void MainWindow::yetkiler(const QString& yetki, const QString& user)
-{
-    //    this->setFocus ();
-    qDebug() << "yetkiler ="<<yetki;
-    QString x ="++++ Kullanıcı ( "+user +" ) - ( "+ yetki +
-                " ) yetkileri ile bağlandı";
-    dbase->yaz(QDateTime::currentDateTime ().toString() + x);
-
-}
-
-void MainWindow::logouted()
-{
-    GLB_yetki = "İlk";
-        QString x =" +++ ( "+logger->lE_user->text ()+
-          " ) kullanıcısı ile yapılan bağlantı sona erdi...";
-    dbase->yaz(QDateTime::currentDateTime ().toString() + x);
-    logger->lE_user->setFocus ();
-    logger->lE_user->setText ("");
-    logger->lE_pass->setText ("");
-    logger->show ();
-
-}

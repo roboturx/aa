@@ -2,14 +2,14 @@
 #define MAINWINDOW_HPP
 
 #include "globals.h"
-#include "dbase.h"
-#include "login.h"
+//#include "dbase.h"
+//#include "login.h"
 
-//class QAction;
-//class QStandardItem;
-//class StandardItem;
-//class QModelIndex;
-//class QTreeView;
+class QAction;
+class QStandardItem;
+class StandardItem;
+class QModelIndex;
+class QTreeView;
 
 #ifdef CUSTOM_MODEL
 class TreeModel;
@@ -26,20 +26,17 @@ public:
     explicit MainWindow(QWidget *parent=0);
 
     QLabel * sqlTableName;
-    void login();
-    DBase* dbase;
-    Login *logger{};
 
 
 
 
 signals:
-    void cikis(QString);
+  //  void cikis(QString);
 
 public slots:
     void stopTiming();
-    void logouted();
-    void yetkiler(const QString& yetki, const QString& user);
+//    void logouted();
+//    void yetkiler(const QString& yetki, const QString& user);
 
 protected:
     void closeEvent(QCloseEvent*);

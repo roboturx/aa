@@ -35,13 +35,14 @@ class GradStudent : public Student
 {
 public:
     enum Support {ta, ra, fellowship, other};
-    GradStudent (QString nm, long id, QString major, int yr, Support support);
+    GradStudent (QString nm, long id, QString major,
+                 int yr, Support m_Support);
     QString getClassName() const;
     QString toString() const;
 protected:
      QString supportStr(Support sup) const;
 private:
-
+    Support m_Support;
 };
 
 

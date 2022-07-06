@@ -1,10 +1,7 @@
 ﻿#ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include "VTKontTekkere.h"
-#include "VTKontrol.h"
-#include "VTTekton.h"
-#include "hc_.h"
+
 #include "defines.h"
 #include "aqp.hpp"
 
