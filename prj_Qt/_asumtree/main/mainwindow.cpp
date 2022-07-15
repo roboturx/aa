@@ -104,12 +104,15 @@ void MainWindow::createModelAndView()
 {
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
-      treeViewSQL = new QTreeView;
+      tableViewSQL = new QTableView;
 #ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
-      modelSQL = new TreeModel(this);
-      treeViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
+
+    modelSQL = new QSqlRelationalTableModel (this);
+    modelSQL->setTable("dbtb_hesap");
+    tableViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
+    tableViewSQL->setModel(modelSQL);
 #else
     modelXML = new StandardTreeModel(this);
 #endif
@@ -124,7 +127,7 @@ void MainWindow::createModelAndView()
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
     gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
-    gridd->addWidget(treeViewSQL , 0, 1, 1, 1);
+    gridd->addWidget(tableViewSQL , 0, 1, 1, 1);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }

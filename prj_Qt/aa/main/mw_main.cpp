@@ -16,7 +16,8 @@ MW_main::MW_main( )
 void MW_main::login()
 {
 
-    /// at the beginning first mainwindow is showed after login is executed
+    /// at the beginning first mainwindow is showed
+    /// after login is executed
 
     // fade(true);
 
@@ -139,34 +140,7 @@ void MW_main::cr_Actions()
 
 
 
-    /// hesap
-    auto *act_hsp = new QAction(QIcon(":/rsm/worker.jpeg"),
-                                tr("&Hesaplar ..."), this);
-    act_hsp->setShortcut(QKeySequence(tr("Ctrl+H")));
-    act_hsp->setStatusTip(tr("Hesap Tanımları"));
-    mn_tanim->addAction(act_hsp);
-    tb_main->addAction(act_hsp);
-
-    connect( act_hsp , &QAction::triggered,
-             [this  ]()
-    {
-       /* if (mw_hsp ) {
-            mw_hsp->activateWindow();
-        }
-        else*/
-        {
-            mw_hsp = new hC_HSP ;
-            mw_hsp->tbsetup ();
-            mw_hsp->show();
-            //this->setCentralWidget (mw_per );
-
-            statusBar()->showMessage(tr("Hesap Bilgileri"));
-            mw_hsp->setWindowTitle ("Hesaplar");
-            //mw_per->resize(qApp->screens()[0]->size()*.8);
-
-        }
-    });
-
+#ifdef ADRS
     /// adres
     auto *act_per = new QAction(QIcon(":/rsm/worker.jpeg"),
                                 tr("&Şahıs ..."), this);
@@ -191,8 +165,8 @@ void MW_main::cr_Actions()
             mw_per->show();
             //this->setCentralWidget (mw_per );
 
-            statusBar()->showMessage(tr("Şahıs Adres Bilgileri"));
-            mw_per->setWindowTitle ("Şahıs Adres Bilgileri");
+            statusBar()->showMessage(tr("Adres Bilgileri"));
+            mw_per->setWindowTitle ("Adres Bilgileri");
             //mw_per->resize(qApp->screens()[0]->size()*.8);
 
         }
@@ -222,7 +196,37 @@ void MW_main::cr_Actions()
         mw_fr->show ();
         }
     });
+#endif
 
+#ifdef HSAP
+
+    /// hesap
+    auto *act_hsp = new QAction(QIcon(":/rsm/worker.jpeg"),
+                                tr("&Hesaplar ..."), this);
+    act_hsp->setShortcut(QKeySequence(tr("Ctrl+H")));
+    act_hsp->setStatusTip(tr("Hesap Tanımları"));
+    mn_tanim->addAction(act_hsp);
+    tb_main->addAction(act_hsp);
+
+    connect( act_hsp , &QAction::triggered,
+             [this  ]()
+    {
+       /* if (mw_hsp ) {
+            mw_hsp->activateWindow();
+        }
+        else*/
+        {
+            mw_hsp = new hC_HSP ;
+            mw_hsp->tbsetup ();
+            mw_hsp->show();
+            //this->setCentralWidget (mw_per );
+
+            statusBar()->showMessage(tr("Hesap Bilgileri"));
+            mw_hsp->setWindowTitle ("Hesaplar");
+            //mw_per->resize(qApp->screens()[0]->size()*.8);
+
+        }
+    });
     /// gayrimenkul
     auto *act_gm = new QAction(QIcon(""),
                                tr("&Gayrimenkul..."), this);
@@ -240,6 +244,10 @@ void MW_main::cr_Actions()
         //mw_fr->show ();
     });
 
+
+#endif
+
+#ifdef OTHR
     /// araç
     auto *act_ar = new QAction(QIcon(":/rsm/ex.png"),
                                tr("&Araç..."), this);
@@ -420,6 +428,8 @@ void MW_main::cr_Actions()
     QMenu *mn_stnlm = mn_isle->addMenu(tr("&Satın Alma"));
 
 
+
+
     /// fatura
     auto *act_ftr = new QAction(QIcon(""),
                                 tr("&Fatura..."), this);
@@ -439,7 +449,7 @@ void MW_main::cr_Actions()
 
     tb_main->addSeparator ();
 
-
+#endif
     ////////////////////////////////////////////////////////////////
     /// menu
     //////// 300 Veri Raporla
@@ -589,7 +599,7 @@ void MW_main::fade(bool ne)
             Sleep(1);
 #endif
 #ifdef LINUX
-            usleep(sleepMs * 1000);   // usleep takes sleep time in us (1 millionth of a second)
+        //    usleep(sleepMs * 1000);   // usleep takes sleep time in us (1 millionth of a second)
 #endif
 
         }
@@ -604,7 +614,8 @@ void MW_main::fade(bool ne)
             Sleep(1);
 #endif
 #ifdef LINUX
-            usleep(sleepMs * 1000);   // usleep takes sleep time in us (1 millionth of a second)
+   // usleep takes sleep time in us (1 millionth of a second)
+   //usleep(sleepMs * 1000);
 #endif
 
 

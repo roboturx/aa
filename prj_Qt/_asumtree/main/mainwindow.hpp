@@ -99,11 +99,11 @@ private:
     QAction *editHideOrShowDoneTasksAction;
 
     QTreeView *treeViewXML;
-    QTreeView *treeViewSQL;
+    QTableView *tableViewSQL;
     QWidget *centralWdgt;
 #ifdef CUSTOM_MODEL
     TreeModel *modelXML;
-    TreeModel *modelSQL;
+    QSqlRelationalTableModel *modelSQL;
 #else
     StandardTreeModel *model;
     StandardItem *timedItem;

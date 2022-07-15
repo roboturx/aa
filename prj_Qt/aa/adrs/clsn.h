@@ -17,7 +17,7 @@ class hC_CLSN : public hC_tBcreator
     Q_OBJECT
 public:
 
-    explicit hC_CLSN();
+    explicit hC_CLSN(QWidget* parent=0);
     ~hC_CLSN();
 
     hC_ArrD                  * tb_flds   {} ;
@@ -46,6 +46,9 @@ private:
     void tbwdgt  () ;
     void tbui    () ;
     void tbkntrl () ;
+
+private slots:
+    void closee ();
 
 protected:
     void showEvent(QShowEvent *);

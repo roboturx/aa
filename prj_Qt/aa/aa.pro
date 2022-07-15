@@ -1,8 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-03-05T12:00:50
+# Project created by Murat BALCI 2018-03-05T12:00:50
 #
 #-------------------------------------------------
+# Modules controlled by DEFINES
+#DEFINES += LINUX
+DEFINES += MAIN
+DEFINES += ADRS
+#DEFINES += OTHR
+#DEFINES += HSAP
+
 
 QT       += core gui sql
 #QT       += multimedia

@@ -135,7 +135,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 
     table = new QTableView;
     tb_slctnModel = new QItemSelectionModel ;
-    table->setSelectionModel(tb_slctnModel);
+    //table->setSelectionModel(tb_slctnModel);
     table->setMinimumWidth (240);
     table->setMinimumHeight (150);
 
@@ -153,14 +153,14 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     table->resizeColumnsToContents();
 
 
-    //ayout_table->addWidget (table);
+    //layout_table->addWidget (table);
     // //////////////////////////////////////////////
     // //////////////////////////////////////////////
 
-  //  auto *th_all = new QHBoxLayout();
-   // th_all->addWidget (table     );
-  //  th_all->addWidget (win_Wdgt  );
-   // th_all->addStretch (2) ;
+//    auto *th_all = new QHBoxLayout();
+//    th_all->addWidget (table     );
+//    th_all->addWidget (win_Wdgt  );
+//    th_all->addStretch (2) ;
 
 
     auto *t_all = new QHBoxLayout(this);
@@ -458,8 +458,8 @@ hC_tBcreator::hC_tBcreator (QWidget *parent)
     tbx_slctnMdl = new QItemSelectionModel;
     tb_mapper = new QDataWidgetMapper;
     win_Wdgt  = new QWidget;
-
     tb_view   = new hC_Tv (tb_model, tb_mapper, win_Wdgt);
+
     //tb_view->table->setSelectionModel(tbx_slctnMdl );
     /*   qDebug () <<endl<<"Preparing at hC_ ..."
                  <<endl<<"   Dosya : "<< *tb_name << " - " << tb_name
@@ -548,27 +548,8 @@ QString hC_tBcreator::tbCreate (hC_ArrD * tb_flds)
         }
         else /// dosya oluşturuldu
         {
-
-            /*    qDebug ()<< "   -------------------------- " ;
-            qDebug ()<< "    ct = " << ct;
-            qDebug ()<< "   -------------------------- " ;*/
             this-> _mesaj = "\nOK   - YENİ Dosya Oluşturuldu : "+ *tb_name  ;
             qDebug ()<<"   OK   - YENİ Dosya Oluşturuldu : "+ *tb_name  ;
-            /*if (
-                    q.exec("INSERT INTO " + *tb_name +
-                           "( mlzm_barkod,mlzm_malzeme )"
-                           " values( '1111','KOD 1 ve 1111 barkodlu malzeme' )"  ))
-
-            {
-                _mesaj= _mesaj+"\n   İLK kayıt Eklendi";
-            }
-            else
-            {
-                _mesaj= _mesaj+"\n   İLK Malzeme kaydı eklenemedi "
-                               "\n   ------------------------------------ "+
-                        q.lastError().text()+
-                        "\n    ------------------------------------ ";
-            }*/
         }
     }
 
@@ -589,30 +570,16 @@ void hC_tBcreator::tbModel (hC_ArrD *tb_flds)
 {
     //   qDebug () <<"modelling "<< *tb_name <<" ..." ;
     tb_model->setTable( *tb_name );
-
-
     tb_model->setEditStrategy(QSqlRelationalTableModel::OnFieldChange);
     tb_model->setSort(tb_model->fieldIndex
                       ( *tb_ndex ),Qt::AscendingOrder );
 
     for(int i = 0; i < tb_flds->length (); i++)
     {
-
-        if ( tb_model->setHeaderData(i, Qt::Horizontal,
-                                     tb_flds->value (i,2)) )
-        {
-            // qDebug () <<"rm_List->value ("<<i<<",2)"
-            //      << tb_flds->value (i,2)<<"HEADED" ;
-        }
-        else
-        {
-            //   qDebug () <<"tb_flds->value ("<<i<<",2)"
-            //        << tb_flds->value (i,2)<<"not HEADED" ;
-
-        }
-
+        tb_model->setHeaderData(i, Qt::Horizontal,
+                             tb_flds->value (i,2)) ;
     }
-    QString mesaj;
+
     // Populate the model
     if (!tb_model->select())
     {
@@ -625,8 +592,6 @@ void hC_tBcreator::tbModel (hC_ArrD *tb_flds)
     {
         qDebug ()<< "  " << *tb_name << "modelled: " << tb_model  ;
     }
-    // qDebug () <<  mesaj << tb_model;
-
 }
 
 void hC_tBcreator::tbView(hC_ArrD *tb_flds )
@@ -641,6 +606,7 @@ void hC_tBcreator::tbView(hC_ArrD *tb_flds )
     for (int i = 0 ; i < tb_flds->length () ; i++ )
     {
 
+        /// tb_fields ın 3. elemanı kolonu gizler 0-1
         if (tb_flds->value (i,3) == "1")
         {
             tb_view->table->setColumnHidden( i , false);
@@ -653,14 +619,6 @@ void hC_tBcreator::tbView(hC_ArrD *tb_flds )
         {
             qDebug ()<<  "     xxx:xxx view colon hidden ERROR";
         }
-        /*   if (tb_view->table->isColumnHidden (i))
-        {
-            qDebug () <<"         Hidden :" << tb_flds->value (i,0) ;
-        }
-        else
-        {
-            qDebug () <<"     NOT Hidden :" << tb_flds->value (i,0) ;
-        }*/
     }
     tb_view->table->setCurrentIndex(tb_model->index(1, 1) );
     tb_view->table->setFocus();
@@ -671,7 +629,7 @@ void hC_tBcreator::tbView(hC_ArrD *tb_flds )
 void hC_tBcreator::tbMap(hC_ArrD *tb_flds,
                          QList <QWidget*> * tb_wdgts )
 {
-    //qDebug () <<"mapping "<< *tb_name <<" ..." ;
+    qDebug () <<"mapping "<< *tb_name <<" ..." ;
     tb_mapper->setModel(tb_model);
     for (int i=0 ;  i < tb_flds->length () ; i++ )
     {
@@ -679,14 +637,15 @@ void hC_tBcreator::tbMap(hC_ArrD *tb_flds,
         if ( tb_wdgts->at (i) != nullptr)
         {
             tb_mapper->addMapping ( tb_wdgts->at (i), i);
+        //    qDebug () <<" tbwidgets at i :" << i << " = "
+           //          <<tb_wdgts->at (i);//
         }
     }
     tb_mapper->toFirst()  ;
     connect(  tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
-              tb_mapper,       &QDataWidgetMapper::setCurrentModelIndex);
-
-
-    qDebug () <<"  "<< *tb_name << "mapped  : " <<  tb_mapper <<".";
+              tb_mapper,    &QDataWidgetMapper::setCurrentModelIndex);
+    qDebug () <<"  "<< *tb_name << "mapped  : "
+             <<  tb_mapper <<".";
 }
 
 

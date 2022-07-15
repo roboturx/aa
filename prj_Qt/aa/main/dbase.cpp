@@ -1,14 +1,22 @@
-﻿#include "adrs/clsn.h"
+﻿
+#ifdef MAIN
+#include "main/globals.h"
+#include "main/dbase.h"
+#endif
+
+#ifdef ADRS
+#include "adrs/clsn.h"
 #include "adrs/frm.h"
 #include "adrs/ftr.h"
+
+
+#endif
 
 #include "ie/ie.h"
 #include "ie/iedet.h"
 #include "ie/sclk.h"
 #include "ie/tsnr.h"
 
-#include "main/globals.h"
-#include "main/dbase.h"
 
 #include "hesap/hc_hsp.h"
 #include "hesap/hc_hspdty.h"
@@ -99,11 +107,12 @@ bool DBase::setupDBase()
 
 void DBase::VTDosyaKontrol()
 {
-
+#ifdef HSAP
     hC_HSPDTY* hsp = new hC_HSPDTY;
     yaz(hsp->tbCreate (hsp->tb_flds));
     delete hsp ;
-
+#endif
+#ifdef ADRS
     hC_CLSN* clsn = new hC_CLSN;
     yaz(clsn->tbCreate (clsn->tb_flds));
     delete clsn ;
@@ -111,7 +120,9 @@ void DBase::VTDosyaKontrol()
     hC_FRM* frm = new hC_FRM;
     yaz(frm->tbCreate (frm->tb_flds));
     delete frm ;
+#endif
 
+#ifdef OTHR
     hC_FTR* ftr = new hC_FTR;
     yaz(ftr->tbCreate (ftr->tb_flds));
     delete ftr ;
@@ -169,7 +180,7 @@ void DBase::VTDosyaKontrol()
     DBase::VTd_MKANTIFIRIZ();
     DBase::VTd_MKZINCIR ();
     DBase::VTd_MKHGS ();
-
+#endif
 
 }
 
