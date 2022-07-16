@@ -1,7 +1,7 @@
 ﻿#ifndef CW_FR_H
 #define CW_FR_H
 
-#include "main/globals.h"
+#include "globals.h"
 
 namespace nSFrm {
 class hC_FRM;
@@ -40,7 +40,6 @@ private:
     void tbwdgt  () ;
     void tbui    () ;
     void tbkntrl () ;
-    void closeEvent (QCloseEvent * );
 
 signals:
     void sgnfirma (const QString sgnfirma); //firma ismini

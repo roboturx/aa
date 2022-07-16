@@ -7,8 +7,9 @@
 #DEFINES += LINUX
 DEFINES += MAIN
 DEFINES += ADRS
+DEFINES += HSAP
 #DEFINES += OTHR
-#DEFINES += HSAP
+
 
 
 QT       += core gui sql
@@ -36,6 +37,15 @@ SOURCES +=\
     hesap/hc_hsp.cpp \
     hesap/hc_hspdty.cpp \
     hesap/hc_tree.cpp \
+    hesap/main/main.cpp \
+    hesap/main/mainwindow.cpp \
+    hesap/main/mw_main.cpp \
+    hesap/main/richtextdelegate.cpp \
+    hesap/main/richtextlineedit.cpp \
+    hesap/main/standarditem.cpp \
+    hesap/main/standardtreemodel.cpp \
+    hesap/main/taskitem.cpp \
+    hesap/main/treemodel.cpp \
     hesap/treeitem.cpp \
     hesap/treemodel.cpp \
     main/main.cpp \
@@ -74,6 +84,15 @@ HEADERS  += \
     hesap/hc_hsp.h \
     hesap/hc_hspdty.h \
     hesap/hc_tree.h \
+    hesap/main/defines.h \
+    hesap/main/mainwindow.hpp \
+    hesap/main/mw_main.h \
+    hesap/main/richtextdelegate.hpp \
+    hesap/main/richtextlineedit.hpp \
+    hesap/main/standarditem.hpp \
+    hesap/main/standardtreemodel.hpp \
+    hesap/main/taskitem.hpp \
+    hesap/main/treemodel.hpp \
     hesap/treeitem.h \
     hesap/treemodel.h \
     main/VTKontrol.h \
@@ -128,6 +147,7 @@ FORMS    += \
 
 
 RESOURCES += \
+    hesap/main/timelog.qrc \
     src.qrc
 
 # Default rules for deployment.
@@ -136,4 +156,25 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 SUBDIRS += \
-    ../fridgemagnets/fridgemagnets.pro
+    ../fridgemagnets/fridgemagnets.pro \
+    hesap/_asumtree.pro
+
+DISTFILES += \
+    hesap/main/images/0.png \
+    hesap/main/images/1.png \
+    hesap/main/images/2.png \
+    hesap/main/images/3.png \
+    hesap/main/images/4.png \
+    hesap/main/images/editadd.png \
+    hesap/main/images/editcut.png \
+    hesap/main/images/editdelete.png \
+    hesap/main/images/editdemote.png \
+    hesap/main/images/editdown.png \
+    hesap/main/images/editpaste.png \
+    hesap/main/images/editpromote.png \
+    hesap/main/images/editup.png \
+    hesap/main/images/filenew.png \
+    hesap/main/images/fileopen.png \
+    hesap/main/images/filequit.png \
+    hesap/main/images/filesave.png \
+    hesap/main/images/icon.png

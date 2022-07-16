@@ -1,15 +1,9 @@
 ﻿#ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define DATABASE_NAME	"adb.file"
-#define valiDDate 01,01,2023
 
-
-
-//#include "connection.h"
-#include "VTKontTekkere.h"
-#include "VTKontrol.h"
-#include "VTTekton.h"
+#include "defines.h"
+#include "aqp.hpp"
 
 #include <QtGlobal>
 #include <qapplication.h>
@@ -23,6 +17,8 @@
 #include <QtPrintSupport/QPrintDialog>
 #include <QtWidgets>
 
+#include <QAbstractButton>
+
 #include <QAbstractItemModel>
 #include <QAction>
 #include <QApplication>
@@ -33,6 +29,7 @@
 #include <QCloseEvent>
 #include <QColor>
 #include <QComboBox>
+#include <QCompleter>
 #include <QDataWidgetMapper>
 #include <QDate>
 #include <QDateEdit>
@@ -41,10 +38,13 @@
 #include <QDir>
 #include <QDockWidget>
 #include <QFile>
+#include <QFileDialog>
+#include <QFileInfo>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QIcon>
 #include <QItemSelectionModel>
+#include <QHash>
 #include <QKeySequence>
 #include <QLabel>
 #include <QLinearGradient>
@@ -53,6 +53,7 @@
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QMenu>
+#include <QMenuBar>
 #include <QMessageBox>
 #include <QPainter>
 #include <QPixmap>
@@ -61,8 +62,12 @@
 #include <QRect>
 #include <QRgb>
 //#include <QTextCodec>
+#include <QScopedPointer>
+#include <QSettings>
 #include <QSize>
 #include <QStackedWidget>
+#include <QStandardItem>
+#include <QStatusBar>
 #include <QSplitter>
 
 #include <QSqlField>
@@ -85,54 +90,20 @@
 #include <QTableView>
 #include <QTabBar>
 #include <QTabWidget>
+#include <QTime>
+#include <QTimeLine>
+#include <QTimer>
 #include <QToolBar>
 #include <QToolBox>
 #include <QToolButton>
+#include <QTreeView>
 #include <QVariant>
 #include <QVBoxLayout>
+
 #include <QWidget>
 
-#include <QAbstractItemModel>
-#include <QCompleter>
-
-
-
-extern QString GLB_yetki;
-//////////////////////
-#include "libs/hc_.h"
-/*
-
-#include "dbase.h"
-//#include "ftr_frmekle.h"
-
-#include "clsn.h"
-#include "cw_grs.h"
-#include "cw_hkk.h"
-#include "dlgt_mkstok.h"
-#include "form.h"
-#include "frm.h"
-#include "ftr.h"
-#include "ie.h"
-#include "iedet.h"
-#include "login.h"
-#include "mkn.h"
-//#include "mkevrk.h"
-#include "mkn_cinsi.h"
-#include "mkn_marka.h"
-#include "mkn_modeli.h"
-#include "mlzm.h"
-//#include "mw_main.h"
-#include "sclk.h"
-#include "shapeitem.h"
-#include "tamamla.h"
-#include "tsnr.h"
-//#include "wd_login.h"
-
-#include <sortingbox.h>
-
-
-*/
-
-//////////////////////////
+#ifdef MODEL_TEST
+#include <modeltest.h>
+#endif
 
 #endif // GLOBALS_H

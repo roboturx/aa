@@ -1,7 +1,7 @@
 ﻿#ifndef CW_CLSN_H
 #define CW_CLSN_H
 
-#include "main/globals.h"
+#include "globals.h"
 
 //#include "hc_.h"
 //#include "dbase.h"
@@ -17,7 +17,7 @@ class hC_CLSN : public hC_tBcreator
     Q_OBJECT
 public:
 
-    explicit hC_CLSN(QWidget* = 0);
+    explicit hC_CLSN();
     ~hC_CLSN();
 
     hC_ArrD                  * tb_flds   {} ;
@@ -46,11 +46,6 @@ private:
     void tbwdgt  () ;
     void tbui    () ;
     void tbkntrl () ;
-
-    void closeEvent (QCloseEvent *);
-
-private slots:
-    void closee ();
 
 protected:
     void showEvent(QShowEvent *);

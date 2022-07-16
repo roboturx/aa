@@ -1,12 +1,12 @@
 ﻿#include "clsn.h"
 
-hC_CLSN::hC_CLSN (QWidget *) : hC_tBcreator ()
+hC_CLSN::hC_CLSN () : hC_tBcreator ()
 {
-    qDebug ()<<"Constructor ADRES *******************************";
+    qDebug ()<<"Constructor ÇALIŞAN *******************************";
     //************************************************************
-    //*********************  A D R E S  **************************
+    //*****************  Ç A L I Ş A N  **************************
 
-    win_Label->setText ( "ADRES KAYITLARI");
+    win_Label->setText ( "ÇALIŞAN KAYITLARI");
     *tb_name   = "clsn_dbtb" ;
     *tb_ndex  = "clsn_soyad";
 
@@ -16,7 +16,7 @@ hC_CLSN::hC_CLSN (QWidget *) : hC_tBcreator ()
     tb_flds->setValue ( 2, "clsn_soyad"   , "TEXT"   , "Soyad" );
     tb_flds->setValue ( 3, "clsn_tc"      , "TEXT"   , "TC No");
     tb_flds->setValue ( 4, "clsn_dyeri"   , "TEXT"   , "Doğum Yeri");
-    tb_flds->setValue ( 15, "clsn_dtarihi" , "TEXT"   , "Doğum Tarihi");
+    tb_flds->setValue ( 5, "clsn_dtarihi" , "TEXT"   , "Doğum Tarihi");
     tb_flds->setValue ( 6, "clsn_baba"    , "TEXT"   , "Baba Adı");
     tb_flds->setValue ( 7, "clsn_bolum"   , "TEXT"   , "Çalıştığı Birim");
     tb_flds->setValue ( 8, "clsn_meslek"  , "TEXT"   , "Meslek");
@@ -26,7 +26,7 @@ hC_CLSN::hC_CLSN (QWidget *) : hC_tBcreator ()
     tb_flds->setValue (12, "clsn_tel_cep" , "TEXT"   , "Cep Tel");
     tb_flds->setValue (13, "clsn_tel_ev"  , "TEXT"   , "Ev Tel");
     tb_flds->setValue (14, "clsn_eposta"  , "TEXT"   , "E-posta");
-    tb_flds->setValue (5, "clsn_username", "TEXT"   , "Kullanıcı Adı");
+    tb_flds->setValue (15, "clsn_username", "TEXT"   , "Kullanıcı Adı");
     tb_flds->setValue (16, "clsn_password", "TEXT"   , "Kullanıcı Şifre");
     tb_flds->setValue (17, "clsn_yetki"   , "TEXT"   , "Kullanıcı Yetki");
     tb_flds->setValue (18, "clsn_resim"   , "BLOB"   , "Resim");
@@ -77,7 +77,7 @@ void hC_CLSN::tbui()
     hC_CLSN::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,600,400);
     auto *win_grid = new QGridLayout(this);
-    win_grid->addWidget (tb_view  , 0, 0, 1, 1);
+   // win_grid->addWidget (tb_view  , 0, 0, 1, 1);
     win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 
 }
@@ -99,8 +99,6 @@ void hC_CLSN::tbwdgt()
     lB_doyer->setBuddy(lE_doyer);
 
     auto *lB_dotar = new QLabel("Doğum Tarihi ");
-    lB_dotar->setBuddy(dT_dotar);
-
     //QDate::currentDate ());
     dT_dotar->setSpecialValueText ("  ");
     dT_dotar->setLocale (QLocale::Turkish);
@@ -108,47 +106,41 @@ void hC_CLSN::tbwdgt()
     dT_dotar->setMaximumDate(QDate::currentDate().addDays(365));
     dT_dotar->setDisplayFormat ("dd-MM-yyyy");
     dT_dotar->setCalendarPopup (true);
+    lB_dotar->setBuddy(dT_dotar);
 
     auto *lB_baba  = new QLabel("Baba Adı "  );
-  //  lE_baba = new QLineEdit();
+    lE_baba = new QLineEdit();
     lB_baba->setBuddy(lE_baba);
 
     auto *lB_bolum = new QLabel("Bölü&m"       );
-  //  lE_bolum = new QLineEdit();
+    lE_bolum = new QLineEdit();
     lB_bolum->setBuddy(lE_bolum);
 
     auto *lB_meslek   = new QLabel("M&eslek" );
- //   lE_meslek = new QLineEdit;
+    lE_meslek = new QLineEdit;
     lB_meslek->setBuddy(lE_meslek);
 
     auto *lB_gorev    = new QLabel("Gö&rev"  );
-  //  lE_gorev = new QLineEdit();
+    lE_gorev = new QLineEdit();
     lB_gorev->setBuddy(lE_gorev);
 
     auto *lB_adres    = new QLabel("Adre&s"  );
- //   lE_adres = new QLineEdit();
+    lE_adres = new QLineEdit();
     lB_adres->setBuddy(lE_adres);
 
     auto *lB_sehir    = new QLabel("Şe&hir"  );
-  //  lE_sehir = new QLineEdit();
+    lE_sehir = new QLineEdit();
     lB_sehir->setBuddy(lE_sehir);
 
 
     auto *lB_tel_cep  = new QLabel("Tel &1"  );
-   // lE_tel_cep = new QLineEdit();
+    lE_tel_cep = new QLineEdit();
     lB_tel_cep->setBuddy(lE_tel_cep);
-    auto *lB_tel_ev   = new QLabel("Tel &2"  );
-  //  lE_tel_ev = new QLineEdit();
-    lB_tel_ev->setBuddy(lE_tel_ev);
-    auto *lB_eposta   = new QLabel("E-&posta");
-  //  lE_eposta = new QLineEdit();
-    lB_eposta->setBuddy(lE_eposta);
-    auto *lB_username = new QLabel("Kullanıcı A&dı");
-  //  lE_username = new QLineEdit(); lB_username->setBuddy(lE_username);
-    auto *lB_password = new QLabel("Şi&fre"  );
-  //  lE_password = new QLineEdit(); lB_password->setBuddy(lE_password);
-    auto *lB_yetki    = new QLabel("&Yetki"  );
-    //lE_yetki = new QLineEdit(); lB_yetki->setBuddy(lE_yetki);
+    auto *lB_tel_ev   = new QLabel("Tel &2"  ); lE_tel_ev = new QLineEdit(); lB_tel_ev->setBuddy(lE_tel_ev);
+    auto *lB_eposta   = new QLabel("E-&posta"); lE_eposta = new QLineEdit(); lB_eposta->setBuddy(lE_eposta);
+    auto *lB_username = new QLabel("Kullanıcı A&dı"); lE_username = new QLineEdit(); lB_username->setBuddy(lE_username);
+    auto *lB_password = new QLabel("Şi&fre"  ); lE_password = new QLineEdit(); lB_password->setBuddy(lE_password);
+    auto *lB_yetki    = new QLabel("&Yetki"  ); lE_yetki = new QLineEdit(); lB_yetki->setBuddy(lE_yetki);
 
     hC_Rs resim(win_Rsm);
 
@@ -304,12 +296,11 @@ void hC_CLSN::tbkntrl()
     connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
               [this]( QModelIndex Index )
     {
-    //    qDebug() << "Geçerli index " << tb_mapper->currentIndex();
         // 011-01 mapper indexi ayarla
         tb_mapper->setCurrentModelIndex(Index);
         if (Index.isValid())
         {
-            //qDebug() << "index değişti" << Index.row() <<"-"<< Index.column();
+
         }
         // 011-02 firmada row değiştiğinde firma ismini etrafa yayınlayalım
         //     emit hC_CLSN::sgn(tb_view->table->model()->index( Index.row() ,
@@ -325,12 +316,7 @@ void hC_CLSN::tbkntrl()
     });
 
 
-   // connect( , &QWidget::close, this, closee()  );
-}
 
-void hC_CLSN::closee()
-{
-    qDebug() <<"closeeeeeeeeeee";
 }
 
 
@@ -345,17 +331,3 @@ hC_CLSN::~hC_CLSN()
     qDebug() << "*********** destructor ÇALIŞAN";
 }
 
-void hC_CLSN::closeEvent (QCloseEvent *)
-{
-   // qDebug () << event;
-    this->hide();
-//    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "APP_NAME",
-//                                                                tr("Are you sure?\n"),
-//                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-//                                                                QMessageBox::Yes);
-//    if (resBtn != QMessageBox::Yes) {
-//        event->ignore();
-//    } else {
-//        event->accept();
-//    }
-}

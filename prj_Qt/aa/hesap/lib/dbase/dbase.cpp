@@ -1,39 +1,39 @@
 ﻿
-#ifdef MAIN
-#include "main/globals.h"
-#include "main/dbase.h"
-#endif
-
 #ifdef ADRS
 #include "adrs/clsn.h"
 #include "adrs/frm.h"
 #include "adrs/ftr.h"
-
-
 #endif
 
+#ifdef MLZM
+#include "mlzm/mlzm.h"
+#include "mlzm/mlzm_gc.h"
+#endif
+
+#ifdef HSAP
+#include "hc_hsp.h"
+#include "hc_hspdty.h"
+#endif
+
+#ifdef OTHER
 #include "ie/ie.h"
 #include "ie/iedet.h"
 #include "ie/sclk.h"
 #include "ie/tsnr.h"
 
-
-#include "hesap/hc_hsp.h"
-#include "hesap/hc_hspdty.h"
-
 #include "mchn/mkn.h"
 #include "mchn/mkn_cinsi.h"
 #include "mchn/mkn_marka.h"
 #include "mchn/mkn_modeli.h"
+#endif
 
-#include "mlzm/mlzm.h"
-#include "mlzm/mlzm_gc.h"
+#include "globals.h"
+#include "dbase.h"
+//#include "ui_dbase.h"
 
-#include "ui_dbase.h"
-
-DBase::DBase() : QWidget ()
+DBase::DBase(QWidget */* parent*/ )
 {
-    qDebug ()<<"Constructor DBase *******************************";
+    qDebug ()<<"Constructor - DBase *******************************";
     //************************************************************
     //*******************  VERİ TABANI ***************************
     dbui();
@@ -43,13 +43,25 @@ DBase::DBase() : QWidget ()
 
     //   ui->setupUi(this);
     durum->append("Veri tabanı dosyaları kontrol ediliyor...");
+    if (! setupDBase ())
+    {
+        /// hata ne /// baglanti yok
+        yaz("----------------------------------------");
+        yaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
+    }
 
+
+    /// baglanti var /// uygulama yoluna devam etsin
+
+    yaz("----------------------------------------");
+    yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
+    qDebug() << "Tamam - Veri Tabanı Bağlantısı Yapıldı";
 
 }
 
 void DBase::dbui()
 {
-    qDebug() << "   dbase ";
+    qDebug() << "   database activating... ";
 
     DBase::setWindowTitle ("Veri Tabanı Kontrol");
     //this->setGeometry (20,20,600,400);
@@ -107,7 +119,6 @@ bool DBase::setupDBase()
 
 void DBase::VTDosyaKontrol()
 {
-
 #ifdef ADRS
     hC_CLSN* clsn = new hC_CLSN;
     yaz(clsn->tbCreate (clsn->tb_flds));
@@ -116,6 +127,20 @@ void DBase::VTDosyaKontrol()
     hC_FRM* frm = new hC_FRM;
     yaz(frm->tbCreate (frm->tb_flds));
     delete frm ;
+
+    hC_FTR* ftr = new hC_FTR;
+    yaz(ftr->tbCreate (ftr->tb_flds));
+    delete ftr ;
+#endif
+
+#ifdef MLZM
+    hC_MLZM* mlzm = new hC_MLZM;
+    yaz(mlzm->tbCreate (mlzm->tb_flds)) ;
+    delete mlzm ;
+
+    hC_MLZMGC* mlzmgc = new hC_MLZMGC;
+    yaz(mlzmgc->tbCreate (mlzmgc->tb_flds)) ;
+    delete mlzmgc ;
 #endif
 
 #ifdef HSAP
@@ -124,11 +149,7 @@ void DBase::VTDosyaKontrol()
     delete hsp ;
 #endif
 
-#ifdef OTHR
-    hC_FTR* ftr = new hC_FTR;
-    yaz(ftr->tbCreate (ftr->tb_flds));
-    delete ftr ;
-
+#ifdef OTHER
     hC_IE* ie = new hC_IE;
     yaz(ie->tbCreate (ie->tb_flds));
     delete ie ;
@@ -152,14 +173,6 @@ void DBase::VTDosyaKontrol()
     hC_MKMODL* mkmodl = new hC_MKMODL;
     yaz(mkmodl->tbCreate (mkmodl->tb_flds));
     delete mkmodl ;
-
-    hC_MLZM* mlzm = new hC_MLZM;
-    yaz(mlzm->tbCreate (mlzm->tb_flds)) ;
-    delete mlzm ;
-
-    hC_MLZMGC* mlzmgc = new hC_MLZMGC;
-    yaz(mlzmgc->tbCreate (mlzmgc->tb_flds)) ;
-    delete mlzmgc ;
 
     hC_SCLK* sclk = new hC_SCLK;
     yaz(sclk->tbCreate (sclk->tb_flds)) ;

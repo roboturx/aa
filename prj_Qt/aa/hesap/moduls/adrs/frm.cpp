@@ -251,11 +251,6 @@ void hC_FRM::tbkntrl()
 
 }
 
-void hC_FRM::closeEvent(QCloseEvent *)
-{
-    hide();
-}
-
 
 void hC_FRM::showEvent(QShowEvent *)
 {
