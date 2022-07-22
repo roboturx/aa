@@ -18,7 +18,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = aa
 TEMPLATE = app
-CONFIG  += C++11
+CONFIG  += C++20
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -34,98 +34,78 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
 
 SOURCES +=\
-    hesap/hc_hsp.cpp \
-    hesap/hc_hspdty.cpp \
-    hesap/hc_tree.cpp \
-    hesap/main/main.cpp \
-    hesap/main/mainwindow.cpp \
-    hesap/main/mw_main.cpp \
-    hesap/main/richtextdelegate.cpp \
-    hesap/main/richtextlineedit.cpp \
-    hesap/main/standarditem.cpp \
-    hesap/main/standardtreemodel.cpp \
-    hesap/main/taskitem.cpp \
-    hesap/main/treemodel.cpp \
-    hesap/treeitem.cpp \
-    hesap/treemodel.cpp \
+    hsap/hc_hsp.cpp \
+    hsap/standarditem.cpp \
+    hsap/standardtreemodel.cpp \
+    hsap/taskitem.cpp \
+    hsap/treemodel.cpp \
+    libs/VTKontrol.cpp \
+    libs/alt_key.cpp \
+    libs/aqp.cpp \
+  #  libs/dbase.cpp \
+    libs/hc_.cpp \
+    libs/kuhn_munkres.cpp \
+    libs/tamamla.cpp \
     main/main.cpp \
-    main/VTKontrol.cpp \
     main/cw_hkk.cpp \
     main/mw_main.cpp \
     main/login.cpp \
     main/dbase.cpp \
-#    mchn/cw_cns.cpp \
- #   mchn/dlgt_mkstok.cpp \
-  #  mchn/mkevrk.cpp \
     mchn/mkn.cpp \
     mchn/mkn_cinsi.cpp \
     mchn/mkn_marka.cpp \
     mchn/mkn_modeli.cpp \
-   # mchn/mknnn.cpp \
     adrs/clsn.cpp \
     adrs/frm.cpp \
     adrs/ftr.cpp \
     mlzm/mlzm.cpp \
     mlzm/mlzm_gc.cpp \
- #   mlzm/wd_dptlp.cpp \
-   # adrs/ftr.cpp \
     ie/ie.cpp \
     ie/iedet.cpp \
     ie/tsnr.cpp \
     ie/sclk.cpp \
     grph/sortingbox.cpp \
-    grph/shapeitem.cpp \
-    libs/hc_.cpp \
-    libs/tamamla.cpp
+    grph/shapeitem.cpp
 
 
-HEADERS  += \
- #   main/main.h \
-    hesap/hc_hsp.h \
-    hesap/hc_hspdty.h \
-    hesap/hc_tree.h \
-    hesap/main/defines.h \
-    hesap/main/mainwindow.hpp \
-    hesap/main/mw_main.h \
-    hesap/main/richtextdelegate.hpp \
-    hesap/main/richtextlineedit.hpp \
-    hesap/main/standarditem.hpp \
-    hesap/main/standardtreemodel.hpp \
-    hesap/main/taskitem.hpp \
-    hesap/main/treemodel.hpp \
-    hesap/treeitem.h \
-    hesap/treemodel.h \
-    main/VTKontrol.h \
+HEADERS  +=  \
+    hsap/hc_hsp.h \
+    hsap/richtextdelegate.h \
+    hsap/richtextlineedit.h \
+    hsap/standarditem.h \
+    hsap/standardtreemodel.h \
+    hsap/taskitem.h \
+    hsap/treemodel.h \
+    libs/VTKontTekkere.h \
+    libs/VTKontrol.h \
+    libs/VTTekton.h \
+    libs/alt_key.h \
+    libs/aqp.h \
+   # libs/dbase.h \
+    libs/defines.h \
+    libs/globals.h \
+    libs/hc_.h \
+    libs/kuhn_munkres.h \
+    libs/tamamla.h \
     main/cw_hkk.h \
     main/mw_main.h \
     main/login.h \
     main/dbase.h \
-    main/VTKontTekkere.h \
-    main/VTTekton.h \
-    main/globals.h \
-  #  mchn/cw_cns.h \
-#    mchn/dlgt_mkstok.h \
-#    mchn/mkevrk.h \
     mchn/mkn.h \
     mchn/mkn_cinsi.h \
     mchn/mkn_marka.h \
     mchn/mkn_modeli.h \
-#    mchn/mknnn.h \
-#    mchn/ww_makina.h \
     adrs/clsn.h \
     adrs/frm.h \
     adrs/ftr.h \
     mlzm/mlzm.h \
     mlzm/mlzm_gc.h \
-#    mlzm/wd_dptlp.h \
     ie/ie.h \
     ie/iedet.h \
     ie/tsnr.h \
     ie/sclk.h \
     grph/sortingbox.h \
-    grph/shapeitem.h \
-    libs/hc_.h \
-    libs/tamamla.h
+    grph/shapeitem.h
 
 
 FORMS    += \
@@ -147,7 +127,10 @@ FORMS    += \
 
 
 RESOURCES += \
-    hesap/main/timelog.qrc \
+   # hesap/main/timelog.qrc \
+#    hesap/timelog.qrc \
+    hsap/timelog.qrc \
+    libs/aqp.qrc \
     src.qrc
 
 # Default rules for deployment.
@@ -155,26 +138,25 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-SUBDIRS += \
-    ../fridgemagnets/fridgemagnets.pro \
-    hesap/_asumtree.pro
+SUBDIRS += \libs
 
-DISTFILES += \
-    hesap/main/images/0.png \
-    hesap/main/images/1.png \
-    hesap/main/images/2.png \
-    hesap/main/images/3.png \
-    hesap/main/images/4.png \
-    hesap/main/images/editadd.png \
-    hesap/main/images/editcut.png \
-    hesap/main/images/editdelete.png \
-    hesap/main/images/editdemote.png \
-    hesap/main/images/editdown.png \
-    hesap/main/images/editpaste.png \
-    hesap/main/images/editpromote.png \
-    hesap/main/images/editup.png \
-    hesap/main/images/filenew.png \
-    hesap/main/images/fileopen.png \
-    hesap/main/images/filequit.png \
-    hesap/main/images/filesave.png \
-    hesap/main/images/icon.png
+DISTFILES += \ libs/mime.types
+   # hesap/main/images/0.png \
+   # hesap/main/images/1.png \
+   # hesap/main/images/2.png \
+   # hesap/main/images/3.png \
+   # hesap/main/images/4.png \
+   # hesap/main/images/editadd.png \
+   # hesap/main/images/editcut.png \
+   # hesap/main/images/editdelete.png \
+   # hesap/main/images/editdemote.png \
+   # hesap/main/images/editdown.png \
+   # hesap/main/images/editpaste.png \
+   # hesap/main/images/editpromote.png \
+   # hesap/main/images/editup.png \
+   # hesap/main/images/filenew.png \
+   # hesap/main/images/fileopen.png \
+   # hesap/main/images/filequit.png \
+   # hesap/main/images/filesave.png \
+    # hesap/main/images/icon.png
+

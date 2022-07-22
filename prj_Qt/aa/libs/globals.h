@@ -10,6 +10,10 @@
 #include "VTKontTekkere.h"
 #include "VTKontrol.h"
 #include "VTTekton.h"
+#include "alt_key.h"
+#include "aqp.h"
+#include "defines.h"
+#include "aqp.h"
 
 #include <QtGlobal>
 #include <qapplication.h>
@@ -51,6 +55,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMainWindow>
+#include <QMimeData>
 #include <QModelIndex>
 #include <QMenu>
 #include <QMessageBox>
@@ -62,6 +67,7 @@
 #include <QRgb>
 //#include <QTextCodec>
 #include <QSize>
+#include <QStack>
 #include <QStackedWidget>
 #include <QSplitter>
 

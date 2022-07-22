@@ -6,8 +6,9 @@ CONFIG	    += console debug
 
 DEFINES	    += CUSTOM_MODEL
 
-HEADERS	    += main/mainwindow.hpp \
+HEADERS	    += \
     main/defines.h \
+    main/hc_hsp.h \
     main/richtextlineedit.hpp \
     main/richtextdelegate.hpp \
     main/taskitem.hpp \
@@ -19,7 +20,7 @@ HEADERS	    += main/mainwindow.hpp \
 
 SOURCES	    += main/main.cpp \
     lib/aqp/mainx.cpp \
-    main/mainwindow.cpp \
+    main/hc_hsp.cpp \
     main/taskitem.cpp \
     main/treemodel.cpp \
     main/richtextlineedit.cpp \

@@ -63,5 +63,23 @@
         <file>rsm/logo/hm/caterpillar.jpg</file>
         <file>rsm/rsm_yok.png</file>
         <file>rsm/rsm_yok.svg</file>
+        <file>rsm/images/0.png</file>
+        <file>rsm/images/1.png</file>
+        <file>rsm/images/2.png</file>
+        <file>rsm/images/3.png</file>
+        <file>rsm/images/4.png</file>
+        <file>rsm/images/editadd.png</file>
+        <file>rsm/images/editcut.png</file>
+        <file>rsm/images/editdelete.png</file>
+        <file>rsm/images/editdemote.png</file>
+        <file>rsm/images/editdown.png</file>
+        <file>rsm/images/editpaste.png</file>
+        <file>rsm/images/editpromote.png</file>
+        <file>rsm/images/editup.png</file>
+        <file>rsm/images/filenew.png</file>
+        <file>rsm/images/fileopen.png</file>
+        <file>rsm/images/filequit.png</file>
+        <file>rsm/images/filesave.png</file>
+        <file>rsm/images/icon.png</file>
     </qresource>
 </RCC>

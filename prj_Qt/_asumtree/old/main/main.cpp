@@ -1,5 +1,5 @@
 #include "globals.h"
-#include "hc_hsp.h"
+#include "mainwindow.hpp"
 
 
 int main(int argc, char *argv[])
@@ -15,10 +15,10 @@ int main(int argc, char *argv[])
        out << "Application's executable directory is "
            << AQP::applicationPathOf() << "\n";
 
-    hC_hsp window;
+    MainWindow window;
     window.show();
 
-    qDebug() << "hC_hsp Activated";
+    qDebug() << "MainWindow Activated";
 
     return app.exec();
 }
