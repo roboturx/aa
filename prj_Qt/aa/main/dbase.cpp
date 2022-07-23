@@ -1,7 +1,7 @@
 ﻿
 #ifdef MAIN
-#include "main/globals.h"
-#include "main/dbase.h"
+#include "libs/globals.h"
+#include "libs/dbase.h"
 #endif
 
 #ifdef ADRS
@@ -18,8 +18,8 @@
 #include "ie/tsnr.h"
 
 
-#include "hesap/hc_hsp.h"
-#include "hesap/hc_hspdty.h"
+//#include "hsap/hc_hsp.h"
+#include "hsap/hc_hspdetay.h"
 
 #include "mchn/mkn.h"
 #include "mchn/mkn_cinsi.h"
@@ -31,7 +31,7 @@
 
 #include "ui_dbase.h"
 
-DBase::DBase() : QWidget ()
+DBase::DBase(QWidget* parent)
 {
     qDebug ()<<"Constructor DBase *******************************";
     //************************************************************
@@ -119,9 +119,9 @@ void DBase::VTDosyaKontrol()
 #endif
 
 #ifdef HSAP
-    hC_HSPDTY* hsp = new hC_HSPDTY;
-    yaz(hsp->tbCreate (hsp->tb_flds));
-    delete hsp ;
+    hC_HSPDTY* hspdty = new hC_HSPDTY;
+    yaz(hspdty->tbCreate (hspdty->tb_flds));
+    delete hspdty ;
 #endif
 
 #ifdef OTHR

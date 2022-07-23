@@ -1,5 +1,5 @@
 ﻿//#include "hc_.h"
-#include "main/globals.h"
+#include "libs/globals.h"
 
 
 using namespace std;

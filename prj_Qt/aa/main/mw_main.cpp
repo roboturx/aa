@@ -216,8 +216,8 @@ void MW_main::cr_Actions()
         }
         else
         {
-            mw_hsp = new hC_HSP ;
-            mw_hsp->tbsetup ();
+            mw_hsp = new hC_hsp ;
+           // mw_hsp->tbsetup ();
             mw_hsp->show();
             //this->setCentralWidget (mw_per );
 

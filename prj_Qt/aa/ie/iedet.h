@@ -1,7 +1,7 @@
 ﻿#ifndef HC_IEDET_H
 #define HC_IEDET_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 #include "ie/ie.h"
 //#include "dragwidget.h"
 

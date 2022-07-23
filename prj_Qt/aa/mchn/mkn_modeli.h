@@ -1,7 +1,7 @@
 ﻿#ifndef MKN_MODELI_H
 #define MKN_MODELI_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 
 namespace nSMkn {
     class hC_MKMODL;

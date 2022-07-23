@@ -1,7 +1,7 @@
 ﻿#ifndef DBASE_H
 #define DBASE_H
 
-#include "globals.h"
+#include "libs/globals.h"
 //#include "hc_.h"
 
 //#include <QWidget>
@@ -16,7 +16,7 @@ class DBase : public QWidget
     Q_OBJECT
 
 public:
-    explicit DBase();
+    explicit DBase(QWidget* parent = 0);
     ~DBase();
     bool setupDBase();
     void yaz(const QString& z);

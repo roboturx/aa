@@ -1,5 +1,5 @@
 #include "VTKontrol.h"
-#include "globals.h"
+#include "libs/globals.h"
 #include "VTTekton.h"
 
 

@@ -11,7 +11,7 @@
     the GNU General Public License for more details.
 */
 
-#include "aqp.hpp"
+#include "aqp.h"
 #include <QApplication>
 #include <QDir>
 #include <QFile>

@@ -2,7 +2,7 @@
 #define MLZM_GC_H
 
 
-#include "main/globals.h"
+#include "libs/globals.h"
 #include "adrs/ftr.h"
 #include "mlzm/mlzm.h"
 namespace nSMlzmGC {

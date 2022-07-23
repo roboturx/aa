@@ -2,7 +2,7 @@
 #ifndef SORTINGBOX_H
 #define SORTINGBOX_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 #include "ie/ie.h"
 
 #include "grph/shapeitem.h"

@@ -1,7 +1,7 @@
 ﻿#ifndef TSNR_H
 #define TSNR_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 //#include "hc_.h"
 
 

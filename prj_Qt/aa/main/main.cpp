@@ -1,6 +1,6 @@
 ﻿
 #include "mw_main.h"
-#include "globals.h"
+#include "libs/globals.h"
 
 QString GLB_yetki = "İlk" ;
 

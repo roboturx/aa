@@ -2,7 +2,7 @@
 #define hC_hsp_H
 
 #include "libs/globals.h"
-//#include "dbase.h"
+#include "hc_hspdetay.h"
 //#include "login.h"
 
 class QAction;
@@ -27,7 +27,7 @@ public:
 
     QLabel * sqlTableName;
 
-
+    hC_HSPDTY* m_hspdty;
 
 
 signals:

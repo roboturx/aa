@@ -2,7 +2,7 @@
 #define MKN_CINSI_H
 
 
-#include "main/globals.h"
+#include "libs/globals.h"
 
 namespace nSMkn {
     class hC_MKCINS;

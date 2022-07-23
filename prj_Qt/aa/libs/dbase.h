@@ -19,7 +19,7 @@ class DBase : public QWidget
     Q_OBJECT
 
 public:
-    explicit DBase(QWidget *parent  =0);
+    explicit DBase(QWidget* parent = 0);
     ~DBase();
     bool setupDBase();
     void yaz(const QString& z);

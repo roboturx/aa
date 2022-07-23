@@ -1,7 +1,7 @@
 ﻿#ifndef hC_IE_H
 #define hC_IE_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 //#include "dragwidget.h"
 #include "mchn/mkn.h"
 

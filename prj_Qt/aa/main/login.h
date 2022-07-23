@@ -1,7 +1,7 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include "globals.h"
+#include "libs/globals.h"
 
 namespace nSLogin {
 class Login;

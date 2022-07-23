@@ -14,7 +14,7 @@
     http://www.public.iastate.edu/~ddoty/HungarianAlgorithm.html
 */
 
-#include "kuhn_munkres.hpp"
+#include "kuhn_munkres.h"
 #include <utility>
 
 

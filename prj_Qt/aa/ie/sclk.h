@@ -1,7 +1,7 @@
 ﻿#ifndef SCLK_H
 #define SCLK_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 //#include "hc_.h"
 
 namespace nSSclk {

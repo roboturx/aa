@@ -1,10 +1,10 @@
 
 
-
 #include "hc_hsp.h"
+#include "hc_hspdetay.h"
 #include "richtextdelegate.h"
 #ifdef CUSTOM_MODEL
-#include "treemodel.hpp"
+#include "treemodel.h"
 #else
 #include "standarditem.h"
 #include "standardtreemodel.h"
@@ -45,6 +45,7 @@ hC_hsp::hC_hsp(QWidget *parent)
       #endif
       currentIcon(0)
 {
+
     qDebug() << "Modelling...";
     createModelAndView();
     qDebug() << "Actions...";
@@ -122,6 +123,13 @@ void hC_hsp::createModelAndView()
     treeViewXML->setItemDelegateForColumn(0, new RichTextDelegate);
     treeViewXML->setModel(modelXML);
     sqlTableName = new QLabel("Boşşşş");
+
+    /// hesapdetaylarını oluştur
+    ///
+
+    m_hspdty = new hC_HSPDTY ;
+
+
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 1, 1 );

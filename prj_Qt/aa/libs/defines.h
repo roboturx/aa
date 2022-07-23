@@ -3,8 +3,8 @@
 
 #include <QString>
 
-#define DATABASE_NAME	"adb.file"
-#define valiDDate 01,01,2023
+//#define DATABASE_NAME	"adb.file"
+//#define valiDDate 01,01,2023
 
 extern QString GLB_yetki;
 

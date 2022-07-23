@@ -7,7 +7,7 @@
 #ifdef WINDOWS
 //#include <windows.h>
 #endif
-#include "hesap/hc_hsp.h"
+#include "hsap/hc_hsp.h"
 
 #include "adrs/clsn.h"
 #include "adrs/frm.h"
@@ -18,7 +18,7 @@
 #include "ie/tsnr.h"
 #include "ie/sclk.h"
 
-#include "main/globals.h"
+#include "libs/globals.h"
 #include "main/login.h"
 #include "main/dbase.h"
 #include "main/cw_hkk.h"
@@ -49,7 +49,7 @@ public:
     QStackedWidget *stw{};
     QAction *act_main{};
 
-    hC_HSP *mw_hsp{};
+    hC_hsp *mw_hsp{};
     hC_CLSN *mw_per{};
     hC_FRM *mw_fr{};
     hC_FTR *mw_ftr{};

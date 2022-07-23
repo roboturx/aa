@@ -4,7 +4,10 @@
 #
 #-------------------------------------------------
 # Modules controlled by DEFINES
+
 #DEFINES += LINUX
+
+DEFINES	    += CUSTOM_MODEL
 DEFINES += MAIN
 DEFINES += ADRS
 DEFINES += HSAP
@@ -24,19 +27,18 @@ CONFIG  += C++20
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+#DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
-DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 # disables all the APIs deprecated before Qt 6.0.0
 
 
 SOURCES +=\
     hsap/hc_hsp.cpp \
-    hsap/standarditem.cpp \
-    hsap/standardtreemodel.cpp \
+    hsap/hc_hspdetay.cpp \
     hsap/taskitem.cpp \
     hsap/treemodel.cpp \
     libs/VTKontrol.cpp \
@@ -70,10 +72,9 @@ SOURCES +=\
 
 HEADERS  +=  \
     hsap/hc_hsp.h \
+    hsap/hc_hspdetay.h \
     hsap/richtextdelegate.h \
     hsap/richtextlineedit.h \
-    hsap/standarditem.h \
-    hsap/standardtreemodel.h \
     hsap/taskitem.h \
     hsap/treemodel.h \
     libs/VTKontTekkere.h \

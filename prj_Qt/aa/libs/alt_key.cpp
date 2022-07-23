@@ -10,8 +10,8 @@
     See the GNU General Public License for more details.
 */
 
-#include "libs/alt_key.hpp"
-#include "kuhn_munkres.hpp"
+#include "libs/alt_key.h"
+#include "kuhn_munkres.h"
 #include <QAbstractButton>
 #include <QAction>
 #include <QGroupBox>
@@ -215,6 +215,7 @@ void accelerateActions(QList<QAction*> actions, const QString &alphabet)
             acceleratedActions << action;
         }
         if (QMenu *menu = action->menu())
+        //if (QMenu *menu = action. )
             accelerateMenu(menu, alphabet);
     }
     texts = accelerated(texts, alphabet);

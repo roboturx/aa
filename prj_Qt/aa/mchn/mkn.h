@@ -1,7 +1,7 @@
 ﻿#ifndef hC_H
 #define hC_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 #include "mchn/mkn_cinsi.h"
 #include "mchn/mkn_marka.h"
 #include "mchn/mkn_modeli.h"

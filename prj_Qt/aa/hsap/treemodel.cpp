@@ -1,6 +1,6 @@
 
 #include "libs/globals.h"
-#include "defines.h"
+#include "libs/defines.h"
 #include "treemodel.h"
 
 

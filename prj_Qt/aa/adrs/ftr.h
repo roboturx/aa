@@ -2,7 +2,7 @@
 #define CW_FTR_H
 
 
-#include "main/globals.h"
+#include "libs/globals.h"
 
 
 namespace nSFtr {

@@ -13,7 +13,7 @@
     the GNU General Public License for more details.
 */
 
-#include "taskitem.hpp"
+#include "taskitem.h"
 #include <QAbstractItemModel>
 #include <QIcon>
 // Mac needs these included this way---and needs them in the header

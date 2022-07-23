@@ -1,7 +1,7 @@
 ﻿#ifndef MKN_MARKA_H
 #define MKN_MARKA_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 //#include "hc_.h"
 //#include "dbase.h"
 //#include "ftr_frmekle.h"

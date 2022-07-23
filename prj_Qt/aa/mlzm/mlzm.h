@@ -2,7 +2,7 @@
 #define HC_MLZM_H
 
 
-#include "main/globals.h"
+#include "libs/globals.h"
 
 namespace nSMlzm {
 class hC_MLZM;

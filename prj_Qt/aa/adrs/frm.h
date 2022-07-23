@@ -1,7 +1,7 @@
 ﻿#ifndef CW_FR_H
 #define CW_FR_H
 
-#include "main/globals.h"
+#include "libs/globals.h"
 
 namespace nSFrm {
 class hC_FRM;
