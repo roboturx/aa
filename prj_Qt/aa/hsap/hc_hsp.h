@@ -27,7 +27,7 @@ public:
 
     QLabel * sqlTableName;
 
-    hC_HSPDTY* m_hspdty;
+   hC_HSPDTY* m_hspdty;
 
 
 signals:
@@ -99,11 +99,11 @@ private:
     QAction *editHideOrShowDoneTasksAction;
 
     QTreeView *treeViewXML;
-    QTableView *tableViewSQL;
+    //QTableView *tableViewSQL;
     QWidget *centralWdgt;
 #ifdef CUSTOM_MODEL
     TreeModel *modelXML;
-    QSqlRelationalTableModel *modelSQL;
+  //  QSqlRelationalTableModel *modelSQL;
 #else
     StandardTreeModel *model;
     StandardItem *timedItem;

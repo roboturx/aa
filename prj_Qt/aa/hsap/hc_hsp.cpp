@@ -104,15 +104,15 @@ void hC_hsp::createModelAndView()
 {
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
-      tableViewSQL = new QTableView;
+   //   tableViewSQL = new QTableView;
 #ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
 
-    modelSQL = new QSqlRelationalTableModel (this);
-    modelSQL->setTable("dbtb_hesap");
-    tableViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
-    tableViewSQL->setModel(modelSQL);
+    //modelSQL = new QSqlRelationalTableModel (this);
+    //modelSQL->setTable("dbtb_hesap");
+    //tableViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
+    //tableViewSQL->setModel(modelSQL);
 #else
     modelXML = new StandardTreeModel(this);
 #endif
@@ -123,7 +123,7 @@ void hC_hsp::createModelAndView()
     treeViewXML->setItemDelegateForColumn(0,
                        new RichTextDelegate);
     treeViewXML->setModel(modelXML);
-    sqlTableName = new QLabel("Boşşşş");
+    //sqlTableName = new QLabel("Boşşşş");
 
     /// hesapdetaylarını oluştur
     ///
@@ -134,8 +134,8 @@ void hC_hsp::createModelAndView()
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
-    gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
-    gridd->addWidget(tableViewSQL , 0, 1, 1, 1);
+ //  gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
+  //  gridd->addWidget( tb_view , 0, 1, 1, 1);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -400,8 +400,11 @@ void hC_hsp::fileOpen()
 void hC_hsp::load(const QString &filename,
                       const QStringList &taskPath)
 {
-    qDebug() << "loading file '" << filename << "' at path : " << taskPath;
+    qDebug() << "loading file '" << filename
+             << "' at path : " << taskPath;
+        qDebug() << "000000000011111111";
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    qDebug() << "000000000011111111";
     try {
         modelXML->load(filename);
         if (!taskPath.isEmpty()) {
@@ -412,12 +415,17 @@ void hC_hsp::load(const QString &filename,
                 setCurrentIndex(item->index());
 #endif
         }
-        for (int column = 0; column < modelXML->columnCount(); ++column)
+        for (int column = 0;
+             column < modelXML->columnCount();
+             ++column)
             treeViewXML->resizeColumnToContents(column);
         setDirty(false);
+
+        qDebug() << "11111111";
         setWindowTitle(tr("%1 - %2[*]")
                        .arg(QApplication::applicationName())
                        .arg(QFileInfo(filename).fileName()));
+        qDebug() << "2222222222";
         statusBar()->showMessage(tr("Loaded %1").arg(filename),
                                  StatusTimeout);
     } catch (AQP::Error &error) {
