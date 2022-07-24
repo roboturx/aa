@@ -11,8 +11,8 @@
     the GNU General Public License for more details.
 */
 
-#include "alt_key.hpp"
-#include "richtextlineedit.hpp"
+#include "libs/alt_key.h"
+#include "richtextlineedit.h"
 #include <QAction>
 #include <QKeyEvent>
 #include <QMenu>

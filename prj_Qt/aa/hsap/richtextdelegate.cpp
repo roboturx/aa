@@ -11,8 +11,8 @@
     the GNU General Public License for more details.
 */
 
-#include "richtextlineedit.hpp"
-#include "richtextdelegate.hpp"
+#include "richtextlineedit.h"
+#include "richtextdelegate.h"
 #include <QModelIndex>
 #include <QPainter>
 #include <QPixmapCache>

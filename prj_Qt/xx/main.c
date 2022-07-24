@@ -7,10 +7,9 @@ int main()
     int sum;
 
     printf("enter first integer\n");
-    scanf("%d%*d", &integer1);
-
+    scanf(" %f", &integer1);
     printf("enter second integer\n");
-    scanf("%d\n", &integer2);
+    scanf(" %f ", &integer2);
 
     sum = integer1 + integer2;
 

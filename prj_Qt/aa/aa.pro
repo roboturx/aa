@@ -7,7 +7,7 @@
 
 #DEFINES += LINUX
 
-DEFINES	    += CUSTOM_MODEL
+DEFINES	+= CUSTOM_MODEL
 DEFINES += MAIN
 DEFINES += ADRS
 DEFINES += HSAP
@@ -36,30 +36,88 @@ CONFIG  += C++20
 # disables all the APIs deprecated before Qt 6.0.0
 
 
+
+contains(DEFINES, MAIN) {
+
 SOURCES +=\
-    hsap/hc_hsp.cpp \
-    hsap/hc_hspdetay.cpp \
-    hsap/taskitem.cpp \
-    hsap/treemodel.cpp \
-    libs/VTKontrol.cpp \
-    libs/alt_key.cpp \
-    libs/aqp.cpp \
-  #  libs/dbase.cpp \
-    libs/hc_.cpp \
-    libs/kuhn_munkres.cpp \
-    libs/tamamla.cpp \
-    main/main.cpp \
-    main/cw_hkk.cpp \
-    main/mw_main.cpp \
-    main/login.cpp \
-    main/dbase.cpp \
+main/main.cpp \
+main/cw_hkk.cpp \
+main/mw_main.cpp \
+main/login.cpp \
+main/dbase.cpp \
+libs/alt_key.cpp \
+libs/aqp.cpp \
+#  libs/dbase.cpp \
+libs/hc_.cpp \
+libs/kuhn_munkres.cpp \
+libs/tamamla.cpp \
+ libs/VTKontrol.cpp
+
+HEADERS  +=  \
+main/cw_hkk.h \
+main/mw_main.h \
+main/login.h \
+main/dbase.h \
+libs/VTKontTekkere.h \
+libs/VTKontrol.h \
+libs/VTTekton.h \
+libs/alt_key.h \
+libs/aqp.h \
+# libs/dbase.h \
+libs/defines.h \
+libs/globals.h \
+libs/hc_.h \
+libs/kuhn_munkres.h \
+libs/tamamla.h
+
+FORMS    += \
+
+}
+contains(DEFINES, ADRS) {
+
+SOURCES +=\
+adrs/clsn.cpp \
+adrs/frm.cpp \
+adrs/ftr.cpp \
+
+HEADERS  +=  \
+adrs/clsn.h \
+adrs/frm.h \
+adrs/ftr.h
+
+FORMS    += \
+
+}
+
+contains(DEFINES, HSAP) {
+
+SOURCES +=\
+hsap/hc_hsp.cpp \
+hsap/hc_hspdetay.cpp \
+hsap/richtextdelegate.cpp \
+hsap/richtextlineedit.cpp \
+hsap/taskitem.cpp \
+hsap/treemodel.cpp \
+
+HEADERS  +=  \
+hsap/hc_hsp.h \
+hsap/hc_hspdetay.h \
+hsap/richtextdelegate.h \
+hsap/richtextlineedit.h \
+hsap/taskitem.h \
+hsap/treemodel.h
+
+FORMS    += \
+
+}
+
+contains(DEFINES, OTHR) {
+
+SOURCES +=\
     mchn/mkn.cpp \
     mchn/mkn_cinsi.cpp \
     mchn/mkn_marka.cpp \
-    mchn/mkn_modeli.cpp \
-    adrs/clsn.cpp \
-    adrs/frm.cpp \
-    adrs/ftr.cpp \
+    mchn/mkn_modeli.cpp \ 
     mlzm/mlzm.cpp \
     mlzm/mlzm_gc.cpp \
     ie/ie.cpp \
@@ -71,34 +129,10 @@ SOURCES +=\
 
 
 HEADERS  +=  \
-    hsap/hc_hsp.h \
-    hsap/hc_hspdetay.h \
-    hsap/richtextdelegate.h \
-    hsap/richtextlineedit.h \
-    hsap/taskitem.h \
-    hsap/treemodel.h \
-    libs/VTKontTekkere.h \
-    libs/VTKontrol.h \
-    libs/VTTekton.h \
-    libs/alt_key.h \
-    libs/aqp.h \
-   # libs/dbase.h \
-    libs/defines.h \
-    libs/globals.h \
-    libs/hc_.h \
-    libs/kuhn_munkres.h \
-    libs/tamamla.h \
-    main/cw_hkk.h \
-    main/mw_main.h \
-    main/login.h \
-    main/dbase.h \
     mchn/mkn.h \
     mchn/mkn_cinsi.h \
     mchn/mkn_marka.h \
     mchn/mkn_modeli.h \
-    adrs/clsn.h \
-    adrs/frm.h \
-    adrs/ftr.h \
     mlzm/mlzm.h \
     mlzm/mlzm_gc.h \
     ie/ie.h \
@@ -108,31 +142,26 @@ HEADERS  +=  \
     grph/sortingbox.h \
     grph/shapeitem.h
 
+FORMS    += \
+
+}
 
 FORMS    += \
-    forms/mainForm.ui \
     wd_login.ui \
-    ww_mkcins.ui \
     cw_hkk.ui \
     mn_navi.ui \
-    cw_dpdet.ui \
-    wd_dptlp.ui \
-    cw_fr.ui \
-    cw_tasinir.ui \
-    form.ui \
-    cw_.ui \
     login.ui \
-    dlg_ambar.ui \
     dbase.ui
 
 
 
-RESOURCES += \
+RESOURCES += \ aa.qrc
    # hesap/main/timelog.qrc \
 #    hesap/timelog.qrc \
-    hsap/timelog.qrc \
-    libs/aqp.qrc \
-    src.qrc
+ #   hsap/timelog.qrc \
+  #  libs/aqp.qrc \
+  #  src.qrc
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -144,7 +173,7 @@ SUBDIRS += \libs
 DISTFILES += \ libs/mime.types
    # hesap/main/images/0.png \
    # hesap/main/images/1.png \
-   # hesap/main/images/2.png \
+   #hesap/main/images/2.png \
    # hesap/main/images/3.png \
    # hesap/main/images/4.png \
    # hesap/main/images/editadd.png \

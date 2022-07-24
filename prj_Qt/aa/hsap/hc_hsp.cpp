@@ -120,7 +120,8 @@ void hC_hsp::createModelAndView()
     (void) new ModelTest(modelXML, this);
 #endif
     treeViewXML->setAllColumnsShowFocus(true);
-    treeViewXML->setItemDelegateForColumn(0, new RichTextDelegate);
+    treeViewXML->setItemDelegateForColumn(0,
+                       new RichTextDelegate);
     treeViewXML->setModel(modelXML);
     sqlTableName = new QLabel("Boşşşş");
 
@@ -142,43 +143,43 @@ void hC_hsp::createModelAndView()
 
 void hC_hsp::createActions()
 {
-    fileNewAction = createAction(":/filenew.png", tr("New"),
-                                 this, QKeySequence::New);
-    fileOpenAction = createAction(":/fileopen.png", tr("Open..."),
-                                  this, QKeySequence::Open);
-    fileSaveAction = createAction(":/filesave.png", tr("Save"),
-                                  this, QKeySequence::Save);
-    fileSaveAsAction = createAction(":/filesave.png",
+    fileNewAction = createAction(":/rsm/images/filenew.png", tr("New"),
+                                this, QKeySequence::New);
+    fileOpenAction = createAction(":/rsm/images/fileopen.png", tr("Open..."),
+                                this, QKeySequence::Open);
+    fileSaveAction = createAction(":/rsm/images/filesave.png", tr("Save"),
+                                this, QKeySequence::Save);
+    fileSaveAsAction = createAction(":/rsm/images/filesave.png",
                                     tr("Save As..."), this
                                 #if QT_VERSION >= 0x040500
                                     , QKeySequence::SaveAs
                                 #endif
                                     );
-    fileQuitAction = createAction(":/filequit.png", tr("Quit"), this);
+    fileQuitAction = createAction(":/rsm/images/filequit.png", tr("Quit"), this);
 #if QT_VERSION >= 0x040600
     fileQuitAction->setShortcuts(QKeySequence::Quit);
 #else
     fileQuitAction->setShortcut(QKeySequence("Ctrl+Q"));
 #endif
-    editAddAction = createAction(":/editadd.png", tr("Add..."),
+    editAddAction = createAction(":/rsm/images/editadd.png", tr("Add..."),
                                  this, QKeySequence(tr("Ctrl+A")));
-    editDeleteAction = createAction(":/editdelete.png",
+    editDeleteAction = createAction(":/rsm/images/editdelete.png",
                                     tr("Delete..."), this, QKeySequence::Delete);
 #ifdef CUSTOM_MODEL
-    editCutAction = createAction(":/editcut.png", tr("Cut"),
+    editCutAction = createAction(":/rsm/images/editcut.png", tr("Cut"),
                                  this, QKeySequence::Cut);
-    editPasteAction = createAction(":/editpaste.png", tr("Paste"),
+    editPasteAction = createAction(":/rsm/images/editpaste.png", tr("Paste"),
                                    this, QKeySequence::Paste);
-    editMoveUpAction = createAction(":/editup.png", tr("Move Up"),
+    editMoveUpAction = createAction(":/rsm/images/editup.png", tr("Move Up"),
                                     this, QKeySequence(tr("Ctrl+Up")));
-    editMoveDownAction = createAction(":/editdown.png",
+    editMoveDownAction = createAction(":/rsm/images/editdown.png",
                                       tr("Move Down"), this, QKeySequence(tr("Ctrl+Down")));
-    editPromoteAction = createAction(":/editpromote.png",
+    editPromoteAction = createAction(":/rsm/images/editpromote.png",
                                      tr("Promote"), this, QKeySequence(tr("Ctrl+Left")));
-    editDemoteAction = createAction(":/editdemote.png",
+    editDemoteAction = createAction(":/rsm/images/editdemote.png",
                                     tr("Demote"), this, QKeySequence(tr("Ctrl+Right")));
 #endif
-    editStartOrStopAction = createAction(":/0.png", tr("S&tart"),
+    editStartOrStopAction = createAction(":/rsm/images/0.png", tr("S&tart"),
                                          this, QKeySequence(tr("Ctrl+T")));
     editStartOrStopAction->setCheckable(true);
     editStartOrStopAction->setChecked(false);
@@ -715,14 +716,14 @@ void hC_hsp::editStartOrStop(bool start)
         }
 #endif
 #ifndef Q_WS_MAC
-        setWindowIcon(QIcon(":/icon.png"));
+        setWindowIcon(QIcon(":/rsm/images/icon.png"));
 #endif
-        editStartOrStopAction->setIcon(QIcon(":/0.png"));
+        editStartOrStopAction->setIcon(QIcon(":/rsm/images/0.png"));
     }
     editStartOrStopAction->setText(start ? tr("S&top")
                                          : tr("S&tart"));
-    editStartOrStopAction->setIcon(QIcon(start ? tr(":/4.png")
-                                               : tr(":/0.png")));
+    editStartOrStopAction->setIcon(QIcon(start ? tr(":/rsm/images/4.png")
+                                               : tr(":/rsm/images/0.png")));
 }
 
 
@@ -751,7 +752,7 @@ void hC_hsp::updateIcon(int frame)
     qDebug() << "updateicon";
     if (frame > LastFrame)
         return;
-    QIcon icon(QString(":/%1.png").arg(frame));
+    QIcon icon(QString(":/rsm/images/%1.png").arg(frame));
 #ifdef CUSTOM_MODEL
     modelXML->setIconForTimedItem(icon);
 #else
