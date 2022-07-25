@@ -11,11 +11,12 @@
     the GNU General Public License for more details.
 */
 
+#include "libs/globals.h"
 #include "richtextlineedit.h"
 #include "richtextdelegate.h"
-#include <QModelIndex>
-#include <QPainter>
-#include <QPixmapCache>
+//#include <QModelIndex>
+//#include <QPainter>
+//#include <QPixmapCache>
 
 
 RichTextDelegate::RichTextDelegate(QObject *parent)

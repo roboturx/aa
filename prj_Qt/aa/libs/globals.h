@@ -49,23 +49,29 @@
 #include <QGroupBox>
 #include <QIcon>
 #include <QItemSelectionModel>
+#include <QKeyEvent>
 #include <QKeySequence>
 #include <QLabel>
 #include <QLinearGradient>
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMainWindow>
-#include <QMimeData>
-#include <QModelIndex>
 #include <QMenu>
 #include <QMessageBox>
+#include <QMimeData>
+#include <QModelIndex>
+
+
 #include <QPainter>
 #include <QPixmap>
+#include <QPixmapCache>
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QRect>
 #include <QRgb>
-//#include <QTextCodec>
+
+
+#include <QShortcut>
 #include <QSize>
 #include <QStack>
 #include <QStackedWidget>
@@ -85,9 +91,11 @@
 #include <QStringListModel>
 #include <QStyle>
 #include <QStyleFactory>
+
 #include <QTextBlock>
-//#include <QTextCodec>
+#include <QTextCharFormat>
 #include <QTextEdit>
+#include <QTextFragment>
 #include <QTableView>
 #include <QTabBar>
 #include <QTabWidget>

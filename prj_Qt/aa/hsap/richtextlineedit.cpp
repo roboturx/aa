@@ -10,16 +10,16 @@
     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
     the GNU General Public License for more details.
 */
-
+#include "libs/globals.h"
 #include "libs/alt_key.h"
 #include "richtextlineedit.h"
-#include <QAction>
-#include <QKeyEvent>
-#include <QMenu>
-#include <QShortcut>
-#include <QTextBlock>
-#include <QTextCharFormat>
-#include <QTextFragment>
+//#include <QAction>
+//#include <QKeyEvent>
+//#include <QMenu>
+//#include <QShortcut>
+//#include <QTextBlock>
+//#include <QTextCharFormat>
+//#include <QTextFragment>
 
 
 RichTextLineEdit::RichTextLineEdit(QWidget *parent)

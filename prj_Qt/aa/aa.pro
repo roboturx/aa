@@ -12,7 +12,7 @@ DEFINES += MAIN
 DEFINES += ADRS
 DEFINES += HSAP
 #DEFINES += OTHR
-
+DISTFILES += aaaprogram.txt
 
 
 QT       += core gui sql
@@ -21,13 +21,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = aa
 TEMPLATE = app
-CONFIG  += C++20
+CONFIG  += C++latest
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-#DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -155,7 +155,7 @@ FORMS    += \
 
 
 
-RESOURCES += \ aa.qrc
+RESOURCES += \
    # hesap/main/timelog.qrc \
 #    hesap/timelog.qrc \
  #   hsap/timelog.qrc \
