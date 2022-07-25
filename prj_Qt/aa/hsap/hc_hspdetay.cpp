@@ -4,11 +4,11 @@
 
 hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 {
-    qDebug ()<<"Constructor HESAP ********************************";
+    qDebug ()<<"Constructor HESAP DETAY **************************";
     //************************************************************
     //*****************  H E S A P  ******************************
 
-    win_Label->setText ( "HESAP KAYITLARI");
+    win_Label->setText ( "HESAP DETAY KAYITLARI");
     *tb_name   = "hsp_dbtb" ;
     *tb_ndex  = "hsp_ad";
 
@@ -592,7 +592,7 @@ void hC_HSPDTY::slt_tbx_rowChange()
 
 hC_HSPDTY::~hC_HSPDTY()
 {
-    qDebug() << "*********** destructor Hesap";
+    qDebug() << "*********** destructor Hesap Detay";
     //delete
 }
 

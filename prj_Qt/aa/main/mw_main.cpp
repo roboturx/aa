@@ -220,7 +220,6 @@ void MW_main::cr_Actions()
            // mw_hsp->tbsetup ();
             mw_hsp->show();
             //this->setCentralWidget (mw_per );
-
             statusBar()->showMessage(tr("Hesap Bilgileri"));
             mw_hsp->setWindowTitle ("Hesaplar");
             //mw_per->resize(qApp->screens()[0]->size()*.8);

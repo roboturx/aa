@@ -66,7 +66,13 @@ void RichTextLineEdit::createActions()
     subScriptAction = createAction(tr("Subscript"), Subscript);
 
     colorAction = new QAction(tr("Color"), this);
-    colorAction->setMenu(createColorMenu());
+    // colorAction->setMenu(createColorMenu());  //qt5
+
+    ///QMenu *menu() const;
+    ///static QMenu *QMenu::menuForAction(QAction *action);
+    //QMenu* x;
+     QMenu::menuInAction(
+                new QAction(tr("Color"), this));
 
     addActions(QList<QAction*>() << boldAction << italicAction
             << strikeOutAction << noSubOrSuperScriptAction

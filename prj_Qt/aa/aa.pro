@@ -1,12 +1,9 @@
 #-------------------------------------------------
-#
 # Project created by Murat BALCI 2018-03-05T12:00:50
-#
 #-------------------------------------------------
+
 # Modules controlled by DEFINES
-
 #DEFINES += LINUX
-
 DEFINES	+= CUSTOM_MODEL
 DEFINES += MAIN
 DEFINES += ADRS
@@ -32,7 +29,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 # disables all the APIs deprecated before Qt 6.0.0
 
 
@@ -70,7 +67,7 @@ libs/hc_.h \
 libs/kuhn_munkres.h \
 libs/tamamla.h
 
-FORMS    += \
+ #FORMS    += \
 
 }
 contains(DEFINES, ADRS) {
@@ -85,7 +82,7 @@ adrs/clsn.h \
 adrs/frm.h \
 adrs/ftr.h
 
-FORMS    += \
+ #FORMS    += \
 
 }
 
@@ -107,7 +104,7 @@ hsap/richtextlineedit.h \
 hsap/taskitem.h \
 hsap/treemodel.h
 
-FORMS    += \
+ #FORMS    += \
 
 }
 
@@ -142,7 +139,7 @@ HEADERS  +=  \
     grph/sortingbox.h \
     grph/shapeitem.h
 
-FORMS    += \
+ #FORMS    += \
 
 }
 
@@ -154,8 +151,10 @@ FORMS    += \
     dbase.ui
 
 
-
 RESOURCES += \
+    src.qrc
+
+ #RESOURCES += \
    # hesap/main/timelog.qrc \
 #    hesap/timelog.qrc \
  #   hsap/timelog.qrc \
@@ -189,4 +188,5 @@ DISTFILES += \ libs/mime.types
    # hesap/main/images/filequit.png \
    # hesap/main/images/filesave.png \
     # hesap/main/images/icon.png
+
 

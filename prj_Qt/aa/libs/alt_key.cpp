@@ -214,7 +214,13 @@ void accelerateActions(QList<QAction*> actions, const QString &alphabet)
             texts << action->text();
             acceleratedActions << action;
         }
-        if (QMenu *menu = action->menu())
+
+   ///QMenu *menu() const;
+   ///static QMenu *QMenu::menuForAction(QAction *action);
+    //if (QMenu *menu = action->menu())
+    //          accelerateMenu(menu, alphabet); /// qt5
+        QMenu *menu = QMenu::menuInAction(action ); /// qt 6
+        if (menu)
             accelerateMenu(menu, alphabet);
     }
     texts = accelerated(texts, alphabet);

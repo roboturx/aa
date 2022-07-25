@@ -72,6 +72,7 @@ bool okToClearData(bool (T::*saveData)(), T *parent,
         const QString &title, const QString &text,
         const QString &detailedText=QString())
 {
+    qDebug() <<"AQP::OkToClearData begins";
     Q_ASSERT(saveData && parent);
 #if QT_VERSION >= 0x040600
     QScopedPointer<QMessageBox> messageBox(new QMessageBox(parent));
@@ -96,6 +97,7 @@ bool okToClearData(bool (T::*saveData)(), T *parent,
     if (messageBox->clickedButton() ==
         messageBox->button(QMessageBox::Save))
         return (parent->*saveData)();
+    qDebug() <<"AQP::OkToClearData ends";
     return true;
 }
 

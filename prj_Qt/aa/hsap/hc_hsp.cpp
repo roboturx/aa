@@ -1,6 +1,7 @@
 
 
 #include "hc_hsp.h"
+#include "libs/alt_key.h"
 #include "hc_hspdetay.h"
 #include "richtextdelegate.h"
 #ifdef CUSTOM_MODEL
@@ -46,7 +47,7 @@ hC_hsp::hC_hsp(QWidget *parent)
       currentIcon(0)
 {
 
-    qDebug() << "Modelling...";
+
     createModelAndView();
     qDebug() << "Actions...";
     createActions();
@@ -65,7 +66,7 @@ hC_hsp::hC_hsp(QWidget *parent)
                    .arg(QApplication::applicationName()));
 #endif
     statusBar()->showMessage(tr("Uygulama Hazır"), StatusTimeout);
-    qDebug() << "Hazır";
+    qDebug() << "Uygulama Hazır - XML dosyası kontrol ediliyor...";
     timer.setInterval(333);
     iconTimeLine.setDuration(5000);
     iconTimeLine.setFrameRange(FirstFrame, LastFrame + 1);
@@ -73,38 +74,62 @@ hC_hsp::hC_hsp(QWidget *parent)
     // qt 6 OKK iconTimeLine.setCurveShape(QTimeLine::LinearCurve);
     iconTimeLine.setEasingCurve (QEasingCurve::InOutQuad);
 
+   // qDebug() << "---------------------------------------";
+   // qDebug() << "-hC_hspXMLMw Constructed.-";
+   // qDebug() << "---------------------------------------";
+    qDebug() << "checking settings for existing XML file";
+    qDebug() << "if saved in settings, but not on disk CREATE NEW XML FILE ";
+    qDebug() << "else if not saved, CREATE NEW XML FILE ";
+    qDebug() << "else if saved and on disk LOAD XML FILE ";
+    qDebug() << "---------------------------------------";
+
+
     QSettings settings;
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString filename = settings.value(FilenameSetting).toString();
     if (! QFile::exists(filename))
     {
-        qDebug() << " Dosya Diskte bulunamadı ";
+        qDebug() << " Kayıtlı XML Dosyası Diskte bulunamadı !! ";
+        qDebug() << "       Yeni Dosya oluşturuluyor...";
         statusBar()->showMessage(tr("Dosya Yüklenemedi %1")
                                  .arg(filename), StatusTimeout);
         QTimer::singleShot(0, this, SLOT(fileNew()));
     }
     if (filename.isEmpty()  )
+    {
+        qDebug() << " XML Dosya Kaydı Yok ... ";
+        qDebug() << "       Yeni Dosya oluşturuluyor...";
         QTimer::singleShot(0, this, SLOT(fileNew()));
+    }
     else
+    {
+        qDebug() << " Kayıtlı XML Dosyası Diskte bulundu. ";
+        qDebug() << "       Yükleniyor...";
         QMetaObject::invokeMethod(this, "load",
                                   Qt::QueuedConnection,
                                   Q_ARG(QString, filename),
                                   Q_ARG(QStringList, settings.value(
-                                            CurrentTaskPathSetting).toStringList()));
-    qDebug() << "-----------------";
-    qDebug() << "-Mw Constructed.-";
-    qDebug() << "-----------------";
-    qDebug() << "-Load-or-filenew-";
-    qDebug() << "-----------------";
-}
+                       CurrentTaskPathSetting).toStringList()));
+    }
+
+
+    /// hesapdetaylarını oluştur
+    ///
+
+    m_hspdty = new hC_HSPDTY ;
+    m_hspdty->show();
+    m_hspdty->setWindowTitle("Hesap Kayıtları");
+
+    }
 
 /// 100-01
 ///
 void hC_hsp::createModelAndView()
 {
+    qDebug() << "Modelling Hsp XML...";
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
-   //   tableViewSQL = new QTableView;
+    //   tableViewSQL = new QTableView;
 #ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
@@ -121,21 +146,14 @@ void hC_hsp::createModelAndView()
 #endif
     treeViewXML->setAllColumnsShowFocus(true);
     treeViewXML->setItemDelegateForColumn(0,
-                       new RichTextDelegate);
+                                          new RichTextDelegate);
     treeViewXML->setModel(modelXML);
     //sqlTableName = new QLabel("Boşşşş");
 
-    /// hesapdetaylarını oluştur
-    ///
-
-    m_hspdty = new hC_HSPDTY ;
-
-
-
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
- //  gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
-  //  gridd->addWidget( tb_view , 0, 1, 1, 1);
+    //  gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
+    //  gridd->addWidget( tb_view , 0, 1, 1, 1);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -144,11 +162,12 @@ void hC_hsp::createModelAndView()
 void hC_hsp::createActions()
 {
     fileNewAction = createAction(":/rsm/images/filenew.png", tr("New"),
-                                this, QKeySequence::New);
+                                 this, QKeySequence::New);
     fileOpenAction = createAction(":/rsm/images/fileopen.png", tr("Open..."),
-                                this, QKeySequence::Open);
-    fileSaveAction = createAction(":/rsm/images/filesave.png", tr("Save"),
-                                this, QKeySequence::Save);
+                                  this, QKeySequence::Open);
+    fileSaveAction = createAction(":/rsm/images/filesave.png",
+                                  tr("Save"),
+                                  this, QKeySequence::Save);
     fileSaveAsAction = createAction(":/rsm/images/filesave.png",
                                     tr("Save As..."), this
                                 #if QT_VERSION >= 0x040500
@@ -252,9 +271,9 @@ void hC_hsp::createConnections()
             this, SLOT(updateUi()));
 
 #ifdef CUSTOM_MODEL
-    connect(modelXML,
-            SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
-            this, SLOT(setDirty()));
+    QAbstractItemDelegate::connect(modelXML,
+                                   SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+                                   this, SLOT(setDirty()));
     connect(modelXML, SIGNAL(stopTiming()), this, SLOT(stopTiming()));
 #else
     connect(modelXML, SIGNAL(itemChanged(QStandardItem*)),
@@ -321,14 +340,15 @@ bool hC_hsp::okToClearData()
     qDebug() << "oktoclrdata";
     if (isWindowModified())
         return AQP::okToClearData(&hC_hsp::fileSave, this,
-                                  tr("Unsaved changes"), tr("Save unsaved changes?"));
+                                  tr("Unsaved changes"),
+                                  tr("Save unsaved changes?"));
     return true;
 }
 
 
 void hC_hsp::fileNew()
 {
-    qDebug() << "New File Construction beginning...";
+    qDebug() << "Yeni Hesap XML dosyası oluşturuluyor... ";
     if (!okToClearData())
         return;
     modelXML->clear();
@@ -342,6 +362,7 @@ void hC_hsp::fileNew()
 
 void hC_hsp::updateUi()
 {
+
     qDebug() << "user interface updating...";
     fileSaveAction->setEnabled(isWindowModified());
     int rows = modelXML->rowCount();
@@ -398,11 +419,11 @@ void hC_hsp::fileOpen()
 
 
 void hC_hsp::load(const QString &filename,
-                      const QStringList &taskPath)
+                  const QStringList &taskPath)
 {
     qDebug() << "loading file '" << filename
              << "' at path : " << taskPath;
-        qDebug() << "000000000011111111";
+    qDebug() << "000000000011111111";
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     qDebug() << "000000000011111111";
     try {
@@ -422,7 +443,7 @@ void hC_hsp::load(const QString &filename,
         setDirty(false);
 
         qDebug() << "11111111";
-        setWindowTitle(tr("%1 - %2[*]")
+        setWindowTitle(tr("%1 - %2[-*-]")
                        .arg(QApplication::applicationName())
                        .arg(QFileInfo(filename).fileName()));
         qDebug() << "2222222222";
@@ -802,7 +823,7 @@ void hC_hsp::hideOrShowDoneTask(bool hide, QStandardItem *item)
 #else
 
 void hC_hsp::hideOrShowDoneTask(bool hide,
-                                    const QModelIndex &index)
+                                const QModelIndex &index)
 {
     qDebug() << "hideorshowdntsk";
     bool hideThisOne = hide && modelXML->isChecked(index);

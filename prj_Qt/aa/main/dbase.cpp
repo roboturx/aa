@@ -32,6 +32,7 @@
 #include "ui_dbase.h"
 
 DBase::DBase(QWidget* parent)
+    : QWidget(parent)
 {
     qDebug ()<<"Constructor DBase *******************************";
     //************************************************************
