@@ -148,7 +148,7 @@ void hC_hsp::createModelAndView()
     treeViewXML->setItemDelegateForColumn(0,
                                           new RichTextDelegate);
     treeViewXML->setModel(modelXML);
-    //sqlTableName = new QLabel("Boşşşş");
+    sqlTableName = new QLabel("Boşşşş");
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
@@ -389,14 +389,20 @@ void hC_hsp::updateUi()
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
-        qDebug() << currentItem->hesapAd ();
+        qDebug() << "3xxxxx0" << currentItem->hesapAd ();
+        qDebug() << "4xxxxx1" << QString::number(currentItem->isTopluHesap());
+        qDebug() << "3xxxxx2" << currentItem->hesapTuru();
+        qDebug() << "3xxxxx3" << currentItem->ustHesap();
+        qDebug() << "3xxxxx4" ;
+
+
         sqlTableName->setText(currentItem->hesapAd() +
                               QString::number(currentItem->isTopluHesap() ) +
                               currentItem->hesapTuru() +
                               currentItem->ustHesap()
                               );
 
-        qDebug() << "";
+        qDebug() << "?????????*";
     }
 
 }
@@ -571,10 +577,14 @@ void hC_hsp::editAdd()
 {
     qDebug() << "Yeni Hesap Ekle";
     QModelIndex index = treeViewXML->currentIndex();
-    if (modelXML->insertRow(0, index)) {
+    qDebug() << index;
+    if (modelXML->insertRow(0, index))
+    {
         index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
+        qDebug() << "100001";
         treeViewXML->edit(index);
+        qDebug() << "200002";
         QString name = modelXML->data(index).toString();
         qDebug() <<"--------------------------------------" ;
         qDebug() <<"--------------------------------------" ;
