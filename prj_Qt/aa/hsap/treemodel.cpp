@@ -558,7 +558,7 @@ void TreeModel::save(const QString &filename)
     if (!filename.isEmpty())
         m_filename = filename;
     if (m_filename.isEmpty())
-        throw AQP::Error(tr("no filename specified"));
+        throw AQP::Error(tr("dosya adı belirtilmedi"));
     QFile file(m_filename);
     if (!file.open(QIODevice::WriteOnly|QIODevice::Text))
         throw AQP::Error(file.errorString());
@@ -566,10 +566,10 @@ void TreeModel::save(const QString &filename)
     QXmlStreamWriter writer(&file);
     writer.setAutoFormatting(true);
     writer.writeStartDocument();
-    writer.writeStartElement("TIMELOG");
-    writer.writeAttribute("VERSION", "2.0");
+    writer.writeStartElement("KONUM");
+    writer.writeAttribute("Sürüm", "2.0");
     writeTaskAndChildren(&writer, rootItem);
-    writer.writeEndElement(); // TIMELOG
+    writer.writeEndElement(); // KONUM
     writer.writeEndDocument();
 }
 

@@ -59,7 +59,7 @@ hC_hsp::hC_hsp(QWidget *parent)
 
     AQP::accelerateMenu(menuBar());
 #ifdef CUSTOM_MODEL
-    setWindowTitle(tr("%1 (Custom modelXML)[*]")
+    setWindowTitle(tr("%1 (Hesap Dosyası)[*]")
                    .arg(QApplication::applicationName()));
 #else
     setWindowTitle(tr("%1 (QStandardItemModel)[*]")
@@ -78,9 +78,9 @@ hC_hsp::hC_hsp(QWidget *parent)
    // qDebug() << "-hC_hspXMLMw Constructed.-";
    // qDebug() << "---------------------------------------";
     qDebug() << "checking settings for existing XML file";
-    qDebug() << "if saved in settings, but not on disk CREATE NEW XML FILE ";
-    qDebug() << "else if not saved, CREATE NEW XML FILE ";
-    qDebug() << "else if saved and on disk LOAD XML FILE ";
+    qDebug() << "     if saved in settings, but not on disk CREATE NEW XML FILE ";
+    qDebug() << "        else if not saved, CREATE NEW XML FILE ";
+    qDebug() << "        else if saved and on disk LOAD XML FILE ";
     qDebug() << "---------------------------------------";
 
 
@@ -155,48 +155,53 @@ void hC_hsp::createModelAndView()
 
 void hC_hsp::createActions()
 {
-    fileNewAction = createAction(":/rsm/images/filenew.png", tr("New"),
+    fileNewAction = createAction(":/rsm/images/filenew.png",
+                                 tr("Yeni Hesap Dosyası"),
                                  this, QKeySequence::New);
-    fileOpenAction = createAction(":/rsm/images/fileopen.png", tr("Open..."),
+    fileOpenAction = createAction(":/rsm/images/fileopen.png",
+                                  tr("Hesap Dosyası Aç..."),
                                   this, QKeySequence::Open);
     fileSaveAction = createAction(":/rsm/images/filesave.png",
-                                  tr("Save"),
+                                  tr("Kaydet"),
                                   this, QKeySequence::Save);
     fileSaveAsAction = createAction(":/rsm/images/filesave.png",
-                                    tr("Save As..."), this
+                                    tr("Farklı Kaydet..."), this
                                 #if QT_VERSION >= 0x040500
                                     , QKeySequence::SaveAs
                                 #endif
                                     );
-    fileQuitAction = createAction(":/rsm/images/filequit.png", tr("Quit"), this);
+    fileQuitAction = createAction(":/rsm/images/filequit.png",
+                                  tr("Çıkış"), this);
 #if QT_VERSION >= 0x040600
     fileQuitAction->setShortcuts(QKeySequence::Quit);
 #else
     fileQuitAction->setShortcut(QKeySequence("Ctrl+Q"));
 #endif
-    editAddAction = createAction(":/rsm/images/editadd.png", tr("Add..."),
+    editAddAction = createAction(":/rsm/images/editadd.png",
+                                 tr("Hesap Ekle..."),
                                  this, QKeySequence(tr("Ctrl+A")));
     editDeleteAction = createAction(":/rsm/images/editdelete.png",
-                                    tr("Delete..."), this, QKeySequence::Delete);
+                                    tr("Hesap Sil..."),
+                                    this, QKeySequence::Delete);
 #ifdef CUSTOM_MODEL
-    editCutAction = createAction(":/rsm/images/editcut.png", tr("Cut"),
+    editCutAction = createAction(":/rsm/images/editcut.png", tr("Kes"),
                                  this, QKeySequence::Cut);
-    editPasteAction = createAction(":/rsm/images/editpaste.png", tr("Paste"),
+    editPasteAction = createAction(":/rsm/images/editpaste.png", tr("Yapıştır"),
                                    this, QKeySequence::Paste);
-    editMoveUpAction = createAction(":/rsm/images/editup.png", tr("Move Up"),
+    editMoveUpAction = createAction(":/rsm/images/editup.png", tr("Hesap Yukarı"),
                                     this, QKeySequence(tr("Ctrl+Up")));
     editMoveDownAction = createAction(":/rsm/images/editdown.png",
-                                      tr("Move Down"), this, QKeySequence(tr("Ctrl+Down")));
+                                      tr("Hesap Aşağı"), this, QKeySequence(tr("Ctrl+Down")));
     editPromoteAction = createAction(":/rsm/images/editpromote.png",
-                                     tr("Promote"), this, QKeySequence(tr("Ctrl+Left")));
+                                     tr("Üst Hesap Yap"), this, QKeySequence(tr("Ctrl+Left")));
     editDemoteAction = createAction(":/rsm/images/editdemote.png",
-                                    tr("Demote"), this, QKeySequence(tr("Ctrl+Right")));
+                                    tr("Alt Hesap Yap"), this, QKeySequence(tr("Ctrl+Right")));
 #endif
     editStartOrStopAction = createAction(":/rsm/images/0.png", tr("S&tart"),
                                          this, QKeySequence(tr("Ctrl+T")));
     editStartOrStopAction->setCheckable(true);
     editStartOrStopAction->setChecked(false);
-    editHideOrShowDoneTasksAction = new QAction(tr("Hide Done Tasks"),
+    editHideOrShowDoneTasksAction = new QAction(tr("Bitmiş Görevleri Gizle"),
                                                 this);
     editHideOrShowDoneTasksAction->setCheckable(true);
     editHideOrShowDoneTasksAction->setChecked(false);
@@ -207,8 +212,8 @@ void hC_hsp::createMenusAndToolBar()
 {
     setUnifiedTitleAndToolBarOnMac(true);
 
-    QMenu *fileMenu = menuBar()->addMenu(tr("File"));
-    QToolBar *fileToolBar = addToolBar(tr("File"));
+    QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
+    QToolBar *fileToolBar = addToolBar(tr("Dosya"));
 #ifdef Q_WS_MAC
     fileToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 #endif
@@ -225,8 +230,8 @@ void hC_hsp::createMenusAndToolBar()
     fileMenu->addAction(fileQuitAction);
 
     QAction *emptyAction = 0;
-    QMenu *editMenu = menuBar()->addMenu(tr("Edit"));
-    QToolBar *editToolBar = addToolBar(tr("Edit"));
+    QMenu *editMenu = menuBar()->addMenu(tr("Düzen"));
+    QToolBar *editToolBar = addToolBar(tr("Düzen"));
 #ifdef Q_WS_MAC
     editToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 #endif
@@ -265,10 +270,11 @@ void hC_hsp::createConnections()
             this, SLOT(updateUi()));
 
 #ifdef CUSTOM_MODEL
-    QAbstractItemDelegate::connect(modelXML,
-                                   SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
-                                   this, SLOT(setDirty()));
-    connect(modelXML, SIGNAL(stopTiming()), this, SLOT(stopTiming()));
+    connect(modelXML,
+                   SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+                   this, SLOT(setDirty()));
+    connect(modelXML, SIGNAL(stopTiming()), this,
+            SLOT(stopTiming()));
 #else
     connect(modelXML, SIGNAL(itemChanged(QStandardItem*)),
             this, SLOT(setDirty()));
@@ -319,9 +325,9 @@ void hC_hsp::closeEvent(QCloseEvent *event)
         settings.setValue(GeometrySetting, saveGeometry());
         settings.setValue(FilenameSetting, modelXML->filename());
         settings.setValue(CurrentTaskPathSetting,
-                          modelXML->pathForIndex(treeViewXML->currentIndex()));
+                   modelXML->pathForIndex(treeViewXML->currentIndex()));
 
-        qDebug() << settings.fileName();
+        qDebug() <<"close -> settings.filename "<< settings.fileName();
         event->accept();
     }
     else
@@ -334,8 +340,8 @@ bool hC_hsp::okToClearData()
    // qDebug() << "oktoclrdata";
     if (isWindowModified())
         return AQP::okToClearData(&hC_hsp::fileSave, this,
-                                  tr("Unsaved changes"),
-                                  tr("Save unsaved changes?"));
+                                  tr("Sayfada değişiklikler var"),
+                                  tr("Değişiklikler Kayıt Edilsin mi?"));
     return true;
 }
 
@@ -348,7 +354,7 @@ void hC_hsp::fileNew()
     modelXML->clear();
     modelXML->setFilename(QString());
     setDirty(false);
-    setWindowTitle(tr("%1 - Unnamed[*]")
+    setWindowTitle(tr("%1 - İsimsiz hesap dosyası[*]")
                    .arg(QApplication::applicationName()));
     updateUi();
 }
@@ -409,10 +415,10 @@ void hC_hsp::fileOpen()
         return;
     QString filename = modelXML->filename();
     QString dir(filename.isEmpty() ? QString(".")
-                                   : QFileInfo(filename).canonicalPath());
+                     : QFileInfo(filename).canonicalPath());
     filename = QFileDialog::getOpenFileName(this,
-                                            tr("%1 - Open").arg(QApplication::applicationName()),
-                                            dir, tr("Timelogs (*.tlg)"));
+              tr("%1 - Open").arg(QApplication::applicationName()),
+                 dir, tr("konumlar (*.knm)"));
     if (!filename.isEmpty())
         load(filename);
 }
@@ -423,9 +429,9 @@ void hC_hsp::load(const QString &filename,
 {
     qDebug() << "loading file '" << filename
              << "' at path : " << taskPath;
-  //  qDebug() << "000000000011111111";
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-  //  qDebug() << "000000000011111111";
+
     try {
         modelXML->load(filename);
         if (!taskPath.isEmpty()) {
@@ -442,16 +448,16 @@ void hC_hsp::load(const QString &filename,
             treeViewXML->resizeColumnToContents(column);
         setDirty(false);
 
-    //    qDebug() << "11111111";
-        setWindowTitle(tr("%1 - %2[-*-]")
+
+        setWindowTitle(tr("%1 - %2[*]")
                        .arg(QApplication::applicationName())
                        .arg(QFileInfo(filename).fileName()));
-    //    qDebug() << "2222222222";
-        statusBar()->showMessage(tr("Loaded %1").arg(filename),
+
+        statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
                                  StatusTimeout);
     } catch (AQP::Error &error) {
-        AQP::warning(this, tr("Error"), tr("Failed to load %1: %2")
-                     .arg(filename).arg(QString::fromUtf8(error.what())));
+        AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2")
+         .arg(filename).arg(QString::fromUtf8(error.what())));
     }
     updateUi();
     editHideOrShowDoneTasks(
@@ -483,14 +489,14 @@ bool hC_hsp::fileSave()
             setDirty(false);
             setWindowTitle(tr("%1 - %2[*]")
                            .arg(QApplication::applicationName())
-                           .arg(QFileInfo(modelXML->filename()).fileName()));
+                  .arg(QFileInfo(modelXML->filename()).fileName()));
             statusBar()->showMessage(tr("Saved %1")
-                                     .arg(modelXML->filename()), StatusTimeout);
+                      .arg(modelXML->filename()), StatusTimeout);
             saved = true;
         } catch (AQP::Error &error) {
             AQP::warning(this, tr("Error"),
-                         tr("Failed to save %1: %2").arg(modelXML->filename())
-                         .arg(QString::fromUtf8(error.what())));
+                 tr("Failed to save %1: %2").arg(modelXML->filename())
+               .arg(QString::fromUtf8(error.what())));
         }
     }
     updateUi();
@@ -505,13 +511,13 @@ bool hC_hsp::fileSaveAs()
     QString dir = filename.isEmpty() ? "."
                                      : QFileInfo(filename).path();
     filename = QFileDialog::getSaveFileName(this,
-                                            tr("%1 - Save As").arg(QApplication::applicationName()),
-                                            dir,
-                                            tr("%1 (*.tlg)").arg(QApplication::applicationName()));
+                       tr("%1 - Save As").arg(QApplication::applicationName()),
+                       dir,
+             tr("%1 (*.knm)").arg(QApplication::applicationName()));
     if (filename.isEmpty())
         return false;
-    if (!filename.toLower().endsWith(".tlg"))
-        filename += ".tlg";
+    if (!filename.toLower().endsWith(".knm"))
+        filename += ".knm";
     modelXML->setFilename(filename);
     return fileSave();
 }
@@ -576,9 +582,8 @@ void hC_hsp::editAdd()
     {
         index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
-      //  qDebug() << "100001";
         treeViewXML->edit(index);
-      //  qDebug() << "200002";
+
         QString name = modelXML->data(index).toString();
         qDebug() <<"--------------------------------------" ;
         qDebug() <<"--------------------------------------" ;
@@ -612,13 +617,13 @@ void hC_hsp::editDelete()
 #endif
     QString message;
     if (rows == 0)
-        message = tr("<p>Delete '%1'").arg(name);
+        message = tr("<p>HESAP SİL '%1'").arg(name);
     else if (rows == 1)
-        message = tr("<p>Delete '%1' and its child (and "
-                     "grandchildren etc.)").arg(name);
+        message = tr("<p>HESAP SİL '%1' ve alt hesabı (ve "
+                     "alt hesaba bağlı hesaplar)").arg(name);
     else if (rows > 1)
-        message = tr("<p>Delete '%1' and its %2 children (and "
-                     "grandchildren etc.)").arg(name).arg(rows);
+        message = tr("<p>HESAP SİL '%1' ve ona bağlı %2 alt hesap "
+                     "(ve alt hesaplara bağlı hesaplar)").arg(name).arg(rows);
     if (!AQP::okToDelete(this, tr("Delete"), message))
         return;
     modelXML->removeRow(index.row(), index.parent());
