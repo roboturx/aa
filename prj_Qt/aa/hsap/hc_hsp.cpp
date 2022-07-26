@@ -113,12 +113,6 @@ hC_hsp::hC_hsp(QWidget *parent)
     }
 
 
-    /// hesapdetaylarını oluştur
-    ///
-
-    m_hspdty = new hC_HSPDTY ;
-    m_hspdty->show();
-    m_hspdty->setWindowTitle("Hesap Kayıtları");
 
     }
 
@@ -129,15 +123,14 @@ void hC_hsp::createModelAndView()
     qDebug() << "Modelling Hsp XML...";
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
-    //   tableViewSQL = new QTableView;
+
+    /// hesapdetaylarını oluştur
+    ///
+    m_hspdty = new hC_HSPDTY ;
+    m_hspdty->tbsetup ();
 #ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
-
-    //modelSQL = new QSqlRelationalTableModel (this);
-    //modelSQL->setTable("dbtb_hesap");
-    //tableViewSQL->setDragDropMode(QAbstractItemView::InternalMove);
-    //tableViewSQL->setModel(modelSQL);
 #else
     modelXML = new StandardTreeModel(this);
 #endif
@@ -148,12 +141,13 @@ void hC_hsp::createModelAndView()
     treeViewXML->setItemDelegateForColumn(0,
                                           new RichTextDelegate);
     treeViewXML->setModel(modelXML);
+//????
     sqlTableName = new QLabel("Boşşşş");
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
-    //  gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
-    //  gridd->addWidget( tb_view , 0, 1, 1, 1);
+    gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
+    gridd->addWidget( m_hspdty , 0, 1, 1, 1);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -337,7 +331,7 @@ void hC_hsp::closeEvent(QCloseEvent *event)
 
 bool hC_hsp::okToClearData()
 {
-    qDebug() << "oktoclrdata";
+   // qDebug() << "oktoclrdata";
     if (isWindowModified())
         return AQP::okToClearData(&hC_hsp::fileSave, this,
                                   tr("Unsaved changes"),
@@ -410,7 +404,7 @@ void hC_hsp::updateUi()
 
 void hC_hsp::fileOpen()
 {
-    qDebug() << "fileopen";
+    //qDebug() << "fileopen";
     if (!okToClearData())
         return;
     QString filename = modelXML->filename();
@@ -429,9 +423,9 @@ void hC_hsp::load(const QString &filename,
 {
     qDebug() << "loading file '" << filename
              << "' at path : " << taskPath;
-    qDebug() << "000000000011111111";
+  //  qDebug() << "000000000011111111";
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    qDebug() << "000000000011111111";
+  //  qDebug() << "000000000011111111";
     try {
         modelXML->load(filename);
         if (!taskPath.isEmpty()) {
@@ -448,11 +442,11 @@ void hC_hsp::load(const QString &filename,
             treeViewXML->resizeColumnToContents(column);
         setDirty(false);
 
-        qDebug() << "11111111";
+    //    qDebug() << "11111111";
         setWindowTitle(tr("%1 - %2[-*-]")
                        .arg(QApplication::applicationName())
                        .arg(QFileInfo(filename).fileName()));
-        qDebug() << "2222222222";
+    //    qDebug() << "2222222222";
         statusBar()->showMessage(tr("Loaded %1").arg(filename),
                                  StatusTimeout);
     } catch (AQP::Error &error) {
@@ -469,7 +463,7 @@ void hC_hsp::load(const QString &filename,
 
 void hC_hsp::setCurrentIndex(const QModelIndex &index)
 {
-    qDebug() << "setcurindx";
+  //  qDebug() << "setcurindx";
     if (index.isValid()) {
         treeViewXML->scrollTo(index);
         treeViewXML->setCurrentIndex(index);
@@ -479,7 +473,7 @@ void hC_hsp::setCurrentIndex(const QModelIndex &index)
 
 bool hC_hsp::fileSave()
 {
-    qDebug() << "filesave";
+   // qDebug() << "filesave";
     bool saved = false;
     if (modelXML->filename().isEmpty())
         saved = fileSaveAs();
@@ -506,7 +500,7 @@ bool hC_hsp::fileSave()
 
 bool hC_hsp::fileSaveAs()
 {
-    qDebug() << "filesaveas";
+   // qDebug() << "filesaveas";
     QString filename = modelXML->filename();
     QString dir = filename.isEmpty() ? "."
                                      : QFileInfo(filename).path();
@@ -575,16 +569,16 @@ void hC_hsp::editAdd()
 
 void hC_hsp::editAdd()
 {
-    qDebug() << "Yeni Hesap Ekle";
+   // qDebug() << "Yeni Hesap Ekle";
     QModelIndex index = treeViewXML->currentIndex();
     qDebug() << index;
     if (modelXML->insertRow(0, index))
     {
         index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
-        qDebug() << "100001";
+      //  qDebug() << "100001";
         treeViewXML->edit(index);
-        qDebug() << "200002";
+      //  qDebug() << "200002";
         QString name = modelXML->data(index).toString();
         qDebug() <<"--------------------------------------" ;
         qDebug() <<"--------------------------------------" ;
@@ -600,7 +594,7 @@ void hC_hsp::editAdd()
 
 void hC_hsp::editDelete()
 {
-    qDebug() << "editdelete";
+    //qDebug() << "editdelete";
     QModelIndex index = treeViewXML->currentIndex();
     if (!index.isValid())
         return;
@@ -770,8 +764,12 @@ void hC_hsp::timeout()
 {
     qDebug() << "timeout";
 #ifdef CUSTOM_MODEL
-    // qt 6   modelXML->incrementEndTimeForTimedItem(timedTime.elapsed());
-    // qt 6  timedTime.restart();
+
+    ///////////////////////////////////////////////////////////////
+  // qt 5  modelXML->incrementEndTimeForTimedItem(timedTime.elapsed());
+    modelXML->incrementEndTimeForTimedItem(timer.remainingTime ());
+  // qt 5  timedTime.restart();
+    timer.start ();
 #else
     Q_ASSERT(timedItem);
     timedItem->incrementLastEndTime(timedTime.elapsed());

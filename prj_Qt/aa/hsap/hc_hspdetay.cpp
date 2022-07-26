@@ -6,12 +6,12 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 {
     qDebug ()<<"Constructor HESAP DETAY **************************";
     //************************************************************
-    //*****************  H E S A P  ******************************
+    //************  H E S A P  D E T A Y L A R I  ****************
 
     win_Label->setText ( "HESAP DETAY KAYITLARI");
     *tb_name   = "hsp_dbtb" ;
     *tb_ndex  = "hsp_ad";
-
+    qDebug ()<<"C2";
     tb_flds = new hC_ArrD (13, 4);
     tb_flds->setValue ( 0, "hsp_ID"      , "INTEGER", "HesapID", "0" ) ;
     tb_flds->setValue ( 1, "hsp_parentID", "INTEGER", "HspParentID" ) ;
@@ -27,7 +27,7 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     tb_flds->setValue (11, "hsp_turu"    , "TEXT"   , "Türü");
 
     tb_flds->setValue (12, "hsp_resim"   , "BLOB"   , "Resim");
-
+qDebug ()<<"C3";
     tb_wdgts = new QList <QWidget*> ;
     tb_wdgts->append ( nullptr    ) ; // id
     tb_wdgts->append ( lE_pid  = new QLineEdit   ) ; // parent id
@@ -42,9 +42,9 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     tb_wdgts->append ( lE_gizli = new QLineEdit  ) ;
     tb_wdgts->append ( lE_toplu = new QLineEdit  ) ;
     tb_wdgts->append ( cB_turu = new QComboBox   ) ;
-
+qDebug ()<<"C4";
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
-
+qDebug ()<<"C5";
 }
 
 
@@ -163,10 +163,6 @@ void hC_HSPDTY::tbwdgt()
 
 void hC_HSPDTY::debugger(QString num)
 {
-
-
-
-
     curIndex = tb_view->table->currentIndex ();
     qDebug() << num+num+num
              << " rCnt =" <<  tb_model->rowCount()
@@ -187,7 +183,6 @@ void hC_HSPDTY::debugger(QString num)
 
 void hC_HSPDTY::tbkntrl()
 {
-
 
     tb_view->table->setFocus();
     //tb_slctnModel->select( tb_model->index(0,0));

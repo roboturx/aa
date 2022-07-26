@@ -30,13 +30,8 @@ public:
    hC_HSPDTY* m_hspdty;
 
 
-signals:
-  //  void cikis(QString);
-
 public slots:
     void stopTiming();
-//    void logouted();
-//    void yetkiler(const QString& yetki, const QString& user);
 
 protected:
     void closeEvent(QCloseEvent*);
@@ -99,11 +94,9 @@ private:
     QAction *editHideOrShowDoneTasksAction;
 
     QTreeView *treeViewXML;
-    //QTableView *tableViewSQL;
     QWidget *centralWdgt;
 #ifdef CUSTOM_MODEL
     TreeModel *modelXML;
-  //  QSqlRelationalTableModel *modelSQL;
 #else
     StandardTreeModel *model;
     StandardItem *timedItem;
