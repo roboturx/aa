@@ -9,7 +9,8 @@
 namespace {
 const int ColumnCount = 5;
 const int MaxCompression = 9;
-enum Column {HesapAd, Gun, Toplam, HesapTuru, UstHesap};
+//enum Column {HesapKod, HesapAd, Gun, Toplam, HesapTuru, UstHesap};
+enum Column {HesapKod, HesapAd, Topluhesap, HesapTuru, UstHesap};
 const QString MimeType = "application/vnd.qtrac.xml.task.z";
 }
 
@@ -19,7 +20,8 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
     Qt::ItemFlags theFlags = QAbstractItemModel::flags(index);
     if (index.isValid()) {
         theFlags |= Qt::ItemIsSelectable|Qt::ItemIsEnabled;
-        if (index.column() == HesapAd)
+        if (index.column() == HesapAd ||
+            index.column() == Topluhesap)
             theFlags |= Qt::ItemIsUserCheckable|Qt::ItemIsEditable|
                         Qt::ItemIsDragEnabled|Qt::ItemIsDropEnabled;
     }
@@ -35,17 +37,20 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (TaskItem *item = itemForIndex(index)) {
         if (role == Qt::DisplayRole || role == Qt::EditRole) {
             switch (index.column()) {
+                case HesapKod: return item->hesapKod();
                 case HesapAd: return item->hesapAd();
-                case Gun: return item->todaysTime();
-                case Toplam: return item->totalTime();
+                case Topluhesap: return item->isTopluHesap();
+          //      case Gun: return item->todaysTime();
+          //      case Toplam: return item->totalTime();
                 case HesapTuru: return item->hesapTuru();
                 case UstHesap: return item->ustHesap();
                 default: Q_ASSERT(false);
             }
         }
         if (role == Qt::CheckStateRole &&
-            index.column() == HesapAd)
-            return static_cast<int>(item->isTopluHesap() ? Qt::Checked
+            index.column() == Topluhesap)
+            return static_cast<int>(item->isTopluHesap() ?
+                                        Qt::Checked
                                  : Qt::Unchecked);
         if (role == Qt::TextAlignmentRole) {
             if (index.column() == HesapAd)
@@ -55,7 +60,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
                                     | Qt::AlignRight);
         }
         if (role == Qt::DecorationRole
-            && index.column() == Gun
+            && index.column() == HesapAd
             && timedItem
             && item == timedItem
             && !m_icon.isNull())
@@ -69,12 +74,14 @@ QVariant TreeModel::headerData(int section,
         Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        if (section == HesapAd)
+        if (section == HesapKod)
+            return tr("Hesap Kodu");
+        else if (section == HesapAd)
             return tr("Hesap Adı");
-        else if (section == Gun)
-            return tr("Açıklama");
-        else if (section == Toplam)
-            return tr("Toplam");
+      //  else if (section == Gun)
+   //         return tr("Açıklama");
+        else if (section == Topluhesap)
+            return tr("Toplu Hesap");
         else if (section == HesapTuru)
             return tr("Hesap Turu");
         else if (section == UstHesap)
@@ -165,12 +172,12 @@ bool TreeModel::insertRows(int row, int count,
                            const QModelIndex &parent)
 {
     if (!rootItem)
-        rootItem = new TaskItem;
+        rootItem = new TaskItem(111111,"root hesap");
     TaskItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : rootItem;
     beginInsertRows(parent, row, row + count - 1);
     for (int i = 0; i < count; ++i) {
-        TaskItem *item = new TaskItem(tr("Yeni Hesap"), false);
+        TaskItem *item = new TaskItem(2222222,tr("Yeni Hesap"), false);
         parentItem->insertChild(row, item);
     }
     endInsertRows();
@@ -419,9 +426,9 @@ void TreeModel::announceItemChanged(TaskItem *item)
     Q_ASSERT(parent);
     int row = parent->rowOfChild(item);
     QModelIndex startIndex = createIndex(row,
-                 static_cast<int>(HesapAd), item);
-    //    QModelIndex endIndex = createIndex(row, static_cast<int>(Toplam),
-    //item);
+                 static_cast<int>(HesapKod), item);
+    //    QModelIndex endIndex = createIndex(row,
+    //               static_cast<int>(Toplam),item);
     QModelIndex endIndex = createIndex(row,
                  static_cast<int>(UstHesap), item);
     emit dataChanged(startIndex, endIndex);
@@ -481,7 +488,7 @@ void TreeModel::load(const QString &filename)
         throw AQP::Error(file.errorString());
 
     clear();
-    rootItem = new TaskItem;
+    rootItem = new TaskItem(333333);
     QXmlStreamReader reader(&file);
     readTasks(&reader, rootItem);
     if (reader.hasError())
@@ -502,6 +509,8 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
         {
             if (reader->name() == TaskTag)
             {
+                const quint64 hesapKod = reader->attributes()
+                          .value(HesapKodAttribute).toULongLong ();
                 const QString hesapAd = reader->attributes()
                         .value(HesapAdAttribute).toString();
                 bool topluHesap = false;
@@ -521,7 +530,7 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
                         .value(UstHesapAttribute)
                         .toString () == "uuuusthesap3";
 
-                task = new TaskItem(hesapAd, topluHesap,
+                task = new TaskItem(hesapKod, hesapAd, topluHesap,
                                     hesapTuru, ustHesap, task);
             }
             else if (reader->name() == NeZamanTag) {
@@ -579,6 +588,8 @@ void TreeModel::writeTaskAndChildren(QXmlStreamWriter *writer,
 {
     if (task != rootItem) {
         writer->writeStartElement(TaskTag);
+        writer->writeAttribute(HesapKodAttribute,
+                               QString::number (task->hesapKod() ));
         writer->writeAttribute(HesapAdAttribute,
                                task->hesapAd());
         writer->writeAttribute(TopluHesapAttribute,

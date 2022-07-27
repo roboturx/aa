@@ -128,6 +128,9 @@ void hC_hsp::createModelAndView()
     ///
     m_hspdty = new hC_HSPDTY ;
     m_hspdty->tbsetup ();
+    ///
+    /// ////////////////////////
+
 #ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
@@ -142,11 +145,16 @@ void hC_hsp::createModelAndView()
                                           new RichTextDelegate);
     treeViewXML->setModel(modelXML);
 //????
-    sqlTableName = new QLabel("Boşşşş");
+    lB_HesapKod = new QLabel("Kod-------");
+    lB_HesapAd = new QLabel("Ad--------");
+    lB_HesapKodAd = new QLabel("KodAd---------");
+    m_Hesap_Kod = new quint64{};
+    m_Hesap_Ad = new QString{};
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
-    gridd->addWidget(sqlTableName, 1, 0, 1, 1 );
+    gridd->addWidget(lB_HesapKodAd, 1, 0, 1, 1 );
+
     gridd->addWidget( m_hspdty , 0, 1, 1, 1);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
@@ -389,6 +397,7 @@ void hC_hsp::updateUi()
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
+        qDebug() << "3xxxxx0" << currentItem->hesapKod ();
         qDebug() << "3xxxxx0" << currentItem->hesapAd ();
         qDebug() << "4xxxxx1" << QString::number(currentItem->isTopluHesap());
         qDebug() << "3xxxxx2" << currentItem->hesapTuru();
@@ -396,11 +405,15 @@ void hC_hsp::updateUi()
         qDebug() << "3xxxxx4" ;
 
 
-        sqlTableName->setText(currentItem->hesapAd() +
-                              QString::number(currentItem->isTopluHesap() ) +
-                              currentItem->hesapTuru() +
-                              currentItem->ustHesap()
-                              );
+        emit sgnHesap (m_Hesap_Kod, m_Hesap_Ad);
+        lB_HesapKodAd->setText(currentItem->hesapAd() +" - "+
+                      QString::number(currentItem->hesapKod() )
+                          );
+        lB_HesapKod->setText(QString::number(currentItem->hesapKod()) +
+                             QString::number(currentItem->isTopluHesap() ) +
+                             currentItem->hesapTuru() +
+                             currentItem->ustHesap()
+                             );
 
         qDebug() << "?????????*";
     }

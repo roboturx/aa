@@ -25,42 +25,19 @@ class hC_hsp : public QMainWindow
 public:
     explicit hC_hsp(QWidget *parent=0);
 
-    QLabel * sqlTableName;
+    QString* m_Hesap_Ad;
+    quint64 * m_Hesap_Kod;
 
-   hC_HSPDTY* m_hspdty;
+    QLabel * lB_HesapKod;
+    QLabel * lB_HesapAd;
+    QLabel * lB_HesapKodAd;
+
+    hC_HSPDTY* m_hspdty;
 
 
-public slots:
-    void stopTiming();
 
-protected:
-    void closeEvent(QCloseEvent*);
 
-private slots:
-    void fileNew();
-    void fileOpen();
-    bool fileSave();
-    bool fileSaveAs();
-    void editAdd();
-    void editDelete();
-#ifdef CUSTOM_MODEL
-    void editCut();
-    void editPaste();
-    void editMoveUp();
-    void editMoveDown();
-    void editPromote();
-    void editDemote();
-#endif
-    void editStartOrStop(bool start);
-    void editHideOrShowDoneTasks(bool hide);
-    void setDirty(bool dirty=true)
-        {   setWindowModified(dirty);  }
 
-    void load(const QString &filename,
-              const QStringList &taskPath=QStringList());
-    void timeout();
-    void updateIcon(int frame);
-    void updateUi();
 
 private:
     void createModelAndView();
@@ -106,6 +83,41 @@ private:
     QTime timedTime;
     int currentIcon;
 
+protected:
+    void closeEvent(QCloseEvent*);
+
+signals:
+    void sgnHesap(quint64* m_Hesap_Kod, QString* m_Hesap_Ad);
+
+
+public slots:
+    void stopTiming();
+
+private slots:
+    void fileNew();
+    void fileOpen();
+    bool fileSave();
+    bool fileSaveAs();
+    void editAdd();
+    void editDelete();
+#ifdef CUSTOM_MODEL
+    void editCut();
+    void editPaste();
+    void editMoveUp();
+    void editMoveDown();
+    void editPromote();
+    void editDemote();
+#endif
+    void editStartOrStop(bool start);
+    void editHideOrShowDoneTasks(bool hide);
+    void setDirty(bool dirty=true)
+    {   setWindowModified(dirty);  }
+
+    void load(const QString &filename,
+              const QStringList &taskPath=QStringList());
+    void timeout();
+    void updateIcon(int frame);
+    void updateUi();
 };
 
 #endif // hC_hsp_H

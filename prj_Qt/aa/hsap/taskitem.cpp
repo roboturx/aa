@@ -2,12 +2,14 @@
 #include "taskitem.h"
 
 
-TaskItem::TaskItem(const QString &hesapAd,
+TaskItem::TaskItem(const quint64 &hesapKod,
+                   const QString &hesapAd,
                    const bool topluHesap,
                    const QString &hesapTuru,
                    const QString &ustHesap,
                    TaskItem *parent)
-        : m_hesapAd(hesapAd),
+        : m_hesapKod(hesapKod),
+          m_hesapAd(hesapAd),
           m_topluHesap(topluHesap),
           m_parent(parent)
 {

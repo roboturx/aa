@@ -486,6 +486,11 @@ void hC_HSPDTY::tbkntrl()
             //         tb_view->table->selectionModel()->setCurrentIndex
             //             (sample,QItemSelectionModel::NoUpdate);
 
+            QString hesapID = tb_model->data
+                              (tb_model->index
+                               (indx.row (),
+                                tb_model->fieldIndex ("hsp_ID"))).toString ();
+
             QString hesapad = tb_model->data
                     (tb_model->index
                      (indx.row (),
@@ -494,8 +499,8 @@ void hC_HSPDTY::tbkntrl()
 
             QMessageBox::StandardButton dlg;
             dlg = QMessageBox::question(this,
-                                        "KAYIT SİL", hesapad ,
-                                        QMessageBox::Yes | QMessageBox::No);
+                    "KAYIT SİL", hesapID+" - "+hesapad ,
+                       QMessageBox::Yes | QMessageBox::No);
 
             if(dlg == QMessageBox::Yes)
             {

@@ -9,6 +9,7 @@
 extern QString GLB_yetki;
 
 const QString TaskTag("HESAP");
+const QString HesapKodAttribute("HESAPKOD");
 const QString HesapAdAttribute("HESAPAD");
 const QString HesapTuruAttribute("HESAPTURU");
 const QString UstHesapAttribute("USTHESAP");

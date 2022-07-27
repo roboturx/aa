@@ -25,7 +25,8 @@
 class TaskItem
 {
 public:
-    explicit TaskItem(const QString &hesapAd=QString(),
+    explicit TaskItem(const quint64 &hesapKod,
+                      const QString &hesapAd=QString(),
                       const bool bool_topluHesap=false,
                       const QString &hesapTuru=QString(),
                       const QString &ustHesap=QString(),
@@ -34,6 +35,9 @@ public:
 
     QString hesapAd() const { return m_hesapAd; }
     void setHesapAd(const QString &hesapAd) { m_hesapAd = hesapAd; }
+    quint64 hesapKod() const { return m_hesapKod; }
+    void setHesapKod(const quint64 &hesapKod) { m_hesapKod = hesapKod; }
+
     bool isTopluHesap() const { return m_topluHesap; }
     void setTopluHesap(bool bool_topluHesap) { m_topluHesap = bool_topluHesap; }
     QString hesapTuru() const { return m_hesapTuru; }
@@ -68,6 +72,7 @@ public:
 private:
     int minutesForTask(bool onlyForToday) const;
 
+    quint64 m_hesapKod;
     QString m_hesapAd;
     bool m_topluHesap;
     QString m_hesapTuru;
