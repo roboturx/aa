@@ -1,0 +1,45 @@
+GET FILE="/media/m/depo_ssd/aa/pspp/anti-hcv-hepsi.sav".
+GET DATA
+  /TYPE=ODS
+  /FILE="/media/m/depo_ssd/HCV2022-07/hepatit cinsiyetsonki34.ods"
+  /SHEET = NAME "antihcvhepsi"
+  /READNAMES=ON
+  /CELLRANGE=RANGE "A1:M100197".
+uyarı: `/media/m/depo_ssd/HCV2022-07/hepatit cinsiyetsonki34.ods' hesap tablosunun seçilmiş sayfası veya aralığı boş.
+GET DATA
+  /TYPE=ODS
+  /FILE="/media/m/depo_ssd/HCV2022-07/hepatit cinsiyetsonki34.ods"
+  /SHEET = NAME "antihcvhepsi"
+  /READNAMES=ON
+  /CELLRANGE=RANGE "A1:M100197".
+
+FREQUENCIES
+	/VARIABLES= NsonuçPN Nyaş
+	/FORMAT=AVALUE TABLE
+	/STATISTICS=MEAN MINIMUM MAXIMUM.
+CROSSTABS 
+	/TABLES= NsonuçPN	BY	 Ncinsiyet Nyaş
+	/FORMAT=AVALUE TABLES PIVOT
+	/STATISTICS=CHISQ
+	/CELLS=COUNT ROW COLUMN TOTAL.
+RECODE  Nyaş
+	(0 THRU 9 = 0) (10 THRU 19 = 1) (20 THRU 29 = 2) (30 THRU 39 = 3) (40 THRU 49 = 4) (50 THRU 59 = 5) (60 THRU 69 = 6) (70 THRU 150 = 7) 
+	INTO YasGrubu .
+VARIABLE LABELS YasGrubu "Yaş Grupları".
+EXECUTE.
+SAVE OUTFILE="/media/m/depo_ssd/aa/pspp/anti-hcv-hepsi.sps.sav".
+FREQUENCIES
+	/VARIABLES= NsonuçPN YasGrubu
+	/FORMAT=AVALUE TABLE
+	/STATISTICS=MEAN MINIMUM MAXIMUM.
+CROSSTABS 
+	/TABLES= NsonuçPN	BY	 Ncinsiyet YasGrubu
+	/FORMAT=AVALUE TABLES PIVOT
+	/STATISTICS=CHISQ
+	/CELLS=COUNT ROW COLUMN TOTAL.
+SAVE OUTFILE="/media/m/depo_ssd/aa/pspp/anti-hcv-hepsi.sps.sav".
+CROSSTABS 
+	/TABLES= NsonuçPN	BY	 Ncinsiyet YasGrubu
+	/FORMAT=AVALUE TABLES PIVOT
+	/CELLS=COUNT ROW COLUMN TOTAL.
+SAVE OUTFILE="/media/m/depo_ssd/aa/pspp/anti-hcv-hepsi.sps.sav".
