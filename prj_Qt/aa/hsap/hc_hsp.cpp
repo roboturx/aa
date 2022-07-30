@@ -381,7 +381,8 @@ void hC_hsp::updateUi()
 #ifdef CUSTOM_MODEL
     foreach (QAction *action, QList<QAction*>()
              << editDeleteAction
-             << editMoveUpAction << editMoveDownAction << editCutAction
+             << editMoveUpAction << editMoveDownAction
+             << editCutAction
              << editPromoteAction << editDemoteAction)
 #else
     foreach (QAction *action, QList<QAction*>() << editDeleteAction
@@ -588,7 +589,7 @@ void hC_hsp::editAdd()
 
 void hC_hsp::editAdd()
 {
-   // qDebug() << "Yeni Hesap Ekle";
+    qDebug() << "Yeni Hesap Ekle";
     QModelIndex index = treeViewXML->currentIndex();
     qDebug() << index;
     if (modelXML->insertRow(0, index))
@@ -599,13 +600,14 @@ void hC_hsp::editAdd()
 
         QString name = modelXML->data(index).toString();
         qDebug() <<"--------------------------------------" ;
-        qDebug() <<"--------------------------------------" ;
+        qDebug() <<"----şşşşş----------------------------------" ;
         qDebug() << name ;
         qDebug() <<"--------------------------------------" ;
         qDebug() <<"--------------------------------------" ;
         setDirty();
         updateUi();
     }
+
 }
 #endif
 
