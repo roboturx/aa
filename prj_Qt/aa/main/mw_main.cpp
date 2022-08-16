@@ -3,7 +3,7 @@
 MW_main::MW_main( )
 {
     setAcceptDrops(true);
-    this->setWindowTitle ("Çiftli Kayıt Sistemi ile Muhasebe Kontrol");
+    this->setWindowTitle ("Muhasebe Kontrol");
     //this->setGeometry (20,20,800,500);
     //this->showMaximized();
     this->setObjectName ("objMW_main");

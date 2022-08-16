@@ -167,7 +167,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     t_all->addWidget (widget_buttonz );
     t_all->addWidget (table         );
     t_all->addWidget (win_Wdgt       );
-    t_all->addStretch (1);
+ ///   t_all->addStretch (1);
     //win_Wdgt->hide ();
 
     connect(cB_map  , &QCheckBox ::clicked ,

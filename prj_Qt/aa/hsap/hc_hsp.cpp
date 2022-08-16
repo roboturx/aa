@@ -152,10 +152,10 @@ void hC_hsp::createModelAndView()
     m_Hesap_Ad = new QString{};
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
-    gridd->addWidget(treeViewXML , 0, 0, 1, 1 );
-    gridd->addWidget(lB_HesapKodAd, 1, 0, 1, 1 );
+    gridd->addWidget(treeViewXML , 0, 0, 4, 2 );
+    gridd->addWidget(lB_HesapKodAd, 5, 0, 1, 1 );
 
-    gridd->addWidget( m_hspdty , 0, 1, 1, 1);
+    gridd->addWidget( m_hspdty , 0, 2, 2, 3);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -273,14 +273,27 @@ void hC_hsp::createMenusAndToolBar()
 void hC_hsp::createConnections()
 {
     connect(treeViewXML->selectionModel(),
-            SIGNAL(currentChanged(const QModelIndex&,
-                                  const QModelIndex&)),
-            this, SLOT(updateUi()));
+            &QItemSelectionModel::currentChanged,
+            this, &hC_hsp::updateUi);
+
+
+    /// selection değiştiğinde hesap kod ve adını yayalım gitsin
+    ///
+    ///
+
+
+
+//    connect(treeViewXML->selectionModel(),
+  //          SIGNAL(currentChanged(QModelIndex&,
+    //                              QModelIndex&)),
+      //      this, SLOT(updateUi()));
+
 
 #ifdef CUSTOM_MODEL
     connect(modelXML,
                    SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
                    this, SLOT(setDirty()));
+
     connect(modelXML, SIGNAL(stopTiming()), this,
             SLOT(stopTiming()));
 #else
@@ -326,7 +339,7 @@ void hC_hsp::createConnections()
 
 void hC_hsp::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "mw close";
+    qDebug() << "hsp close";
     stopTiming();
     if (okToClearData()) {
         QSettings settings;
@@ -406,7 +419,23 @@ void hC_hsp::updateUi()
         qDebug() << "3xxxxx4" ;
 
 
-        emit sgnHesap (m_Hesap_Kod, m_Hesap_Ad);
+        /// mevcut hesap kod ve ad değişkenlere
+        /// hspdty kayıtlarında kullanılmak üzere
+        ///
+        ///
+
+        *m_Hesap_Kod = currentItem->hesapKod ();
+        *m_Hesap_Ad = currentItem->hesapAd ();
+
+        /// hesap değiştiğinde detaylarda değişsin
+        ///
+        ///
+
+        QString filtre ;
+        filtre = "hspdty_ID=" +  QString::number(currentItem->hesapKod () ) ;
+        m_hspdty->tb_model->setFilter(filtre);
+
+
         lB_HesapKodAd->setText(currentItem->hesapAd() +" - "+
                       QString::number(currentItem->hesapKod() )
                           );
@@ -416,7 +445,6 @@ void hC_hsp::updateUi()
                              currentItem->ustHesap()
                              );
 
-        qDebug() << "?????????*";
     }
 
 }

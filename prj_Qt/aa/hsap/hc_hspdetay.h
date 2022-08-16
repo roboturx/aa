@@ -2,6 +2,7 @@
 #define hC_HSPDTY_H
 
 #include "libs/globals.h"
+//#include "hc_hsp.h"
 
 
 namespace nSHsp
@@ -18,24 +19,20 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
-    QLineEdit   *lE_pid=nullptr    ;
-    QLineEdit   *lE_ad=nullptr    ;
-
+    QLineEdit   *lE_hspdtyID=nullptr    ;
+    QLineEdit   *lE_hspID=nullptr    ;
     QDateEdit   *dE_tarih=nullptr   ;
+    QLineEdit   *lE_no=nullptr    ;
     QLineEdit   *lE_aciklama{};
-    QComboBox   *cB_parabrm=nullptr;
-    QLineEdit   *lE_not{};
-    QLineEdit   *lE_gizli{};
-    QLineEdit   *lE_toplu{}   ;
-    QComboBox   *cB_turu{}   ;
-    QLineEdit   *lE_lft{}   ;
-    QLineEdit   *lE_rgt{}   ;
+    QComboBox   *cB_transfer=nullptr;
+    QLineEdit   *lE_r{};
+    QLineEdit   *lE_borc{};
+    QLineEdit   *lE_alacak{}   ;
+
     QGridLayout* win_Grid;
+    int hspdtyID{};
     int hesapID{};
-    int hesapParentID{};
-    QString hesapAd{};
-    int hesapLeft{};
-    int hesapRight{};
+    QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003", "d'MM'MMcaryyyy");
     int reccount{};
     QModelIndex curIndex;
 
@@ -54,15 +51,8 @@ private:
 protected:
     void showEvent(QShowEvent *);
 
-//signals:
-//    void sgnHsp (const QString sgnHspID); //
-
-
-
-
 private slots:
-
-    void slt_tbx_rowChange(); //connect selectionmodel change
+    void slt_tbx_rowChange(const QString sgnHspID, const QString sgnHspAd); //connect selectionmodel change
 };
 
 #endif // hC_HSPDTY_H
