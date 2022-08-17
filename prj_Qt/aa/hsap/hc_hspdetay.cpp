@@ -211,39 +211,27 @@ void hC_HSPDTY::tbkntrl()
         if ( reccount == 0 ) //DOSYADA KAYIT YOK
         {
             /////////////////////////////////////////
-            /// node eklerken 3 ayrı durum vardır
+            /// node eklerken 2 ayrı durum vardır
             ///
-            /// DOSYADA KAYIT YOK İLK KAYDI EKLE
+            /// DOSYADA KAYIT YOK - İLK KAYDI EKLE
             ///
-            ///         root node
-            /// 01    * Dosya BOŞ ilk node oluştur
-            ///         left her zaman 1 dir
-            ///         right 2 dir. node eklendikçe değişir
+            /// DOSYADA KAYIT VAR - KAYIT EKLE
             ///
-            /// DOSYADA KAYIT VAR LEAF VEYA NODE KAYDI EKLE
-            ///
-            ///         leaf node
-            /// 02    * altında node olmayan node
-            ///         left = left + 1 dir
-            /// 03    * altında leaf OLAN node
-            ///         left != left + 1
             ///
 
             // DOSYA BOŞ İLK KAYIT EKLE
-            hspdtyID = 1; // max_id ilk 1
+           // hspdtyID = 1; // max_id ilk 1
             hesapID = 0; // root node
 
 
 
             //   qDebug()<<"001 Dosyaya ilk kayıt ekleniyor...";
             // Dosyaya 1. kaydı ekle
-            /// Dosyaya ilk kayıt durumunda lft=1 rgt=2 olacak
 
             qStr = QString("INSERT INTO "+*tb_name +
-                           " ( hspdty_ID, hspdty_hspID,"
-                           " hspdty_tarih ) "
-                           " values ( '1', '1', "
-                           " '10-10-2022' )");
+                           " ( hspdty_hspID) "
+                           " values ( '%1' )")
+                    .arg(hesapID);
 
             if ( !query.exec(qStr) )
             {
@@ -270,9 +258,8 @@ void hC_HSPDTY::tbkntrl()
 
             /// yeni node oluştur
             qStr = QString("INSERT INTO "+*tb_name
-                           +" (hspdty_ID, hspdty_hspID ) "
-                            "values ( "+ QString::number(*max_id) +
-                           " , "+QString::number(hspdtyID)+ " )") ;
+                           +" ( hspdty_hspID ) "
+                            "values ( "+QString::number(hesapID)+ " )") ;
 
 
 

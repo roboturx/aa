@@ -38,10 +38,6 @@ public:
 
     void tbsetup () ;
 
-
-   // hC_tree *tb_treeview;
-
-
 private:
     void tbwdgt  () ;
     void tbui    () ;

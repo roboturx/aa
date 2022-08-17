@@ -128,6 +128,7 @@ void hC_hsp::createModelAndView()
     ///
     m_hspdty = new hC_HSPDTY ;
     m_hspdty->tbsetup ();
+
     ///
     /// ////////////////////////
 
@@ -432,7 +433,7 @@ void hC_hsp::updateUi()
         ///
 
         QString filtre ;
-        filtre = "hspdty_ID=" +  QString::number(currentItem->hesapKod () ) ;
+        filtre = "hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
         m_hspdty->tb_model->setFilter(filtre);
 
 
