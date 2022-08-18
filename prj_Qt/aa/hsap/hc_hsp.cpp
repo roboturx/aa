@@ -425,7 +425,7 @@ void hC_hsp::updateUi()
 
         *m_Hesap_Kod = currentItem->hesapKod ();
         *m_Hesap_Ad = currentItem->hesapAd ();
-
+        emit sgnHesap (m_Hesap_Kod, m_Hesap_Ad );
         /// hesap değiştiğinde detaylarda değişsin
         ///
         ///

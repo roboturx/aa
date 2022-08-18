@@ -32,8 +32,8 @@ public:
     QGridLayout* win_Grid;
     int hspdtyID{};
 
-    quint64 m_hesapID{};
-    QString m_hesapAd{};
+    quint64* m_hesapID{};
+    QString* m_hesapAd{};
 
     QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003", "d'MM'MMcaryyyy");
     int reccount{};
@@ -51,8 +51,8 @@ protected:
     void showEvent(QShowEvent *);
 
 public slots:
-    void slt_tbx_rowChange(const quint64 sgnHspID,
-                           const QString sgnHspAd); //connect selectionmodel change
+    void slt_tbx_rowChange(quint64 *sgnHspID,
+                           QString *sgnHspAd); //connect selectionmodel change
 };
 
 #endif // hC_HSPDTY_H

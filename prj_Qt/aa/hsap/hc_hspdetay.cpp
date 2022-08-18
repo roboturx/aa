@@ -221,7 +221,7 @@ void hC_HSPDTY::tbkntrl()
 
             // DOSYA BOŞ İLK KAYIT EKLE
            // hspdtyID = 1; // max_id ilk 1
-            hesapID = 0; // root node
+           // m_hesapID = 0; // root node
 
 
 
@@ -230,8 +230,9 @@ void hC_HSPDTY::tbkntrl()
 
             qStr = QString("INSERT INTO "+*tb_name +
                            " ( hspdty_hspID) "
-                           " values ( '%1' )")
-                    .arg(hesapID);
+                           " values ( '"+
+                            QString::number (*m_hesapID)+
+                            "' )")  ;
 
             if ( !query.exec(qStr) )
             {
@@ -250,8 +251,8 @@ void hC_HSPDTY::tbkntrl()
 
             hspdtyID = tb_model->data (tb_model->index (curIndex.row (),
                                                         tb_model->fieldIndex ("hspdty_ID"))).toInt ();
-            hesapID = tb_model->data (tb_model->index (curIndex.row (),
-                                                       tb_model->fieldIndex ("hspdty_hspID"))).toInt ();
+            //hesapID = tb_model->data (tb_model->index (curIndex.row (),
+                            //                           tb_model->fieldIndex ("hspdty_hspID"))).toInt ();
 
             // debugger("2");
 
@@ -259,7 +260,7 @@ void hC_HSPDTY::tbkntrl()
             /// yeni node oluştur
             qStr = QString("INSERT INTO "+*tb_name
                            +" ( hspdty_hspID ) "
-                            "values ( "+QString::number(hesapID)+ " )") ;
+                            "values ( "+QString::number(*m_hesapID)+ " )") ;
 
 
 
@@ -392,10 +393,10 @@ void hC_HSPDTY::tbkntrl()
             qDebug() <<"index is invalid - tb mappper setCurrentModelIndex";
         }
 
-        hspdtyID = tb_model->data (tb_model->index (Index.row (),
-                                                    tb_model->fieldIndex ("hspdty_id"))).toInt ();
-        hesapID = tb_model->data (tb_model->index (Index.row (),
-                                                   tb_model->fieldIndex ("hspdty_parentid"))).toInt ();
+    //    hspdtyID = tb_model->data (tb_model->index (Index.row (),
+                                             //       tb_model->fieldIndex ("hspdty_id"))).toInt ();
+    //    hesapID = tb_model->data (tb_model->index (Index.row (),
+                                                //   tb_model->fieldIndex ("hspdty_parentid"))).toInt ();
 debugger("6");
         // 011-02 hesap row değiştiğinde hesap id yi etrafa yayınlayalım
         //   emit hC_HSPDTY::sgnHsp(tb_view->table->model()->index( Index.row() ,
@@ -422,8 +423,8 @@ void hC_HSPDTY::showEvent(QShowEvent *)
     qDebug() << "Hesap dosyası açılıyor";
 }
 
-void hC_HSPDTY::slt_tbx_rowChange(const quint64 sgnHspID,
-                                  const QString sgnHspAd)
+void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,
+                                  QString *sgnHspAd)
 {
     m_hesapID = sgnHspID;
     m_hesapAd = sgnHspAd;
