@@ -47,24 +47,16 @@ hC_hsp::hC_hsp(QWidget *parent)
       currentIcon(0)
 {
 
-
+    qDebug() << "Actions, Menu, Connecting slots...";
     createModelAndView();
-    qDebug() << "Actions...";
     createActions();
-    qDebug() << "Menu & toolbar";
     createMenusAndToolBar();
-    qDebug() << "Connecting slots...";
     createConnections();
 
-
     AQP::accelerateMenu(menuBar());
-#ifdef CUSTOM_MODEL
     setWindowTitle(tr("%1 (Hesap Dosyası)[*]")
                    .arg(QApplication::applicationName()));
-#else
-    setWindowTitle(tr("%1 (QStandardItemModel)[*]")
-                   .arg(QApplication::applicationName()));
-#endif
+
     statusBar()->showMessage(tr("Uygulama Hazır"), StatusTimeout);
     qDebug() << "Uygulama Hazır - XML dosyası kontrol ediliyor...";
     timer.setInterval(333);
@@ -77,11 +69,11 @@ hC_hsp::hC_hsp(QWidget *parent)
    // qDebug() << "---------------------------------------";
    // qDebug() << "-hC_hspXMLMw Constructed.-";
    // qDebug() << "---------------------------------------";
-    qDebug() << "checking settings for existing XML file";
-    qDebug() << "     if saved in settings, but not on disk CREATE NEW XML FILE ";
-    qDebug() << "        else if not saved, CREATE NEW XML FILE ";
-    qDebug() << "        else if saved and on disk LOAD XML FILE ";
-    qDebug() << "---------------------------------------";
+//    qDebug() << "checking settings for existing XML file";
+//    qDebug() << "     if saved in settings, but not on disk CREATE NEW XML FILE ";
+//    qDebug() << "        else if not saved, CREATE NEW XML FILE ";
+//    qDebug() << "        else if saved and on disk LOAD XML FILE ";
+//    qDebug() << "---------------------------------------";
 
 
     QSettings settings;
@@ -282,12 +274,18 @@ void hC_hsp::createConnections()
     ///
     ///
 
-
+    connect(this, &hC_hsp::sgnHesap,
+            m_hspdty, &hC_HSPDTY::slt_tbx_rowChange);
 
 //    connect(treeViewXML->selectionModel(),
-  //          SIGNAL(currentChanged(QModelIndex&,
-    //                              QModelIndex&)),
-      //      this, SLOT(updateUi()));
+//            &QItemSelectionModel::currentChanged,
+//            this, &hC_HSPDTY::slt_tbx_rowChange);
+
+
+    connect(treeViewXML->selectionModel(),
+            SIGNAL(currentChanged(QModelIndex&,
+                                  QModelIndex&)),
+            this, SLOT(updateUi()));
 
 
 #ifdef CUSTOM_MODEL

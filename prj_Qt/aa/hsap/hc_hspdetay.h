@@ -31,7 +31,10 @@ public:
 
     QGridLayout* win_Grid;
     int hspdtyID{};
-    int hesapID{};
+
+    quint64 m_hesapID{};
+    QString m_hesapAd{};
+
     QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003", "d'MM'MMcaryyyy");
     int reccount{};
     QModelIndex curIndex;
@@ -47,8 +50,9 @@ private:
 protected:
     void showEvent(QShowEvent *);
 
-private slots:
-    void slt_tbx_rowChange(const QString sgnHspID, const QString sgnHspAd); //connect selectionmodel change
+public slots:
+    void slt_tbx_rowChange(const quint64 sgnHspID,
+                           const QString sgnHspAd); //connect selectionmodel change
 };
 
 #endif // hC_HSPDTY_H

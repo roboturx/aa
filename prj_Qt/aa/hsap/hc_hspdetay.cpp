@@ -422,10 +422,11 @@ void hC_HSPDTY::showEvent(QShowEvent *)
     qDebug() << "Hesap dosyası açılıyor";
 }
 
-void hC_HSPDTY::slt_tbx_rowChange(const QString sgnHspID,
+void hC_HSPDTY::slt_tbx_rowChange(const quint64 sgnHspID,
                                   const QString sgnHspAd)
 {
-
+    m_hesapID = sgnHspID;
+    m_hesapAd = sgnHspAd;
 }
 
 
