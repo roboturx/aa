@@ -44,11 +44,22 @@ Rectangle {
                 eulerRotation.x: 30
                 materials: cubeMaterial
                 source: "#Cube"
-                DefaultMaterial {
-                    id: cubeMaterial
-                    diffuseColor: "#4aee45"
-                }
             }
         }
     }
+
+    Item {
+        id: __materialLibrary__
+        DefaultMaterial {
+            id: cubeMaterial
+            diffuseColor: "#4aee45"
+            objectName: "cubeMaterial"
+        }
+    }
 }
+
+/*##^##
+Designer {
+    D{i:0}D{i:8;matPrevEnv:"Default";matPrevEnvValue:"";matPrevModel:"#Sphere"}
+}
+##^##*/
