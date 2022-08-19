@@ -3,7 +3,7 @@
 
 #include "libs/globals.h"
 #include "hc_hspdetay.h"
-//#include "login.h"
+
 
 class QAction;
 class QStandardItem;
@@ -11,12 +11,7 @@ class StandardItem;
 class QModelIndex;
 class QTreeView;
 
-#ifdef CUSTOM_MODEL
 class TreeModel;
-#else
-class StandardTreeModel;
-#endif
-
 
 class hC_hsp : public QMainWindow
 {
@@ -25,19 +20,14 @@ class hC_hsp : public QMainWindow
 public:
     explicit hC_hsp(QWidget *parent=0);
 
-    QString* m_Hesap_Ad;
-    quint64 * m_Hesap_Kod;
+    QString* ps_Hesap_Ad;
+    quint64* pi_Hesap_Kod;
 
     QLabel * lB_HesapKod;
     QLabel * lB_HesapAd;
     QLabel * lB_HesapKodAd;
 
-    hC_HSPDTY* m_hspdty;
-
-
-
-
-
+    hC_HSPDTY* o_hspdty;
 
 private:
     void createModelAndView();
@@ -46,11 +36,8 @@ private:
     void createConnections();
     bool okToClearData();
     void setCurrentIndex(const QModelIndex &index);
-#ifdef CUSTOM_MODEL
+
     void hideOrShowDoneTask(bool hide, const QModelIndex &index);
-#else
-    void hideOrShowDoneTask(bool hide, QStandardItem *item);
-#endif
 
     QAction *fileNewAction;
     QAction *fileOpenAction;
@@ -59,25 +46,22 @@ private:
     QAction *fileQuitAction;
     QAction *editAddAction;
     QAction *editDeleteAction;
-#ifdef CUSTOM_MODEL
+
     QAction *editCutAction;
     QAction *editPasteAction;
     QAction *editMoveUpAction;
     QAction *editMoveDownAction;
     QAction *editPromoteAction;
     QAction *editDemoteAction;
-#endif
+
     QAction *editStartOrStopAction;
     QAction *editHideOrShowDoneTasksAction;
 
     QTreeView *treeViewXML;
     QWidget *centralWdgt;
-#ifdef CUSTOM_MODEL
+
     TreeModel *modelXML;
-#else
-    StandardTreeModel *model;
-    StandardItem *timedItem;
-#endif
+
     QTimer timer;
     QTimeLine iconTimeLine;
     QTime timedTime;
@@ -100,14 +84,14 @@ private slots:
     bool fileSaveAs();
     void editAdd();
     void editDelete();
-#ifdef CUSTOM_MODEL
+
     void editCut();
     void editPaste();
     void editMoveUp();
     void editMoveDown();
     void editPromote();
     void editDemote();
-#endif
+
     void editStartOrStop(bool start);
     void editHideOrShowDoneTasks(bool hide);
     void setDirty(bool dirty=true)

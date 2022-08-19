@@ -171,16 +171,59 @@ bool TreeModel::setData(const QModelIndex &index,
 bool TreeModel::insertRows(int row, int count,
                            const QModelIndex &parent)
 {
+     qDebug() << "**treemodel.cpp-insertrows******************************************"
+              << rowCount(parent);
     if (!rootItem)
-        rootItem = new TaskItem(111111,"root hesap");
+    {
+        rootItem = new TaskItem(1,"ROOT");
+
+        qDebug() << "rootItem rowcount" << rowCount(parent) ;
+        qDebug() << "hkod:" << rootItem->hesapKod ()
+                 << " :ad:" << rootItem->hesapAd ()
+                 << " :tpl:" << QString::number(rootItem->isTopluHesap())
+                 << " :tur:" << rootItem->hesapTuru()
+                 << " :ust:" << rootItem->ustHesap()
+                 << "rootItem" ;
+
+
+    }
     TaskItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : rootItem;
+    qDebug() << "parentItem rowcount" << rowCount(parent) ;
+    qDebug() << " pkod:" << parentItem->hesapKod ();
+    qDebug() << " :ad:" << parentItem->hesapAd ();
+    qDebug() << " :tpl:  :" << QString::number(parentItem->isTopluHesap());
+    qDebug() << " :tur:" << parentItem->hesapTuru();
+    qDebug() << " :ust:" << parentItem->ustHesap();
+    qDebug() << "parentItem" ;
+
     beginInsertRows(parent, row, row + count - 1);
-    for (int i = 0; i < count; ++i) {
-        TaskItem *item = new TaskItem(2222222,tr("Yeni Hesap"), false);
+    qDebug() << "111";
+    for (int i = 0; i < count; ++i)
+    {
+        qDebug() << "2222";
+        ++*pi_max_Hesap_ID;
+        qDebug() << "2222333";
+        QString str_hesapID =   QString::number(*pi_max_Hesap_ID) ;
+        qDebug() << "222244444";
+        TaskItem *item = new TaskItem(*pi_max_Hesap_ID, str_hesapID, false);
+qDebug() << "5555";
+
         parentItem->insertChild(row, item);
+        qDebug() << "item" << i << " rowcount" << rowCount(parent) ;
+        qDebug() << "item" << i << " hesapkod :" << item->hesapKod ();
+        qDebug() << "item" << i << " hesap ad :" << item->hesapAd ();
+        qDebug() << "item" << i << " istoplu  :" << QString::number(item->isTopluHesap());
+        qDebug() << "item" << i << " hesapturu:" << item->hesapTuru();
+        qDebug() << "item" << i << " usthesap :" << item->ustHesap();
+        qDebug() << "item" << i ;
     }
+    qDebug() << "********************************************";
     endInsertRows();
+
+
+
+
     return true;
 }
 
@@ -487,8 +530,14 @@ void TreeModel::load(const QString &filename)
     if (!file.open(QIODevice::ReadOnly))
         throw AQP::Error(file.errorString());
 
+
     clear();
-    rootItem = new TaskItem(333333);
+
+    rootItem = new TaskItem(0);
+    pi_max_Hesap_ID = new qint64{};
+    *pi_max_Hesap_ID = 0;
+
+
     QXmlStreamReader reader(&file);
     readTasks(&reader, rootItem);
     if (reader.hasError())
@@ -502,6 +551,7 @@ void TreeModel::load(const QString &filename)
 void TreeModel::readTasks(QXmlStreamReader *reader,
                           TaskItem *task)
 {
+
     while (!reader->atEnd())
     {
         reader->readNext();
@@ -509,8 +559,16 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
         {
             if (reader->name() == TaskTag)
             {
-                const quint64 hesapKod = reader->attributes()
+                quint64 hesapKod = reader->attributes()
                           .value(HesapKodAttribute).toULongLong ();
+                qDebug () << "------------------------------------------"
+                             "********** hesapkod = " << hesapKod;
+
+                if (hesapKod > *pi_max_Hesap_ID)
+                {
+                   *pi_max_Hesap_ID = hesapKod;
+                }
+
                 const QString hesapAd = reader->attributes()
                         .value(HesapAdAttribute).toString();
                 bool topluHesap = false;
@@ -544,21 +602,17 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
                 task->addDateTime(start, end);
             }
         }
-//<<<<<<< HEAD
-  //      else if (reader->isEndElement())
-    //    {
-      //      if (reader->hesapAd() == TaskTag)
-//=======
-        else if (reader->isEndElement()) {
+
+        else if (reader->isEndElement())
+        {
             if (reader->name() == TaskTag)
-//>>>>>>> 915694300efd28edf28d99ce22953f1e33cb2864
             {
                 Q_ASSERT(task);
                 task = task->parent();
                 Q_ASSERT(task);
             }
         }
-    }
+    } // while end
 }
 
 

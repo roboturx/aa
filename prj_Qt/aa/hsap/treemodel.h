@@ -34,6 +34,8 @@ public:
           cutItem(0) {}
     ~TreeModel() { delete rootItem; delete cutItem; }
 
+    qint64* pi_max_Hesap_ID;
+
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant data(const QModelIndex &index,
                   int role=Qt::DisplayRole) const;

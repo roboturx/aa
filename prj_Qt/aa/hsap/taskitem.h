@@ -25,12 +25,12 @@
 class TaskItem
 {
 public:
-    explicit TaskItem(const quint64 &hesapKod,
-                      const QString &hesapAd=QString(),
-                      const bool bool_topluHesap=false,
-                      const QString &hesapTuru=QString(),
-                      const QString &ustHesap=QString(),
-                      TaskItem *parent=0);
+    explicit TaskItem(const quint64 &hesapKod    = 0,
+                      const QString &hesapAd     = QString(),
+                      const bool bool_topluHesap = false,
+                      const QString &hesapTuru   = QString(),
+                      const QString &ustHesap    = QString(),
+                      TaskItem *parent           = 0 );
     ~TaskItem() { qDeleteAll(m_children); }
 
     QString hesapAd() const { return m_hesapAd; }

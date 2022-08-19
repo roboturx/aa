@@ -118,8 +118,8 @@ void hC_hsp::createModelAndView()
 
     /// hesapdetaylarını oluştur
     ///
-    m_hspdty = new hC_HSPDTY ;
-    m_hspdty->tbsetup ();
+    o_hspdty = new hC_HSPDTY ;
+    o_hspdty->tbsetup ();
 
     ///
     /// ////////////////////////
@@ -141,14 +141,14 @@ void hC_hsp::createModelAndView()
     lB_HesapKod = new QLabel("Kod-------");
     lB_HesapAd = new QLabel("Ad--------");
     lB_HesapKodAd = new QLabel("KodAd---------");
-    m_Hesap_Kod = new quint64{};
-    m_Hesap_Ad = new QString{};
+    pi_Hesap_Kod = new quint64{};
+    ps_Hesap_Ad = new QString{};
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 4, 2 );
     gridd->addWidget(lB_HesapKodAd, 5, 0, 1, 1 );
 
-    gridd->addWidget( m_hspdty , 0, 2, 2, 3);
+    gridd->addWidget( o_hspdty , 0, 2, 2, 3);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -184,7 +184,7 @@ void hC_hsp::createActions()
     editDeleteAction = createAction(":/rsm/images/editdelete.png",
                                     tr("Hesap Sil..."),
                                     this, QKeySequence::Delete);
-#ifdef CUSTOM_MODEL
+
     editCutAction = createAction(":/rsm/images/editcut.png", tr("Kes"),
                                  this, QKeySequence::Cut);
     editPasteAction = createAction(":/rsm/images/editpaste.png", tr("Yapıştır"),
@@ -197,7 +197,7 @@ void hC_hsp::createActions()
                                      tr("Üst Hesap Yap"), this, QKeySequence(tr("Ctrl+Left")));
     editDemoteAction = createAction(":/rsm/images/editdemote.png",
                                     tr("Alt Hesap Yap"), this, QKeySequence(tr("Ctrl+Right")));
-#endif
+
     editStartOrStopAction = createAction(":/rsm/images/0.png", tr("S&tart"),
                                          this, QKeySequence(tr("Ctrl+T")));
     editStartOrStopAction->setCheckable(true);
@@ -215,9 +215,7 @@ void hC_hsp::createMenusAndToolBar()
 
     QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
     QToolBar *fileToolBar = addToolBar(tr("Dosya"));
-#ifdef Q_WS_MAC
-    fileToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-#endif
+
     foreach (QAction *action, QList<QAction*>() << fileNewAction
              << fileOpenAction << fileSaveAction << fileSaveAsAction)
     {
@@ -233,21 +231,15 @@ void hC_hsp::createMenusAndToolBar()
     QAction *emptyAction = 0;
     QMenu *editMenu = menuBar()->addMenu(tr("Düzen"));
     QToolBar *editToolBar = addToolBar(tr("Düzen"));
-#ifdef Q_WS_MAC
-    editToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-#endif
-#ifdef CUSTOM_MODEL
+
+
     foreach (QAction *action, QList<QAction*>() << editAddAction
              << editDeleteAction << emptyAction
              << editCutAction << editPasteAction << emptyAction
              << editMoveUpAction << editMoveDownAction
              << editPromoteAction << editDemoteAction << emptyAction
              << editStartOrStopAction << editHideOrShowDoneTasksAction)
-#else
-    foreach (QAction *action, QList<QAction*>() << editAddAction
-             << editDeleteAction << emptyAction
-             << editStartOrStopAction << editHideOrShowDoneTasksAction)
-#endif
+
     {
         if (action == emptyAction) {
             editMenu->addSeparator();
@@ -275,30 +267,19 @@ void hC_hsp::createConnections()
     ///
 
     connect(this, &hC_hsp::sgnHesap,
-            m_hspdty, &hC_HSPDTY::slt_tbx_rowChange);
-
-//    connect(treeViewXML->selectionModel(),
-//            &QItemSelectionModel::currentChanged,
-//            this, &hC_HSPDTY::slt_tbx_rowChange);
-
+            o_hspdty, &hC_HSPDTY::slt_tbx_rowChange);
 
     connect(treeViewXML->selectionModel(),
-            SIGNAL(currentChanged(QModelIndex&,
-                                  QModelIndex&)),
+            SIGNAL(currentChanged(QModelIndex&,QModelIndex&)),
             this, SLOT(updateUi()));
 
-
-#ifdef CUSTOM_MODEL
     connect(modelXML,
                    SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
                    this, SLOT(setDirty()));
 
     connect(modelXML, SIGNAL(stopTiming()), this,
             SLOT(stopTiming()));
-#else
-    connect(modelXML, SIGNAL(itemChanged(QStandardItem*)),
-            this, SLOT(setDirty()));
-#endif // CUSTOM_MODEL
+
     connect(modelXML, SIGNAL(rowsRemoved(const QModelIndex&,int,int)),
             this, SLOT(setDirty()));
     connect(modelXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
@@ -311,14 +292,14 @@ void hC_hsp::createConnections()
     slotForAction[fileQuitAction] = SLOT(close());
     slotForAction[editAddAction] = SLOT(editAdd());
     slotForAction[editDeleteAction] = SLOT(editDelete());
-#ifdef CUSTOM_MODEL
+
     slotForAction[editCutAction] = SLOT(editCut());
     slotForAction[editPasteAction] = SLOT(editPaste());
     slotForAction[editMoveUpAction] = SLOT(editMoveUp());
     slotForAction[editMoveDownAction] = SLOT(editMoveDown());
     slotForAction[editPromoteAction] = SLOT(editPromote());
     slotForAction[editDemoteAction] = SLOT(editDemote());
-#endif
+
     QHashIterator<QAction*, QString> i(slotForAction);
     while (i.hasNext()) {
         i.next();
@@ -336,86 +317,44 @@ void hC_hsp::createConnections()
 }
 
 
-void hC_hsp::closeEvent(QCloseEvent *event)
-{
-    qDebug() << "hsp close";
-    stopTiming();
-    if (okToClearData()) {
-        QSettings settings;
-        settings.setValue(GeometrySetting, saveGeometry());
-        settings.setValue(FilenameSetting, modelXML->filename());
-        settings.setValue(CurrentTaskPathSetting,
-                   modelXML->pathForIndex(treeViewXML->currentIndex()));
 
-        qDebug() <<"close -> settings.filename "<< settings.fileName();
-        event->accept();
-    }
-    else
-        event->ignore();
-}
-
-
-bool hC_hsp::okToClearData()
-{
-   // qDebug() << "oktoclrdata";
-    if (isWindowModified())
-        return AQP::okToClearData(&hC_hsp::fileSave, this,
-                                  tr("Sayfada değişiklikler var"),
-                                  tr("Değişiklikler Kayıt Edilsin mi?"));
-    return true;
-}
-
-
-void hC_hsp::fileNew()
-{
-    qDebug() << "Yeni Hesap XML dosyası oluşturuluyor... ";
-    if (!okToClearData())
-        return;
-    modelXML->clear();
-    modelXML->setFilename(QString());
-    setDirty(false);
-    setWindowTitle(tr("%1 - İsimsiz hesap dosyası[*]")
-                   .arg(QApplication::applicationName()));
-    updateUi();
-}
 
 
 void hC_hsp::updateUi()
 {
 
-    qDebug() << "user interface updating...";
+    qDebug() << "user interface updating . . ." ;
     fileSaveAction->setEnabled(isWindowModified());
     int rows = modelXML->rowCount();
     fileSaveAsAction->setEnabled(isWindowModified() || rows);
     editHideOrShowDoneTasksAction->setEnabled(rows);
     bool enable = treeViewXML->currentIndex().isValid();
 
-#ifdef CUSTOM_MODEL
+
     foreach (QAction *action, QList<QAction*>()
              << editDeleteAction
              << editMoveUpAction << editMoveDownAction
              << editCutAction
              << editPromoteAction << editDemoteAction)
-#else
-    foreach (QAction *action, QList<QAction*>() << editDeleteAction
-             << editStartOrStopAction)
-#endif
+
         action->setEnabled(enable);
-#ifdef CUSTOM_MODEL
+
     editStartOrStopAction->setEnabled(rows);
     editPasteAction->setEnabled(modelXML->hasCutItem());
-#endif
+
 
     TaskItem* currentItem = static_cast<TaskItem*>
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
-        qDebug() << "3xxxxx0" << currentItem->hesapKod ();
-        qDebug() << "3xxxxx0" << currentItem->hesapAd ();
-        qDebug() << "4xxxxx1" << QString::number(currentItem->isTopluHesap());
-        qDebug() << "3xxxxx2" << currentItem->hesapTuru();
-        qDebug() << "3xxxxx3" << currentItem->ustHesap();
-        qDebug() << "3xxxxx4" ;
+        qDebug() << "ui currentItem" ;
+        qDebug() << " :kod:" << currentItem->hesapKod ()
+                 << " :ad :" << currentItem->hesapAd ()
+                 << " :tpl:" << QString::number(currentItem->isTopluHesap())
+                 << " :tur:" << currentItem->hesapTuru()
+                 << " :ust:" << currentItem->ustHesap()
+                 << "ui currentItem" ;
+
 
 
         /// mevcut hesap kod ve ad değişkenlere
@@ -423,16 +362,16 @@ void hC_hsp::updateUi()
         ///
         ///
 
-        *m_Hesap_Kod = currentItem->hesapKod ();
-        *m_Hesap_Ad = currentItem->hesapAd ();
-        emit sgnHesap (m_Hesap_Kod, m_Hesap_Ad );
+        *pi_Hesap_Kod = currentItem->hesapKod ();
+        *ps_Hesap_Ad = currentItem->hesapAd ();
+        emit sgnHesap (pi_Hesap_Kod, ps_Hesap_Ad );
         /// hesap değiştiğinde detaylarda değişsin
         ///
         ///
 
         QString filtre ;
-        filtre = "hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
-        m_hspdty->tb_model->setFilter(filtre);
+        filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
+        o_hspdty->tb_model->setFilter(filtre);
 
 
         lB_HesapKodAd->setText(currentItem->hesapAd() +" - "+
@@ -449,64 +388,6 @@ void hC_hsp::updateUi()
 }
 
 
-void hC_hsp::fileOpen()
-{
-    //qDebug() << "fileopen";
-    if (!okToClearData())
-        return;
-    QString filename = modelXML->filename();
-    QString dir(filename.isEmpty() ? QString(".")
-                     : QFileInfo(filename).canonicalPath());
-    filename = QFileDialog::getOpenFileName(this,
-              tr("%1 - Open").arg(QApplication::applicationName()),
-                 dir, tr("konumlar (*.knm)"));
-    if (!filename.isEmpty())
-        load(filename);
-}
-
-
-void hC_hsp::load(const QString &filename,
-                  const QStringList &taskPath)
-{
-    qDebug() << "loading file '" << filename
-             << "' at path : " << taskPath;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    try {
-        modelXML->load(filename);
-        if (!taskPath.isEmpty()) {
-#ifdef CUSTOM_MODEL
-            setCurrentIndex(modelXML->indexForPath(taskPath));
-#else
-            if (QStandardItem *item = modelXML->itemForPath(taskPath))
-                setCurrentIndex(item->index());
-#endif
-        }
-        for (int column = 0;
-             column < modelXML->columnCount();
-             ++column)
-            treeViewXML->resizeColumnToContents(column);
-        setDirty(false);
-
-
-        setWindowTitle(tr("%1 - %2[*]")
-                       .arg(QApplication::applicationName())
-                       .arg(QFileInfo(filename).fileName()));
-
-        statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
-                                 StatusTimeout);
-    } catch (AQP::Error &error) {
-        AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2")
-         .arg(filename).arg(QString::fromUtf8(error.what())));
-    }
-    updateUi();
-    editHideOrShowDoneTasks(
-                editHideOrShowDoneTasksAction->isChecked());
-    treeViewXML->setFocus();
-    QApplication::restoreOverrideCursor();
-}
-
 
 void hC_hsp::setCurrentIndex(const QModelIndex &index)
 {
@@ -518,117 +399,36 @@ void hC_hsp::setCurrentIndex(const QModelIndex &index)
 }
 
 
-bool hC_hsp::fileSave()
-{
-   // qDebug() << "filesave";
-    bool saved = false;
-    if (modelXML->filename().isEmpty())
-        saved = fileSaveAs();
-    else {
-        try {
-            modelXML->save();
-            setDirty(false);
-            setWindowTitle(tr("%1 - %2[*]")
-                           .arg(QApplication::applicationName())
-                  .arg(QFileInfo(modelXML->filename()).fileName()));
-            statusBar()->showMessage(tr("Saved %1")
-                      .arg(modelXML->filename()), StatusTimeout);
-            saved = true;
-        } catch (AQP::Error &error) {
-            AQP::warning(this, tr("Error"),
-                 tr("Failed to save %1: %2").arg(modelXML->filename())
-               .arg(QString::fromUtf8(error.what())));
-        }
-    }
-    updateUi();
-    return saved;
-}
+
+////////////// E D I T S //////////////////////////////////////////////
+///
+///
 
 
-bool hC_hsp::fileSaveAs()
-{
-   // qDebug() << "filesaveas";
-    QString filename = modelXML->filename();
-    QString dir = filename.isEmpty() ? "."
-                                     : QFileInfo(filename).path();
-    filename = QFileDialog::getSaveFileName(this,
-                       tr("%1 - Save As").arg(QApplication::applicationName()),
-                       dir,
-             tr("%1 (*.knm)").arg(QApplication::applicationName()));
-    if (filename.isEmpty())
-        return false;
-    if (!filename.toLower().endsWith(".knm"))
-        filename += ".knm";
-    modelXML->setFilename(filename);
-    return fileSave();
-}
-
-
-#ifndef CUSTOM_MODEL
-void hC_hsp::editAdd()
-{
-    QModelIndex index = treeViewXML->currentIndex();
-    StandardTreeModel::Insert insert = StandardTreeModel::AtTopLevel;
-
-    if (index.isValid()) {
-        QStandardItem *item = modelXML->itemFromIndex(index);
-#if QT_VERSION >= 0x040600
-        QScopedPointer<QMessageBox> messageBox(new QMessageBox(this));
-#else
-        QSharedPointer<QMessageBox> messageBox(new QMessageBox(this));
-#endif
-        messageBox->setWindowModality(Qt::WindowModal);
-        messageBox->setIcon(QMessageBox::Question);
-        messageBox->setWindowTitle(tr("%1 - Add Task")
-                                   .arg(QApplication::applicationName()));
-        messageBox->setText(tr("<p>Add at the top level or as a "
-                               "sibling or child of\n'%1'?").arg(item->text()));
-        messageBox->addButton(tr("&Top Level"),
-                              QMessageBox::AcceptRole);
-        QAbstractButton *siblingButton = messageBox->addButton(
-                    tr("&Sibling"), QMessageBox::AcceptRole);
-        QAbstractButton *childButton = messageBox->addButton(
-                    tr("C&hild"), QMessageBox::AcceptRole);
-        messageBox->setDefaultButton(
-                    qobject_cast<QPushButton*>(childButton));
-        messageBox->addButton(QMessageBox::Cancel);
-        messageBox->exec();
-        if (messageBox->clickedButton() ==
-                messageBox->button(QMessageBox::Cancel))
-            return;
-        if (messageBox->clickedButton() == childButton)
-            insert = StandardTreeModel::AsChild;
-        else if (messageBox->clickedButton() == siblingButton)
-            insert = StandardTreeModel::AsSibling;
-    }
-
-    if (QStandardItem *item = modelXML->insertNewTask(insert,
-                                                      tr("New Task"), index)) {
-        QModelIndex index = item->index();
-        setCurrentIndex(index);
-        treeViewXML->edit(index);
-        setDirty();
-        updateUi();
-    }
-}
-
-#else
 
 void hC_hsp::editAdd()
 {
-    qDebug() << "Yeni Hesap Ekle";
+    qDebug() << "Yeni Hesap Ekleniyor...............";
     QModelIndex index = treeViewXML->currentIndex();
-    qDebug() << index;
-    if (modelXML->insertRow(0, index))
+
+    if (modelXML->insertRows(0, 1, index))
     {
         index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
         treeViewXML->edit(index);
 
         QString name = modelXML->data(index).toString();
+        QString name2 = modelXML->data(modelXML->index(0, 1, index)).toString();
+        QString name3 = modelXML->data(modelXML->index(0, 2, index)).toString();
+        QString name4 = modelXML->data(modelXML->index(0, 3, index)).toString();
+        QString name5 = modelXML->data(modelXML->index(0, 4, index)).toString();
         qDebug() <<"--------------------------------------" ;
         qDebug() <<"----şşşşş----------------------------------" ;
-        qDebug() << name ;
+        qDebug() << name <<" pi max hesap id "<< *modelXML->pi_max_Hesap_ID;
+        qDebug() << name2 ;
+        qDebug() << name3 ;
+        qDebug() << name4 ;
+        qDebug() << name5 ;
         qDebug() <<"--------------------------------------" ;
         qDebug() <<"--------------------------------------" ;
         setDirty();
@@ -636,7 +436,7 @@ void hC_hsp::editAdd()
     }
 
 }
-#endif
+
 
 
 void hC_hsp::editDelete()
@@ -645,18 +445,12 @@ void hC_hsp::editDelete()
     QModelIndex index = treeViewXML->currentIndex();
     if (!index.isValid())
         return;
-#ifdef CUSTOM_MODEL
+
     QString name = modelXML->data(index).toString();
     int rows = modelXML->rowCount(index);
     if (modelXML->isTimedItem(index))
         stopTiming();
-#else
-    QStandardItem *item = modelXML->itemFromIndex(index);
-    if (item == timedItem)
-        stopTiming();
-    QString name = item->text();
-    int rows = item->rowCount();
-#endif
+
     QString message;
     if (rows == 0)
         message = tr("<p>HESAP SİL '%1'").arg(name);
@@ -674,15 +468,8 @@ void hC_hsp::editDelete()
 }
 
 
-void hC_hsp::stopTiming()
-{
-    qDebug() << "stoptiming";
-    if (editStartOrStopAction->isChecked())
-        editStartOrStopAction->trigger(); // stop the clock
-}
 
 
-#ifdef CUSTOM_MODEL
 void hC_hsp::editCut()
 {
     qDebug() << "editcut";
@@ -745,7 +532,187 @@ void hC_hsp::editDemote()
     editHideOrShowDoneTasks(
                 editHideOrShowDoneTasksAction->isChecked());
 }
-#endif // CUSTOM_MODEL
+
+
+
+
+//////////// X M L  F I L E  O P E R A T I O N S ////////////////////
+///
+///
+///
+
+
+
+
+bool hC_hsp::okToClearData()
+{
+     if (isWindowModified())
+        return AQP::okToClearData(&hC_hsp::fileSave, this,
+                                  tr("Sayfada değişiklikler var"),
+                                  tr("Değişiklikler Kayıt Edilsin mi?"));
+    return true;
+}
+
+
+
+void hC_hsp::fileNew()
+{
+    qDebug() << "Yeni Hesap XML dosyası oluşturuluyor... ";
+    if (!okToClearData())
+        return;
+    modelXML->clear();
+    modelXML->setFilename(QString());
+    setDirty(false);
+    setWindowTitle(tr("%1 - İsimsiz hesap dosyası[*]")
+                   .arg(QApplication::applicationName()));
+    updateUi();
+}
+
+
+void hC_hsp::fileOpen()
+{
+    //qDebug() << "fileopen";
+    if (!okToClearData())
+        return;
+    QString filename = modelXML->filename();
+    QString dir(filename.isEmpty() ? QString(".")
+                     : QFileInfo(filename).canonicalPath());
+    filename = QFileDialog::getOpenFileName(this,
+              tr("%1 - Open").arg(QApplication::applicationName()),
+                 dir, tr("konumlar (*.knm)"));
+    if (!filename.isEmpty())
+        load(filename);
+}
+
+
+void hC_hsp::load(const QString &filename,
+                  const QStringList &taskPath)
+{
+    qDebug() << "loading file '" << filename
+             << "' at path : " << taskPath;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    try {
+        modelXML->load(filename);
+        if (!taskPath.isEmpty())
+        {
+            setCurrentIndex(modelXML->indexForPath(taskPath));
+
+        }
+        for (int column = 0;
+             column < modelXML->columnCount();
+             ++column)
+            treeViewXML->resizeColumnToContents(column);
+        setDirty(false);
+
+
+        setWindowTitle(tr("%1 - %2[*]")
+                       .arg(QApplication::applicationName())
+                       .arg(QFileInfo(filename).fileName()));
+
+        statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
+                                 StatusTimeout);
+    } catch (AQP::Error &error) {
+        AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2")
+         .arg(filename).arg(QString::fromUtf8(error.what())));
+    }
+    updateUi();
+    editHideOrShowDoneTasks(editHideOrShowDoneTasksAction->isChecked());
+    treeViewXML->setFocus();
+    QApplication::restoreOverrideCursor();
+}
+
+
+
+bool hC_hsp::fileSave()
+{
+   // qDebug() << "filesave";
+    bool saved = false;
+    if (modelXML->filename().isEmpty())
+        saved = fileSaveAs();
+    else {
+        try {
+            modelXML->save();
+            setDirty(false);
+            setWindowTitle(tr("%1 - %2[*]")
+                           .arg(QApplication::applicationName())
+                  .arg(QFileInfo(modelXML->filename()).fileName()));
+            statusBar()->showMessage(tr("Saved %1")
+                      .arg(modelXML->filename()), StatusTimeout);
+            saved = true;
+        } catch (AQP::Error &error) {
+            AQP::warning(this, tr("Error"),
+                 tr("Failed to save %1: %2").arg(modelXML->filename())
+               .arg(QString::fromUtf8(error.what())));
+        }
+    }
+    updateUi();
+    return saved;
+}
+
+
+bool hC_hsp::fileSaveAs()
+{
+   // qDebug() << "filesaveas";
+    QString filename = modelXML->filename();
+    QString dir = filename.isEmpty() ? "."
+                                     : QFileInfo(filename).path();
+    filename = QFileDialog::getSaveFileName(this,
+                       tr("%1 - Save As").arg(QApplication::applicationName()),
+                       dir,
+             tr("%1 (*.knm)").arg(QApplication::applicationName()));
+    if (filename.isEmpty())
+        return false;
+    if (!filename.toLower().endsWith(".knm"))
+        filename += ".knm";
+    modelXML->setFilename(filename);
+    return fileSave();
+}
+
+
+
+
+
+//////////////////// O T H E R S /////////////////////////////////
+///
+///
+///
+///
+
+void hC_hsp::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "hsp close";
+    stopTiming();
+    if (okToClearData()) {
+        QSettings settings;
+        settings.setValue(GeometrySetting, saveGeometry());
+        settings.setValue(FilenameSetting, modelXML->filename());
+        settings.setValue(CurrentTaskPathSetting,
+                   modelXML->pathForIndex(treeViewXML->currentIndex()));
+
+        qDebug() <<"close -> settings.filename "<< settings.fileName();
+        event->accept();
+    }
+    else
+        event->ignore();
+}
+
+
+
+
+////////////////// T A S K S ////////////////////////////////////////////////
+///
+///
+
+
+
+void hC_hsp::stopTiming()
+{
+    qDebug() << "stoptiming";
+    if (editStartOrStopAction->isChecked())
+        editStartOrStopAction->trigger(); // stop the clock
+}
 
 
 void hC_hsp::editStartOrStop(bool start)
@@ -762,42 +729,24 @@ void hC_hsp::editStartOrStop(bool start)
         else {
             QIcon icon(":/0.png");
             QDateTime now = QDateTime::currentDateTime();
-#ifdef CUSTOM_MODEL
+
             modelXML->setTimedItem(index);
             modelXML->addDateTimeToTimedItem(now, now);
             modelXML->setIconForTimedItem(icon);
-#else
-            if (index.column() != 0) // timedItem is in column 0
-                index = modelXML->index(index.row(), 0, index.parent());
-            timedItem = static_cast<StandardItem*>(
-                        modelXML->itemFromIndex(index));
-            Q_ASSERT(timedItem);
-            timedItem->addDateTime(now, now);
-            timedItem->todayItem()->setIcon(icon);
-#endif
+
             editStartOrStopAction->setIcon(icon);
-#ifndef Q_WS_MAC
-            setWindowIcon(icon);
-#endif \
+
     // qt 6 timedTime.restart();
             timer.start();
             iconTimeLine.start();
         }
     }
-    else { // stop the clock
+    else
+    { // stop the clock
         timeout(); // update to now
-#ifdef CUSTOM_MODEL
+
         modelXML->setIconForTimedItem();
         modelXML->clearTimedItem();
-#else
-        if (timedItem) {
-            timedItem->todayItem()->setIcon(QIcon());
-            timedItem = 0;
-        }
-#endif
-#ifndef Q_WS_MAC
-        setWindowIcon(QIcon(":/rsm/images/icon.png"));
-#endif
         editStartOrStopAction->setIcon(QIcon(":/rsm/images/0.png"));
     }
     editStartOrStopAction->setText(start ? tr("S&top")
@@ -809,25 +758,8 @@ void hC_hsp::editStartOrStop(bool start)
 
 void hC_hsp::timeout()
 {
-    qDebug() << "timeout";
-#ifdef CUSTOM_MODEL
-
-    ///////////////////////////////////////////////////////////////
-  // qt 5  modelXML->incrementEndTimeForTimedItem(timedTime.elapsed());
     modelXML->incrementEndTimeForTimedItem(timer.remainingTime ());
-  // qt 5  timedTime.restart();
     timer.start ();
-#else
-    Q_ASSERT(timedItem);
-    timedItem->incrementLastEndTime(timedTime.elapsed());
-    timedTime.restart();
-    StandardItem *item = timedItem;
-    while (item) {
-        item->todayItem()->setText(item->todaysTime());
-        item->totalItem()->setText(item->totalTime());
-        item = static_cast<StandardItem*>(item->parent());
-    }
-#endif
 }
 
 
@@ -837,45 +769,17 @@ void hC_hsp::updateIcon(int frame)
     if (frame > LastFrame)
         return;
     QIcon icon(QString(":/rsm/images/%1.png").arg(frame));
-#ifdef CUSTOM_MODEL
     modelXML->setIconForTimedItem(icon);
-#else
-    Q_ASSERT(timedItem);
-    timedItem->todayItem()->setIcon(icon);
-#endif
     editStartOrStopAction->setIcon(icon);
-#ifndef Q_WS_MAC
-    setWindowIcon(icon);
-#endif
 }
 
 
 void hC_hsp::editHideOrShowDoneTasks(bool hide)
 {
     qDebug() << "edithideorshwdonetsks";
-#ifdef CUSTOM_MODEL
     hideOrShowDoneTask(hide, QModelIndex());
-#else
-    hideOrShowDoneTask(hide, modelXML->invisibleRootItem());
-#endif
 }
 
-
-
-#ifndef CUSTOM_MODEL
-void hC_hsp::hideOrShowDoneTask(bool hide, QStandardItem *item)
-{
-    QModelIndex index = item->parent() ? item->parent()->index()
-                                       : QModelIndex();
-    bool hideThisOne = hide && (item->checkState() == Qt::Checked);
-    treeViewXML->setRowHidden(item->row(), index, hideThisOne);
-    if (!hideThisOne) {
-        for (int row = 0; row < item->rowCount(); ++row)
-            hideOrShowDoneTask(hide, item->child(row, 0));
-    }
-}
-
-#else
 
 void hC_hsp::hideOrShowDoneTask(bool hide,
                                 const QModelIndex &index)
@@ -890,7 +794,3 @@ void hC_hsp::hideOrShowDoneTask(bool hide,
             hideOrShowDoneTask(hide, modelXML->index(row, 0, index));
     }
 }
-#endif
-
-
-
