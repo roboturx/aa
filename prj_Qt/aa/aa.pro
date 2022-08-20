@@ -61,7 +61,6 @@ libs/VTTekton.h \
 libs/alt_key.h \
 libs/aqp.h \
 # libs/dbase.h \
-libs/defines.h \
 libs/globals.h \
 libs/hc_.h \
 libs/kuhn_munkres.h \

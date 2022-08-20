@@ -116,6 +116,7 @@ void hC_hsp::createModelAndView()
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
 
+
     /// hesapdetaylarını oluştur
     ///
     o_hspdty = new hC_HSPDTY ;
@@ -124,19 +125,21 @@ void hC_hsp::createModelAndView()
     ///
     /// ////////////////////////
 
-#ifdef CUSTOM_MODEL
     modelXML = new TreeModel(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
-#else
-    modelXML = new StandardTreeModel(this);
-#endif
+
 #ifdef MODEL_TEST
     (void) new ModelTest(modelXML, this);
 #endif
     treeViewXML->setAllColumnsShowFocus(true);
-    treeViewXML->setItemDelegateForColumn(0,
-                                          new RichTextDelegate);
+    treeViewXML->setItemDelegateForColumn(3, new RichTextDelegate);
     treeViewXML->setModel(modelXML);
+    // kod kolonunu gizle
+    treeViewXML->setColumnHidden(0,1);
+
+
+
+
 //????
     lB_HesapKod = new QLabel("Kod-------");
     lB_HesapAd = new QLabel("Ad--------");

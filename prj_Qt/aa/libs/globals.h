@@ -4,7 +4,8 @@
 #define DATABASE_NAME	"adb.file"
 #define valiDDate 01,01,2023
 
-
+#include <QString>
+extern QString GLB_yetki;
 
 //#include "connection.h"
 #include "VTKontTekkere.h"
@@ -12,7 +13,7 @@
 #include "VTTekton.h"
 #include "alt_key.h"
 #include "aqp.h"
-#include "defines.h"
+
 #include "aqp.h"
 
 #include <QtGlobal>
@@ -87,7 +88,6 @@
 #include <QSqlRelationalTableModel>
 
 #include <QStandardItemModel>
-#include <QString>
 #include <QStringListModel>
 #include <QStyle>
 #include <QStyleFactory>

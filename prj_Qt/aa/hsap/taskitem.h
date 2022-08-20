@@ -2,15 +2,6 @@
 #define TASKITEM_HPP
 /*
     Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
-
-    This program or module is free software: you can redistribute it
-    and/or modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version. It is provided
-    for educational purposes and is distributed in the hope that it will
-    be useful, but WITHOUT ANY WARRANTY; without even the implied
-    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-    the GNU General Public License for more details.
 */
 
 #include <QDateTime>
@@ -27,23 +18,37 @@ class TaskItem
 public:
     explicit TaskItem(const quint64 &hesapKod    = 0,
                       const QString &hesapAd     = QString(),
+                      const QString &hesapAcklm  = QString(),
                       const bool bool_topluHesap = false,
                       const QString &hesapTuru   = QString(),
                       const QString &ustHesap    = QString(),
                       TaskItem *parent           = 0 );
-    ~TaskItem() { qDeleteAll(m_children); }
+    ~TaskItem() { qDeleteAll(lo_children); }
 
-    QString hesapAd() const { return m_hesapAd; }
-    void setHesapAd(const QString &hesapAd) { m_hesapAd = hesapAd; }
-    quint64 hesapKod() const { return m_hesapKod; }
-    void setHesapKod(const quint64 &hesapKod) { m_hesapKod = hesapKod; }
 
-    bool isTopluHesap() const { return m_topluHesap; }
-    void setTopluHesap(bool bool_topluHesap) { m_topluHesap = bool_topluHesap; }
-    QString hesapTuru() const { return m_hesapTuru; }
-    void setHesapTuru(const QString &hesapTuru) { m_hesapTuru = hesapTuru; }
-    QString ustHesap() const { return m_ustHesap; }
-    void setUstHesap(const QString &ustHesap) { m_ustHesap = ustHesap; }
+    /// XML:002
+    /// getters and setters
+    /// variables for XML file
+    ///
+
+    quint64 hesapKod() const { return f_mi_hesapKod; }
+    void setHesapKod(const quint64 &hesapKod) { f_mi_hesapKod = hesapKod; }
+
+    QString hesapAd() const { return f_ms_hesapAd; }
+    void setHesapAd(const QString &hesapAd) { f_ms_hesapAd = hesapAd; }
+
+    QString hesapAcklm() const { return f_ms_hesapAcklm; }
+    void setHesapAcklm(const QString &hesapAcklm) { f_ms_hesapAcklm = hesapAcklm; }
+
+    bool isTopluHesap() const { return f_mb_topluHesap; }
+    void setTopluHesap(bool bool_topluHesap) { f_mb_topluHesap = bool_topluHesap; }
+
+    QString hesapTuru() const { return f_ms_hesapTuru; }
+    void setHesapTuru(const QString &hesapTuru) { f_ms_hesapTuru = hesapTuru; }
+
+    QString ustHesap() const { return f_ms_ustHesap; }
+    void setUstHesap(const QString &ustHesap) { f_ms_ustHesap = ustHesap; }
+
 
     QList<QPair<QDateTime, QDateTime> > dateTimes() const
         { return m_dateTimes; }
@@ -52,36 +57,43 @@ public:
     QString todaysTime() const;
     QString totalTime() const;
     void incrementLastEndTime(int msec);
-    TaskItem *parent() const { return m_parent; }
-    TaskItem *childAt(int row) const { return m_children.value(row); }
+
+    TaskItem *parent() const { return o_parent; }
+    TaskItem *childAt(int row) const { return lo_children.value(row); }
     int rowOfChild(TaskItem *child) const
-        { return m_children.indexOf(child); }
-    int childCount() const { return m_children.count(); }
-    bool hasChildren() const { return !m_children.isEmpty(); }
-    QList<TaskItem*> children() const { return m_children; }
+        { return lo_children.indexOf(child); }
+    int childCount() const { return lo_children.count(); }
+    bool hasChildren() const { return !lo_children.isEmpty(); }
+    QList<TaskItem*> children() const { return lo_children; }
 
     void insertChild(int row, TaskItem *item)
-        { item->m_parent = this; m_children.insert(row, item); }
+        { item->o_parent = this; lo_children.insert(row, item); }
     void addChild(TaskItem *item)
-        { item->m_parent = this; m_children << item; }
+        { item->o_parent = this; lo_children << item; }
     void swapChildren(int oldRow, int newRow)
 //  qt6      { m_children.swap(oldRow, newRow); }
-                    { m_children.swapItemsAt (oldRow, newRow); }
+                    { lo_children.swapItemsAt (oldRow, newRow); }
     TaskItem* takeChild(int row);
 
 private:
     int minutesForTask(bool onlyForToday) const;
 
-    quint64 m_hesapKod;
-    QString m_hesapAd;
-    bool m_topluHesap;
-    QString m_hesapTuru;
-    QString m_ustHesap;
+    /// XML:001
+    /// define
+    /// variables for XML file
+    ///
+
+    quint64 f_mi_hesapKod;
+    QString f_ms_hesapAd;
+    QString f_ms_hesapAcklm;
+    bool    f_mb_topluHesap;
+    QString f_ms_hesapTuru;
+    QString f_ms_ustHesap;
 
     QList<QPair<QDateTime, QDateTime> > m_dateTimes;
 
-    TaskItem *m_parent;
-    QList<TaskItem*> m_children;
+    TaskItem *o_parent;
+    QList<TaskItem*> lo_children;
 };
 
 #endif // TASKITEM_HPP

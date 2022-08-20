@@ -2,15 +2,6 @@
 #define TREEMODEL_HPP
 /*
     Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
-
-    This program or module is free software: you can redistribute it
-    and/or modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version. It is provided
-    for educational purposes and is distributed in the hope that it will
-    be useful, but WITHOUT ANY WARRANTY; without even the implied
-    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-    the GNU General Public License for more details.
 */
 
 #include "taskitem.h"
@@ -34,7 +25,7 @@ public:
           cutItem(0) {}
     ~TreeModel() { delete rootItem; delete cutItem; }
 
-    qint64* pi_max_Hesap_ID;
+    qint64* pi_max_Hesap_ID; // for XML file rowid
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant data(const QModelIndex &index,
@@ -107,7 +98,7 @@ private:
     QModelIndex moveItem(TaskItem *parent, int oldRow, int newRow);
 
     QString m_filename;
-    QIcon m_icon;
+    QIcon   m_icon;
     TaskItem *timedItem;
     TaskItem *rootItem;
     TaskItem *cutItem;

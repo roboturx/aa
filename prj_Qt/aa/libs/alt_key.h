@@ -25,7 +25,8 @@ namespace AQP {
     be translated and can also be used pretty well everywhere a string
     is required, thus preserving the Alt_Key module's API.
 */
-class _Alphabet {
+class _Alphabet
+{
     Q_DECLARE_TR_FUNCTIONS(_Alphabet);
 public:
     _Alphabet() {}

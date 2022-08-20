@@ -4,17 +4,21 @@
 
 TaskItem::TaskItem(const quint64 &hesapKod,
                    const QString &hesapAd,
+                   const QString &hesapAcklm,
                    const bool topluHesap,
                    const QString &hesapTuru,
                    const QString &ustHesap,
                    TaskItem *parent)
-        : m_hesapKod(hesapKod),
-          m_hesapAd(hesapAd),
-          m_topluHesap(topluHesap),
-          m_parent(parent)
+        : f_mi_hesapKod(hesapKod),
+          f_ms_hesapAd(hesapAd),
+          f_ms_hesapAcklm(hesapAcklm),
+          f_mb_topluHesap(topluHesap),
+          f_ms_hesapTuru(hesapTuru),
+          f_ms_ustHesap(ustHesap),
+          o_parent(parent)
 {
-    if (m_parent)
-        m_parent->addChild(this);
+    if (parent)
+        o_parent->addChild(this);
 }
 
 
@@ -45,7 +49,7 @@ int TaskItem::minutesForTask(bool onlyForToday) const
             continue;
         minutes += (dateTime.first.secsTo(dateTime.second) / 60);
     }
-    foreach (TaskItem *child, m_children)
+    foreach (TaskItem *child, lo_children)
         minutes += child->minutesForTask(onlyForToday);
     return minutes;
 }
@@ -60,8 +64,8 @@ void TaskItem::incrementLastEndTime(int msec)
 
 TaskItem* TaskItem::takeChild(int row)
 {
-    TaskItem *item = m_children.takeAt(row);
+    TaskItem *item = lo_children.takeAt(row);
     Q_ASSERT(item);
-    item->m_parent = 0;
+    item->o_parent = 0;
     return item;
 }
