@@ -132,10 +132,10 @@ void hC_hsp::createModelAndView()
     (void) new ModelTest(modelXML, this);
 #endif
     treeViewXML->setAllColumnsShowFocus(true);
-    treeViewXML->setItemDelegateForColumn(3, new RichTextDelegate);
+    treeViewXML->setItemDelegateForColumn(2, new RichTextDelegate);
     treeViewXML->setModel(modelXML);
     // kod kolonunu gizle
-    treeViewXML->setColumnHidden(0,1);
+    treeViewXML->setColumnHidden(5,1);
 
 
 
@@ -420,20 +420,20 @@ void hC_hsp::editAdd()
         setCurrentIndex(index);
         treeViewXML->edit(index);
 
-        QString name = modelXML->data(index).toString();
-        QString name2 = modelXML->data(modelXML->index(0, 1, index)).toString();
-        QString name3 = modelXML->data(modelXML->index(0, 2, index)).toString();
-        QString name4 = modelXML->data(modelXML->index(0, 3, index)).toString();
-        QString name5 = modelXML->data(modelXML->index(0, 4, index)).toString();
-        qDebug() <<"--------------------------------------" ;
-        qDebug() <<"----şşşşş----------------------------------" ;
-        qDebug() << name <<" pi max hesap id "<< *modelXML->pi_max_Hesap_ID;
-        qDebug() << name2 ;
-        qDebug() << name3 ;
-        qDebug() << name4 ;
-        qDebug() << name5 ;
-        qDebug() <<"--------------------------------------" ;
-        qDebug() <<"--------------------------------------" ;
+//        QString name = modelXML->data(index).toString();
+//        QString name2 = modelXML->data(modelXML->index(0, 1, index)).toString();
+//        QString name3 = modelXML->data(modelXML->index(0, 2, index)).toString();
+//        QString name4 = modelXML->data(modelXML->index(0, 3, index)).toString();
+//        QString name5 = modelXML->data(modelXML->index(0, 4, index)).toString();
+//        qDebug() <<"--------------------------------------" ;
+//        qDebug() <<"----şşşşş----------------------------------" ;
+//        qDebug() << name <<" pi max hesap id "<< *modelXML->pi_max_Hesap_ID;
+//        qDebug() << name2 ;
+//        qDebug() << name3 ;
+//        qDebug() << name4 ;
+//        qDebug() << name5 ;
+//        qDebug() <<"--------------------------------------" ;
+//        qDebug() <<"--------------------------------------" ;
         setDirty();
         updateUi();
     }

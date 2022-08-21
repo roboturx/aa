@@ -170,7 +170,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
  ///   t_all->addStretch (1);
     //win_Wdgt->hide ();
 
-    connect(cB_map  , &QCheckBox ::clicked ,
+    connect(cB_map  , &QCheckBox ::clicked , this,
                  [win_Wdgt,this]()
         {
              // hersey
@@ -241,7 +241,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     //        this->pB_son->setEnabled(map_row < tb_model->rowCount() - 1);
     //    });
 
-    connect(pB_ilk, &QPushButton::clicked ,
+    connect(pB_ilk, &QPushButton::clicked , this,
             [this,tb_model,tb_mapper]()
     {
         tb_mapper->toFirst ();
@@ -250,7 +250,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
         this->table->setCurrentIndex( tb_model->index( 0  ,0));
     });
 
-    connect(pB_ncki, &QPushButton::clicked ,
+    connect(pB_ncki, &QPushButton::clicked , this,
             [this,tb_model,tb_mapper]()
     {
         tb_mapper->toPrevious ();
@@ -259,7 +259,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
         this->table->setCurrentIndex( tb_model->index( tb_mapper_row  ,0));
     });
 
-    connect(pB_snrki, &QPushButton::clicked ,
+    connect(pB_snrki, &QPushButton::clicked , this,
             [this,tb_model,tb_mapper]()
     {
         tb_mapper->toNext ();
@@ -268,7 +268,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
         this->table->setCurrentIndex(tb_model->index( tb_mapper_row  ,0));
     });
 
-    connect(pB_son, &QPushButton::clicked ,
+    connect(pB_son, &QPushButton::clicked , this,
             [this,tb_model,tb_mapper]()
     {
         tb_mapper->toLast ();
@@ -281,7 +281,7 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 
 
     connect(tb_mapper, &QDataWidgetMapper::currentIndexChanged,
-            [this, tb_mapper, tb_model ]( )   //tb_tb_mapper, tb_model, tb_view
+          this,   [this, tb_mapper, tb_model ]( )   //tb_tb_mapper, tb_model, tb_view
     {
         int tb_mapper_row = tb_mapper->currentIndex ();
         this->pB_ilk->setEnabled (tb_mapper_row>0);
@@ -812,7 +812,7 @@ hC_Rs::hC_Rs (  QLabel *lB_resim,
                                   QSizePolicy::Preferred );
         lB_resim->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(lB_resim , &QLabel::customContextMenuRequested,
-                [ lB_resim]()
+               this,  [ lB_resim]()
         {
             //QLabel *x = win_Rsm;
             QDialog xx;

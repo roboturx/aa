@@ -15,7 +15,7 @@ CW_hkk::~CW_hkk()
     delete ui;
 }
 
-void CW_hkk::on_btnOK_clicked()
+void CW_hkk::onbtnOK_clicked()
 {
     this->close();
 }

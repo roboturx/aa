@@ -46,12 +46,18 @@ void RichTextLineEdit::createShortcuts()
     QShortcut *italicShortcut = new QShortcut(QKeySequence::Italic,
             this, SLOT(toggleItalic()));
 
+//    setToolTip(tr("<p>Use %1 to toggle bold, %2 to toggle italic, "
+//                  "and the context menu for color and other effects.")
+//            .arg(boldShortcut->key().toString(
+//                 QKeySequence::NativeText))
+//            .arg(italicShortcut->key().toString(
+//                 QKeySequence::NativeText)));
     setToolTip(tr("<p>Use %1 to toggle bold, %2 to toggle italic, "
                   "and the context menu for color and other effects.")
-            .arg(boldShortcut->key().toString(
-                 QKeySequence::NativeText))
-            .arg(italicShortcut->key().toString(
-                 QKeySequence::NativeText)));
+                   .arg(boldShortcut->key().toString(
+                       QKeySequence::NativeText),
+                        italicShortcut->key().toString(
+                       QKeySequence::NativeText)));
 }
 
 

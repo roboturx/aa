@@ -213,7 +213,7 @@ void hC_CLSN::tbkntrl()
 
 
     // pB 001 yeni ekle
-    connect(tb_view->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked , this,
             [this]()
     {
         ////////////////////////////////////////////////
@@ -251,7 +251,7 @@ void hC_CLSN::tbkntrl()
     });
 
     // pB 002 yeni resim ekle
-    connect(tb_view->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked, this,
             [this]()
     {
         qDebug() << "new resim";
@@ -261,7 +261,7 @@ void hC_CLSN::tbkntrl()
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
     connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
-              [this]()
+            this,    [this]()
     {
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                       "resim", "değiştir" ) ;
@@ -273,7 +273,7 @@ void hC_CLSN::tbkntrl()
 
     // pB 005 sil
 
-    connect(tb_view->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked, this,
             [this]()
     {
         QModelIndex sample =   tb_view->table->currentIndex();
@@ -302,7 +302,7 @@ void hC_CLSN::tbkntrl()
     });
     // --- 011 row değiştiğinde 2 şey olsun
     connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
-              [this]( QModelIndex Index )
+              this, [this]( QModelIndex Index )
     {
     //    qDebug() << "Geçerli index " << tb_mapper->currentIndex();
         // 011-01 mapper indexi ayarla
@@ -318,7 +318,7 @@ void hC_CLSN::tbkntrl()
 
     // --- 012 kolon değiştiğinde indexte değişsin
     connect(  tbx_slctnMdl ,
-              &QItemSelectionModel::currentColumnChanged,
+              &QItemSelectionModel::currentColumnChanged, this,
               [this]( QModelIndex Index )
     {
         tb_mapper->setCurrentModelIndex(Index);
@@ -342,6 +342,7 @@ void hC_CLSN::showEvent(QShowEvent *)
 
 hC_CLSN::~hC_CLSN()
 {
+  //  delete max_id;
     qDebug() << "*********** destructor ÇALIŞAN";
 }
 

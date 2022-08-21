@@ -16,7 +16,7 @@ public:
     ~CW_hkk();
 
 private slots:
-    void on_btnOK_clicked();
+    void onbtnOK_clicked();
     void on_btnOK_2_clicked();
 
 private:

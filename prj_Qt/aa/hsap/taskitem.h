@@ -16,12 +16,12 @@
 class TaskItem
 {
 public:
-    explicit TaskItem(const quint64 &hesapKod    = 0,
-                      const QString &hesapAd     = QString(),
+    explicit TaskItem(const QString &hesapAd     = QString(),
                       const QString &hesapAcklm  = QString(),
                       const bool bool_topluHesap = false,
                       const QString &hesapTuru   = QString(),
                       const QString &ustHesap    = QString(),
+                      const quint64 &hesapKod    = 0,
                       TaskItem *parent           = 0 );
     ~TaskItem() { qDeleteAll(lo_children); }
 
@@ -31,8 +31,6 @@ public:
     /// variables for XML file
     ///
 
-    quint64 hesapKod() const { return f_mi_hesapKod; }
-    void setHesapKod(const quint64 &hesapKod) { f_mi_hesapKod = hesapKod; }
 
     QString hesapAd() const { return f_ms_hesapAd; }
     void setHesapAd(const QString &hesapAd) { f_ms_hesapAd = hesapAd; }
@@ -48,6 +46,9 @@ public:
 
     QString ustHesap() const { return f_ms_ustHesap; }
     void setUstHesap(const QString &ustHesap) { f_ms_ustHesap = ustHesap; }
+
+    quint64 hesapKod() const { return f_mi_hesapKod; }
+    void setHesapKod(const quint64 &hesapKod) { f_mi_hesapKod = hesapKod; }
 
 
     QList<QPair<QDateTime, QDateTime> > dateTimes() const
@@ -83,12 +84,13 @@ private:
     /// variables for XML file
     ///
 
-    quint64 f_mi_hesapKod;
+
     QString f_ms_hesapAd;
     QString f_ms_hesapAcklm;
     bool    f_mb_topluHesap;
     QString f_ms_hesapTuru;
     QString f_ms_ustHesap;
+    quint64 f_mi_hesapKod;
 
     QList<QPair<QDateTime, QDateTime> > m_dateTimes;
 

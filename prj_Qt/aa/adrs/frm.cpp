@@ -149,7 +149,7 @@ void hC_FRM::tbkntrl()
 {
     qDebug() << "   KNTRL";
     // pB 001 yeni ekle
-    connect(tb_view->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked , this,
             [this]()
     {
         ////////////////////////////////////////////////
@@ -180,7 +180,7 @@ void hC_FRM::tbkntrl()
     });
 
     // pB 002 yeni resim ekle
-    connect(tb_view->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked, this,
             [this]()
     {
         hC_Rs resim(win_Rsm, tb_view, tb_model, tbx_slctnMdl,
@@ -189,7 +189,7 @@ void hC_FRM::tbkntrl()
 
     // -- 003   firm  değiştiğnde resmide değiştirelim
     connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
-              [this]()
+            this,   [this]()
     {
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                            "frm_resim", "değiştir" ) ;
@@ -201,7 +201,7 @@ void hC_FRM::tbkntrl()
 
     // pB 005 sil
 
-    connect(tb_view->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked, this,
             [this]()
     {
         QModelIndex sample =   tb_view->table->currentIndex();
@@ -226,7 +226,7 @@ void hC_FRM::tbkntrl()
     });
     // --- 011 row değiştiğinde 2 şey olsun
     connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
-              [this]( QModelIndex Index )
+            this,   [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
         tb_mapper->setCurrentModelIndex(Index);
@@ -242,7 +242,7 @@ void hC_FRM::tbkntrl()
     // --- 012 kolon değiştiğinde indexte değişsin
     connect(  tbx_slctnMdl ,
               &QItemSelectionModel::currentColumnChanged,
-              [this]( QModelIndex Index )
+             this,  [this]( QModelIndex Index )
     {
         tb_mapper->setCurrentModelIndex(Index);
     });
@@ -265,6 +265,7 @@ void hC_FRM::showEvent(QShowEvent *)
 
 hC_FRM::~hC_FRM()
 {
+    //delete max_id;
     qDebug() << "*********** destructor FIRMA ";
 }
 

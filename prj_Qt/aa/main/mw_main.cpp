@@ -152,7 +152,7 @@ void MW_main::cr_Actions()
 
 
     connect( act_per ,
-             &QAction::triggered,
+             &QAction::triggered, this,
              [this  ]()
     {
         if (mw_per) {
@@ -180,7 +180,7 @@ void MW_main::cr_Actions()
     act_fr->setStatusTip(tr("Firma Bilgileri"));
     mn_tanim->addAction(act_fr);
     tb_main->addAction(act_fr);
-    connect( act_fr , &QAction::triggered,
+    connect( act_fr , &QAction::triggered,this,
              [this]()
     {
         if (mw_fr)
@@ -208,7 +208,7 @@ void MW_main::cr_Actions()
     mn_tanim->addAction(act_hsp);
     tb_main->addAction(act_hsp);
 
-    connect( act_hsp , &QAction::triggered,
+    connect( act_hsp , &QAction::triggered, this,
              [this  ]()
     {
         if (mw_hsp ) {
@@ -233,7 +233,7 @@ void MW_main::cr_Actions()
     act_gm->setStatusTip(tr("Gayrimenkul Bilgileri"));
     mn_tanim->addAction(act_gm);
     tb_main->addAction(act_gm);
-    connect( act_gm , &QAction::triggered,
+    connect( act_gm , &QAction::triggered, this,
              [this]()
     {
         //  mw_fr = new hC_FRM;
@@ -507,7 +507,7 @@ void MW_main::cr_Actions()
     act_Quit->setStatusTip(tr("Programdan Çıkış "));
     mn_tanim->addAction(act_Quit);
     tb_main->addAction(act_Quit);
-    connect(act_Quit , &QAction::triggered,
+    connect(act_Quit , &QAction::triggered, this,
             [this]()
     {
         emit cikis("Ana Menu act");
@@ -527,7 +527,7 @@ void MW_main::cr_Actions()
     act_hkk->setStatusTip(tr("Hakkında"));
     mn_yrdm->addAction(act_hkk);
     tb_main->addAction(act_hkk);
-    connect( act_hkk , &QAction::triggered,
+    connect( act_hkk , &QAction::triggered, this,
              []()
     {
         auto *m_cw_hkk = new CW_hkk;

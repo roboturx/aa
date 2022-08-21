@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
     QString Serenity     ("#92A8D1");  // fg
     QString AspenGold    ("#FFD662");  // fg
     QString LivingCoral  ("#FF6F61");  // fg
-    QString UltraViolet  ("#6B5B95"); // bg
-    QString BrownGranite ("#615550"); // bg
+    //QString UltraViolet  ("#6B5B95"); // bg
+    //QString BrownGranite ("#615550"); // bg
     QString Eclipse      ("#343148"); // bg
     QString EveningBlue  ("#2A293E"); // bg
     QString NavyPeony    ("#223A5E"); // bg

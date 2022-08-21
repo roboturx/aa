@@ -33,17 +33,17 @@ const QString IlkAttribute("FROM: ");
 const QString SonAttribute("TO: ");
 
 /// fields for XML file
-const QString HesapKodAttribute("AccCODE");
 const QString HesapAdAttribute("AccNAME");
 const QString AcklmAttribute("AccNOTE");
-const QString HesapTuruAttribute("AccTYPE");
 const QString TopluHesapAttribute("AccIsBATCH");
+const QString HesapTuruAttribute("AccTYPE");
 const QString UstHesapAttribute("AccsPARENT");
+const QString HesapKodAttribute("AccCODE");
 
 /// fields' count
 const int ColumnCount = 6;
-enum Column {HesapKod, HesapAd, HesapAciklama,
-             Topluhesap, HesapTuru, UstHesap};
+enum Column {HesapAd, HesapAciklama, Topluhesap,
+              HesapTuru, UstHesap, HesapKod };
 
 const int MaxCompression = 9;
 const QString MimeType = "application/vnd.qtrac.xml.task.z";
@@ -106,12 +106,12 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
         if (role == Qt::DisplayRole || role == Qt::EditRole)
         {
             switch (index.column()) {
-            case HesapKod:  return item->hesapKod();
             case HesapAd:   return item->hesapAd();
             case HesapAciklama:   return item->hesapAcklm();
             case Topluhesap:return item->isTopluHesap();
             case HesapTuru: return item->hesapTuru();
             case UstHesap:  return item->ustHesap();
+            case HesapKod:  return item->hesapKod();
             default: Q_ASSERT(false);
             }
         }
@@ -152,9 +152,7 @@ QVariant TreeModel::headerData(int section,
                                Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        if (section == HesapKod)
-            return tr("Hesap Kodu");
-        else if (section == HesapAd)
+        if (section == HesapAd)
             return tr("Hesap Adı");
         else if (section == HesapAciklama)
             return tr("Açıklama");
@@ -164,6 +162,9 @@ QVariant TreeModel::headerData(int section,
             return tr("Hesap Türü");
         else if (section == UstHesap)
             return tr("Üst Hesap");
+        else if (section == HesapKod)
+            return tr("Hesap Kodu");
+
     }
     return QVariant();
 }
@@ -230,15 +231,15 @@ bool TreeModel::insertRows(int row, int count,
              << rowCount(parent);
     if (!rootItem)
     {
-        rootItem = new TaskItem(1,"ROOT");
+        rootItem = new TaskItem("ROOT","ROOT",0,"ROOT","ROOT",0);
 
-        qDebug() << "rootItem rowcount" << rowCount(parent) ;
+        qDebug() << "ROOOOOOT Cnt" << rowCount(parent) ;
         qDebug() << "hkod:" << rootItem->hesapKod ()
                  << " :ad:" << rootItem->hesapAd ()
                  << " :tpl:" << QString::number(rootItem->isTopluHesap())
                  << " :tur:" << rootItem->hesapTuru()
                  << " :ust:" << rootItem->ustHesap()
-                 << "rootItem" ;
+                 << "ROOOOOOOOYT" ;
 
 
     }
@@ -255,15 +256,15 @@ bool TreeModel::insertRows(int row, int count,
     beginInsertRows(parent, row, row + count - 1);
     qDebug() << "111";
     for (int i = 0; i < count; ++i)
-    {
+    { qDebug() << "111we";
         // hesaba en yüksek id yi ver
         ++*pi_max_Hesap_ID;
         // hesap adını kod olarak ayarla
         // QString str_hesapADI =   QString::number(*pi_max_Hesap_ID) ;
-
+ qDebug() << "111ddd";
         // yeni bir hesap oluştur
-        TaskItem *item = new TaskItem(*pi_max_Hesap_ID) ;
-
+        TaskItem *item = new TaskItem("","",0,"","",*pi_max_Hesap_ID) ;
+ qDebug() << "1112222";
         parentItem->insertChild(row, item);
         qDebug() << "item" << i << " rowcount" << rowCount(parent) ;
         qDebug() << "item" << i << " hesapkod :" << item->hesapKod ();
@@ -292,9 +293,9 @@ void TreeModel::announceItemChanged(TaskItem *item)
     int row = parent->rowOfChild(item);
 
     QModelIndex startIndex = createIndex(row,
-                                         static_cast<int>(HesapAd), item);
+                 static_cast<int>(HesapAd), item);
     QModelIndex endIndex = createIndex(row,
-                                       static_cast<int>(UstHesap), item);
+                 static_cast<int>(UstHesap), item);
 
     emit dataChanged(startIndex, endIndex);
 
@@ -342,8 +343,8 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
                 //                reader->attributes().value(UstHesapAttribute)
                 //                        .toString () == "uuuusthesap3";
 
-                task = new TaskItem(hesapKod, hesapAd, hesapAcklm,
-                                    topluHesap, hesapTuru, ustHesap, task);
+                task = new TaskItem(hesapAd, hesapAcklm, topluHesap,
+                        hesapTuru, ustHesap, hesapKod, task);
             }
             else if (reader->name() == NeZamanTag) {
                 const QDateTime start = QDateTime::fromString(
@@ -402,8 +403,7 @@ void TreeModel::writeTaskAndChildren(QXmlStreamWriter *writer,
 {
     if (task != rootItem) {
         writer->writeStartElement(TaskTag);
-        writer->writeAttribute(HesapKodAttribute,
-                               QString::number (task->hesapKod() ));
+
         writer->writeAttribute(HesapAdAttribute,
                                task->hesapAd());
         writer->writeAttribute(AcklmAttribute,
@@ -414,6 +414,8 @@ void TreeModel::writeTaskAndChildren(QXmlStreamWriter *writer,
                                task->hesapTuru());
         writer->writeAttribute(UstHesapAttribute,
                                task->ustHesap());
+        writer->writeAttribute(HesapKodAttribute,
+                  QString::number (task->hesapKod() ));
 
 
         QListIterator<
@@ -787,11 +789,13 @@ void TreeModel::load(const QString &filename)
         throw AQP::Error(file.errorString());
 
 
-    clear();
-
-    rootItem = new TaskItem(0);
     pi_max_Hesap_ID = new qint64{};
     *pi_max_Hesap_ID = 0;
+
+    clear();
+
+    rootItem = new TaskItem("ROO","ROO",0,"ROO","ROOT",0);
+
 
 
     QXmlStreamReader reader(&file);

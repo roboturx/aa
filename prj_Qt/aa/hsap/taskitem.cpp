@@ -2,19 +2,19 @@
 #include "taskitem.h"
 
 
-TaskItem::TaskItem(const quint64 &hesapKod,
-                   const QString &hesapAd,
+TaskItem::TaskItem(const QString &hesapAd,
                    const QString &hesapAcklm,
                    const bool topluHesap,
                    const QString &hesapTuru,
                    const QString &ustHesap,
+                   const quint64 &hesapKod,
                    TaskItem *parent)
-        : f_mi_hesapKod(hesapKod),
-          f_ms_hesapAd(hesapAd),
+        : f_ms_hesapAd(hesapAd),
           f_ms_hesapAcklm(hesapAcklm),
           f_mb_topluHesap(topluHesap),
           f_ms_hesapTuru(hesapTuru),
           f_ms_ustHesap(ustHesap),
+          f_mi_hesapKod(hesapKod),
           o_parent(parent)
 {
     if (parent)

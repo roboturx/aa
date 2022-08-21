@@ -177,7 +177,7 @@ void hC_HSPDTY::tbkntrl()
     //debugger("1");
 
     // pB 001 yeni ekle
-    connect(tb_view->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked , this,
             [this]()
     {
         ////////////////////////////////////////////////
@@ -187,14 +187,14 @@ void hC_HSPDTY::tbkntrl()
         /// Dosyada bulunan max id yi bulur ve
         /// bir üstünü getirir
         ///
-        hC_Nr maxID;
-        int* max_id = new int{};
-        *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
+//        hC_Nr maxID;
+//        int* max_id = new int{};
+//        *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
 
         QSqlQuery query;
         QString qStr, mesaj("");
-        QString hesapLR = "";
+     //   QString hesapLR = "";
 
 
         curIndex = tb_view->table->currentIndex ();
@@ -222,10 +222,10 @@ void hC_HSPDTY::tbkntrl()
         {
             mesaj = mesaj +" -- SUBMITTED -- "    ;
 
-            ////////////////////////////////////////////////
-            /// son eklenen kayda git
-            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
-            ////////////////////////////////////////////////
+//            ////////////////////////////////////////////////
+//            /// son eklenen kayda git
+//            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
+//            ////////////////////////////////////////////////
 
         }
         else
@@ -239,7 +239,7 @@ void hC_HSPDTY::tbkntrl()
 
     /////////////////////////////////////////////////////////////////////
     // pB 002 yeni resim ekle
-    connect(tb_view->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked, this,
             [this]()
     {
         qDebug() << "new resim";
@@ -249,7 +249,7 @@ void hC_HSPDTY::tbkntrl()
 
     // -- 003   hspdty  değiştiğnde resmide değiştirelim
     connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
-              [this]()
+              this, [this]()
     {
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                       "resim", "değiştir" ) ;
@@ -261,7 +261,7 @@ void hC_HSPDTY::tbkntrl()
 
     // pB 005 sil
 
-    connect(tb_view->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked, this,
             [this]()
     {
         QModelIndex indx =   tb_view->table->currentIndex();
@@ -323,7 +323,7 @@ void hC_HSPDTY::tbkntrl()
     });
     // --- 011 row değiştiğinde 2 şey olsun
     connect(  tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
-              [this]( QModelIndex Index )
+              this, [this]( QModelIndex Index )
     {
         // 011-01 mapper indexi ayarla
         tb_mapper->setCurrentModelIndex(Index);
@@ -344,7 +344,7 @@ void hC_HSPDTY::tbkntrl()
 
     // --- 012 kolon değiştiğinde indexte değişsin
     connect(  tbx_slctnMdl ,
-              &QItemSelectionModel::currentColumnChanged,
+              &QItemSelectionModel::currentColumnChanged, this,
               [this]( QModelIndex Index )
     {
         tb_mapper->setCurrentModelIndex(Index);
@@ -374,6 +374,7 @@ void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,
 
 hC_HSPDTY::~hC_HSPDTY()
 {
+    //delete max_id;
     qDebug() << "*********** destructor Hesap Detay";
     //delete
 }

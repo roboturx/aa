@@ -109,7 +109,7 @@ void hC_FTR::tbwdgt()
     hClE_firma->lineEdit->setReadOnly(true);
 
     // firma ismini fatyraya ekle
-    connect(hClE_firma->pushButton , &QPushButton::clicked,
+    connect(hClE_firma->pushButton , &QPushButton::clicked, this,
             [this]()
     {
         // firma seçebilmek için firma penceresi
@@ -152,7 +152,7 @@ void hC_FTR::tbwdgt()
         // ----------------------------------------------------
 
 
-        connect (firma, &hC_FRM::sgnfirma,
+        connect (firma, &hC_FRM::sgnfirma, this,
                  [ this ] (QString secfirma )
         {
             this->hClE_firma->lineEdit->setText (secfirma);
@@ -224,7 +224,7 @@ void hC_FTR::tbkntrl()
 
     // //////////////////////// yeni fatura ekle
     // pB 001 yeni ekle
-    connect(tb_view->pB_ekle, &QPushButton::clicked ,
+    connect(tb_view->pB_ekle, &QPushButton::clicked , this,
             [this ]()
     {
         auto *dia_fno =new QDialog(this);
@@ -243,7 +243,7 @@ void hC_FTR::tbkntrl()
 
 
         auto *pB_vz = new QPushButton("Vazgeç");
-        connect(pB_vz, &QPushButton::clicked,
+        connect(pB_vz, &QPushButton::clicked, this,
                 [dia_fno] ()
         {
 
@@ -268,7 +268,7 @@ void hC_FTR::tbkntrl()
         // boş geçmek olmaz
 
         // ///////////////// yeni fatura no ekle
-        connect(pB_ok, &QPushButton::clicked ,
+        connect(pB_ok, &QPushButton::clicked , this,
                 [this,lE_fno, dia_fno]()
         {
 
@@ -335,7 +335,7 @@ void hC_FTR::tbkntrl()
 
     // ///////////////  resim ekle
     // pB 002 yeni resim ekle
-    connect(tb_view->pB_eklersm, &QPushButton::clicked,
+    connect(tb_view->pB_eklersm, &QPushButton::clicked, this,
             [this]()
     {
 
@@ -346,7 +346,7 @@ void hC_FTR::tbkntrl()
     // row değiştiğnde resmide değiştirelim
     // -- 003   row değiştiğinde resmide değiştirelim
     connect( tbx_slctnMdl , &QItemSelectionModel::currentRowChanged,
-             [this ]()
+              this,[this ]()
     {
         hC_Rs resim ( win_Rsm, tb_view, tb_model, tbx_slctnMdl,
                       "ftr_resim", "değiştir" ) ;
@@ -359,7 +359,7 @@ void hC_FTR::tbkntrl()
 
     // fattura sil
     // pB 005 sil
-    connect(tb_view->pB_sil, &QPushButton::clicked,
+    connect(tb_view->pB_sil, &QPushButton::clicked, this,
             [this]()
     {
         qDebug() << "  slt_ftr_pB_SIL_clicked";
@@ -473,7 +473,7 @@ void hC_FTR::tbkntrl()
     /// row değiştiğinde
     // --- 011
     connect (tbx_slctnMdl, &QItemSelectionModel::currentRowChanged,
-             [this] (QModelIndex Index )
+             this, [this] (QModelIndex Index )
     {
         // 1 map indexi değiştirelim
         tb_mapper->setCurrentModelIndex(Index);
@@ -587,6 +587,7 @@ void hC_FTR::showEvent(QShowEvent *)
 
 hC_FTR::~hC_FTR()
 {
+   // delete max_id;
     qDebug() << "*********** destructor FATURA ";//    delete ui;
 }
 
