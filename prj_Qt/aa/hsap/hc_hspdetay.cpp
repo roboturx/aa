@@ -169,8 +169,9 @@ void hC_HSPDTY::debugger(QString num)
 
 void hC_HSPDTY::tbkntrl()
 {
-    tb_view->table->setItemDelegateForColumn(2, new ComboBoxItemDelegate);
-    tb_view->table->setFocus();
+    tb_view->table->setItemDelegateForColumn(5,
+                            new ComboBoxItemDelegate);
+   // tb_view->table->setFocus();
     //tb_slctnModel->select( tb_model->index(0,0));
     tb_view->table->setFocus();
     qDebug() << "  hspdty KNTRL";
@@ -232,7 +233,7 @@ void hC_HSPDTY::tbkntrl()
         {
             mesaj = mesaj + " Hesap kaydı e k l e n e m e d i ."  ;
         }
-
+            tb_view->table->setFocus();
         qDebug()<<mesaj ;
 
     });// connect ekle sonu

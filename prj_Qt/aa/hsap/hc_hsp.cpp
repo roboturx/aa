@@ -129,7 +129,8 @@ void hC_hsp::createModelAndView()
     (void) new ModelTest(modelXML, this);
 #endif
     treeViewXML->setAllColumnsShowFocus(true);
-    treeViewXML->setItemDelegateForColumn(2, new RichTextDelegate);
+    treeViewXML->setItemDelegateForColumn(2,
+                                new RichTextDelegate);
 
     treeViewXML->setModel(modelXML);
     // kod kolonunu gizle
