@@ -1,6 +1,6 @@
 #include "hc_hspdetay.h"
 #include "libs/hc_.h"
-
+#include "comboboxitemdelegate.h"
 
 hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 {
@@ -169,7 +169,7 @@ void hC_HSPDTY::debugger(QString num)
 
 void hC_HSPDTY::tbkntrl()
 {
-
+    tb_view->table->setItemDelegateForColumn(2, new ComboBoxItemDelegate);
     tb_view->table->setFocus();
     //tb_slctnModel->select( tb_model->index(0,0));
     tb_view->table->setFocus();

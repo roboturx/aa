@@ -4,12 +4,9 @@
 #include "libs/alt_key.h"
 #include "hc_hspdetay.h"
 #include "richtextdelegate.h"
-#ifdef CUSTOM_MODEL
+
 #include "treemodel.h"
-#else
-#include "standarditem.h"
-#include "standardtreemodel.h"
-#endif
+
 
 
 
@@ -133,9 +130,10 @@ void hC_hsp::createModelAndView()
 #endif
     treeViewXML->setAllColumnsShowFocus(true);
     treeViewXML->setItemDelegateForColumn(2, new RichTextDelegate);
+
     treeViewXML->setModel(modelXML);
     // kod kolonunu gizle
-    treeViewXML->setColumnHidden(5,1);
+   // treeViewXML->setColumnHidden(5,1);
 
 
 
@@ -152,6 +150,11 @@ void hC_hsp::createModelAndView()
     gridd->addWidget(lB_HesapKodAd, 5, 0, 1, 1 );
 
     gridd->addWidget( o_hspdty , 0, 2, 2, 3);
+
+    QComboBox * cB_transfer = new QComboBox();
+    cB_transfer->setModel(transferModel);
+
+    gridd->addWidget(cB_transfer , 0, 2, 2, 3);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }

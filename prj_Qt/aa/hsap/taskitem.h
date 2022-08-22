@@ -38,17 +38,25 @@ public:
     QString hesapAcklm() const { return f_ms_hesapAcklm; }
     void setHesapAcklm(const QString &hesapAcklm) { f_ms_hesapAcklm = hesapAcklm; }
 
-    bool isTopluHesap() const { return f_mb_topluHesap; }
-    void setTopluHesap(bool bool_topluHesap) { f_mb_topluHesap = bool_topluHesap; }
+    bool isTopluHesap() const
+       { return f_mb_topluHesap; }
+    void setTopluHesap(bool bool_topluHesap)
+        { f_mb_topluHesap = bool_topluHesap; }
 
-    QString hesapTuru() const { return f_ms_hesapTuru; }
-    void setHesapTuru(const QString &hesapTuru) { f_ms_hesapTuru = hesapTuru; }
+    QString hesapTuru() const
+        { return f_ms_hesapTuru; }
+    void setHesapTuru(const QString &hesapTuru)
+        { f_ms_hesapTuru = hesapTuru; }
 
-    QString ustHesap() const { return f_ms_ustHesap; }
-    void setUstHesap(const QString &ustHesap) { f_ms_ustHesap = ustHesap; }
+    QString ustHesap() const
+        { return f_ms_ustHesap; }
+    void setUstHesap(const QString &ustHesap)
+        { f_ms_ustHesap = ustHesap; }
 
-    quint64 hesapKod() const { return f_mi_hesapKod; }
-    void setHesapKod(const quint64 &hesapKod) { f_mi_hesapKod = hesapKod; }
+    quint64 hesapKod() const
+        { return f_mi_hesapKod; }
+    void setHesapKod(const quint64 &hesapKod)
+        { f_mi_hesapKod = hesapKod; }
 
 
     QList<QPair<QDateTime, QDateTime> > dateTimes() const
@@ -59,21 +67,26 @@ public:
     QString totalTime() const;
     void incrementLastEndTime(int msec);
 
-    TaskItem *parent() const { return o_parent; }
-    TaskItem *childAt(int row) const { return lo_children.value(row); }
+    TaskItem *parent() const
+        { return o_parent; }
+    TaskItem *childAt(int row) const
+        { return lo_children.value(row); }
     int rowOfChild(TaskItem *child) const
         { return lo_children.indexOf(child); }
-    int childCount() const { return lo_children.count(); }
-    bool hasChildren() const { return !lo_children.isEmpty(); }
-    QList<TaskItem*> children() const { return lo_children; }
+    int childCount() const
+        { return lo_children.count(); }
+    bool hasChildren() const
+        { return !lo_children.isEmpty(); }
+    QList<TaskItem*> children() const
+        { return lo_children; }
 
     void insertChild(int row, TaskItem *item)
         { item->o_parent = this; lo_children.insert(row, item); }
     void addChild(TaskItem *item)
         { item->o_parent = this; lo_children << item; }
     void swapChildren(int oldRow, int newRow)
-//  qt6      { m_children.swap(oldRow, newRow); }
-                    { lo_children.swapItemsAt (oldRow, newRow); }
+        //  qt5      { m_children.swap(oldRow, newRow); }
+        { lo_children.swapItemsAt (oldRow, newRow); }
     TaskItem* takeChild(int row);
 
 private:
