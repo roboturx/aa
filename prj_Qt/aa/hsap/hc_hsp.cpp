@@ -149,7 +149,7 @@ void hC_hsp::createModelAndView()
     gridd->addWidget( o_hspdty , 0, 2, 2, 3);
 
 qDebug()<<"hc23";
-    gridd ->addWidget( modelXML->cB_hesapAds , 1, 2, 1, 1);
+  //  gridd ->addWidget( modelXML->cB_hesapAds , 1, 2, 1, 1);
 qDebug()<<"hc3";
 
 

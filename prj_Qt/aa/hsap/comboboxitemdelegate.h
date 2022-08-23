@@ -2,6 +2,7 @@
 #define COMBOBOXITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
+
 class ComboBoxItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
