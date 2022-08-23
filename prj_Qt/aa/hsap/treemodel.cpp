@@ -229,6 +229,7 @@ bool TreeModel::insertRows(int row, int count,
 {
     qDebug() << "**treemodel.cpp-insertrows******************************************"
              << rowCount(parent);
+    qDebug()<<"insertrows içinde pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
     if (!rootItem)
     {
         rootItem = new TaskItem("ROOT","ROOT",0,"ROOT","ROOT",0);
@@ -256,9 +257,12 @@ bool TreeModel::insertRows(int row, int count,
     beginInsertRows(parent, row, row + count - 1);
     qDebug() << "111";
     for (int i = 0; i < count; ++i)
-    { qDebug() << "111we";
+    {
+        qDebug() << "111we";
         // hesaba en yüksek id yi ver
+        qDebug()<<"nsertrows pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
         ++*pi_max_Hesap_ID;
+        qDebug()<<"nsertrows pi-max-hesp-id after ++ " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
         // hesap adını kod olarak ayarla
         // QString str_hesapADI =   QString::number(*pi_max_Hesap_ID) ;
  qDebug() << "111ddd";
@@ -310,6 +314,10 @@ void TreeModel::announceItemChanged(TaskItem *item)
 void TreeModel::readTasks(QXmlStreamReader *reader,
                           TaskItem *task)
 {
+
+    cB_hesapAds = new QComboBox{} ;
+    pi_max_Hesap_ID = new qint64{};
+    *pi_max_Hesap_ID = 0;
     while (!reader->atEnd())
     {
         reader->readNext();
@@ -319,7 +327,8 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
             {
                 quint64 hesapKod = reader->attributes()
                         .value(HesapKodAttribute).toULongLong ();
-
+qDebug()<<"readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+                qDebug()<<"readerda okunan hesadpkod " << hesapKod;
                 if (hesapKod > *pi_max_Hesap_ID)
                 {
                     *pi_max_Hesap_ID = hesapKod;
@@ -327,8 +336,9 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
 
                 const QString hesapAd = reader->attributes()
                         .value(HesapAdAttribute).toString();
+
                 cB_hesapAds->addItem (hesapAd);
-             xx
+
                 const QString hesapAcklm = reader->attributes()
                         .value(AcklmAttribute).toString();
                 bool topluHesap = reader->attributes()
@@ -344,9 +354,10 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
                 //                        .toString () == "hhhesapturu2";
                 //                reader->attributes().value(UstHesapAttribute)
                 //                        .toString () == "uuuusthesap3";
-
+  qDebug()<<"rgf33555";
                 task = new TaskItem(hesapAd, hesapAcklm, topluHesap,
                         hesapTuru, ustHesap, hesapKod, task);
+   qDebug()<<"rgf44";
             }
             else if (reader->name() == NeZamanTag) {
                 const QDateTime start = QDateTime::fromString(
@@ -358,6 +369,7 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
                 Q_ASSERT(task);
                 task->addDateTime(start, end);
             }
+              qDebug()<<"rgf2222";
         }
 
         else if (reader->isEndElement())
@@ -370,6 +382,7 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
             }
         }
     } // while end
+    qDebug()<<"readerda pi-max-hesp-id son hali " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
 }
 
 /// XML:011
@@ -790,10 +803,6 @@ void TreeModel::load(const QString &filename)
     QFile file(m_filename);
     if (!file.open(QIODevice::ReadOnly))
         throw AQP::Error(file.errorString());
-
-
-    pi_max_Hesap_ID = new qint64{};
-    *pi_max_Hesap_ID = 0;
 
     clear();
 

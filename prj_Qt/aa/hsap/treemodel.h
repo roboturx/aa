@@ -27,6 +27,8 @@ public:
     ~TreeModel() { delete rootItem; delete cutItem; }
 
     qint64* pi_max_Hesap_ID; // for XML file rowid
+    QComboBox* cB_hesapAds;   // for hesap ad
+
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant data(const QModelIndex &index,
@@ -103,6 +105,7 @@ private:
     TaskItem *timedItem;
     TaskItem *rootItem;
     TaskItem *cutItem;
-    QComboBox *cB_hesapAds;
+
+
 };
 #endif // TREEMODEL_HPP

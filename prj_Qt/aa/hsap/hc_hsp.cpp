@@ -136,10 +136,6 @@ void hC_hsp::createModelAndView()
     // kod kolonunu gizle
    // treeViewXML->setColumnHidden(5,1);
 
-
-
-
-//????
     lB_HesapKod = new QLabel("Kod-------");
     lB_HesapAd = new QLabel("Ad--------");
     lB_HesapKodAd = new QLabel("KodAd---------");
@@ -152,9 +148,12 @@ void hC_hsp::createModelAndView()
 
     gridd->addWidget( o_hspdty , 0, 2, 2, 3);
 
+qDebug()<<"hc23";
+    gridd ->addWidget( modelXML->cB_hesapAds , 1, 2, 1, 1);
+qDebug()<<"hc3";
 
 
-    gridd->addWidget(cB_transfer , 0, 2, 2, 3);
+   // gridd->addWidget(cB_transfer , 0, 2, 2, 3);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -275,9 +274,10 @@ void hC_hsp::createConnections()
     connect(this, &hC_hsp::sgnHesap,
             o_hspdty, &hC_HSPDTY::slt_tbx_rowChange);
 
+
     connect(treeViewXML->selectionModel(),
-            SIGNAL(currentChanged(QModelIndex&,QModelIndex&)),
-            this, SLOT(updateUi()));
+            &QItemSelectionModel::currentRowChanged,
+            this, &hC_hsp::updateUi);
 
     connect(modelXML,
                    SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
@@ -416,7 +416,7 @@ void hC_hsp::editAdd()
 {
     qDebug() << "Yeni Hesap Ekleniyor...............";
     QModelIndex index = treeViewXML->currentIndex();
-
+qDebug()<<"hc_hsp editadd ta pi-max-hesp-id " << *modelXML->pi_max_Hesap_ID;
     if (modelXML->insertRows(0, 1, index))
     {
         index = modelXML->index(0, 0, index);
@@ -598,35 +598,44 @@ void hC_hsp::load(const QString &filename,
              << "' at path : " << taskPath;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
+qDebug() << "111";
     try {
+    qDebug() << "11122";
         modelXML->load(filename);
+        qDebug() << "11133";
         if (!taskPath.isEmpty())
         {
             setCurrentIndex(modelXML->indexForPath(taskPath));
-
+qDebug() << "2222";
         }
+        qDebug() << "11144";
         for (int column = 0;
              column < modelXML->columnCount();
              ++column)
+        {
+            qDebug() << "11155";
             treeViewXML->resizeColumnToContents(column);
+        }
         setDirty(false);
-
+qDebug() << "333";
 
         setWindowTitle(tr("%1 - %2[*]")
                        .arg(QApplication::applicationName())
                        .arg(QFileInfo(filename).fileName()));
-
+qDebug() << "44";
         statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
                                  StatusTimeout);
     } catch (AQP::Error &error) {
         AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2")
          .arg(filename).arg(QString::fromUtf8(error.what())));
     }
+qDebug() << "55";
     updateUi();
+    qDebug() << "66";
     editHideOrShowDoneTasks(editHideOrShowDoneTasksAction->isChecked());
     treeViewXML->setFocus();
     QApplication::restoreOverrideCursor();
+    qDebug() << "77";
 }
 
 

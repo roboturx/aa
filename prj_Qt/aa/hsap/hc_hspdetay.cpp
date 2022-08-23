@@ -55,6 +55,8 @@ void hC_HSPDTY::tbsetup()
     tbwdgt  ();
     tbui();
     tbkntrl ();
+    qDebug() << "  end hspdty tbsetup";
+
 }
 
 
@@ -176,6 +178,7 @@ void hC_HSPDTY::tbkntrl()
     tb_view->table->setFocus();
     qDebug() << "  hspdty KNTRL";
     //debugger("1");
+    qDebug() << "   ??????????";
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked , this,
@@ -188,11 +191,11 @@ void hC_HSPDTY::tbkntrl()
         /// Dosyada bulunan max id yi bulur ve
         /// bir üstünü getirir
         ///
-//        hC_Nr maxID;
-//        int* max_id = new int{};
-//        *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
+        hC_Nr maxID;
+        int* max_id = new int{};
+        *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
-
+ qDebug() << "   ?222";
         QSqlQuery query;
         QString qStr, mesaj("");
      //   QString hesapLR = "";
@@ -223,10 +226,10 @@ void hC_HSPDTY::tbkntrl()
         {
             mesaj = mesaj +" -- SUBMITTED -- "    ;
 
-//            ////////////////////////////////////////////////
-//            /// son eklenen kayda git
-//            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
-//            ////////////////////////////////////////////////
+            ////////////////////////////////////////////////
+            /// son eklenen kayda git
+            maxID.hC_NrGo (tb_view, tb_model, *max_id , 0);
+            ////////////////////////////////////////////////
 
         }
         else
@@ -353,14 +356,12 @@ void hC_HSPDTY::tbkntrl()
 
     });
 
-
-
 }
 
 
 void hC_HSPDTY::showEvent(QShowEvent *)
 {
-    qDebug() << "Hesap dosyası açılıyor";
+    qDebug() << "showevent Hesap dosyası açılıyor";
 }
 
 void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,
