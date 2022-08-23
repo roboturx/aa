@@ -4,6 +4,7 @@
     Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
 */
 
+#include "libs/globals.h"
 #include "taskitem.h"
 #include <QAbstractItemModel>
 #include <QIcon>
@@ -102,5 +103,6 @@ private:
     TaskItem *timedItem;
     TaskItem *rootItem;
     TaskItem *cutItem;
+    QComboBox *cB_hesapAds;
 };
 #endif // TREEMODEL_HPP

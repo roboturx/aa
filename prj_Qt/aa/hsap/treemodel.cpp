@@ -327,6 +327,8 @@ void TreeModel::readTasks(QXmlStreamReader *reader,
 
                 const QString hesapAd = reader->attributes()
                         .value(HesapAdAttribute).toString();
+                cB_hesapAds->addItem (hesapAd);
+             xx
                 const QString hesapAcklm = reader->attributes()
                         .value(AcklmAttribute).toString();
                 bool topluHesap = reader->attributes()
@@ -544,7 +546,8 @@ QMimeData *TreeModel::mimeData(const QModelIndexList &indexes) const
 
 
 bool TreeModel::dropMimeData(const QMimeData *mimeData,
-                             Qt::DropAction action, int row, int column,
+                             Qt::DropAction action, int row,
+                             int column,
                              const QModelIndex &parent)
 {
     if (action == Qt::IgnoreAction)

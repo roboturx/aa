@@ -152,8 +152,7 @@ void hC_hsp::createModelAndView()
 
     gridd->addWidget( o_hspdty , 0, 2, 2, 3);
 
-    QComboBox * cB_transfer = new QComboBox();
-  //  cB_transfer->setModel(transferModel);
+
 
     gridd->addWidget(cB_transfer , 0, 2, 2, 3);
     centralWdgt->setLayout(gridd);
