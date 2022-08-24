@@ -1,6 +1,6 @@
 #include "hc_hspdetay.h"
 #include "libs/hc_.h"
-#include "comboboxitemdelegate.h"
+#include "cls_dlgt_combobox.h"
 
 hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 {
@@ -96,10 +96,13 @@ void hC_HSPDTY::tbwdgt()
 
     auto *lB_transfer    = new QLabel("Transfer Hesap" );
     auto *cB_transfer = new QComboBox;
-    cB_transfer->insertItem(0,"aaaaa");
-    cB_transfer->insertItem(1,"bbbba");
-    cB_transfer->insertItem(2,"cccca");
-    cB_transfer->insertItem(3,"ddddaa");
+
+//    cls_Hesaplar* o_hesaplar = new cls_Hesaplar;
+//    QMap<QString,quint64>* map_hesaplar;
+//    map_hesaplar = o_hesaplar->getHesaplar() ;
+
+cls_mdl_TreeFromXml:: den hesap listesi gelecek
+
 
     auto *lB_r = new QLabel("R"  );
     lB_r->setBuddy(lE_r);
@@ -143,6 +146,7 @@ void hC_HSPDTY::tbwdgt()
     win_Grid->addWidget(lE_borc      , 5, 1, 1, 2);
     win_Grid->addWidget(lB_alacak    , 6, 0, 1, 1);
     win_Grid->addWidget(lE_alacak    , 6, 1, 1, 2);
+    win_Grid->addWidget(cB_transfer    , 7, 1, 1, 2);
 
     //  xx2=1;
     win_Grid->addWidget(win_Rsm       , 7, 4, 3, 2);
@@ -171,8 +175,7 @@ void hC_HSPDTY::debugger(QString num)
 
 void hC_HSPDTY::tbkntrl()
 {
-    tb_view->table->setItemDelegateForColumn(5,
-                            new ComboBoxItemDelegate);
+    tb_view->table->setItemDelegateForColumn(5, new cls_dlgt_ComboBox);
    // tb_view->table->setFocus();
     //tb_slctnModel->select( tb_model->index(0,0));
     tb_view->table->setFocus();

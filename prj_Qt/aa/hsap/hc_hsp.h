@@ -11,7 +11,7 @@ class StandardItem;
 class QModelIndex;
 class QTreeView;
 
-class TreeModel;
+class cls_mdl_TreeFromXml;
 
 class hC_hsp : public QMainWindow
 {
@@ -60,7 +60,7 @@ private:
     QTreeView *treeViewXML;
     QWidget *centralWdgt;
 
-    TreeModel *modelXML;
+    cls_mdl_TreeFromXml *modelXML;
 
     QTimer timer;
     QTimeLine iconTimeLine;
@@ -95,7 +95,7 @@ private slots:
     void editStartOrStop(bool start);
     void editHideOrShowDoneTasks(bool hide);
     void setDirty(bool dirty=true)
-    {   setWindowModified(dirty);  }
+         {   setWindowModified(dirty);  }
 
     void load(const QString &filename,
               const QStringList &taskPath=QStringList());

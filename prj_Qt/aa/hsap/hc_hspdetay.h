@@ -16,6 +16,8 @@ public:
     explicit hC_HSPDTY();
     ~hC_HSPDTY();
 
+    QPair <quint64,QString> pair_Hesaplar;
+
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 

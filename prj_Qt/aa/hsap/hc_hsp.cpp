@@ -3,9 +3,9 @@
 #include "hc_hsp.h"
 #include "libs/alt_key.h"
 #include "hc_hspdetay.h"
-#include "richtextdelegate.h"
+#include "cls_dlgt_richtext.h"
 
-#include "treemodel.h"
+#include "cls_mdl_treefromxml.h"
 
 
 
@@ -63,16 +63,6 @@ hC_hsp::hC_hsp(QWidget *parent)
     // qt 6 OKK iconTimeLine.setCurveShape(QTimeLine::LinearCurve);
     iconTimeLine.setEasingCurve (QEasingCurve::InOutQuad);
 
-   // qDebug() << "---------------------------------------";
-   // qDebug() << "-hC_hspXMLMw Constructed.-";
-   // qDebug() << "---------------------------------------";
-//    qDebug() << "checking settings for existing XML file";
-//    qDebug() << "     if saved in settings, but not on disk CREATE NEW XML FILE ";
-//    qDebug() << "        else if not saved, CREATE NEW XML FILE ";
-//    qDebug() << "        else if saved and on disk LOAD XML FILE ";
-//    qDebug() << "---------------------------------------";
-
-
     QSettings settings;
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString filename = settings.value(FilenameSetting).toString();
@@ -122,19 +112,27 @@ void hC_hsp::createModelAndView()
     ///
     /// ////////////////////////
 
-    modelXML = new TreeModel(this);
+    modelXML = new cls_mdl_TreeFromXml(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
 
 #ifdef MODEL_TEST
     (void) new ModelTest(modelXML, this);
 #endif
-    treeViewXML->setAllColumnsShowFocus(true);
-    treeViewXML->setItemDelegateForColumn(2,
-                                new RichTextDelegate);
 
-    treeViewXML->setModel(modelXML);
     // kod kolonunu gizle
    // treeViewXML->setColumnHidden(5,1);
+
+    treeViewXML->setAllColumnsShowFocus(false);
+    treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
+    treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
+    treeViewXML->setColumnWidth(0,3000);
+    treeViewXML->setColumnWidth(1,1000);
+    treeViewXML->setColumnWidth(2,300);
+    //treeViewXML->setFirstColumnSpanned();
+    //treeViewXML->setIndentation();
+    //treeViewXML.set
+
+    treeViewXML->setModel(modelXML);
 
     lB_HesapKod = new QLabel("Kod-------");
     lB_HesapAd = new QLabel("Ad--------");
@@ -207,7 +205,7 @@ void hC_hsp::createActions()
                                          this, QKeySequence(tr("Ctrl+T")));
     editStartOrStopAction->setCheckable(true);
     editStartOrStopAction->setChecked(false);
-    editHideOrShowDoneTasksAction = new QAction(tr("Bitmiş Görevleri Gizle"),
+    editHideOrShowDoneTasksAction = new QAction(tr("Kapalı Hesaplaı Gizle"),
                                                 this);
     editHideOrShowDoneTasksAction->setCheckable(true);
     editHideOrShowDoneTasksAction->setChecked(false);
@@ -286,7 +284,7 @@ void hC_hsp::createConnections()
     connect(modelXML, SIGNAL(stopTiming()), this,
             SLOT(stopTiming()));
 
-    connect(modelXML, SIGNAL(rowsRemoved(const QModelIndex&,int,int)),
+    connect(modelXML, SIGNAL(rowsRemoved(QModelIndex&,int,int)),
             this, SLOT(setDirty()));
     connect(modelXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
 
@@ -416,7 +414,7 @@ void hC_hsp::editAdd()
 {
     qDebug() << "Yeni Hesap Ekleniyor...............";
     QModelIndex index = treeViewXML->currentIndex();
-qDebug()<<"hc_hsp editadd ta pi-max-hesp-id " << *modelXML->pi_max_Hesap_ID;
+//qDebug()<<"hc_hsp editadd ta pi-max-hesp-id " << *modelXML->pi_max_Hesap_ID;
     if (modelXML->insertRows(0, 1, index))
     {
         index = modelXML->index(0, 0, index);
@@ -598,44 +596,36 @@ void hC_hsp::load(const QString &filename,
              << "' at path : " << taskPath;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-qDebug() << "111";
+
     try {
-    qDebug() << "11122";
         modelXML->load(filename);
-        qDebug() << "11133";
         if (!taskPath.isEmpty())
         {
             setCurrentIndex(modelXML->indexForPath(taskPath));
-qDebug() << "2222";
         }
-        qDebug() << "11144";
         for (int column = 0;
              column < modelXML->columnCount();
              ++column)
         {
-            qDebug() << "11155";
-            treeViewXML->resizeColumnToContents(column);
+             treeViewXML->resizeColumnToContents(column);
         }
         setDirty(false);
-qDebug() << "333";
 
         setWindowTitle(tr("%1 - %2[*]")
-                       .arg(QApplication::applicationName())
-                       .arg(QFileInfo(filename).fileName()));
-qDebug() << "44";
+                       .arg(QApplication::applicationName(),
+                            QFileInfo(filename).fileName()));
+
         statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
                                  StatusTimeout);
     } catch (AQP::Error &error) {
         AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2")
          .arg(filename).arg(QString::fromUtf8(error.what())));
     }
-qDebug() << "55";
     updateUi();
-    qDebug() << "66";
     editHideOrShowDoneTasks(editHideOrShowDoneTasksAction->isChecked());
     treeViewXML->setFocus();
     QApplication::restoreOverrideCursor();
-    qDebug() << "77";
+
 }
 
 

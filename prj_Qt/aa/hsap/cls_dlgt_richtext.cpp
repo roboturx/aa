@@ -13,13 +13,13 @@
 
 #include "libs/globals.h"
 #include "richtextlineedit.h"
-#include "richtextdelegate.h"
+#include "cls_dlgt_richtext.h"
 //#include <QModelIndex>
 //#include <QPainter>
 //#include <QPixmapCache>
 
 
-RichTextDelegate::RichTextDelegate(QObject *parent)
+cls_dlgt_RichText::cls_dlgt_RichText(QObject *parent)
     : QStyledItemDelegate(parent)
 {
     checkbox = new QCheckBox;
@@ -32,7 +32,7 @@ RichTextDelegate::RichTextDelegate(QObject *parent)
 }
 
 
-void RichTextDelegate::paint(QPainter *painter,
+void cls_dlgt_RichText::paint(QPainter *painter,
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const
 {
@@ -74,7 +74,7 @@ void RichTextDelegate::paint(QPainter *painter,
 }
 
 
-void RichTextDelegate::paintWidget(QPainter *painter,
+void cls_dlgt_RichText::paintWidget(QPainter *painter,
         const QRect &rect, const QString &cacheKey,
         QWidget *widget) const
 {
@@ -91,7 +91,7 @@ void RichTextDelegate::paintWidget(QPainter *painter,
 }
 
 
-QSize RichTextDelegate::sizeHint(const QStyleOptionViewItem &option,
+QSize cls_dlgt_RichText::sizeHint(const QStyleOptionViewItem &option,
                                  const QModelIndex &index) const
 {
     QString html = index.model()->data(index, Qt::DisplayRole)
@@ -102,7 +102,7 @@ QSize RichTextDelegate::sizeHint(const QStyleOptionViewItem &option,
 }
 
 
-QWidget *RichTextDelegate::createEditor(QWidget *parent,
+QWidget *cls_dlgt_RichText::createEditor(QWidget *parent,
         const QStyleOptionViewItem &option, const QModelIndex&) const
 {
     RichTextLineEdit *editor = new RichTextLineEdit(parent);
@@ -113,7 +113,7 @@ QWidget *RichTextDelegate::createEditor(QWidget *parent,
 }
 
 
-void RichTextDelegate::setEditorData(QWidget *editor,
+void cls_dlgt_RichText::setEditorData(QWidget *editor,
         const QModelIndex &index) const
 {
     QString html = index.model()->data(index, Qt::DisplayRole)
@@ -125,7 +125,7 @@ void RichTextDelegate::setEditorData(QWidget *editor,
 }
 
 
-void RichTextDelegate::setModelData(QWidget *editor,
+void cls_dlgt_RichText::setModelData(QWidget *editor,
         QAbstractItemModel *model, const QModelIndex &index) const
 {
     RichTextLineEdit *lineEdit = qobject_cast<RichTextLineEdit*>(
@@ -135,7 +135,7 @@ void RichTextDelegate::setModelData(QWidget *editor,
 }
 
 
-void RichTextDelegate::closeAndCommitEditor()
+void cls_dlgt_RichText::closeAndCommitEditor()
 {
     RichTextLineEdit *lineEdit = qobject_cast<RichTextLineEdit*>(
                                               sender());

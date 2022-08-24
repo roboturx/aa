@@ -88,20 +88,20 @@ adrs/ftr.h
 contains(DEFINES, HSAP) {
 
 SOURCES +=\
+    hsap/cls_dlgt_richtext.cpp \
+    hsap/cls_mdl_treefromxml.cpp \
 hsap/hc_hsp.cpp \
 hsap/hc_hspdetay.cpp \
-hsap/richtextdelegate.cpp \
 hsap/richtextlineedit.cpp \
 hsap/taskitem.cpp \
-hsap/treemodel.cpp \
 
 HEADERS  +=  \
+    hsap/cls_dlgt_richtext.h \
+    hsap/cls_mdl_treefromxml.h \
 hsap/hc_hsp.h \
 hsap/hc_hspdetay.h \
-hsap/richtextdelegate.h \
 hsap/richtextlineedit.h \
-hsap/taskitem.h \
-hsap/treemodel.h
+hsap/taskitem.h
 
  #FORMS    += \
 
@@ -189,9 +189,9 @@ DISTFILES += \ libs/mime.types
     # hesap/main/images/icon.png
 
 HEADERS += \
-    hsap/comboboxitemdelegate.h
+    hsap/cls_dlgt_combobox.h
 
 SOURCES += \
-    hsap/comboboxitemdelegate.cpp
+    hsap/cls_dlgt_combobox.cpp
 
 
