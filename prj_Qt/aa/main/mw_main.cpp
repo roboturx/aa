@@ -217,7 +217,7 @@ void MW_main::cr_Actions()
         else
         {
             mw_hspdty = new hC_HSPDTY ;
-           // mw_hspdty->tbsetup ();
+            mw_hspdty->tbsetup ();
             mw_hspdty->show();
             //this->setCentralWidget (mw_per );
             statusBar()->showMessage(tr("Hesap Bilgileri"));

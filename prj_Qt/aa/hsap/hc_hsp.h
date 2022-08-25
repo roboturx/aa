@@ -2,7 +2,9 @@
 #define hC_hsp_H
 
 #include "libs/globals.h"
-//#include "hc_hspdetay.h"
+#include "libs/alt_key.h"
+#include "cls_dlgt_richtext.h"
+#include "cls_mdl_treefromxml.h"
 
 
 class QAction;
@@ -27,7 +29,7 @@ public:
     QLabel * lB_HesapAd;
     QLabel * lB_HesapKodAd;
 
-  //  hC_HSPDTY* o_hspdty;
+    TaskItem *getCurrentItem();
 
 private:
     void createModelAndView();

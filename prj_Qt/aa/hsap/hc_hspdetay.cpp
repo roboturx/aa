@@ -1,6 +1,6 @@
 #include "hc_hspdetay.h"
-#include "libs/hc_.h"
-#include "cls_dlgt_combobox.h"
+
+
 
 hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 {
@@ -65,24 +65,28 @@ void hC_HSPDTY::tbui()
 
     qDebug() << "   ui";
 
-    o_hesaplar = new hC_hsp(this);
+    o_hesaplar = new hC_hsp;
+    TaskItem* o_hesap = o_hesaplar->getCurrentItem();
 
 
-    QModelIndex index = o_hesaplar->treeViewXML->currentIndex ();
-    Q_ASSERT(index);
+  //  QString filtre = "f_hspdty_hspID=" +  QString::number(
+    //             o_hesaplar->modelXML->data(index).toString()) ;
 
-    QString filtre = "f_hspdty_hspID=" +  QString::number(
-                 o_hesaplar->modelXML->data(index).toString()) ;
-
-    tb_model->setFilter (filtre);
+ //   tb_model->setFilter (filtre);
 
     hC_HSPDTY::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,800,400);
-    auto *win_grid = new QGridLayout(this);
-    win_grid->addWidget (tb_view  , 0, 1, 1, 1);
-   // win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
 
-     win_grid->addWidget (o_hesaplar   , 0, 2, 1, 1);
+    QSplitter *splitter = new QSplitter(this);
+    splitter->setMinimumWidth(400);
+    splitter->addWidget(o_hesaplar);
+    splitter->addWidget(tb_view);
+
+
+    auto *win_grid = new QGridLayout(this);
+    win_grid->addWidget (splitter  , 0, 0, 1, 1);
+   // win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+   // win_grid->addWidget (o_hesaplar   , 0, 0, 2, 1);
 }
 void hC_HSPDTY::tbwdgt()
 {

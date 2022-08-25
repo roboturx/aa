@@ -2,8 +2,9 @@
 #define hC_HSPDTY_H
 
 #include "libs/globals.h"
+#include "libs/hc_.h"
 #include "hc_hsp.h"
-
+#include "cls_dlgt_combobox.h"
 
 namespace nSHsp
 {

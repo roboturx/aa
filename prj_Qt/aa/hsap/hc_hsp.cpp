@@ -1,14 +1,4 @@
-
-
 #include "hc_hsp.h"
-#include "libs/alt_key.h"
-#include "hc_hspdetay.h"
-#include "cls_dlgt_richtext.h"
-
-#include "cls_mdl_treefromxml.h"
-
-
-
 
 namespace {
 
@@ -94,6 +84,26 @@ hC_hsp::hC_hsp(QWidget *parent)
 
 
     }
+
+TaskItem* hC_hsp::getCurrentItem()
+{
+
+        TaskItem* currentItem = static_cast<TaskItem*>
+            (treeViewXML->currentIndex().internalPointer());
+        if ( currentItem)
+        {
+            qDebug() << "ui currentItem" ;
+            qDebug() << " :kod:" << currentItem->hesapKod ()
+                     << " :ad :" << currentItem->hesapAd ()
+                     << " :tpl:" << QString::number(currentItem->isTopluHesap())
+                     << " :tur:" << currentItem->hesapTuru()
+                     << " :ust:" << currentItem->ustHesap()
+                     << "ui currentItem" ;
+        }
+        return  currentItem;
+
+
+}
 
 /// 100-01
 ///

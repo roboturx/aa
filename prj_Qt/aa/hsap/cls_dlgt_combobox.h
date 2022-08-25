@@ -15,7 +15,7 @@ public:
     void setEditorData(QWidget *editor, const QModelIndex &index) const override;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 };
-#endif // CLS_DLGT_COMBOBOX_H
+
 
 
 
@@ -31,3 +31,5 @@ public:
 private:
     QMap<QString, qint64> map_hesapAdKod;
 };
+
+#endif // CLS_DLGT_COMBOBOX_H
