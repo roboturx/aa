@@ -2,7 +2,7 @@
 #define hC_HSPDTY_H
 
 #include "libs/globals.h"
-//#include "hc_hsp.h"
+#include "hc_hsp.h"
 
 
 namespace nSHsp
@@ -18,6 +18,8 @@ public:
 
     QPair <quint64,QString> pair_Hesaplar;
 
+
+    hC_hsp* o_hesaplar;
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 

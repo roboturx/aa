@@ -65,12 +65,24 @@ void hC_HSPDTY::tbui()
 
     qDebug() << "   ui";
 
+    o_hesaplar = new hC_hsp(this);
+
+
+    QModelIndex index = o_hesaplar->treeViewXML->currentIndex ();
+    Q_ASSERT(index);
+
+    QString filtre = "f_hspdty_hspID=" +  QString::number(
+                 o_hesaplar->modelXML->data(index).toString()) ;
+
+    tb_model->setFilter (filtre);
+
     hC_HSPDTY::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,800,400);
     auto *win_grid = new QGridLayout(this);
-    win_grid->addWidget (tb_view  , 0, 2, 1, 1);
-    win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
-    //    win_grid->addWidget (tb_treeview   , 0, 0, 1, 1);
+    win_grid->addWidget (tb_view  , 0, 1, 1, 1);
+   // win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+
+     win_grid->addWidget (o_hesaplar   , 0, 2, 1, 1);
 }
 void hC_HSPDTY::tbwdgt()
 {
@@ -101,7 +113,7 @@ void hC_HSPDTY::tbwdgt()
 //    QMap<QString,quint64>* map_hesaplar;
 //    map_hesaplar = o_hesaplar->getHesaplar() ;
 
-cls_mdl_TreeFromXml:: den hesap listesi gelecek
+//cls_mdl_TreeFromXml:: den hesap listesi gelecek
 
 
     auto *lB_r = new QLabel("R"  );
@@ -176,7 +188,10 @@ void hC_HSPDTY::debugger(QString num)
 void hC_HSPDTY::tbkntrl()
 {
     tb_view->table->setItemDelegateForColumn(5, new cls_dlgt_ComboBox);
-   // tb_view->table->setFocus();
+
+
+
+    // tb_view->table->setFocus();
     //tb_slctnModel->select( tb_model->index(0,0));
     tb_view->table->setFocus();
     qDebug() << "  hspdty KNTRL";

@@ -106,8 +106,8 @@ void hC_hsp::createModelAndView()
 
     /// hesapdetaylarını oluştur
     ///
-    o_hspdty = new hC_HSPDTY ;
-    o_hspdty->tbsetup ();
+ //   o_hspdty = new hC_HSPDTY ;
+  //  o_hspdty->tbsetup ();
 
     ///
     /// ////////////////////////
@@ -144,7 +144,7 @@ void hC_hsp::createModelAndView()
     gridd->addWidget(treeViewXML , 0, 0, 4, 2 );
     gridd->addWidget(lB_HesapKodAd, 5, 0, 1, 1 );
 
-    gridd->addWidget( o_hspdty , 0, 2, 2, 3);
+   // gridd->addWidget( o_hspdty , 0, 2, 2, 3);
 
 qDebug()<<"hc23";
   //  gridd ->addWidget( modelXML->cB_hesapAds , 1, 2, 1, 1);
@@ -269,8 +269,8 @@ void hC_hsp::createConnections()
     ///
     ///
 
-    connect(this, &hC_hsp::sgnHesap,
-            o_hspdty, &hC_HSPDTY::slt_tbx_rowChange);
+  //  connect(this, &hC_hsp::sgnHesap,
+       //     o_hspdty, &hC_HSPDTY::slt_tbx_rowChange);
 
 
     connect(treeViewXML->selectionModel(),
@@ -373,9 +373,9 @@ void hC_hsp::updateUi()
         ///
         ///
 
-        QString filtre ;
-        filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
-        o_hspdty->tb_model->setFilter(filtre);
+    //    QString filtre ;
+      //  filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
+ //       o_hspdty->tb_model->setFilter(filtre);
 
 
         lB_HesapKodAd->setText(currentItem->hesapAd() +" - "+

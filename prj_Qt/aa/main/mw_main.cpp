@@ -211,17 +211,17 @@ void MW_main::cr_Actions()
     connect( act_hsp , &QAction::triggered, this,
              [this  ]()
     {
-        if (mw_hsp ) {
-            mw_hsp->show();
+        if (mw_hspdty ) {
+            mw_hspdty->show();
         }
         else
         {
-            mw_hsp = new hC_hsp ;
-           // mw_hsp->tbsetup ();
-            mw_hsp->show();
+            mw_hspdty = new hC_HSPDTY ;
+           // mw_hspdty->tbsetup ();
+            mw_hspdty->show();
             //this->setCentralWidget (mw_per );
             statusBar()->showMessage(tr("Hesap Bilgileri"));
-            mw_hsp->setWindowTitle ("Hesaplar");
+            mw_hspdty->setWindowTitle ("Hesaplar");
             //mw_per->resize(qApp->screens()[0]->size()*.8);
 
         }
@@ -580,7 +580,7 @@ MW_main::~MW_main()
     delete stw;
     delete act_main;
     delete mw_per;
-    delete mw_hsp;
+    delete mw_hspdty;
     delete mw_mkn;
     //  delete mw_Mlzm;
 }
