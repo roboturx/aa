@@ -63,7 +63,7 @@ void hC_HSPDTY::tbsetup()
 void hC_HSPDTY::tbui()
 {
 
-    qDebug() << "   ui";
+    qDebug() << "   ui hsp dty";
 
     o_hesaplar = new hC_hsp;
     TaskItem* o_hesap = o_hesaplar->getCurrentItem();

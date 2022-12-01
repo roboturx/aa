@@ -1,5 +1,6 @@
 #include "hc_hsp.h"
 
+
 namespace {
 
 const int StatusTimeout = AQP::MSecPerSecond * 10;
@@ -24,7 +25,6 @@ QAction *createAction(const QString &icon,
 } // anonymous namespace
 
 
-
 hC_hsp::hC_hsp(QWidget *parent)
     : QMainWindow(parent)
     ,
@@ -33,11 +33,14 @@ hC_hsp::hC_hsp(QWidget *parent)
       #endif
       currentIcon(0)
 {
-
-    qDebug() << "Actions, Menu, Connecting slots...";
+    qDebug() << "000 hc_hsp construction..";
+    qDebug() << "001 modelview..";
     createModelAndView();
+    qDebug() << "002 Actions...";
     createActions();
+    qDebug() << "003 Menus ..";
     createMenusAndToolBar();
+    qDebug() << "004 Connecting slots...";
     createConnections();
 
     AQP::accelerateMenu(menuBar());
@@ -45,7 +48,7 @@ hC_hsp::hC_hsp(QWidget *parent)
                    .arg(QApplication::applicationName()));
 
     statusBar()->showMessage(tr("Uygulama Hazır"), StatusTimeout);
-    qDebug() << "Uygulama Hazır - XML dosyası kontrol ediliyor...";
+    qDebug() << "005 Uygulama Hazır - XML dosyası kontrol ediliyor...";
     timer.setInterval(333);
     iconTimeLine.setDuration(5000);
     iconTimeLine.setFrameRange(FirstFrame, LastFrame + 1);
@@ -72,18 +75,16 @@ hC_hsp::hC_hsp(QWidget *parent)
     }
     else
     {
-        qDebug() << " Kayıtlı XML Dosyası Diskte bulundu. ";
+        qDebug() << " Kayıtlı XML Dosyası Diskte bulundu 333. ";
         qDebug() << "       Yükleniyor...";
         QMetaObject::invokeMethod(this, "load",
                                   Qt::QueuedConnection,
                                   Q_ARG(QString, filename),
                                   Q_ARG(QStringList, settings.value(
                        CurrentTaskPathSetting).toStringList()));
+        qDebug() << "       Yükleniyor...22";
     }
-
-
-
-    }
+}
 
 TaskItem* hC_hsp::getCurrentItem()
 {
@@ -109,7 +110,7 @@ TaskItem* hC_hsp::getCurrentItem()
 ///
 void hC_hsp::createModelAndView()
 {
-    qDebug() << "Modelling Hsp XML...";
+    qDebug() << "0011 Modelling Hsp XML...";
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
 
@@ -156,9 +157,9 @@ void hC_hsp::createModelAndView()
 
    // gridd->addWidget( o_hspdty , 0, 2, 2, 3);
 
-qDebug()<<"hc23";
+qDebug()<<"0011 hc23";
   //  gridd ->addWidget( modelXML->cB_hesapAds , 1, 2, 1, 1);
-qDebug()<<"hc3";
+qDebug()<<"0011 hc3";
 
 
    // gridd->addWidget(cB_transfer , 0, 2, 2, 3);
@@ -286,18 +287,21 @@ void hC_hsp::createConnections()
     connect(treeViewXML->selectionModel(),
             &QItemSelectionModel::currentRowChanged,
             this, &hC_hsp::updateUi);
-
+qDebug() << "004 01";
     connect(modelXML,
                    SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
                    this, SLOT(setDirty()));
-
+qDebug() << "004 02";
     connect(modelXML, SIGNAL(stopTiming()), this,
             SLOT(stopTiming()));
+qDebug() << "004 03";
 
-    connect(modelXML, SIGNAL(rowsRemoved(QModelIndex&,int,int)),
-            this, SLOT(setDirty()));
+    //connect(modelXML, SIGNAL(rowsRemoved(QModelIndex&,int,int)),
+     //       this, SLOT(setDirty()));
+
+qDebug() << "004 04";
     connect(modelXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
-
+qDebug() << "004 05";
     QHash<QAction*, QString> slotForAction;
     slotForAction[fileNewAction] = SLOT(fileNew());
     slotForAction[fileOpenAction] = SLOT(fileOpen());
@@ -313,14 +317,14 @@ void hC_hsp::createConnections()
     slotForAction[editMoveDownAction] = SLOT(editMoveDown());
     slotForAction[editPromoteAction] = SLOT(editPromote());
     slotForAction[editDemoteAction] = SLOT(editDemote());
-
+qDebug() << "004 06";
     QHashIterator<QAction*, QString> i(slotForAction);
     while (i.hasNext()) {
         i.next();
         connect(i.key(), SIGNAL(triggered()),
                 this, qPrintable(i.value()));
     }
-
+qDebug() << "004 07";
     connect(editStartOrStopAction, SIGNAL(triggered(bool)),
             this, SLOT(editStartOrStop(bool)));
     connect(editHideOrShowDoneTasksAction, SIGNAL(triggered(bool)),
@@ -328,6 +332,7 @@ void hC_hsp::createConnections()
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
     connect(&iconTimeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateIcon(int)));
+    qDebug() << "004 son";
 }
 
 
@@ -809,3 +814,6 @@ void hC_hsp::hideOrShowDoneTask(bool hide,
             hideOrShowDoneTask(hide, modelXML->index(row, 0, index));
     }
 }
+
+
+

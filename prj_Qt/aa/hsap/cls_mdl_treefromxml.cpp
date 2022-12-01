@@ -799,6 +799,7 @@ void cls_mdl_TreeFromXml::clear()
 
 void cls_mdl_TreeFromXml::load(const QString &filename)
 {
+    qDebug () << "Load buradaaaaaa öö1";
     if (!filename.isEmpty())
         m_filename = filename;
     if (m_filename.isEmpty())
@@ -808,7 +809,7 @@ void cls_mdl_TreeFromXml::load(const QString &filename)
         throw AQP::Error(file.errorString());
 
     clear();
-
+    qDebug () << "Load buradaaaaaa";
     rootItem = new TaskItem("ROO","ROO",0,"ROO","ROOT",0);
 
 
