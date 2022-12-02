@@ -227,7 +227,7 @@ bool cls_mdl_TreeFromXml::insertRows(int row, int count,
 {
     qDebug() << "**cls_mdl_TreeFromXml.cpp-insertrows******************************************"
              << rowCount(parent);
-    qDebug()<<"insertrows içinde pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+    qDebug()<<"             cls_mdl_TreeFromXml.cpp-insertrows içinde pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
     if (!rootItem)
     {
         rootItem = new TaskItem("ROOT","ROOT",0,"ROOT","ROOT",0);
@@ -276,7 +276,7 @@ bool cls_mdl_TreeFromXml::insertRows(int row, int count,
         qDebug() << "item" << i << " usthesap :" << item->ustHesap();
         qDebug() << "item" << i ;
     }
-    qDebug() << "********************************************";
+    qDebug() << "cls_mdl_TreeFromXml.cpp-::insertRows(*****************end***************************";
     endInsertRows();
     return true;
 }
@@ -327,8 +327,8 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
             {
                 const quint64 hesapKod = reader->attributes()
                         .value(HesapKodAttribute).toLongLong ();
-qDebug()<<"readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
-                qDebug()<<"readerda okunan hesadpkod " << hesapKod;
+qDebug()<<"eeFromXml::readTasks readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+                qDebug()<<"eeFromXml::readTasks readerda okunan hesadpkod " << hesapKod;
                 if (hesapKod > *pi_max_Hesap_ID)
                 {
                     *pi_max_Hesap_ID = hesapKod;
@@ -357,10 +357,10 @@ qDebug()<<"readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID
                 //                        .toString () == "hhhesapturu2";
                 //                reader->attributes().value(UstHesapAttribute)
                 //                        .toString () == "uuuusthesap3";
-  qDebug()<<"rgf33555";
+  qDebug()<<"eeFromXml::readTasks    rgf33555";
                 task = new TaskItem(hesapAd, hesapAcklm, topluHesap,
                         hesapTuru, ustHesap, hesapKod, task);
-   qDebug()<<"rgf44";
+   qDebug()<<"eeFromXml::readTasks    rgf44";
             }
             else if (reader->name() == NeZamanTag) {
                 const QDateTime start = QDateTime::fromString(
@@ -372,7 +372,7 @@ qDebug()<<"readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID
                 Q_ASSERT(task);
                 task->addDateTime(start, end);
             }
-              qDebug()<<"rgf2222";
+              qDebug()<<"eeFromXml::readTasks    rgf2222";
         }
 
         else if (reader->isEndElement())
@@ -385,7 +385,7 @@ qDebug()<<"readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID
             }
         }
     } // while end
-    qDebug()<<"readerda pi-max-hesp-id son hali " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+    qDebug()<<"eeFromXml::readTasks    enddddd     readerda pi-max-hesp-id son hali " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
 }
 
 /// XML:011
@@ -809,7 +809,7 @@ void cls_mdl_TreeFromXml::load(const QString &filename)
         throw AQP::Error(file.errorString());
 
     clear();
-    qDebug () << "Load buradaaaaaa";
+    qDebug () << "cls_mdl_TreeFromXml::load     Load buradaaaaaa";
     rootItem = new TaskItem("ROO","ROO",0,"ROO","ROOT",0);
 
 

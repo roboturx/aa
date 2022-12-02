@@ -46,7 +46,7 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 
 void hC_HSPDTY::tbsetup()
 {
-    qDebug() << "   hspdty setup ";
+    qDebug() << "   1111 hspdty setup ";
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
@@ -55,7 +55,7 @@ void hC_HSPDTY::tbsetup()
     tbwdgt  ();
     tbui();
     tbkntrl ();
-    qDebug() << "  end hspdty tbsetup";
+    qDebug() << "   1111 end hspdty tbsetup";
 
 }
 
@@ -90,7 +90,7 @@ void hC_HSPDTY::tbui()
 }
 void hC_HSPDTY::tbwdgt()
 {
-    qDebug() << "   wdgt";
+    qDebug() << "   hspdty_wdgt";
 
 
     auto *lB_tarih  = new QLabel("Açılış Tarihi"        );
@@ -191,6 +191,8 @@ void hC_HSPDTY::debugger(QString num)
 
 void hC_HSPDTY::tbkntrl()
 {
+
+    qDebug() << "  hspdty KNTRL";
     tb_view->table->setItemDelegateForColumn(5, new cls_dlgt_ComboBox);
 
 
@@ -198,7 +200,7 @@ void hC_HSPDTY::tbkntrl()
     // tb_view->table->setFocus();
     //tb_slctnModel->select( tb_model->index(0,0));
     tb_view->table->setFocus();
-    qDebug() << "  hspdty KNTRL";
+
     //debugger("1");
     qDebug() << "   ??????????";
 
@@ -383,7 +385,7 @@ void hC_HSPDTY::tbkntrl()
 
 void hC_HSPDTY::showEvent(QShowEvent *)
 {
-    qDebug() << "showevent Hesap dosyası açılıyor";
+    qDebug() << " hspdty showevent ";
 }
 
 void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,
