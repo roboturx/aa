@@ -14,6 +14,7 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     tb_flds = new hC_ArrD (10, 4);
 
     tb_flds->setValue ( 0, "f_hspdty_ID"      , "INTEGER", "hspdty_ID" ) ;
+    // hesaplar ile hesap detay arası key
     tb_flds->setValue ( 1, "f_hspdty_hspID"   , "INTEGER", "hspdty_HesapID" ) ;
     tb_flds->setValue ( 2, "f_hspdty_tarih"   , "TEXT"   , "Açılış Tarihi" );
     tb_flds->setValue ( 3, "f_hspdty_no"      , "TEXT"   , "Kayıt No" );
@@ -25,8 +26,6 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     tb_flds->setValue ( 9, "f_hspdty_resim"   , "BLOB"   , "Resim","0");
 
     tb_wdgts = new QList <QWidget*> ;
-    // tb_wdgts->append ( nullptr    ) ; // dty id
-    // tb_wdgts->append ( nullptr    ) ; // hesap id
 
     tb_wdgts->append ( lE_hspdtyID  = new QLineEdit   ) ; //  id
     tb_wdgts->append ( lE_hspID  = new QLineEdit   ) ; // parent id
@@ -34,7 +33,9 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     tb_wdgts->append ( lE_no  = new QLineEdit   ) ;
 
     tb_wdgts->append ( lE_aciklama = new QLineEdit  ) ;
+    // bağlantılı hesap
     tb_wdgts->append ( cB_transfer = new QComboBox ) ;
+    // consilidate
     tb_wdgts->append ( lE_r = new QLineEdit  ) ;
     tb_wdgts->append ( lE_borc = new QLineEdit  ) ;
     tb_wdgts->append ( lE_alacak = new QLineEdit  ) ;
@@ -46,7 +47,7 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 
 void hC_HSPDTY::tbsetup()
 {
-    qDebug() << "   1111 hspdty setup ";
+    qDebug() << "0100 hspdty::tbsetup ------------------------- begins";
     tbCreate ( tb_flds );
     tbModel  ( tb_flds );
     tbView   ( tb_flds );
@@ -55,43 +56,13 @@ void hC_HSPDTY::tbsetup()
     tbwdgt  ();
     tbui();
     tbkntrl ();
-    qDebug() << "   1111 end hspdty tbsetup";
-
+    qDebug() << "0100 hspdty::tbsetup ------------------------- end";
 }
 
 
-void hC_HSPDTY::tbui()
-{
-
-    qDebug() << "   ui hsp dty";
-
-    o_hesaplar = new hC_hsp;
-    TaskItem* o_hesap = o_hesaplar->getCurrentItem();
-
-
-  //  QString filtre = "f_hspdty_hspID=" +  QString::number(
-    //             o_hesaplar->modelXML->data(index).toString()) ;
-
- //   tb_model->setFilter (filtre);
-
-    hC_HSPDTY::setWindowTitle (win_Label->text ());
-    this->setGeometry (20,20,800,400);
-
-    QSplitter *splitter = new QSplitter(this);
-    splitter->setMinimumWidth(400);
-    splitter->addWidget(o_hesaplar);
-    splitter->addWidget(tb_view);
-
-
-    auto *win_grid = new QGridLayout(this);
-    win_grid->addWidget (splitter  , 0, 0, 1, 1);
-   // win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
-   // win_grid->addWidget (o_hesaplar   , 0, 0, 2, 1);
-}
 void hC_HSPDTY::tbwdgt()
 {
-    qDebug() << "   hspdty_wdgt";
-
+    qDebug() << "   0110 hspdty::tbwdgt ---- begin";
 
     auto *lB_tarih  = new QLabel("Açılış Tarihi"        );
     //  dE_tarih->setPlaceholderText ("Tarih");
@@ -166,8 +137,40 @@ void hC_HSPDTY::tbwdgt()
 
     //  xx2=1;
     win_Grid->addWidget(win_Rsm       , 7, 4, 3, 2);
-
+    qDebug() << "   0110 hspdty::wdgt ---- end";
 }
+
+
+void hC_HSPDTY::tbui()
+{
+
+    qDebug() << "   0120 hspdty::tbui ---- begins";
+
+    o_hesaplar = new hC_hsp;
+    TaskItem* o_hesap = o_hesaplar->getCurrentItem();
+
+    //  QString filtre = "f_hspdty_hspID=" +  QString::number(
+    //             o_hesaplar->modelXML->data(index).toString()) ;
+
+    //   tb_model->setFilter (filtre);
+
+    hC_HSPDTY::setWindowTitle (win_Label->text ());
+    this->setGeometry (20,20,800,400);
+
+    QSplitter *splitter = new QSplitter(this);
+    splitter->setMinimumWidth(400);
+    splitter->addWidget(o_hesaplar);
+    splitter->addWidget(tb_view);
+
+
+    auto *win_grid = new QGridLayout(this);
+    win_grid->addWidget (splitter  , 0, 0, 1, 1);
+    // win_grid->addWidget (win_Wdgt   , 0, 1, 1, 1);
+    // win_grid->addWidget (o_hesaplar   , 0, 0, 2, 1);
+    qDebug() << "   0120 hspdty::tbui ---- end";
+}
+
+
 
 void hC_HSPDTY::debugger(QString num)
 {
@@ -191,18 +194,15 @@ void hC_HSPDTY::debugger(QString num)
 
 void hC_HSPDTY::tbkntrl()
 {
+    qDebug() << "   0130 hspdty::tbkntrl ---- begin";
 
-    qDebug() << "  hspdty KNTRL";
     tb_view->table->setItemDelegateForColumn(5, new cls_dlgt_ComboBox);
-
-
 
     // tb_view->table->setFocus();
     //tb_slctnModel->select( tb_model->index(0,0));
     tb_view->table->setFocus();
 
     //debugger("1");
-    qDebug() << "   ??????????";
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked , this,
@@ -219,7 +219,7 @@ void hC_HSPDTY::tbkntrl()
         int* max_id = new int{};
         *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
- qDebug() << "   ?222";
+
         QSqlQuery query;
         QString qStr, mesaj("");
      //   QString hesapLR = "";
@@ -364,7 +364,7 @@ void hC_HSPDTY::tbkntrl()
         //       tb_model->fieldIndex ("hspdty_id"))).toInt ();
         //    hesapID = tb_model->data (tb_model->index (Index.row (),
         //   tb_model->fieldIndex ("hspdty_parentid"))).toInt ();
-        debugger("6");
+
         // 011-02 hesap row değiştiğinde hesap id yi etrafa yayınlayalım
         //   emit hC_HSPDTY::sgnHsp(tb_view->table->model()->index( Index.row() ,
         //         tb_model->fieldIndex (hspdtyid) ).data().toInt() );
@@ -379,18 +379,19 @@ void hC_HSPDTY::tbkntrl()
 
 
     });
-
+    qDebug() << "   0130 hspdty::tbkntrl ---- end";
 }
 
 
 void hC_HSPDTY::showEvent(QShowEvent *)
 {
-    qDebug() << " hspdty showevent ";
+    qDebug() << "   0140 hspdty::showevent ";
 }
 
 void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,
                                   QString *sgnHspAd)
 {
+    qDebug() << "   0150 hspdty::slt_tbx_rowChange ";
     m_hesapID = sgnHspID;
     m_hesapAd = sgnHspAd;
 }
@@ -401,7 +402,7 @@ void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,
 hC_HSPDTY::~hC_HSPDTY()
 {
     //delete max_id;
-    qDebug() << "*********** destructor Hesap Detay";
+    qDebug() << "   0199 hspdty:: ~ ";
     //delete
 }
 
