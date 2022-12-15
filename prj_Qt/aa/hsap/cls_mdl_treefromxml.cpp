@@ -327,8 +327,8 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
             {
                 const quint64 hesapKod = reader->attributes()
                         .value(HesapKodAttribute).toLongLong ();
-qDebug()<<"eeFromXml::readTasks readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
-                qDebug()<<"eeFromXml::readTasks readerda okunan hesadpkod " << hesapKod;
+qDebug()<<"         MODEL readTasks readerda *pi-max-hesp-id " << *pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod " << hesapKod;
                 if (hesapKod > *pi_max_Hesap_ID)
                 {
                     *pi_max_Hesap_ID = hesapKod;
@@ -357,10 +357,10 @@ qDebug()<<"eeFromXml::readTasks readerda pi-max-hesp-id " << pi_max_Hesap_ID <<"
                 //                        .toString () == "hhhesapturu2";
                 //                reader->attributes().value(UstHesapAttribute)
                 //                        .toString () == "uuuusthesap3";
-  qDebug()<<"eeFromXml::readTasks    rgf33555";
+  qDebug()<<"       eeFromXml::readTasks    new taskitem";
                 task = new TaskItem(hesapAd, hesapAcklm, topluHesap,
                         hesapTuru, ustHesap, hesapKod, task);
-   qDebug()<<"eeFromXml::readTasks    rgf44";
+
             }
             else if (reader->name() == NeZamanTag) {
                 const QDateTime start = QDateTime::fromString(
@@ -799,7 +799,7 @@ void cls_mdl_TreeFromXml::clear()
 
 void cls_mdl_TreeFromXml::load(const QString &filename)
 {
-    qDebug () << "Load buradaaaaaa öö1";
+    qDebug () << "          MODEL cls_mdl_treefromxml::load ";
     if (!filename.isEmpty())
         m_filename = filename;
     if (m_filename.isEmpty())
@@ -809,7 +809,7 @@ void cls_mdl_TreeFromXml::load(const QString &filename)
         throw AQP::Error(file.errorString());
 
     clear();
-    qDebug () << "cls_mdl_TreeFromXml::load     Load buradaaaaaa";
+    qDebug () << "cls_mdl_TreeFromXml::load     new root item";
     rootItem = new TaskItem("ROO","ROO",0,"ROO","ROOT",0);
 
 

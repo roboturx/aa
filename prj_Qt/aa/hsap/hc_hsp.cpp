@@ -339,7 +339,7 @@ qDebug() << "                   04 07";
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
     connect(&iconTimeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateIcon(int)));
-    qDebug() << "                   004 son";
+    qDebug() << "                   004 ******************son";
 }
 
 
