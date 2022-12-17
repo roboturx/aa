@@ -1,6 +1,7 @@
 #ifndef hC_hsp_H
 #define hC_hsp_H
 
+
 #include "libs/globals.h"
 #include "libs/alt_key.h"
 #include "cls_dlgt_richtext.h"
@@ -30,6 +31,8 @@ public:
     QLabel * lB_HesapKodAd;
 
     TaskItem *getCurrentItem();
+    cls_mdl_TreeFromXml *modelXML;
+
 
 private:
     void createModelAndView();
@@ -62,7 +65,7 @@ private:
     QTreeView *treeViewXML;
     QWidget *centralWdgt;
 
-    cls_mdl_TreeFromXml *modelXML;
+
 
     QTimer timer;
     QTimeLine iconTimeLine;
@@ -99,7 +102,7 @@ private slots:
     void setDirty(bool dirty=true)
          {   setWindowModified(dirty);  }
 
-    void load(const QString &filename,
+    void loadXML(const QString &filename,
               const QStringList &taskPath=QStringList());
     void timeout();
     void updateIcon(int frame);
@@ -107,3 +110,4 @@ private slots:
 };
 
 #endif // hC_hsp_H
+

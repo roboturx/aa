@@ -81,12 +81,12 @@ hC_hsp::hC_hsp(QWidget *parent)
         qDebug() << "               Kayıtlı XML Dosyası Diskte bulundu. ";
         qDebug() << "               Yükleniyor...";
 
-        QMetaObject::invokeMethod(this, "load",
+        QMetaObject::invokeMethod(this, "loadXML",
                                   Qt::QueuedConnection,
                                   Q_ARG(QString, filename),
                                   Q_ARG(QStringList, settings.value(
                        CurrentTaskPathSetting).toStringList()));
-       // qDebug() << "               0204 hsp::load ";
+        qDebug() << "               0205,,, hsp::loadXML ";
     }
 }
 
@@ -100,8 +100,7 @@ TaskItem* hC_hsp::getCurrentItem()
             qDebug() << "               ui hsp::getcurrentItem" ;
             qDebug() << "               :kod:" << currentItem->hesapKod ()
                      << "               :ad :" << currentItem->hesapAd ()
-                     << "               :tpl:" <<
-QString::number(currentItem->isTopluHesap())
+                     << "               :tpl:" << QString::number(currentItem->isTopluHesap())
                      << "               :tur:" << currentItem->hesapTuru()
                      << "               :ust:" << currentItem->ustHesap()
                      << "               ui currentItem" ;
@@ -122,8 +121,8 @@ void hC_hsp::createModelAndView()
 
     /// hesapdetaylarını oluştur
     ///
- //   o_hspdty = new hC_HSPDTY ;
-  //  o_hspdty->tbsetup ();
+    //o_hspdty = new hC_HSPDTY ;
+    //o_hspdty->tbsetup ();
 
     ///
     /// ////////////////////////
@@ -162,9 +161,9 @@ void hC_hsp::createModelAndView()
 
    // gridd->addWidget( o_hspdty , 0, 2, 2, 3);
 
-qDebug()<<"                 0011 hc23";
+//qDebug()<<"                 0011 hc23";
   //  gridd ->addWidget( modelXML->cB_hesapAds , 1, 2, 1, 1);
-qDebug()<<"                 0011 hc3";
+//qDebug()<<"                 0011 hc3";
 
 
    // gridd->addWidget(cB_transfer , 0, 2, 2, 3);
@@ -212,14 +211,11 @@ void hC_hsp::createActions()
     editMoveUpAction = createAction(":/rsm/images/editup.png", tr("Hesap Yukarı"),
                                     this, QKeySequence(tr("Ctrl+Up")));
     editMoveDownAction = createAction(":/rsm/images/editdown.png",
-                                      tr("Hesap Aşağı"), this,
-QKeySequence(tr("Ctrl+Down")));
+                                      tr("Hesap Aşağı"), this, QKeySequence(tr("Ctrl+Down")));
     editPromoteAction = createAction(":/rsm/images/editpromote.png",
-                                     tr("Üst Hesap Yap"), this,
-QKeySequence(tr("Ctrl+Left")));
+                                     tr("Üst Hesap Yap"), this, QKeySequence(tr("Ctrl+Left")));
     editDemoteAction = createAction(":/rsm/images/editdemote.png",
-                                    tr("Alt Hesap Yap"), this,
-QKeySequence(tr("Ctrl+Right")));
+                                    tr("Alt Hesap Yap"), this, QKeySequence(tr("Ctrl+Right")));
 
     editStartOrStopAction = createAction(":/rsm/images/0.png", tr("S&tart"),
                                          this, QKeySequence(tr("Ctrl+T")));
@@ -380,8 +376,7 @@ void hC_hsp::updateUi()
         qDebug() << "               ui currentItem hsp::updateui" ;
         qDebug() << "               :kod:" << currentItem->hesapKod ()
                  << "               :ad :" << currentItem->hesapAd ()
-                 << "               :tpl:" <<
-QString::number(currentItem->isTopluHesap())
+                 << "               :tpl:" << QString::number(currentItem->isTopluHesap())
                  << "               :tur:" << currentItem->hesapTuru()
                  << "               :ust:" << currentItem->ustHesap()
                  << "               ui currentItem" ;
@@ -400,9 +395,9 @@ QString::number(currentItem->isTopluHesap())
         ///
         ///
 
-    //    QString filtre ;
-      //  filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod ()) ;
- //       o_hspdty->tb_model->setFilter(filtre);
+       // QString filtre ;
+        //filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
+        //modelXML.setFF setFilter(filtre);
 
 
         lB_HesapKodAd->setText(currentItem->hesapAd() +" - "+
@@ -449,14 +444,10 @@ void hC_hsp::editAdd()
         treeViewXML->edit(index);
 
 //        QString name = modelXML->data(index).toString();
-//        QString name2 = modelXML->data(modelXML->index(0, 1,
-//index)).toString();
-//        QString name3 = modelXML->data(modelXML->index(0, 2,
-//index)).toString();
-//        QString name4 = modelXML->data(modelXML->index(0, 3,
-//index)).toString();
-//        QString name5 = modelXML->data(modelXML->index(0, 4,
-//index)).toString();
+//        QString name2 = modelXML->data(modelXML->index(0, 1, index)).toString();
+//        QString name3 = modelXML->data(modelXML->index(0, 2, index)).toString();
+//        QString name4 = modelXML->data(modelXML->index(0, 3, index)).toString();
+//        QString name5 = modelXML->data(modelXML->index(0, 4, index)).toString();
 //        qDebug() <<"--------------------------------------" ;
 //        qDebug() <<"----şşşşş----------------------------------" ;
 //        qDebug() << name <<" pi max hesap id "<< *modelXML->pi_max_Hesap_ID;
@@ -622,15 +613,15 @@ void hC_hsp::fileOpen()
               tr("%1 - Open").arg(QApplication::applicationName()),
                  dir, tr("konumlar (*.knm)"));
     if (!filename.isEmpty())
-        load(filename);
+        loadXML(filename);
 }
 
 
-void hC_hsp::load(const QString &filename,
+void hC_hsp::loadXML(const QString &filename,
                   const QStringList &taskPath)
 {
-    qDebug() << "       210 hsp::load XML";
-    qDebug() << "       loading file (filename) '" << filename
+    qDebug() << "       210 hsp::loadXML";
+    qDebug() << "       loadXMLing file (filename) '" << filename
              << "       ' at path (taskPath): " << taskPath;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -840,3 +831,6 @@ void hC_hsp::hideOrShowDoneTask(bool hide,
             hideOrShowDoneTask(hide, modelXML->index(row, 0, index));
     }
 }
+
+
+

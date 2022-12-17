@@ -40,7 +40,7 @@ public:
     quint64* m_hesapID{};
     QString* m_hesapAd{};
 
-    QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003","d'MM'MMcaryyyy");
+    QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003", "d'MM'MMcaryyyy");
     int reccount{};
     QModelIndex curIndex;
 

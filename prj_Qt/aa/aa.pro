@@ -192,6 +192,8 @@ HEADERS += \
     hsap/cls_dlgt_combobox.h
 
 SOURCES += \
-    hsap/cls_dlgt_combobox.cpp
+    hsap/cls_dlgt_combobox.cpp \
+    hsap/hc_hsp.cpp \
+    hsap/hc_hspdetay.cpp
 
 
