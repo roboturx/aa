@@ -20,9 +20,13 @@ public:
     QPair <quint64,QString> pair_Hesaplar;
 
 
-    hC_hsp* o_hesaplar;
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
+
+    hC_hsp* win_hC_hsp;
+
+    qint64  *SGNDhesapKod ;
+    QString *SGNDhesapAd  ;
 
     QLineEdit   *lE_hspdtyID=nullptr    ;
     QLineEdit   *lE_hspID=nullptr    ;
@@ -40,7 +44,7 @@ public:
     quint64* m_hesapID{};
     QString* m_hesapAd{};
 
-    QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003","d'MM'MMcaryyyy");
+    QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003", "d'MM'MMcaryyyy");
     int reccount{};
     QModelIndex curIndex;
 

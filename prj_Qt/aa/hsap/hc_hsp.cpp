@@ -16,7 +16,6 @@ QAction *createAction(const QString &icon,
                       QObject *parent,
                       const QKeySequence &shortcut=QKeySequence())
 {
-    qDebug() << "           02021 hsp::slt_tbx_rowChange ";
     QAction *action = new QAction(QIcon(icon), text, parent);
     if (!shortcut.isEmpty())
         action->setShortcut(shortcut);
@@ -52,7 +51,6 @@ hC_hsp::hC_hsp(QWidget *parent)
     iconTimeLine.setDuration(5000);
     iconTimeLine.setFrameRange(FirstFrame, LastFrame + 1);
     iconTimeLine.setLoopCount(0);
-    // qt 6 OKK iconTimeLine.setCurveShape(QTimeLine::LinearCurve);
     iconTimeLine.setEasingCurve (QEasingCurve::InOutQuad);
 
     QSettings settings;
@@ -100,8 +98,7 @@ TaskItem* hC_hsp::getCurrentItem()
             qDebug() << "               ui hsp::getcurrentItem" ;
             qDebug() << "               :kod:" << currentItem->hesapKod ()
                      << "               :ad :" << currentItem->hesapAd ()
-                     << "               :tpl:" <<
-QString::number(currentItem->isTopluHesap())
+                     << "               :tpl:" << QString::number(currentItem->isTopluHesap())
                      << "               :tur:" << currentItem->hesapTuru()
                      << "               :ust:" << currentItem->ustHesap()
                      << "               ui currentItem" ;
@@ -119,15 +116,6 @@ void hC_hsp::createModelAndView()
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
 
-
-    /// hesapdetaylarını oluştur
-    ///
- //   o_hspdty = new hC_HSPDTY ;
-  //  o_hspdty->tbsetup ();
-
-    ///
-    /// ////////////////////////
-
     modelXML = new cls_mdl_TreeFromXml(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
 
@@ -141,13 +129,13 @@ void hC_hsp::createModelAndView()
     treeViewXML->setAllColumnsShowFocus(false);
     treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
     treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
-    treeViewXML->setColumnWidth(0,3000);
+    treeViewXML->setColumnWidth(0,5000);
     treeViewXML->setColumnWidth(1,1000);
-    treeViewXML->setColumnWidth(2,300);
+    treeViewXML->setColumnWidth(2,5000);
     //treeViewXML->setFirstColumnSpanned();
     //treeViewXML->setIndentation();
     //treeViewXML.set
-
+    treeViewXML->resizeColumnToContents(0);
     treeViewXML->setModel(modelXML);
 
     lB_HesapKod = new QLabel("Kod-------");
@@ -212,14 +200,11 @@ void hC_hsp::createActions()
     editMoveUpAction = createAction(":/rsm/images/editup.png", tr("Hesap Yukarı"),
                                     this, QKeySequence(tr("Ctrl+Up")));
     editMoveDownAction = createAction(":/rsm/images/editdown.png",
-                                      tr("Hesap Aşağı"), this,
-QKeySequence(tr("Ctrl+Down")));
+                                      tr("Hesap Aşağı"), this, QKeySequence(tr("Ctrl+Down")));
     editPromoteAction = createAction(":/rsm/images/editpromote.png",
-                                     tr("Üst Hesap Yap"), this,
-QKeySequence(tr("Ctrl+Left")));
+                                     tr("Üst Hesap Yap"), this, QKeySequence(tr("Ctrl+Left")));
     editDemoteAction = createAction(":/rsm/images/editdemote.png",
-                                    tr("Alt Hesap Yap"), this,
-QKeySequence(tr("Ctrl+Right")));
+                                    tr("Alt Hesap Yap"), this, QKeySequence(tr("Ctrl+Right")));
 
     editStartOrStopAction = createAction(":/rsm/images/0.png", tr("S&tart"),
                                          this, QKeySequence(tr("Ctrl+T")));
@@ -343,7 +328,7 @@ qDebug() << "                   04 07";
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
     connect(&iconTimeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateIcon(int)));
-    qDebug() << "                   004 ******************son";
+    qDebug() << "                   004 son";
 }
 
 
@@ -377,14 +362,13 @@ void hC_hsp::updateUi()
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
-        qDebug() << "               ui currentItem hsp::updateui" ;
-        qDebug() << "               :kod:" << currentItem->hesapKod ()
-                 << "               :ad :" << currentItem->hesapAd ()
-                 << "               :tpl:" <<
-QString::number(currentItem->isTopluHesap())
-                 << "               :tur:" << currentItem->hesapTuru()
-                 << "               :ust:" << currentItem->ustHesap()
-                 << "               ui currentItem" ;
+        qDebug() << " */*/*/*/*/*/ ui currentItem hsp::updateui" ;
+        qDebug() << "    :kod:" << currentItem->hesapKod ();
+        qDebug() << "    :ad :" << currentItem->hesapAd ();
+        qDebug() << "    :tpl:" << QString::number(currentItem->isTopluHesap());
+        qDebug() << "    :tur:" << currentItem->hesapTuru();
+        qDebug() << "    :ust:" << currentItem->ustHesap();
+        qDebug() << "    ui currentItem" ;
 
 
 
@@ -401,7 +385,7 @@ QString::number(currentItem->isTopluHesap())
         ///
 
     //    QString filtre ;
-      //  filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod ()) ;
+      //  filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
  //       o_hspdty->tb_model->setFilter(filtre);
 
 
@@ -449,14 +433,10 @@ void hC_hsp::editAdd()
         treeViewXML->edit(index);
 
 //        QString name = modelXML->data(index).toString();
-//        QString name2 = modelXML->data(modelXML->index(0, 1,
-//index)).toString();
-//        QString name3 = modelXML->data(modelXML->index(0, 2,
-//index)).toString();
-//        QString name4 = modelXML->data(modelXML->index(0, 3,
-//index)).toString();
-//        QString name5 = modelXML->data(modelXML->index(0, 4,
-//index)).toString();
+//        QString name2 = modelXML->data(modelXML->index(0, 1, index)).toString();
+//        QString name3 = modelXML->data(modelXML->index(0, 2, index)).toString();
+//        QString name4 = modelXML->data(modelXML->index(0, 3, index)).toString();
+//        QString name5 = modelXML->data(modelXML->index(0, 4, index)).toString();
 //        qDebug() <<"--------------------------------------" ;
 //        qDebug() <<"----şşşşş----------------------------------" ;
 //        qDebug() << name <<" pi max hesap id "<< *modelXML->pi_max_Hesap_ID;
@@ -840,3 +820,6 @@ void hC_hsp::hideOrShowDoneTask(bool hide,
             hideOrShowDoneTask(hide, modelXML->index(row, 0, index));
     }
 }
+
+
+
