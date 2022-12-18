@@ -83,9 +83,11 @@ public:
     void incrementEndTimeForTimedItem(int msec);
 
     void clear();
+
     QString filename() const { return m_filename; }
     void setFilename(const QString &filename)
         { m_filename = filename; }
+
     void load(const QString &filename=QString());
     void save(const QString &filename=QString());
     QStringList pathForIndex(const QModelIndex &index) const;
