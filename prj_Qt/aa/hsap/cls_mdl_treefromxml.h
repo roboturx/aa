@@ -30,7 +30,7 @@ public:
           cutItem(0) {}
     ~cls_mdl_TreeFromXml() { delete rootItem; delete cutItem; }
 
-    qint64* pi_max_Hesap_ID; // for XML file rowid
+    quint64* pi_max_Hesap_ID; // for XML file rowid
     QComboBox* cB_hesapAds;   // for hesap ad
     cls_Hesaplar* hesapListesi;
 

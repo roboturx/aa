@@ -225,12 +225,13 @@ bool cls_mdl_TreeFromXml::setData(const QModelIndex &index,
 bool cls_mdl_TreeFromXml::insertRows(int row, int count,
                            const QModelIndex &parent)
 {
-    qDebug() << "**cls_mdl_TreeFromXml.cpp-insertrows******************************************"
+    qDebug() << "*XMLmodeel nsert rows******************************************"
              << rowCount(parent);
-    qDebug()<<"             cls_mdl_TreeFromXml.cpp-insertrows içinde pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+  //  qDebug()<<"             cls_mdl_TreeFromXml.cpp-insertrows içinde pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
     if (!rootItem)
     {
-        rootItem = new TaskItem("ROOT","ROOT",0,"ROOT","ROOT",0);
+        qDebug()<<"  rootitem yokk     ";
+        rootItem = new TaskItem("ROOThspad","ROOTAcklm",0,"ROOTturu","ROOTusthsp",0);
 
         qDebug() << "ROOOOOOT Cnt" << rowCount(parent) ;
         qDebug() << "hkod:" << rootItem->hesapKod ()
@@ -242,6 +243,8 @@ bool cls_mdl_TreeFromXml::insertRows(int row, int count,
 
 
     }
+    qDebug()<<" parentitem ???????????????????????????????????      ";
+
     TaskItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : rootItem;
     qDebug() << "parentItem rowcount" << rowCount(parent) ;
@@ -258,7 +261,7 @@ bool cls_mdl_TreeFromXml::insertRows(int row, int count,
     {
         qDebug() << "111we";
         // hesaba en yüksek id yi ver
-        qDebug()<<"nsertrows pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+        //qDebug()<<"nsertrows pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
         ++*pi_max_Hesap_ID;
         qDebug()<<"nsertrows pi-max-hesp-id after ++ " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
         // hesap adını kod olarak ayarla
@@ -276,7 +279,8 @@ bool cls_mdl_TreeFromXml::insertRows(int row, int count,
         qDebug() << "item" << i << " usthesap :" << item->ustHesap();
         qDebug() << "item" << i ;
     }
-    qDebug() << "cls_mdl_TreeFromXml.cpp-::insertRows(*****************end***************************";
+    qDebug() << "cls_mdl_TreeFromXml.cpp-::insertRows(*****************"
+                "end***************************";
     endInsertRows();
     return true;
 }
@@ -316,7 +320,7 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
     //cB_hesapAds = new QComboBox{} ;
 
     hesapListesi = new cls_Hesaplar;
-    pi_max_Hesap_ID = new qint64{};
+    pi_max_Hesap_ID = new quint64{};
     *pi_max_Hesap_ID = 0;
     while (!reader->atEnd())
     {
@@ -326,7 +330,7 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
             if (reader->name() == TaskTag)
             {
                 const quint64 hesapKod = reader->attributes()
-                        .value(HesapKodAttribute).toLongLong ();
+                        .value(HesapKodAttribute).toULongLong ();
 qDebug()<<"         MODEL readTasks readerda *pi-max-hesp-id " << *pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
 qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod " << hesapKod;
                 if (hesapKod > *pi_max_Hesap_ID)
@@ -818,9 +822,8 @@ void cls_mdl_TreeFromXml::load(const QString &filename)
     readTasks(&reader, rootItem);
     if (reader.hasError())
         throw AQP::Error(reader.errorString());
-    //reset();         //deleted for Qt5
-    beginResetModel(); //added for Qt6
-    endResetModel();   //added for Qt6
+    beginResetModel();
+    endResetModel();
 }
 
 

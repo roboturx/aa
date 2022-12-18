@@ -94,6 +94,7 @@ hsap/hc_hsp.cpp \
 hsap/hc_hspdetay.cpp \
 hsap/richtextlineedit.cpp \
 hsap/taskitem.cpp \
+    hsap/cls_dlgt_combobox.cpp
 
 HEADERS  +=  \
     hsap/cls_dlgt_richtext.h \
@@ -101,9 +102,9 @@ HEADERS  +=  \
 hsap/hc_hsp.h \
 hsap/hc_hspdetay.h \
 hsap/richtextlineedit.h \
-hsap/taskitem.h
+hsap/taskitem.h \
+hsap/cls_dlgt_combobox.h
 
- #FORMS    += \
 
 }
 
@@ -187,13 +188,5 @@ DISTFILES += \ libs/mime.types
    # hesap/main/images/filequit.png \
    # hesap/main/images/filesave.png \
     # hesap/main/images/icon.png
-
-HEADERS += \
-    hsap/cls_dlgt_combobox.h
-
-SOURCES += \
-    hsap/cls_dlgt_combobox.cpp \
-    hsap/hc_hsp.cpp \
-    hsap/hc_hspdetay.cpp
 
 
