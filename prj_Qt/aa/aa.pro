@@ -92,20 +92,27 @@ SOURCES +=\
     hsap/cls_mdl_treefromxml.cpp \
 hsap/richtextlineedit.cpp \
 hsap/taskitem.cpp \
+<<<<<<< HEAD
 hsap/cls_dlgt_combobox.cpp \
 hsap/hc_hsp.cpp \
 hsap/hc_hspdetay.cpp
+=======
+    hsap/cls_dlgt_combobox.cpp
+>>>>>>> 88a6ef1dc2984e4bd04aefe67a1c901cbab62b7b
 
 HEADERS  +=  \
     hsap/cls_dlgt_richtext.h \
     hsap/cls_mdl_treefromxml.h \
 hsap/richtextlineedit.h \
 hsap/taskitem.h \
+<<<<<<< HEAD
 hsap/cls_dlgt_combobox.h \
 hsap/hc_hsp.h \
 hsap/hc_hspdetay.h
+=======
+hsap/cls_dlgt_combobox.h
+>>>>>>> 88a6ef1dc2984e4bd04aefe67a1c901cbab62b7b
 
- #FORMS    += \
 
 }
 
@@ -190,5 +197,8 @@ DISTFILES += \ libs/mime.types
    # hesap/main/images/filesave.png \
     # hesap/main/images/icon.png
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 88a6ef1dc2984e4bd04aefe67a1c901cbab62b7b
 

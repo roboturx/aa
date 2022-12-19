@@ -30,7 +30,7 @@ public:
           cutItem(0) {}
     ~cls_mdl_TreeFromXml() { delete rootItem; delete cutItem; }
 
-    qint64* pi_max_Hesap_ID; // for XML file rowid
+    quint64* pi_max_Hesap_ID; // for XML file rowid
     QComboBox* cB_hesapAds;   // for hesap ad
     cls_Hesaplar* hesapListesi;
 
@@ -83,9 +83,11 @@ public:
     void incrementEndTimeForTimedItem(int msec);
 
     void clear();
+
     QString filename() const { return m_filename; }
     void setFilename(const QString &filename)
         { m_filename = filename; }
+
     void load(const QString &filename=QString());
     void save(const QString &filename=QString());
     QStringList pathForIndex(const QModelIndex &index) const;
