@@ -6,19 +6,11 @@
 
 #include "libs/globals.h"
 #include "taskitem.h"
-
-
 #include "hsap/cls_dlgt_combobox.h"
-
-//#include <QAbstractItemModel>
-//#include <QIcon>
-// Mac needs these included this way---and needs them in the header
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 
-
 class QMimeData;
-
 
 class cls_mdl_TreeFromXml : public QAbstractItemModel
 {
@@ -27,7 +19,11 @@ class cls_mdl_TreeFromXml : public QAbstractItemModel
 public:
     explicit cls_mdl_TreeFromXml(QObject *parent=0)
         : QAbstractItemModel(parent), timedItem(0), rootItem(0),
-          cutItem(0) {}
+          cutItem(0)
+    {
+                pi_max_Hesap_ID = new quint64{};
+        *pi_max_Hesap_ID = 0;
+    }
     ~cls_mdl_TreeFromXml() { delete rootItem; delete cutItem; }
 
     quint64* pi_max_Hesap_ID; // for XML file rowid

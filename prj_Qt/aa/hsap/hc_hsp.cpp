@@ -54,6 +54,7 @@ hC_hsp::hC_hsp(QWidget *parent)
     iconTimeLine.setEasingCurve (QEasingCurve::InOutQuad);
 
     QSettings settings;
+    qDebug() << " settings...";
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString filename = settings.value(FilenameSetting).toString();
 
@@ -62,7 +63,7 @@ hC_hsp::hC_hsp(QWidget *parent)
     {
         qDebug() << "            Kayıtlı Hesap Dosyası Diskte bulunamadı !! ";
         qDebug() << "            Yeni Hesap Dosyası oluşturuluyor...";
-        qDebug() << "            0202 hsp::filenew ";
+
         statusBar()->showMessage(tr("Dosya Yüklenemedi %1")
                                  .arg(filename), StatusTimeout);
         QTimer::singleShot(0, this, SLOT(fileNew()));
@@ -84,7 +85,7 @@ hC_hsp::hC_hsp(QWidget *parent)
                                   Q_ARG(QString, filename),
                                   Q_ARG(QStringList, settings.value(
                        CurrentTaskPathSetting).toStringList()));
-       // qDebug() << "               0204 hsp::load ";
+
     }
 }
 
@@ -576,7 +577,7 @@ bool hC_hsp::okToClearData()
 
 void hC_hsp::fileNew()
 {
-    qDebug() << "       hsp::filenew XML";
+    qDebug() << "       202 hsp::filenew XML";
 
     if (!okToClearData())
         return;
@@ -636,8 +637,11 @@ void hC_hsp::load(const QString &filename,
         statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
                                  StatusTimeout);
     } catch (AQP::Error &error) {
-        AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2")
-         .arg(filename).arg(QString::fromUtf8(error.what())));
+        AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2\n"
+                                          "yeni dosya oluşturuluyor")
+         .arg(filename,QString::fromUtf8(error.what())));
+        //.arg(filename).arg(QString::fromUtf8(error.what())));
+
     }
     updateUi();
     editHideOrShowDoneTasks(editHideOrShowDoneTasksAction->isChecked());
@@ -707,7 +711,9 @@ bool hC_hsp::fileSaveAs()
 
 void hC_hsp::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "       222 hsp:: ~ closeEvent";
+    qDebug() << "       222 hsp:: ~ closeEvent"
+             << "                 filename               : " << modelXML->filename()
+             << "                 pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
     stopTiming();
     if (okToClearData()) {
         QSettings settings;

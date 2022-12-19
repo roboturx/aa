@@ -225,52 +225,47 @@ bool cls_mdl_TreeFromXml::setData(const QModelIndex &index,
 bool cls_mdl_TreeFromXml::insertRows(int row, int count,
                            const QModelIndex &parent)
 {
-    qDebug() << "*XMLmodeel nsert rows******************************************"
+    qDebug() << "*          XMLmodeel insert rows********************* "
              << rowCount(parent);
-  //  qDebug()<<"             cls_mdl_TreeFromXml.cpp-insertrows içinde pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
-    if (!rootItem)
+ if (!rootItem)
     {
-        qDebug()<<"  rootitem yokk     ";
+
         rootItem = new TaskItem("ROOThspad","ROOTAcklm",0,"ROOTturu","ROOTusthsp",0);
 
-        qDebug() << "ROOOOOOT Cnt" << rowCount(parent) ;
-        qDebug() << "hkod:" << rootItem->hesapKod ()
-                 << " :ad:" << rootItem->hesapAd ()
-                 << " :tpl:" << QString::number(rootItem->isTopluHesap())
-                 << " :tur:" << rootItem->hesapTuru()
-                 << " :ust:" << rootItem->ustHesap()
-                 << "ROOOOOOOOYT" ;
+//        qDebug() << "ROOOOOOT Cnt" << rowCount(parent) ;
+//        qDebug() << "hkod:" << rootItem->hesapKod ()
+//                 << " :ad:" << rootItem->hesapAd ()
+//                 << " :tpl:" << QString::number(rootItem->isTopluHesap())
+//                 << " :tur:" << rootItem->hesapTuru()
+//                 << " :ust:" << rootItem->ustHesap()
+//                 << "ROOOOOOOOYT" ;
+        *pi_max_Hesap_ID = rootItem->hesapKod()  ;
 
+ }
 
-    }
-    qDebug()<<" parentitem ???????????????????????????????????      ";
-
-    TaskItem *parentItem = parent.isValid() ? itemForIndex(parent)
+ TaskItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : rootItem;
-    qDebug() << "parentItem rowcount" << rowCount(parent) ;
-    qDebug() << " pkod:" << parentItem->hesapKod ();
-    qDebug() << " :ad:" << parentItem->hesapAd ();
-    qDebug() << " :tpl:  :" << QString::number(parentItem->isTopluHesap());
-    qDebug() << " :tur:" << parentItem->hesapTuru();
-    qDebug() << " :ust:" << parentItem->ustHesap();
-    qDebug() << "parentItem" ;
+//    qDebug() << "parentItem rowcount" << rowCount(parent) ;
+//    qDebug() << " pkod:" << parentItem->hesapKod ();
+//    qDebug() << " :ad:" << parentItem->hesapAd ();
+//    qDebug() << " :tpl:  :" << QString::number(parentItem->isTopluHesap());
+//    qDebug() << " :tur:" << parentItem->hesapTuru();
+//    qDebug() << " :ust:" << parentItem->ustHesap();
+//    qDebug() << "parentItem" ;
 
     beginInsertRows(parent, row, row + count - 1);
-    qDebug() << "111";
+
     for (int i = 0; i < count; ++i)
     {
-        qDebug() << "111we";
-        // hesaba en yüksek id yi ver
-        //qDebug()<<"nsertrows pi-max-hesp-id " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+         // hesaba en yüksek id yi ver
+
         ++*pi_max_Hesap_ID;
-        qDebug()<<"nsertrows pi-max-hesp-id after ++ " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
-        // hesap adını kod olarak ayarla
-        // QString str_hesapADI =   QString::number(*pi_max_Hesap_ID) ;
- qDebug() << "111ddd";
+
         // yeni bir hesap oluştur
         TaskItem *item = new TaskItem("","",0,"","",*pi_max_Hesap_ID) ;
- qDebug() << "1112222";
+
         parentItem->insertChild(row, item);
+
         qDebug() << "item" << i << " rowcount" << rowCount(parent) ;
         qDebug() << "item" << i << " hesapkod :" << item->hesapKod ();
         qDebug() << "item" << i << " hesap ad :" << item->hesapAd ();
@@ -320,8 +315,8 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
     //cB_hesapAds = new QComboBox{} ;
 
     hesapListesi = new cls_Hesaplar;
-    pi_max_Hesap_ID = new quint64{};
-    *pi_max_Hesap_ID = 0;
+  //  pi_max_Hesap_ID = new quint64{};
+   // *pi_max_Hesap_ID = 0;
     while (!reader->atEnd())
     {
         reader->readNext();
@@ -331,8 +326,11 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
             {
                 const quint64 hesapKod = reader->attributes()
                         .value(HesapKodAttribute).toULongLong ();
-qDebug()<<"         MODEL readTasks readerda *pi-max-hesp-id " << *pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
-qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod " << hesapKod;
+qDebug()<<"         MODEL readTasks readerda *pi-max-hesp-id "
+                         << *pi_max_Hesap_ID
+                         <<"-"<< *pi_max_Hesap_ID;
+qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod "
+         << hesapKod;
                 if (hesapKod > *pi_max_Hesap_ID)
                 {
                     *pi_max_Hesap_ID = hesapKod;
@@ -389,7 +387,9 @@ qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod " << hesapKod;
             }
         }
     } // while end
-    qDebug()<<"eeFromXml::readTasks    enddddd     readerda pi-max-hesp-id son hali " << pi_max_Hesap_ID <<"-"<< *pi_max_Hesap_ID;
+    qDebug()<<"eeFromXml::readTasks    enddddd     readerda "
+                "pi-max-hesp-id son hali " << pi_max_Hesap_ID
+             <<"-"<< *pi_max_Hesap_ID;
 }
 
 /// XML:011
