@@ -11,10 +11,8 @@ DEFINES += HSAP
 #DEFINES += OTHR
 DISTFILES += aaaprogram.txt
 
-
-QT       += core gui sql
-#QT       += multimedia
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+# greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui sql widgets
 
 TARGET = aa
 TEMPLATE = app
@@ -36,33 +34,31 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 
 contains(DEFINES, MAIN) {
 
-SOURCES +=\
-main/main.cpp \
-main/cw_hkk.cpp \
+SOURCES +=       \
+main/main.cpp    \
+main/cw_hkk.cpp  \
 main/mw_main.cpp \
-main/login.cpp \
-main/dbase.cpp \
+main/login.cpp   \
+main/dbase.cpp   \
 libs/alt_key.cpp \
-libs/aqp.cpp \
-#  libs/dbase.cpp \
-libs/hc_.cpp \
+libs/aqp.cpp     \
+libs/hc_.cpp     \
 libs/kuhn_munkres.cpp \
 libs/tamamla.cpp \
- libs/VTKontrol.cpp
+libs/VTKontrol.cpp
 
-HEADERS  +=  \
-main/cw_hkk.h \
+HEADERS  +=    \
+main/cw_hkk.h  \
 main/mw_main.h \
-main/login.h \
-main/dbase.h \
+main/login.h   \
+main/dbase.h   \
 libs/VTKontTekkere.h \
 libs/VTKontrol.h \
-libs/VTTekton.h \
-libs/alt_key.h \
-libs/aqp.h \
-# libs/dbase.h \
+libs/VTTekton.h  \
+libs/alt_key.h   \
+libs/aqp.h     \
 libs/globals.h \
-libs/hc_.h \
+libs/hc_.h     \
 libs/kuhn_munkres.h \
 libs/tamamla.h
 
@@ -71,14 +67,14 @@ libs/tamamla.h
 }
 contains(DEFINES, ADRS) {
 
-SOURCES +=\
+SOURCES +=    \
 adrs/clsn.cpp \
-adrs/frm.cpp \
-adrs/ftr.cpp \
+adrs/frm.cpp  \
+adrs/ftr.cpp
 
 HEADERS  +=  \
-adrs/clsn.h \
-adrs/frm.h \
+adrs/clsn.h  \
+adrs/frm.h   \
 adrs/ftr.h
 
  #FORMS    += \
@@ -87,63 +83,54 @@ adrs/ftr.h
 
 contains(DEFINES, HSAP) {
 
-SOURCES +=\
-    hsap/cls_dlgt_richtext.cpp \
-    hsap/cls_mdl_treefromxml.cpp \
-hsap/richtextlineedit.cpp \
-hsap/taskitem.cpp \
-<<<<<<< HEAD
+SOURCES +=                   \
+hsap/cls_dlgt_richtext.cpp   \
+hsap/cls_mdl_treefromxml.cpp \
+hsap/richtextlineedit.cpp  \
+hsap/taskitem.cpp          \
 hsap/cls_dlgt_combobox.cpp \
-hsap/hc_hsp.cpp \
+hsap/hc_hsp.cpp            \
 hsap/hc_hspdetay.cpp
-=======
-    hsap/cls_dlgt_combobox.cpp
->>>>>>> 88a6ef1dc2984e4bd04aefe67a1c901cbab62b7b
 
-HEADERS  +=  \
-    hsap/cls_dlgt_richtext.h \
-    hsap/cls_mdl_treefromxml.h \
-hsap/richtextlineedit.h \
-hsap/taskitem.h \
-<<<<<<< HEAD
+HEADERS  +=                \
+hsap/cls_dlgt_richtext.h   \
+hsap/cls_mdl_treefromxml.h \
+hsap/richtextlineedit.h  \
+hsap/taskitem.h          \
 hsap/cls_dlgt_combobox.h \
-hsap/hc_hsp.h \
+hsap/hc_hsp.h            \
 hsap/hc_hspdetay.h
-=======
-hsap/cls_dlgt_combobox.h
->>>>>>> 88a6ef1dc2984e4bd04aefe67a1c901cbab62b7b
-
 
 }
 
 contains(DEFINES, OTHR) {
 
-SOURCES +=\
+SOURCES +=       \
     mchn/mkn.cpp \
-    mchn/mkn_cinsi.cpp \
-    mchn/mkn_marka.cpp \
+    mchn/mkn_cinsi.cpp  \
+    mchn/mkn_marka.cpp  \
     mchn/mkn_modeli.cpp \ 
-    mlzm/mlzm.cpp \
+    mlzm/mlzm.cpp    \
     mlzm/mlzm_gc.cpp \
-    ie/ie.cpp \
+    ie/ie.cpp    \
     ie/iedet.cpp \
-    ie/tsnr.cpp \
-    ie/sclk.cpp \
+    ie/tsnr.cpp  \
+    ie/sclk.cpp  \
     grph/sortingbox.cpp \
     grph/shapeitem.cpp
 
 
-HEADERS  +=  \
+HEADERS  +=    \
     mchn/mkn.h \
-    mchn/mkn_cinsi.h \
-    mchn/mkn_marka.h \
+    mchn/mkn_cinsi.h  \
+    mchn/mkn_marka.h  \
     mchn/mkn_modeli.h \
-    mlzm/mlzm.h \
+    mlzm/mlzm.h    \
     mlzm/mlzm_gc.h \
-    ie/ie.h \
+    ie/ie.h    \
     ie/iedet.h \
-    ie/tsnr.h \
-    ie/sclk.h \
+    ie/tsnr.h  \
+    ie/sclk.h  \
     grph/sortingbox.h \
     grph/shapeitem.h
 
@@ -151,11 +138,11 @@ HEADERS  +=  \
 
 }
 
-FORMS    += \
+FORMS    +=     \
     wd_login.ui \
-    cw_hkk.ui \
+    cw_hkk.ui  \
     mn_navi.ui \
-    login.ui \
+    login.ui   \
     dbase.ui
 
 
@@ -196,9 +183,3 @@ DISTFILES += \ libs/mime.types
    # hesap/main/images/filequit.png \
    # hesap/main/images/filesave.png \
     # hesap/main/images/icon.png
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 88a6ef1dc2984e4bd04aefe67a1c901cbab62b7b
-
