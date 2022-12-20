@@ -58,6 +58,7 @@ private:
 
 protected:
     void showEvent(QShowEvent *);
+    void closeEvent(QCloseEvent*);
 
 public slots:
     void slt_tbx_rowChange(quint64 *sgnHspID,

@@ -15,6 +15,7 @@
 
 #include "QtWidgets/qapplication.h"
 #include "QtWidgets/qmessagebox.h"
+#include "qpushbutton.h"
 //#include <QApplication>
 #include <QByteArray>
 #include <QList>
@@ -82,21 +83,42 @@ bool okToClearData(bool (T::*saveData)(), T *parent,
     messageBox->setWindowModality(Qt::WindowModal);
     messageBox->setIcon(QMessageBox::Question);
     messageBox->setWindowTitle(QString("%1 - %2")
-            .arg(QApplication::applicationName()).arg(title));
+            .arg(QApplication::applicationName(),title));
     messageBox->setText(text);
     if (!detailedText.isEmpty())
         messageBox->setInformativeText(detailedText);
-    messageBox->addButton(QMessageBox::Save);
-    messageBox->addButton(QMessageBox::Discard);
-    messageBox->addButton(QMessageBox::Cancel);
-    messageBox->setDefaultButton(QMessageBox::Save);
+
+
+    QPushButton *bttn_kyt = messageBox->addButton("Kaydet",
+                                                  QMessageBox::ActionRole);
+    QPushButton *bttn_vzg = messageBox->addButton("Vazgeç",
+                                                 QMessageBox::RejectRole);
+    QPushButton *bttn_kme = messageBox->addButton("Kaydetmeden Çık",
+                                                  QMessageBox::ActionRole);
+
+    //messageBox->addButton(QMessageBox::Save);
+    //messageBox->addButton(QMessageBox::Discard);
+    //messageBox->addButton(QMessageBox::Cancel);
+    //messageBox->setDefaultButton(QMessageBox::Save);
+    messageBox->setDefaultButton(bttn_kyt);
     messageBox->exec();
-    if (messageBox->clickedButton() ==
-        messageBox->button(QMessageBox::Cancel))
-        return false;
-    if (messageBox->clickedButton() ==
-        messageBox->button(QMessageBox::Save))
+
+    if (messageBox->clickedButton() == bttn_kyt)
+    {
+        // kaydet
         return (parent->*saveData)();
+    }
+    else if (messageBox->clickedButton() == bttn_vzg)
+    {
+        // abor
+        return false;
+    }
+//    if (messageBox->clickedButton() ==
+//        messageBox->button(QMessageBox::Cancel))
+//        return false;
+//    if (messageBox->clickedButton() ==
+//        messageBox->button(QMessageBox::Save))
+//        return (parent->*saveData)();
     qDebug() <<"AQP::OkToClearData ends";
     return true;
 }

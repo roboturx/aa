@@ -165,13 +165,13 @@ void hC_HSPDTY::tbui()
     //   tb_model->setFilter (filtre);
 
     hC_HSPDTY::setWindowTitle (win_Label->text ());
-    this->setGeometry (20,20,800,400);
+    this->setGeometry (20,20,1200,600);
 
     QSplitter *splitter = new QSplitter(this);
-    splitter->setMinimumWidth(400);
+    splitter->setMinimumWidth(600);
     splitter->addWidget(win_hC_hsp);
     splitter->addWidget(tb_view);
-
+    splitter->setOrientation (Qt::Vertical);
 
     auto *win_grid = new QGridLayout(this);
     win_grid->addWidget (splitter  , 0, 0, 1, 1);
@@ -428,6 +428,11 @@ qDebug() << "ilk kod " << *SGNDhesapKod;
 void hC_HSPDTY::showEvent(QShowEvent *)
 {
     qDebug() << "   0140 hspdty::showevent ";
+}
+
+void hC_HSPDTY::closeEvent(QCloseEvent *)
+{
+    win_hC_hsp->close ();
 }
 
 void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,

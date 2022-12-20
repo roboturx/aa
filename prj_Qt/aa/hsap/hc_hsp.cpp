@@ -35,7 +35,6 @@ hC_hsp::hC_hsp(QWidget *parent)
 {
     qDebug ()<<"        Constructor HESAP **************************";
 
-    qDebug() << "       0200 hc_hsp construction..";
     createModelAndView();
     createActions();
     createMenusAndToolBar();
@@ -54,7 +53,7 @@ hC_hsp::hC_hsp(QWidget *parent)
     iconTimeLine.setEasingCurve (QEasingCurve::InOutQuad);
 
     QSettings settings;
-    qDebug() << " settings...";
+
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString filename = settings.value(FilenameSetting).toString();
 
@@ -94,16 +93,16 @@ TaskItem* hC_hsp::getCurrentItem()
 
         TaskItem* currentItem = static_cast<TaskItem*>
             (treeViewXML->currentIndex().internalPointer());
-        if ( currentItem)
-        {
-            qDebug() << "               ui hsp::getcurrentItem" ;
-            qDebug() << "               :kod:" << currentItem->hesapKod ()
-                     << "               :ad :" << currentItem->hesapAd ()
-                     << "               :tpl:" << QString::number(currentItem->isTopluHesap())
-                     << "               :tur:" << currentItem->hesapTuru()
-                     << "               :ust:" << currentItem->ustHesap()
-                     << "               ui currentItem" ;
-        }
+//        if ( currentItem)
+//        {
+//            qDebug() << "               ui hsp::getcurrentItem" ;
+//            qDebug() << "               :kod:" << currentItem->hesapKod ()
+//                     << "               :ad :" << currentItem->hesapAd ()
+//                     << "               :tpl:" << QString::number(currentItem->isTopluHesap())
+//                     << "               :tur:" << currentItem->hesapTuru()
+//                     << "               :ust:" << currentItem->ustHesap()
+//                     << "               ui currentItem" ;
+//        }
         return  currentItem;
 
 
@@ -116,8 +115,8 @@ void hC_hsp::createModelAndView()
     qDebug() << "           0201 hsp::createModelAndView Modelling Hsp XML...";
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
+    modelXML    = new cls_mdl_TreeFromXml(this);
 
-    modelXML = new cls_mdl_TreeFromXml(this);
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
 
 #ifdef MODEL_TEST
@@ -125,18 +124,16 @@ void hC_hsp::createModelAndView()
 #endif
 
     // kod kolonunu gizle
-   // treeViewXML->setColumnHidden(5,1);
+    treeViewXML->setColumnHidden(1,true);
 
     treeViewXML->setAllColumnsShowFocus(false);
+    treeViewXML->setAnimated (true);
+    treeViewXML->setAutoExpandDelay (100);
+    treeViewXML->setIndentation (6);
+
     treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
     treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
-    treeViewXML->setColumnWidth(0,5000);
-    treeViewXML->setColumnWidth(1,1000);
-    treeViewXML->setColumnWidth(2,5000);
-    //treeViewXML->setFirstColumnSpanned();
-    //treeViewXML->setIndentation();
-    //treeViewXML.set
-    treeViewXML->resizeColumnToContents(0);
+
     treeViewXML->setModel(modelXML);
 
     lB_HesapKod = new QLabel("Kod-------");
@@ -148,15 +145,6 @@ void hC_hsp::createModelAndView()
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 4, 2 );
     gridd->addWidget(lB_HesapKodAd, 5, 0, 1, 1 );
-
-   // gridd->addWidget( o_hspdty , 0, 2, 2, 3);
-
-qDebug()<<"                 0011 hc23";
-  //  gridd ->addWidget( modelXML->cB_hesapAds , 1, 2, 1, 1);
-qDebug()<<"                 0011 hc3";
-
-
-   // gridd->addWidget(cB_transfer , 0, 2, 2, 3);
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
@@ -221,7 +209,6 @@ void hC_hsp::createActions()
 void hC_hsp::createMenusAndToolBar()
 {
     qDebug() << "           0203 hsp::createMenusAndToolBar";
-    setUnifiedTitleAndToolBarOnMac(true);
 
     QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
     QToolBar *fileToolBar = addToolBar(tr("Dosya"));
@@ -272,33 +259,20 @@ void hC_hsp::createConnections()
             &QItemSelectionModel::currentChanged,
             this, &hC_hsp::updateUi);
 
-
-    /// selection değiştiğinde hesap kod ve adını yayalım gitsin
-    ///
-    ///
-
-  //  connect(this, &hC_hsp::sgnHesap,
-       //     o_hspdty, &hC_HSPDTY::slt_tbx_rowChange);
-
-
     connect(treeViewXML->selectionModel(),
             &QItemSelectionModel::currentRowChanged,
             this, &hC_hsp::updateUi);
-qDebug() << "                   004 01";
+
     connect(modelXML,
                    SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
                    this, SLOT(setDirty()));
-qDebug() << "                   004 02";
+
     connect(modelXML, SIGNAL(stopTiming()), this,
             SLOT(stopTiming()));
-qDebug() << "                   004 03";
 
-    //connect(modelXML, SIGNAL(rowsRemoved(QModelIndex&,int,int)),
-     //       this, SLOT(setDirty()));
 
-qDebug() << "                   004 04";
     connect(modelXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
-qDebug() << "                   004 05";
+
     QHash<QAction*, QString> slotForAction;
     slotForAction[fileNewAction] = SLOT(fileNew());
     slotForAction[fileOpenAction] = SLOT(fileOpen());
@@ -314,14 +288,14 @@ qDebug() << "                   004 05";
     slotForAction[editMoveDownAction] = SLOT(editMoveDown());
     slotForAction[editPromoteAction] = SLOT(editPromote());
     slotForAction[editDemoteAction] = SLOT(editDemote());
-qDebug() << "                   004 06";
+
     QHashIterator<QAction*, QString> i(slotForAction);
     while (i.hasNext()) {
         i.next();
         connect(i.key(), SIGNAL(triggered()),
                 this, qPrintable(i.value()));
     }
-qDebug() << "                   04 07";
+
     connect(editStartOrStopAction, SIGNAL(triggered(bool)),
             this, SLOT(editStartOrStop(bool)));
     connect(editHideOrShowDoneTasksAction, SIGNAL(triggered(bool)),
@@ -329,7 +303,7 @@ qDebug() << "                   04 07";
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
     connect(&iconTimeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateIcon(int)));
-    qDebug() << "                   004 son";
+    qDebug() << "                  kntrl son";
 }
 
 
@@ -363,13 +337,13 @@ void hC_hsp::updateUi()
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
-        qDebug() << " */*/*/*/*/*/ ui currentItem hsp::updateui" ;
-        qDebug() << "    :kod:" << currentItem->hesapKod ();
-        qDebug() << "    :ad :" << currentItem->hesapAd ();
-        qDebug() << "    :tpl:" << QString::number(currentItem->isTopluHesap());
-        qDebug() << "    :tur:" << currentItem->hesapTuru();
-        qDebug() << "    :ust:" << currentItem->ustHesap();
-        qDebug() << "    ui currentItem" ;
+//        qDebug() << " */*/*/*/*/*/ ui currentItem hsp::updateui" ;
+//        qDebug() << "    :kod:" << currentItem->hesapKod ();
+//        qDebug() << "    :ad :" << currentItem->hesapAd ();
+//        qDebug() << "    :tpl:" << QString::number(currentItem->isTopluHesap());
+//        qDebug() << "    :tur:" << currentItem->hesapTuru();
+//        qDebug() << "    :ust:" << currentItem->ustHesap();
+//        qDebug() << "    ui currentItem" ;
 
 
 
@@ -385,11 +359,6 @@ void hC_hsp::updateUi()
         ///
         ///
 
-    //    QString filtre ;
-      //  filtre = "f_hspdty_hspID=" +  QString::number(currentItem->hesapKod () ) ;
- //       o_hspdty->tb_model->setFilter(filtre);
-
-
         lB_HesapKodAd->setText(currentItem->hesapAd() +" - "+
                       QString::number(currentItem->hesapKod() )
                           );
@@ -398,9 +367,7 @@ void hC_hsp::updateUi()
                              currentItem->hesapTuru() +
                              currentItem->ustHesap()
                              );
-
     }
-
 }
 
 
@@ -426,27 +393,12 @@ void hC_hsp::editAdd()
 {
     qDebug() << "       hsp::editAdd Yeni Hesap Ekleniyor...............";
     QModelIndex index = treeViewXML->currentIndex();
-//qDebug()<<"hc_hsp editadd ta pi-max-hesp-id " << *modelXML->pi_max_Hesap_ID;
     if (modelXML->insertRows(0, 1, index))
     {
         index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
         treeViewXML->edit(index);
 
-//        QString name = modelXML->data(index).toString();
-//        QString name2 = modelXML->data(modelXML->index(0, 1, index)).toString();
-//        QString name3 = modelXML->data(modelXML->index(0, 2, index)).toString();
-//        QString name4 = modelXML->data(modelXML->index(0, 3, index)).toString();
-//        QString name5 = modelXML->data(modelXML->index(0, 4, index)).toString();
-//        qDebug() <<"--------------------------------------" ;
-//        qDebug() <<"----şşşşş----------------------------------" ;
-//        qDebug() << name <<" pi max hesap id "<< *modelXML->pi_max_Hesap_ID;
-//        qDebug() << name2 ;
-//        qDebug() << name3 ;
-//        qDebug() << name4 ;
-//        qDebug() << name5 ;
-//        qDebug() <<"--------------------------------------" ;
-// zr       qDebug() <<"--------------------------------------" ;
         setDirty();
         updateUi();
     }
@@ -626,8 +578,21 @@ void hC_hsp::load(const QString &filename,
              column < modelXML->columnCount();
              ++column)
         {
-             treeViewXML->resizeColumnToContents(column);
+            //  treeViewXML->resizeColumnToContents(column);
+            treeViewXML->setColumnWidth (0,400);
+            treeViewXML->setColumnWidth (1,300);
+            treeViewXML->setColumnWidth (2,50);
+            treeViewXML->setColumnWidth (3,100);
+            treeViewXML->setColumnWidth (4,400);
+
         }
+        treeViewXML->setMinimumWidth (50);
+        treeViewXML->header()->setStretchLastSection(false);
+        treeViewXML->setColumnHidden (5,true);
+        treeViewXML->setAllColumnsShowFocus (false);
+        treeViewXML->setIndentation (10);
+
+
         setDirty(false);
 
         setWindowTitle(tr("%1 - %2[*]")
@@ -640,7 +605,7 @@ void hC_hsp::load(const QString &filename,
         AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2\n"
                                           "yeni dosya oluşturuluyor")
          .arg(filename,QString::fromUtf8(error.what())));
-        //.arg(filename).arg(QString::fromUtf8(error.what())));
+
 
     }
     updateUi();

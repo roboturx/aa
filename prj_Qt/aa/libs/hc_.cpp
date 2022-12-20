@@ -169,51 +169,28 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     t_all->addWidget (win_Wdgt       );
  ///   t_all->addStretch (1);
     //win_Wdgt->hide ();
-
+win_Wdgt->setVisible (false);
     connect(cB_map  , &QCheckBox ::clicked , this,
                  [win_Wdgt,this]()
         {
+
              // hersey
             if (cB_map ->checkState () == 1 )
             {
- //               t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
-//                t_all->addWidget (table         , 1, 0, 1, 6 );
-  //              t_all->addWidget (win_Wdgt      , 1, 7, 1, 4 );
-
-                win_Wdgt->setVisible (true);
+              //xxx  win_Wdgt->setVisible (true);
                 table->setVisible (true);
-//    this->setGeometry (20,20,600,400);
             }
             // sadece table
             else if (cB_map ->checkState () == 0 )
             {
-   //             t_all->addWidget (widget_buttonz, 0, 0, 1, 1 );
-    //            t_all->addWidget (table         , 1, 0, 1, 1 );
-      //          t_all->removeWidget (win_Wdgt );
-
-
                 win_Wdgt->setVisible (false);
                 table->setVisible (true);
-                //win_Wdgt->hide ();
-                //table->show ();
-                //table->showMaximized ();
-
-
-  //              this->setGeometry (20,20,600,400);
-
             }
             /// sadece map
             else if (cB_map ->checkState ()== 2)
             {
-        //        t_all->addWidget (widget_buttonz, 0, 0, 1, 1);
-                //t_all->removeWidget (table  );
-          //      t_all->addWidget (win_Wdgt      , 1, 0, 1, 1 );
-
-                win_Wdgt->setVisible (true);
-                table->setVisible (false);
-//                win_Wdgt->show ();
-  //              table->hide ();
-
+              //xxx  win_Wdgt->setVisible (true);
+              //xxx  table->setVisible (false);
             }
 
     });
@@ -221,25 +198,6 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
 
 
     // //////////////////////////////////////////////
-
-    /*
-    QPainter pntr();
-    QLinearGradient grd(0,0,100,100);
-    grd.setColorAt (0.0,QColor(QRgb(0x40434a)));
-    grd.setColorAt (1.0,QColor(QRgb(0x90434a)));
-    QRect rec(100,100,300,300);
-    pntr.fillRect (rec,grd);
-*/
-
-    //    connect(map, &QDataWidgetMapper::currentIndexChanged,
-    //            [this, map, tb_model]( )
-    //    {
-    //        int map_row = map->currentIndex ();
-    //        this->pB_ilk->setEnabled (map_row>0);
-    //        this->pB_ncki->setEnabled(map_row > 0);
-    //        this->pB_snrki->setEnabled(map_row < tb_model->rowCount() - 1);
-    //        this->pB_son->setEnabled(map_row < tb_model->rowCount() - 1);
-    //    });
 
     connect(pB_ilk, &QPushButton::clicked , this,
             [this,tb_model,tb_mapper]()
@@ -289,16 +247,6 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
         this->pB_snrki->setEnabled(tb_mapper_row < tb_model->rowCount() - 1);
         this->pB_son->setEnabled(tb_mapper_row < tb_model->rowCount() - 1);
     });
-
-
-    //            qDebug () << "this.width  " << this->table->width ();
-    //            qDebug () << "     height " << this->table->height ();
-    //            qDebug () << "parent w    " << this->parentWidget ()->width ();
-    //            qDebug () << "parent h    " << this->parentWidget ()->height ();
-    //            qDebug () << "this        " << this ;
-    //            qDebug () << "this parent " << this->parent ();
-    //            qDebug () << "this p w    " << this->parentWidget ();
-
 
 }
 
