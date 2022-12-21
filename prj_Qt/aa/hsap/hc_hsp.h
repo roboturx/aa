@@ -30,6 +30,7 @@ public:
     QLabel * lB_HesapKodAd;
 
     TaskItem *getCurrentItem();
+    cls_mdl_TreeFromXml *modelXML;
 
 private:
     void createModelAndView();
@@ -62,7 +63,7 @@ private:
     QTreeView *treeViewXML;
     QWidget *centralWdgt;
 
-    cls_mdl_TreeFromXml *modelXML;
+
 
     QTimer timer;
     QTimeLine iconTimeLine;

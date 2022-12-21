@@ -326,11 +326,11 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
             {
                 const quint64 hesapKod = reader->attributes()
                         .value(HesapKodAttribute).toULongLong ();
-qDebug()<<"         MODEL readTasks readerda *pi-max-hesp-id "
-                         << *pi_max_Hesap_ID
-                         <<"-"<< *pi_max_Hesap_ID;
-qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod "
-         << hesapKod;
+//                qDebug()<<"         MODEL readTasks readerda *pi-max-hesp-id "
+//                         << *pi_max_Hesap_ID
+//                         <<"-"<< *pi_max_Hesap_ID;
+//                qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod "
+//                        << hesapKod;
                 if (hesapKod > *pi_max_Hesap_ID)
                 {
                     *pi_max_Hesap_ID = hesapKod;

@@ -206,39 +206,27 @@ void hC_HSPDTY::tbkntrl()
 {
     qDebug() << "   0130 hspdty::tbkntrl ---- begin";
 
-    tb_view->table->setItemDelegateForColumn(5, new cls_dlgt_ComboBox);
-    qDebug() << "---1";
+    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
+        this->win_hC_hsp->modelXML->hesapListesi);
+
+    tb_view->table->setItemDelegateForColumn(5, cb );
+
     //////////////// filtering
 
     SGNDhesapKod = new qint64{};
-
-     SGNDhesapAd  = new QString{};
-qDebug() << "---4";
+    SGNDhesapAd  = new QString{};
     //// hesap kodu ve adını bulalım
     TaskItem* current_hesap = win_hC_hsp->getCurrentItem();
-qDebug() << "---5";
-if (current_hesap)
-{*SGNDhesapKod = current_hesap->hesapKod();
-*SGNDhesapAd  = current_hesap->hesapAd();
-}
-    qDebug() << "--------------------------------- detay";
-   qDebug() << "ilk ad " << *SGNDhesapAd;
-qDebug() << "ilk kod " << *SGNDhesapKod;
-
-    qDebug() << "---------------------------------------------- ";
-    qDebug() << "---------------------------------------------- ";
 
 
-
-
+    if (current_hesap)
+        {
+            *SGNDhesapKod = current_hesap->hesapKod();
+            *SGNDhesapAd  = current_hesap->hesapAd();
+        }
 
     //////////////// filtering end
-
-    // tb_view->table->setFocus();
-    //tb_slctnModel->select( tb_model->index(0,0));
     tb_view->table->setFocus();
-
-    //debugger("1");
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked , this,
