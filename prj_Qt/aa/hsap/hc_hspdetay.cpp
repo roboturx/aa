@@ -206,11 +206,22 @@ void hC_HSPDTY::tbkntrl()
 {
     qDebug() << "   0130 hspdty::tbkntrl ---- begin";
 
-    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
-        this->win_hC_hsp->modelXML->hesapListesi);
+ //   cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
 
-    tb_view->table->setItemDelegateForColumn(5, cb );
+    hesap
 
+   // QMap<QString*,qint64> map = win_hC_hsp->modelXML->hesapListesi->getHesaplar ();
+   // QMapIterator<QString*,qint64> i(map);
+ //   while (i.hasNext ())
+ //  {
+   //     qDebug ()<< i.key () << ""<< i.value ();
+
+  //  }
+
+
+        qDebug() << "   0130 1";
+//    tb_view->table->setItemDelegateForColumn(5, cb );
+    qDebug() << "   0130 2" ;
     //////////////// filtering
 
     SGNDhesapKod = new qint64{};

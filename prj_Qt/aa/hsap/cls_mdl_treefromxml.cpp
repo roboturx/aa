@@ -313,8 +313,11 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
 {
 
     //cB_hesapAds = new QComboBox{} ;
+   // hesapListesi = new cls_Hesaplar;
+   // QMap<QString, quint64> mapXML;
+    QList<QString> listXML;
+    //mapXML = new QMap<QString, quint64>;
 
-    hesapListesi = new cls_Hesaplar;
   //  pi_max_Hesap_ID = new quint64{};
    // *pi_max_Hesap_ID = 0;
     while (!reader->atEnd())
@@ -326,23 +329,15 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
             {
                 const quint64 hesapKod = reader->attributes()
                         .value(HesapKodAttribute).toULongLong ();
-//                qDebug()<<"         MODEL readTasks readerda *pi-max-hesp-id "
-//                         << *pi_max_Hesap_ID
-//                         <<"-"<< *pi_max_Hesap_ID;
-//                qDebug()<<"         MODEL readTasks readerda okunan *hesadpkod "
-//                        << hesapKod;
+
                 if (hesapKod > *pi_max_Hesap_ID)
                 {
+                    // en büyük hesapkod u bul
                     *pi_max_Hesap_ID = hesapKod;
                 }
 
-                const QString hesapAd = reader->attributes()
+                QString hesapAd = reader->attributes()
                         .value(HesapAdAttribute).toString();
-
-                // hspdetay transfer hesaplarda kullanılacak liste
-                hesapListesi->setHesaplar(hesapAd,hesapKod);
-
-                //cB_hesapAds->addItem (hesapAd);
 
                 const QString hesapAcklm = reader->attributes()
                         .value(AcklmAttribute).toString();
@@ -350,19 +345,20 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
                         .value(TopluHesapAttribute).toInt();
                 const QString hesapTuru = reader->attributes()
                         .value(HesapTuruAttribute).toString();
+
+                // hspdetay transfer hesaplarda kullanılacak liste
+                if (hesapTuru == "bilanço")
+                {
+                    listXML.append (hesapAd);
+
+                }
+
+
                 const QString ustHesap = reader->attributes()
                         .value(UstHesapAttribute).toString();
 
-                //                reader->attributes().value(TopluHesapAttribute)
-                //                        .toString () == "1";
-                //                reader->attributes().value(HesapTuruAttribute)
-                //                        .toString () == "hhhesapturu2";
-                //                reader->attributes().value(UstHesapAttribute)
-                //                        .toString () == "uuuusthesap3";
-  qDebug()<<"       eeFromXml::readTasks    new taskitem";
                 task = new TaskItem(hesapAd, hesapAcklm, topluHesap,
                         hesapTuru, ustHesap, hesapKod, task);
-
             }
             else if (reader->name() == NeZamanTag) {
                 const QDateTime start = QDateTime::fromString(
@@ -374,9 +370,7 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
                 Q_ASSERT(task);
                 task->addDateTime(start, end);
             }
-              qDebug()<<"eeFromXml::readTasks    rgf2222";
         }
-
         else if (reader->isEndElement())
         {
             if (reader->name() == TaskTag)
@@ -387,9 +381,13 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
             }
         }
     } // while end
-    qDebug()<<"eeFromXml::readTasks    enddddd     readerda "
-                "pi-max-hesp-id son hali " << pi_max_Hesap_ID
-             <<"-"<< *pi_max_Hesap_ID;
+
+    listXML.sort (Qt::CaseInsensitive);
+    foreach (QString var, listXML)
+    {
+        qDebug() << var;
+    }
+    qDebug()<<"FromXml::readTasks end";
 }
 
 /// XML:011

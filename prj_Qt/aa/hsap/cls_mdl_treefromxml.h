@@ -21,7 +21,7 @@ public:
         : QAbstractItemModel(parent), timedItem(0), rootItem(0),
           cutItem(0)
     {
-                pi_max_Hesap_ID = new quint64{};
+         pi_max_Hesap_ID = new quint64{};
         *pi_max_Hesap_ID = 0;
     }
     ~cls_mdl_TreeFromXml() { delete rootItem; delete cutItem; }
@@ -29,6 +29,9 @@ public:
     quint64* pi_max_Hesap_ID; // for XML file rowid
     QComboBox* cB_hesapAds;   // for hesap ad
     cls_Hesaplar* hesapListesi;
+
+
+
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant data(const QModelIndex &index,

@@ -1,13 +1,13 @@
 #include "cls_dlgt_combobox.h"
-#include "hsap/taskitem.h"
+//#include "hsap/taskitem.h"
 
 #include <QComboBox>
 
-cls_dlgt_ComboBox::cls_dlgt_ComboBox( QMap<QString, qint64> *map, QObject *parent)
+cls_dlgt_ComboBox::cls_dlgt_ComboBox(cls_Hesaplar *map, QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    liste = new QMap<QString, qint64>;
-    liste = map;
+   // liste = new cls_Hesaplar;
+    map2 = map->getHesaplar ();
 }
 
 
@@ -22,20 +22,17 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
 {
     // Create the combobox and populate it
     QComboBox *cb = new QComboBox(parent);
-    const int row = index.row();
+    const QString row = QString::number (index.row());
 
-    //foreach (QMap<QString,quint64>ad, liste) {
-    QMap<QString, int> map;
-    foreach (const QString &str, map.keys())
-    {
-       // qDebug() << str << ':' << map.value(str);
-       cb->addItem( QString( str + "one in row %1").arg(row));
+    QMapIterator<QString*, qint64> i(map2);
+    while (i.hasNext()) {
+        i.next();
+        cb->addItem( row + *i.key () +  QString::number (i.value ()) );
     }
 
-
-    cb->addItem(QString("one in row %1").arg(row));
-    cb->addItem(QString("two in row %1").arg(row));
-    cb->addItem(QString("three in row %1").arg(row));
+//    cb->addItem(QString("one in row %1").arg(row));
+//    cb->addItem(QString("two in row %1").arg(row));
+//    cb->addItem(QString("three in row %1").arg(row));
     return cb;
 }
 
@@ -80,14 +77,14 @@ cls_Hesaplar::~cls_Hesaplar()
 
 }
 
-void cls_Hesaplar::setHesaplar(const QString &hAd, const qint64 &hKod)
+void cls_Hesaplar::setHesaplar(QString *hAd, qint64 hKod)
 {
 
-
+    //map_hesapAdKod.insert("1", 1 );
     map_hesapAdKod.insert(hAd, hKod);
 }
 
-QMap<QString, qint64> cls_Hesaplar::getHesaplar()
+QMap<QString*, qint64> cls_Hesaplar::getHesaplar()
 {
     return map_hesapAdKod;
 }

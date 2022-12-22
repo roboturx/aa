@@ -4,19 +4,22 @@
 #include <QStyledItemDelegate>
 #include <QSqlQuery>
 
+class cls_Hesaplar;
+
 class cls_dlgt_ComboBox : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
 
-    cls_dlgt_ComboBox( QMap<QString, qint64>* map, QObject *parent = nullptr);
+    cls_dlgt_ComboBox( cls_Hesaplar* map, QObject *parent = nullptr);
     ~cls_dlgt_ComboBox();
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     void setEditorData(QWidget *editor, const QModelIndex &index) const override;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 
-    QMap<QString, qint64>* liste;
+    cls_Hesaplar* liste;
+    QMap<QString*,qint64> map2;
 
 };
 
@@ -30,10 +33,10 @@ public:
     cls_Hesaplar();
     ~cls_Hesaplar();
 
-    void setHesaplar(const QString &hAd, const qint64 &hKod);
-    QMap<QString, qint64> getHesaplar();
+    void setHesaplar(QString *hAd,  qint64 hKod);
+    QMap<QString*, qint64> getHesaplar();
 private:
-    QMap<QString, qint64> map_hesapAdKod;
+    QMap<QString*, qint64> map_hesapAdKod;
 };
 
 #endif // CLS_DLGT_COMBOBOX_H
