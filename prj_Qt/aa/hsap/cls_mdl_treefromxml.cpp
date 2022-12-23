@@ -315,7 +315,8 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
     //cB_hesapAds = new QComboBox{} ;
    // hesapListesi = new cls_Hesaplar;
    // QMap<QString, quint64> mapXML;
-    QList<QString> listXML;
+    listXML = new QList<QString>;
+
     //mapXML = new QMap<QString, quint64>;
 
   //  pi_max_Hesap_ID = new quint64{};
@@ -349,8 +350,7 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
                 // hspdetay transfer hesaplarda kullanılacak liste
                 if (hesapTuru == "bilanço")
                 {
-                    listXML.append (hesapAd);
-
+                    listXML->append (hesapAd);
                 }
 
 
@@ -382,11 +382,14 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
         }
     } // while end
 
-    listXML.sort (Qt::CaseInsensitive);
-    foreach (QString var, listXML)
+    listXML->sort (Qt::CaseInsensitive);
+    QListIterator<QString>  i (*listXML);
+    while (i.hasNext ())
     {
-        qDebug() << var;
+        qDebug() << i.next ();
+
     }
+    setListXML (listXML);
     qDebug()<<"FromXml::readTasks end";
 }
 
@@ -621,6 +624,16 @@ QModelIndex cls_mdl_TreeFromXml::moveItem(TaskItem *parent, int oldRow,
                                        parent->childAt(newRow));
     emit dataChanged(oldIndex, newIndex);
     return newIndex;
+}
+
+QList<QString> *cls_mdl_TreeFromXml::getListXML() const
+{
+    return listXML;
+}
+
+void cls_mdl_TreeFromXml::setListXML(QList<QString> *newListXML)
+{
+    listXML = newListXML;
 }
 
 

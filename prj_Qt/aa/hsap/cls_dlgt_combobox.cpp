@@ -3,11 +3,11 @@
 
 #include <QComboBox>
 
-cls_dlgt_ComboBox::cls_dlgt_ComboBox(cls_Hesaplar *map, QObject *parent)
+cls_dlgt_ComboBox::cls_dlgt_ComboBox(QList<QString> *map, QObject *parent)
     : QStyledItemDelegate(parent)
 {
    // liste = new cls_Hesaplar;
-    map2 = map->getHesaplar ();
+    map2 = map;
 }
 
 
@@ -24,10 +24,13 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
     QComboBox *cb = new QComboBox(parent);
     const QString row = QString::number (index.row());
 
-    QMapIterator<QString*, qint64> i(map2);
-    while (i.hasNext()) {
-        i.next();
-        cb->addItem( row + *i.key () +  QString::number (i.value ()) );
+    //QList<QString>* i(map2);
+
+
+
+    while (i->hasNext()) {
+        i->next();
+        cb->addItem( row + *i->data () );
     }
 
 //    cb->addItem(QString("one in row %1").arg(row));

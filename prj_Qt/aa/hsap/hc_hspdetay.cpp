@@ -206,11 +206,12 @@ void hC_HSPDTY::tbkntrl()
 {
     qDebug() << "   0130 hspdty::tbkntrl ---- begin";
 
- //   cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
+    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
+                        win_hC_hsp->modelXML->getListXML ());
 
-    hesap
 
-   // QMap<QString*,qint64> map = win_hC_hsp->modelXML->hesapListesi->getHesaplar ();
+
+   QList<QString> list = .re
    // QMapIterator<QString*,qint64> i(map);
  //   while (i.hasNext ())
  //  {

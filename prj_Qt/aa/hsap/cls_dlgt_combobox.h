@@ -11,7 +11,7 @@ class cls_dlgt_ComboBox : public QStyledItemDelegate
     Q_OBJECT
 public:
 
-    cls_dlgt_ComboBox( cls_Hesaplar* map, QObject *parent = nullptr);
+    cls_dlgt_ComboBox(QList<QString> *map, QObject *parent = nullptr);
     ~cls_dlgt_ComboBox();
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -19,7 +19,7 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 
     cls_Hesaplar* liste;
-    QMap<QString*,qint64> map2;
+    QList<QString>* map2;
 
 };
 
