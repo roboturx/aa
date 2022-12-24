@@ -206,22 +206,27 @@ void hC_HSPDTY::tbkntrl()
 {
     qDebug() << "   0130 hspdty::tbkntrl ---- begin";
 
-    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
-                        win_hC_hsp->modelXML->getListXML ());
+
+    QList<QString> x = win_hC_hsp->modelXML->getListXML ();
+    qDebug() << "   0130 hspdty::tbkntrl -2222";
+    x.tof
+    QListIterator<QString> i(x);
+    while (i.hasNext ())
+    {
+        qDebug() << "hspdty qlist: "<< i.next ();
+    }
+
+   // cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
+     //                   win_hC_hsp->modelXML->getListXML ());
 
 
 
-   QList<QString> list = .re
-   // QMapIterator<QString*,qint64> i(map);
- //   while (i.hasNext ())
- //  {
-   //     qDebug ()<< i.key () << ""<< i.value ();
+  // QList<QString> list = .re
 
-  //  }
 
 
         qDebug() << "   0130 1";
-//    tb_view->table->setItemDelegateForColumn(5, cb );
+  //  tb_view->table->setItemDelegateForColumn(5, cb );
     qDebug() << "   0130 2" ;
     //////////////// filtering
 

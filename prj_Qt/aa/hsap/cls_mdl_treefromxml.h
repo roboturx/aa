@@ -92,9 +92,8 @@ public:
     QStringList pathForIndex(const QModelIndex &index) const;
     QModelIndex indexForPath(const QStringList &path) const;
 
-    void setListXML(QList<QString> *newListXML);
-
-    QList<QString> *getListXML() const;
+    void setListXML(QList<QString> newListXML);
+    QList<QString> getListXML() const;
 
 signals:
     void stopTiming();
@@ -114,7 +113,7 @@ private:
     TaskItem *timedItem;
     TaskItem *rootItem;
     TaskItem *cutItem;
-    QList<QString>* listXML;
+    QList<QString> listXML;
 
 };
 #endif // CLS_MDL_TREEFROMXML_H

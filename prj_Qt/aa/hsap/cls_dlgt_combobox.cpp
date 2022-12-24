@@ -3,7 +3,7 @@
 
 #include <QComboBox>
 
-cls_dlgt_ComboBox::cls_dlgt_ComboBox(QList<QString> *map, QObject *parent)
+cls_dlgt_ComboBox::cls_dlgt_ComboBox(QList<QString> map, QObject *parent)
     : QStyledItemDelegate(parent)
 {
    // liste = new cls_Hesaplar;
@@ -18,7 +18,7 @@ cls_dlgt_ComboBox::~cls_dlgt_ComboBox()
 
 QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
               const QStyleOptionViewItem &option,
-                const QModelIndex &index) const
+              const QModelIndex &index) const
 {
     // Create the combobox and populate it
     QComboBox *cb = new QComboBox(parent);
@@ -27,10 +27,10 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
     //QList<QString>* i(map2);
 
 
+    QListIterator<QString> i(map2);
+    while (i.hasNext()) {
+        cb->addItem(i.next());
 
-    while (i->hasNext()) {
-        i->next();
-        cb->addItem( row + *i->data () );
     }
 
 //    cb->addItem(QString("one in row %1").arg(row));
