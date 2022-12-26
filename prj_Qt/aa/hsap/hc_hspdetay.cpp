@@ -2,6 +2,7 @@
 
 
 
+
 hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 {
     qDebug ()<<"Constructor HESAP DETAY **************************";
@@ -65,6 +66,8 @@ void hC_HSPDTY::tbwdgt()
     qDebug() << "   0110 hspdty::tbwdgt ---- begin";
 
     win_hC_hsp = new hC_hsp;
+    proxyModel = new ProxyModel;
+    proxyModel->setSourceModel (win_hC_hsp->modelXML);
 
 
     //    cls_Hesaplar* o_hesaplar = new cls_Hesaplar;
@@ -208,8 +211,8 @@ void hC_HSPDTY::tbkntrl()
 
 
     QList<QString> x = win_hC_hsp->modelXML->getListXML ();
-    qDebug() << "   0130 hspdty::tbkntrl -2222";
-    x.tof
+    qDebug() << "   0130 hspdty::tbkntrl -2222 qlist";
+   // x.tof
     QListIterator<QString> i(x);
     while (i.hasNext ())
     {

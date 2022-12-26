@@ -5,7 +5,7 @@
 #include "libs/hc_.h"
 #include "hc_hsp.h"
 #include "cls_dlgt_combobox.h"
-
+#include "hsap/proxymodel.h"
 namespace nSHsp
 {
 class hC_HSPDTY;
@@ -55,6 +55,8 @@ private:
     void tbui    () ;
     void tbkntrl () ;
     void debugger(QString num) ;
+
+    ProxyModel *proxyModel;
 
 protected:
     void showEvent(QShowEvent *);

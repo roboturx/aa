@@ -183,3 +183,9 @@ DISTFILES += \ libs/mime.types
    # hesap/main/images/filequit.png \
    # hesap/main/images/filesave.png \
     # hesap/main/images/icon.png
+
+HEADERS += \
+    hsap/proxymodel.h
+
+SOURCES += \
+    hsap/proxymodel.cpp

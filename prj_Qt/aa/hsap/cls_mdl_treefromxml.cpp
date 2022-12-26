@@ -382,11 +382,11 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
         }
     } // while end
 
-    listXML.sort (Qt::CaseInsensitive);
+    //listXML.sort (Qt::CaseInsensitive);
     QListIterator<QString>  i (listXML);
     while (i.hasNext ())
     {
-        qDebug() << i.next ();
+        qDebug() <<"model list"<< i.next ();
 
     }
     setListXML (listXML);
