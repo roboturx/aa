@@ -65,14 +65,7 @@ void hC_HSPDTY::tbwdgt()
 {
     qDebug() << "   0110 hspdty::tbwdgt ---- begin";
 
-    win_hC_hsp = new hC_hsp;
-    proxyModel = new ProxyModel;
-    proxyModel->setSourceModel (win_hC_hsp->modelXML);
 
-
-    //    cls_Hesaplar* o_hesaplar = new cls_Hesaplar;
-    //    QMap<QString,quint64>* map_hesaplar;
-    //    map_hesaplar = o_hesaplar->getHesaplar() ;
 
     //cls_mdl_TreeFromXml:: den hesap listesi gelecek
 
@@ -97,11 +90,16 @@ void hC_HSPDTY::tbwdgt()
     auto *lB_transfer    = new QLabel("Transfer Hesap" );
     auto *cB_transfer = new QComboBox;
 
-//    cls_Hesaplar* o_hesaplar = new cls_Hesaplar;
-//    QMap<QString,quint64>* map_hesaplar;
-//    map_hesaplar = o_hesaplar->getHesaplar() ;
+    //cls_mdl_TreeFromXml:: den hesap listesi gelecek
+    win_hC_hsp = new hC_hsp;
+    proxyModel = new ProxyModel(3,this);
+    proxyModel->setSourceModel (win_hC_hsp->modelXML);
+    proxyModel->sort ( 0 , Qt::AscendingOrder);
 
-//cls_mdl_TreeFromXml:: den hesap listesi gelecek
+
+    cB_transfer->setModel (proxyModel);
+    cB_transfer->setModelColumn (3 );
+
 
 
     auto *lB_r = new QLabel("R"  );
