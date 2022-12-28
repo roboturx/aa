@@ -33,7 +33,7 @@ public:
     QDateEdit   *dE_tarih=nullptr   ;
     QLineEdit   *lE_no=nullptr    ;
     QLineEdit   *lE_aciklama{};
-    QComboBox   *cB_transfer=nullptr;
+    QComboBox   *cB_transferHesap=nullptr;
     QLineEdit   *lE_r{};
     QLineEdit   *lE_borc{};
     QLineEdit   *lE_alacak{}   ;

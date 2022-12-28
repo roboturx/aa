@@ -185,7 +185,9 @@ DISTFILES += \ libs/mime.types
     # hesap/main/images/icon.png
 
 HEADERS += \
-    hsap/proxymodel.h
+    hsap/proxymodel.h \
+    hsap/uniqueproxymodel.h
 
 SOURCES += \
-    hsap/proxymodel.cpp
+    hsap/proxymodel.cpp \
+    hsap/uniqueproxymodel.cpp

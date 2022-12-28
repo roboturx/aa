@@ -1,5 +1,5 @@
 #include "hc_hspdetay.h"
-
+#include "uniqueproxymodel.h"
 
 
 
@@ -35,7 +35,7 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 
     tb_wdgts->append ( lE_aciklama = new QLineEdit  ) ;
     // bağlantılı hesap
-    tb_wdgts->append ( cB_transfer = new QComboBox ) ;
+    tb_wdgts->append ( cB_transferHesap = new QComboBox ) ;
     // consilidate
     tb_wdgts->append ( lE_r = new QLineEdit  ) ;
     tb_wdgts->append ( lE_borc = new QLineEdit  ) ;
@@ -88,19 +88,23 @@ void hC_HSPDTY::tbwdgt()
     lB_aciklama->setBuddy(lE_aciklama);
 
     auto *lB_transfer    = new QLabel("Transfer Hesap" );
-    auto *cB_transfer = new QComboBox;
+    auto *cB_transferHesap = new QComboBox;
 
     //cls_mdl_TreeFromXml:: den hesap listesi gelecek
     win_hC_hsp = new hC_hsp;
-    proxyModel = new ProxyModel(3,this);
+    proxyModel = new ProxyModel(this);
     proxyModel->setSourceModel (win_hC_hsp->modelXML);
     proxyModel->sort ( 0 , Qt::AscendingOrder);
 
 
-    cB_transfer->setModel (proxyModel);
-    cB_transfer->setModelColumn (3 );
+    delete cB_transferHesap->model ();
+    UniqueProxyModel *uniqueProxyModel = new UniqueProxyModel( 0 /*column*/,
+                                                              this);
+    uniqueProxyModel->setSourceModel(win_hC_hsp->modelXML);
+    cB_transferHesap->setModel (uniqueProxyModel);
+    cB_transferHesap->setModelColumn ( 0 /*column*/);
 
-
+//    tb_view->table->setItemDelegateForColumn(3, cB_transferHesap );
 
     auto *lB_r = new QLabel("R"  );
     lB_r->setBuddy(lE_r);
@@ -137,14 +141,14 @@ void hC_HSPDTY::tbwdgt()
     win_Grid->addWidget(lB_aciklama        , 2, 0, 1, 1);
     win_Grid->addWidget(lE_aciklama        , 2, 1, 1, 2);
     win_Grid->addWidget(lB_transfer     , 3, 0, 1, 1);
-    win_Grid->addWidget(cB_transfer     , 3, 1, 1, 2);
+    win_Grid->addWidget(cB_transferHesap     , 3, 1, 1, 2);
     win_Grid->addWidget(lB_r     , 4, 0, 1, 1);
     win_Grid->addWidget(lE_r     , 4, 1, 1, 2);
     win_Grid->addWidget(lB_borc      , 5, 0, 1, 1);
     win_Grid->addWidget(lE_borc      , 5, 1, 1, 2);
     win_Grid->addWidget(lB_alacak    , 6, 0, 1, 1);
     win_Grid->addWidget(lE_alacak    , 6, 1, 1, 2);
-    win_Grid->addWidget(cB_transfer    , 7, 1, 1, 2);
+    win_Grid->addWidget(cB_transferHesap    , 7, 1, 1, 2);
 
     //  xx2=1;
     win_Grid->addWidget(win_Rsm       , 7, 4, 3, 2);
@@ -156,14 +160,6 @@ void hC_HSPDTY::tbui()
 {
 
     qDebug() << "   0120 hspdty::tbui ---- begins";
-
-   // o_hesaplar = new hC_hsp;
-    //TaskItem* o_hesap = win_hC_hsp->getCurrentItem();
-
-    //  QString filtre = "f_hspdty_hspID=" +  QString::number(
-    //             win_hC_hsp->modelXML->data(index).toString()) ;
-
-    //   tb_model->setFilter (filtre);
 
     hC_HSPDTY::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,1200,600);
@@ -207,27 +203,10 @@ void hC_HSPDTY::tbkntrl()
 {
     qDebug() << "   0130 hspdty::tbkntrl ---- begin";
 
+    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox();
 
-    QList<QString> x = win_hC_hsp->modelXML->getListXML ();
-    qDebug() << "   0130 hspdty::tbkntrl -2222 qlist";
-   // x.tof
-    QListIterator<QString> i(x);
-    while (i.hasNext ())
-    {
-        qDebug() << "hspdty qlist: "<< i.next ();
-    }
+    tb_view->table->setItemDelegateForColumn(5, cb );
 
-   // cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox(
-     //                   win_hC_hsp->modelXML->getListXML ());
-
-
-
-  // QList<QString> list = .re
-
-
-
-        qDebug() << "   0130 1";
-  //  tb_view->table->setItemDelegateForColumn(5, cb );
     qDebug() << "   0130 2" ;
     //////////////// filtering
 

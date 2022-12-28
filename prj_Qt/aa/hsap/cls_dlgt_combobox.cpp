@@ -3,13 +3,10 @@
 
 #include <QComboBox>
 
-cls_dlgt_ComboBox::cls_dlgt_ComboBox(QList<QString> map, QObject *parent)
+cls_dlgt_ComboBox::cls_dlgt_ComboBox(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-   // liste = new cls_Hesaplar;
-    map2 = map;
 }
-
 
 cls_dlgt_ComboBox::~cls_dlgt_ComboBox()
 {
@@ -24,14 +21,6 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
     QComboBox *cb = new QComboBox(parent);
     const QString row = QString::number (index.row());
 
-    //QList<QString>* i(map2);
-
-
-    QListIterator<QString> i(map2);
-    while (i.hasNext()) {
-        cb->addItem(i.next());
-
-    }
 
 //    cb->addItem(QString("one in row %1").arg(row));
 //    cb->addItem(QString("two in row %1").arg(row));
@@ -40,7 +29,8 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
 }
 
 
-void cls_dlgt_ComboBox::setEditorData(QWidget *editor, const QModelIndex &index) const
+void cls_dlgt_ComboBox::setEditorData(QWidget *editor,
+                                      const QModelIndex &index) const
 {
     QComboBox *cb = qobject_cast<QComboBox *>(editor);
     Q_ASSERT(cb);
@@ -61,33 +51,3 @@ void cls_dlgt_ComboBox::setModelData(QWidget *editor, QAbstractItemModel *model,
     model->setData(index, cb->currentText(), Qt::EditRole);
 }
 
-
-
-//////////////////////////////////////
-/// \brief cls_Hesaplar::cls_Hesaplar
-///
-/// hesap listesini oluş tur
-/// hspdty da transfer hesapları göster
-
-
-cls_Hesaplar::cls_Hesaplar()
-{
-
-}
-
-cls_Hesaplar::~cls_Hesaplar()
-{
-
-}
-
-void cls_Hesaplar::setHesaplar(QString *hAd, qint64 hKod)
-{
-
-    //map_hesapAdKod.insert("1", 1 );
-    map_hesapAdKod.insert(hAd, hKod);
-}
-
-QMap<QString*, qint64> cls_Hesaplar::getHesaplar()
-{
-    return map_hesapAdKod;
-}

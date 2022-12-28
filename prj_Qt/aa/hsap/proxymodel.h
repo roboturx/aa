@@ -3,21 +3,35 @@
 
 #include <QSortFilterProxyModel>
 
+
 class ProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+
 public:
-    explicit ProxyModel(int column, QObject *parent = nullptr )
-        :QSortFilterProxyModel(parent), Column(column) {}
-    void setSourceModel (QAbstractItemModel *sourceModel);
+    explicit ProxyModel(QObject *parent=0);
+
+    int minimumZipcode() const { return m_minimumZipcode; }
+    int maximumZipcode() const { return m_maximumZipcode; }
+    QString county() const { return m_county; }
+    QString state() const { return m_state; }
+
+public slots:
+    void clearFilters();
+    void setMinimumZipcode(int minimumZipcode);
+    void setMaximumZipcode(int maximumZipcode);
+    void setCounty(const QString &county);
+    void setState(const QString &state);
+
 protected:
-    bool filterAcceptRow (int sourceRow,
-                         const QModelIndex &sourceParent) const;
-private slots:
-    void clearCache() { cache.clear(); }
+    bool filterAcceptsRow(int sourceRow,
+                          const QModelIndex &sourceParent) const;
+
 private:
-    const int Column;
-    mutable QSet<QString> cache;
+    int m_minimumZipcode;
+    int m_maximumZipcode;
+    QString m_county;
+    QString m_state;
 };
 
 #endif // PROXYMODEL_H
