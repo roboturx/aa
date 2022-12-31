@@ -43,8 +43,7 @@ void MW_main::login()
     dbase->yaz("----------------------------------------");
     dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
     qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
-    this->setCentralWidget (dbase );
-    
+  //  this->setCentralWidget (dbase );
 
 
 
@@ -73,8 +72,8 @@ WARNING  şifre için burayı kullan
     /// all things okey
     /// wait on main window for a key for connect
 
-
-
+    mw_hC_hsp = new hC_hsp;
+this->setCentralWidget (mw_hC_hsp );
 }
 
 void MW_main::yetkiler(const QString& yetki, const QString& user)

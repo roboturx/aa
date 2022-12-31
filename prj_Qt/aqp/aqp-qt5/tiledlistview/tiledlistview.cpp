@@ -57,7 +57,8 @@ void TiledListView::calculateRectsIfNecessary() const
     for (int row = 0; row < model()->rowCount(rootIndex()); ++row) {
         QModelIndex index = model()->index(row, 0, rootIndex());
         QString text = model()->data(index).toString();
-        int textWidth = fm.width(text);
+        //int textWidth = fm.width(text);
+        int textWidth = fm.horizontalAdvance (text);
         if (!(x == 0 || x + textWidth + ExtraWidth < MaxWidth)) {
             y += RowHeight;
             x = 0;
@@ -240,7 +241,8 @@ QModelIndex TiledListView::moveCursor(
                 index = indexAt(point);
                 if (index.isValid())
                     break;
-                point.rx() -= fm.width("n");
+                //point.rx() -= fm.width("n");
+                point.rx() -= fm.horizontalAdvance ("n");
             }
         }
     }
@@ -327,13 +329,15 @@ void TiledListView::paintEvent(QPaintEvent*)
         if (!rect.isValid() || rect.bottom() < 0 ||
             rect.y() > viewport()->height())
             continue;
-        QStyleOptionViewItem option = viewOptions();
-        option.rect = rect.toRect();
+        //QStyleOptionViewItem option = viewOptions();
+        QStyleOptionViewItem* option = new QStyleOptionViewItem ;
+        initViewItemOption(option);
+        option->rect = rect.toRect();
         if (selectionModel()->isSelected(index))
-            option.state |= QStyle::State_Selected;
+            option->state |= QStyle::State_Selected;
         if (currentIndex() == index)
-            option.state |= QStyle::State_HasFocus;
-        itemDelegate()->paint(&painter, option, index);
+            option->state |= QStyle::State_HasFocus;
+        itemDelegate()->paint(&painter, *option, index);
         paintOutline(&painter, rect);
     }
 }
@@ -365,7 +369,8 @@ void TiledListView::updateGeometries()
 {
     QFontMetrics fm(font());
     const int RowHeight = fm.height() + ExtraHeight;
-    horizontalScrollBar()->setSingleStep(fm.width("n"));
+    //horizontalScrollBar()->setSingleStep(fm.width("n"));
+    horizontalScrollBar()->setSingleStep(fm.horizontalAdvance ("n"));
     horizontalScrollBar()->setPageStep(viewport()->width());
     horizontalScrollBar()->setRange(0,
             qMax(0, idealWidth - viewport()->width()));

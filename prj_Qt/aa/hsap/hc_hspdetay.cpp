@@ -91,18 +91,18 @@ void hC_HSPDTY::tbwdgt()
     auto *cB_transferHesap = new QComboBox;
 
     //cls_mdl_TreeFromXml:: den hesap listesi gelecek
-    win_hC_hsp = new hC_hsp;
-    proxyModel = new ProxyModel(this);
-    proxyModel->setSourceModel (win_hC_hsp->modelXML);
-    proxyModel->sort ( 0 , Qt::AscendingOrder);
+//    win_hC_hsp = new hC_hsp;
+//    proxyModel = new ProxyModel(this);
+//    proxyModel->setSourceModel (win_hC_hsp->modelXML);
+//    proxyModel->sort ( 0 , Qt::AscendingOrder);
 
 
-    delete cB_transferHesap->model ();
-    UniqueProxyModel *uniqueProxyModel = new UniqueProxyModel( 0 /*column*/,
-                                                              this);
-    uniqueProxyModel->setSourceModel(win_hC_hsp->modelXML);
-    cB_transferHesap->setModel (uniqueProxyModel);
-    cB_transferHesap->setModelColumn ( 0 /*column*/);
+//    delete cB_transferHesap->model ();
+//    UniqueProxyModel *uniqueProxyModel = new UniqueProxyModel( 0 /*column*/,
+//                                                              this);
+//    uniqueProxyModel->setSourceModel(win_hC_hsp->modelXML);
+//    cB_transferHesap->setModel (uniqueProxyModel);
+//    cB_transferHesap->setModelColumn ( 0 /*column*/);
 
 //    tb_view->table->setItemDelegateForColumn(3, cB_transferHesap );
 

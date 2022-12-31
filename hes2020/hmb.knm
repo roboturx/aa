@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KONUM Sürüm="2.0">
+    <ACCOUNT AccNAME="TC" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="1">
+        <ACCOUNT AccNAME="İstanbul" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="8">
+            <ACCOUNT AccNAME="Daire Kiralık" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="10"/>
+            <ACCOUNT AccNAME="Yasemin Balcı" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="9"/>
+        </ACCOUNT>
+        <ACCOUNT AccNAME="Tokat" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="7">
+            <ACCOUNT AccNAME="Hacı" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="18">
+                <ACCOUNT AccNAME="100 KASA" AccNOTE="" AccIsBATCH="0" AccTYPE="Bilanço Aktif" AccsPARENT="" AccCODE="43"/>
+                <ACCOUNT AccNAME="İşyeri Doğuş" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="14"/>
+                <ACCOUNT AccNAME="Arsa Tuzgümrüğü" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="11"/>
+            </ACCOUNT>
+            <ACCOUNT AccNAME="Peri" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="17"/>
+            <ACCOUNT AccNAME="Ali" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="34"/>
+            <ACCOUNT AccNAME="Atila" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="35"/>
+            <ACCOUNT AccNAME="&lt;b&gt;&lt;i&gt;Selanik&lt;/i&gt;&lt;/b&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şirket" AccsPARENT="" AccCODE="32"/>
+            <ACCOUNT AccNAME="&lt;b&gt;&lt;i&gt;Doğuş&lt;/i&gt;&lt;/b&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şirket" AccsPARENT="" AccCODE="33">
+                <ACCOUNT AccNAME="İşyeri Sanayi A boya" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="29"/>
+                <ACCOUNT AccNAME="İşyeri Sanayi B karo " AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="28"/>
+                <ACCOUNT AccNAME="İşyeri Sanayi CD Vinç " AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="27"/>
+                <ACCOUNT AccNAME="İşyeri Sanayi E este" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="26"/>
+                <ACCOUNT AccNAME="İşyeri Sanayi F Pano " AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="25"/>
+                <ACCOUNT AccNAME="İşyeri Sanayi G silim" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="31"/>
+                <ACCOUNT AccNAME="İşyeri Sanayi H Yazıhane" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="30">
+                    <ACCOUNT AccNAME="Bina" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="36">
+                        <ACCOUNT AccNAME="Elektrik" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="37">
+                            <ACCOUNT AccNAME="Solar" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="38">
+                                <ACCOUNT AccNAME="Solar 1" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="39"/>
+                                <ACCOUNT AccNAME="Solar 2" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="40">
+                                    <ACCOUNT AccNAME="Invertwr 1" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="41">
+                                        <ACCOUNT AccNAME="Öxellikler" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="42"/>
+                                    </ACCOUNT>
+                                </ACCOUNT>
+                            </ACCOUNT>
+                        </ACCOUNT>
+                    </ACCOUNT>
+                </ACCOUNT>
+            </ACCOUNT>
+            <ACCOUNT AccNAME="Daire Kümbet 10" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="24"/>
+            <ACCOUNT AccNAME="Daire kümbet 3" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="23"/>
+            <ACCOUNT AccNAME="Daire kümbet 9" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="22"/>
+            <ACCOUNT AccNAME="Arsa Ali Paşa arka" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="21"/>
+            <ACCOUNT AccNAME="Arsa Ali Paşa ön" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="20"/>
+            <ACCOUNT AccNAME="Arsa Lise Arkası" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="19"/>
+            <ACCOUNT AccNAME="Tarla Kömeç" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="16"/>
+        </ACCOUNT>
+    </ACCOUNT>
+    <ACCOUNT AccNAME="KKTC" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="2">
+        <ACCOUNT AccNAME="Eos" AccNOTE="" AccIsBATCH="0" AccTYPE="Araç" AccsPARENT="" AccCODE="5"/>
+        <ACCOUNT AccNAME="Daire" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="4"/>
+        <ACCOUNT AccNAME="Ali Umut" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="3"/>
+        <ACCOUNT AccNAME="March" AccNOTE="" AccIsBATCH="0" AccTYPE="Araç" AccsPARENT="" AccCODE="6"/>
+    </ACCOUNT>
+</KONUM>

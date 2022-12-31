@@ -9,7 +9,11 @@ DEFINES += MAIN
 DEFINES += ADRS
 DEFINES += HSAP
 #DEFINES += OTHR
+
+DEFINES += LINUX
+
 DISTFILES += aaaprogram.txt
+
 
 # greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT       += core gui sql widgets
