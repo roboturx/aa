@@ -22,6 +22,7 @@ public:
                       const QString &hesapTuru   = QString(),
                       const QString &ustHesap    = QString(),
                       const quint64 &hesapKod    = 0,
+                      const QString &DBFile      = QString(),
                       TaskItem *parent           = 0 );
     ~TaskItem() { qDeleteAll(lo_children); }
 
@@ -58,6 +59,10 @@ public:
     void setHesapKod(const quint64 &hesapKod)
         { f_mi_hesapKod = hesapKod; }
 
+    QString DBFile() const
+        { return f_ms_DBFile; }
+    void setDBFile(const QString &DBFile)
+        { f_ms_DBFile = DBFile; }
 
     QList<QPair<QDateTime, QDateTime> > dateTimes() const
         { return m_dateTimes; }
@@ -104,7 +109,7 @@ private:
     QString f_ms_hesapTuru;
     QString f_ms_ustHesap;
     quint64 f_mi_hesapKod;
-
+    QString f_ms_DBFile;
     QList<QPair<QDateTime, QDateTime> > m_dateTimes;
 
     TaskItem *o_parent;

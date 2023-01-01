@@ -73,6 +73,14 @@ WARNING  şifre için burayı kullan
     /// wait on main window for a key for connect
 
     mw_hC_hsp = new hC_hsp;
+
+    QDockWidget *dock = new QDockWidget(tr("Customers"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock->setWidget(mw_hC_hsp);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+  //  viewMenu->addAction(dock->toggleViewAction());
+
+
 this->setCentralWidget (mw_hC_hsp );
 }
 

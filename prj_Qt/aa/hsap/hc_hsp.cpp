@@ -57,26 +57,27 @@ hC_hsp::hC_hsp(QWidget *parent)
     restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString filename = settings.value(FilenameSetting).toString();
 
-    qDebug() << "           0205 Hesap dosyası kontrol ediliyor...";
+    qDebug()<<"-----------    ::hChsp  Hesap dosyası kontrol ediliyor...";
     if (! QFile::exists(filename))
     {
-        qDebug() << "            Kayıtlı Hesap Dosyası Diskte bulunamadı !! ";
+        qDebug()<<"-----------    ::hChsp Kayıtlı Hesap Dosyası Diskte bulunamadı !! ";
         qDebug() << "            Yeni Hesap Dosyası oluşturuluyor...";
 
         statusBar()->showMessage(tr("Dosya Yüklenemedi %1")
                                  .arg(filename), StatusTimeout);
+
         QTimer::singleShot(0, this, SLOT(fileNew()));
     }
     if (filename.isEmpty()  )
     {
-        qDebug() << "            Hesap Dosya Kaydı Yok ... ";
+        qDebug()<<"-----------    ::hChsp filenew Hesap Dosya Kaydı Yok ... ";
         qDebug() << "            Yeni Dosya oluşturuluyor...";
-        qDebug() << "            0203 hsp::filenew ";
+
         QTimer::singleShot(0, this, SLOT(fileNew()));
     }
     else
     {
-        qDebug() << "               Kayıtlı XML Dosyası Diskte bulundu. ";
+        qDebug()<<"-----------    ::hChsp XML Dosyası Diskte bulundu. ";
         qDebug() << "               Yükleniyor...";
 
         QMetaObject::invokeMethod(this, "load",
@@ -90,7 +91,7 @@ hC_hsp::hC_hsp(QWidget *parent)
 
 TaskItem* hC_hsp::getCurrentItem()
 {
-
+    qDebug()<<"-----------    ::hChsp getcurrentitem";
         TaskItem* currentItem = static_cast<TaskItem*>
             (treeViewXML->currentIndex().internalPointer());
 //        if ( currentItem)
@@ -112,7 +113,7 @@ TaskItem* hC_hsp::getCurrentItem()
 ///
 void hC_hsp::createModelAndView()
 {
-    qDebug() << "           0201 hsp::createModelAndView Modelling Hsp XML...";
+    qDebug()<<"-----------    ::hChsp cr mdl vwv";
     centralWdgt = new QWidget;
     treeViewXML = new QTreeView;
     modelXML    = new cls_mdl_TreeFromXml(this);
@@ -132,9 +133,11 @@ void hC_hsp::createModelAndView()
     treeViewXML->setIndentation (6);
 
     treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
-    treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
 
+    treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
+qDebug()<<"-----------    :: setmodel";
     treeViewXML->setModel(modelXML);
+qDebug()<<"-----------    :: setmodel";
 
     lB_HesapKod = new QLabel("Kod-------");
     lB_HesapAd = new QLabel("Ad--------");
@@ -152,7 +155,7 @@ void hC_hsp::createModelAndView()
 
 void hC_hsp::createActions()
 {
-    qDebug() << "           0202 hsp::createActions";
+    qDebug()<<"-----------    ::hChsp createActions";
     fileNewAction = createAction(":/rsm/images/filenew.png",
                                  tr("Yeni Hesap Dosyası"),
                                  this, QKeySequence::New);
@@ -208,7 +211,7 @@ void hC_hsp::createActions()
 
 void hC_hsp::createMenusAndToolBar()
 {
-    qDebug() << "           0203 hsp::createMenusAndToolBar";
+    qDebug()<<"-----------    ::hChsp createMenusAndToolBar";
 
     QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
     QToolBar *fileToolBar = addToolBar(tr("Dosya"));
@@ -254,7 +257,7 @@ void hC_hsp::createMenusAndToolBar()
 
 void hC_hsp::createConnections()
 {
-    qDebug() << "           0204 hsp::createConnections";
+    qDebug()<<"-----------    ::hChsp createConnections";
     connect(treeViewXML->selectionModel(),
             &QItemSelectionModel::currentChanged,
             this, &hC_hsp::updateUi);
@@ -312,8 +315,7 @@ void hC_hsp::createConnections()
 
 void hC_hsp::updateUi()
 {
-
-    qDebug() << "           0250 hsp::updateUi...";
+    qDebug()<<"-----------    ::hChsp updateUi...";
     fileSaveAction->setEnabled(isWindowModified());
     int rows = modelXML->rowCount();
     fileSaveAsAction->setEnabled(isWindowModified() || rows);
@@ -374,7 +376,7 @@ void hC_hsp::updateUi()
 
 void hC_hsp::setCurrentIndex(const QModelIndex &index)
 {
-  //  qDebug() << "setcurindx";
+    qDebug()<<"-----------    ::hChsp setcurindx";
     if (index.isValid()) {
         treeViewXML->scrollTo(index);
         treeViewXML->setCurrentIndex(index);
@@ -391,7 +393,7 @@ void hC_hsp::setCurrentIndex(const QModelIndex &index)
 
 void hC_hsp::editAdd()
 {
-    qDebug() << "       hsp::editAdd Yeni Hesap Ekleniyor...............";
+    qDebug()<<"-----------    ::hChsp editAdd Yeni Hesap Ekleniyor...............";
     QModelIndex index = treeViewXML->currentIndex();
     if (modelXML->insertRows(0, 1, index))
     {
@@ -409,7 +411,7 @@ void hC_hsp::editAdd()
 
 void hC_hsp::editDelete()
 {
-    qDebug() << "       hsp::editDelete";
+    qDebug()<<"-----------    ::hChsp editDelete";
     //qDebug() << "editdelete";
     QModelIndex index = treeViewXML->currentIndex();
     if (!index.isValid())
@@ -441,7 +443,7 @@ void hC_hsp::editDelete()
 
 void hC_hsp::editCut()
 {
-    qDebug() << "       hsp::editCut";
+    qDebug()<<"-----------    ::hChsp editCut";
     QModelIndex index = treeViewXML->currentIndex();
     if (modelXML->isTimedItem(index))
         stopTiming();
@@ -452,8 +454,7 @@ void hC_hsp::editCut()
 
 void hC_hsp::editPaste()
 {
-
-    qDebug() << "       hsp::editpaste";
+    qDebug()<<"-----------    ::hChsp editpaste";
     setCurrentIndex(modelXML->paste(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
                 editHideOrShowDoneTasksAction->isChecked());
@@ -462,7 +463,7 @@ void hC_hsp::editPaste()
 
 void hC_hsp::editMoveUp()
 {
-    qDebug() << "       hsp::editmoveup";
+    qDebug()<<"-----------    ::hChsp editmoveup";
     treeViewXML->setCurrentIndex(
                 modelXML->moveUp(treeViewXML->currentIndex()));
     editHideOrShowDoneTasks(
@@ -472,7 +473,7 @@ void hC_hsp::editMoveUp()
 
 void hC_hsp::editMoveDown()
 {
-    qDebug() << "       hsp::editmovedown";
+    qDebug()<<"-----------    ::hChsp editmovedown";
 
     treeViewXML->setCurrentIndex(
                 modelXML->moveDown(treeViewXML->currentIndex()));
@@ -483,7 +484,7 @@ void hC_hsp::editMoveDown()
 
 void hC_hsp::editPromote()
 {
-    qDebug() << "       hsp::editPromote";
+    qDebug()<<"-----------    ::hChsp editPromote";
     QModelIndex index = treeViewXML->currentIndex();
     if (modelXML->isTimedItem(index))
         stopTiming();
@@ -495,7 +496,8 @@ void hC_hsp::editPromote()
 
 void hC_hsp::editDemote()
 {
-    qDebug() << "       hsp::editDemote";
+
+    qDebug()<<"-----------    ::hChsp editDemote";
     QModelIndex index = treeViewXML->currentIndex();
     if (modelXML->isTimedItem(index))
         stopTiming();
@@ -517,7 +519,7 @@ void hC_hsp::editDemote()
 
 bool hC_hsp::okToClearData()
 {
-    qDebug() << "       hsp::OkToClearData";
+    qDebug()<<"-----------    ::hChsp OkToClearData";
      if (isWindowModified())
         return AQP::okToClearData(&hC_hsp::fileSave, this,
                                   tr("Sayfada değişiklikler var"),
@@ -529,7 +531,7 @@ bool hC_hsp::okToClearData()
 
 void hC_hsp::fileNew()
 {
-    qDebug() << "       202 hsp::filenew XML";
+    qDebug()<<"-----------    ::hChsp filenew XML";
 
     if (!okToClearData())
         return;
@@ -544,7 +546,7 @@ void hC_hsp::fileNew()
 
 void hC_hsp::fileOpen()
 {
-    qDebug() << "       hsp::fileOpen XML";
+    qDebug()<<"-----------    ::hChsp fileOpen XML";
     //qDebug() << "fileopen";
     if (!okToClearData())
         return;
@@ -562,9 +564,9 @@ void hC_hsp::fileOpen()
 void hC_hsp::load(const QString &filename,
                   const QStringList &taskPath)
 {
-    qDebug() << "       210 hsp::load XML";
-    qDebug() << "       loading file (filename) '" << filename
-             << "       ' at path (taskPath): " << taskPath;
+    qDebug()<<"-----------    ::hChsp load XML";
+    qDebug() << "loading file (filename) '" << filename
+             << " ' at path (taskPath): " << taskPath;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -619,7 +621,7 @@ void hC_hsp::load(const QString &filename,
 
 bool hC_hsp::fileSave()
 {
-    qDebug() << "       220 hsp::fileSave XML";
+    qDebug()<<"-----------    ::hChsp fileSave XML";
    // qDebug() << "filesave";
     bool saved = false;
     if (modelXML->filename().isEmpty())
@@ -647,7 +649,7 @@ bool hC_hsp::fileSave()
 
 bool hC_hsp::fileSaveAs()
 {
-    qDebug() << "       221 hsp::fileSaveAs XML";
+    qDebug()<<"-----------    ::hChsp fileSaveAs XML";
    // qDebug() << "filesaveas";
     QString filename = modelXML->filename();
     QString dir = filename.isEmpty() ? "."
@@ -676,9 +678,9 @@ bool hC_hsp::fileSaveAs()
 
 void hC_hsp::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "       222 hsp:: ~ closeEvent"
-             << "                 filename               : " << modelXML->filename()
-             << "                 pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
+    qDebug()<<"-----------    ::hChsp closeEvent"
+             << " filename               : " << modelXML->filename()
+             << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
     stopTiming();
     if (okToClearData()) {
         QSettings settings;
@@ -705,7 +707,7 @@ void hC_hsp::closeEvent(QCloseEvent *event)
 
 void hC_hsp::stopTiming()
 {
-    qDebug() << "               230 stoptiming";
+    qDebug()<<"-----------    ::hChsp stoptiming";
     if (editStartOrStopAction->isChecked())
         editStartOrStopAction->trigger(); // stop the clock
 }
@@ -713,7 +715,7 @@ void hC_hsp::stopTiming()
 
 void hC_hsp::editStartOrStop(bool start)
 {
-    qDebug() << "              231 hsp::editStartOrStop";
+    qDebug()<<"-----------    ::hChsp editStartOrStop";
     timer.stop();
     iconTimeLine.stop();
     if (start) { // start the clock iff there's a current task
@@ -754,7 +756,7 @@ void hC_hsp::editStartOrStop(bool start)
 
 void hC_hsp::timeout()
 {
-    qDebug() << "              232 hsp::timeout";
+    qDebug()<<"-----------    ::hChsp timeout";
     modelXML->incrementEndTimeForTimedItem(timer.remainingTime ());
     timer.start ();
 }
@@ -762,7 +764,7 @@ void hC_hsp::timeout()
 
 void hC_hsp::updateIcon(int frame)
 {
-    qDebug() << "               233 hsp::updateIcon";
+    qDebug()<<"-----------    ::hChsp updateIcon";
     if (frame > LastFrame)
         return;
     QIcon icon(QString(":/rsm/images/%1.png").arg(frame));
@@ -773,7 +775,7 @@ void hC_hsp::updateIcon(int frame)
 
 void hC_hsp::editHideOrShowDoneTasks(bool hide)
 {
-    qDebug() << "            234 hsp::edithideorshwdonetsks";
+    qDebug()<<"-----------    ::hChsp edithideorshwdonetsks";
     hideOrShowDoneTask(hide, QModelIndex());
 }
 
@@ -781,7 +783,7 @@ void hC_hsp::editHideOrShowDoneTasks(bool hide)
 void hC_hsp::hideOrShowDoneTask(bool hide,
                                 const QModelIndex &index)
 {
-    qDebug() << "            235 hsp::hideorshowdntsk";
+    qDebug()<<"-----------    ::hChsp hideorshowdntsk";
     bool hideThisOne = hide && modelXML->isChecked(index);
     if (index.isValid())
         treeViewXML->setRowHidden(index.row(), index.parent(),
