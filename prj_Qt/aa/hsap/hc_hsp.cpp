@@ -142,6 +142,8 @@ void hC_hsp::createModelViewDelegate()
     treeViewXML->setItemDelegateForColumn(3, new cls_dlgt_ComboBox);
     treeViewXML->setModel(modelXML);
 
+    //treeViewXML->setcu
+
     lB_Hesap = new QLabel("Kod-------");
 
     pi_Hesap_Kod = new quint64{};
@@ -270,6 +272,9 @@ void hC_hsp::createConnections()
             &QItemSelectionModel::currentRowChanged,
             this, &hC_hsp::updateUi);
 
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
+            this, SLOT(customContextMenuRequested(const QPoint&)));
+
     connect(modelXML,
                    SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
                    this, SLOT(setDirty()));
@@ -313,10 +318,26 @@ void hC_hsp::createConnections()
     qDebug() << "                  kntrl son";
 }
 
+void hC_hsp::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    menu.addAction(fileNewAction);
+    menu.addAction(fileOpenAction);
+    menu.addAction(fileSaveAction);
+    menu.exec(event->globalPos());
+}
+
+void hC_hsp::customContextMenuRequested(
+        const QPoint &pos)
+{
+    QMenu menu(this);
+    menu.addActions(actions());
+    menu.exec(mapToGlobal(pos));
+}
 
 
 
-
+///////////////////////////***************************************
 void hC_hsp::updateUi()
 {
     qDebug()<<"-----------    ::hChsp updateUi...";
@@ -343,16 +364,6 @@ void hC_hsp::updateUi()
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
-//        qDebug() << " */*/*/*/*/*/ ui currentItem hsp::updateui" ;
-//        qDebug() << "    :kod:" << currentItem->hesapKod ();
-//        qDebug() << "    :ad :" << currentItem->hesapAd ();
-//        qDebug() << "    :tpl:" << QString::number(currentItem->isTopluHesap());
-//        qDebug() << "    :tur:" << currentItem->hesapTuru();
-//        qDebug() << "    :ust:" << currentItem->ustHesap();
-//        qDebug() << "    ui currentItem" ;
-
-
-
         /// mevcut hesap kod ve ad değişkenlere
         /// hspdty kayıtlarında kullanılmak üzere
         ///

@@ -153,7 +153,8 @@ void RichTextLineEdit::keyPressEvent(QKeyEvent *event)
 }
 
 
-void RichTextLineEdit::customContextMenuRequested(const QPoint &pos)
+void RichTextLineEdit::customContextMenuRequested(
+        const QPoint &pos)
 {
     updateContextMenuActions();
 

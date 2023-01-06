@@ -103,6 +103,26 @@ private slots:
     void timeout();
     void updateIcon(int frame);
     void updateUi();
+    void customContextMenuRequested(const QPoint &pos);
+    void contextMenuEvent(QContextMenuEvent *event);
+private:
+    enum Style {Bold, Italic, StrikeOut, NoSuperOrSubscript,
+                Subscript, Superscript};
+
+    void createShortcuts();
+    void createActions2 ();
+    QAction *createAction2(const QString &text, const QVariant &data);
+    QMenu *createColorMenu();
+    void updateContextMenuActions();
+
+    QAction *boldAction;
+    QAction *italicAction;
+    QAction *strikeOutAction;
+    QAction *noSubOrSuperScriptAction;
+    QAction *superScriptAction;
+    QAction *subScriptAction;
+    QAction *colorAction;
+
 };
 
 #endif // hC_hsp_H

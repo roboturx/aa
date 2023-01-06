@@ -5,10 +5,10 @@
             <ACCOUNT AccNAME="&lt;font color=&quot;#ff0000&quot;&gt;&lt;b&gt;Daire Kiralık&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="10" AccDBFile=""/>
             <ACCOUNT AccNAME="&lt;font color=&quot;#00ffff&quot;&gt;&lt;b&gt;Yasemin Balcı&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="9" AccDBFile=""/>
         </ACCOUNT>
-        <ACCOUNT AccNAME="&lt;font color=&quot;#ffff00&quot;&gt;Tokat&lt;/font&gt;" AccNOTE="Karadeniz" AccIsBATCH="1" AccTYPE="Konum" AccsPARENT="TC" AccCODE="7" AccDBFile="">
+        <ACCOUNT AccNAME="&lt;font color=&quot;#ffff00&quot;&gt;Tokat&lt;/font&gt;" AccNOTE="Karadeniz" AccIsBATCH="1" AccTYPE="Konum" AccsPARENT="" AccCODE="7" AccDBFile="">
             <ACCOUNT AccNAME="&lt;font color=&quot;#00ffff&quot;&gt;&lt;b&gt;Hacı&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="18" AccDBFile="">
-                <ACCOUNT AccNAME="100 KASA" AccNOTE="" AccIsBATCH="0" AccTYPE="Bilanço Aktif" AccsPARENT="" AccCODE="43" AccDBFile=""/>
-                <ACCOUNT AccNAME="İşyeri Doğuş" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="14" AccDBFile=""/>
+                <ACCOUNT AccNAME="100 KASA" AccNOTE="" AccIsBATCH="0" AccTYPE="Aktif Hesap" AccsPARENT="" AccCODE="43" AccDBFile=""/>
+                <ACCOUNT AccNAME="İşyeri Doğuş" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="14" AccDBFile=""/>
                 <ACCOUNT AccNAME="Arsa Tuzgümrüğü" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="11" AccDBFile=""/>
             </ACCOUNT>
             <ACCOUNT AccNAME="&lt;font color=&quot;#00ffff&quot;&gt;&lt;b&gt;Peri&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="17" AccDBFile=""/>
