@@ -1,5 +1,6 @@
 ﻿
-#include "mw_main.h"
+//#include "mw_main.h"
+#include "hsap/hc_hsp.h"
 #include "libs/globals.h"
 
 QString GLB_yetki = "İlk" ;
@@ -116,7 +117,9 @@ int main(int argc, char *argv[])
     ///
     ///
     //QSize size = qApp->screens()[0]->size();
-    MW_main w ;
+
+    //*MW_main w ;
+    hC_hsp w;
 
     //w.resize(size*.6);
  //   w.resize(size);
@@ -124,7 +127,7 @@ int main(int argc, char *argv[])
     ///////////////////////////////// Menuyu göster
     w.show ();
     ///////////////////////////////// Login screen in mw_main
-    w.login ();
+  //*  w.login ();
 
 
     //w.hide ();

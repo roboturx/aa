@@ -36,6 +36,8 @@ RichTextLineEdit::RichTextLineEdit(QWidget *parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(customContextMenuRequested(const QPoint&)));
+   // connect(this, &QTextEdit::customContextMenuRequested,
+       //     this, &QTextEdit::customContextMenuRequested);
 }
 
 
@@ -46,12 +48,6 @@ void RichTextLineEdit::createShortcuts()
     QShortcut *italicShortcut = new QShortcut(QKeySequence::Italic,
             this, SLOT(toggleItalic()));
 
-//    setToolTip(tr("<p>Use %1 to toggle bold, %2 to toggle italic, "
-//                  "and the context menu for color and other effects.")
-//            .arg(boldShortcut->key().toString(
-//                 QKeySequence::NativeText))
-//            .arg(italicShortcut->key().toString(
-//                 QKeySequence::NativeText)));
     setToolTip(tr("<p>Use %1 to toggle bold, %2 to toggle italic, "
                   "and the context menu for color and other effects.")
                    .arg(boldShortcut->key().toString(
@@ -72,13 +68,12 @@ void RichTextLineEdit::createActions()
     subScriptAction = createAction(tr("Subscript"), Subscript);
 
     colorAction = new QAction(tr("Color"), this);
-    // colorAction->setMenu(createColorMenu());  //qt5
-
+    colorAction->setMenu(createColorMenu());  //qt5
     ///QMenu *menu() const;
     ///static QMenu *QMenu::menuForAction(QAction *action);
-    //QMenu* x;
-     QMenu::menuInAction(
-                new QAction(tr("Color"), this));
+
+ //    QMenu::menuInAction(
+         //       new QAction(tr("Color"), this));
 
     addActions(QList<QAction*>() << boldAction << italicAction
             << strikeOutAction << noSubOrSuperScriptAction
@@ -105,7 +100,11 @@ QMenu *RichTextLineEdit::createColorMenu()
     QPixmap pixmap(22, 22);
     typedef QPair<QColor, QString> ColorPair;
     foreach (const ColorPair &pair, QList<ColorPair>()
-            << qMakePair(QColor(Qt::black), tr("Black"))
+            << qMakePair(QColor(Qt::black), tr("Siyah"))
+            << qMakePair(QColor(Qt::yellow), tr("Sarı"))
+            << qMakePair(QColor(Qt::darkYellow), tr("Koyu Sarı"))
+            << qMakePair(QColor(Qt::gray), tr("Gri"))
+            << qMakePair(QColor(Qt::darkGray), tr("Koyu Gri"))
             << qMakePair(QColor(Qt::blue), tr("Blue"))
             << qMakePair(QColor(Qt::darkBlue), tr("Dark Blue"))
             << qMakePair(QColor(Qt::cyan), tr("Cyan"))
@@ -227,8 +226,10 @@ QString RichTextLineEdit::toSimpleHtml() const
             if (fragment.isValid()) {
                 QTextCharFormat format = fragment.charFormat();
                 QColor color = format.foreground().color();
-                //QString text = Qt::escape(fragment.text()); //deleted for Qt5
-                QString text = QString(fragment.text()).toHtmlEscaped(); //added for Qt5
+                //QString text = Qt::escape(fragment.text());
+                //deleted for Qt5
+                QString text = QString(fragment.text()).toHtmlEscaped();
+                //added for Qt5
 
                 QStringList tags;
                 if (format.verticalAlignment() ==

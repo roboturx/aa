@@ -574,6 +574,7 @@ void MW_main::closeEvent (QCloseEvent *event)
     }
     else if (msgBox.clickedButton() == bt_evet)
     {
+        mw_hC_hsp->close ();
         qApp->closeAllWindows();
         event->accept();
         //quitApp();
@@ -590,6 +591,7 @@ MW_main::~MW_main()
     delete mw_per;
     delete mw_hspdty;
     delete mw_mkn;
+    delete mw_hC_hsp;
     //  delete mw_Mlzm;
 }
 

@@ -248,28 +248,12 @@ bool cls_mdl_TreeFromXml::insertRows(int row, int count,
     {
 
         rootItem = new TaskItem("ROOThspad","ROOTAcklm",0,"ROOTturu","ROOTusthsp",0);
-
-//        qDebug() << "ROOOOOOT Cnt" << rowCount(parent) ;
-//        qDebug() << "hkod:" << rootItem->hesapKod ()
-//                 << " :ad:" << rootItem->hesapAd ()
-//                 << " :tpl:" << QString::number(rootItem->isTopluHesap())
-//                 << " :tur:" << rootItem->hesapTuru()
-//                 << " :ust:" << rootItem->ustHesap()
-//                 << "ROOOOOOOOYT" ;
         *pi_max_Hesap_ID = rootItem->hesapKod()  ;
 
  }
 
  TaskItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : rootItem;
-//    qDebug() << "parentItem rowcount" << rowCount(parent) ;
-//    qDebug() << " pkod:" << parentItem->hesapKod ();
-//    qDebug() << " :ad:" << parentItem->hesapAd ();
-//    qDebug() << " :tpl:  :" << QString::number(parentItem->isTopluHesap());
-//    qDebug() << " :tur:" << parentItem->hesapTuru();
-//    qDebug() << " :ust:" << parentItem->ustHesap();
-//    qDebug() << "parentItem" ;
-
     beginInsertRows(parent, row, row + count - 1);
 
     for (int i = 0; i < count; ++i)
@@ -282,17 +266,9 @@ bool cls_mdl_TreeFromXml::insertRows(int row, int count,
         TaskItem *item = new TaskItem("","",0,"","",*pi_max_Hesap_ID) ;
 
         parentItem->insertChild(row, item);
-
-        qDebug() << "item" << i << " rowcount" << rowCount(parent) ;
-        qDebug() << "item" << i << " hesapkod :" << item->hesapKod ();
-        qDebug() << "item" << i << " hesap ad :" << item->hesapAd ();
-        qDebug() << "item" << i << " istoplu  :" << QString::number(item->isTopluHesap());
-        qDebug() << "item" << i << " hesapturu:" << item->hesapTuru();
-        qDebug() << "item" << i << " usthesap :" << item->ustHesap();
-        qDebug() << "item" << i ;
     }
-    qDebug() << "cls_mdl_TreeFromXml.cpp-::insertRows(*****************"
-                "end***************************";
+//    qDebug() << "cls_mdl_TreeFromXml.cpp-::insertRows(*****************"
+//                "end***************************";
     endInsertRows();
     return true;
 }
@@ -874,7 +850,7 @@ void cls_mdl_TreeFromXml::load(const QString &filename)
     if (!filename.isEmpty())
         m_filename = filename;
     if (m_filename.isEmpty())
-        throw AQP::Error(tr("no filename specified"));
+        throw AQP::Error(tr("Dosya ismi belirtilmemiş"));
     QFile file(m_filename);
     if (!file.open(QIODevice::ReadOnly))
         throw AQP::Error(file.errorString());

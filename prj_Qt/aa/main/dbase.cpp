@@ -72,6 +72,7 @@ void DBase::dbwdgt()
 void DBase::dbkntrl()
 {
 
+
 }
 
 DBase::~DBase()

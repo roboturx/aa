@@ -41,7 +41,6 @@ contains(DEFINES, MAIN) {
 SOURCES +=       \
 main/main.cpp    \
 main/cw_hkk.cpp  \
-main/mw_main.cpp \
 main/login.cpp   \
 main/dbase.cpp   \
 libs/alt_key.cpp \
@@ -51,9 +50,10 @@ libs/kuhn_munkres.cpp \
 libs/tamamla.cpp \
 libs/VTKontrol.cpp
 
+#main/mw_main.cpp \
+
 HEADERS  +=    \
 main/cw_hkk.h  \
-main/mw_main.h \
 main/login.h   \
 main/dbase.h   \
 libs/VTKontTekkere.h \
@@ -66,6 +66,7 @@ libs/hc_.h     \
 libs/kuhn_munkres.h \
 libs/tamamla.h
 
+#main/mw_main.h \
  #FORMS    += \
 
 }

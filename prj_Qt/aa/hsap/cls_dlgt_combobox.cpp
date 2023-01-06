@@ -22,9 +22,16 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
     const QString row = QString::number (index.row());
 
 
-//    cb->addItem(QString("one in row %1").arg(row));
-//    cb->addItem(QString("two in row %1").arg(row));
-//    cb->addItem(QString("three in row %1").arg(row));
+    cb->addItem(QString("Konum").arg(row));
+    cb->addItem(QString("Şirket").arg(row));
+    cb->addItem(QString("Şahıs").arg(row));
+    cb->addItem(QString("Aktif Hesap").arg(row));
+    cb->addItem(QString("Pasif Hesap").arg(row));
+    cb->addItem(QString("Araç").arg(row));
+    cb->addItem(QString("Malzeme").arg(row));
+    cb->addItem(QString("Gayrimenkul").arg(row));
+    cb->addItem(QString("Menkul").arg(row));
+
     return cb;
 }
 

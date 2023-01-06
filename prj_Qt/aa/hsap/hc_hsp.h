@@ -25,15 +25,13 @@ public:
     QString* ps_Hesap_Ad;
     quint64* pi_Hesap_Kod;
 
-    QLabel * lB_HesapKod;
-    QLabel * lB_HesapAd;
-    QLabel * lB_HesapKodAd;
+    QLabel * lB_Hesap;
 
     TaskItem *getCurrentItem();
     cls_mdl_TreeFromXml *modelXML;
 
 private:
-    void createModelAndView();
+    void createModelViewDelegate();
     void createActions();
     void createMenusAndToolBar();
     void createConnections();

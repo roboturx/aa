@@ -35,7 +35,7 @@ hC_hsp::hC_hsp(QWidget *parent)
 {
     qDebug ()<<"        Constructor HESAP **************************";
 
-    createModelAndView();
+    createModelViewDelegate();
     createActions();
     createMenusAndToolBar();
     createConnections();
@@ -51,6 +51,12 @@ hC_hsp::hC_hsp(QWidget *parent)
     iconTimeLine.setFrameRange(FirstFrame, LastFrame + 1);
     iconTimeLine.setLoopCount(0);
     iconTimeLine.setEasingCurve (QEasingCurve::InOutQuad);
+
+
+    QCoreApplication::setOrganizationName("aaSoft");
+    QCoreApplication::setOrganizationDomain("roboturx@gmail.com");
+    QCoreApplication::setApplicationName("EVREN 23.1.1");
+
 
     QSettings settings;
 
@@ -112,7 +118,7 @@ TaskItem* hC_hsp::getCurrentItem()
 
 /// 100-01
 ///
-void hC_hsp::createModelAndView()
+void hC_hsp::createModelViewDelegate()
 {
     qDebug()<<"-----------    ::hChsp cr mdl vwv";
     centralWdgt = new QWidget;
@@ -127,31 +133,28 @@ void hC_hsp::createModelAndView()
 
     // kod kolonunu gizle
     treeViewXML->setColumnHidden(1,true);
-
     treeViewXML->setAllColumnsShowFocus(false);
     treeViewXML->setAnimated (true);
     treeViewXML->setAutoExpandDelay (100);
     treeViewXML->setIndentation (6);
-
     treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
-
     treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
-qDebug()<<"-----------    :: setmodel";
+    treeViewXML->setItemDelegateForColumn(3, new cls_dlgt_ComboBox);
     treeViewXML->setModel(modelXML);
-qDebug()<<"-----------    :: setmodel";
 
-    lB_HesapKod = new QLabel("Kod-------");
-    lB_HesapAd = new QLabel("Ad--------");
-    lB_HesapKodAd = new QLabel("KodAd---------");
+    lB_Hesap = new QLabel("Kod-------");
+
     pi_Hesap_Kod = new quint64{};
     ps_Hesap_Ad = new QString{};
 
     QGridLayout* gridd = new QGridLayout( centralWdgt );
     gridd->addWidget(treeViewXML , 0, 0, 4, 2 );
-    gridd->addWidget(lB_HesapKodAd, 5, 0, 1, 1 );
+
+    gridd->addWidget(lB_Hesap, 6, 0, 1, 1 );
     centralWdgt->setLayout(gridd);
     setCentralWidget(centralWdgt);
 }
+
 
 
 void hC_hsp::createActions()
@@ -362,14 +365,15 @@ void hC_hsp::updateUi()
         ///
         ///
 
-        lB_HesapKodAd->setText(currentItem->hesapAd() +" - "+
-                      QString::number(currentItem->hesapKod() )
+
+        lB_Hesap->setText(QString::number(currentItem->hesapKod()) +" : "+
+                          currentItem->parent()->hesapAd ()+" - "+
+                          currentItem->hesapAd() +" - "+
+                          currentItem->hesapAcklm ()+" : "+
+                          QString::number(currentItem->isTopluHesap() ) +" : "+
+                          currentItem->hesapTuru() +" : "+
+                          currentItem->ustHesap()
                           );
-        lB_HesapKod->setText(QString::number(currentItem->hesapKod()) +
-                             QString::number(currentItem->isTopluHesap() ) +
-                             currentItem->hesapTuru() +
-                             currentItem->ustHesap()
-                             );
     }
 }
 

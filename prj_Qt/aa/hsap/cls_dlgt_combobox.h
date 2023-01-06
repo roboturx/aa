@@ -2,9 +2,9 @@
 #define CLS_DLGT_COMBOBOX_H
 
 #include <QStyledItemDelegate>
-#include <QSqlQuery>
+//#include <QSqlQuery>
 
-class cls_Hesaplar;
+//class cls_Hesaplar;
 
 class cls_dlgt_ComboBox : public QStyledItemDelegate
 {
@@ -14,9 +14,16 @@ public:
     cls_dlgt_ComboBox(QObject *parent = nullptr);
     ~cls_dlgt_ComboBox();
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+    QWidget *createEditor(QWidget *parent,
+                          const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const override;
+
+    void setEditorData(QWidget *editor,
+                       const QModelIndex &index) const override;
+
+    void setModelData(QWidget *editor,
+                      QAbstractItemModel *model,
+                      const QModelIndex &index) const override;
 };
 
 
