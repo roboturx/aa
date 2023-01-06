@@ -60,6 +60,7 @@ hC_hsp::hC_hsp(QWidget *parent)
     qDebug()<<"-----------    ::hChsp  Hesap dosyası kontrol ediliyor...";
     if (! QFile::exists(filename))
     {
+         qDebug()<<"XXX "<<filename<<" :"<<QFile::exists(filename);
         qDebug()<<"-----------    ::hChsp Kayıtlı Hesap Dosyası Diskte bulunamadı !! ";
         qDebug() << "            Yeni Hesap Dosyası oluşturuluyor...";
 
