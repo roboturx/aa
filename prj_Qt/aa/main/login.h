@@ -2,7 +2,9 @@
 #define LOGIN_H
 
 #include "libs/globals.h"
-
+#include "VTKontTekkere.h"
+#include "VTKontrol.h"
+#include "VTTekton.h"
 namespace nSLogin {
 class Login;
 }

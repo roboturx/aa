@@ -1,6 +1,8 @@
 ﻿//#include "hc_.h"
 #include "libs/globals.h"
-
+//#include "VTKontTekkere.h"
+#include "VTKontrol.h"
+//#include "VTTekton.h"
 
 using namespace std;
 

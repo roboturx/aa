@@ -13,6 +13,9 @@
 #include "libs/globals.h"
 #include "libs/alt_key.h"
 #include "richtextlineedit.h"
+#include "hsap/dialog.h"
+
+
 //#include <QAction>
 //#include <QKeyEvent>
 //#include <QMenu>
@@ -67,13 +70,10 @@ void RichTextLineEdit::createActions()
     superScriptAction = createAction(tr("Superscript"), Superscript);
     subScriptAction = createAction(tr("Subscript"), Subscript);
 
-    colorAction = new QAction(tr("Color"), this);
-    colorAction->setMenu(createColorMenu());  //qt5
-    ///QMenu *menu() const;
-    ///static QMenu *QMenu::menuForAction(QAction *action);
-
- //    QMenu::menuInAction(
-         //       new QAction(tr("Color"), this));
+    // colorAction = new QAction(tr("Color"), this);
+    //  add color menu to menu
+    //  colorAction->setMenu(createColorMenu());  //qt5
+    colorAction = createAction(tr("Color"), Color);
 
     addActions(QList<QAction*>() << boldAction << italicAction
             << strikeOutAction << noSubOrSuperScriptAction
@@ -100,7 +100,30 @@ QMenu *RichTextLineEdit::createColorMenu()
     QPixmap pixmap(22, 22);
     typedef QPair<QColor, QString> ColorPair;
     foreach (const ColorPair &pair, QList<ColorPair>()
-            << qMakePair(QColor(Qt::black), tr("Siyah"))
+
+                << qMakePair(QColor("#DFCFBE"), "Sand Dollar")
+                << qMakePair(QColor("#EFC050"), "Mimosa")
+                << qMakePair(QColor("#C3447A"), "Fushia Rose")
+                                        << qMakePair(QColor("#7FCDCD"), "Aqua Sky")
+                                        << qMakePair(QColor("#E15D44"), "Tigerlily")
+                                        << qMakePair(QColor("#55B4B0"), "Blue Turguoise")
+                                        << qMakePair(QColor("#45B8AC"), "Turguoise")
+                                        << qMakePair(QColor("#B565A7"), "Radiand Orchid")
+                                        << qMakePair(QColor("#92A8D1"), "Serenity")
+                                        << qMakePair(QColor("#F7CAC9"), "Rose Quartz")
+                                        << qMakePair(QColor("#88B04B"), "Greenery")
+                                        << qMakePair(QColor("#FF6F61"), "Living Coral")
+                                        << qMakePair(QColor("#79C753"), "Green Flash")
+                                        << qMakePair(QColor("#FAE03C"), "Buttercup")
+                                        << qMakePair(QColor("#DD4132"), "Fiesta")
+                                        << qMakePair(QColor("#B18F6A"), "Iced Coffee")
+                                        << qMakePair(QColor("#98DDDE"), "Limped Shell")
+                                        << qMakePair(QColor("#F7786B"), "Peach Echo")
+                                        << qMakePair(QColor("#B76BA3"), "Bodacious")
+                                        << qMakePair(QColor("#D8AE47"), "Spicy Mustard")
+                                        << qMakePair(QColor("#92B6D5"), "Airy Blue")
+                                        << qMakePair(QColor("#AF9483"), "Warm Taupe")
+
             << qMakePair(QColor(Qt::yellow), tr("Sarı"))
             << qMakePair(QColor(Qt::darkYellow), tr("Koyu Sarı"))
             << qMakePair(QColor(Qt::gray), tr("Gri"))
@@ -182,10 +205,12 @@ void RichTextLineEdit::updateContextMenuActions()
 
 void RichTextLineEdit::applyTextEffect()
 {
-    if (QAction *action = qobject_cast<QAction*>(sender())) {
+    if (QAction *action = qobject_cast<QAction*>(sender()))
+    {
         Style style = static_cast<Style>(action->data().toInt());
         QTextCharFormat format = currentCharFormat();
-        switch (style) {
+        switch (style)
+        {
             case Bold: toggleBold(); return;
             case Italic: toggleItalic(); return;
             case StrikeOut:
@@ -203,6 +228,9 @@ void RichTextLineEdit::applyTextEffect()
                 format.setVerticalAlignment(
                         QTextCharFormat::AlignSubScript);
                 break;
+            case Color:
+                applyColor (colorAction);
+                break;
         }
         mergeCurrentCharFormat(format);
     }
@@ -211,8 +239,25 @@ void RichTextLineEdit::applyTextEffect()
 
 void RichTextLineEdit::applyColor(QAction *action)
 {
-    Q_ASSERT(action);
-    setTextColor(action->data().value<QColor>());
+    qDebug() << "applycolor";
+    Dialog *dialog = new Dialog;
+    qDebug() << "applycolor2";
+   Q_ASSERT(action);
+    qDebug() << "applycolor3";
+
+   const QColor color = QColorDialog::getColor(Qt::green,
+                        this, "Select Color", 1);
+
+
+   qDebug() << "applycolor 4";
+
+    action->setData(dialog->getcolor ().name());
+   qDebug() << "3";
+   setTextColor(action->data().value<QColor>() );
+qDebug() << "4";
+  //  Q_ASSERT(action);
+  //  setTextColor(action->data().value<QColor>());
+
 }
 
 

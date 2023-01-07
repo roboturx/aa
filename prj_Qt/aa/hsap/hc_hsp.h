@@ -1,6 +1,7 @@
 #ifndef hC_hsp_H
 #define hC_hsp_H
 
+#include "hsap/dialogoptionswidget.h"
 #include "libs/globals.h"
 #include "libs/alt_key.h"
 #include "cls_dlgt_richtext.h"
@@ -26,11 +27,20 @@ public:
     quint64* pi_Hesap_Kod;
 
     QLabel * lB_Hesap;
+    QLabel *integerLabel;
+    QLabel *colorLabel ;
+    QPushButton *colorButton;
+
+    QTreeView *treeViewXML;
+    QWidget * wdgt_central;
+    QWidget * wdgt_hesap;
+    DialogOptionsWidget *colorDialogOptionsWidget;
 
     TaskItem *getCurrentItem();
     cls_mdl_TreeFromXml *modelXML;
 
 private:
+    void createGui();
     void createModelViewDelegate();
     void createActions();
     void createMenusAndToolBar();
@@ -58,8 +68,7 @@ private:
     QAction *editStartOrStopAction;
     QAction *editHideOrShowDoneTasksAction;
 
-    QTreeView *treeViewXML;
-    QWidget *centralWdgt;
+
 
 
 
@@ -79,6 +88,10 @@ public slots:
     void stopTiming();
 
 private slots:
+
+    void setColor();
+    void setInteger();
+
     void fileNew();
     void fileOpen();
     bool fileSave();

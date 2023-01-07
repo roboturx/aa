@@ -31,6 +31,10 @@
 
 #include "ui_dbase.h"
 
+#include "VTKontTekkere.h"
+#include "VTKontrol.h"
+#include "VTTekton.h"
+
 DBase::DBase(QWidget* parent)
     : QWidget(parent)
 {

@@ -190,9 +190,13 @@ DISTFILES += \ libs/mime.types
     # hesap/main/images/icon.png
 
 HEADERS += \
+    hsap/dialog.h \
+    hsap/dialogoptionswidget.h \
     hsap/proxymodel.h \
     hsap/uniqueproxymodel.h
 
 SOURCES += \
+    hsap/dialog.cpp \
+    hsap/dialogoptionswidget.cpp \
     hsap/proxymodel.cpp \
     hsap/uniqueproxymodel.cpp

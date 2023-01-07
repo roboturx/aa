@@ -3,6 +3,7 @@
     <ACCOUNT AccNAME="&lt;font color=&quot;#00ff00&quot;&gt;&lt;b&gt;TC&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="1" AccDBFile="">
         <ACCOUNT AccNAME="&lt;font color=&quot;#ffff00&quot;&gt;İstanbul&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="8" AccDBFile="">
             <ACCOUNT AccNAME="&lt;font color=&quot;#ff0000&quot;&gt;&lt;b&gt;Daire Kiralık&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="GayriMenkul" AccsPARENT="" AccCODE="10" AccDBFile=""/>
+            <ACCOUNT AccNAME="&lt;font color=&quot;#00ffff&quot;&gt;&lt;b&gt;Ayşe&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="44" AccDBFile=""/>
             <ACCOUNT AccNAME="&lt;font color=&quot;#00ffff&quot;&gt;&lt;b&gt;Yasemin Balcı&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="9" AccDBFile=""/>
         </ACCOUNT>
         <ACCOUNT AccNAME="&lt;font color=&quot;#ffff00&quot;&gt;Tokat&lt;/font&gt;" AccNOTE="Karadeniz" AccIsBATCH="1" AccTYPE="Konum" AccsPARENT="" AccCODE="7" AccDBFile="">
@@ -44,7 +45,7 @@
             <ACCOUNT AccNAME="&lt;font color=&quot;#00ff00&quot;&gt;Tarla Kömeç&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="16" AccDBFile=""/>
         </ACCOUNT>
     </ACCOUNT>
-    <ACCOUNT AccNAME="&lt;font color=&quot;#00ff00&quot;&gt;&lt;b&gt;KKTC&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="2" AccDBFile="">
+    <ACCOUNT AccNAME="&lt;font color=&quot;#00ff00&quot;&gt;&lt;b&gt;KKTC&lt;/b&gt;&lt;/font&gt;&lt;font color=&quot;#dfcfbe&quot;&gt;&lt;b&gt; ak&lt;/b&gt;&lt;/font&gt;&lt;font color=&quot;#f7cac9&quot;&gt;&lt;b&gt;d&lt;/b&gt;&lt;/font&gt;&lt;font color=&quot;#e15d44&quot;&gt;&lt;b&gt;eniz&lt;/b&gt;&lt;/font&gt;" AccNOTE="&lt;font color=&quot;#dfcfbe&quot;&gt;xczghfsgh&lt;/font&gt;" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="2" AccDBFile="">
         <ACCOUNT AccNAME="Ali Umut" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="3" AccDBFile=""/>
         <ACCOUNT AccNAME="Daire" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="4" AccDBFile=""/>
         <ACCOUNT AccNAME="Eos" AccNOTE="" AccIsBATCH="0" AccTYPE="Araç" AccsPARENT="" AccCODE="5" AccDBFile=""/>

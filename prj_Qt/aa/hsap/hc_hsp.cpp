@@ -35,7 +35,9 @@ hC_hsp::hC_hsp(QWidget *parent)
 {
     qDebug ()<<"        Constructor HESAP **************************";
 
+
     createModelViewDelegate();
+    createGui();
     createActions();
     createMenusAndToolBar();
     createConnections();
@@ -116,12 +118,13 @@ TaskItem* hC_hsp::getCurrentItem()
 
 }
 
+
 /// 100-01
 ///
 void hC_hsp::createModelViewDelegate()
 {
     qDebug()<<"-----------    ::hChsp cr mdl vwv";
-    centralWdgt = new QWidget;
+
     treeViewXML = new QTreeView;
     modelXML    = new cls_mdl_TreeFromXml(this);
 
@@ -149,13 +152,131 @@ void hC_hsp::createModelViewDelegate()
     pi_Hesap_Kod = new quint64{};
     ps_Hesap_Ad = new QString{};
 
-    QGridLayout* gridd = new QGridLayout( centralWdgt );
-    gridd->addWidget(treeViewXML , 0, 0, 4, 2 );
 
-    gridd->addWidget(lB_Hesap, 6, 0, 1, 1 );
-    centralWdgt->setLayout(gridd);
-    setCentralWidget(centralWdgt);
 }
+
+
+void hC_hsp::createGui()
+{
+
+
+    QToolBox *toolbox = new QToolBox;
+
+    //errorMessageDialog = new QErrorMessage(this);
+
+    int frameStyle = QFrame::Sunken | QFrame::Panel;
+
+    integerLabel = new QLabel("integerlabel");
+    integerLabel->setFrameStyle(frameStyle);
+    QPushButton *integerButton =
+        new QPushButton(tr("QInputDialog::get&Int()"));
+
+    colorLabel = new QLabel;
+    colorLabel->setFrameStyle(frameStyle);
+    colorButton = new QPushButton(tr("QColorDialog::get&Color()"));
+
+
+
+    connect(integerButton, &QAbstractButton::clicked,
+            this, &hC_hsp::setInteger);
+    connect(colorButton, &QAbstractButton::clicked,
+            this, &hC_hsp::setColor);
+
+    QWidget *page0 = new QWidget;
+    QGridLayout *layout0 = new QGridLayout(page0);
+
+    layout0->setColumnStretch(1, 1);
+    layout0->setColumnMinimumWidth(1, 250);
+    layout0->addWidget(treeViewXML , 0, 0, 4, 2 );
+    layout0->addWidget(lB_Hesap, 1, 0, 1, 1 );
+
+
+    layout0->addItem(new QSpacerItem(0, 0,
+                QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+
+
+    // toolbox->addItem(page0, tr("Hesaplar"));
+
+    QWidget *page1 = new QWidget;
+    QGridLayout *layout = new QGridLayout(page1);
+    layout->setColumnStretch(1, 1);
+    layout->setColumnMinimumWidth(1, 250);
+    layout->addWidget(integerButton, 0, 0);
+    layout->addWidget(integerLabel, 0, 1);
+
+    layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+    toolbox->addItem(page1, tr("Input Dialogs"));
+
+    QWidget *page2 = new QWidget;
+    layout = new QGridLayout(page2);
+    layout->setColumnStretch(1, 1);
+    layout->addWidget(colorButton, 0, 0);
+    layout->addWidget(colorLabel, 0, 1);
+    colorDialogOptionsWidget = new DialogOptionsWidget;
+    colorDialogOptionsWidget->addCheckBox("Do not use native dialog", QColorDialog::DontUseNativeDialog);
+    colorDialogOptionsWidget->addCheckBox(tr("Show alpha channel") , QColorDialog::ShowAlphaChannel);
+    colorDialogOptionsWidget->addCheckBox(tr("No buttons") , QColorDialog::NoButtons);
+    layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 1, 0);
+    layout->addWidget(colorDialogOptionsWidget, 2, 0, 1 ,2);
+
+    toolbox->addItem(page2, tr("Color Dialog"));
+
+
+    /// central widget
+    wdgt_central = new QWidget;
+    setCentralWidget(wdgt_central);
+    QGridLayout *lyt_central;
+    if (QGuiApplication::styleHints()->showIsFullScreen()
+        || QGuiApplication::styleHints()->showIsMaximized())
+    {
+        QHBoxLayout *horizontalLayout = new QHBoxLayout(this);
+        QGroupBox *groupBox = new QGroupBox(
+            QGuiApplication::applicationDisplayName(), this);
+        horizontalLayout->addWidget(groupBox);
+        lyt_central = new QGridLayout(groupBox);
+
+    }
+    else
+    {
+        lyt_central = new QGridLayout(this);
+    }
+    wdgt_central->setLayout (lyt_central);
+
+    QSplitter *splitter = new QSplitter(wdgt_central);
+    splitter->addWidget (page0);
+    splitter->addWidget (toolbox);
+
+    lyt_central->addWidget(splitter    ,0,1,1,1);
+    //lyt_central->addWidget(toolbox  ,0,2,1,3  );
+    setCentralWidget (wdgt_central);
+
+
+}
+
+void hC_hsp::setInteger()
+{
+    //! [0]
+    bool ok;
+    int i = QInputDialog::getInt(this, tr("QInputDialog::getInt()"),
+                                 tr("Percentage:"), 25, 0, 100, 1, &ok);
+    if (ok)
+        integerLabel->setText(tr("%1%").arg(i));
+    //! [0]
+}
+
+void hC_hsp::setColor()
+{
+    const QColorDialog::ColorDialogOptions options = QFlag(colorDialogOptionsWidget->value());
+    const QColor color = QColorDialog::getColor(Qt::green, this,
+                                  "Select Color", options);
+    if (color.isValid())
+    {
+        colorLabel->setText(color.name());
+        colorLabel->setPalette(QPalette(color));
+        colorLabel->setAutoFillBackground(true);
+    }
+}
+
 
 
 
@@ -791,7 +912,7 @@ void hC_hsp::updateIcon(int frame)
 
 void hC_hsp::editHideOrShowDoneTasks(bool hide)
 {
-    qDebug()<<"-----------    ::hChsp edithideorshwdonetsks";
+   // qDebug()<<"-----------    ::hChsp edithideorshwdonetsks";
     hideOrShowDoneTask(hide, QModelIndex());
 }
 
@@ -799,7 +920,7 @@ void hC_hsp::editHideOrShowDoneTasks(bool hide)
 void hC_hsp::hideOrShowDoneTask(bool hide,
                                 const QModelIndex &index)
 {
-    qDebug()<<"-----------    ::hChsp hideorshowdntsk";
+   // qDebug()<<"-----------    ::hChsp hideorshowdntsk";
     bool hideThisOne = hide && modelXML->isChecked(index);
     if (index.isValid())
         treeViewXML->setRowHidden(index.row(), index.parent(),

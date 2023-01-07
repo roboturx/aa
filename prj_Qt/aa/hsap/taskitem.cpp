@@ -19,7 +19,7 @@ TaskItem::TaskItem(const QString &hesapAd,
           f_ms_DBFile(DBFile),
           o_parent(parent)
 {
-    qDebug()<<"    ::Xitem constrctr";
+  //  qDebug()<<"    ::Xitem constrctr";
     if (parent)
         o_parent->addChild(this);
 }

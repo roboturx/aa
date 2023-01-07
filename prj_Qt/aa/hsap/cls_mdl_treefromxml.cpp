@@ -60,7 +60,7 @@ Qt::ItemFlags cls_mdl_TreeFromXml::flags(const QModelIndex &index) const
     //        theFlags |= Qt::ItemIsSelectable|Qt::ItemIsEnabled;
 
     //
-    qDebug()<<"::Xmdl flags";
+   // qDebug()<<"::Xmdl flags";
     if (index.isValid())
     {
 
@@ -97,7 +97,7 @@ Qt::ItemFlags cls_mdl_TreeFromXml::flags(const QModelIndex &index) const
 ///
 QVariant cls_mdl_TreeFromXml::data(const QModelIndex &index, int role) const
 {
-    qDebug()<<"::Xmdl data";
+   // qDebug()<<"::Xmdl data";
     if (!rootItem || !index.isValid() || index.column() < 0 ||
             index.column() >= ColumnCount)
         return QVariant();
@@ -306,7 +306,7 @@ void cls_mdl_TreeFromXml::announceItemChanged(TaskItem *item)
 void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
                           TaskItem *task)
 {
-    qDebug()<<"::Xmdl readtasks";
+   // qDebug()<<"::Xmdl readtasks";
     //cB_hesapAds = new QComboBox{} ;
    // hesapListesi = new cls_Hesaplar;
    // QMap<QString, quint64> mapXML;
@@ -477,7 +477,7 @@ void cls_mdl_TreeFromXml::writeTaskAndChildren(QXmlStreamWriter *writer,
 
 int cls_mdl_TreeFromXml::rowCount(const QModelIndex &parent) const
 {
-    qDebug()<<"::Xmdl rowcount";
+   // qDebug()<<"::Xmdl rowcount";
     if (parent.isValid() && parent.column() != 0)
         return 0;
     TaskItem *parentItem = itemForIndex(parent);
@@ -487,7 +487,7 @@ int cls_mdl_TreeFromXml::rowCount(const QModelIndex &parent) const
 
 int cls_mdl_TreeFromXml::columnCount(const QModelIndex &parent) const
 {
-    qDebug()<<"::Xmdl columncount";
+   // qDebug()<<"::Xmdl columncount";
     return parent.isValid() && parent.column() != 0 ? 0 : ColumnCount;
 }
 
@@ -495,7 +495,7 @@ int cls_mdl_TreeFromXml::columnCount(const QModelIndex &parent) const
 QModelIndex cls_mdl_TreeFromXml::index(int row, int column,
                              const QModelIndex &parent) const
 {
-    qDebug()<<"::Xmdl index";
+  //  qDebug()<<"::Xmdl index";
     if (!rootItem || row < 0 || column < 0 || column >= ColumnCount
             || (parent.isValid() && parent.column() != 0))
         return QModelIndex();
@@ -509,7 +509,7 @@ QModelIndex cls_mdl_TreeFromXml::index(int row, int column,
 
 TaskItem *cls_mdl_TreeFromXml::itemForIndex(const QModelIndex &index) const
 {
-    qDebug()<<"::Xmdl itemforindex";
+   // qDebug()<<"::Xmdl itemforindex";
     if (index.isValid()) {
         if (TaskItem *item = static_cast<TaskItem*>(
                     index.internalPointer()))
@@ -521,7 +521,7 @@ TaskItem *cls_mdl_TreeFromXml::itemForIndex(const QModelIndex &index) const
 
 QModelIndex cls_mdl_TreeFromXml::parent(const QModelIndex &index) const
 {
-    qDebug()<<"::Xmdl parent ";
+    //qDebug()<<"::Xmdl parent ";
     if (!index.isValid())
         return QModelIndex();
     if (TaskItem *childItem = itemForIndex(index)) {
@@ -872,7 +872,7 @@ void cls_mdl_TreeFromXml::load(const QString &filename)
 
 QStringList cls_mdl_TreeFromXml::pathForIndex(const QModelIndex &index) const
 {
-    qDebug()<<"::Xmdl pathforindex ";
+    //qDebug()<<"::Xmdl pathforindex ";
     QStringList path;
     QModelIndex thisIndex = index;
     while (thisIndex.isValid()) {
@@ -885,7 +885,7 @@ QStringList cls_mdl_TreeFromXml::pathForIndex(const QModelIndex &index) const
 
 QModelIndex cls_mdl_TreeFromXml::indexForPath(const QStringList &path) const
 {
-    qDebug()<<"::Xmdl indexforpath";
+    //qDebug()<<"::Xmdl indexforpath";
     return indexForPath(QModelIndex(), path);
 }
 
@@ -893,7 +893,7 @@ QModelIndex cls_mdl_TreeFromXml::indexForPath(const QStringList &path) const
 QModelIndex cls_mdl_TreeFromXml::indexForPath(const QModelIndex &parent,
                                     const QStringList &path) const
 {
-    qDebug()<<"::Xmdl indexforpath xxx";
+    //qDebug()<<"::Xmdl indexforpath xxx";
     if (path.isEmpty())
         return QModelIndex();
     for (int row = 0; row < rowCount(parent); ++row) {

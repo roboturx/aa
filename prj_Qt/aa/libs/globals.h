@@ -8,9 +8,7 @@
 extern QString GLB_yetki;
 
 //#include "connection.h"
-#include "VTKontTekkere.h"
-#include "VTKontrol.h"
-#include "VTTekton.h"
+
 #include "alt_key.h"
 #include "aqp.h"
 

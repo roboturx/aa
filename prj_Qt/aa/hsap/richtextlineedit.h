@@ -41,7 +41,7 @@ private slots:
 
 private:
     enum Style {Bold, Italic, StrikeOut, NoSuperOrSubscript,
-                Subscript, Superscript};
+                Subscript, Superscript, Color};
 
     void createShortcuts();
     void createActions();
