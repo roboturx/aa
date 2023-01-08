@@ -288,7 +288,7 @@ void Dialog::setColor()
         colorLabel->setText(color.name());
         colorLabel->setPalette(QPalette(color));
         colorLabel->setAutoFillBackground(true);
-        m_color = color;
+        //m_color = color;
     }
 
 }

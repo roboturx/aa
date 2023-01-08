@@ -25,7 +25,7 @@ class Dialog : public QWidget
 public:
     Dialog(QWidget *parent = nullptr);
 
-    QColor getcolor() { return m_color; };
+   // QColor getcolor() { return m_color; };
 
 public slots:
     void setColor();
@@ -48,7 +48,7 @@ private slots:
     void errorMessage();
 
 private:
-    QColor m_color;
+ //   QColor m_color;
     QLabel *integerLabel;
     QLabel *doubleLabel;
     QLabel *itemLabel;

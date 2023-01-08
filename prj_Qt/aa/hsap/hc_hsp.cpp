@@ -187,8 +187,8 @@ void hC_hsp::createGui()
 
     layout0->setColumnStretch(1, 1);
     layout0->setColumnMinimumWidth(1, 250);
-    layout0->addWidget(treeViewXML , 0, 0, 4, 2 );
-    layout0->addWidget(lB_Hesap, 1, 0, 1, 1 );
+    layout0->addWidget(treeViewXML , 0, 0, 16, 2 );
+    layout0->addWidget(lB_Hesap, 17, 0, 1, 2 );
 
 
     layout0->addItem(new QSpacerItem(0, 0,

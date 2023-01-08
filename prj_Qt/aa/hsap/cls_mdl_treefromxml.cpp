@@ -812,7 +812,7 @@ void cls_mdl_TreeFromXml::addDateTimeToTimedItem(const QDateTime &start,
 
 void cls_mdl_TreeFromXml::setIconForTimedItem(const QIcon &icon)
 {
-    qDebug()<<"::Xmdl seeticonfor ";
+    qDebug()<<"::Xmdl seticonfor ";
     m_icon = icon;
     if (timedItem)
         announceItemChanged(timedItem);
