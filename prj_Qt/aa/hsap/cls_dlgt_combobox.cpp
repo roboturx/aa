@@ -21,16 +21,24 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
     QComboBox *cb = new QComboBox(parent);
     const QString row = QString::number (index.row());
 
-
-    cb->addItem(QString("Konum").arg(row));
-    cb->addItem(QString("Şirket").arg(row));
-    cb->addItem(QString("Şahıs").arg(row));
-    cb->addItem(QString("Aktif Hesap").arg(row));
-    cb->addItem(QString("Pasif Hesap").arg(row));
-    cb->addItem(QString("Araç").arg(row));
-    cb->addItem(QString("Malzeme").arg(row));
-    cb->addItem(QString("Gayrimenkul").arg(row));
-    cb->addItem(QString("Menkul").arg(row));
+    cb->addItem(QString("Konum"));
+    cb->setItemData(0,QColor(Qt::blue),Qt::BackgroundRole);
+    cb->addItem(QString("Şirket"));
+    cb->setItemData(1,QColor(Qt::green),Qt::BackgroundRole);
+    cb->addItem(QString("Şahıs"));
+    cb->setItemData(2,QColor(Qt::yellow),Qt::BackgroundRole);
+    cb->addItem(QString("Aktif Hesap"));
+    cb->setItemData(3,QColor(Qt::red),Qt::BackgroundRole);
+    cb->addItem(QString("Pasif Hesap"));
+    cb->setItemData(4,QColor(Qt::cyan),Qt::BackgroundRole);
+    cb->addItem(QString("Araç"));
+    cb->setItemData(5,"0xff0000",Qt::BackgroundRole);
+    cb->addItem(QString("Malzeme"));
+    cb->setItemData(6,QColor(0,0,255),Qt::BackgroundRole);
+    cb->addItem(QString("Gayrimenkul"));
+    cb->setItemData(7,QColor(255,255,0),Qt::BackgroundRole);
+    cb->addItem(QString("Menkul"));
+    cb->setItemData(8,QColor("#7FCDCD"),Qt::BackgroundRole);
 
     return cb;
 }
@@ -56,5 +64,6 @@ void cls_dlgt_ComboBox::setModelData(QWidget *editor, QAbstractItemModel *model,
     QComboBox *cb = qobject_cast<QComboBox *>(editor);
     Q_ASSERT(cb);
     model->setData(index, cb->currentText(), Qt::EditRole);
+
 }
 
