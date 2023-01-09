@@ -102,12 +102,17 @@ QVariant cls_mdl_TreeFromXml::data(const QModelIndex &index, int role) const
             index.column() >= ColumnCount)
         return QVariant();
 
+
     if (TaskItem *item = itemForIndex(index))
     {
+
         if (role == Qt::DisplayRole || role == Qt::EditRole)
         {
+
             switch (index.column()) {
-            case HesapAd:   return item->hesapAd();
+            case HesapAd:
+
+                return item->hesapAd();
             case HesapAciklama:   return item->hesapAcklm();
             case Topluhesap:return item->isTopluHesap();
             case HesapTuru: return item->hesapTuru();
@@ -199,6 +204,7 @@ bool cls_mdl_TreeFromXml::setData(const QModelIndex &index,
             if (index.column() == HesapAd)
             {
                 item->setHesapAd(value.toString());
+
             }
             if (index.column() == HesapAciklama)
             {
@@ -225,6 +231,14 @@ bool cls_mdl_TreeFromXml::setData(const QModelIndex &index,
                 item->setTopluHesap(value.toBool());
             }
         }
+//        else if (role == Qt::DisplayRole)
+//        {
+//            if (index.column() == HesapAd)
+//            {
+//                setItemData(0,"0xff0000",Qt::ForegroundRole);
+//            }
+//        }
+
         else
         {
             return false;
