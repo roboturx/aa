@@ -22,6 +22,7 @@
 cls_dlgt_RichText::cls_dlgt_RichText(QObject *parent)
     : QStyledItemDelegate(parent)
 {
+    qDebug()<<"-r-xt t construc";
     checkbox = new QCheckBox;
     checkbox->setFixedSize(
             qRound(1.3 * checkbox->sizeHint().height()),
@@ -41,6 +42,9 @@ void cls_dlgt_RichText::paint(QPainter *painter,
     palette.setColor(QPalette::Active, QPalette::Window,
                      selected ? option.palette.highlight().color()
                               : option.palette.base().color());
+//    palette.setColor(QPalette::Active, QPalette::Window,
+//                     selected ? option.palette.highlight().color()
+//                              : option.palette.base().color());
     palette.setColor(QPalette::Active, QPalette::WindowText,
                      selected
                      ? option.palette.highlightedText().color()
@@ -128,10 +132,28 @@ void cls_dlgt_RichText::setEditorData(QWidget *editor,
 void cls_dlgt_RichText::setModelData(QWidget *editor,
         QAbstractItemModel *model, const QModelIndex &index) const
 {
-    RichTextLineEdit *lineEdit = qobject_cast<RichTextLineEdit*>(
-                                              editor);
+    qDebug()<<"---------richtxt set model data----------------";
+
+    RichTextLineEdit *lineEdit =
+            qobject_cast<RichTextLineEdit*>(editor);
     Q_ASSERT(lineEdit);
     model->setData(index, lineEdit->toSimpleHtml());
+
+//qDebug()<<"1111111111111111111111111111111111111111";
+//    QModelIndex ind=model->index(index.row(),0);
+//qDebug()<<"2222222222222";
+//    QModelIndex ind2=model->index(index.row(),3);
+//    //int i= model->data(ind2, Qt::ForegroundRole).toInt();
+//qDebug()<<"3333333333333333333333333333";
+//    qDebug()<<"model->data(ind, Qt::ForegroundRole)="
+//           <<model->data(ind, Qt::ForegroundRole);
+//    qDebug()<<"44444444444444444444444444444444444444444444444";
+//    qDebug()<<"model->data(ind2, Qt::ForegroundRole)="
+//           <<model->data(ind2, Qt::ForegroundRole);
+
+//    model->setData(ind,model->data(ind2, Qt::ForegroundRole) ,
+//                      Qt::ForegroundRole);
+//qDebug()<<"-----------------------------------------------";
 }
 
 

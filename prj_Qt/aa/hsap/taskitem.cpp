@@ -27,7 +27,7 @@ TaskItem::TaskItem(const QString &hesapAd,
 
 QString TaskItem::todaysTime() const
 {
-    qDebug()<<"    ::Xitem todaystime";
+   // qDebug()<<"    ::Xitem todaystime";
     int minutes = minutesForTask(true);
     return QString("%1:%2").arg(minutes / 60)
                            .arg(minutes % 60, 2, 10, QChar('0'));
@@ -36,7 +36,7 @@ QString TaskItem::todaysTime() const
 
 QString TaskItem::totalTime() const
 {
-    qDebug()<<"    ::Xitem totaltime";
+   // qDebug()<<"    ::Xitem totaltime";
     int minutes = minutesForTask(false);
     return QString("%1:%2").arg(minutes / 60)
                            .arg(minutes % 60, 2, 10, QChar('0'));
@@ -45,7 +45,7 @@ QString TaskItem::totalTime() const
 
 int TaskItem::minutesForTask(bool onlyForToday) const
 {
-    qDebug()<<"    ::Xitem minutesfortask";
+   // qDebug()<<"    ::Xitem minutesfortask";
     int minutes = 0;
     QListIterator<QPair<QDateTime, QDateTime> > i(m_dateTimes);
     while (i.hasNext()) {
@@ -63,7 +63,7 @@ int TaskItem::minutesForTask(bool onlyForToday) const
 
 void TaskItem::incrementLastEndTime(int msec)
 {
-    qDebug()<<"    ::Xitem icrementlastendtime";
+   // qDebug()<<"    ::Xitem icrementlastendtime";
     QDateTime &endTime = m_dateTimes.last().second;
     endTime.setTime(endTime.time().addMSecs(msec));
 }
@@ -71,7 +71,7 @@ void TaskItem::incrementLastEndTime(int msec)
 
 TaskItem* TaskItem::takeChild(int row)
 {
-    qDebug()<<"    ::Xitem takeechild";
+   // qDebug()<<"    ::Xitem takeechild";
     TaskItem *item = lo_children.takeAt(row);
     Q_ASSERT(item);
     item->o_parent = 0;

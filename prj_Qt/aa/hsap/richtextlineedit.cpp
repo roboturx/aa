@@ -282,14 +282,8 @@ void RichTextLineEdit::applyColor(QAction *action)
 
     const QColorDialog::ColorDialogOptions options =
             QFlag(1);
-    qDebug() << "applycolor32 color opt; "<<options;
     const QColor color = QColorDialog::getColor(Qt::green,
                              this, "Select Color", options);
-    qDebug()<< "colorname "<<color.name()<<" isvalid "<<color.isValid();
-
-    qDebug() << " color ;"<< color;
-    //setTextColor(0x00ff00);
-    qDebug() << "options "<< options;
 
      action->setData(color);
     setTextColor(action->data().value<QColor>());

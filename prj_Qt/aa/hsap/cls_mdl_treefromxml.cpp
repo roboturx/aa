@@ -95,7 +95,8 @@ Qt::ItemFlags cls_mdl_TreeFromXml::flags(const QModelIndex &index) const
 /// data
 /// variables for XML file
 ///
-QVariant cls_mdl_TreeFromXml::data(const QModelIndex &index, int role) const
+QVariant cls_mdl_TreeFromXml::data(const QModelIndex &index,
+                                   int role) const
 {
    // qDebug()<<"::Xmdl data";
     if (!rootItem || !index.isValid() || index.column() < 0 ||
@@ -152,6 +153,10 @@ QVariant cls_mdl_TreeFromXml::data(const QModelIndex &index, int role) const
                 && item == timedItem
                 && !m_icon.isNull())
             return m_icon;
+        if (role == Qt::ForegroundRole
+                && index.column() == HesapAd )
+
+            return index.data(Qt::ForegroundRole);
     }
     return QVariant();
 }

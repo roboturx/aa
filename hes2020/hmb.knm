@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <KONUM Sürüm="2.0">
-    <ACCOUNT AccNAME="&lt;font color=&quot;#00ff00&quot;&gt;&lt;b&gt;TC&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="1" AccDBFile="">
+    <ACCOUNT AccNAME="&lt;font color=&quot;#00ff00&quot;&gt;&lt;b&gt;TC&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Araç" AccsPARENT="" AccCODE="1" AccDBFile="">
         <ACCOUNT AccNAME="&lt;font color=&quot;#ffff00&quot;&gt;İstanbul&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="8" AccDBFile="">
             <ACCOUNT AccNAME="&lt;font color=&quot;#ff0000&quot;&gt;&lt;b&gt;Daire Kiralık&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="10" AccDBFile=""/>
             <ACCOUNT AccNAME="&lt;font color=&quot;#00ffff&quot;&gt;&lt;b&gt;Ayşe&lt;/b&gt;&lt;/font&gt;" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="44" AccDBFile=""/>
