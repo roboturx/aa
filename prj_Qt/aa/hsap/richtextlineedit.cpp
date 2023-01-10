@@ -106,7 +106,7 @@ QMenu *RichTextLineEdit::createColorMenu()
     QPixmap pixmap(22, 22);
     typedef QPair<QColor, QString> ColorPair;
     foreach (const ColorPair &pair, QList<ColorPair>()
-             << qMakePair(R_PEMBEGUL , "Sand Dollar")
+             << qMakePair(QColor("#DFCFBE") , "Sand Dollar")
              << qMakePair(QColor("#EFC050"), "Mimosa")
              << qMakePair(QColor("#C3447A"), "Fushia Rose")
              << qMakePair(QColor("#7FCDCD"), "Aqua Sky")

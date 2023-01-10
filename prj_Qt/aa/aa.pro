@@ -12,7 +12,8 @@ DEFINES += HSAP
 
 DEFINES += LINUX
 
-DISTFILES += aaaprogram.txt
+DISTFILES += aaaprogram.txt \
+    renk.qss
 
 
 # greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

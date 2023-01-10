@@ -23,6 +23,8 @@ class hC_hsp : public QMainWindow
 public:
     explicit hC_hsp(QWidget *parent=0);
 
+    cls_dlgt_ComboBox *cbdlgt;
+
     QString* ps_Hesap_Ad;
     quint64* pi_Hesap_Kod;
 
@@ -86,6 +88,7 @@ signals:
 
 public slots:
     void stopTiming();
+    void hesapdegisti();
 
 private slots:
 

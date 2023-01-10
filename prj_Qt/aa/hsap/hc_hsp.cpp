@@ -139,12 +139,24 @@ void hC_hsp::createModelViewDelegate()
     treeViewXML->setAllColumnsShowFocus(false);
     treeViewXML->setAnimated (true);
     treeViewXML->setAutoExpandDelay (100);
-    treeViewXML->setIndentation (6);
+    treeViewXML->setIndentation (16);
+    treeViewXML->setSelectionBehavior (QAbstractItemView::SelectItems);
+    treeViewXML->setSelectionMode (QAbstractItemView::SingleSelection);
+
+
+   // treeViewXML->setStyleSheet ();
+
     treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
     treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
-    treeViewXML->setItemDelegateForColumn(3, new cls_dlgt_ComboBox);
+
+    cbdlgt = new cls_dlgt_ComboBox;
+    treeViewXML->setItemDelegateForColumn(3, cbdlgt);
     treeViewXML->setModel(modelXML);
 
+
+
+   // connect(cbdlgt->cb , &cls_dlgt_ComboBox::currentIndexChanged,
+     //       this, &hC_hsp::hesapdegisti);
     //treeViewXML->setcu
 
     lB_Hesap = new QLabel("Kod-------");
@@ -158,7 +170,19 @@ void hC_hsp::createModelViewDelegate()
 
 void hC_hsp::createGui()
 {
-
+//    setStyleSheet ("* {"
+//                  "border: 1px solid green;"
+//                  "background-color: black;"
+//                  "color: cyan;"
+//                  "font: 14pt "
+//                  "}");
+//    setStyleSheet ("QtreeView {"
+//                  "border: 2px green;"
+//                  "background-color: black;"
+//                  "selected-background-color: solid black;"
+//                  "color: green;"
+//                  "font: 14pt "
+//                  "}");
 
     QToolBox *toolbox = new QToolBox;
 
@@ -343,6 +367,12 @@ void hC_hsp::createMenusAndToolBar()
     QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
     QToolBar *fileToolBar = addToolBar(tr("Dosya"));
 
+    setStyleSheet ("QMenu, QToolbar {"
+                  "background-color: solid darkred;"
+                  "color: cyan;"
+                  "font: 14pt "
+                  "}");
+
     foreach (QAction *action, QList<QAction*>() << fileNewAction
              << fileOpenAction << fileSaveAction << fileSaveAsAction)
     {
@@ -405,6 +435,8 @@ void hC_hsp::createConnections()
 
 
     connect(modelXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
+
+
 
     QHash<QAction*, QString> slotForAction;
     slotForAction[fileNewAction] = SLOT(fileNew());
@@ -496,7 +528,28 @@ void hC_hsp::updateUi()
         /// hesap değiştiğinde detaylarda değişsin
         ///
         ///
+        if (currentItem->hesapTuru () == "Konum" )
+        {
+            QModelIndex index1 = modelXML->index(0, 0, QModelIndex());
+            QModelIndex index2 = treeViewXML->currentIndex ();
+                                       //index(0, 0, QModelIndex());
 
+            qDebug()<< "index1  :" << index1;
+            qDebug()<< "index2  :" << index2;
+            qDebug()<< "str 1   :" << treeViewXML->model()->data(index1).toString();
+            qDebug()<< "str 2   :" <<treeViewXML->model()->data(index2).toString();
+            qDebug()<< "str 3   :" <<index1.model()->data(index2, Qt::EditRole).toString();
+            qDebug()<< "str 5   :" << treeViewXML->model()->index(index2.row(),0)
+                                           .data().toString ();
+
+            qDebug()<< "str 6   :" <<treeViewXML->currentIndex ().
+                                       data().toString ();
+            qDebug()<< "str 77 user+1  :" <<index2.model()->data(index2,
+                                           Qt::UserRole+1).toString();
+            qDebug()<< "str 77 display :" <<index2.model()->data(index2,
+                                           Qt::DisplayRole).toString();
+
+        }
 
         lB_Hesap->setText(QString::number(currentItem->hesapKod()) +" : "+
                           currentItem->parent()->hesapAd ()+" - "+
@@ -506,6 +559,10 @@ void hC_hsp::updateUi()
                           currentItem->hesapTuru() +" : "+
                           currentItem->ustHesap()
                           );
+//        qDebug()<<"user role is ;";
+//        qDebug()<< modelXML->data(treeViewXML->currentIndex(),
+//                                   Qt::UserRole).toString ();
+       //  qDebug()<< currentItem->data(index, Qt::UserRole);
     }
 }
 
@@ -847,6 +904,11 @@ void hC_hsp::stopTiming()
     qDebug()<<"-----------    ::hChsp stoptiming";
     if (editStartOrStopAction->isChecked())
         editStartOrStopAction->trigger(); // stop the clock
+}
+
+void hC_hsp::hesapdegisti()
+{
+    qDebug()<<"-----------    hC_hsp::hesapdegisti() p";
 }
 
 

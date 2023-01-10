@@ -7,31 +7,6 @@
 
 
 
-#define R_MAVIBUZ   "#7FCDCD"
-#define R_MAVITURKUVAZ "#55B4B0"
-
-
-#define R_SOMONACIK "#FF6F61"
-#define R_PEMBEAÇIK "#F7CAC9"
-#define R_PEMBEGUL  QColor("#DFCFBE")
-#define R_PEMBEKOYU "#B76BA3"
-#define R_PEMBESEKER "#B565A7"
-#define R_SARIHAZAN "#D8AE47"
-#define R_SARIAY    "#FAE03C"
-#define R_FUSYAKOYU "#DD4132"
-#define R_KAHVESUTLU "#B18F6A"
-#define R_MAVIGOK   "#98DDDE"
-#define R_MAVIHAVA  "#92B6D5"
-#define R_SEFTALI   "#F7786B"
-#define R_SOMON     "#E15D44"
-#define R_FUSYA     "#C3447A"
-#define R_MIMOZA    "#EFC050"
-
-#define R_YESILHACI "#88B04B"
-#define R_TURKUVAZ  "#45B8AC"
-#define R_YESILACIK "#79C753"
-#define R_GRIPEMBE  "#AF9483"
-#define R_GRIFIRTINA "#92A8D1"
 
 
 

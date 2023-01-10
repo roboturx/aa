@@ -81,5 +81,6 @@
         <file>rsm/images/filequit.png</file>
         <file>rsm/images/filesave.png</file>
         <file>rsm/images/icon.png</file>
+        <file>renk.qss</file>
     </qresource>
 </RCC>
