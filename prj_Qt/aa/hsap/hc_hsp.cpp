@@ -119,7 +119,28 @@ TaskItem* hC_hsp::getCurrentItem()
 
 }
 
+class MyDelegate : public QStyledItemDelegate {
+public:
+    void paint(QPainter *painter,
+               const QStyleOptionViewItem &option,
+               const QModelIndex &index) const {
+        QString text, text_highlight;
+        if (index.column() == 0)
+        {
+            text = "Qt::green";
 
+            text_highlight = "Qt::white";
+        }
+        QStyleOptionViewItem s = *qstyleoption_cast<
+                const QStyleOptionViewItem*>(&option);
+        s.palette.setColor(QPalette::Text  ,
+                           QColor(text));
+        s.palette.setColor(QPalette::HighlightedText,
+                           QColor(text_highlight));
+
+        QStyledItemDelegate::paint(painter, s, index);
+    }
+};
 /// 100-01
 ///
 void hC_hsp::createModelViewDelegate()
@@ -146,19 +167,13 @@ void hC_hsp::createModelViewDelegate()
 
 
     // treeViewXML->setStyleSheet ();
-
+    treeViewXML->setItemDelegateForColumn(0, new MyDelegate);
     //treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
     treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
 
-    cbdlgt = new cls_dlgt_ComboBox;
-    treeViewXML->setItemDelegateForColumn(3, cbdlgt);
+
+    treeViewXML->setItemDelegateForColumn(3, new cls_dlgt_ComboBox);
     treeViewXML->setModel(modelXML);
-
-
-
-    // connect(cbdlgt->cb , &cls_dlgt_ComboBox::currentIndexChanged,
-    //       this, &hC_hsp::hesapdegisti);
-    //treeViewXML->setcu
 
     lB_Hesap = new QLabel("Kod-------");
 
@@ -167,6 +182,7 @@ void hC_hsp::createModelViewDelegate()
 
 
 }
+
 
 
 void hC_hsp::createGui()
@@ -291,7 +307,8 @@ void hC_hsp::setInteger()
 
 void hC_hsp::setColor()
 {
-    const QColorDialog::ColorDialogOptions options = QFlag(colorDialogOptionsWidget->value());
+    const QColorDialog::ColorDialogOptions options =
+            QFlag(colorDialogOptionsWidget->value());
     const QColor color = QColorDialog::getColor(Qt::green, this,
                                                 "Select Color", options);
     if (color.isValid())
@@ -548,8 +565,8 @@ void hC_hsp::setHesapAdColor(TaskItem* currentItem)
                   HesapTuru, UstHesap, HesapKod, DBFile };
 
 
-==
-    modelXML->setData(treeViewXML->currentIndex (), QColor(0xff0000),Qt::ForegroundRole);
+
+//    modelXML->setData(treeViewXML->currentIndex (), QColor(0xff0000),Qt::ForegroundRole);
 
 
 
