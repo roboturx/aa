@@ -262,9 +262,7 @@ void RichTextLineEdit::applyTextEffect()
                         QTextCharFormat::AlignSubScript);
             break;
         case Color:
-            qDebug()<<"switchhhhhhhhhhhhhhhh";
             applyColor (colorAction);
-            //break;
             return;
         }
         mergeCurrentCharFormat(format);

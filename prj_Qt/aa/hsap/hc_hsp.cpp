@@ -521,7 +521,10 @@ void hC_hsp::updateUi()
         /// hspdty kayıtlarında kullanılmak üzere
         ///
         ///
-
+        currentItem->setHesapAd(
+                    QString("<font color=\"#00ff00\"><b>")+
+                    currentItem->hesapAd()+
+                    "</b></font>");
         *pi_Hesap_Kod = currentItem->hesapKod ();
         *ps_Hesap_Ad = currentItem->hesapAd ();
         emit sgnHesap (pi_Hesap_Kod, ps_Hesap_Ad );

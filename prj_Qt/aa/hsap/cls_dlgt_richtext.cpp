@@ -1,28 +1,14 @@
-/*
-    Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
 
-    This program or module is free software: you can redistribute it
-    and/or modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version. It is provided
-    for educational purposes and is distributed in the hope that it will
-    be useful, but WITHOUT ANY WARRANTY; without even the implied
-    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-    the GNU General Public License for more details.
-*/
 
 #include "libs/globals.h"
 #include "richtextlineedit.h"
 #include "cls_dlgt_richtext.h"
-//#include <QModelIndex>
-//#include <QPainter>
-//#include <QPixmapCache>
 
 
 cls_dlgt_RichText::cls_dlgt_RichText(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    qDebug()<<"-r-xt t construc";
+    qDebug()<<"-r-xt t construc***************************************";
     checkbox = new QCheckBox;
     checkbox->setFixedSize(
             qRound(1.3 * checkbox->sizeHint().height()),

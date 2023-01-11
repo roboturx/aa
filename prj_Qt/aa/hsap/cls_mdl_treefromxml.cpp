@@ -153,10 +153,10 @@ QVariant cls_mdl_TreeFromXml::data(const QModelIndex &index,
                 && item == timedItem
                 && !m_icon.isNull())
             return m_icon;
-        if (role == Qt::ForegroundRole
-                && index.column() == HesapAd )
+//        if (role == Qt::ForegroundRole
+//                && index.column() == HesapAd )
 
-            return index.data(Qt::ForegroundRole);
+//            return index.data(Qt::ForegroundRole);
     }
     return QVariant();
 }
