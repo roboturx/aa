@@ -2,9 +2,10 @@
 #define hC_hsp_H
 
 #include "hsap/dialogoptionswidget.h"
-#include "libs/globals.h"
-#include "libs/alt_key.h"
-#include "cls_dlgt_richtext.h"
+#include "hsap/taskitem.h"
+//#include "libs/globals.h"
+//#include "libs/alt_key.h"
+//#include "cls_dlgt_richtext.h"
 #include "cls_mdl_treefromxml.h"
 
 
@@ -16,6 +17,9 @@ class QTreeView;
 
 class cls_mdl_TreeFromXml;
 
+
+
+
 class hC_hsp : public QMainWindow
 {
     Q_OBJECT
@@ -23,6 +27,9 @@ class hC_hsp : public QMainWindow
 public:
     explicit hC_hsp(QWidget *parent=0);
 
+
+
+    void setHesapAdColor(TaskItem *item);
     cls_dlgt_ComboBox *cbdlgt;
 
     QString* ps_Hesap_Ad;
@@ -140,6 +147,29 @@ private:
     QAction *colorAction;
 
 };
+
+
+///////////////////////////////////////////////////////////////
+/// \brief The HesapListesi class
+/// xml dosyasından hesap adları ve renklerini
+/// qpair olarak veren sınıf
+
+class HesapListesi
+{
+public:
+    typedef QPair<QString,QColor> PairHesapColor;
+
+    HesapListesi() {};
+    ~HesapListesi() {};
+    PairHesapColor getHesapListesi (QString hangihesaplar);
+
+private:
+    PairHesapColor setHesapListesi(QString hangiListe);
+    PairHesapColor hesapListesi{};
+};
+
+
+
 
 #endif // hC_hsp_H
 

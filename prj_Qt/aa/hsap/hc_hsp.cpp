@@ -1,4 +1,5 @@
 #include "hc_hsp.h"
+#include "hsap/cls_dlgt_richtext.h"
 
 
 namespace {
@@ -146,7 +147,7 @@ void hC_hsp::createModelViewDelegate()
 
     // treeViewXML->setStyleSheet ();
 
-    treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
+    //treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
     treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
 
     cbdlgt = new cls_dlgt_ComboBox;
@@ -500,6 +501,7 @@ void hC_hsp::updateUi()
     editHideOrShowDoneTasksAction->setEnabled(rows);
     bool enable = treeViewXML->currentIndex().isValid();
 
+    modelXML->getListXML ();
 
     foreach (QAction *action, QList<QAction*>()
              << editDeleteAction
@@ -521,10 +523,7 @@ void hC_hsp::updateUi()
         /// hspdty kayıtlarında kullanılmak üzere
         ///
         ///
-        currentItem->setHesapAd(
-                    QString("<font color=\"#00ff00\"><b>")+
-                    currentItem->hesapAd()+
-                    "</b></font>");
+        setHesapAdColor(currentItem);
         *pi_Hesap_Kod = currentItem->hesapKod ();
         *ps_Hesap_Ad = currentItem->hesapAd ();
         emit sgnHesap (pi_Hesap_Kod, ps_Hesap_Ad );
@@ -542,6 +541,31 @@ void hC_hsp::updateUi()
                           );
     }
 }
+
+void hC_hsp::setHesapAdColor(TaskItem* currentItem)
+{
+    enum hsptur {HesapAd, HesapAciklama, Topluhesap,
+                  HesapTuru, UstHesap, HesapKod, DBFile };
+
+
+==
+    modelXML->setData(treeViewXML->currentIndex (), QColor(0xff0000),Qt::ForegroundRole);
+
+
+
+    int i = currentItem->hesapAd ().indexOf ("<");
+    if (i == 1000)
+    {
+    currentItem->setHesapAd(
+        QString("<font color=\"#00ff00\"><b>")+
+        currentItem->hesapAd()+
+        "</b></font>");
+
+    }
+
+}
+
+
 
 
 
@@ -971,4 +995,32 @@ void hC_hsp::hideOrShowDoneTask(bool hide,
 }
 
 
+
+
+///////////////////////////////////////////////////////////////
+/// \brief The HesapListesi class
+/// xml dosyasından hesap adları ve renklerini
+/// qpair olarak veren sınıf
+
+
+HesapListesi::PairHesapColor HesapListesi::getHesapListesi(QString hangihesaplar)
+{
+
+    setHesapListesi( hangihesaplar);
+    return hesapListesi;
+}
+
+HesapListesi::PairHesapColor HesapListesi::setHesapListesi(QString hangiListe)
+{
+    // set
+    if (hangiListe == "")
+    {
+    }
+    else if (hangiListe == "")
+    {
+
+    }
+
+    return hesapListesi;
+}
 

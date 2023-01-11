@@ -142,7 +142,7 @@ QMenu *RichTextLineEdit::createColorMenu()
              << qMakePair(QColor(Qt::magenta), tr("Magenta"))
              << qMakePair(QColor(Qt::darkMagenta), tr("Dark Magenta"))
              << qMakePair(QColor(Qt::red), tr("Red"))
-             << qMakePair(QColor(Qt::darkRed), tr("Dark Red")))
+             << qMakePair (QColor(Qt::darkRed), tr("Dark Red")))
     {
         pixmap.fill(pair.first);
         QAction *action = colorMenu->addAction(pixmap, pair.second);

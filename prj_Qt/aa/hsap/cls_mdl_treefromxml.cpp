@@ -153,10 +153,6 @@ QVariant cls_mdl_TreeFromXml::data(const QModelIndex &index,
                 && item == timedItem
                 && !m_icon.isNull())
             return m_icon;
-//        if (role == Qt::ForegroundRole
-//                && index.column() == HesapAd )
-
-//            return index.data(Qt::ForegroundRole);
     }
     return QVariant();
 }
@@ -196,7 +192,7 @@ QVariant cls_mdl_TreeFromXml::headerData(int section,
 bool cls_mdl_TreeFromXml::setData(const QModelIndex &index,
                         const QVariant &value, int role)
 {
-    qDebug()<<"::Xmdl setdata";
+//    qDebug()<<"::Xmdl setdata";
     if (!index.isValid() ) //|| index.column() != HesapAd)
     {
         return false;
@@ -236,14 +232,6 @@ bool cls_mdl_TreeFromXml::setData(const QModelIndex &index,
                 item->setTopluHesap(value.toBool());
             }
         }
-//        else if (role == Qt::DisplayRole)
-//        {
-//            if (index.column() == HesapAd)
-//            {
-//                setItemData(0,"0xff0000",Qt::ForegroundRole);
-//            }
-//        }
-
         else
         {
             return false;
@@ -329,7 +317,7 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
     //cB_hesapAds = new QComboBox{} ;
    // hesapListesi = new cls_Hesaplar;
    // QMap<QString, quint64> mapXML;
-   // listXML = new QList<QString>;
+ //   listXML = new QList<QString,QString>;
 
     //mapXML = new QMap<QString, quint64>;
 
@@ -379,6 +367,9 @@ void cls_mdl_TreeFromXml::readTasks(QXmlStreamReader *reader,
                                     topluHesap, hesapTuru,
                                     ustHesap, hesapKod,
                                     DBFile, task);
+
+                //// item ı listeye ekle
+                listXML<<task;
             }
             // NZAMAN lar
             else if (reader->name() == NeZamanTag) {
@@ -664,12 +655,17 @@ QModelIndex cls_mdl_TreeFromXml::moveItem(TaskItem *parent, int oldRow,
     return newIndex;
 }
 
-QList<QString> cls_mdl_TreeFromXml::getListXML() const
+QList<TaskItem *> cls_mdl_TreeFromXml::getListXML() const
 {
+    foreach (TaskItem* item, listXML)
+    {
+
+        qDebug() <<"----------------"<< item->hesapAd ();
+    }
     return listXML;
 }
 
-void cls_mdl_TreeFromXml::setListXML(QList<QString> newListXML)
+void cls_mdl_TreeFromXml::setListXML(QList<TaskItem*> newListXML)
 {
     listXML = newListXML;
 }
