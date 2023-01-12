@@ -31,6 +31,9 @@ extern QString GLB_yetki;
 
 
 #include <QtCore>
+#include <QtCore/QXmlStreamReader>
+#include <QtCore/QXmlStreamWriter>
+
 #include <QtGui>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>

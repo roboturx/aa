@@ -1,19 +1,19 @@
-#include "cls_dlgt_combobox.h"
+#include "cl_dlg_cbox.h"
 //#include "hsap/taskitem.h"
 
 #include <QComboBox>
 
-cls_dlgt_ComboBox::cls_dlgt_ComboBox(QObject *parent)
+cL_dlG_CBox::cL_dlG_CBox(QObject *parent)
     : QStyledItemDelegate(parent)
 {
 }
 
-cls_dlgt_ComboBox::~cls_dlgt_ComboBox()
+cL_dlG_CBox::~cL_dlG_CBox()
 {
 }
 
 
-QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
+QWidget *cL_dlG_CBox::createEditor(QWidget *parent,
               const QStyleOptionViewItem &option,
               const QModelIndex &index) const
 {
@@ -49,7 +49,7 @@ QWidget *cls_dlgt_ComboBox::createEditor(QWidget *parent,
 }
 
 
-void cls_dlgt_ComboBox::setEditorData(QWidget *editor,
+void cL_dlG_CBox::setEditorData(QWidget *editor,
                                       const QModelIndex &index) const
 {
     QComboBox *cb = qobject_cast<QComboBox *>(editor);
@@ -65,7 +65,7 @@ void cls_dlgt_ComboBox::setEditorData(QWidget *editor,
 }
 
 
-void cls_dlgt_ComboBox::setModelData(QWidget *editor,
+void cL_dlG_CBox::setModelData(QWidget *editor,
                    QAbstractItemModel *model,
                   const QModelIndex &index) const
 {

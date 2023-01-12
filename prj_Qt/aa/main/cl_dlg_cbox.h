@@ -1,18 +1,18 @@
-#ifndef CLS_DLGT_COMBOBOX_H
-#define CLS_DLGT_COMBOBOX_H
+#ifndef CL_DLG_CBOX_H
+#define CL_DLG_CBOX_H
 
 #include <QStyledItemDelegate>
 //#include <QSqlQuery>
 
 //class cls_Hesaplar;
 
-class cls_dlgt_ComboBox : public QStyledItemDelegate
+class cL_dlG_CBox : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
 
-    cls_dlgt_ComboBox(QObject *parent = nullptr);
-    ~cls_dlgt_ComboBox();
+    cL_dlG_CBox(QObject *parent = nullptr);
+    ~cL_dlG_CBox();
 
     QWidget *createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,
@@ -43,4 +43,4 @@ private:
     QMap<QString*, qint64> map_hesapAdKod;
 };
 
-#endif // CLS_DLGT_COMBOBOX_H
+#endif // CL_DLG_CBOX_H

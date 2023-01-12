@@ -1,14 +1,14 @@
-#ifndef hC_hsp_H
-#define hC_hsp_H
+#ifndef hC_main_H
+#define hC_main_H
 
-//#include "main/dialogoptionswidget.h"
+#include "main/dialogoptionswidget.h"
 #include "main/taskitem.h"
 //#include "libs/globals.h"
 //#include "libs/alt_key.h"
-//#include "cls_dlgt_richtext.h"
-#include "main/cl_treemdlxml.h"
+//#include "cL_dlG_RichTxt.h"
+#include "cl_treemdlxml.h"
 
-
+class QString;
 class QAction;
 class QStandardItem;
 class StandardItem;
@@ -20,17 +20,17 @@ class cls_mdl_TreeFromXml;
 
 
 
-class hC_hsp : public QMainWindow
+class hC_main : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit hC_hsp(QWidget *parent=0);
+    explicit hC_main();
 
 
 
     void setHesapAdColor(TaskItem *item);
-    cls_dlgt_ComboBox *cbdlgt;
+    cL_dlG_CBox *cbdlgt;
 
     QString* ps_Hesap_Ad;
     quint64* pi_Hesap_Kod;
@@ -40,13 +40,14 @@ public:
     QLabel *colorLabel ;
     QPushButton *colorButton;
 
+    cL_TreeMdlXML *modelXML;
     QTreeView *treeViewXML;
     QWidget * wdgt_central;
     QWidget * wdgt_hesap;
     DialogOptionsWidget *colorDialogOptionsWidget;
 
     TaskItem *getCurrentItem();
-    cls_mdl_TreeFromXml *modelXML;
+
 
 private:
     void createGui();
@@ -154,22 +155,64 @@ private:
 /// xml dosyasından hesap adları ve renklerini
 /// qpair olarak veren sınıf
 
-class HesapListesi
+class cL_HesapListesi
 {
 public:
     typedef QPair<QString,QColor> PairHesapColor;
 
-    HesapListesi() {};
-    ~HesapListesi() {};
+    cL_HesapListesi() {};
+    ~cL_HesapListesi() {};
     PairHesapColor getHesapListesi (QString hangihesaplar);
 
 private:
     PairHesapColor setHesapListesi(QString hangiListe);
-    PairHesapColor hesapListesi{};
+    PairHesapColor qp_hesapListesi{};
 };
 
 
+////////////////////////////////////////////////////////
+/// \brief The cL_dlG_ColmColor class
+/// treeview colonda renk ayarları
+///
+
+class cL_dlG_ColmColor : public QStyledItemDelegate
+{
+public:
+    int m_color{};
+    QModelIndex m_curIndex{};
+public:
+    cL_dlG_ColmColor(int renk,QModelIndex currentIndex, QObject *parent)
+   {
+        /// int değeriyle gelen değişkeni color olark kullanır
+
+        m_color = renk;
+        m_curIndex = currentIndex;
+
+    }
+
+    void paint(QPainter *painter,
+               const QStyleOptionViewItem &option,
+               const QModelIndex &index) const
+    {
 
 
-#endif // hC_hsp_H
+        if (index.column() == 0 /*&&
+            index.row() == m_curIndex.row ()*/)
+        {
+            qDebug()<< "col 0 colmcolor m_color = " << m_color;
+            qDebug()<< "row col " << index.row ()<<"-"<<index.column ();
+            QStyleOptionViewItem s = *qstyleoption_cast<
+                const QStyleOptionViewItem*>(&option);
+            s.palette.setColor(QPalette::HighlightedText ,
+                               QColor( Qt::cyan));
+            s.palette.setColor(QPalette::Text  ,
+                               QColor(m_color));
+
+            QStyledItemDelegate::paint(painter, s, index);
+        }
+    }
+};
+
+
+#endif // hC_main_H
 

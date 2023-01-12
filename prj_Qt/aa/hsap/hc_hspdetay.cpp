@@ -166,7 +166,7 @@ void hC_HSPDTY::tbui()
 
     QSplitter *splitter = new QSplitter(this);
     splitter->setMinimumWidth(600);
-    splitter->addWidget(win_hC_hsp);
+  //  splitter->addWidget(win_hC_hsp);
     splitter->addWidget(tb_view);
     splitter->setOrientation (Qt::Vertical);
 
@@ -203,9 +203,9 @@ void hC_HSPDTY::tbkntrl()
 {
     qDebug() << "   0130 hspdty::tbkntrl ---- begin";
 
-    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox();
+//    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox();
 
-    tb_view->table->setItemDelegateForColumn(5, cb );
+  //  tb_view->table->setItemDelegateForColumn(5, cb );
 
     qDebug() << "   0130 2" ;
     //////////////// filtering
@@ -213,14 +213,14 @@ void hC_HSPDTY::tbkntrl()
     SGNDhesapKod = new qint64{};
     SGNDhesapAd  = new QString{};
     //// hesap kodu ve adını bulalım
-    TaskItem* current_hesap = win_hC_hsp->getCurrentItem();
+//    TaskItem* current_hesap = win_hC_hsp->getCurrentItem();
 
 
-    if (current_hesap)
-        {
-            *SGNDhesapKod = current_hesap->hesapKod();
-            *SGNDhesapAd  = current_hesap->hesapAd();
-        }
+//    if (current_hesap)
+//        {
+//            *SGNDhesapKod = current_hesap->hesapKod();
+//            *SGNDhesapAd  = current_hesap->hesapAd();
+//        }
 
     //////////////// filtering end
     tb_view->table->setFocus();
@@ -402,8 +402,8 @@ void hC_HSPDTY::tbkntrl()
     });
 
     /// hesap tan signal ile yollanana
-    connect(win_hC_hsp, &hC_hsp::sgnHesap,
-            this , &hC_HSPDTY::slt_tbx_rowChange);
+  //  connect(win_hC_hsp, &hC_hsp::sgnHesap,
+    //        this , &hC_HSPDTY::slt_tbx_rowChange);
 
 
     qDebug() << "   0130 hspdty::tbkntrl ---- end";
@@ -417,7 +417,7 @@ void hC_HSPDTY::showEvent(QShowEvent *)
 
 void hC_HSPDTY::closeEvent(QCloseEvent *)
 {
-    win_hC_hsp->close ();
+    //win_hC_hsp->close ();
 }
 
 void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,

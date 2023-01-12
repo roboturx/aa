@@ -40,10 +40,14 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 contains(DEFINES, MAIN) {
 
 SOURCES +=       \
+    main/cl_dlg_cbox.cpp \
+    main/cl_treemdlxml.cpp \
 main/main.cpp    \
 main/cw_hkk.cpp  \
 main/login.cpp   \
 main/dbase.cpp   \
+main/cl_dlg_richtxt.cpp   \
+main/taskitem.cpp          \
 libs/alt_key.cpp \
 libs/aqp.cpp     \
 libs/hc_.cpp     \
@@ -54,9 +58,13 @@ libs/VTKontrol.cpp
 #main/mw_main.cpp \
 
 HEADERS  +=    \
+    main/cl_dlg_cbox.h \
+    main/cl_treemdlxml.h \
 main/cw_hkk.h  \
 main/login.h   \
 main/dbase.h   \
+main/cl_dlg_richtxt.h   \
+main/taskitem.h          \
 libs/VTKontTekkere.h \
 libs/VTKontrol.h \
 libs/VTTekton.h  \
@@ -90,21 +98,9 @@ adrs/ftr.h
 contains(DEFINES, HSAP) {
 
 SOURCES +=                   \
-hsap/cls_dlgt_richtext.cpp   \
-hsap/cls_mdl_treefromxml.cpp \
-hsap/richtextlineedit.cpp  \
-hsap/taskitem.cpp          \
-hsap/cls_dlgt_combobox.cpp \
-hsap/hc_hsp.cpp            \
 hsap/hc_hspdetay.cpp
 
 HEADERS  +=                \
-hsap/cls_dlgt_richtext.h   \
-hsap/cls_mdl_treefromxml.h \
-hsap/richtextlineedit.h  \
-hsap/taskitem.h          \
-hsap/cls_dlgt_combobox.h \
-hsap/hc_hsp.h            \
 hsap/hc_hspdetay.h
 
 }
@@ -191,13 +187,19 @@ DISTFILES += \ libs/mime.types
     # hesap/main/images/icon.png
 
 HEADERS += \
-    hsap/dialog.h \
-    hsap/dialogoptionswidget.h \
+    main/cl_richtxt_le.h \
+    main/dialog.h \
+    main/dialogoptionswidget.h \
     hsap/proxymodel.h \
-    hsap/uniqueproxymodel.h
+    hsap/uniqueproxymodel.h \
+    hsap/uniqueproxymodel.h \
+    main/hc_main.h \
+    main/main.h
 
 SOURCES += \
-    hsap/dialog.cpp \
-    hsap/dialogoptionswidget.cpp \
+    main/dialog.cpp \
+    main/cl_richtxt_le.cpp \
+    main/dialogoptionswidget.cpp \
     hsap/proxymodel.cpp \
-    hsap/uniqueproxymodel.cpp
+    hsap/uniqueproxymodel.cpp \
+    main/hc_main.cpp

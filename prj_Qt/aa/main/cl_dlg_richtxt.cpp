@@ -1,11 +1,11 @@
 
 
 #include "libs/globals.h"
-#include "richtextlineedit.h"
-#include "cls_dlgt_richtext.h"
+#include "main/cl_richtxt_le.h"
+#include "main/cl_dlg_richtxt.h"
 
 
-cls_dlgt_RichText::cls_dlgt_RichText(QObject *parent)
+cL_dlG_RichTxt::cL_dlG_RichTxt(QObject *parent)
     : QStyledItemDelegate(parent)
 {
     qDebug()<<"-r-xt t construc***************************************";
@@ -19,7 +19,7 @@ cls_dlgt_RichText::cls_dlgt_RichText(QObject *parent)
 }
 
 
-void cls_dlgt_RichText::paint(QPainter *painter,
+void cL_dlG_RichTxt::paint(QPainter *painter,
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const
 {
@@ -64,7 +64,7 @@ void cls_dlgt_RichText::paint(QPainter *painter,
 }
 
 
-void cls_dlgt_RichText::paintWidget(QPainter *painter,
+void cL_dlG_RichTxt::paintWidget(QPainter *painter,
         const QRect &rect, const QString &cacheKey,
         QWidget *widget) const
 {
@@ -81,7 +81,7 @@ void cls_dlgt_RichText::paintWidget(QPainter *painter,
 }
 
 
-QSize cls_dlgt_RichText::sizeHint(const QStyleOptionViewItem &option,
+QSize cL_dlG_RichTxt::sizeHint(const QStyleOptionViewItem &option,
                                  const QModelIndex &index) const
 {
     QString html = index.model()->data(index, Qt::DisplayRole)
@@ -92,10 +92,10 @@ QSize cls_dlgt_RichText::sizeHint(const QStyleOptionViewItem &option,
 }
 
 
-QWidget *cls_dlgt_RichText::createEditor(QWidget *parent,
+QWidget *cL_dlG_RichTxt::createEditor(QWidget *parent,
         const QStyleOptionViewItem &option, const QModelIndex&) const
 {
-    RichTextLineEdit *editor = new RichTextLineEdit(parent);
+    cL_RichTxt_LE *editor = new cL_RichTxt_LE(parent);
     editor->viewport()->setFixedHeight(option.rect.height());
     connect(editor, SIGNAL(returnPressed()),
             this, SLOT(closeAndCommitEditor()));
@@ -103,25 +103,25 @@ QWidget *cls_dlgt_RichText::createEditor(QWidget *parent,
 }
 
 
-void cls_dlgt_RichText::setEditorData(QWidget *editor,
+void cL_dlG_RichTxt::setEditorData(QWidget *editor,
         const QModelIndex &index) const
 {
     QString html = index.model()->data(index, Qt::DisplayRole)
                                        .toString();
-    RichTextLineEdit *lineEdit = qobject_cast<RichTextLineEdit*>(
+    cL_RichTxt_LE *lineEdit = qobject_cast<cL_RichTxt_LE*>(
                                               editor);
     Q_ASSERT(lineEdit);
     lineEdit->setHtml(html);
 }
 
 
-void cls_dlgt_RichText::setModelData(QWidget *editor,
+void cL_dlG_RichTxt::setModelData(QWidget *editor,
         QAbstractItemModel *model, const QModelIndex &index) const
 {
     qDebug()<<"---------richtxt set model data----------------";
 
-    RichTextLineEdit *lineEdit =
-            qobject_cast<RichTextLineEdit*>(editor);
+    cL_RichTxt_LE *lineEdit =
+            qobject_cast<cL_RichTxt_LE*>(editor);
     Q_ASSERT(lineEdit);
     model->setData(index, lineEdit->toSimpleHtml());
 
@@ -143,9 +143,9 @@ void cls_dlgt_RichText::setModelData(QWidget *editor,
 }
 
 
-void cls_dlgt_RichText::closeAndCommitEditor()
+void cL_dlG_RichTxt::closeAndCommitEditor()
 {
-    RichTextLineEdit *lineEdit = qobject_cast<RichTextLineEdit*>(
+    cL_RichTxt_LE *lineEdit = qobject_cast<cL_RichTxt_LE*>(
                                               sender());
     Q_ASSERT(lineEdit);
     emit commitData(lineEdit);

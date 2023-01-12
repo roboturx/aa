@@ -6,7 +6,7 @@
             <ACCOUNT AccNAME="Ayşe" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="44" AccDBFile=""/>
             <ACCOUNT AccNAME="Yasemin Balcı" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="9" AccDBFile=""/>
         </ACCOUNT>
-        <ACCOUNT AccNAME="Tokat" AccNOTE="Karadeniz" AccIsBATCH="1" AccTYPE="Konum" AccsPARENT="" AccCODE="7" AccDBFile="">
+        <ACCOUNT AccNAME="Tokat" AccNOTE="Ka&lt;font color=&quot;#00ff00&quot;&gt;radeniz&lt;/font&gt;" AccIsBATCH="1" AccTYPE="Konum" AccsPARENT="" AccCODE="7" AccDBFile="">
             <ACCOUNT AccNAME="Hacı" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="18" AccDBFile="">
                 <ACCOUNT AccNAME="100 KASA" AccNOTE="" AccIsBATCH="0" AccTYPE="Aktif Hesap" AccsPARENT="" AccCODE="43" AccDBFile=""/>
                 <ACCOUNT AccNAME="İşyeri Doğuş" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="14" AccDBFile=""/>

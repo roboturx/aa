@@ -3,8 +3,8 @@
 
 #include "libs/globals.h"
 #include "libs/hc_.h"
-#include "hc_hsp.h"
-#include "cls_dlgt_combobox.h"
+//#include "hc_hsp.h"
+//#include "cls_dlgt_combobox.h"
 #include "hsap/proxymodel.h"
 namespace nSHsp
 {
@@ -23,7 +23,7 @@ public:
     hC_ArrD                  * tb_flds   {} ;
     QList <QWidget*>         * tb_wdgts    {} ;
 
-    hC_hsp* win_hC_hsp;
+//    hC_hsp* win_hC_hsp;
 
     qint64  *SGNDhesapKod ;
     QString *SGNDhesapAd  ;

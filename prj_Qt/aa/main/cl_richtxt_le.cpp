@@ -1,31 +1,10 @@
-/*
-    Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
 
-    This program or module is free software: you can redistribute it
-    and/or modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version. It is provided
-    for educational purposes and is distributed in the hope that it will
-    be useful, but WITHOUT ANY WARRANTY; without even the implied
-    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-    the GNU General Public License for more details.
-*/
 #include "libs/globals.h"
 #include "libs/alt_key.h"
-#include "richtextlineedit.h"
-#include "hsap/dialog.h"
+#include "main/cl_richtxt_le.h"
+#include "main/dialog.h"
 
-
-//#include <QAction>
-//#include <QKeyEvent>
-//#include <QMenu>
-//#include <QShortcut>
-//#include <QTextBlock>
-//#include <QTextCharFormat>
-//#include <QTextFragment>
-
-
-RichTextLineEdit::RichTextLineEdit(QWidget *parent)
+cL_RichTxt_LE::cL_RichTxt_LE(QWidget *parent)
     : QTextEdit(parent)
 {
     setLineWrapMode(QTextEdit::NoWrap);
@@ -44,7 +23,7 @@ RichTextLineEdit::RichTextLineEdit(QWidget *parent)
 }
 
 
-void RichTextLineEdit::createShortcuts()
+void cL_RichTxt_LE::createShortcuts()
 {
     QShortcut *boldShortcut = new QShortcut(QKeySequence::Bold,
                                             this, SLOT(toggleBold()));
@@ -60,7 +39,7 @@ void RichTextLineEdit::createShortcuts()
 }
 
 
-void RichTextLineEdit::createActions()
+void cL_RichTxt_LE::createActions()
 {
     boldAction = createAction(tr("Bold"), Bold);
     italicAction = createAction(tr("Italic"), Italic);
@@ -82,7 +61,7 @@ void RichTextLineEdit::createActions()
 }
 
 
-QAction *RichTextLineEdit::createAction(const QString &text,
+QAction *cL_RichTxt_LE::createAction(const QString &text,
                                         const QVariant &data)
 {
     QAction *action = new QAction(text, this);
@@ -100,7 +79,7 @@ QAction *RichTextLineEdit::createAction(const QString &text,
 }
 
 
-QMenu *RichTextLineEdit::createColorMenu()
+QMenu *cL_RichTxt_LE::createColorMenu()
 {
     QMenu *colorMenu = new QMenu(this);
     QPixmap pixmap(22, 22);
@@ -181,7 +160,7 @@ QMenu *RichTextLineEdit::createColorMenu()
 }
 
 
-QSize RichTextLineEdit::sizeHint() const
+QSize cL_RichTxt_LE::sizeHint() const
 {
     QFontMetrics fm(font());
     return QSize(document()->idealWidth() + fm.horizontalAdvance("W"),
@@ -189,14 +168,14 @@ QSize RichTextLineEdit::sizeHint() const
 }
 
 
-QSize RichTextLineEdit::minimumSizeHint() const
+QSize cL_RichTxt_LE::minimumSizeHint() const
 {
     QFontMetrics fm(font());
     return QSize(fm.horizontalAdvance("WWWW"), fm.height() + 5);
 }
 
 
-void RichTextLineEdit::keyPressEvent(QKeyEvent *event)
+void cL_RichTxt_LE::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Enter ||
             event->key() == Qt::Key_Return)
@@ -209,7 +188,7 @@ void RichTextLineEdit::keyPressEvent(QKeyEvent *event)
 }
 
 
-void RichTextLineEdit::customContextMenuRequested(
+void cL_RichTxt_LE::customContextMenuRequested(
         const QPoint &pos)
 {
     updateContextMenuActions();
@@ -221,7 +200,7 @@ void RichTextLineEdit::customContextMenuRequested(
 
 
 
-void RichTextLineEdit::updateContextMenuActions()
+void cL_RichTxt_LE::updateContextMenuActions()
 {
     boldAction->setChecked(fontWeight() > QFont::Normal);
     italicAction->setChecked(fontItalic());
@@ -236,7 +215,7 @@ void RichTextLineEdit::updateContextMenuActions()
 }
 
 
-void RichTextLineEdit::applyTextEffect()
+void cL_RichTxt_LE::applyTextEffect()
 {
     if (QAction *action = qobject_cast<QAction*>(sender()))
     {
@@ -270,7 +249,7 @@ void RichTextLineEdit::applyTextEffect()
 }
 
 
-void RichTextLineEdit::applyColor(QAction *action)
+void cL_RichTxt_LE::applyColor(QAction *action)
 {
     qDebug() << "applycolor";
     Dialog *dialog = new Dialog;
@@ -289,7 +268,7 @@ void RichTextLineEdit::applyColor(QAction *action)
 }
 
 
-QString RichTextLineEdit::toSimpleHtml() const
+QString cL_RichTxt_LE::toSimpleHtml() const
 {
     QString html;
     for (QTextBlock block = document()->begin(); block.isValid();

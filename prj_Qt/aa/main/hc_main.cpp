@@ -1,5 +1,5 @@
-#include "hc_hsp.h"
-#include "hsap/cls_dlgt_richtext.h"
+#include "hc_main.h"
+#include "main/cl_dlg_richtxt.h"
 
 
 namespace {
@@ -14,7 +14,7 @@ const int LastFrame = 4;
 
 QAction *createAction(const QString &icon,
                       const QString &text,
-                      QObject *parent,
+                      QMainWindow *parent,
                       const QKeySequence &shortcut=QKeySequence())
 {
     QAction *action = new QAction(QIcon(icon), text, parent);
@@ -26,16 +26,15 @@ QAction *createAction(const QString &icon,
 } // anonymous namespace
 
 
-hC_hsp::hC_hsp(QWidget *parent)
-    : QMainWindow(parent)
+hC_main::hC_main()
+    : QMainWindow()
     ,
       #ifndef CUSTOM_MODEL
       timedItem(0),
       #endif
       currentIcon(0)
 {
-    qDebug ()<<"        Constructor HESAP **************************";
-
+    qDebug ()<<"        Constructor MAIN **************************";
 
     createModelViewDelegate();
     createGui();
@@ -99,7 +98,7 @@ hC_hsp::hC_hsp(QWidget *parent)
     }
 }
 
-TaskItem* hC_hsp::getCurrentItem()
+TaskItem* hC_main::getCurrentItem()
 {
     qDebug()<<"-----------    ::hChsp getcurrentitem";
     TaskItem* currentItem = static_cast<TaskItem*>
@@ -119,36 +118,14 @@ TaskItem* hC_hsp::getCurrentItem()
 
 }
 
-class MyDelegate : public QStyledItemDelegate {
-public:
-    void paint(QPainter *painter,
-               const QStyleOptionViewItem &option,
-               const QModelIndex &index) const {
-        QString text, text_highlight;
-        if (index.column() == 0)
-        {
-            text = "Qt::green";
-
-            text_highlight = "Qt::white";
-        }
-        QStyleOptionViewItem s = *qstyleoption_cast<
-                const QStyleOptionViewItem*>(&option);
-        s.palette.setColor(QPalette::Text  ,
-                           QColor(text));
-        s.palette.setColor(QPalette::HighlightedText,
-                           QColor(text_highlight));
-
-        QStyledItemDelegate::paint(painter, s, index);
-    }
-};
 /// 100-01
 ///
-void hC_hsp::createModelViewDelegate()
+void hC_main::createModelViewDelegate()
 {
     qDebug()<<"-----------    ::hChsp cr mdl vwv";
 
     treeViewXML = new QTreeView;
-    modelXML    = new cls_mdl_TreeFromXml(this);
+    modelXML    = new cL_TreeMdlXML(this);
 
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
 
@@ -166,13 +143,17 @@ void hC_hsp::createModelViewDelegate()
     treeViewXML->setSelectionMode (QAbstractItemView::SingleSelection);
 
 
-    // treeViewXML->setStyleSheet ();
-    treeViewXML->setItemDelegateForColumn(0, new MyDelegate);
-    //treeViewXML->setItemDelegateForColumn(0, new cls_dlgt_RichText);
-    treeViewXML->setItemDelegateForColumn(1, new cls_dlgt_RichText);
+    // xx ile gönderilen renk kodu column 0 için text rengi olur
+    int xx= {0x00ff00};
+    cL_dlG_ColmColor *clmColor =
+        new cL_dlG_ColmColor(xx,treeViewXML->currentIndex (),this);
+
+    treeViewXML->setItemDelegateForColumn(0, clmColor);
+
+    treeViewXML->setItemDelegateForColumn(1, new cL_dlG_RichTxt);
 
 
-    treeViewXML->setItemDelegateForColumn(3, new cls_dlgt_ComboBox);
+    treeViewXML->setItemDelegateForColumn(3, new cL_dlG_CBox);
     treeViewXML->setModel(modelXML);
 
     lB_Hesap = new QLabel("Kod-------");
@@ -185,7 +166,7 @@ void hC_hsp::createModelViewDelegate()
 
 
 
-void hC_hsp::createGui()
+void hC_main::createGui()
 {
     //    setStyleSheet ("* {"
     //                  "border: 1px solid green;"
@@ -219,9 +200,9 @@ void hC_hsp::createGui()
 
 
     connect(integerButton, &QAbstractButton::clicked,
-            this, &hC_hsp::setInteger);
+            this, &hC_main::setInteger);
     connect(colorButton, &QAbstractButton::clicked,
-            this, &hC_hsp::setColor);
+            this, &hC_main::setColor);
 
     QWidget *page0 = new QWidget;
     QGridLayout *layout0 = new QGridLayout(page0);
@@ -294,7 +275,7 @@ void hC_hsp::createGui()
 
 }
 
-void hC_hsp::setInteger()
+void hC_main::setInteger()
 {
     //! [0]
     bool ok;
@@ -305,7 +286,7 @@ void hC_hsp::setInteger()
     //! [0]
 }
 
-void hC_hsp::setColor()
+void hC_main::setColor()
 {
     const QColorDialog::ColorDialogOptions options =
             QFlag(colorDialogOptionsWidget->value());
@@ -322,7 +303,7 @@ void hC_hsp::setColor()
 
 
 
-void hC_hsp::createActions()
+void hC_main::createActions()
 {
     qDebug()<<"-----------    ::hChsp createActions";
     fileNewAction = createAction(":/rsm/images/filenew.png",
@@ -378,18 +359,18 @@ void hC_hsp::createActions()
 }
 
 
-void hC_hsp::createMenusAndToolBar()
+void hC_main::createMenusAndToolBar()
 {
     qDebug()<<"-----------    ::hChsp createMenusAndToolBar";
 
     QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
     QToolBar *fileToolBar = addToolBar(tr("Dosya"));
 
-    setStyleSheet ("QMenu, QToolbar {"
-                   "background-color: solid darkred;"
-                   "color: cyan;"
-                   "font: 14pt "
-                   "}");
+//    setStyleSheet ("QMenu, QToolbar {"
+//                   "background-color: solid darkred;"
+//                   "color: cyan;"
+//                   "font: 14pt "
+//                   "}");
 
     foreach (QAction *action, QList<QAction*>() << fileNewAction
              << fileOpenAction << fileSaveAction << fileSaveAsAction)
@@ -430,16 +411,16 @@ void hC_hsp::createMenusAndToolBar()
 }
 
 
-void hC_hsp::createConnections()
+void hC_main::createConnections()
 {
     qDebug()<<"-----------    ::hChsp createConnections";
     connect(treeViewXML->selectionModel(),
             &QItemSelectionModel::currentChanged,
-            this, &hC_hsp::updateUi);
+            this, &hC_main::updateUi);
 
     connect(treeViewXML->selectionModel(),
             &QItemSelectionModel::currentRowChanged,
-            this, &hC_hsp::updateUi);
+            this, &hC_main::updateUi);
 
     connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(customContextMenuRequested(const QPoint&)));
@@ -489,7 +470,7 @@ void hC_hsp::createConnections()
     qDebug() << "                  kntrl son";
 }
 
-void hC_hsp::contextMenuEvent(QContextMenuEvent *event)
+void hC_main::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
     menu.addAction(fileNewAction);
@@ -498,7 +479,7 @@ void hC_hsp::contextMenuEvent(QContextMenuEvent *event)
     menu.exec(event->globalPos());
 }
 
-void hC_hsp::customContextMenuRequested(
+void hC_main::customContextMenuRequested(
         const QPoint &pos)
 {
     QMenu menu(this);
@@ -509,7 +490,7 @@ void hC_hsp::customContextMenuRequested(
 
 
 ///////////////////////////***************************************
-void hC_hsp::updateUi()
+void hC_main::updateUi()
 {
     qDebug()<<"-----------    ::hChsp updateUi...";
     fileSaveAction->setEnabled(isWindowModified());
@@ -518,7 +499,7 @@ void hC_hsp::updateUi()
     editHideOrShowDoneTasksAction->setEnabled(rows);
     bool enable = treeViewXML->currentIndex().isValid();
 
-    modelXML->getListXML ();
+    //modelXML->getListXML ();
 
     foreach (QAction *action, QList<QAction*>()
              << editDeleteAction
@@ -532,6 +513,8 @@ void hC_hsp::updateUi()
     editPasteAction->setEnabled(modelXML->hasCutItem());
 
 
+
+
     TaskItem* currentItem = static_cast<TaskItem*>
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
@@ -540,7 +523,7 @@ void hC_hsp::updateUi()
         /// hspdty kayıtlarında kullanılmak üzere
         ///
         ///
-        setHesapAdColor(currentItem);
+//        setHesapAdColor(currentItem);
         *pi_Hesap_Kod = currentItem->hesapKod ();
         *ps_Hesap_Ad = currentItem->hesapAd ();
         emit sgnHesap (pi_Hesap_Kod, ps_Hesap_Ad );
@@ -559,10 +542,10 @@ void hC_hsp::updateUi()
     }
 }
 
-void hC_hsp::setHesapAdColor(TaskItem* currentItem)
+void hC_main::setHesapAdColor(TaskItem* currentItem)
 {
-    enum hsptur {HesapAd, HesapAciklama, Topluhesap,
-                  HesapTuru, UstHesap, HesapKod, DBFile };
+//    enum hsptur {HesapAd, HesapAciklama, Topluhesap,
+//                  HesapTuru, UstHesap, HesapKod, DBFile };
 
 
 
@@ -570,15 +553,15 @@ void hC_hsp::setHesapAdColor(TaskItem* currentItem)
 
 
 
-    int i = currentItem->hesapAd ().indexOf ("<");
-    if (i == 10000000)
-    {
-    currentItem->setHesapAd(
-        QString("<font color=\"#00ff00\"><b>")+
-        currentItem->hesapAd()+
-        "</b></font>");
+//    int i = currentItem->hesapAd ().indexOf ("<");
+//    if (i == 1000)
+//    {
+//    currentItem->setHesapAd(
+//        QString("<font color=\"#00ff00\"><b>")+
+//        currentItem->hesapAd()+
+//        "</b></font>");
 
-    }
+//    }
 
 }
 
@@ -586,7 +569,7 @@ void hC_hsp::setHesapAdColor(TaskItem* currentItem)
 
 
 
-void hC_hsp::setCurrentIndex(const QModelIndex &index)
+void hC_main::setCurrentIndex(const QModelIndex &index)
 {
     //qDebug()<<"-----------    ::hChsp setcurindx";
     if (index.isValid()) {
@@ -603,7 +586,7 @@ void hC_hsp::setCurrentIndex(const QModelIndex &index)
 
 
 
-void hC_hsp::editAdd()
+void hC_main::editAdd()
 {
    //qDebug()<<"-----------    ::hChsp editAdd Yeni Hesap Ekleniyor...............";
     QModelIndex index = treeViewXML->currentIndex();
@@ -621,7 +604,7 @@ void hC_hsp::editAdd()
 
 
 
-void hC_hsp::editDelete()
+void hC_main::editDelete()
 {
     //qDebug()<<"-----------    ::hChsp editDelete";
     //qDebug() << "editdelete";
@@ -633,7 +616,7 @@ void hC_hsp::editDelete()
     int rows = modelXML->rowCount(index);
     if (modelXML->isTimedItem(index))
         stopTiming();
-
+qDebug()<<"--edit delete 01";
     QString message;
     if (rows == 0)
         message = tr("<p>HESAP SİL '%1'").arg(name);
@@ -645,15 +628,19 @@ void hC_hsp::editDelete()
                      "(ve alt hesaplara bağlı hesaplar)").arg(name).arg(rows);
     if (!AQP::okToDelete(this, tr("Delete"), message))
         return;
+    qDebug()<<"--edit delete 02";
     modelXML->removeRow(index.row(), index.parent());
+    qDebug()<<"--edit delete 03";
     setDirty();
+    qDebug()<<"--edit delete 04";
     updateUi();
+    qDebug()<<"--edit delete s0n";
 }
 
 
 
 
-void hC_hsp::editCut()
+void hC_main::editCut()
 {
     qDebug()<<"-----------    ::hChsp editCut";
     QModelIndex index = treeViewXML->currentIndex();
@@ -664,7 +651,7 @@ void hC_hsp::editCut()
 }
 
 
-void hC_hsp::editPaste()
+void hC_main::editPaste()
 {
     qDebug()<<"-----------    ::hChsp editpaste";
     setCurrentIndex(modelXML->paste(treeViewXML->currentIndex()));
@@ -673,7 +660,7 @@ void hC_hsp::editPaste()
 }
 
 
-void hC_hsp::editMoveUp()
+void hC_main::editMoveUp()
 {
     qDebug()<<"-----------    ::hChsp editmoveup";
     treeViewXML->setCurrentIndex(
@@ -683,7 +670,7 @@ void hC_hsp::editMoveUp()
 }
 
 
-void hC_hsp::editMoveDown()
+void hC_main::editMoveDown()
 {
     qDebug()<<"-----------    ::hChsp editmovedown";
 
@@ -694,7 +681,7 @@ void hC_hsp::editMoveDown()
 }
 
 
-void hC_hsp::editPromote()
+void hC_main::editPromote()
 {
     qDebug()<<"-----------    ::hChsp editPromote";
     QModelIndex index = treeViewXML->currentIndex();
@@ -706,7 +693,7 @@ void hC_hsp::editPromote()
 }
 
 
-void hC_hsp::editDemote()
+void hC_main::editDemote()
 {
 
     qDebug()<<"-----------    ::hChsp editDemote";
@@ -729,11 +716,11 @@ void hC_hsp::editDemote()
 
 
 
-bool hC_hsp::okToClearData()
+bool hC_main::okToClearData()
 {
    // qDebug()<<"-----------    ::hChsp OkToClearData";
     if (isWindowModified())
-        return AQP::okToClearData(&hC_hsp::fileSave, this,
+        return AQP::okToClearData(&hC_main::fileSave, this,
                                   tr("Sayfada değişiklikler var"),
                                   tr("Değişiklikler Kayıt Edilsin mi?"));
     return true;
@@ -741,7 +728,7 @@ bool hC_hsp::okToClearData()
 
 
 
-void hC_hsp::fileNew()
+void hC_main::fileNew()
 {
    // qDebug()<<"-----------    ::hChsp filenew XML";
 
@@ -756,7 +743,7 @@ void hC_hsp::fileNew()
 }
 
 
-void hC_hsp::fileOpen()
+void hC_main::fileOpen()
 {
    // qDebug()<<"-----------    ::hChsp fileOpen XML";
     //qDebug() << "fileopen";
@@ -773,7 +760,7 @@ void hC_hsp::fileOpen()
 }
 
 
-void hC_hsp::load(const QString &filename,
+void hC_main::load(const QString &filename,
                   const QStringList &taskPath)
 {
    // qDebug()<<"-----------    ::hChsp load XML";
@@ -794,7 +781,7 @@ void hC_hsp::load(const QString &filename,
         {
             //  treeViewXML->resizeColumnToContents(column);
             treeViewXML->setColumnWidth (0,200);
-            treeViewXML->setColumnWidth (1,200);
+            treeViewXML->setColumnWidth (1,100);
             treeViewXML->setColumnWidth (2,50);
             treeViewXML->setColumnWidth (3,100);
             treeViewXML->setColumnWidth (4,400);
@@ -831,7 +818,7 @@ void hC_hsp::load(const QString &filename,
 
 
 
-bool hC_hsp::fileSave()
+bool hC_main::fileSave()
 {
     qDebug()<<"-----------    ::hChsp fileSave XML";
     // qDebug() << "filesave";
@@ -859,7 +846,7 @@ bool hC_hsp::fileSave()
 }
 
 
-bool hC_hsp::fileSaveAs()
+bool hC_main::fileSaveAs()
 {
     qDebug()<<"-----------    ::hChsp fileSaveAs XML";
     // qDebug() << "filesaveas";
@@ -888,7 +875,7 @@ bool hC_hsp::fileSaveAs()
 ///
 ///
 
-void hC_hsp::closeEvent(QCloseEvent *event)
+void hC_main::closeEvent(QCloseEvent *event)
 {
     qDebug()<<"-----------    ::hChsp closeEvent"
            << " filename               : " << modelXML->filename()
@@ -917,20 +904,20 @@ void hC_hsp::closeEvent(QCloseEvent *event)
 
 
 
-void hC_hsp::stopTiming()
+void hC_main::stopTiming()
 {
     qDebug()<<"-----------    ::hChsp stoptiming";
     if (editStartOrStopAction->isChecked())
         editStartOrStopAction->trigger(); // stop the clock
 }
 
-void hC_hsp::hesapdegisti()
+void hC_main::hesapdegisti()
 {
-    qDebug()<<"-----------    hC_hsp::hesapdegisti() p";
+    qDebug()<<"-----------    hC_main::hesapdegisti() p";
 }
 
 
-void hC_hsp::editStartOrStop(bool start)
+void hC_main::editStartOrStop(bool start)
 {
     qDebug()<<"-----------    ::hChsp editStartOrStop";
     timer.stop();
@@ -971,7 +958,7 @@ void hC_hsp::editStartOrStop(bool start)
 }
 
 
-void hC_hsp::timeout()
+void hC_main::timeout()
 {
     qDebug()<<"-----------    ::hChsp timeout";
     modelXML->incrementEndTimeForTimedItem(timer.remainingTime ());
@@ -979,7 +966,7 @@ void hC_hsp::timeout()
 }
 
 
-void hC_hsp::updateIcon(int frame)
+void hC_main::updateIcon(int frame)
 {
     qDebug()<<"-----------    ::hChsp updateIcon";
     if (frame > LastFrame)
@@ -990,14 +977,14 @@ void hC_hsp::updateIcon(int frame)
 }
 
 
-void hC_hsp::editHideOrShowDoneTasks(bool hide)
+void hC_main::editHideOrShowDoneTasks(bool hide)
 {
     // qDebug()<<"-----------    ::hChsp edithideorshwdonetsks";
     hideOrShowDoneTask(hide, QModelIndex());
 }
 
 
-void hC_hsp::hideOrShowDoneTask(bool hide,
+void hC_main::hideOrShowDoneTask(bool hide,
                                 const QModelIndex &index)
 {
     // qDebug()<<"-----------    ::hChsp hideorshowdntsk";
@@ -1015,19 +1002,19 @@ void hC_hsp::hideOrShowDoneTask(bool hide,
 
 
 ///////////////////////////////////////////////////////////////
-/// \brief The HesapListesi class
+/// \brief The cL_HesapListesi class
 /// xml dosyasından hesap adları ve renklerini
 /// qpair olarak veren sınıf
 
 
-HesapListesi::PairHesapColor HesapListesi::getHesapListesi(QString hangihesaplar)
+cL_HesapListesi::PairHesapColor cL_HesapListesi::getHesapListesi(QString hangihesaplar)
 {
 
     setHesapListesi( hangihesaplar);
-    return hesapListesi;
+    return qp_hesapListesi;
 }
 
-HesapListesi::PairHesapColor HesapListesi::setHesapListesi(QString hangiListe)
+cL_HesapListesi::PairHesapColor cL_HesapListesi::setHesapListesi(QString hangiListe)
 {
     // set
     if (hangiListe == "")
@@ -1038,6 +1025,6 @@ HesapListesi::PairHesapColor HesapListesi::setHesapListesi(QString hangiListe)
 
     }
 
-    return hesapListesi;
+    return qp_hesapListesi;
 }
 

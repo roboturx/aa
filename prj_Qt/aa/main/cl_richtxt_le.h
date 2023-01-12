@@ -1,5 +1,5 @@
-#ifndef RICHTEXTLINEEDIT_HPP
-#define RICHTEXTLINEEDIT_HPP
+#ifndef CL_RICHTEXTLINEEDIT_HPP
+#define CL_RICHTEXTLINEEDIT_HPP
 /*
     Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
 */
@@ -11,12 +11,12 @@ class QAction;
 class QKeyEvent;
 
 
-class RichTextLineEdit : public QTextEdit
+class cL_RichTxt_LE : public QTextEdit
 {
     Q_OBJECT
 
 public:
-    explicit RichTextLineEdit(QWidget *parent=0);
+    explicit cL_RichTxt_LE(QWidget *parent=0);
 
     QString toSimpleHtml() const;
 
@@ -58,4 +58,4 @@ private:
     QAction *colorAction;
 };
 
-#endif // RICHTEXTLINEEDIT_HPP
+#endif // CL_RICHTEXTLINEEDIT_HPP

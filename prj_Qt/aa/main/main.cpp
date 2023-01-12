@@ -1,30 +1,63 @@
-﻿
-//#include "mw_main.h"
-#include "hsap/hc_hsp.h"
-#include "libs/globals.h"
-
-QString GLB_yetki = "İlk" ;
-
-void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+﻿#include "main.h"
+#include "main/hc_main.h"
 
 
 int main(int argc, char *argv[])
 {
-
-
-   // qInstallMessageHandler(myMessageOutput);
     QApplication a(argc, argv);
 
+    //---- Check for another instance code snippet ----
+    //tekInstance();
+
+    //---- set colors ----
+    palet();
+    a.setStyle(QStyleFactory::create("Fusion"));
+
+    //*MW_main w ;
+    hC_main w;
+
+    //---- splash screen ----
+
+    //QSize size = qApp->screens()[0]->size();
+    //w.resize(size*.6);
+    //   w.resize(size);
+    ///Ana Ekran ////////////////////////////
+    w.show ();
+    ///////////////////////////////// Login screen in mw_main
+    //*  w.login ();
+
+    //w.hide ();
+
+    return QApplication::exec();
+}
+
+void splash(QApplication &a, QMainWindow &w)
+{
+///////////////////// splash screen
+
+
+    QPixmap pixmap(":/rsm/ex.png");
+    QSplashScreen splash(pixmap);
+    splash.show();
+    // wait for just 5 second and then show main window
+    a.thread()->sleep(0);
+    a.processEvents();
+
+    //splash.finish(w);
+}
+
+
+void tekInstance()
+{
 ///////////////////////////////////////////////////////////////////
 ///
 ///
-    //---- Check for another instance code snippet ----
-    //GUID : Generated once for your application
-    // you could get one GUID here: http://www.guidgenerator.com/online-guid-generator.aspx
-    // QSharedMemory shared("63d60669-bb94-4a94-88bb-b964890a7e04");
+//---- Check for another instance code snippet ----
+//GUID : Generated once for your application
+// you could get one GUID here: http://www.guidgenerator.com/online-guid-generator.aspx
+// QSharedMemory shared("63d60669-bb94-4a94-88bb-b964890a7e04");
 
-
-   /* QSharedMemory shared("13454");
+ QSharedMemory shared("13454");
 
     if( !shared.create( 512, QSharedMemory::ReadWrite) )
     {
@@ -45,98 +78,7 @@ int main(int argc, char *argv[])
     //---- END OF Check for another instance code snippet ----
     // Only one instance is running, declare MainWindow
     // go to the Qt Event loop here
-*/
-    ///////////////////////////////////////////////////////////////////
-    ///
-    ///
-
-    //QTextCodec::codecForName("ISO-8859-9") ;
-
-    /////********************************
-//    QString CeruleanBlue ("#98B4D4");  // fg
-//    QString Turquoise    ("#45B8AC");  // fg
-//    QString Serenity     ("#92A8D1");  // fg
-//    QString AspenGold    ("#FFD662");  // fg
-//    QString LivingCoral  ("#FF6F61");  // fg
-//    //QString UltraViolet  ("#6B5B95"); // bg
-//    //QString BrownGranite ("#615550"); // bg
-//    QString Eclipse      ("#343148"); // bg
-//    QString EveningBlue  ("#2A293E"); // bg
-//    QString NavyPeony    ("#223A5E"); // bg
-
-//    QString LushMeadow   ("#006E51");
-//    QString ChiliPepper  ("#9B2335");
-
-//    QPalette dP;
-//    dP.setColor(QPalette::Window       , QColor(EveningBlue));// window
-
-//    dP.setColor(QPalette::WindowText   , QColor(AspenGold));// label fg
-//    dP.setColor(QPalette::Base         , QColor(Eclipse));// text arkaplan 25,25,25));
-//    dP.setColor(QPalette::AlternateBase, QColor(ChiliPepper));//
-//    dP.setColor(QPalette::ToolTipBase  , QColor(LushMeadow));//
-//    dP.setColor(QPalette::ToolTipText  , QColor(LivingCoral));//
-
-//    dP.setColor(QPalette::PlaceholderText, QColor(NavyPeony));  //
-//    dP.setColor(QPalette::Text           , QColor(LivingCoral));//
-
-//    dP.setColor(QPalette::Button         , QColor(Eclipse)); //
-////    dP.setColor(QPalette::Mid, QColor(EveningBlue));
-//    dP.setColor(QPalette::ButtonText     , QColor(Turquoise)); //
-//    dP.setColor(QPalette::BrightText     , QColor(Serenity) );           //
-
-//    dP.setColor(QPalette::Link, QColor(LushMeadow));
-//    dP.setColor(QPalette::LinkVisited , QColor(LushMeadow));
-
-//    dP.setColor(QPalette::Highlight, QColor(NavyPeony));
-//    dP.setColor(QPalette::HighlightedText, QColor(CeruleanBlue) );
-
-
-//#ifdef LINUX
-//    qApp->setPalette(dP);
-//#endif
-/////********************************
-
-   // qApp->setStyleSheet("QToolTip { color: #ffffff;
-    //background-color: #2a82da; border: 1px solid white; }");
-
-
-    ///////////////////////////////////////////////////////////////////
-    ///
-    ///
-    ///////////////////// splash screen
-    //
-    //
-    //    QPixmap pixmap(":/rsm/ex.png");
-    //    QSplashScreen splash(pixmap);
-    //    splash.show();
-    //    // wait for just 5 second and then show main window
-    //    a.thread()->sleep(0);
-    //    a.processEvents();
-    ///
-
-    ///////////////////////////////////////////////////////////////////
-    ///
-    ///
-    //QSize size = qApp->screens()[0]->size();
-
-    //*MW_main w ;
-    hC_hsp w;
-
-    //w.resize(size*.6);
- //   w.resize(size);
-    qDebug ()<<"main";
-    ///////////////////////////////// Menuyu göster
-    w.show ();
-    ///////////////////////////////// Login screen in mw_main
-  //*  w.login ();
-
-
-    //w.hide ();
-    //splash.finish(w);
-    return QApplication::exec();
 }
-
-
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -174,6 +116,68 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     fprintf(stderr, "%s \n(%d, %s)\n", localMsg.constData(), context.line, context.function);
 }
 
+
+
+
+
+
+void palet()
+{
+    ///////////////////////////////////////////////////////////////////
+    ///
+    ///
+
+    //QTextCodec::codecForName("ISO-8859-9") ;
+
+    ///********************************
+    QString CeruleanBlue ("#98B4D4");  // fg
+    QString Turquoise    ("#45B8AC");  // fg
+    QString Serenity     ("#92A8D1");  // fg
+    QString AspenGold    ("#FFD662");  // fg
+    QString LivingCoral  ("#FF6F61");  // fg
+    //QString UltraViolet  ("#6B5B95"); // bg
+    //QString BrownGranite ("#615550"); // bg
+    QString Eclipse      ("#343148"); // bg
+    QString EveningBlue  ("#2A293E"); // bg
+    QString NavyPeony    ("#223A5E"); // bg
+
+    QString LushMeadow   ("#006E51");
+    QString ChiliPepper  ("#9B2335");
+
+    QPalette dP;
+    dP.setColor(QPalette::Window       , QColor(EveningBlue));// window
+
+    dP.setColor(QPalette::WindowText   , QColor(AspenGold));// label fg
+    dP.setColor(QPalette::Base         , QColor(Eclipse));// text arkaplan 25,25,25));
+    dP.setColor(QPalette::AlternateBase, QColor(ChiliPepper));//
+    dP.setColor(QPalette::ToolTipBase  , QColor(LushMeadow));//
+    dP.setColor(QPalette::ToolTipText  , QColor(LivingCoral));//
+
+    dP.setColor(QPalette::PlaceholderText, QColor(NavyPeony));  //
+    dP.setColor(QPalette::Text           , QColor(LivingCoral));//
+
+    dP.setColor(QPalette::Button         , QColor(Eclipse)); //
+    //    dP.setColor(QPalette::Mid, QColor(EveningBlue));
+    dP.setColor(QPalette::ButtonText     , QColor(Turquoise)); //
+    dP.setColor(QPalette::BrightText     , QColor(Serenity) );           //
+
+    dP.setColor(QPalette::Link, QColor(LushMeadow));
+    dP.setColor(QPalette::LinkVisited , QColor(LushMeadow));
+
+    dP.setColor(QPalette::Highlight, QColor(NavyPeony));
+    dP.setColor(QPalette::HighlightedText, QColor(CeruleanBlue) );
+
+
+#ifdef LINUX
+    qApp->setPalette(dP);
+#endif
+    /////********************************
+
+    // qApp->setStyleSheet("QToolTip { color: #ffffff;
+    //background-color: #2a82da; border: 1px solid white; }");
+
+
+}
 
 //    a.setStyle(QStyleFactory::create("Fusion"));
 // "#14dce7"

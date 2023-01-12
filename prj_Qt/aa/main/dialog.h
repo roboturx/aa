@@ -5,7 +5,7 @@
 #define DIALOG_H
 
 #include "libs/globals.h"
-#include "hsap/dialogoptionswidget.h"
+#include "main/dialogoptionswidget.h"
 
 QT_BEGIN_NAMESPACE
 class QCheckBox;

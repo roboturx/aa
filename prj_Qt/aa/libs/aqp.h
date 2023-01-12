@@ -93,8 +93,8 @@ bool okToClearData(bool (T::*saveData)(), T *parent,
                                                   QMessageBox::ActionRole);
     QPushButton *bttn_vzg = messageBox->addButton("Vazgeç",
                                                  QMessageBox::RejectRole);
-    QPushButton *bttn_kme = messageBox->addButton("Kaydetmeden Çık",
-                                                  QMessageBox::ActionRole);
+    //QPushButton *bttn_kme = messageBox->addButton("Kaydetmeden Çık",
+     //                                             QMessageBox::ActionRole);
 
     //messageBox->addButton(QMessageBox::Save);
     //messageBox->addButton(QMessageBox::Discard);
