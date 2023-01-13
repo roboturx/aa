@@ -142,12 +142,120 @@ QVariant cL_TreeMdlXML::data(const QModelIndex &index,
             return static_cast<int>(Qt::AlignVCenter
                                     | Qt::AlignCenter);
         }
+        if (role == Qt::DecorationRole)
+           {
+            if ( index.column() == 0 )
+            {
+                if (item->hesapTuru() == "Şirket" )
+                {
+                    return QIcon(":/rsm/icon/folder.png" );
+                }
+                if (item->hesapTuru() == "Konum" )
+                {
+                    return QIcon(":/rsm/icon/locations.png");
+                }
+
+                if (item->hesapTuru() == "Şahıs" )
+                {
+                    return QIcon(":/rsm/icon/person.jpeg");
+                }
+                if (item->hesapTuru() == "Aktif Hesap" )
+                {
+                    return QIcon(":/rsm/icon/nv_ekle2.png");
+                }
+                if (item->hesapTuru() == "Pasif Hesap" )
+                {
+                    return QIcon(":/rsm/icon/nv_eklee.png" );
+                }
+                if (item->hesapTuru() == "Araç" )
+                {
+                    return QIcon(":/rsm/icon/bobcat2.png");
+                }
+                if (item->hesapTuru() == "Emtia" )
+                {
+                    return QIcon(":/rsm/icon/plt.png");
+                }
+                if (item->hesapTuru() == "GayriMenkul" )
+                {
+                    return QIcon(":/rsm/icon/home.svg" );
+                }
+                if (item->hesapTuru() == "Menkul" )
+                {
+                    return QIcon(":/rsm/icon/candlestick.png");
+                }
+            }
+        }
+
         if (role == Qt::DecorationRole
                 && index.column() == HesapKod
                 && timedItem
                 && item == timedItem
                 && !m_icon.isNull())
             return m_icon;
+
+        if (  role == Qt::FontRole )
+        {
+            QFont font;
+            font.setPointSize(12);
+            return font;
+        }
+
+        if (  role == Qt::ForegroundRole )
+            {
+                if ( index.column() == 0 || index.column() == 3)
+                {
+                    if (item->hesapTuru() == "Konum" )
+                    {
+                        return QVariant( QColor( "#DFCFBE" ) );
+                    }
+                    if (item->hesapTuru() == "Şirket" )
+                    {
+                        return QVariant( QColor( "#EFC050" ) );
+                    }
+                    if (item->hesapTuru() == "Şahıs" )
+                    {
+                        return QVariant( QColor("#FAE03C" ) );
+                    }
+                    if (item->hesapTuru() == "Aktif Hesap" )
+                    {
+                        return QVariant( QColor( "#7FCDCD" ) );
+                    }
+                    if (item->hesapTuru() == "Pasif Hesap" )
+                    {
+                        return QVariant( QColor( "#E15D44" ) );
+                    }
+                    if (item->hesapTuru() == "Araç" )
+                    {
+                        return QVariant( QColor( "#88B04B" ) );
+                    }
+                    if (item->hesapTuru() == "Emtia" )
+                    {
+                        return QVariant( QColor( "#FF6F61" ) );
+                    }
+                    if (item->hesapTuru() == "GayriMenkul" )
+                    {
+                        return QVariant( QColor( "#92B6D5" ) );
+                    }
+                    if (item->hesapTuru() == "Menkul" )
+                    {
+                        return QVariant( QColor( "#D8AE47" ) );
+                    }
+//                    if (item->hesapTuru() == "" )
+//                    {
+//                        return QVariant( QColor(  ) );
+//                    }
+//                    if (item->hesapTuru() == "" )
+//                    {
+//                        return QVariant( QColor(  ) );
+//                    }
+//                    if (item->hesapTuru() == "" )
+//                    {
+//                        return QVariant( QColor(  ) );
+//                    }
+                }
+                return QVariant( QColor( Qt::cyan ) );
+            }
+
     }
     return QVariant();
 }

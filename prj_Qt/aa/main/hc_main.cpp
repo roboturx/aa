@@ -522,8 +522,7 @@ void hC_main::updateUi()
         /// mevcut hesap kod ve ad değişkenlere
         /// hspdty kayıtlarında kullanılmak üzere
         ///
-        ///
-//        setHesapAdColor(currentItem);
+
         *pi_Hesap_Kod = currentItem->hesapKod ();
         *ps_Hesap_Ad = currentItem->hesapAd ();
         emit sgnHesap (pi_Hesap_Kod, ps_Hesap_Ad );
@@ -541,31 +540,6 @@ void hC_main::updateUi()
                           );
     }
 }
-
-void hC_main::setHesapAdColor(TaskItem* currentItem)
-{
-//    enum hsptur {HesapAd, HesapAciklama, Topluhesap,
-//                  HesapTuru, UstHesap, HesapKod, DBFile };
-
-
-
-//    modelXML->setData(treeViewXML->currentIndex (), QColor(0xff0000),Qt::ForegroundRole);
-
-
-
-//    int i = currentItem->hesapAd ().indexOf ("<");
-//    if (i == 1000)
-//    {
-//    currentItem->setHesapAd(
-//        QString("<font color=\"#00ff00\"><b>")+
-//        currentItem->hesapAd()+
-//        "</b></font>");
-
-//    }
-
-}
-
-
 
 
 

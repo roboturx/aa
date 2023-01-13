@@ -17,7 +17,7 @@
         <file>rsm/ex.ico</file>
         <file>rsm/worker.jpeg</file>
         <file>rsm/plt.png</file>
-        <file>rsm/images.jpeg</file>
+        <file>rsm/person.jpeg</file>
         <file>rsm/right.png</file>
         <file>rsm/left.png</file>
         <file>rsm/db.png</file>
@@ -44,13 +44,13 @@
         <file>rsm/icon/icons8-add-camera-64.png</file>
         <file>rsm/icon/icons8-slide-up-128.png</file>
         <file>rsm/icon/icons8-slide-up-64.png</file>
-        <file>rsm/bobcat (2).png</file>
+        <file>rsm/bobcat2.png</file>
         <file>rsm/bobcat.png</file>
         <file>rsm/delete.png</file>
         <file>rsm/edit.png</file>
         <file>rsm/ex.png</file>
         <file>rsm/excavator.png</file>
-        <file>rsm/folder-invoices-icon.png</file>
+        <file>rsm/folder.png</file>
         <file>rsm/icons8-add-camera-64.png</file>
         <file>rsm/nv_ekle.ico</file>
         <file>rsm/nv_ekle2.svg</file>
@@ -82,5 +82,8 @@
         <file>rsm/images/filesave.png</file>
         <file>rsm/images/icon.png</file>
         <file>renk.qss</file>
+        <file>rsm/icon/globe.png</file>
+        <file>rsm/icon/locations.png</file>
+        <file>rsm/icon/candlestick.png</file>
     </qresource>
 </RCC>
