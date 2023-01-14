@@ -236,6 +236,7 @@ void hC_main::createTABs(QString h_Turu)
 {
     qDebug()<<"tabs";
     w_TABs->clear ();
+     w_TABs->setIconSize(QSize (32,32));
     int frameStyle = QFrame::Sunken | QFrame::Panel;
 
     if (h_Turu == "Konum")
@@ -251,7 +252,7 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/locations.png"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/globe.png"));
 
     }
     if (h_Turu == "Şirket")
@@ -267,7 +268,7 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/.png"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/file.png"));
     }
     if (h_Turu == "Şahıs")
     {
@@ -282,6 +283,7 @@ void hC_main::createTABs(QString h_Turu)
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
         w_TABs->setTabIcon (0,QIcon(":/rsm/icon/.png"));
+
     }
     if (h_Turu == "Aktif Hesap")
     {
@@ -296,7 +298,8 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/.png"));
+        w_TABs->setTabIcon (0,
+                 QIcon(":/rsm/ico/plus-minus-green.ico"));
     }
     if (h_Turu == "Pasif Hesap")
     {
@@ -311,7 +314,8 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/.png"));
+        w_TABs->setTabIcon (0,
+                 QIcon(":/rsm/ico/plus-minus-red2.ico"));
     }
     if (h_Turu == "Araç")
     {
@@ -326,7 +330,7 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/bobcat2.png"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/ex.ico"));
     }
     if (h_Turu == "Malzeme")
     {

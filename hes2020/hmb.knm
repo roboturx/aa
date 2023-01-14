@@ -51,5 +51,8 @@
         <ACCOUNT AccNAME="Arsa Ali Paşa Ön" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="20" AccDBFile=""/>
         <ACCOUNT AccNAME="Arsa Lise Arkası" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="19" AccDBFile=""/>
         <ACCOUNT AccNAME="Daire Kümbet 3" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="23" AccDBFile=""/>
+        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Aktif Hesap" AccsPARENT="" AccCODE="45" AccDBFile=""/>
     </ACCOUNT>
+    <ACCOUNT AccNAME="aktif" AccNOTE="" AccIsBATCH="0" AccTYPE="Aktif Hesap" AccsPARENT="" AccCODE="46" AccDBFile=""/>
+    <ACCOUNT AccNAME="zfdbzdfzd" AccNOTE="" AccIsBATCH="0" AccTYPE="Pasif Hesap" AccsPARENT="" AccCODE="47" AccDBFile=""/>
 </KONUM>

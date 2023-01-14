@@ -85,5 +85,8 @@
         <file>rsm/icon/globe.png</file>
         <file>rsm/icon/locations.png</file>
         <file>rsm/icon/candlestick.png</file>
+        <file>rsm/ico/plus-minus-green.ico</file>
+        <file>rsm/ico/plus-minus.ico</file>
+        <file>rsm/ico/plusgreen.png</file>
     </qresource>
 </RCC>

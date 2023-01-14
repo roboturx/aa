@@ -161,11 +161,11 @@ QVariant cm_TreeXML::data(const QModelIndex &index,
                 }
                 if (item->hesapTuru() == "Aktif Hesap" )
                 {
-                    return QIcon(":/rsm/icon/nv_ekle2.png");
+                    return QIcon(":/rsm/ico/plus-minus-green.ico");
                 }
                 if (item->hesapTuru() == "Pasif Hesap" )
                 {
-                    return QIcon(":/rsm/icon/nv_eklee.png" );
+                    return QIcon(":/rsm/ico/plus-minus-red2.ico");
                 }
                 if (item->hesapTuru() == "Araç" )
                 {
