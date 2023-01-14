@@ -2,6 +2,7 @@
 <KONUM Sürüm="2.0">
     <ACCOUNT AccNAME="İstanbul" AccNOTE="" AccIsBATCH="0" AccTYPE="Konum" AccsPARENT="" AccCODE="8" AccDBFile="">
         <ACCOUNT AccNAME="Daire Kiralık" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="10" AccDBFile=""/>
+<<<<<<< HEAD
         <ACCOUNT AccNAME="Ayşe" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="44" AccDBFile=""/>
         <ACCOUNT AccNAME="Yasemin Balcı" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="9" AccDBFile=""/>
     </ACCOUNT>
@@ -51,5 +52,8 @@
         <ACCOUNT AccNAME="Arsa Ali Paşa Ön" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="20" AccDBFile=""/>
         <ACCOUNT AccNAME="Arsa Lise Arkası" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="19" AccDBFile=""/>
         <ACCOUNT AccNAME="Daire Kümbet 3" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="23" AccDBFile=""/>
+=======
+>>>>>>> 6b7c75f1e5cd013de9fd2b7dc16cf424f3a3a754
     </ACCOUNT>
+    <ACCOUNT AccNAME="wedwed" AccNOTE="" AccIsBATCH="0" AccTYPE="" AccsPARENT="" AccCODE="11" AccDBFile=""/>
 </KONUM>

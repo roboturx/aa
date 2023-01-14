@@ -1,14 +1,14 @@
-#ifndef DIALOGOPTIONSWIDGET_H
-#define DIALOGOPTIONSWIDGET_H
+#ifndef cw_Dlg_Options_H
+#define cw_Dlg_Options_H
 
 #include <QGroupBox>
 #include "libs/globals.h"
 
 
-class DialogOptionsWidget : public QGroupBox
+class cw_Dlg_Options : public QGroupBox
 {
 public:
-    explicit DialogOptionsWidget(QWidget *parent = nullptr);
+    explicit cw_Dlg_Options(QWidget *parent = nullptr);
 
     void addCheckBox(const QString &text, int value);
     void addSpacer();
@@ -20,4 +20,4 @@ private:
     QList<CheckBoxEntry> checkBoxEntries;
 };
 
-#endif // DIALOGOPTIONSWIDGET_H
+#endif // cw_Dlg_Options_H

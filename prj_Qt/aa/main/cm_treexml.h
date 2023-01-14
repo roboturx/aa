@@ -1,29 +1,29 @@
-#ifndef CL_TREEMDLXML_H
-#define CL_TREEMDLXML_H
+#ifndef cm_TreeXML_H
+#define cm_TreeXML_H
 /*
     Copyright (c) 2009-10 Qtrac Ltd. All rights reserved.
 */
 
 #include "libs/globals.h"
 #include "taskitem.h"
-#include "main/cl_dlg_cbox.h"
+#include "main/cm_dlg_cb_htur.h"
 
 
 class QMimeData;
 
-class cL_TreeMdlXML : public QAbstractItemModel
+class cm_TreeXML : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
-    explicit cL_TreeMdlXML(QObject *parent=0)
+    explicit cm_TreeXML(QObject *parent=0)
         : QAbstractItemModel(parent), timedItem(0), rootItem(0),
           cutItem(0)
     {
          pi_max_Hesap_ID = new quint64{};
         *pi_max_Hesap_ID = 0;
     }
-    ~cL_TreeMdlXML() { delete rootItem; delete cutItem; }
+    ~cm_TreeXML() { delete rootItem; delete cutItem; }
 
     quint64* pi_max_Hesap_ID; // for XML file rowid
     QComboBox* cB_hesapAds;   // for hesap ad
@@ -115,4 +115,4 @@ private:
     QList<TaskItem*> listXML;
 
 };
-#endif // CL_TREEMDLXML_H
+#endif // cm_TreeXML_H

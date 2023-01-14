@@ -1,19 +1,19 @@
-#include "cl_dlg_cbox.h"
+#include "cm_dlg_cb_htur.h"
 //#include "hsap/taskitem.h"
 
 #include <QComboBox>
 
-cL_dlG_CBox::cL_dlG_CBox(QObject *parent)
+cm_dlG_cb_hTur::cm_dlG_cb_hTur(QObject *parent)
     : QStyledItemDelegate(parent)
 {
 }
 
-cL_dlG_CBox::~cL_dlG_CBox()
+cm_dlG_cb_hTur::~cm_dlG_cb_hTur()
 {
 }
 
 
-QWidget *cL_dlG_CBox::createEditor(QWidget *parent,
+QWidget *cm_dlG_cb_hTur::createEditor(QWidget *parent,
               const QStyleOptionViewItem &option,
               const QModelIndex &index) const
 {
@@ -25,7 +25,6 @@ QWidget *cL_dlG_CBox::createEditor(QWidget *parent,
 
     cb->addItem(QString("Konum"));
     cb->setItemData(0,QColor(0xEFC050/*"#EFC050" mimoza*/),Qt::ForegroundRole);
-
     cb->addItem(QString("Şirket"));
     cb->setItemData(1,QColor(0x45B8AC/*"#45B8AC Turguoise"*/),Qt::ForegroundRole);
     cb->addItem(QString("Şahıs"));
@@ -49,7 +48,7 @@ QWidget *cL_dlG_CBox::createEditor(QWidget *parent,
 }
 
 
-void cL_dlG_CBox::setEditorData(QWidget *editor,
+void cm_dlG_cb_hTur::setEditorData(QWidget *editor,
                                       const QModelIndex &index) const
 {
     QComboBox *cb = qobject_cast<QComboBox *>(editor);
@@ -65,7 +64,7 @@ void cL_dlG_CBox::setEditorData(QWidget *editor,
 }
 
 
-void cL_dlG_CBox::setModelData(QWidget *editor,
+void cm_dlG_cb_hTur::setModelData(QWidget *editor,
                    QAbstractItemModel *model,
                   const QModelIndex &index) const
 {

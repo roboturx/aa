@@ -40,13 +40,13 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 contains(DEFINES, MAIN) {
 
 SOURCES +=       \
-    main/cl_dlg_cbox.cpp \
-    main/cl_treemdlxml.cpp \
+    main/cm_dlg_cb_htur.cpp \
+    main/cm_dlg_richtxt.cpp \
+    main/cm_treexml.cpp \
 main/main.cpp    \
 main/cw_hkk.cpp  \
 main/login.cpp   \
 main/dbase.cpp   \
-main/cl_dlg_richtxt.cpp   \
 main/taskitem.cpp          \
 libs/alt_key.cpp \
 libs/aqp.cpp     \
@@ -58,12 +58,12 @@ libs/VTKontrol.cpp
 #main/mw_main.cpp \
 
 HEADERS  +=    \
-    main/cl_dlg_cbox.h \
-    main/cl_treemdlxml.h \
+    main/cm_dlg_cb_htur.h \
+    main/cm_dlg_richtxt.h \
+    main/cm_treexml.h \
 main/cw_hkk.h  \
 main/login.h   \
 main/dbase.h   \
-main/cl_dlg_richtxt.h   \
 main/taskitem.h          \
 libs/VTKontTekkere.h \
 libs/VTKontrol.h \
@@ -187,9 +187,9 @@ DISTFILES += \ libs/mime.types
     # hesap/main/images/icon.png
 
 HEADERS += \
-    main/cl_richtxt_le.h \
+    main/cm_dlg_le_richtxt.h \
+    main/cw_dlg_options.h \
     main/dialog.h \
-    main/dialogoptionswidget.h \
     hsap/proxymodel.h \
     hsap/uniqueproxymodel.h \
     hsap/uniqueproxymodel.h \
@@ -197,9 +197,19 @@ HEADERS += \
     main/main.h
 
 SOURCES += \
+    main/cm_dlg_le_richtxt.cpp \
+    main/cw_dlg_options.cpp \
     main/dialog.cpp \
-    main/cl_richtxt_le.cpp \
-    main/dialogoptionswidget.cpp \
     hsap/proxymodel.cpp \
     hsap/uniqueproxymodel.cpp \
     main/hc_main.cpp
+
+# kısaltmalar
+# cm - class model
+# cw - class widget
+# cb - combobox
+# dlg - dialog
+# dlG - delegate
+# le - lineedit
+
+

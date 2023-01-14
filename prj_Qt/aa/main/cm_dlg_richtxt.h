@@ -1,5 +1,5 @@
-#ifndef CL_DLG_RICHTXT_H
-#define CL_DLG_RICHTXT_H
+#ifndef cm_dlG_RichTxt_H
+#define cm_dlG_RichTxt_H
 
 #include <QCheckBox>
 #include <QLabel>
@@ -12,13 +12,13 @@ class QPainter;
 class QStyleOptionViewItem;
 
 
-class cL_dlG_RichTxt : public QStyledItemDelegate
+class cm_dlG_RichTxt : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    explicit cL_dlG_RichTxt(QObject *parent=0);
-    ~cL_dlG_RichTxt() { delete checkbox; delete label; }
+    explicit cm_dlG_RichTxt(QObject *parent=0);
+    ~cm_dlG_RichTxt() { delete checkbox; delete label; }
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const;
@@ -44,4 +44,4 @@ private:
     mutable QTextDocument document;
 };
 
-#endif // CL_DLG_RICHTXT_H
+#endif // cm_dlG_RichTxt_H

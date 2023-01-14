@@ -5,7 +5,7 @@
 #define DIALOG_H
 
 #include "libs/globals.h"
-#include "main/dialogoptionswidget.h"
+#include "main/cw_dlg_options.h"
 
 QT_BEGIN_NAMESPACE
 class QCheckBox;
@@ -66,9 +66,9 @@ private:
     QLabel *warningLabel;
     QLabel *errorLabel;
     QErrorMessage *errorMessageDialog;
-    DialogOptionsWidget *fileDialogOptionsWidget;
-    DialogOptionsWidget *colorDialogOptionsWidget;
-    DialogOptionsWidget *fontDialogOptionsWidget;
+    cw_Dlg_Options *fileDialogOptionsWidget;
+    cw_Dlg_Options *colorDialogOptionsWidget;
+    cw_Dlg_Options *fontDialogOptionsWidget;
     QString openFilesPath;
 };
 

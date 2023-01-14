@@ -1,4 +1,4 @@
-#include "cl_treemdlxml.h"
+#include "cm_treexml.h"
 
 /// fields :
 /// change these for data manipulation
@@ -52,7 +52,7 @@ const QString MimeType = "application/vnd.qtrac.xml.task.z";
 /// make editable, checkable, drag-dropable
 /// variables for XML file
 ///
-Qt::ItemFlags cL_TreeMdlXML::flags(const QModelIndex &index) const
+Qt::ItemFlags cm_TreeXML::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags theFlags = QAbstractItemModel::flags(index);
 
@@ -90,7 +90,7 @@ Qt::ItemFlags cL_TreeMdlXML::flags(const QModelIndex &index) const
 /// data
 /// variables for XML file
 ///
-QVariant cL_TreeMdlXML::data(const QModelIndex &index,
+QVariant cm_TreeXML::data(const QModelIndex &index,
                                    int role) const
 {
    // qDebug()<<"::Xmdl data";
@@ -264,7 +264,7 @@ QVariant cL_TreeMdlXML::data(const QModelIndex &index,
 /// headers
 /// variables for XML file
 ///
-QVariant cL_TreeMdlXML::headerData(int section,
+QVariant cm_TreeXML::headerData(int section,
                                Qt::Orientation orientation, int role) const
 {
    // qDebug()<<"::Xmdl headerdata";
@@ -292,7 +292,7 @@ QVariant cL_TreeMdlXML::headerData(int section,
 /// setdata
 /// variables for XML file
 ///
-bool cL_TreeMdlXML::setData(const QModelIndex &index,
+bool cm_TreeXML::setData(const QModelIndex &index,
                         const QVariant &value, int role)
 {
 //    qDebug()<<"::Xmdl setdata";
@@ -349,7 +349,7 @@ bool cL_TreeMdlXML::setData(const QModelIndex &index,
 /// insertrows
 /// variables for XML file
 ///
-bool cL_TreeMdlXML::insertRows(int row, int count,
+bool cm_TreeXML::insertRows(int row, int count,
                            const QModelIndex &parent)
 {
     qDebug()<<"::Xmdl insertrows";
@@ -377,7 +377,7 @@ bool cL_TreeMdlXML::insertRows(int row, int count,
 
         parentItem->insertChild(row, item);
     }
-//    qDebug() << "cL_TreeMdlXML.cpp-::insertRows(*****************"
+//    qDebug() << "cm_TreeXML.cpp-::insertRows(*****************"
 //                "end***************************";
     endInsertRows();
     return true;
@@ -388,7 +388,7 @@ bool cL_TreeMdlXML::insertRows(int row, int count,
 /// changing
 /// variables for XML file
 ///
-void cL_TreeMdlXML::announceItemChanged(TaskItem *item)
+void cm_TreeXML::announceItemChanged(TaskItem *item)
 {
     qDebug()<<"::Xmdl announceitemchanged";
 
@@ -413,7 +413,7 @@ void cL_TreeMdlXML::announceItemChanged(TaskItem *item)
 /// read from XML
 /// variables for XML file
 ///
-void cL_TreeMdlXML::readTasks(QXmlStreamReader *reader,
+void cm_TreeXML::readTasks(QXmlStreamReader *reader,
                           TaskItem *task)
 {
    // qDebug()<<"::Xmdl readtasks";
@@ -496,7 +496,7 @@ void cL_TreeMdlXML::readTasks(QXmlStreamReader *reader,
 /// save XML file
 /// variables for XML file
 ///
-void cL_TreeMdlXML::save(const QString &filename)
+void cm_TreeXML::save(const QString &filename)
 {
     qDebug()<<"::Xmdl save";
     if (!filename.isEmpty())
@@ -521,7 +521,7 @@ void cL_TreeMdlXML::save(const QString &filename)
 /// write to XML file
 /// variables for XML file
 ///
-void cL_TreeMdlXML::writeTaskAndChildren(QXmlStreamWriter *writer,
+void cm_TreeXML::writeTaskAndChildren(QXmlStreamWriter *writer,
                                      TaskItem *task) const
 {
     qDebug()<<"::Xmdl writetaskandchildren";
@@ -571,7 +571,7 @@ void cL_TreeMdlXML::writeTaskAndChildren(QXmlStreamWriter *writer,
 
 
 
-int cL_TreeMdlXML::rowCount(const QModelIndex &parent) const
+int cm_TreeXML::rowCount(const QModelIndex &parent) const
 {
    // qDebug()<<"::Xmdl rowcount";
     if (parent.isValid() && parent.column() != 0)
@@ -581,14 +581,14 @@ int cL_TreeMdlXML::rowCount(const QModelIndex &parent) const
 }
 
 
-int cL_TreeMdlXML::columnCount(const QModelIndex &parent) const
+int cm_TreeXML::columnCount(const QModelIndex &parent) const
 {
    // qDebug()<<"::Xmdl columncount";
     return parent.isValid() && parent.column() != 0 ? 0 : ColumnCount;
 }
 
 
-QModelIndex cL_TreeMdlXML::index(int row, int column,
+QModelIndex cm_TreeXML::index(int row, int column,
                              const QModelIndex &parent) const
 {
   //  qDebug()<<"::Xmdl index";
@@ -603,7 +603,7 @@ QModelIndex cL_TreeMdlXML::index(int row, int column,
 }
 
 
-TaskItem *cL_TreeMdlXML::itemForIndex(const QModelIndex &index) const
+TaskItem *cm_TreeXML::itemForIndex(const QModelIndex &index) const
 {
    // qDebug()<<"::Xmdl itemforindex";
     if (index.isValid()) {
@@ -615,7 +615,7 @@ TaskItem *cL_TreeMdlXML::itemForIndex(const QModelIndex &index) const
 }
 
 
-QModelIndex cL_TreeMdlXML::parent(const QModelIndex &index) const
+QModelIndex cm_TreeXML::parent(const QModelIndex &index) const
 {
     //qDebug()<<"::Xmdl parent ";
     if (!index.isValid())
@@ -635,7 +635,7 @@ QModelIndex cL_TreeMdlXML::parent(const QModelIndex &index) const
 
 
 
-bool cL_TreeMdlXML::removeRows(int row, int count,
+bool cm_TreeXML::removeRows(int row, int count,
                            const QModelIndex &parent)
 {
     qDebug()<<"::Xmdl removeerows";
@@ -651,14 +651,14 @@ bool cL_TreeMdlXML::removeRows(int row, int count,
 }
 
 
-QStringList cL_TreeMdlXML::mimeTypes() const
+QStringList cm_TreeXML::mimeTypes() const
 {
     qDebug()<<"::Xmdl mimetypes";
     return QStringList() << MimeType;
 }
 
 
-QMimeData *cL_TreeMdlXML::mimeData(const QModelIndexList &indexes) const
+QMimeData *cm_TreeXML::mimeData(const QModelIndexList &indexes) const
 {
     qDebug()<<"::Xmdl mimedata";
     Q_ASSERT(indexes.count());
@@ -677,7 +677,7 @@ QMimeData *cL_TreeMdlXML::mimeData(const QModelIndexList &indexes) const
 }
 
 
-bool cL_TreeMdlXML::dropMimeData(const QMimeData *mimeData,
+bool cm_TreeXML::dropMimeData(const QMimeData *mimeData,
                              Qt::DropAction action, int row,
                              int column,
                              const QModelIndex &parent)
@@ -704,7 +704,7 @@ bool cL_TreeMdlXML::dropMimeData(const QMimeData *mimeData,
 }
 
 
-bool cL_TreeMdlXML::isChecked(const QModelIndex &index) const
+bool cm_TreeXML::isChecked(const QModelIndex &index) const
 {
     qDebug()<<"::Xmdl ischecked";
     if (!index.isValid())
@@ -713,7 +713,7 @@ bool cL_TreeMdlXML::isChecked(const QModelIndex &index) const
 }
 
 
-QModelIndex cL_TreeMdlXML::moveUp(const QModelIndex &index)
+QModelIndex cm_TreeXML::moveUp(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl moveup";
     if (!index.isValid() || index.row() <= 0)
@@ -726,7 +726,7 @@ QModelIndex cL_TreeMdlXML::moveUp(const QModelIndex &index)
 }
 
 
-QModelIndex cL_TreeMdlXML::moveItem(TaskItem *parent, int oldRow,
+QModelIndex cm_TreeXML::moveItem(TaskItem *parent, int oldRow,
                                 int newRow)
 {
     qDebug()<<"::Xmdl moveitem";
@@ -741,7 +741,7 @@ QModelIndex cL_TreeMdlXML::moveItem(TaskItem *parent, int oldRow,
     return newIndex;
 }
 
-QList<TaskItem *> cL_TreeMdlXML::getListXML() const
+QList<TaskItem *> cm_TreeXML::getListXML() const
 {
     foreach (TaskItem* item, listXML)
     {
@@ -751,13 +751,13 @@ QList<TaskItem *> cL_TreeMdlXML::getListXML() const
     return listXML;
 }
 
-void cL_TreeMdlXML::setListXML(QList<TaskItem*> newListXML)
+void cm_TreeXML::setListXML(QList<TaskItem*> newListXML)
 {
     listXML = newListXML;
 }
 
 
-QModelIndex cL_TreeMdlXML::moveDown(const QModelIndex &index)
+QModelIndex cm_TreeXML::moveDown(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl moveedown";
     if (!index.isValid())
@@ -772,7 +772,7 @@ QModelIndex cL_TreeMdlXML::moveDown(const QModelIndex &index)
 }
 
 
-QModelIndex cL_TreeMdlXML::cut(const QModelIndex &index)
+QModelIndex cm_TreeXML::cut(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl cut";
     if (!index.isValid())
@@ -803,7 +803,7 @@ QModelIndex cL_TreeMdlXML::cut(const QModelIndex &index)
 }
 
 
-QModelIndex cL_TreeMdlXML::paste(const QModelIndex &index)
+QModelIndex cm_TreeXML::paste(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl paste";
     if (!index.isValid() || !cutItem)
@@ -822,7 +822,7 @@ QModelIndex cL_TreeMdlXML::paste(const QModelIndex &index)
 }
 
 
-QModelIndex cL_TreeMdlXML::promote(const QModelIndex &index)
+QModelIndex cm_TreeXML::promote(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl prğmğte";
     if (!index.isValid())
@@ -847,7 +847,7 @@ QModelIndex cL_TreeMdlXML::promote(const QModelIndex &index)
 }
 
 
-QModelIndex cL_TreeMdlXML::demote(const QModelIndex &index)
+QModelIndex cm_TreeXML::demote(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl demote";
     if (!index.isValid())
@@ -871,7 +871,7 @@ QModelIndex cL_TreeMdlXML::demote(const QModelIndex &index)
 }
 
 
-void cL_TreeMdlXML::setTimedItem(const QModelIndex &index)
+void cm_TreeXML::setTimedItem(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl settimeditem";
     clearTimedItem();
@@ -881,7 +881,7 @@ void cL_TreeMdlXML::setTimedItem(const QModelIndex &index)
 }
 
 
-void cL_TreeMdlXML::clearTimedItem()
+void cm_TreeXML::clearTimedItem()
 {
     qDebug()<<"::Xmdl cleartimeditem";
     if (timedItem) {
@@ -892,7 +892,7 @@ void cL_TreeMdlXML::clearTimedItem()
 }
 
 
-bool cL_TreeMdlXML::isTimedItem(const QModelIndex &index)
+bool cm_TreeXML::isTimedItem(const QModelIndex &index)
 {
     qDebug()<<"::Xmdl istimeedata";
     return timedItem && itemForIndex(index) == timedItem;
@@ -900,7 +900,7 @@ bool cL_TreeMdlXML::isTimedItem(const QModelIndex &index)
 
 
 
-void cL_TreeMdlXML::addDateTimeToTimedItem(const QDateTime &start,
+void cm_TreeXML::addDateTimeToTimedItem(const QDateTime &start,
                                        const QDateTime &end)
 {
     qDebug()<<"::Xmdl adddatetime";
@@ -911,7 +911,7 @@ void cL_TreeMdlXML::addDateTimeToTimedItem(const QDateTime &start,
 }
 
 
-void cL_TreeMdlXML::setIconForTimedItem(const QIcon &icon)
+void cm_TreeXML::setIconForTimedItem(const QIcon &icon)
 {
     qDebug()<<"::Xmdl seticonfor ";
     m_icon = icon;
@@ -920,7 +920,7 @@ void cL_TreeMdlXML::setIconForTimedItem(const QIcon &icon)
 }
 
 
-void cL_TreeMdlXML::incrementEndTimeForTimedItem(int msec)
+void cm_TreeXML::incrementEndTimeForTimedItem(int msec)
 {
     qDebug()<<"::Xmdl incrementendtime";
     if (timedItem) {
@@ -930,7 +930,7 @@ void cL_TreeMdlXML::incrementEndTimeForTimedItem(int msec)
 }
 
 
-void cL_TreeMdlXML::clear()
+void cm_TreeXML::clear()
 {
     qDebug()<<"::Xmdl clear";
     delete rootItem;
@@ -944,7 +944,7 @@ void cL_TreeMdlXML::clear()
 }
 
 
-void cL_TreeMdlXML::load(const QString &filename)
+void cm_TreeXML::load(const QString &filename)
 {
     qDebug()<<"::Xmdl load";
 
@@ -957,7 +957,7 @@ void cL_TreeMdlXML::load(const QString &filename)
         throw AQP::Error(file.errorString());
 
     clear();
-    qDebug () << "cL_TreeMdlXML::load     new root item";
+    qDebug () << "cm_TreeXML::load     new root item";
     rootItem = new TaskItem("ROO","ROO",0,"ROO","ROOT",0);
 
 
@@ -971,7 +971,7 @@ void cL_TreeMdlXML::load(const QString &filename)
 }
 
 
-QStringList cL_TreeMdlXML::pathForIndex(const QModelIndex &index) const
+QStringList cm_TreeXML::pathForIndex(const QModelIndex &index) const
 {
     //qDebug()<<"::Xmdl pathforindex ";
     QStringList path;
@@ -984,14 +984,14 @@ QStringList cL_TreeMdlXML::pathForIndex(const QModelIndex &index) const
 }
 
 
-QModelIndex cL_TreeMdlXML::indexForPath(const QStringList &path) const
+QModelIndex cm_TreeXML::indexForPath(const QStringList &path) const
 {
     //qDebug()<<"::Xmdl indexforpath";
     return indexForPath(QModelIndex(), path);
 }
 
 
-QModelIndex cL_TreeMdlXML::indexForPath(const QModelIndex &parent,
+QModelIndex cm_TreeXML::indexForPath(const QModelIndex &parent,
                                     const QStringList &path) const
 {
     //qDebug()<<"::Xmdl indexforpath xxx";

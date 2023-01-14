@@ -1,18 +1,18 @@
-#ifndef CL_DLG_CBOX_H
-#define CL_DLG_CBOX_H
+#ifndef cm_dlG_cb_hTur_H
+#define cm_dlG_cb_hTur_H
 
 #include <QStyledItemDelegate>
 //#include <QSqlQuery>
 
 //class cls_Hesaplar;
 
-class cL_dlG_CBox : public QStyledItemDelegate
+class cm_dlG_cb_hTur : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
 
-    cL_dlG_CBox(QObject *parent = nullptr);
-    ~cL_dlG_CBox();
+    cm_dlG_cb_hTur(QObject *parent = nullptr);
+    ~cm_dlG_cb_hTur();
 
     QWidget *createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,
@@ -43,4 +43,4 @@ private:
     QMap<QString*, qint64> map_hesapAdKod;
 };
 
-#endif // CL_DLG_CBOX_H
+#endif // cm_dlG_cb_hTur_H
