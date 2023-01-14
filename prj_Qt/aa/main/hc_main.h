@@ -1,23 +1,14 @@
 #ifndef hC_main_H
 #define hC_main_H
 
-#include "main/dialogoptionswidget.h"
+#include "main/cm_dlg_cb_htur.h"
+#include "main/cm_treexml.h"
+#include "main/cw_dlg_options.h"
 #include "main/taskitem.h"
-//#include "libs/globals.h"
+#include "libs/globals.h"
 //#include "libs/alt_key.h"
 //#include "cL_dlG_RichTxt.h"
-#include "cl_treemdlxml.h"
-
-class QString;
-class QAction;
-class QStandardItem;
-class StandardItem;
-class QModelIndex;
-class QTreeView;
-
-class cls_mdl_TreeFromXml;
-
-
+//#include "cm_treexml.h"
 
 
 class hC_main : public QMainWindow
@@ -29,28 +20,31 @@ public:
 
 
 
-    void setHesapAdColor(TaskItem *item);
-    cL_dlG_CBox *cbdlgt;
+   // void setHesapAdColor(TaskItem *item);
+    cm_dlG_cb_hTur *cbdlgt;
 
-    QString* ps_Hesap_Ad;
+
     quint64* pi_Hesap_Kod;
+    QString* ps_Hesap_Ad;
+   // QString* ps_Hesap_Turu;
 
     QLabel * lB_Hesap;
     QLabel *integerLabel;
     QLabel *colorLabel ;
     QPushButton *colorButton;
 
-    cL_TreeMdlXML *modelXML;
+    cm_TreeXML *modelXML;
     QTreeView *treeViewXML;
     QWidget * wdgt_central;
     QWidget * wdgt_hesap;
-    DialogOptionsWidget *colorDialogOptionsWidget;
+    cw_Dlg_Options *colorDialogOptionsWidget;
 
     TaskItem *getCurrentItem();
-
+    QTabWidget *w_TABs ;
 
 private:
     void createGui();
+    void createTABs(QString h_Turu);
     void createModelViewDelegate();
     void createActions();
     void createMenusAndToolBar();
@@ -91,7 +85,9 @@ protected:
     void closeEvent(QCloseEvent*);
 
 signals:
-    void sgnHesap(quint64* m_Hesap_Kod, QString* m_Hesap_Ad);
+    void sgnHesap(quint64* m_Hesap_Kod,
+                  QString* m_Hesap_Ad/*,
+                  QString* m_Hesap_Turu*/);
 
 
 public slots:

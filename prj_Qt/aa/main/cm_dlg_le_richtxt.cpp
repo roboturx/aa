@@ -1,10 +1,10 @@
 
 #include "libs/globals.h"
 #include "libs/alt_key.h"
-#include "main/cl_richtxt_le.h"
+#include "main/cm_dlg_le_richtxt.h"
 #include "main/dialog.h"
 
-cL_RichTxt_LE::cL_RichTxt_LE(QWidget *parent)
+cm_dlG_le_RichTxt::cm_dlG_le_RichTxt(QWidget *parent)
     : QTextEdit(parent)
 {
     setLineWrapMode(QTextEdit::NoWrap);
@@ -23,7 +23,7 @@ cL_RichTxt_LE::cL_RichTxt_LE(QWidget *parent)
 }
 
 
-void cL_RichTxt_LE::createShortcuts()
+void cm_dlG_le_RichTxt::createShortcuts()
 {
     QShortcut *boldShortcut = new QShortcut(QKeySequence::Bold,
                                             this, SLOT(toggleBold()));
@@ -39,7 +39,7 @@ void cL_RichTxt_LE::createShortcuts()
 }
 
 
-void cL_RichTxt_LE::createActions()
+void cm_dlG_le_RichTxt::createActions()
 {
     boldAction = createAction(tr("Bold"), Bold);
     italicAction = createAction(tr("Italic"), Italic);
@@ -61,7 +61,7 @@ void cL_RichTxt_LE::createActions()
 }
 
 
-QAction *cL_RichTxt_LE::createAction(const QString &text,
+QAction *cm_dlG_le_RichTxt::createAction(const QString &text,
                                         const QVariant &data)
 {
     QAction *action = new QAction(text, this);
@@ -79,7 +79,7 @@ QAction *cL_RichTxt_LE::createAction(const QString &text,
 }
 
 
-QMenu *cL_RichTxt_LE::createColorMenu()
+QMenu *cm_dlG_le_RichTxt::createColorMenu()
 {
     QMenu *colorMenu = new QMenu(this);
     QPixmap pixmap(22, 22);
@@ -160,7 +160,7 @@ QMenu *cL_RichTxt_LE::createColorMenu()
 }
 
 
-QSize cL_RichTxt_LE::sizeHint() const
+QSize cm_dlG_le_RichTxt::sizeHint() const
 {
     QFontMetrics fm(font());
     return QSize(document()->idealWidth() + fm.horizontalAdvance("W"),
@@ -168,14 +168,14 @@ QSize cL_RichTxt_LE::sizeHint() const
 }
 
 
-QSize cL_RichTxt_LE::minimumSizeHint() const
+QSize cm_dlG_le_RichTxt::minimumSizeHint() const
 {
     QFontMetrics fm(font());
     return QSize(fm.horizontalAdvance("WWWW"), fm.height() + 5);
 }
 
 
-void cL_RichTxt_LE::keyPressEvent(QKeyEvent *event)
+void cm_dlG_le_RichTxt::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Enter ||
             event->key() == Qt::Key_Return)
@@ -188,7 +188,7 @@ void cL_RichTxt_LE::keyPressEvent(QKeyEvent *event)
 }
 
 
-void cL_RichTxt_LE::customContextMenuRequested(
+void cm_dlG_le_RichTxt::customContextMenuRequested(
         const QPoint &pos)
 {
     updateContextMenuActions();
@@ -200,7 +200,7 @@ void cL_RichTxt_LE::customContextMenuRequested(
 
 
 
-void cL_RichTxt_LE::updateContextMenuActions()
+void cm_dlG_le_RichTxt::updateContextMenuActions()
 {
     boldAction->setChecked(fontWeight() > QFont::Normal);
     italicAction->setChecked(fontItalic());
@@ -215,7 +215,7 @@ void cL_RichTxt_LE::updateContextMenuActions()
 }
 
 
-void cL_RichTxt_LE::applyTextEffect()
+void cm_dlG_le_RichTxt::applyTextEffect()
 {
     if (QAction *action = qobject_cast<QAction*>(sender()))
     {
@@ -249,7 +249,7 @@ void cL_RichTxt_LE::applyTextEffect()
 }
 
 
-void cL_RichTxt_LE::applyColor(QAction *action)
+void cm_dlG_le_RichTxt::applyColor(QAction *action)
 {
     qDebug() << "applycolor";
     Dialog *dialog = new Dialog;
@@ -268,7 +268,7 @@ void cL_RichTxt_LE::applyColor(QAction *action)
 }
 
 
-QString cL_RichTxt_LE::toSimpleHtml() const
+QString cm_dlG_le_RichTxt::toSimpleHtml() const
 {
     QString html;
     for (QTextBlock block = document()->begin(); block.isValid();

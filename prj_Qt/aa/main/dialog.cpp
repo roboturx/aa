@@ -149,7 +149,7 @@ Dialog::Dialog(QWidget *parent)
     layout->setColumnStretch(1, 1);
     layout->addWidget(colorButton, 0, 0);
     layout->addWidget(colorLabel, 0, 1);
-    colorDialogOptionsWidget = new DialogOptionsWidget;
+    colorDialogOptionsWidget = new cw_Dlg_Options;
     colorDialogOptionsWidget->addCheckBox(doNotUseNativeDialog,
                                           QColorDialog::DontUseNativeDialog);
     colorDialogOptionsWidget->addCheckBox(tr("Show alpha channel") , QColorDialog::ShowAlphaChannel);
@@ -164,7 +164,7 @@ Dialog::Dialog(QWidget *parent)
     layout->setColumnStretch(1, 1);
     layout->addWidget(fontButton, 0, 0);
     layout->addWidget(fontLabel, 0, 1);
-    fontDialogOptionsWidget = new DialogOptionsWidget;
+    fontDialogOptionsWidget = new cw_Dlg_Options;
     fontDialogOptionsWidget->addCheckBox(doNotUseNativeDialog, QFontDialog::DontUseNativeDialog);
     fontDialogOptionsWidget->addCheckBox(tr("Show scalable fonts"), QFontDialog::ScalableFonts);
     fontDialogOptionsWidget->addCheckBox(tr("Show non scalable fonts"), QFontDialog::NonScalableFonts);
@@ -186,7 +186,7 @@ Dialog::Dialog(QWidget *parent)
     layout->addWidget(openFileNamesLabel, 2, 1);
     layout->addWidget(saveFileNameButton, 3, 0);
     layout->addWidget(saveFileNameLabel, 3, 1);
-    fileDialogOptionsWidget = new DialogOptionsWidget;
+    fileDialogOptionsWidget = new cw_Dlg_Options;
     fileDialogOptionsWidget->addCheckBox(doNotUseNativeDialog, QFileDialog::DontUseNativeDialog);
     fileDialogOptionsWidget->addCheckBox(tr("Show directories only"), QFileDialog::ShowDirsOnly);
     fileDialogOptionsWidget->addCheckBox(tr("Do not resolve symlinks"), QFileDialog::DontResolveSymlinks);

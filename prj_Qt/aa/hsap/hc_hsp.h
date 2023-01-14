@@ -6,7 +6,7 @@
 //#include "libs/globals.h"
 //#include "libs/alt_key.h"
 //#include "cls_dlgt_richtext.h"
-#include "main/cl_treemdlxml.h"
+#include "main/cm_treexml.h"
 
 
 class QAction;
