@@ -144,11 +144,11 @@ void hC_main::createModelViewDelegate()
 
 
     // xx ile gönderilen renk kodu column 0 için text rengi olur
-    int xx= {0x00ff00};
-    cL_dlG_ColmColor *clmColor =
-        new cL_dlG_ColmColor(xx,treeViewXML->currentIndex (),this);
+//    int xx= {0x00ff00};
+//    cL_dlG_ColmColor *clmColor =
+//        new cL_dlG_ColmColor(xx,treeViewXML->currentIndex (),this);
 
-    treeViewXML->setItemDelegateForColumn(0, clmColor);
+//    treeViewXML->setItemDelegateForColumn(0, clmColor);
 
     treeViewXML->setItemDelegateForColumn(1, new cm_dlG_RichTxt);
 
@@ -234,9 +234,9 @@ void hC_main::createGui()
 
 void hC_main::createTABs(QString h_Turu)
 {
-    qDebug()<<"tabs";
+
     w_TABs->clear ();
-     w_TABs->setIconSize(QSize (32,32));
+     w_TABs->setIconSize(QSize (28,28));
     int frameStyle = QFrame::Sunken | QFrame::Panel;
 
     if (h_Turu == "Konum")
@@ -282,7 +282,7 @@ void hC_main::createTABs(QString h_Turu)
         layout->addWidget(integerLabel, 0, 1);
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/.png"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/person.jpeg"));
 
     }
     if (h_Turu == "Aktif Hesap")
@@ -315,7 +315,7 @@ void hC_main::createTABs(QString h_Turu)
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
         w_TABs->setTabIcon (0,
-                 QIcon(":/rsm/ico/plus-minus-red2.ico"));
+                 QIcon(":/rsm/ico/plus-minus-red.ico"));
     }
     if (h_Turu == "Araç")
     {
@@ -330,11 +330,10 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/ex.ico"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/ex.ico"));
     }
     if (h_Turu == "Malzeme")
     {
-        integerLabel = new QLabel("h_Turu", w_TABs);
         integerLabel->setFrameStyle(frameStyle);
         QWidget *page1 = new QWidget(w_TABs);
         QGridLayout *layout = new QGridLayout(page1);
@@ -345,9 +344,9 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/plt.png"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/plt.png"));
     }
-    if (h_Turu == "GayriMenkul")
+    if (h_Turu == "Gayrimenkul")
     {
         integerLabel = new QLabel("h_Turu", w_TABs);
         integerLabel->setFrameStyle(frameStyle);
@@ -360,7 +359,7 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/home.png"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/ico/x.png"));
     }
     if (h_Turu == "Menkul")
     {
@@ -413,8 +412,6 @@ void hC_main::createTABs(QString h_Turu)
 
     layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
     w_TABs->addTab(page1, tr("Ayarlar"));
-
-    qDebug()<<"tabs tamam";
 }
 
 
@@ -428,6 +425,12 @@ void hC_main::setInteger()
     if (ok)
         integerLabel->setText(tr("%1%").arg(i));
     //! [0]
+}
+
+void hC_main::fgenelAyarlar()
+{
+    qDebug()<<"----------- ************** -------------- ";
+   // return true;
 }
 
 void hC_main::setColor()
@@ -498,6 +501,8 @@ void hC_main::createActions()
     editStartOrStopAction->setChecked(false);
     editHideOrShowDoneTasksAction = new QAction(tr("Kapalı Hesaplaı Gizle"),
                                                 this);
+    genelAyarlar = new QAction(tr("Ayarlar"), this);
+
     editHideOrShowDoneTasksAction->setCheckable(true);
     editHideOrShowDoneTasksAction->setChecked(false);
 }
@@ -538,7 +543,8 @@ void hC_main::createMenusAndToolBar()
              << editCutAction << editPasteAction << emptyAction
              << editMoveUpAction << editMoveDownAction
              << editPromoteAction << editDemoteAction << emptyAction
-             << editStartOrStopAction << editHideOrShowDoneTasksAction)
+             << editStartOrStopAction << editHideOrShowDoneTasksAction
+             << genelAyarlar)
 
     {
         if (action == emptyAction) {
@@ -596,6 +602,7 @@ void hC_main::createConnections()
     slotForAction[editMoveDownAction] = SLOT(editMoveDown());
     slotForAction[editPromoteAction] = SLOT(editPromote());
     slotForAction[editDemoteAction] = SLOT(editDemote());
+    slotForAction[genelAyarlar] = SLOT(fgenelAyarlar());
 
     QHashIterator<QAction*, QString> i(slotForAction);
     while (i.hasNext()) {
@@ -608,6 +615,12 @@ void hC_main::createConnections()
             this, SLOT(editStartOrStop(bool)));
     connect(editHideOrShowDoneTasksAction, SIGNAL(triggered(bool)),
             this, SLOT(editHideOrShowDoneTasks(bool)));
+    connect(genelAyarlar, SIGNAL(triggered(bool)),
+            this, SLOT(fgenelAyarlar(bool)));
+
+//    connect(genelAyarlar, &QAction::triggered(),
+//            this, &hC_main::fgenelAyarlar);
+
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
     connect(&iconTimeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateIcon(int)));

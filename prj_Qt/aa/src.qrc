@@ -88,5 +88,9 @@
         <file>rsm/ico/plus-minus-green.ico</file>
         <file>rsm/ico/plus-minus.ico</file>
         <file>rsm/ico/plusgreen.png</file>
+        <file>rsm/ico/plus-minus-red.ico</file>
+        <file>rsm/ico/real-estate.jpg</file>
+        <file>rsm/ico/home.png</file>
+        <file>rsm/ico/x.png</file>
     </qresource>
 </RCC>

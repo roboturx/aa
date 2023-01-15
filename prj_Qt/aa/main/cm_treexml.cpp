@@ -148,16 +148,16 @@ QVariant cm_TreeXML::data(const QModelIndex &index,
             {
                 if (item->hesapTuru() == "Şirket" )
                 {
-                    return QIcon(":/rsm/icon/folder.png" );
+                    return QIcon(":/rsm/icon/file.png" );
                 }
                 if (item->hesapTuru() == "Konum" )
                 {
-                    return QIcon(":/rsm/icon/locations.png");
+                    return QIcon(":/rsm/icon/globe.png");
                 }
 
                 if (item->hesapTuru() == "Şahıs" )
                 {
-                    return QIcon(":/rsm/icon/person.jpeg");
+                    return QIcon(":/rsm/person.jpeg");
                 }
                 if (item->hesapTuru() == "Aktif Hesap" )
                 {
@@ -165,19 +165,19 @@ QVariant cm_TreeXML::data(const QModelIndex &index,
                 }
                 if (item->hesapTuru() == "Pasif Hesap" )
                 {
-                    return QIcon(":/rsm/ico/plus-minus-red2.ico");
+                    return QIcon(":/rsm/ico/plus-minus-red.ico");
                 }
                 if (item->hesapTuru() == "Araç" )
                 {
-                    return QIcon(":/rsm/icon/bobcat2.png");
+                    return QIcon(":/rsm/ex.ico");
                 }
-                if (item->hesapTuru() == "Emtia" )
+                if (item->hesapTuru() == "Malzeme" )
                 {
-                    return QIcon(":/rsm/icon/plt.png");
+                    return QIcon(":/rsm/plt.png");
                 }
-                if (item->hesapTuru() == "GayriMenkul" )
+                if (item->hesapTuru() == "Gayrimenkul" )
                 {
-                    return QIcon(":/rsm/icon/home.svg" );
+                    return QIcon(":/rsm/ico/x.png" );
                 }
                 if (item->hesapTuru() == "Menkul" )
                 {

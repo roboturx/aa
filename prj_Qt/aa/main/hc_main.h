@@ -71,6 +71,7 @@ private:
 
     QAction *editStartOrStopAction;
     QAction *editHideOrShowDoneTasksAction;
+    QAction *genelAyarlar;
 
 
 
@@ -99,6 +100,7 @@ private slots:
     void setColor();
     void setInteger();
 
+
     void fileNew();
     void fileOpen();
     bool fileSave();
@@ -112,6 +114,9 @@ private slots:
     void editMoveDown();
     void editPromote();
     void editDemote();
+
+    void fgenelAyarlar();
+
 
     void editStartOrStop(bool start);
     void editHideOrShowDoneTasks(bool hide);
