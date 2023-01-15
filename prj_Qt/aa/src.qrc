@@ -92,5 +92,7 @@
         <file>rsm/ico/real-estate.jpg</file>
         <file>rsm/ico/home.png</file>
         <file>rsm/ico/x.png</file>
+        <file>rsm/ico/gm1.ico</file>
+        <file>rsm/ico/gm2.ico</file>
     </qresource>
 </RCC>

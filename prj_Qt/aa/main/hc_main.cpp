@@ -359,7 +359,7 @@ void hC_main::createTABs(QString h_Turu)
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/ico/x.png"));
+        w_TABs->setTabIcon (0,QIcon(":/rsm/ico/gm2.ico"));
     }
     if (h_Turu == "Menkul")
     {
@@ -397,8 +397,8 @@ void hC_main::createTABs(QString h_Turu)
             this, &hC_main::setInteger);
     connect(colorButton, &QAbstractButton::clicked,
             this, &hC_main::setColor);
-    QWidget *page1 = new QWidget;
-    QGridLayout *layout = new QGridLayout(page1);
+    QWidget *page10 = new QWidget;
+    QGridLayout *layout = new QGridLayout(page10);
     layout->setColumnStretch(1, 1);
     layout->setColumnMinimumWidth(1, 250);
     layout->addWidget(integerButton, 0, 0);
@@ -411,7 +411,7 @@ void hC_main::createTABs(QString h_Turu)
     colorDialogOptionsWidget->addCheckBox(tr("No buttons") , QColorDialog::NoButtons);
 
     layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-    w_TABs->addTab(page1, tr("Ayarlar"));
+    w_TABs->addTab(page10, tr("Ayarlar"));
 }
 
 

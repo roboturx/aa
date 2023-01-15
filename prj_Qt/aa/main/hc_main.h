@@ -27,6 +27,7 @@ public:
     quint64* pi_Hesap_Kod;
     QString* ps_Hesap_Ad;
    // QString* ps_Hesap_Turu;
+   // QList<QString> qL_hTuru;
 
     QLabel * lB_Hesap;
     QLabel *integerLabel;
