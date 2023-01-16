@@ -196,7 +196,7 @@ QVariant cm_TreeXML::data(const QModelIndex &index,
         if (  role == Qt::FontRole )
         {
             QFont font;
-            font.setPointSize(12);
+            font.setPointSize(14);
             return font;
         }
 
@@ -739,6 +739,16 @@ QModelIndex cm_TreeXML::moveItem(TaskItem *parent, int oldRow,
                                        parent->childAt(newRow));
     emit dataChanged(oldIndex, newIndex);
     return newIndex;
+}
+/////////////////////////////////////////////////////////////////
+/// \brief cm_TreeXML::hTurColor
+///
+/// hc_main - 445 signal i,le yollanan qcolor
+/// hesap turu rengi olarak kullanılacak
+///
+void cm_TreeXML::hTurColor(QColor color)
+{
+    qDebug()<<"------------htur siggggggnaaaaaaaaaaaal    " << color;
 }
 
 QList<TaskItem *> cm_TreeXML::getListXML() const

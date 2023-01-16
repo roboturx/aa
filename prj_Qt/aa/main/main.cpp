@@ -1,5 +1,6 @@
 ﻿#include "main.h"
-#include "main/hc_main.h"
+//#include "main/hc_main.h"
+#include "main/dw_hesap.h"
 
 
 int main(int argc, char *argv[])
@@ -14,7 +15,8 @@ int main(int argc, char *argv[])
     a.setStyle(QStyleFactory::create("Fusion"));
 
     //*MW_main w ;
-    hC_main w;
+    //hC_main w;
+    dW_Hesap w; /// dock widget hesap
 
     //---- splash screen ----
 
@@ -35,7 +37,7 @@ void splash(QApplication &a, QMainWindow &w)
 {
 ///////////////////// splash screen
 
-
+    qDebug()<< w.windowTitle ();
     QPixmap pixmap(":/rsm/ex.png");
     QSplashScreen splash(pixmap);
     splash.show();

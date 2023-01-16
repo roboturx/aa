@@ -72,16 +72,16 @@ WARNING  şifre için burayı kullan
     /// all things okey
     /// wait on main window for a key for connect
 
-    mw_hC_hsp = new hC_hsp;
+  //  mw_hC_hsp = new hC_hsp;
 
     QDockWidget *dock = new QDockWidget(tr("Customers"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dock->setWidget(mw_hC_hsp);
+   // dock->setWidget(mw_hC_hsp);
     addDockWidget(Qt::RightDockWidgetArea, dock);
   //  viewMenu->addAction(dock->toggleViewAction());
 
 
-this->setCentralWidget (mw_hC_hsp );
+//this->setCentralWidget (/*mw_hC_hsp*/ );
 }
 
 void MW_main::yetkiler(const QString& yetki, const QString& user)
@@ -574,7 +574,7 @@ void MW_main::closeEvent (QCloseEvent *event)
     }
     else if (msgBox.clickedButton() == bt_evet)
     {
-        mw_hC_hsp->close ();
+      //  mw_hC_hsp->close ();
         qApp->closeAllWindows();
         event->accept();
         //quitApp();
@@ -591,7 +591,7 @@ MW_main::~MW_main()
     delete mw_per;
     delete mw_hspdty;
     delete mw_mkn;
-    delete mw_hC_hsp;
+   // delete mw_hC_hsp;
     //  delete mw_Mlzm;
 }
 

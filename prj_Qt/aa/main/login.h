@@ -5,6 +5,9 @@
 #include "VTKontTekkere.h"
 #include "VTKontrol.h"
 #include "VTTekton.h"
+
+#include "main/dw_hesap.h"
+
 namespace nSLogin {
 class Login;
 }
@@ -22,7 +25,7 @@ public:
 
 private:
     QShortcut *keyESC;
-
+    //dW_HESAP dw;
 
 private slots:
 

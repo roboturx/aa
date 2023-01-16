@@ -1,13 +1,12 @@
 #ifndef hC_main_H
 #define hC_main_H
 
-#include "main/cm_dlg_cb_htur.h"
-#include "main/cm_treexml.h"
-#include "main/cw_dlg_options.h"
-#include "main/taskitem.h"
+
 #include "libs/globals.h"
+#include "main/dbase.h"
+//#include "main/cm_treexml.h"
 //#include "libs/alt_key.h"
-//#include "cL_dlG_RichTxt.h"
+//#include "main/cm_dlg_richtxt.h"
 //#include "cm_treexml.h"
 
 
@@ -18,42 +17,41 @@ class hC_main : public QMainWindow
 public:
     explicit hC_main();
 
-
+    void login();
+  //  QList<QColor> ls_hTurColor;
 
    // void setHesapAdColor(TaskItem *item);
-    cm_dlG_cb_hTur *cbdlgt;
-
-
-    quint64* pi_Hesap_Kod;
-    QString* ps_Hesap_Ad;
-   // QString* ps_Hesap_Turu;
-   // QList<QString> qL_hTuru;
+//    cm_dlG_cb_hTur *cbdlgt;
+    DBase *dbase;
 
     QLabel * lB_Hesap;
     QLabel *integerLabel;
     QLabel *colorLabel ;
     QPushButton *colorButton;
 
-    cm_TreeXML *modelXML;
-    QTreeView *treeViewXML;
+//    cm_TreeXML *modelXML;
+//    QTreeView *treeViewXML;
     QWidget * wdgt_central;
-    QWidget * wdgt_hesap;
-    cw_Dlg_Options *colorDialogOptionsWidget;
+  //  QWidget * wdgt_hesap;
+  //  cw_Dlg_Options *colorDialogOptionsWidget;
 
-    TaskItem *getCurrentItem();
+ //   TaskItem *getCurrentItem();
     QTabWidget *w_TABs ;
 
-private:
+protected:
+
+    QSplitter *splitter ;
+
     void createGui();
     void createTABs(QString h_Turu);
-    void createModelViewDelegate();
+  //  void createModelViewDelegate();
     void createActions();
     void createMenusAndToolBar();
-    void createConnections();
-    bool okToClearData();
-    void setCurrentIndex(const QModelIndex &index);
+  //  void createConnections();
 
-    void hideOrShowDoneTask(bool hide, const QModelIndex &index);
+   // void setCurrentIndex(const QModelIndex &index);
+
+
 
     QAction *fileNewAction;
     QAction *fileOpenAction;
@@ -75,7 +73,7 @@ private:
     QAction *genelAyarlar;
 
 
-
+  void fgenelAyarlar();
 
 
     QTimer timer;
@@ -83,18 +81,20 @@ private:
     QTime timedTime;
     int currentIcon;
 
-protected:
-    void closeEvent(QCloseEvent*);
+//protected:
+//    void closeEvent(QCloseEvent*);
+
+    // QGridLayout *layout0 ;
+
+
 
 signals:
     void sgnHesap(quint64* m_Hesap_Kod,
                   QString* m_Hesap_Ad/*,
                   QString* m_Hesap_Turu*/);
+    void sg_hTurColor(QColor color);
 
 
-public slots:
-    void stopTiming();
-    void hesapdegisti();
 
 private slots:
 
@@ -102,33 +102,7 @@ private slots:
     void setInteger();
 
 
-    void fileNew();
-    void fileOpen();
-    bool fileSave();
-    bool fileSaveAs();
-    void editAdd();
-    void editDelete();
-
-    void editCut();
-    void editPaste();
-    void editMoveUp();
-    void editMoveDown();
-    void editPromote();
-    void editDemote();
-
-    void fgenelAyarlar();
-
-
-    void editStartOrStop(bool start);
-    void editHideOrShowDoneTasks(bool hide);
-    void setDirty(bool dirty=true)
-         {   setWindowModified(dirty);  }
-
-    void load(const QString &filename,
-              const QStringList &taskPath=QStringList());
-    void timeout();
-    void updateIcon(int frame);
-    void updateUi();
+  //  void updateUi();
     void customContextMenuRequested(const QPoint &pos);
     void contextMenuEvent(QContextMenuEvent *event);
 private:
@@ -151,69 +125,6 @@ private:
 
 };
 
-
-///////////////////////////////////////////////////////////////
-/// \brief The HesapListesi class
-/// xml dosyasından hesap adları ve renklerini
-/// qpair olarak veren sınıf
-
-class cL_HesapListesi
-{
-public:
-    typedef QPair<QString,QColor> PairHesapColor;
-
-    cL_HesapListesi() {};
-    ~cL_HesapListesi() {};
-    PairHesapColor getHesapListesi (QString hangihesaplar);
-
-private:
-    PairHesapColor setHesapListesi(QString hangiListe);
-    PairHesapColor qp_hesapListesi{};
-};
-
-
-////////////////////////////////////////////////////////
-/// \brief The cL_dlG_ColmColor class
-/// treeview colonda renk ayarları
-///
-
-class cL_dlG_ColmColor : public QStyledItemDelegate
-{
-public:
-    int m_color{};
-    QModelIndex m_curIndex{};
-public:
-    cL_dlG_ColmColor(int renk,QModelIndex currentIndex, QObject *parent)
-   {
-        /// int değeriyle gelen değişkeni color olark kullanır
-
-        m_color = renk;
-        m_curIndex = currentIndex;
-
-    }
-
-    void paint(QPainter *painter,
-               const QStyleOptionViewItem &option,
-               const QModelIndex &index) const
-    {
-
-
-        if (index.column() == 0 /*&&
-            index.row() == m_curIndex.row ()*/)
-        {
-            qDebug()<< "col 0 colmcolor m_color = " << m_color;
-            qDebug()<< "row col " << index.row ()<<"-"<<index.column ();
-            QStyleOptionViewItem s = *qstyleoption_cast<
-                const QStyleOptionViewItem*>(&option);
-            s.palette.setColor(QPalette::HighlightedText ,
-                               QColor( Qt::cyan));
-            s.palette.setColor(QPalette::Text  ,
-                               QColor(m_color));
-
-            QStyledItemDelegate::paint(painter, s, index);
-        }
-    }
-};
 
 
 #endif // hC_main_H

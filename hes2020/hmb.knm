@@ -55,15 +55,14 @@
         </ACCOUNT>
         <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Aktif Hesap" AccsPARENT="" AccCODE="45" AccDBFile=""/>
     </ACCOUNT>
-    <ACCOUNT AccNAME="aktif" AccNOTE="" AccIsBATCH="0" AccTYPE="Aktif Hesap" AccsPARENT="" AccCODE="46" AccDBFile=""/>
     <ACCOUNT AccNAME="konum" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="47" AccDBFile="">
-        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="56" AccDBFile=""/>
-        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Menkul" AccsPARENT="" AccCODE="55" AccDBFile=""/>
-        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Araç" AccsPARENT="" AccCODE="54" AccDBFile=""/>
-        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Malzeme" AccsPARENT="" AccCODE="53" AccDBFile=""/>
         <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Şirket" AccsPARENT="" AccCODE="52" AccDBFile=""/>
         <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Şahıs" AccsPARENT="" AccCODE="51" AccDBFile=""/>
         <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Aktif Hesap" AccsPARENT="" AccCODE="50" AccDBFile=""/>
         <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Pasif Hesap" AccsPARENT="" AccCODE="49" AccDBFile=""/>
+        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Araç" AccsPARENT="" AccCODE="54" AccDBFile=""/>
+        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Malzeme" AccsPARENT="" AccCODE="53" AccDBFile=""/>
+        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Gayrimenkul" AccsPARENT="" AccCODE="56" AccDBFile=""/>
+        <ACCOUNT AccNAME="" AccNOTE="" AccIsBATCH="0" AccTYPE="Menkul" AccsPARENT="" AccCODE="55" AccDBFile=""/>
     </ACCOUNT>
 </KONUM>

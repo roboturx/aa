@@ -20,7 +20,7 @@ QWidget *cm_dlG_cb_hTur::createEditor(QWidget *parent,
     // Create the combobox and populate it
     QComboBox *cb = new QComboBox(parent);
    // const QString row = QString::number (index.row());
-
+    qDebug() <<option<<index;
 
 
     cb->addItem(QString("Konum"));

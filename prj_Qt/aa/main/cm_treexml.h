@@ -114,5 +114,9 @@ private:
     TaskItem *cutItem;
     QList<TaskItem*> listXML;
 
+public slots:
+    void hTurColor(QColor color);
+
+
 };
 #endif // cm_TreeXML_H

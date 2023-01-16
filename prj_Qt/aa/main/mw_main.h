@@ -50,7 +50,7 @@ public:
     QStackedWidget *stw{};
     QAction *act_main{};
 
-    hC_hsp *mw_hC_hsp ;
+   // hC_hsp *mw_hC_hsp ;
     hC_HSPDTY *mw_hspdty{};
     hC_CLSN *mw_per{};
     hC_FRM *mw_fr{};

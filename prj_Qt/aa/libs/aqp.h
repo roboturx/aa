@@ -113,7 +113,8 @@ bool okToClearData(bool (T::*saveData)(), T *parent,
         // abor
         return false;
     }
-    if (messageBox->clickedButton() == messageBox->button(QMessageBox::Cancel))
+    //if (messageBox->clickedButton() == messageBox->button(QMessageBox::Cancel))
+    if (messageBox->clickedButton() == bttn_kme)
         return false;
 //    if (messageBox->clickedButton() ==
 //        messageBox->button(QMessageBox::Save))

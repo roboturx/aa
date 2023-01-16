@@ -30,7 +30,7 @@ public:
 
 
     void setHesapAdColor(TaskItem *item);
-    cls_dlgt_ComboBox *cbdlgt;
+    //cls_dlgt_ComboBox *cbdlgt;
 
     QString* ps_Hesap_Ad;
     quint64* pi_Hesap_Kod;
@@ -43,7 +43,7 @@ public:
     QTreeView *treeViewXML;
     QWidget * wdgt_central;
     QWidget * wdgt_hesap;
-    DialogOptionsWidget *colorDialogOptionsWidget;
+   // DialogOptionsWidget *colorDialogOptionsWidget;
 
     TaskItem *getCurrentItem();
     cls_mdl_TreeFromXml *modelXML;

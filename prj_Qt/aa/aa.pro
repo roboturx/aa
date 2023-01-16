@@ -6,8 +6,8 @@
 #DEFINES += LINUX
 DEFINES	+= CUSTOM_MODEL
 DEFINES += MAIN
-DEFINES += ADRS
-DEFINES += HSAP
+#DEFINES += ADRS
+#DEFINES += HSAP
 #DEFINES += OTHR
 
 DEFINES += LINUX
@@ -193,8 +193,11 @@ HEADERS += \
     hsap/proxymodel.h \
     hsap/uniqueproxymodel.h \
     hsap/uniqueproxymodel.h \
+    main/dw_hesap.h \
     main/hc_main.h \
-    main/main.h
+    main/hesapturu.h \
+    main/main.h \
+    main/mw_main.h
 
 SOURCES += \
     main/cm_dlg_le_richtxt.cpp \
@@ -202,7 +205,10 @@ SOURCES += \
     main/dialog.cpp \
     hsap/proxymodel.cpp \
     hsap/uniqueproxymodel.cpp \
-    main/hc_main.cpp
+    main/dw_hesap.cpp \
+    main/hc_main.cpp \
+    main/hesapturu.cpp \
+    main/mw_main.cpp
 
 # kısaltmalar
 # cm - class model
