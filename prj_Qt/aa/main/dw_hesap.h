@@ -30,21 +30,7 @@ private:
     QAction *fileNewAction;
     QAction *fileOpenAction;
     QAction *fileSaveAction;
-    QAction *fileSaveAsAction;
-    QAction *fileQuitAction;
-    QAction *editAddAction;
-    QAction *editDeleteAction;
 
-    QAction *editCutAction;
-    QAction *editPasteAction;
-    QAction *editMoveUpAction;
-    QAction *editMoveDownAction;
-    QAction *editPromoteAction;
-    QAction *editDemoteAction;
-
-    QAction *editStartOrStopAction;
-    QAction *editHideOrShowDoneTasksAction;
-    QAction *genelAyarlar;
 
 
     QAction *boldAction;

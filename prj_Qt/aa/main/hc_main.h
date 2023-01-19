@@ -41,6 +41,26 @@ public:
 
 protected:
 
+    QAction *fileSaveAsAction;
+    QAction *fileQuitAction;
+    QAction *editAddAction;
+    QAction *editDeleteAction;
+
+    QAction *editCutAction;
+    QAction *editPasteAction;
+    QAction *editMoveUpAction;
+    QAction *editMoveDownAction;
+    QAction *editPromoteAction;
+    QAction *editDemoteAction;
+
+    QAction *editStartOrStopAction;
+    QAction *editHideOrShowDoneTasksAction;
+    QAction *genelAyarlar;
+    QAction *fileNewAction;
+    QAction *fileOpenAction;
+    QAction *fileSaveAction;
+
+
     QSplitter *splitter ;
 
     void createGui();
