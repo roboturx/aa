@@ -37,6 +37,7 @@ public:
 
  //   TaskItem *getCurrentItem();
     QTabWidget *w_TABs ;
+    QMenu *viewMenu;
 
 protected:
 
@@ -46,6 +47,7 @@ protected:
     void createTABs(QString h_Turu);
   //  void createModelViewDelegate();
     void createActions();
+    void createDocks();
     void createMenusAndToolBar();
   //  void createConnections();
 
@@ -53,24 +55,7 @@ protected:
 
 
 
-    QAction *fileNewAction;
-    QAction *fileOpenAction;
-    QAction *fileSaveAction;
-    QAction *fileSaveAsAction;
-    QAction *fileQuitAction;
-    QAction *editAddAction;
-    QAction *editDeleteAction;
 
-    QAction *editCutAction;
-    QAction *editPasteAction;
-    QAction *editMoveUpAction;
-    QAction *editMoveDownAction;
-    QAction *editPromoteAction;
-    QAction *editDemoteAction;
-
-    QAction *editStartOrStopAction;
-    QAction *editHideOrShowDoneTasksAction;
-    QAction *genelAyarlar;
 
 
   void fgenelAyarlar();
@@ -115,13 +100,7 @@ private:
     QMenu *createColorMenu();
     void updateContextMenuActions();
 
-    QAction *boldAction;
-    QAction *italicAction;
-    QAction *strikeOutAction;
-    QAction *noSubOrSuperScriptAction;
-    QAction *superScriptAction;
-    QAction *subScriptAction;
-    QAction *colorAction;
+
 
 };
 

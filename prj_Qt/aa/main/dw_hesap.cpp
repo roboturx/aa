@@ -11,9 +11,9 @@ const QString CurrentTaskPathSetting("CurrentTaskPath");
 const int FirstFrame = 0;
 const int LastFrame = 4;
 }
-dW_Hesap::dW_Hesap()
+dW_Hesap::dW_Hesap(QWidget *parent)
 {
-    qDebug() << " dwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww" ;
+    qDebug() << "dW_Hesap Constuctor - "<<parent->objectName ();
 
 
     createModelViewDelegate ();
@@ -23,11 +23,7 @@ dW_Hesap::dW_Hesap()
     lx->addWidget (treeViewXML,0,0,1,1);
 
 
-    QDockWidget *dock = new QDockWidget(tr("Hesaplar"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    dock->setWidget( x );
-    addDockWidget(Qt::RightDockWidgetArea, dock);
-    //dock->show ();
+
 
 
 
@@ -66,16 +62,7 @@ void dW_Hesap::createModelViewDelegate()
     treeViewXML->setSelectionBehavior (QAbstractItemView::SelectItems);
     treeViewXML->setSelectionMode (QAbstractItemView::SingleSelection);
 
-
-    // xx ile gönderilen renk kodu column 0 için text rengi olur
-    //    int xx= {0x00ff00};
-    //    cL_dlG_ColmColor *clmColor =
-    //        new cL_dlG_ColmColor(xx,treeViewXML->currentIndex (),this);
-
-    //    treeViewXML->setItemDelegateForColumn(0, clmColor);
-
     treeViewXML->setItemDelegateForColumn(1, new cm_dlG_RichTxt);
-
 
     treeViewXML->setItemDelegateForColumn(3, new cm_dlG_cb_hTur);
     treeViewXML->setModel(modelXML);

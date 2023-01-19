@@ -4,16 +4,18 @@
 #include "main/cm_dlg_cb_htur.h"
 #include "main/cm_treexml.h"
 #include "main/taskitem.h"
-#include "hc_main.h"
+//#include "hc_main.h"
 //#include "libs/globals.h"
 
 
-class dW_Hesap : public hC_main
+class dW_Hesap : public QWidget
 {
     Q_OBJECT
 public:
-    dW_Hesap();
+    dW_Hesap(QWidget *parent=nullptr);
 
+
+    QLabel *lB_Hesap;
     cm_dlG_cb_hTur *cbdlgt;
 
     quint64* pi_Hesap_Kod;
@@ -24,6 +26,35 @@ public:
     QTreeView *treeViewXML;
 
 private:
+
+    QAction *fileNewAction;
+    QAction *fileOpenAction;
+    QAction *fileSaveAction;
+    QAction *fileSaveAsAction;
+    QAction *fileQuitAction;
+    QAction *editAddAction;
+    QAction *editDeleteAction;
+
+    QAction *editCutAction;
+    QAction *editPasteAction;
+    QAction *editMoveUpAction;
+    QAction *editMoveDownAction;
+    QAction *editPromoteAction;
+    QAction *editDemoteAction;
+
+    QAction *editStartOrStopAction;
+    QAction *editHideOrShowDoneTasksAction;
+    QAction *genelAyarlar;
+
+
+    QAction *boldAction;
+    QAction *italicAction;
+    QAction *strikeOutAction;
+    QAction *noSubOrSuperScriptAction;
+    QAction *superScriptAction;
+    QAction *subScriptAction;
+    QAction *colorAction;
+
     void createModelViewDelegate();
     void createConnections();
     void setCurrentIndex(const QModelIndex &index);

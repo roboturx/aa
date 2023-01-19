@@ -1,6 +1,6 @@
 ﻿#include "main.h"
 //#include "main/hc_main.h"
-#include "main/dw_hesap.h"
+#include "main/hc_main.h"
 
 
 int main(int argc, char *argv[])
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     //*MW_main w ;
     //hC_main w;
-    dW_Hesap w; /// dock widget hesap
+    hC_main mainwidget; /// dock widget hesap
 
     //---- splash screen ----
 
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     //w.resize(size*.6);
     //   w.resize(size);
     ///Ana Ekran ////////////////////////////
-    w.show ();
+    mainwidget.show ();
     ///////////////////////////////// Login screen in mw_main
     //*  w.login ();
 

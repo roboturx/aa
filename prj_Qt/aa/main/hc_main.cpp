@@ -47,7 +47,7 @@ hC_main::hC_main()
     createGui();
     createActions();
     createMenusAndToolBar();
-
+    createDocks ();
     //createModelViewDelegate();
   //  createConnections();
 
@@ -112,11 +112,10 @@ void hC_main::createGui()
 {
     //errorMessageDialog = new QErrorMessage(this);
 
+    qDebug ()<<"   creat gui,";
     /// 000 central widget = splitter
     wdgt_central = new QWidget(this);
-    setCentralWidget (wdgt_central);
-
-
+    setCentralWidget(wdgt_central);
 
     /// 000-0  splitter = page 0 + page 1
     splitter = new QSplitter(wdgt_central);
@@ -126,17 +125,6 @@ void hC_main::createGui()
 
     ///  000-0-1 page  TABlar
     QWidget *page1 = new QWidget(splitter);
-
-
-//    layout0 = new QGridLayout(page0);
-//    layout0->setColumnStretch(1, 1);
-//    layout0->setColumnMinimumWidth(1, 250);
-// //   layout0->addWidget(treeViewXML , 0, 0, 16, 2 );
-//    layout0->addWidget(lB_Hesap,    17, 0, 1, 2 );
-//    layout0->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored,
-//                                     QSizePolicy::MinimumExpanding), 5, 0);
-
-
     QGridLayout *layout1 = new QGridLayout(page1);
     w_TABs = new QTabWidget(page1);
     w_TABs->setTabShape (QTabWidget::Triangular);
@@ -149,8 +137,9 @@ void hC_main::createGui()
     layout1->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored,
                                      QSizePolicy::MinimumExpanding), 5, 0);
 
-    setCentralWidget(wdgt_central);
+
     QGridLayout *lyt_central;
+
     if (QGuiApplication::styleHints()->showIsFullScreen()
             || QGuiApplication::styleHints()->showIsMaximized())
     {
@@ -163,17 +152,16 @@ void hC_main::createGui()
     }
     else
     {
-        lyt_central = new QGridLayout(this);
+        lyt_central = new QGridLayout(this);///?????
     }
+
     wdgt_central->setLayout (lyt_central);
 
-   // splitter->addWidget (page0);
-    splitter->addWidget (page1);
     splitter->addWidget (page1);
 
     lyt_central->addWidget(splitter    ,0,1,1,1);
-  //  wdgt_central->hide ();
-    login();
+
+  //  login();
 
 }
 
@@ -529,12 +517,79 @@ void hC_main::createActions()
     editHideOrShowDoneTasksAction->setChecked(false);
 }
 
+void hC_main::createDocks()
+{
+
+
+    QDockWidget *dock = new QDockWidget(tr("Customers"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+    QListWidget *customerList = new QListWidget(dock);
+    customerList->addItems(QStringList()
+                           << "John Doe, Harmony Enterprises, 12 Lakeside, Ambleton"
+                           << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
+                           << "Tammy Shea, Tiblanka, 38 Sea Views, Carlton"
+                           << "Tim Sheen, Caraba Gifts, 48 Ocean Way, Deal"
+                           << "Sol Harvey, Chicos Coffee, 53 New Springs, Eccleston"
+                           << "Sally Hobart, Tiroli Tea, 67 Long River, Fedula");
+    dock->setWidget(customerList);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+    viewMenu->addAction(dock->toggleViewAction());
+
+
+    //
+    //    QDockWidget *dock2 = new QDockWidget(tr("Hesaplar"), this);
+    //    dock2->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    //    dock2->setWidget( dockwidget );
+    //    addDockWidget(Qt::RightDockWidgetArea, dock2);
+
+    dock = new QDockWidget(tr("Hesaplar"), this);
+    dW_Hesap *hesaplar = new dW_Hesap(dock);
+     dock->setWidget(hesaplar);
+    //addDockWidget(Qt::RightDockWidgetArea, dock);
+    viewMenu->addAction(dock->toggleViewAction());
+
+
+
+    dock = new QDockWidget(tr("Paragraphs"), this);
+    QListWidget *paragraphsList = new QListWidget(dock);
+    paragraphsList->addItems(QStringList()
+                             << "Thank you for your payment which we have received today."
+                             << "Your order has been dispatched and should be with you "
+                                "within 28 days."
+                             << "We have dispatched those items that were in stock. The "
+                                "rest of your order will be dispatched once all the "
+                                "remaining items have arrived at our warehouse. No "
+                                "additional shipping charges will be made."
+                             << "You made a small overpayment (less than $5) which we "
+                                "will keep on account for you, or return at your request."
+                             << "You made a small underpayment (less than $1), but we have "
+                                "sent your order anyway. We'll add this underpayment to "
+                                "your next bill."
+                             << "Unfortunately you did not send enough money. Please remit "
+                                "an additional $. Your order will be dispatched as soon as "
+                                "the complete amount has been received."
+                             << "You made an overpayment (more than $5). Do you wish to "
+                                "buy more items, or should we return the excess to you?");
+    dock->setWidget(paragraphsList);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+    viewMenu->addAction(dock->toggleViewAction());
+
+//    connect(customerList, &QListWidget::currentTextChanged,
+//            this, &hC_main::insertCustomer);
+//    connect(paragraphsList, &QListWidget::currentTextChanged,
+//            this, &hC_main::addParagraph);
+
+
+}
+
 
 void hC_main::createMenusAndToolBar()
 {
     qDebug()<<"-----------    ::hChsp createMenusAndToolBar";
 
     QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
+    viewMenu = menuBar()->addMenu(tr("&View"));
     QToolBar *fileToolBar = addToolBar(tr("Dosya"));
 
 //    setStyleSheet ("QMenu, QToolbar {"
