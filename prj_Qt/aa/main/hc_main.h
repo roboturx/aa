@@ -17,30 +17,50 @@ class hC_main : public QMainWindow
 public:
     explicit hC_main();
 
-    void login();
-  //  QList<QColor> ls_hTurColor;
-
-   // void setHesapAdColor(TaskItem *item);
-//    cm_dlG_cb_hTur *cbdlgt;
+    QWidget * wdgt_central;
+    QSplitter *splitter ;
+    QTabWidget *w_TABs ;
     DBase *dbase;
-
     QLabel * lB_Hesap;
     QLabel *integerLabel;
     QLabel *colorLabel ;
     QPushButton *colorButton;
+    QMenu *viewMenu;
 
-//    cm_TreeXML *modelXML;
+ //   void login();
+
+
+
+    /////////////////////////
+   //    cm_TreeXML *modelXML;
 //    QTreeView *treeViewXML;
-    QWidget * wdgt_central;
+
   //  QWidget * wdgt_hesap;
   //  cw_Dlg_Options *colorDialogOptionsWidget;
 
  //   TaskItem *getCurrentItem();
-    QTabWidget *w_TABs ;
-    QMenu *viewMenu;
 
-protected:
 
+
+private:
+    QTimer timer;
+    QTimeLine iconTimeLine;
+
+    QAction *createAction(const QString &icon,
+                         const QString &text,
+                         QMainWindow *parent,
+                         const QKeySequence &shortcut=QKeySequence());
+    void createActions();
+    void createGui();
+    //void createActions();
+    void createMenusAndToolBar();
+    void createDocks();
+    void createTABs(QString h_Turu);
+    void fgenelAyarlar();
+
+    QAction *fileNewAction;
+    QAction *fileOpenAction;
+    QAction *fileSaveAction;
     QAction *fileSaveAsAction;
     QAction *fileQuitAction;
     QAction *editAddAction;
@@ -52,53 +72,18 @@ protected:
     QAction *editMoveDownAction;
     QAction *editPromoteAction;
     QAction *editDemoteAction;
-
     QAction *editStartOrStopAction;
     QAction *editHideOrShowDoneTasksAction;
-    QAction *genelAyarlar;
-    QAction *fileNewAction;
-    QAction *fileOpenAction;
-    QAction *fileSaveAction;
+    QAction *ayarlarAction;
 
+    ////////////////////////
 
-    QSplitter *splitter ;
+//    QTime timedTime;
+//    int currentIcon;
 
-    void createGui();
-    void createTABs(QString h_Turu);
-  //  void createModelViewDelegate();
-    void createActions();
-    void createDocks();
-    void createMenusAndToolBar();
-  //  void createConnections();
+//signals:
 
-   // void setCurrentIndex(const QModelIndex &index);
-
-
-
-
-
-
-  void fgenelAyarlar();
-
-
-    QTimer timer;
-    QTimeLine iconTimeLine;
-    QTime timedTime;
-    int currentIcon;
-
-//protected:
-//    void closeEvent(QCloseEvent*);
-
-    // QGridLayout *layout0 ;
-
-
-
-signals:
-    void sgnHesap(quint64* m_Hesap_Kod,
-                  QString* m_Hesap_Ad/*,
-                  QString* m_Hesap_Turu*/);
-    void sg_hTurColor(QColor color);
-
+//    void sg_hTurColor(QColor color);
 
 
 private slots:
@@ -106,21 +91,24 @@ private slots:
     void setColor();
     void setInteger();
 
-
-  //  void updateUi();
     void customContextMenuRequested(const QPoint &pos);
     void contextMenuEvent(QContextMenuEvent *event);
-private:
-    enum Style {Bold, Italic, StrikeOut, NoSuperOrSubscript,
-                Subscript, Superscript};
-
-    void createShortcuts();
-    void createActions2 ();
-    QAction *createAction2(const QString &text, const QVariant &data);
-    QMenu *createColorMenu();
-    void updateContextMenuActions();
 
 
+    /////////////////////////////////
+
+//private:
+//    enum Style {Bold, Italic, StrikeOut, NoSuperOrSubscript,
+//                Subscript, Superscript};
+
+//    void createShortcuts();
+//    void createActions2 ();
+//    QAction *createAction2(const QString &text, const QVariant &data);
+//    QMenu *createColorMenu();
+//    void updateContextMenuActions();
+
+protected:
+  //  void closeEvent(QCloseEvent*);
 
 };
 

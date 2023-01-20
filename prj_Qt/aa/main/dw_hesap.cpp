@@ -2,15 +2,15 @@
 #include "main/cm_dlg_richtxt.h"
 
 
-namespace {
+//namespace {
 
-const int StatusTimeout = AQP::MSecPerSecond * 10;
-const QString FilenameSetting("Filename");
-const QString GeometrySetting("Geometry");
-const QString CurrentTaskPathSetting("CurrentTaskPath");
-const int FirstFrame = 0;
-const int LastFrame = 4;
-}
+//const int StatusTimeout = AQP::MSecPerSecond * 10;
+//const QString FilenameSetting("Filename");
+//const QString GeometrySetting("Geometry");
+//const QString CurrentTaskPathSetting("CurrentTaskPath");
+//const int FirstFrame = 0;
+//const int LastFrame = 4;
+//}
 dW_Hesap::dW_Hesap(QWidget *parent)
 {
     qDebug() << "dW_Hesap Constuctor - "<<parent->objectName ();
@@ -23,13 +23,8 @@ dW_Hesap::dW_Hesap(QWidget *parent)
     lx->addWidget (treeViewXML,0,0,1,1);
 
 
-
-
-
-
-
-
 }
+
 TaskItem* dW_Hesap::getCurrentItem()
 {
     qDebug()<<"-----------    ::hChsp getcurrentitem";
@@ -245,7 +240,7 @@ void dW_Hesap::editDelete()
     int rows = modelXML->rowCount(index);
     if (modelXML->isTimedItem(index))
         stopTiming();
-qDebug()<<"--edit delete 01";
+
     QString message;
     if (rows == 0)
         message = tr("<p>HESAP SİL '%1'").arg(name);
@@ -257,13 +252,10 @@ qDebug()<<"--edit delete 01";
                      "(ve alt hesaplara bağlı hesaplar)").arg(name).arg(rows);
     if (!AQP::okToDelete(this, tr("Delete"), message))
         return;
-    qDebug()<<"--edit delete 02";
     modelXML->removeRow(index.row(), index.parent());
-    qDebug()<<"--edit delete 03";
     setDirty();
-    qDebug()<<"--edit delete 04";
     updateUi();
-    qDebug()<<"--edit delete s0n";
+
 }
 
 
@@ -429,8 +421,8 @@ void dW_Hesap::load(const QString &filename,
                        .arg(QApplication::applicationName(),
                             QFileInfo(filename).fileName()));
 
-        statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
-                               15  /*StatusTimeout*/);
+//        statusBar()->showMessage(tr("%1 yüklendi").arg(filename),
+//                               15  /*StatusTimeout*/);
     } catch (AQP::Error &error) {
         AQP::warning(this, tr("HATA"), tr("Yüklemede Hata %1: %2\n"
                                           "yeni dosya oluşturuluyor")
@@ -461,8 +453,8 @@ bool dW_Hesap::fileSave()
             setWindowTitle(tr("%1 - %2[*]")
                            .arg(QApplication::applicationName())
                            .arg(QFileInfo(modelXML->filename()).fileName()));
-            statusBar()->showMessage(tr("Saved %1")
-                                     .arg(modelXML->filename()), StatusTimeout);
+//            statusBar()->showMessage(tr("Saved %1")
+//                                     .arg(modelXML->filename()), StatusTimeout);
             saved = true;
         } catch (AQP::Error &error) {
             AQP::warning(this, tr("Error"),
@@ -503,25 +495,7 @@ bool dW_Hesap::fileSaveAs()
 ///
 ///
 
-void dW_Hesap::closeEvent(QCloseEvent *event)
-{
-    qDebug()<<"-----------    ::hChsp closeEvent"
-             << " filename               : " << modelXML->filename()
-             << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
-    stopTiming();
-    if (okToClearData()) {
-        QSettings settings;
-        settings.setValue(GeometrySetting, saveGeometry());
-        settings.setValue(FilenameSetting, modelXML->filename());
-        settings.setValue(CurrentTaskPathSetting,
-                          modelXML->pathForIndex(treeViewXML->currentIndex()));
 
-        qDebug() <<"        close -> settings.filename "<< settings.fileName();
-        event->accept();
-    }
-    else
-        event->ignore();
-}
 
 
 
@@ -541,10 +515,6 @@ void dW_Hesap::stopTiming()
         editStartOrStopAction->trigger(); // stop the clock
 }
 
-//void dW_Hesap::hesapdegisti()
-//{
-//    qDebug()<<"-----------    hC_main::hesapdegisti() p";
-//}
 
 
 void dW_Hesap::editStartOrStop(bool start)

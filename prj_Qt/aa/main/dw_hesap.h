@@ -15,44 +15,57 @@ public:
     dW_Hesap(QWidget *parent=nullptr);
 
 
-    QLabel *lB_Hesap;
-    cm_dlG_cb_hTur *cbdlgt;
-
-    quint64* pi_Hesap_Kod;
-    QString* ps_Hesap_Ad;
-    TaskItem* getCurrentItem();
-
     cm_TreeXML *modelXML;
     QTreeView *treeViewXML;
+    QLabel *lB_Hesap;
+    quint64* pi_Hesap_Kod;
+    QString* ps_Hesap_Ad;
+
+
+    TaskItem* getCurrentItem();
+
+
+
+    ///////////////////////////////////////////////////////
+
+  //  cm_dlG_cb_hTur *cbdlgt;
+
+
+
+
 
 private:
+
+    QTimer timer;
+    QTimeLine iconTimeLine;
 
     QAction *fileNewAction;
     QAction *fileOpenAction;
     QAction *fileSaveAction;
+    QAction *fileSaveAsAction;
+    QAction *fileQuitAction;
+    QAction *editAddAction;
+    QAction *editDeleteAction;
+
+    QAction *editCutAction;
+    QAction *editPasteAction;
+    QAction *editMoveUpAction;
+    QAction *editMoveDownAction;
+    QAction *editPromoteAction;
+    QAction *editDemoteAction;
+    QAction *editStartOrStopAction;
+    QAction *editHideOrShowDoneTasksAction;
+    QAction *genelAyarlar;
 
 
-
-    QAction *boldAction;
-    QAction *italicAction;
-    QAction *strikeOutAction;
-    QAction *noSubOrSuperScriptAction;
-    QAction *superScriptAction;
-    QAction *subScriptAction;
-    QAction *colorAction;
 
     void createModelViewDelegate();
     void createConnections();
     void setCurrentIndex(const QModelIndex &index);
 
-    void hideOrShowDoneTask(bool hide, const QModelIndex &index);
-    void fileNew();
-    void fileOpen();
-    bool fileSave();
-    bool fileSaveAs();
     void editAdd();
-    void editDelete();
 
+    void editDelete();
     void editCut();
     void editPaste();
     void editMoveUp();
@@ -61,23 +74,46 @@ private:
     void editDemote();
 
     bool okToClearData();
-    void editStartOrStop(bool start);
-    void editHideOrShowDoneTasks(bool hide);
-    void setDirty(bool dirty=true)
-    {   setWindowModified(dirty);  }
-
+    void fileNew();
+    void fileOpen();
     void load(const QString &filename,
               const QStringList &taskPath=QStringList());
+    void editHideOrShowDoneTasks(bool hide);
+    bool fileSave();
+    bool fileSaveAs();
+
+    void editStartOrStop(bool start);
+
     void timeout();
     void updateIcon(int frame);
+    void hideOrShowDoneTask(bool hide, const QModelIndex &index);
+    //////////////////////////////////////////////////////////
 
+
+
+
+//    QAction *boldAction;
+//    QAction *italicAction;
+//    QAction *strikeOutAction;
+//    QAction *noSubOrSuperScriptAction;
+//    QAction *superScriptAction;
+//    QAction *subScriptAction;
+//    QAction *colorAction;
+
+
+
+
+
+signals:
+        void sgnHesap(quint64* m_Hesap_Kod,
+                      QString* m_Hesap_Ad/*,
+                      QString* m_Hesap_Turu*/);
 public slots:
     void updateUi();
     void stopTiming();
+    void setDirty(bool dirty=true)     {   setWindowModified(dirty);  }
 
 
-protected:
-    void closeEvent(QCloseEvent*);
 };
 
 #endif // DW_HESAP_H

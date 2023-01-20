@@ -1,7 +1,7 @@
 ﻿#include "main.h"
 //#include "main/hc_main.h"
-#include "main/hc_main.h"
-
+//#include "main/hc_main.h"
+#include "main/mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,15 +16,17 @@ int main(int argc, char *argv[])
 
     //*MW_main w ;
     //hC_main w;
-    hC_main mainwidget; /// dock widget hesap
-
+   // hC_main mainwidget; /// dock widget hesap
+    MainWindow w;
     //---- splash screen ----
 
     //QSize size = qApp->screens()[0]->size();
     //w.resize(size*.6);
     //   w.resize(size);
     ///Ana Ekran ////////////////////////////
-    mainwidget.show ();
+    //mainwidget.show ();
+    w.show();
+
     ///////////////////////////////// Login screen in mw_main
     //*  w.login ();
 

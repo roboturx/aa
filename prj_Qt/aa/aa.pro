@@ -45,7 +45,6 @@ SOURCES +=       \
     main/cm_treexml.cpp \
 main/main.cpp    \
 main/cw_hkk.cpp  \
-main/login.cpp   \
 main/dbase.cpp   \
 main/taskitem.cpp          \
 libs/alt_key.cpp \
@@ -56,13 +55,12 @@ libs/tamamla.cpp \
 libs/VTKontrol.cpp
 
 #main/mw_main.cpp \
-
+#main/login.cpp   \
 HEADERS  +=    \
     main/cm_dlg_cb_htur.h \
     main/cm_dlg_richtxt.h \
     main/cm_treexml.h \
 main/cw_hkk.h  \
-main/login.h   \
 main/dbase.h   \
 main/taskitem.h          \
 libs/VTKontTekkere.h \
@@ -77,7 +75,7 @@ libs/tamamla.h
 
 #main/mw_main.h \
  #FORMS    += \
-
+#main/login.h   \
 }
 contains(DEFINES, ADRS) {
 
@@ -197,6 +195,7 @@ HEADERS += \
     main/hc_main.h \
     main/hesapturu.h \
     main/main.h \
+    main/mainwindow.h \
     main/mw_main.h
 
 SOURCES += \
@@ -208,6 +207,7 @@ SOURCES += \
     main/dw_hesap.cpp \
     main/hc_main.cpp \
     main/hesapturu.cpp \
+    main/mainwindow.cpp \
     main/mw_main.cpp
 
 # kısaltmalar

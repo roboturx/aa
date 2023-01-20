@@ -14,27 +14,18 @@ const int FirstFrame = 0;
 const int LastFrame = 4;
 
 
-QAction *createAction(const QString &icon,
-                      const QString &text,
-                      QMainWindow *parent,
-                      const QKeySequence &shortcut=QKeySequence())
-{
-    QAction *action = new QAction(QIcon(icon), text, parent);
-    if (!shortcut.isEmpty())
-        action->setShortcut(shortcut);
-    return action;
-}
+
 
 } // anonymous namespace
 
 
 hC_main::hC_main()
     : QMainWindow()
-    ,
-      #ifndef CUSTOM_MODEL
-      timedItem(0),
-      #endif
-      currentIcon(0)
+//    ,
+//      #ifndef CUSTOM_MODEL
+//      timedItem(0)//,
+//      #endif
+//   //   currentIcon(0)
 {
     qDebug ()<<"        Constructor MAIN **************************";
 
@@ -45,7 +36,7 @@ hC_main::hC_main()
     this->setObjectName ("obj_hC_main");
 
     createGui();
-    createActions();
+  //  createActions();
     createMenusAndToolBar();
     createDocks ();
     //createModelViewDelegate();
@@ -166,72 +157,72 @@ void hC_main::createGui()
 }
 
 
-void hC_main::login()
-{
+//void hC_main::login()
+//{
 
-    /// at the beginning, first mainwindow is showed,
-    ///                    after login is executed
+//    /// at the beginning, first mainwindow is showed,
+//    ///                    after login is executed
 
-    // fade(true);
+//    // fade(true);
 
-    /// veritabanı kontrol
-    qDebug() << "db control";
-    dbase = new DBase(this);
-    //  dbase->setGeometry (800,300,300,480);
-    //  dbase->setWindowTitle("Veri Tabanı Kontrol");
-    dbase->show();
+//    /// veritabanı kontrol
+//    qDebug() << "db control";
+//    dbase = new DBase(this);
+//    //  dbase->setGeometry (800,300,300,480);
+//    //  dbase->setWindowTitle("Veri Tabanı Kontrol");
+//    dbase->show();
 
-    if (! dbase->setupDBase ())
-    {
-        /// hata ne /// baglanti yok
-        dbase->yaz("----------------------------------------");
-        dbase->yaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
-        return;
-    }
-
-
-    /// baglanti var /// uygulama yoluna devam etsin
-
-    dbase->yaz("----------------------------------------");
-    dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
-    qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
-    //  this->setCentralWidget (dbase );
+//    if (! dbase->setupDBase ())
+//    {
+//        /// hata ne /// baglanti yok
+//        dbase->yaz("----------------------------------------");
+//        dbase->yaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
+//        return;
+//    }
 
 
+//    /// baglanti var /// uygulama yoluna devam etsin
 
-    /// login için esc-enter kullanımı
-    /////////////////////////////////////
-    /*
-     logger= new Login;
-
-WARNING  şifre için burayı kullan
-
-       connect(logger, &Login::logok, this, &MW_main::yetkiler);
-    connect(this, &MW_main::cikis, logger, &Login::logex );
-    //connect(this, &MW_main::cikis, qApp , &QApplication::quit );
-
-    //qDebug() << "main keys set ESC";
-    QShortcut * sc_ESC = new QShortcut(
-                QKeySequence(Qt::Key_Escape),this,
-                SLOT(logouted() ));
-    sc_ESC->setAutoRepeat(false);
-*/
-
-
-    //    sbox = new SortingBox;
-    //dbox = new DragWidget;
-
-    /// all things okey
-    /// wait on main window for a key for connect
-
-    //mw_hC_hsp = new hC_hsp;
+//    dbase->yaz("----------------------------------------");
+//    dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
+//    qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
+//    //  this->setCentralWidget (dbase );
 
 
 
+//    /// login için esc-enter kullanımı
+//    /////////////////////////////////////
+//    /*
+//     logger= new Login;
+
+//WARNING  şifre için burayı kullan
+
+//       connect(logger, &Login::logok, this, &MW_main::yetkiler);
+//    connect(this, &MW_main::cikis, logger, &Login::logex );
+//    //connect(this, &MW_main::cikis, qApp , &QApplication::quit );
+
+//    //qDebug() << "main keys set ESC";
+//    QShortcut * sc_ESC = new QShortcut(
+//                QKeySequence(Qt::Key_Escape),this,
+//                SLOT(logouted() ));
+//    sc_ESC->setAutoRepeat(false);
+//*/
 
 
-    //this->setCentralWidget (mw_hC_hsp );
-}
+//    //    sbox = new SortingBox;
+//    //dbox = new DragWidget;
+
+//    /// all things okey
+//    /// wait on main window for a key for connect
+
+//    //mw_hC_hsp = new hC_hsp;
+
+
+
+
+
+//    //this->setCentralWidget (mw_hC_hsp );
+//}
 
 
 
@@ -460,6 +451,18 @@ void hC_main::fgenelAyarlar()
     // return true;
 }
 
+
+QAction *hC_main::createAction(const QString &icon,
+                      const QString &text,
+                      QMainWindow *parent,
+                      const QKeySequence &shortcut/*=QKeySequence()*/)
+{
+    QAction *action = new QAction(QIcon(icon), text, parent);
+    if (!shortcut.isEmpty())
+        action->setShortcut(shortcut);
+    return action;
+}
+
 void hC_main::createActions()
 {
     qDebug()<<"-----------    ::hChsp createActions";
@@ -474,47 +477,44 @@ void hC_main::createActions()
                                   this, QKeySequence::Save);
     fileSaveAsAction = createAction(":/rsm/images/filesave.png",
                                     tr("Farklı Kaydet..."), this
-                                #if QT_VERSION >= 0x040500
-                                    , QKeySequence::SaveAs
-                                #endif
-                                    );
+                                    , QKeySequence::SaveAs );
     fileQuitAction = createAction(":/rsm/images/filequit.png",
-                                  tr("Çıkış"), this);
-#if QT_VERSION >= 0x040600
-    fileQuitAction->setShortcuts(QKeySequence::Quit);
-#else
-    fileQuitAction->setShortcut(QKeySequence("Ctrl+Q"));
-#endif
-    editAddAction = createAction(":/rsm/images/editadd.png",
-                                 tr("Hesap Ekle..."),
-                                 this, QKeySequence(tr("Ctrl+A")));
-    editDeleteAction = createAction(":/rsm/images/editdelete.png",
-                                    tr("Hesap Sil..."),
-                                    this, QKeySequence::Delete);
+                                  tr("Çı&kış"), this
+                                    , QKeySequence(Qt::CTRL | Qt::Key_K) );
+    ayarlarAction = createAction(":/rsm/images/filequit.png",
+                                    "&Ayarlar", this
+                                    , QKeySequence(Qt::CTRL | Qt::Key_A));
 
-    editCutAction = createAction(":/rsm/images/editcut.png", tr("Kes"),
-                                 this, QKeySequence::Cut);
-    editPasteAction = createAction(":/rsm/images/editpaste.png", tr("Yapıştır"),
-                                   this, QKeySequence::Paste);
-    editMoveUpAction = createAction(":/rsm/images/editup.png", tr("Hesap Yukarı"),
-                                    this, QKeySequence(tr("Ctrl+Up")));
-    editMoveDownAction = createAction(":/rsm/images/editdown.png",
-                                      tr("Hesap Aşağı"), this, QKeySequence(tr("Ctrl+Down")));
-    editPromoteAction = createAction(":/rsm/images/editpromote.png",
-                                     tr("Üst Hesap Yap"), this, QKeySequence(tr("Ctrl+Left")));
-    editDemoteAction = createAction(":/rsm/images/editdemote.png",
-                                    tr("Alt Hesap Yap"), this, QKeySequence(tr("Ctrl+Right")));
+//    editAddAction = createAction(":/rsm/images/editadd.png",
+//                                 tr("Hesap Ekle..."),
+//                                 this, QKeySequence(tr("Ctrl+A")));
+//    editDeleteAction = createAction(":/rsm/images/editdelete.png",
+//                                    tr("Hesap Sil..."),
+//                                    this, QKeySequence::Delete);
 
-    editStartOrStopAction = createAction(":/rsm/images/0.png", tr("S&tart"),
-                                         this, QKeySequence(tr("Ctrl+T")));
-    editStartOrStopAction->setCheckable(true);
-    editStartOrStopAction->setChecked(false);
-    editHideOrShowDoneTasksAction = new QAction(tr("Kapalı Hesaplaı Gizle"),
-                                                this);
-    genelAyarlar = new QAction(tr("Ayarlar"), this);
+//    editCutAction = createAction(":/rsm/images/editcut.png", tr("Kes"),
+//                                 this, QKeySequence::Cut);
+//    editPasteAction = createAction(":/rsm/images/editpaste.png", tr("Yapıştır"),
+//                                   this, QKeySequence::Paste);
+//    editMoveUpAction = createAction(":/rsm/images/editup.png", tr("Hesap Yukarı"),
+//                                    this, QKeySequence(tr("Ctrl+Up")));
+//    editMoveDownAction = createAction(":/rsm/images/editdown.png",
+//                                      tr("Hesap Aşağı"), this, QKeySequence(tr("Ctrl+Down")));
+//    editPromoteAction = createAction(":/rsm/images/editpromote.png",
+//                                     tr("Üst Hesap Yap"), this, QKeySequence(tr("Ctrl+Left")));
+//    editDemoteAction = createAction(":/rsm/images/editdemote.png",
+//                                    tr("Alt Hesap Yap"), this, QKeySequence(tr("Ctrl+Right")));
 
-    editHideOrShowDoneTasksAction->setCheckable(true);
-    editHideOrShowDoneTasksAction->setChecked(false);
+//    editStartOrStopAction = createAction(":/rsm/images/0.png", tr("S&tart"),
+//                                         this, QKeySequence(tr("Ctrl+T")));
+ //   editStartOrStopAction->setCheckable(true);
+//    editStartOrStopAction->setChecked(false);
+ //   editHideOrShowDoneTasksAction = new QAction(tr("Kapalı Hesaplaı Gizle"),
+  //                                              this);
+
+
+ //   editHideOrShowDoneTasksAction->setCheckable(true);
+  //  editHideOrShowDoneTasksAction->setChecked(false);
 }
 
 void hC_main::createDocks()
@@ -592,49 +592,60 @@ void hC_main::createMenusAndToolBar()
     viewMenu = menuBar()->addMenu(tr("&View"));
     QToolBar *fileToolBar = addToolBar(tr("Dosya"));
 
-//    setStyleSheet ("QMenu, QToolbar {"
-//                   "background-color: solid darkred;"
-//                   "color: cyan;"
-//                   "font: 14pt "
-//                   "}");
+   // foreach (QAction *action, QList<QAction*>() << fileNewAction
+     //        << fileOpenAction << fileSaveAction << fileSaveAsAction)
 
-    foreach (QAction *action, QList<QAction*>() << fileNewAction
-             << fileOpenAction << fileSaveAction << fileSaveAsAction)
-    {
-        fileMenu->addAction(action);
-        if (action != fileSaveAsAction)
-            fileToolBar->addAction(action);
-        if (action == fileSaveAction || action == fileSaveAsAction)
-            action->setEnabled(false);
-    }
-    fileMenu->addSeparator();
+//    QList<QAction*> acts;
+//    acts << fileNewAction << fileOpenAction << fileSaveAction
+//         << fileSaveAsAction ;
+//    qDebug()<<"----------- menus and toolbar  aaaaaaa";
+//    foreach (QAction *action0, acts )
+//    {
+//        //qDebug()<<"----------- menus and toolbar  xxxxxxxxx" << action->text ();
+//        fileMenu->addAction(action0);
+//        if (action0 != fileSaveAsAction)
+//            fileToolBar->addAction(action0);
+//         qDebug()<<"----------- menus and toolbar fffffffff";
+////        if (action == fileSaveAction
+////             || action == fileSaveAsAction)
+////            action->setEnabled(false);
+//    }
+     qDebug()<<"----------- menus and toolbar e333333nddd";
+
+     fileMenu->addAction(fileNewAction);
+     fileMenu->addAction(fileOpenAction);
+     fileMenu->addAction(fileSaveAction);
+     fileMenu->addAction(fileSaveAsAction);
+     fileMenu->addSeparator();
+    fileMenu->addAction(ayarlarAction);
     fileMenu->addAction(fileQuitAction);
 
-    QAction *emptyAction = 0;
-    QMenu *editMenu = menuBar()->addMenu(tr("Düzen"));
-    QToolBar *editToolBar = addToolBar(tr("Düzen"));
+//    QAction *emptyAction = 0;
+//    QMenu *editMenu = menuBar()->addMenu(tr("Düzen"));
+//    QToolBar *editToolBar = addToolBar(tr("Düzen"));
 
 
-    foreach (QAction *action, QList<QAction*>() << editAddAction
-             << editDeleteAction << emptyAction
-             << editCutAction << editPasteAction << emptyAction
-             << editMoveUpAction << editMoveDownAction
-             << editPromoteAction << editDemoteAction << emptyAction
-             << editStartOrStopAction << editHideOrShowDoneTasksAction
-             << genelAyarlar)
+//    foreach (QAction *action, QList<QAction*>() << editAddAction
+//             << editDeleteAction << emptyAction
+//             << editCutAction << editPasteAction << emptyAction
+//             << editMoveUpAction << editMoveDownAction
+//             << editPromoteAction << editDemoteAction << emptyAction
+//             << editStartOrStopAction << editHideOrShowDoneTasksAction
+//             << genelAyarlar)
 
-    {
-        if (action == emptyAction) {
-            editMenu->addSeparator();
-            editToolBar->addSeparator();
-            continue;
-        }
-        if (action != editHideOrShowDoneTasksAction)
-            editToolBar->addAction(action);
-        else
-            editMenu->addSeparator();
-        editMenu->addAction(action);
-    }
+//    {
+//        if (action == emptyAction) {
+//            editMenu->addSeparator();
+//            editToolBar->addSeparator();
+//            continue;
+//        }
+//        if (action != editHideOrShowDoneTasksAction)
+//            editToolBar->addAction(action);
+//        else
+//            editMenu->addSeparator();
+//        editMenu->addAction(action);
+//    }
+    qDebug()<<"----------- menus and toolbar enddd";
 }
 
 
@@ -655,7 +666,25 @@ void hC_main::customContextMenuRequested(
     menu.exec(mapToGlobal(pos));
 }
 
+//void hC_main::closeEvent(QCloseEvent *event)
+//{
+//    qDebug()<<"-----------    ::hChsp closeEvent"
+//             << " filename               : " << modelXML->filename()
+//             << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
+  //  stopTiming();
+  //  if (okToClearData()) {
+//        QSettings settings;
+//        settings.setValue(GeometrySetting, saveGeometry());
+//        settings.setValue(FilenameSetting, modelXML->filename());
+//        settings.setValue(CurrentTaskPathSetting,
+//                          modelXML->pathForIndex(treeViewXML->currentIndex()));
 
+        //qDebug() <<"        close -> settings.filename "<< settings.fileName();
+       // event->accept();
+   // }
+ //   else
+   //     event->ignore();
+//}
 
 
 
