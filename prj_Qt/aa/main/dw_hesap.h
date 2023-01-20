@@ -63,24 +63,13 @@ private:
     void createConnections();
     void setCurrentIndex(const QModelIndex &index);
 
-    void editAdd();
 
-    void editDelete();
-    void editCut();
-    void editPaste();
-    void editMoveUp();
-    void editMoveDown();
-    void editPromote();
-    void editDemote();
 
     bool okToClearData();
-    void fileNew();
-    void fileOpen();
+
     void load(const QString &filename,
               const QStringList &taskPath=QStringList());
     void editHideOrShowDoneTasks(bool hide);
-    bool fileSave();
-    bool fileSaveAs();
 
     void editStartOrStop(bool start);
 
@@ -112,7 +101,25 @@ public slots:
     void updateUi();
     void stopTiming();
     void setDirty(bool dirty=true)     {   setWindowModified(dirty);  }
+    void customContextMenuRequested(const QPoint &pos);
+    void contextMenuEvent(QContextMenuEvent *event);
 
+    void fileNew();
+    void fileOpen();
+
+    bool fileSave();
+    bool fileSaveAs();
+    void close();
+    void editAdd();
+    void editDelete();
+
+   void  editCut();
+    void editPaste();
+    void editMoveUp();
+    void editMoveDown();
+    void editPromote();
+    void editDemote();
+    void fgenelAyarlar();
 
 };
 

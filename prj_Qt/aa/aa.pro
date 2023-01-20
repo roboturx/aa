@@ -195,8 +195,7 @@ HEADERS += \
     main/hc_main.h \
     main/hesapturu.h \
     main/main.h \
-    main/mainwindow.h \
-    main/mw_main.h
+    main/mainwindow.h
 
 SOURCES += \
     main/cm_dlg_le_richtxt.cpp \
@@ -207,8 +206,7 @@ SOURCES += \
     main/dw_hesap.cpp \
     main/hc_main.cpp \
     main/hesapturu.cpp \
-    main/mainwindow.cpp \
-    main/mw_main.cpp
+    main/mainwindow.cpp
 
 # kısaltmalar
 # cm - class model

@@ -81,8 +81,10 @@ void dW_Hesap::createConnections()
             &QItemSelectionModel::currentRowChanged,
             this, &dW_Hesap::updateUi);
 
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(customContextMenuRequested(const QPoint&)));
+//    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
+//            this, SLOT(customContextMenuRequested(const QPoint&)));
+    connect(this,  &dW_Hesap::customContextMenuRequested,
+            this, &dW_Hesap::customContextMenuRequested );
 
     connect(modelXML,
             SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
@@ -113,9 +115,14 @@ void dW_Hesap::createConnections()
     slotForAction[editDemoteAction] = SLOT(editDemote());
     slotForAction[genelAyarlar] = SLOT(fgenelAyarlar());
 
-    QHashIterator<QAction*, QString> i(slotForAction);
+    QHashIterator<QAction*,
+            QString> i(slotForAction);
     while (i.hasNext()) {
         i.next();
+qDebug() <<"1111";
+        qDebug() <<i.key()->text()<< "   i.    "
+               <<i.value();
+
         connect(i.key(), SIGNAL(triggered()),
                 this, qPrintable(i.value()));
     }
@@ -486,6 +493,11 @@ bool dW_Hesap::fileSaveAs()
     return fileSave();
 }
 
+void dW_Hesap::close()
+{
+
+}
+
 
 
 
@@ -600,4 +612,27 @@ void dW_Hesap::editHideOrShowDoneTasks(bool hide)
 {
     // qDebug()<<"-----------    ::hChsp edithideorshwdonetsks";
     hideOrShowDoneTask(hide, QModelIndex());
+}
+
+
+void dW_Hesap::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    menu.addAction(fileNewAction);
+    menu.addAction(fileOpenAction);
+    menu.addAction(fileSaveAction);
+    menu.exec(event->globalPos());
+}
+
+void dW_Hesap::fgenelAyarlar()
+{
+    qDebug() <<"sssssssssss";
+}
+
+void dW_Hesap::customContextMenuRequested(
+        const QPoint &pos)
+{
+    QMenu menu(this);
+    menu.addActions(actions());
+    menu.exec(mapToGlobal(pos));
 }
