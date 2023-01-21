@@ -13,13 +13,63 @@
 MainWindow::MainWindow()
     : textEdit(new QTextEdit)
 {
-    setCentralWidget(textEdit);
+
+
+
+qDebug ()<<"   creat gui,";
+
+QSplitter *splitter = new QSplitter(this);
+
+QWidget *page1 = new QWidget(splitter);
+QGridLayout *layout1 = new QGridLayout(page1);
+w_TABs = new QTabWidget(page1);
+w_TABs->setTabShape (QTabWidget::Triangular);
+w_TABs->setTabPosition (QTabWidget::North);
+layout1->setColumnStretch(1, 1);
+layout1->setColumnMinimumWidth(1, 250);
+layout1->addWidget(w_TABs             ,  0, 0, 16, 2 );
+layout1->addWidget(new QLabel("Tabs") , 17, 0, 1, 2 );
+
+layout1->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored,
+                                 QSizePolicy::MinimumExpanding), 5, 0);
+
+
+//QGridLayout *lyt_central;
+
+//if (QGuiApplication::styleHints()->showIsFullScreen()
+//    || QGuiApplication::styleHints()->showIsMaximized())
+//{
+//    QHBoxLayout *horizontalLayout = new QHBoxLayout(this);
+//    QGroupBox *groupBox = new QGroupBox(
+//        QGuiApplication::applicationDisplayName(), this);
+//    horizontalLayout->addWidget(groupBox);
+//    lyt_central = new QGridLayout(groupBox);
+
+//}
+//else
+//{
+//    lyt_central = new QGridLayout(this);///?????
+//}
+
+//setLayout (lyt_central);
+
+splitter->addWidget (page1);
+
+//lyt_central->addWidget(splitter    ,0,1,1,1);
+
+setCentralWidget(splitter);
+
+
+//  login();
+
+
+
 
     createActions();
     createStatusBar();
     createDockWindows();
 
-    setWindowTitle(tr("Dock Widgets"));
+    setWindowTitle(tr("Evren v23.01"));
 
     newLetter();
     setUnifiedTitleAndToolBarOnMac(true);
@@ -266,7 +316,7 @@ void MainWindow::createDockWindows()
     qDebug()<<" 111 ";
     dock = new QDockWidget(tr("Hesaplar"), this);
     qDebug()<<" 222 ";
-    hesapList = new dW_Hesap(dock);
+    hesapList = new hC_hesapTree(dock);
 
     qDebug()<<" 333 ";
     dock->setWidget(hesapList);

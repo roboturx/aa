@@ -191,8 +191,7 @@ HEADERS += \
     hsap/proxymodel.h \
     hsap/uniqueproxymodel.h \
     hsap/uniqueproxymodel.h \
-    main/dw_hesap.h \
-    main/hc_main.h \
+    main/hc_hesaptree.h \
     main/hesapturu.h \
     main/main.h \
     main/mainwindow.h
@@ -203,8 +202,7 @@ SOURCES += \
     main/dialog.cpp \
     hsap/proxymodel.cpp \
     hsap/uniqueproxymodel.cpp \
-    main/dw_hesap.cpp \
-    main/hc_main.cpp \
+    main/hc_hesaptree.cpp \
     main/hesapturu.cpp \
     main/mainwindow.cpp
 

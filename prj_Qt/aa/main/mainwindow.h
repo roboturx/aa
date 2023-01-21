@@ -5,7 +5,7 @@
 
 
 #include "libs/globals.h"
-#include "main/dw_hesap.h"
+//#include "main/hc_hesaptree.h"
 
 //    QT_BEGIN_NAMESPACE
 //    class QAction;
@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow();
 
+    QTabWidget *w_TABs;
 private slots:
     void newLetter();
     void save();
@@ -41,7 +42,7 @@ private:
 
     QListWidget *paragraphsList;
 
-    dW_Hesap *hesapList;
+    //hC_hesapTree *hesapList;
 
     QMenu *viewMenu;
 };
