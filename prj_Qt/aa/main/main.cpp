@@ -1,6 +1,4 @@
 ﻿#include "main.h"
-//#include "main/hc_main.h"
-
 #include "main/mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -18,6 +16,9 @@ int main(int argc, char *argv[])
     //hC_main w;
    // hC_main mainwidget; /// dock widget hesap
     MainWindow w;
+    //hC_hesapTree w;
+
+
     //---- splash screen ----
 
     //QSize size = qApp->screens()[0]->size();

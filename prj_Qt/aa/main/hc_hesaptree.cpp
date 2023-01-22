@@ -156,8 +156,8 @@ void hC_hesapTree::createModelViewDelegate()
 
     lB_Hesap = new QLabel("Kod-------");
 
-    pi_Hesap_Kod = new quint64{};
-    ps_Hesap_Ad = new QString{};
+    //pi_Hesap_Kod = new quint64{};
+    //ps_Hesap_Ad = new QString{};
 
 
 }
@@ -208,31 +208,6 @@ void hC_hesapTree::createGui()
     setCentralWidget (wdgt_central);
 
 
-}
-
-void hC_hesapTree::setInteger()
-{
-    //! [0]
-    bool ok;
-    int i = QInputDialog::getInt(this, tr("QInputDialog::getInt()"),
-                                 tr("Percentage:"), 25, 0, 100, 1, &ok);
-    if (ok)
-        integerLabel->setText(tr("%1%").arg(i));
-    //! [0]
-}
-
-void hC_hesapTree::setColor()
-{
-    const QColorDialog::ColorDialogOptions options =
-            QFlag(colorDialogOptionsWidget->value());
-    const QColor color = QColorDialog::getColor(Qt::green, this,
-                                                "Select Color", options);
-    if (color.isValid())
-    {
-        colorLabel->setText(color.name());
-        colorLabel->setPalette(QPalette(color));
-        colorLabel->setAutoFillBackground(true);
-    }
 }
 
 
@@ -370,7 +345,7 @@ void hC_hesapTree::createConnections()
 
     connect(modelXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
 
-
+  //  connect(modelXML, &cm_TreeXML::);
 
     QHash<QAction*, QString> slotForAction;
     slotForAction[fileNewAction] = SLOT(fileNew());
@@ -405,195 +380,6 @@ void hC_hesapTree::createConnections()
     qDebug() << "                  kntrl son";
 }
 
-void hC_hesapTree::createTabs(QString h_Turu)
-{
-
-    w_TABs->clear ();
-    w_TABs->setIconSize(QSize (28,28));
-
-    int frameStyle = QFrame::Sunken | QFrame::Panel;
-
-    integerLabel = new QLabel("Ayarlar");
-    integerLabel->setFrameStyle(frameStyle);
-    QPushButton *integerButton =
-         new QPushButton(tr("QInputDialog::get&Int()"));
-
-    colorLabel = new QLabel;
-    colorLabel->setFrameStyle(frameStyle);
-    colorButton = new QPushButton(tr("QColorDialog::get&Color()"));
-
-
-
-    if (h_Turu == "Konum")
-    {
-        integerLabel = new QLabel(h_Turu, w_TABs);
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/globe.png"));
-
-    }
-    if (h_Turu == "Şirket")
-    {
-        integerLabel = new QLabel(h_Turu, w_TABs);
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/file.png"));
-    }
-    if (h_Turu == "Şahıs")
-    {
-        integerLabel = new QLabel("h_Turu", w_TABs);
-                       integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/person.jpeg"));
-
-    }
-    if (h_Turu == "Aktif Hesap")
-    {
-        integerLabel = new QLabel("h_Turu", w_TABs);
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,
-                 QIcon(":/rsm/ico/plus-minus-green.ico"));
-    }
-    if (h_Turu == "Pasif Hesap")
-    {
-        integerLabel = new QLabel("h_Turu", w_TABs);
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,
-                 QIcon(":/rsm/ico/plus-minus-red.ico"));
-    }
-    if (h_Turu == "Araç")
-    {
-        integerLabel = new QLabel("h_Turu", w_TABs);
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/ex.ico"));
-    }
-    if (h_Turu == "Malzeme")
-    {
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/plt.png"));
-    }
-    if (h_Turu == "Gayrimenkul")
-    {
-        integerLabel = new QLabel("h_Turu", w_TABs);
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/ico/gm2.ico"));
-    }
-    if (h_Turu == "Menkul")
-    {
-        integerLabel = new QLabel("h_Turu", w_TABs);
-        integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
-        QGridLayout *layout = new QGridLayout(page1);
-        layout->setColumnStretch(1, 1);
-        layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
-
-        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-        w_TABs->addTab(page1, h_Turu);
-        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/candlestick.png"));
-
-
-
-    }
-//    if (h_Turu == "")
-//    {
-
-//    }
-
-
-
-
-
-
-    connect(integerButton, &QAbstractButton::clicked,
-            this, &hC_hesapTree::setInteger);
-    connect(colorButton, &QAbstractButton::clicked,
-            this, &hC_hesapTree::setColor);
-//    connect(this, &hC_main::sg_hTurColor,
-//            modelXML, &cm_TreeXML::hTurColor );
-
-    QWidget *page10 = new QWidget;
-    QGridLayout *layout = new QGridLayout(page10);
-    layout->setColumnStretch(1, 1);
-    layout->setColumnMinimumWidth(1, 250);
-    layout->addWidget(integerButton, 0, 0);
-    layout->addWidget(integerLabel, 0, 1);
-    layout->addWidget(colorButton, 1, 0);
-    layout->addWidget(colorLabel, 1, 1);
-
-    layout->addItem(new QSpacerItem(3, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
-    w_TABs->addTab(page10, tr("Ayarlar"));
-}
-
 
 void hC_hesapTree::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -617,7 +403,8 @@ void hC_hesapTree::customContextMenuRequested(
 ///////////////////////////***************************************
 void hC_hesapTree::updateUi()
 {
-    qDebug()<<"-----------    ::hChsp updateUi...";
+    qDebug()<<"-----------    ::hChsp updateUi..."
+           <<modelXML->rowCount();
     fileSaveAction->setEnabled(isWindowModified());
     int rows = modelXML->rowCount();
     fileSaveAsAction->setEnabled(isWindowModified() || rows);
@@ -649,9 +436,10 @@ void hC_hesapTree::updateUi()
         ///
         ///
 //        setHesapAdColor(currentItem);
-        *pi_Hesap_Kod = currentItem->hesapKod ();
-        *ps_Hesap_Ad = currentItem->hesapAd ();
-        emit sgnHesap (pi_Hesap_Kod, ps_Hesap_Ad );
+      //  *pi_Hesap_Kod = currentItem->hesapKod ();
+      //  *ps_Hesap_Ad = currentItem->hesapAd ();
+     //   *ps_Hesap_Turu = currentItem->hesapTuru();
+        emit sgnHesap (currentItem );
         /// hesap değiştiğinde detaylarda değişsin
         ///
         ///
@@ -667,28 +455,6 @@ void hC_hesapTree::updateUi()
     }
 }
 
-void hC_hesapTree::setHesapAdColor(TaskItem* currentItem)
-{
-//    enum hsptur {HesapAd, HesapAciklama, Topluhesap,
-//                  HesapTuru, UstHesap, HesapKod, DBFile };
-
-
-
-//    modelXML->setData(treeViewXML->currentIndex (), QColor(0xff0000),Qt::ForegroundRole);
-
-
-
-//    int i = currentItem->hesapAd ().indexOf ("<");
-//    if (i == 1000)
-//    {
-//    currentItem->setHesapAd(
-//        QString("<font color=\"#00ff00\"><b>")+
-//        currentItem->hesapAd()+
-//        "</b></font>");
-
-//    }
-
-}
 
 
 

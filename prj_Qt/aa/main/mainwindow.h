@@ -5,7 +5,7 @@
 
 
 #include "libs/globals.h"
-//#include "main/hc_hesaptree.h"
+#include "main/hc_hesaptree.h"
 
 //    QT_BEGIN_NAMESPACE
 //    class QAction;
@@ -22,7 +22,16 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow();
 
-    QTabWidget *w_TABs;
+    QTabWidget *w_TABs{};
+    QSplitter *splitter{};
+    //QGridLayout *layout1;
+
+    QLabel *integerLabel{};
+    QLabel *colorLabel{} ;
+    QPushButton *colorButton{};
+
+    TaskItem* currentHesapItem{};
+
 private slots:
     void newLetter();
     void save();
@@ -31,18 +40,22 @@ private slots:
     void about();
     void insertCustomer(const QString &customer);
     void addParagraph(const QString &paragraph);
+    void w_Tabs(TaskItem *hesapItem);
+    void setColor();
+    void setInteger();
 
 private:
     void createActions();
     void createStatusBar();
     void createDockWindows();
+    void createTabs();
 
     QTextEdit *textEdit;
     QListWidget *customerList;
 
     QListWidget *paragraphsList;
 
-    //hC_hesapTree *hesapList;
+    hC_hesapTree *hesapList;
 
     QMenu *viewMenu;
 };

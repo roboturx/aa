@@ -13,54 +13,29 @@
 MainWindow::MainWindow()
     : textEdit(new QTextEdit)
 {
+    qDebug ()<<"   creat gui,";
 
-
-
+    splitter = new QSplitter(this);
+    w_TABs = new QTabWidget(this);
 qDebug ()<<"   creat gui,";
+    QWidget *page1 = new QWidget(splitter);
+    QGridLayout *layout1 = new QGridLayout(page1);
+//    w_TABs = new QTabWidget(page1);
+//    w_TABs->setTabShape (QTabWidget::Triangular);
+//    w_TABs->setTabPosition (QTabWidget::North);
+    layout1->setColumnStretch(1, 1);
+    layout1->setColumnMinimumWidth(1, 250);
+    layout1->addWidget(w_TABs             ,  0, 0, 16, 2 );
+    layout1->addWidget(new QLabel("Tabs") , 17, 0, 1, 2 );
 
-QSplitter *splitter = new QSplitter(this);
+//    layout1->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored,
+//                                     QSizePolicy::MinimumExpanding), 5, 0);
 
-QWidget *page1 = new QWidget(splitter);
-QGridLayout *layout1 = new QGridLayout(page1);
-w_TABs = new QTabWidget(page1);
-w_TABs->setTabShape (QTabWidget::Triangular);
-w_TABs->setTabPosition (QTabWidget::North);
-layout1->setColumnStretch(1, 1);
-layout1->setColumnMinimumWidth(1, 250);
-layout1->addWidget(w_TABs             ,  0, 0, 16, 2 );
-layout1->addWidget(new QLabel("Tabs") , 17, 0, 1, 2 );
-
-layout1->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored,
-                                 QSizePolicy::MinimumExpanding), 5, 0);
-
-
-//QGridLayout *lyt_central;
-
-//if (QGuiApplication::styleHints()->showIsFullScreen()
-//    || QGuiApplication::styleHints()->showIsMaximized())
-//{
-//    QHBoxLayout *horizontalLayout = new QHBoxLayout(this);
-//    QGroupBox *groupBox = new QGroupBox(
-//        QGuiApplication::applicationDisplayName(), this);
-//    horizontalLayout->addWidget(groupBox);
-//    lyt_central = new QGridLayout(groupBox);
-
-//}
-//else
-//{
-//    lyt_central = new QGridLayout(this);///?????
-//}
-
-//setLayout (lyt_central);
-
-splitter->addWidget (page1);
-
-//lyt_central->addWidget(splitter    ,0,1,1,1);
-
-setCentralWidget(splitter);
+    splitter->addWidget(page1);
+    setCentralWidget(splitter);
 
 
-//  login();
+    //  login();
 
 
 
@@ -155,7 +130,7 @@ void MainWindow::save()
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         QMessageBox::warning(this, tr("Dock Widgets"),
                              tr("Cannot write file %1:\n%2.")
-                                 .arg(QDir::toNativeSeparators(fileName), file.errorString()));
+                             .arg(QDir::toNativeSeparators(fileName), file.errorString()));
         return;
     }
 
@@ -219,6 +194,7 @@ void MainWindow::addParagraph(const QString &paragraph)
     cursor.endEditBlock();
 
 }
+
 //! [7]
 
 void MainWindow::about()
@@ -313,16 +289,10 @@ void MainWindow::createDockWindows()
     viewMenu->addAction(dock->toggleViewAction());
 
 
-    qDebug()<<" 111 ";
     dock = new QDockWidget(tr("Hesaplar"), this);
-    qDebug()<<" 222 ";
     hesapList = new hC_hesapTree(dock);
-
-    qDebug()<<" 333 ";
     dock->setWidget(hesapList);
-    qDebug()<<" 444 ";
     addDockWidget(Qt::LeftDockWidgetArea, dock);
-    qDebug()<<" 555 ";
     viewMenu->addAction(dock->toggleViewAction());
 
 
@@ -356,6 +326,242 @@ void MainWindow::createDockWindows()
     connect(paragraphsList, &QListWidget::currentTextChanged,
             this, &MainWindow::addParagraph);
 
-   // connect(hesapList, &QListWidget::currentTextChanged,
-     //       this, &MainWindow::addParagraph);
+    connect(hesapList, &hC_hesapTree::sgnHesap,
+            this, &MainWindow::w_Tabs);
+}
+
+void MainWindow::w_Tabs(TaskItem *hesapItem)
+{
+
+    currentHesapItem = hesapItem;
+    qDebug()<< "mw wtabs////////////////////////"
+            << hesapItem->hesapAd();
+    createTabs();
+
+
+   // layout1->addWidget(wt    ,  0, 0, 16, 2 );
+   // splitter->addWidget (wt);
+  //  delete hesapItem;
+
+}
+
+
+void MainWindow::createTabs()
+{
+
+    w_TABs->clear ();
+    w_TABs->setIconSize(QSize (28,28));
+
+    int frameStyle = QFrame::Sunken | QFrame::Panel;
+
+    integerLabel = new QLabel("Ayarlar");
+    integerLabel->setFrameStyle(frameStyle);
+    QPushButton *integerButton =
+         new QPushButton(tr("QInputDialog::get&Int()"));
+
+    colorLabel = new QLabel;
+    colorLabel->setFrameStyle(frameStyle);
+    colorButton = new QPushButton(tr("QColorDialog::get&Color()"));
+
+    QString h_Turu = currentHesapItem->hesapTuru();
+
+    if (h_Turu == "Konum")
+    {
+        integerLabel = new QLabel(h_Turu, w_TABs);
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/globe.png"));
+
+    }
+    if (h_Turu == "Şirket")
+    {
+        integerLabel = new QLabel(h_Turu, w_TABs);
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/file.png"));
+    }
+    if (h_Turu == "Şahıs")
+    {
+        integerLabel = new QLabel("h_Turu", w_TABs);
+                       integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,QIcon(":/rsm/person.jpeg"));
+
+    }
+    if (h_Turu == "Aktif Hesap")
+    {
+        integerLabel = new QLabel("h_Turu", w_TABs);
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,
+                 QIcon(":/rsm/ico/plus-minus-green.ico"));
+    }
+    if (h_Turu == "Pasif Hesap")
+    {
+        integerLabel = new QLabel("h_Turu", w_TABs);
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,
+                 QIcon(":/rsm/ico/plus-minus-red.ico"));
+    }
+    if (h_Turu == "Araç")
+    {
+        integerLabel = new QLabel("h_Turu", w_TABs);
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,QIcon(":/rsm/ex.ico"));
+    }
+    if (h_Turu == "Malzeme")
+    {
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,QIcon(":/rsm/plt.png"));
+    }
+    if (h_Turu == "Gayrimenkul")
+    {
+        integerLabel = new QLabel("h_Turu", w_TABs);
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,QIcon(":/rsm/ico/gm2.ico"));
+    }
+    if (h_Turu == "Menkul")
+    {
+        integerLabel = new QLabel("h_Turu", w_TABs);
+        integerLabel->setFrameStyle(frameStyle);
+        QWidget *page1 = new QWidget(w_TABs);
+        QGridLayout *layout = new QGridLayout(page1);
+        layout->setColumnStretch(1, 1);
+        layout->setColumnMinimumWidth(1, 250);
+        //layout->addWidget(integerButton, 0, 0);
+        layout->addWidget(integerLabel, 0, 1);
+
+        layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+        w_TABs->addTab(page1, h_Turu);
+        w_TABs->setTabIcon (0,QIcon(":/rsm/icon/candlestick.png"));
+
+
+
+    }
+//    if (h_Turu == "")
+//    {
+
+//    }
+
+
+
+
+
+
+    connect(integerButton, &QAbstractButton::clicked,
+            this, &MainWindow::setInteger);
+    connect(colorButton, &QAbstractButton::clicked,
+            this, &MainWindow::setColor);
+//    connect(this, &hC_main::sg_hTurColor,
+//            modelXML, &cm_TreeXML::hTurColor );
+
+    QWidget *page10 = new QWidget;
+    QGridLayout *layout = new QGridLayout(page10);
+    layout->setColumnStretch(1, 1);
+    layout->setColumnMinimumWidth(1, 250);
+    layout->addWidget(integerButton, 0, 0);
+    layout->addWidget(integerLabel, 0, 1);
+    layout->addWidget(colorButton, 1, 0);
+    layout->addWidget(colorLabel, 1, 1);
+
+    layout->addItem(new QSpacerItem(3, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+    w_TABs->addTab(page10, tr("Ayarlar"));
+
+
+
+}
+
+
+
+void MainWindow::setInteger()
+{
+    //! [0]
+    bool ok;
+    int i = QInputDialog::getInt(this, tr("QInputDialog::getInt()"),
+                                 tr("Percentage:"), 25, 0, 100, 1, &ok);
+    if (ok)
+        integerLabel->setText(tr("%1%").arg(i));
+    //! [0]
+}
+
+void MainWindow::setColor()
+{
+//    const QColorDialog::ColorDialogOptions options =
+//            QFlag(colorDialogOptionsWidget->value());
+    const QColor color =
+            QColorDialog::getColor(Qt::green, this,
+                          "Select Color", QFlag(1));
+    if (color.isValid())
+    {
+        colorLabel->setText(color.name());
+        colorLabel->setPalette(QPalette(color));
+        colorLabel->setAutoFillBackground(true);
+    }
 }

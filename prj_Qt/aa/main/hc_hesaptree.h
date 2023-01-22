@@ -1,38 +1,26 @@
 #ifndef hC_hesapTree_H
 #define hC_hesapTree_H
 
-#include "main/cw_dlg_options.h"
-#include "main/mainwindow.h"
+//#include "main/cw_dlg_options.h"
 #include "main/taskitem.h"
 //#include "libs/globals.h"
-//#include "libs/alt_key.h"
-//#include "cL_dlG_RichTxt.h"
 #include "main/cm_treexml.h"
 
 
-class hC_hesapTree : public MainWindow
+class hC_hesapTree : public QMainWindow
 {
     Q_OBJECT
 
 public:
     explicit hC_hesapTree(QWidget * parent=nullptr);
 
-    void setHesapAdColor(TaskItem *item);
     cm_dlG_cb_hTur *cbdlgt;
-
-    QString* ps_Hesap_Ad;
-    quint64* pi_Hesap_Kod;
-
-    QLabel * lB_Hesap;
-    QLabel *integerLabel;
-    QLabel *colorLabel ;
-    QPushButton *colorButton;
 
     cm_TreeXML *modelXML;
     QTreeView *treeViewXML;
     QWidget * wdgt_central;
     QWidget * wdgt_hesap;
-    cw_Dlg_Options *colorDialogOptionsWidget;
+    QLabel * lB_Hesap;
 
     TaskItem *getCurrentItem();
 
@@ -67,10 +55,6 @@ private:
     QAction *editStartOrStopAction;
     QAction *editHideOrShowDoneTasksAction;
 
-
-
-
-
     QTimer timer;
     QTimeLine iconTimeLine;
     QTime timedTime;
@@ -80,18 +64,13 @@ protected:
     void closeEvent(QCloseEvent*);
 
 signals:
-    void sgnHesap(quint64* m_Hesap_Kod, QString* m_Hesap_Ad);
-
+    void sgnHesap(TaskItem* hesapItem);
 
 public slots:
     void stopTiming();
     void hesapdegisti();
 
 private slots:
-
-    void setColor();
-    void setInteger();
-
     void fileNew();
     void fileOpen();
     bool fileSave();
@@ -170,7 +149,7 @@ public:
     int m_color{};
     QModelIndex m_curIndex{};
 public:
-    cL_dlG_ColmColor(int renk,QModelIndex currentIndex, QObject *parent)
+    cL_dlG_ColmColor(int renk,QModelIndex currentIndex, QObject /**parent*/)
     {
         /// int değeriyle gelen değişkeni color olark kullanır
 
