@@ -1,4 +1,5 @@
 #include "main/hc_hesaptree.h"
+#include "hsap/hc_hspadd.h"
 #include "main/cm_dlg_richtxt.h"
 
 
@@ -96,6 +97,23 @@ hC_hesapTree::hC_hesapTree(QWidget * parent)
                                             CurrentTaskPathSetting).toStringList()));
 
     }
+}
+
+hC_hesapTree::~hC_hesapTree()
+{
+    qDebug()<<"----------- ~ trreee"
+             << " filename               : " << modelXML->filename()
+             << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
+    stopTiming();
+
+        QSettings settings;
+        settings.setValue(GeometrySetting, saveGeometry());
+        settings.setValue(FilenameSetting, modelXML->filename());
+        settings.setValue(CurrentTaskPathSetting,
+                          modelXML->pathForIndex(treeViewXML->currentIndex()));
+
+        qDebug() <<"   ~ trree    close -> settings.filename "<< settings.fileName();
+
 }
 
 TaskItem* hC_hesapTree::getCurrentItem()
@@ -273,8 +291,8 @@ void hC_hesapTree::createMenusAndToolBar()
 {
     qDebug()<<"-----------    ::hChsp createMenusAndToolBar";
 
-    QMenu *fileMenu = menuBar()->addMenu(tr("Dosya"));
-    QToolBar *fileToolBar = addToolBar(tr("Dosya"));
+    /*QMenu **/fileMenu = menuBar()->addMenu(tr("Dosya"));
+    /*QToolBar **/fileToolBar = addToolBar(tr("Dosya"));
     fileToolBar->setAllowedAreas (Qt::LeftToolBarArea);
 //    setStyleSheet ("QMenu, QToolbar {"
 //                   "background-color: solid darkred;"
@@ -431,15 +449,12 @@ void hC_hesapTree::updateUi()
             (treeViewXML->currentIndex().internalPointer());
     if ( currentItem)
     {
-        /// mevcut hesap kod ve ad değişkenlere
-        /// hspdty kayıtlarında kullanılmak üzere
         ///
+        ///  mevcut hesap tüm evrene yayılsın
         ///
-//        setHesapAdColor(currentItem);
-      //  *pi_Hesap_Kod = currentItem->hesapKod ();
-      //  *ps_Hesap_Ad = currentItem->hesapAd ();
-     //   *ps_Hesap_Turu = currentItem->hesapTuru();
+
         emit sgnHesap (currentItem );
+        ///
         /// hesap değiştiğinde detaylarda değişsin
         ///
         ///
@@ -479,14 +494,29 @@ void hC_hesapTree::setCurrentIndex(const QModelIndex &index)
 
 void hC_hesapTree::editAdd()
 {
-   //qDebug()<<"-----------    ::hChsp editAdd Yeni Hesap Ekleniyor...............";
-    QModelIndex index = treeViewXML->currentIndex();
+   qDebug()<<"-----------    ::hChsp editAdd Yeni Hesap Ekleniyor...............";
+
+   hC_hspAdd* ekle = new hC_hspAdd;
+   ekle->show ();
+
+
+
+   QModelIndex index = treeViewXML->currentIndex();
     if (modelXML->insertRows(0, 1, index))
     {
         index = modelXML->index(0, 0, index);
         setCurrentIndex(index);
-        treeViewXML->edit(index);
+        //treeViewXML->edit(index);
 
+        TaskItem * yeniItem = new TaskItem;
+        yeniItem = ekle->yeni();
+        TaskItem * Item = getCurrentItem ();
+        Item->setHesapAd (yeniItem->hesapAd ())  ;
+        Item->setHesapAcklm (yeniItem->hesapAcklm ())  ;
+        Item->setTopluHesap (yeniItem->isTopluHesap ())  ;
+        Item->setHesapTuru (yeniItem->hesapTuru ())  ;
+        Item->setUstHesap (yeniItem->ustHesap ())  ;
+        Item->setDBFile (yeniItem->DBFile ())  ;
         setDirty();
         updateUi();
     }

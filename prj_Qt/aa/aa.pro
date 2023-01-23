@@ -185,6 +185,7 @@ DISTFILES += \ libs/mime.types
     # hesap/main/images/icon.png
 
 HEADERS += \
+    hsap/hc_hspadd.h \
     main/cm_dlg_le_richtxt.h \
     main/cw_dlg_options.h \
     main/dialog.h \
@@ -197,6 +198,7 @@ HEADERS += \
     main/mainwindow.h
 
 SOURCES += \
+    hsap/hc_hspadd.cpp \
     main/cm_dlg_le_richtxt.cpp \
     main/cw_dlg_options.cpp \
     main/dialog.cpp \

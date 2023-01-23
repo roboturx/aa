@@ -13,7 +13,7 @@ class hC_hesapTree : public QMainWindow
 
 public:
     explicit hC_hesapTree(QWidget * parent=nullptr);
-
+    ~hC_hesapTree();
     cm_dlG_cb_hTur *cbdlgt;
 
     cm_TreeXML *modelXML;
@@ -21,6 +21,9 @@ public:
     QWidget * wdgt_central;
     QWidget * wdgt_hesap;
     QLabel * lB_Hesap;
+
+    QMenu *fileMenu;
+    QToolBar *fileToolBar;
 
     TaskItem *getCurrentItem();
 
@@ -60,8 +63,6 @@ private:
     QTime timedTime;
     int currentIcon;
 
-protected:
-    void closeEvent(QCloseEvent*);
 
 signals:
     void sgnHesap(TaskItem* hesapItem);
@@ -114,6 +115,10 @@ private:
     QAction *superScriptAction;
     QAction *subScriptAction;
     QAction *colorAction;
+
+protected:
+    void closeEvent(QCloseEvent*);
+
 
 };
 

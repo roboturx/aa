@@ -17,7 +17,7 @@ MainWindow::MainWindow()
 
     splitter = new QSplitter(this);
     w_TABs = new QTabWidget(this);
-qDebug ()<<"   creat gui,";
+
     QWidget *page1 = new QWidget(splitter);
     QGridLayout *layout1 = new QGridLayout(page1);
 //    w_TABs = new QTabWidget(page1);
@@ -48,6 +48,11 @@ qDebug ()<<"   creat gui,";
 
     newLetter();
     setUnifiedTitleAndToolBarOnMac(true);
+}
+
+MainWindow::~MainWindow()
+{
+
 }
 //! [1]
 
@@ -289,11 +294,6 @@ void MainWindow::createDockWindows()
     viewMenu->addAction(dock->toggleViewAction());
 
 
-    dock = new QDockWidget(tr("Hesaplar"), this);
-    hesapList = new hC_hesapTree(dock);
-    dock->setWidget(hesapList);
-    addDockWidget(Qt::LeftDockWidgetArea, dock);
-    viewMenu->addAction(dock->toggleViewAction());
 
 
 
@@ -320,6 +320,15 @@ void MainWindow::createDockWindows()
     dock->setWidget(paragraphsList);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
+
+
+    dock = new QDockWidget(tr("Hesaplar"), this);
+    hesapList = new hC_hesapTree(dock);
+    dock->setWidget(hesapList);
+    addDockWidget(Qt::LeftDockWidgetArea, dock);
+    viewMenu->addAction(dock->toggleViewAction());
+
+
 
     connect(customerList, &QListWidget::currentTextChanged,
             this, &MainWindow::insertCustomer);

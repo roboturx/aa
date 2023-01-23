@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow();
+    ~MainWindow();
 
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
@@ -58,6 +59,9 @@ private:
     hC_hesapTree *hesapList;
 
     QMenu *viewMenu;
+
+
+
 };
 
 
