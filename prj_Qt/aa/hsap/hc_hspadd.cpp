@@ -13,6 +13,12 @@ hC_hspAdd::hC_hspAdd(QWidget *parent)
 
     QGridLayout *lyt = new QGridLayout(mainwdgt);
     mainwdgt->setLayout(lyt);
+
+    QPushButton* pb_ekle = new QPushButton("Yeni Hesap Ekle");
+    QPushButton* pb_kaydet = new QPushButton("Kaydet");
+    QPushButton* pb_Vazgeç = new QPushButton("Vazgeç");
+
+
     QLabel* a1 = new QLabel("Hesap Adı   : ");
     QLabel* a2 = new QLabel("Açıklama    : ");
     QLabel* a3 = new QLabel("Toplu Hesap : ");
@@ -40,6 +46,10 @@ hC_hspAdd::hC_hspAdd(QWidget *parent)
     lyt->addWidget (cb_hesapTuru, 6, 2, 1, 2);
     lyt->addWidget (a5,          7, 1, 1, 1);
     lyt->addWidget (cb_ustHesap, 7, 2, 1, 2);
+
+    lyt->addWidget (pb_kaydet,     5, 3, 1, 1);
+    lyt->addWidget (pb_ekle,       6, 3, 1, 1);
+    lyt->addWidget (pb_Vazgeç,     7, 3, 1, 1);
 
     connect(le_ad        , &QLineEdit::editingFinished, this, &hC_hspAdd::yaz );
     connect(le_acklama   , &QLineEdit::editingFinished, this, &hC_hspAdd::yaz );
