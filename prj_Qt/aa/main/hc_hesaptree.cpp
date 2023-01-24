@@ -294,11 +294,6 @@ void hC_hesapTree::createMenusAndToolBar()
     /*QMenu **/fileMenu = menuBar()->addMenu(tr("Dosya"));
     /*QToolBar **/fileToolBar = addToolBar(tr("Dosya"));
     fileToolBar->setAllowedAreas (Qt::LeftToolBarArea);
-//    setStyleSheet ("QMenu, QToolbar {"
-//                   "background-color: solid darkred;"
-//                   "color: cyan;"
-//                   "font: 14pt "
-//                   "}");
 
     foreach (QAction *action, QList<QAction*>() << fileNewAction
              << fileOpenAction << fileSaveAction << fileSaveAsAction)
@@ -465,7 +460,7 @@ void hC_hesapTree::updateUi()
                           currentItem->hesapAcklm ()+" : "+
                           QString::number(currentItem->isTopluHesap() ) +" : "+
                           currentItem->hesapTuru() +" : "+
-                          currentItem->ustHesap()
+                          currentItem->DBFile()
                           );
     }
 }

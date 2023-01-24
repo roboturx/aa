@@ -47,9 +47,9 @@ hC_hspAdd::hC_hspAdd(QWidget *parent)
     lyt->addWidget (a5,          7, 1, 1, 1);
     lyt->addWidget (cb_ustHesap, 7, 2, 1, 2);
 
-    lyt->addWidget (pb_kaydet,     5, 3, 1, 1);
-    lyt->addWidget (pb_ekle,       6, 3, 1, 1);
-    lyt->addWidget (pb_Vazgeç,     7, 3, 1, 1);
+    lyt->addWidget (pb_kaydet,     5, 5, 1, 1);
+    lyt->addWidget (pb_ekle,       6, 5, 1, 1);
+    lyt->addWidget (pb_Vazgeç,     7, 5, 1, 1);
 
     connect(le_ad        , &QLineEdit::editingFinished, this, &hC_hspAdd::yaz );
     connect(le_acklama   , &QLineEdit::editingFinished, this, &hC_hspAdd::yaz );

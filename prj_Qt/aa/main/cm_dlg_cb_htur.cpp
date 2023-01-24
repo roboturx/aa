@@ -20,7 +20,7 @@ QWidget *cm_dlG_cb_hTur::createEditor(QWidget *parent,
     // Create the combobox and populate it
     QComboBox *cb = new QComboBox(parent);
    // const QString row = QString::number (index.row());
-    qDebug() <<option<<index;
+    //qDebug() <<option<<index;
 
 
     cb->addItem(QString("Konum"));
@@ -56,7 +56,6 @@ void cm_dlG_cb_hTur::setEditorData(QWidget *editor,
     // get the index of the text in the combobox that matches
     // the current value of the item
     const QString currentText = index.data(Qt::EditRole).toString();
-  //  index.data(Qt::DisplayRole).setValue(QColor(126,0,0));
     const int cbIndex = cb->findText(currentText);
     // if it is valid, adjust the combobox
     if (cbIndex >= 0)
@@ -71,6 +70,15 @@ void cm_dlG_cb_hTur::setModelData(QWidget *editor,
     QComboBox *cb = qobject_cast<QComboBox *>(editor);
     Q_ASSERT(cb);
     model->setData(index, cb->currentText(), Qt::EditRole);
+
+    if (cb->currentText() == "Konum")
+    {
+        QModelIndex ind = model->index(index.row(),5);
+        model->setData(ind, "DBFNAMEEEE", Qt::EditRole);
+    }
+
+//    model->setData(index,cb->currentData(Qt::ForegroundRole),
+//                   Qt::ForegroundRole);
     ///
 //    QString x= cb->itemData (index.row (), Qt::ForegroundRole).toString ();
 

@@ -232,7 +232,8 @@ void MainWindow::createActions()
     fileMenu->addAction(saveAct);
     fileToolBar->addAction(saveAct);
 
-    const QIcon printIcon = QIcon::fromTheme("document-print", QIcon(":/images/print.png"));
+    const QIcon printIcon = QIcon::fromTheme("document-print"
+                              , QIcon(":/images/print.png"));
     QAction *printAct = new QAction(printIcon, tr("&Print..."), this);
     printAct->setShortcuts(QKeySequence::Print);
     printAct->setStatusTip(tr("Print the current form letter"));
@@ -242,13 +243,15 @@ void MainWindow::createActions()
 
     fileMenu->addSeparator();
 
-    QAction *quitAct = fileMenu->addAction(tr("&Quit"), this, &QWidget::close);
+    QAction *quitAct = fileMenu->addAction(tr("&Quit"),
+                             this, &QWidget::close);
     quitAct->setShortcuts(QKeySequence::Quit);
     quitAct->setStatusTip(tr("Quit the application"));
 
     QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
     QToolBar *editToolBar = addToolBar(tr("Edit"));
-    const QIcon undoIcon = QIcon::fromTheme("edit-undo", QIcon(":/images/undo.png"));
+    const QIcon undoIcon = QIcon::fromTheme("edit-undo",
+                               QIcon(":/images/undo.png"));
     QAction *undoAct = new QAction(undoIcon, tr("&Undo"), this);
     undoAct->setShortcuts(QKeySequence::Undo);
     undoAct->setStatusTip(tr("Undo the last editing action"));
@@ -292,7 +295,7 @@ void MainWindow::createDockWindows()
     dock->setWidget(customerList);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
-
+    dock->setVisible(false);
 
 
 
@@ -320,7 +323,7 @@ void MainWindow::createDockWindows()
     dock->setWidget(paragraphsList);
     addDockWidget(Qt::RightDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
-
+    dock->setVisible(false);
 
     dock = new QDockWidget(tr("Hesaplar"), this);
     hesapList = new hC_hesapTree(dock);
