@@ -3,7 +3,7 @@
 
 
 
-
+#include "adrs/frm.h"
 #include "libs/globals.h"
 #include "main/hc_hesaptree.h"
 
@@ -23,6 +23,7 @@ public:
     explicit MainWindow();
     ~MainWindow();
 
+    hC_FRM* firma ;
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
     //QGridLayout *layout1;

@@ -7,6 +7,7 @@
 #endif
 
 #include "mainwindow.h"
+
 //! [0]
 
 //! [1]
@@ -366,20 +367,13 @@ void MainWindow::createTabs()
 
     int frameStyle = QFrame::Sunken | QFrame::Panel;
 
-    integerLabel = new QLabel("Ayarlar");
-    integerLabel->setFrameStyle(frameStyle);
-    QPushButton *integerButton =
-         new QPushButton(tr("QInputDialog::get&Int()"));
 
-    colorLabel = new QLabel;
-    colorLabel->setFrameStyle(frameStyle);
-    colorButton = new QPushButton(tr("QColorDialog::get&Color()"));
 
     QString h_Turu = currentHesapItem->hesapTuru();
 
     if (h_Turu == "Konum")
     {
-        integerLabel = new QLabel(h_Turu, w_TABs);
+        integerLabel = new QLabel(h_Turu);
         integerLabel->setFrameStyle(frameStyle);
         QWidget *page1 = new QWidget(w_TABs);
         QGridLayout *layout = new QGridLayout(page1);
@@ -395,14 +389,20 @@ void MainWindow::createTabs()
     }
     if (h_Turu == "Şirket")
     {
-        integerLabel = new QLabel(h_Turu, w_TABs);
+        integerLabel = new QLabel(h_Turu);
         integerLabel->setFrameStyle(frameStyle);
-        QWidget *page1 = new QWidget(w_TABs);
+        QWidget *page1 = new QWidget;
         QGridLayout *layout = new QGridLayout(page1);
         layout->setColumnStretch(1, 1);
         layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
-        layout->addWidget(integerLabel, 0, 1);
+
+
+        firma = new hC_FRM;
+        firma->tbsetup ();
+                statusBar()->showMessage(tr("Firma Bilgileri"));
+                ggg
+        layout->addWidget(firma, 0, 0);
+        layout->addWidget(integerLabel, 1, 0);
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
@@ -522,17 +522,14 @@ void MainWindow::createTabs()
 
 //    }
 
+    integerLabel = new QLabel("Ayarlar");
+    integerLabel->setFrameStyle(frameStyle);
+    QPushButton *integerButton =
+         new QPushButton(tr("QInputDialog::get&Int()"));
 
-
-
-
-
-    connect(integerButton, &QAbstractButton::clicked,
-            this, &MainWindow::setInteger);
-    connect(colorButton, &QAbstractButton::clicked,
-            this, &MainWindow::setColor);
-//    connect(this, &hC_main::sg_hTurColor,
-//            modelXML, &cm_TreeXML::hTurColor );
+    colorLabel = new QLabel;
+    colorLabel->setFrameStyle(frameStyle);
+    colorButton = new QPushButton(tr("QColorDialog::get&Color()"));
 
     QWidget *page10 = new QWidget;
     QGridLayout *layout = new QGridLayout(page10);
@@ -546,7 +543,12 @@ void MainWindow::createTabs()
     layout->addItem(new QSpacerItem(3, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
     w_TABs->addTab(page10, tr("Ayarlar"));
 
-
+    connect(integerButton, &QAbstractButton::clicked,
+            this, &MainWindow::setInteger);
+    connect(colorButton, &QAbstractButton::clicked,
+            this, &MainWindow::setColor);
+//    connect(this, &hC_main::sg_hTurColor,
+//            modelXML, &cm_TreeXML::hTurColor );
 
 }
 
