@@ -6,7 +6,7 @@
 #include "VTKontrol.h"
 #include "VTTekton.h"
 
-#include "main/dw_hesap.h"
+//#include "main/dw_hesap.h"
 
 namespace nSLogin {
 class Login;

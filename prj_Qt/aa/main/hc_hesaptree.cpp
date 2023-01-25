@@ -101,9 +101,9 @@ hC_hesapTree::hC_hesapTree(QWidget * parent)
 
 hC_hesapTree::~hC_hesapTree()
 {
-    qDebug()<<"----------- ~ trreee"
-             << " filename               : " << modelXML->filename()
-             << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
+//    qDebug()<<"----------- ~ trreee"
+//             << " filename               : " << modelXML->filename()
+//             << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
     stopTiming();
 
         QSettings settings;
@@ -112,7 +112,7 @@ hC_hesapTree::~hC_hesapTree()
         settings.setValue(CurrentTaskPathSetting,
                           modelXML->pathForIndex(treeViewXML->currentIndex()));
 
-        qDebug() <<"   ~ trree    close -> settings.filename "<< settings.fileName();
+       qDebug() <<"   ~ trree    close -> settings.filename "<< settings.fileName();
 
 }
 

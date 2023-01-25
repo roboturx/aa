@@ -206,6 +206,7 @@ SOURCES += \
     hsap/uniqueproxymodel.cpp \
     main/hc_hesaptree.cpp \
     main/hesapturu.cpp \
+    main/login.cpp \
     main/mainwindow.cpp
 
 # kısaltmalar

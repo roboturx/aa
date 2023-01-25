@@ -1,6 +1,7 @@
 ﻿#include "login.h"
 
-Login::Login(QWidget *parent) : QWidget(parent)
+Login::Login(QWidget *parent)
+    : QWidget(parent)
 
 {
     /// login widget
@@ -65,7 +66,9 @@ void Login::logout()
 
 
 Login::~Login()
-= default;
+    {
+
+    }
 
 /*
 void Login::quitApp(QString nereden)

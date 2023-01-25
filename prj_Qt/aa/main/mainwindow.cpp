@@ -1,4 +1,5 @@
 
+
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>
 #if QT_CONFIG(printdialog)
@@ -36,7 +37,7 @@ MainWindow::MainWindow()
     setCentralWidget(splitter);
 
 
-    //  login();
+    Login();
 
 
 
@@ -400,7 +401,7 @@ void MainWindow::createTabs()
         firma = new hC_FRM;
         firma->tbsetup ();
                 statusBar()->showMessage(tr("Firma Bilgileri"));
-                ggg
+
         layout->addWidget(firma, 0, 0);
         layout->addWidget(integerLabel, 1, 0);
 
