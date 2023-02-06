@@ -1,4 +1,5 @@
 ﻿#include "main.h"
+
 #include "main/mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
     //*MW_main w ;
     //hC_main w;
    // hC_main mainwidget; /// dock widget hesap
+
     MainWindow w;
     //hC_hesapTree w;
 

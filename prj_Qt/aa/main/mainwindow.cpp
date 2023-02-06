@@ -6,9 +6,9 @@
 #include <QtPrintSupport>
 #endif
 #endif
-
-#include "mainwindow.h"
-
+#include "main/dbase.h"
+#include "main/mainwindow.h"
+//#include "main/login.h"
 //! [0]
 
 //! [1]
@@ -16,6 +16,8 @@ MainWindow::MainWindow()
     : textEdit(new QTextEdit)
 {
     qDebug ()<<"   creat gui,";
+
+
 
     splitter = new QSplitter(this);
     w_TABs = new QTabWidget(this);
@@ -37,7 +39,23 @@ MainWindow::MainWindow()
     setCentralWidget(splitter);
 
 
-    Login();
+    //Login();
+
+    dbase = new DBase;
+    if (! dbase->setupDBase ())
+    {
+        /// hata ne /// baglanti yok
+        dbase->yaz("----------------------------------------");
+        dbase->yaz("HATA - Veri Tabanı Bağlantısı Yapılamadı");
+        return;
+    }
+
+
+    /// baglanti var /// uygulama yoluna devam etsin
+
+    dbase->yaz("----------------------------------------");
+    dbase->yaz("OK - Veri Tabanı Bağlantısı Yapıldı");
+    qDebug() << "OK - Veri Tabanı Bağlantısı Yapıldı";
 
 
 
@@ -348,8 +366,8 @@ void MainWindow::w_Tabs(TaskItem *hesapItem)
 {
 
     currentHesapItem = hesapItem;
-    qDebug()<< "mw wtabs////////////////////////"
-            << hesapItem->hesapAd();
+//    qDebug()<< "mw wtabs////////////////////////"
+//            << hesapItem->hesapAd();
     createTabs();
 
 
@@ -397,12 +415,11 @@ void MainWindow::createTabs()
         layout->setColumnStretch(1, 1);
         layout->setColumnMinimumWidth(1, 250);
 
-
         firma = new hC_FRM;
         firma->tbsetup ();
-                statusBar()->showMessage(tr("Firma Bilgileri"));
-
+        statusBar()->showMessage(tr("Firma Bilgileri"));
         layout->addWidget(firma, 0, 0);
+
         layout->addWidget(integerLabel, 1, 0);
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
@@ -417,7 +434,12 @@ void MainWindow::createTabs()
         QGridLayout *layout = new QGridLayout(page1);
         layout->setColumnStretch(1, 1);
         layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
+
+        clsn = new hC_CLSN;
+        clsn->tbsetup ();
+        statusBar()->showMessage(tr("Şahıs Adres Bilgileri"));
+        layout->addWidget(clsn, 0, 0);
+
         layout->addWidget(integerLabel, 0, 1);
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
         w_TABs->addTab(page1, h_Turu);
@@ -432,7 +454,12 @@ void MainWindow::createTabs()
         QGridLayout *layout = new QGridLayout(page1);
         layout->setColumnStretch(1, 1);
         layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
+
+        hspdty = new hC_HSPDTY;
+        hspdty->tbsetup ();
+        statusBar()->showMessage(tr("Aktif Hesap"));
+        layout->addWidget(hspdty, 0, 0);
+
         layout->addWidget(integerLabel, 0, 1);
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
@@ -448,7 +475,12 @@ void MainWindow::createTabs()
         QGridLayout *layout = new QGridLayout(page1);
         layout->setColumnStretch(1, 1);
         layout->setColumnMinimumWidth(1, 250);
-        //layout->addWidget(integerButton, 0, 0);
+
+        hspdty = new hC_HSPDTY;
+        hspdty->tbsetup ();
+        statusBar()->showMessage(tr("Pasif Hesap"));
+        layout->addWidget(hspdty, 0, 0);
+
         layout->addWidget(integerLabel, 0, 1);
 
         layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);

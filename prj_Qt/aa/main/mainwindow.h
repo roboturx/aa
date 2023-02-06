@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 
-
+#include "adrs/clsn.h"
+#include "hsap/hc_hspdetay.h"
+#include "main/dbase.h"
 #include "adrs/frm.h"
 #include "libs/globals.h"
 #include "main/hc_hesaptree.h"
@@ -23,7 +25,11 @@ public:
     explicit MainWindow();
     ~MainWindow();
 
-    hC_FRM* firma ;
+
+    DBase *dbase;
+    hC_CLSN *clsn;
+    hC_FRM  *firma ;
+    hC_HSPDTY *hspdty;
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
     //QGridLayout *layout1;
