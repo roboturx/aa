@@ -1,0 +1,232 @@
+﻿YAPILACAKLAR
+Güneş enerji sistemi GES
+	350 m2 çatı alanına 50 KW gücünde GES kurulabiliyor. Binalarda 50 kw GES için ticari işletme  ve mali yükümlülük, vergi vs. yok.
+Maliyet
+	 yaklaşık 50 * 1200 USD = 60 000 USD * 20 TL/USD = 1,2 Milyon TL
+Getirisi	
+	günlük ortalama 200 kw üretim * 30 gün = 6000 kw ortalama aylık üretim
+
+	6000 kw * 1,57 TL/kw (mesken tarife fiyatı) = 9,420 TL aylık üretim getirisi
+	%50 -%50 = 4.710,00 TL
+	4.710,00 TL / 7 hissedar =    672,86 TL aylık getiri = yıllık 
+	4.710,00 TL / 4 hissedar = 1.177,50 TL aylık getiri
+Sanayiye kurulursa				aylık getiri		yıllık getiri
+	6000 kw * 2,33 TL/kw (mesken + % 50)  = 14.000,00 TL 		= 168.000,00 TL
+	7000 / 7 hissedar = 1,000,00 TL * 7          =   7.000,00 TL		=   12.000,00 TL
+	7000 / 4 hissedar = 1.750,00 TL * 4          =   7.000,00 TL		=   21.000,00 TL
+sanayi - aylık getiri
+	6000 kw * 5,5 TL/kw (sanyi kw ödenen) = 33.000,00 TL
+sanayi - hissedarlara ödeyeceği miktar
+	7 * 1000 = 7.000,00 TL
+	4 * 1750 =  3.500,00 TL
+	Toplam  = 10.500,00 TL	
+sanayi – net gelir
+	33.000,00 – 10.500,00 = 22.500,00 TL aylık * 12 ay = 270,000 TL/ yıl 
+	
+	
+Plaka tanıma sistemli Otopark
+Bina için gerekli olan otopark sayısı 36 adet. 
+Zemin Katta yapılabilecek otopark alanı = 1768 – 920 (707 +  * %30 taban alanı ) = 848 m2
+zemin katta kullanılabilir otopark sayısı = 848 m2 / 20 m2 araç başı = 42 araç
+bahçe katı binanın otopark ihtiyacını karşılıyor
+bodrumda 2 kat otopark yapılabiliyor
+Otopark mümkün olduğunca hissedarlar üzerine eklenti olarak aktarılacak
+
+Toplam OtoPark Alanı (TOPA) = 707 m2 * 2 kat = 1414 m2
+TOPA 1414 m2 -  giriş + kolon vs. 414 m2 = KOPA Kullanılabilir OtoPark Alanı 1000 m2  
+KOPA 1000 m2 /  araç başı m2 20  = 50 araçlık otopark
+Getirisi 
+	50 araç * aylık abone ücreti 500 TL = 25.000,00 TL/ay
+	50 -%50 = 12.500,00 TL
+	12.500,00 TL / 7 hissedar = 1.785,72 TL aylık getiri
+	12,500,00 TL / 4 hissedar = 3.125,00 TL aylık getiri
+
+Firmaya ait olacak bölümlere ait otopark, çamaşırhane eklentileri belirlenecek
+
+Havuz
+Maliyeti
+Getirisi
+
+
+
+
+
+HİSSEDARLAR
+
+Satış yapacak hissedar belirlenecek
+Satış yapacak hissedara eklenti yapılmayacak
+Hangi bağımsız bölüme hangi eklenti yapılacağı belirlenecek
+
+
+SORULACAKLAR
+								
+kat malikinin bağımsız bölüm satışı, kiralaması yönetim planında sınırlandırılabilir mi  ?
+								
+İKİNCİ BÖLÜM - Genel İlkeler - 
+MADDE 5 - 	 (6) Ayrık veya blok nizam olan yerlerde, uygulama imar planında açıkça belirlenmemiş ise TAKS %40’ı geçemez. Ancak, çekme mesafeleri ile KAKS verilip TAKS verilmeyen parsellerde, TAKS %60’ı geçmemek şartıyla, çekme mesafelerine göre uygulama yapılır.
+								
+MADDE 5 - 	(8) (Değişik:RG-30/9/2017- 30196) (2) 22 nci maddeyle veya ilgili idarelerin imar yönetmelikleri ile getirilebilecek emsal harici tüm alanların toplamı; parselin toplam emsale esas alanının % 30’unu aşamaz. Ancak; 27/11/2007 tarihli ve 2007/12937 sayılı Bakanlar Kurulu Kararı ile yürürlüğe konulan Binaların Yangından Korunması Hakkında Yönetmelik gereğince yapılması zorunlu olan, korunumlu ya da korunumsuz normal merdiven dışındaki yangın merdiveni ve korunumlu koridorun asgari ölçülerdeki alanı ile yangın güvenlik holünün 6 m² si, (Değişik ibare:RG-25/7/2019-30842) son katın üzerindeki herhangi bir kullanıma konu edilmeyen ortak alan niteliğinde teras çatılar, yapının ihtiyacı için bahçede yapılan açık otoparklar, konferans, spor, sinema ve tiyatro salonları gibi özellik arz eden umumi yapılarda düzenlenmesi zorunlu olan boşluklar, (Ek ibare:RG-31/12/2022-32060) taşıyıcı sistemi kesme taş yığma bina olarak tasarlanan zemin dâhil 3 katı geçmeyen geleneksel mimari öğeler barındıran binalarda tasarım gereği taşıyıcı yığma taş iç duvarların genişliği 12.50 cm’den, taşıyıcı yığma taş dış duvarların genişliği 25 cm’den fazla olan kısımları, deprem yalıtımı uygulanması amacıyla Türkiye Bina Deprem Yönetmeliğinin eki Esaslara göre yalıtım birimlerinin yerleştirildiği ara yüzden oluşan, herhangi bir kullanıma konu edilemeyen, iç yüksekliği hiçbir noktada 1.4 metreyi aşmayan, yapının plan veya yönetmelikle belirlenen yüksekliğini geçmemek kaydı ile teşkil edilen deprem yalıtım katı, alışveriş merkezlerinde yapılan atrium boşluklarının her katta asgari ölçülerdeki alanı ile binaların bodrum katlarında yapılan;
+a) Zorunlu otopark (Değişik ibare:RG-31/12/2022-32060) alanlarının 2 katı,
+b) Sığınak, asansör boşlukları, merdivenler, bacalar, şaftlar, ışıklıklar, ısı ve tesisat alanları, yakıt ve su depoları, jeneratör ve enerji odası, (Değişik ibare:RG-25/7/2019-30842) kömürlüklerin ilgili mevzuat, standart ya da bu Yönetmeliğe göre hesap edilen asgari alanları,
+c) (Mülga:RG-25/7/2019-30842) 
+ç) Ortak alan niteliğindeki mescit ve müştemilatın konutlarda 150 m²’si, konut dışı yapılarda 300 m²’si,
+d) Bütün cepheleri tamamen gömülü olmak ve ortak alan niteliğinde olmak kaydıyla; otopark alanları ve 22 nci maddede belirtilen tamamen gömülü ortak alanlar,
+e) Ticari amaç içermeyen, ortak alan niteliğindeki çocuk oyun alanlarının ve çocuk bakım ünitelerinin toplam 100 m²’si,
+bu hesaba dâhil edilmeksizin emsal haricidir.
+
+
+	
+	
+	
+	
+								
+MADDE 5 - 	(20) Yapı ruhsatı talep edilen projelerde ayrıca; afet, deprem, yangın, otopark, enerji verimliliği, sığınak, asansör, yapı malzemeleri, gürültüye karşı korunma, ısı ve su yalıtımı, yapı denetimi, iş güvenliği, iskele, erişilebilirlik ve çevre gibi konulardaki yapıya ilişkin hükümler içeren mevzuata da uyulur. 
+
+MADDE 27- (1) ç - Binaların Yangından Korunması Hakkında Yönetmelik, 25/8/1988 tarihli ve 19910 sayılı Resmî Gazete’de yayımlanan Sığınak Yönetmeliği, 22/2/2018 tarihli ve 30340 sayılı Resmî Gazete’de yayımlanan Otopark Yönetmeliği, 5/12/2008 tarihli ve 27075 sayılı Resmî Gazete’de yayımlanan Binalarda Enerji Performansı Yönetmeliği ve 18/3/2018 tarihli ve 30364 mükerrer sayılı Resmî Gazete’de yayımlanan Türkiye Bina Deprem Yönetmeliğinde binada zorunlu olarak bulunması gereken birimler,
+asgari ölçülerde yapılır. 
+
+
+									
+Parsel büyüklükleri
+MADDE 6 – (1) İmar planında gösterilen çeşitli bölgelerde imar planı ile getirilmiş farklı hükümler yoksa yapılacak ifrazlarda, elde edilecek yeni parsellerin asgari ölçüleri; arazi meyili, yol durumu, mevcut yapılar ve benzeri gibi mevkiin özellikleri ile bu parsellerde yapılması mümkün olan yapıların ölçüleri ve yöresel ihtiyaçları da göz önünde tutularak tespit olunur. Bu tespit sırasında ikinci, üçüncü ve dördüncü fıkralarda belirtilen şartlar ihlâl edilemez.
+(2)  Parsel genişlikleri;
+a) Konut ve ticaret bölgelerinde:
+1) 4 kata kadar (4 kat dâhil) inşaata müsait yerlerde:
+Bitişik nizamda: 6.00 metreden,
+Blok başlarında: Yan bahçe mesafesi 6.00 metreden,
+Ayrık nizamda: Yan bahçe mesafeleri toplamı + (6.00) metreden, 
+az olamaz.
+									
+Parsele ilişkin hükümler
+MADDE 8- (1) Parselasyon planına göre müstakil yapı yapılmasına müsait tapuya tescilli imar parseli oluşması ve mülkiyet değişikliği olmaması halinde; yapılaşma için, parselasyon planının tamamının tapuya tescil şartı beklenmez.
+									
+
+Taban alanı 
+MADDE 20 - 	(8) Taban alanına dâhil edilmeyecek kullanımlar;
+a) Tabii zemin veya tesviye edilmiş zemin seviyesindeki veya bu seviyenin altındaki avlular, iç bahçeler, 
+b) (Değişik:RG-30/9/2017- 30196) (2)  Bağımsız bölüm olarak düzenlenmeyen veya bağımsız bölümün eklentisi niteliği taşımayan, yapının ana taşıyıcı sistemleri ile bütünleşik olmayan, bahçe alanının %20’sini geçmeyen; kameriye, pergola, sundurma (Mülga ibare:RG-25/7/2019-30842) (…) ve süs havuzu (Ek ibare:RG-11/7/2021-31538) ile açık havuzlar, 
+c) (Mülga:RG-25/7/2019-30842)
+ç) Çevre düzenlemesi ve güvenliği için yapılan bahçe duvarı, istinat duvarları, 6 m²’yi geçmeyen kontrol veya bekçi kulübeleri, 
+d) (Değişik:RG-30/9/2017- 30196) (2)  Binaların Yangından Korunması Hakkında Yönetmeliğin gerekli gördüğü, normal merdiven haricinde kaçış yolu içerisinde yer alan, asgari ölçülerde ve adetlerde yapılan merdiven evi ile yangın güvenlik holleri, 
+e) Asgari ölçülerdeki; temele kadar inen asansör boşlukları, ışıklıklar, çöp ve atık ayrıştırma bacaları, hava bacaları, şaftlar,
+f) Ana yapının dışında kalan; binaya ait arıtma tesisi ve trafolar, jeneratör, yağmur suyu toplama havuzu, evsel atık ve geri dönüşüm hazneleri, ısı merkezi,
+g) Akaryakıt pompaları ve taşıyıcıları hariç olmak üzere kanopiler ve arkatlar,
+ğ) Güneş panellerinin temel ve kaidesi haricindeki kısımları,
+h) Açık otoparklar,
+ı) Giriş saçakları (markizler),
+i) (Mülga:RG-30/9/2017- 30196) (2)  
+j) (Ek:RG-9/10/2021-31623) Taşıyıcı sistemi kesme taş yığma bina olarak tasarlanan zemin dahil 3 katı geçmeyen geleneksel mimari öğeler barındıran binalarda, taşıyıcı yığma taş dış duvarların tasarım gereği genişliği 25 cm’den fazla olan kısımları,
+ 
+
+									
+Katlar alanı
+MADDE 21- 	(2) Tamamen toprağın altında kalması nedeniyle; 22 nci madde uyarınca emsal hesabına konu edilmeyen alanlar ile kat adedine konu edilmeyen katların hiç bir cephesi kazı ve tesviye yapılarak açığa çıkarılamaz. 
+									
+
+Katlar alanı hesabına dâhil edilmeyen kullanımlar 
+MADDE 22 - (1) 5 inci maddenin sekizinci fıkrasında belirtilen esaslar dâhilinde;
+a) Taban alanına dâhil edilmeyen kullanımlar, 
+b) (Mülga:RG-25/7/2019-30842)
+c) Üstü sökülür-takılır hafif malzeme ile kenarları rüzgâr kesici cam panellerle kapatılmış olsa dahi açık oturma yerleri,
+ç) (Değişik:RG-25/7/2019-30842)  Bu Yönetmelik uyarınca yapılması zorunlu olan kapıcı dairelerinin toplam 70 m2’si,
+d) Atrium ve galeri boşlukları,
+e) (Değişik:RG-30/9/2017- 30196) (2)  Ortak alan niteliğindeki mescit ve müştemilat, 
+f) (Değişik:RG-23/1/2021-31373) Alışveriş merkezlerinde ve 40’tan fazla bağımsız bölümü bulunan binaların normal katlarında, binanın ortak merdiveni ile bağlantılı, dışarıdan erişimi bulunmayan, toplamda 50 m²’yi geçmeyen, ticari kullanıma konu edilemeyen, ortak alan niteliğinde kütüphane odası,
+g) Bina için gerekli minimum sığınak alanı,
+ğ) (Değişik:RG-30/9/2017- 30196) (2)   Ticari amaç içermeyen, ortak alan niteliğindeki çocuk oyun alanları ve çocuk bakım üniteleri,
+h) (Değişik:RG-30/9/2017- 30196) (2)   Otopark alanları,
+ı) Yapı yüksekliği 60.50 metreden fazla olan binalar ile özelliği gereği tesisat katı oluşturulması zorunlu binalarda sadece tesisat için oluşturulan tesisat katları,
+i) (Değişik:RG-30/9/2017- 30196) (2)  Bina veya tesise ait olan ısıtma, soğutma, tesisat alanı, su sarnıcı, havalandırma sistemleri ve enerji verimliliği sistemlerinin bulunduğu alanlar, arıtma tesisi, gri su toplama havuzu, yakıt ve su depoları, (Danıştay Altıncı Dairesinin 3/2/2021 tarihli ve E.:2017/4840; K.:2021/1114 sayılı kararı ile iptal ibare: Danıştay İDDK’nın 13/6/2022 tarihli E.:2021/2813, K.:2022/2138  sayılı Onama kararı ile mezkûr karar kesinleşmiştir.), trafolar, jeneratör, ısı merkezi, enerji odası, kömürlük, eşanjör ve hidrofor bölümleri,
+j) (Değişik:RG-25/7/2019-30842)  Bütün cepheleri tamamen toprağın altında kalan bodrum katlar ile kısmen açığa çıkan yol cephesi haricindeki bodrum katlarda yer alan, tek başına bağımsız bölüm oluşturmayan, bir bağımsız bölümün eklentisi olmayan, ticari amaç içermeyen, sadece binada oturanların kullanımına yönelik, toplamda emsal hesabına konu alanın % 5’ini ve 1000 m2’yi geçmeyen ortak alan niteliğindeki yönetim ve toplantı odaları ile spor ve sosyal mekânlar,
+k) (Değişik:RG-25/7/2019-30842) Bütün cepheleri tamamen toprağın altında kalan bodrum katlarda yer alan, tek başına bağımsız bölüm oluşturmayan, bağımsız bölüm net alanının %50’sini geçmeyen depo amaçlı eklentiler,
+l) (Değişik:RG-25/7/2019-30842) Bağımsız bölüm net alanının (Değişik ibare:RG-11/7/2021-31538) %20’sini geçmemek kaydıyla açık çıkma şartlarını taşıyan balkonlar, kat ve ara sahanlıkları dâhil açık veya kapalı merdiven evi (Ek ibare:RG-11/7/2021-31538) ile açık havuzlar,
+m) (Ek:RG-9/10/2021-31623)  Taşıyıcı sistemi kesme taş yığma bina olarak tasarlanan zemin dâhil 3 katı geçmeyen geleneksel mimari öğeler barındıran (Mülga ibare:RG-31/12/2022-32060) yapıların statik tasarım gereği düşey taşıyıcılar da bulunabilen ve bağımsız bölüm net alanının %20’sini geçmeyen balkonları, bu yapıların geleneksel mimari öğesi olan; bahçe ile irtibatı olup gerektiğinde basamak ile çıkılan, binanın girişi ile beraber ya da çıkma veya balkon altında yer alabilen, düşey taşıyıcılar ile desteklenen üst örtüye sahip olabilen taşlık, dış sofa veya eyvan alanları,
+katlar alanına dâhil edilmez.
+
+ÖZET
+emsal harici tüm alanların toplamı; parselin toplam emsale esas alanının % 30’unu aşamaz.
+1768,44 * 40%  * 4 kat =    2829,52 * 30%        =  848,86 m2  %30 ile eklenebilir alan
+
+2829,52  +  848,86 m2  = 3678,38 toplam toprak üstü inşaat alanı 
+		       150 m2 eski yapıdan %15 (1000 m2 kapalı alan olsa)  
+		       1000 m2 bodrum inşaat alanı	
+Toplam inşaat alanı    = 4828 m2			
+
+
+
+%30 un içine GİRMEYEN alanlar
+Madde 5 – (8) 22 nci maddeyle veya ilgili idarelerin imar yönetmelikleri ile getirilebilecek emsal harici tüm alanların toplamı; parselin toplam emsale esas alanının % 30’unu aşamaz. Ancak;
+	yangın güvenlik holünün 6 m² si, 
+	son katın üzerindeki ortak alan niteliğinde teras çatılar, 
+	yapının ihtiyacı için bahçede yapılan açık otoparklar
+	binaların bodrum katlarında yapılan;
+		Zorunlu otopark  alanlarının 2 katı,
+		mescit ve müştemilatın konutlarda 150 m²’si,
+		ortak alan niteliğinde olmak kaydıyla; otopark alanları 
+		çocuk oyun alan ve bakım ünitelerinin toplam 100 m²’si,
+
+22 nci maddede belirtilen tamamen gömülü ortak alanlar,
+	MADDE 22 - (1) 5 inci maddenin sekizinci fıkrasında belirtilen esaslar dâhilinde;
+	emsal hesabına konu alanın % 5’ini ve 1000 m2’yi geçmeyen ortak alan 	niteliğindeki yönetim ve toplantı odaları ile spor ve sosyal mekânlar,
+	k) bağımsız bölüm net alanının %50’sini geçmeyen depo amaçlı eklentiler,
+	 bu hesaba (%30) dâhil edilmeksizin emsal haricidir.			
+
+
+
+Katlar alanı hesabına dâhil edilmeyen kullanımlar 
+MADDE 22 - (1) 5 inci maddenin sekizinci fıkrasında belirtilen esaslar dâhilinde;
+a) Taban alanına dâhil edilmeyen kullanımlar, 
+c) Üstü sökülür-takılır hafif malzeme ile kenarları rüzgâr kesici cam panellerle kapatılmış olsa dahi açık oturma yerleri,
+ç)  	70 m2		kapıcı dairelerinin toplam 70 m2’si,
+e) 	150 m2		 mescit ve müştemilat, 
+f)  	her katta 50 m2	 ortak alan niteliğinde kütüphane odası,
+ğ) 	100 m2 		çocuk oyun alanları ve çocuk bakım üniteleri,
+h)			 Otopark alanları,
+j) Bütün cepheleri tamamen toprağın altında kalan bodrum katlarda yer alan, 
+	 emsalin % 5’ini  yönetim ve toplantı odaları ile spor ve sosyal mekânlar,
+	 bağımsız bölüm net alanının %50’sini geçmeyen depo amaçlı eklentiler,
+l) Bağımsız bölüm net alanının  %20’sini geçmeyen balkonlar, kat ve ara sahanlıkları dâhil açık veya kapalı merdiven evi  ile açık havuzlar,
+katlar alanına dâhil edilmez.
+
+Taban alanı 
+MADDE 20 - 	(8) Taban alanına dâhil edilmeyecek kullanımlar;
+a) Tabii zemin veya tesviye edilmiş zemin seviyesindeki veya bu seviyenin altındaki avlular, iç bahçeler, 
+b) Bağımsız bölüm olarak düzenlenmeyen veya bağımsız bölümün eklentisi niteliği taşımayan, yapının ana taşıyıcı sistemleri ile bütünleşik olmayan, bahçe alanının %20’sini geçmeyen; kameriye, pergola, sundurma ve süs havuzu ile açık havuzlar, 
+ç) 6 m²’yi geçmeyen kontrol veya bekçi kulübeleri, 
+e) asansör boşlukları, ışıklıklar, çöp ve atık ayrıştırma bacaları, hava bacaları, şaftlar,
+ğ) Güneş panellerinin temel ve kaidesi haricindeki kısımları,
+h) Açık otoparklar,
+ı) Giriş saçakları (markizler),
+
+
+
+
+
+
+
+
+
+
+	
+bu hesaba dâhil edilmeksizin emsal haricidir.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ortak Yerlerin Kiraya Verilmesi Yönetim Planında Belirlenmişse
+Eğer ortak yerlerin yönetici / yönetim kurulu tarafından kiraya verilmesi imkanı yönetim planında belirlenmiş ise yönetim planının tapu siciline ilk tescili tüm irtifak sahiplerinin imzası ile yapıldığından binalarda kat malikleri kurulunda / toplu yapılarda temsilciler kurulunda yeniden karar alınmasına gerek yoktur. Bu durumda Kat Mülkiyeti Kanunu’nun 45. maddesindeki  temliki tasarruflar ve önemli işler ile ilgili yeter sayı kendiliğinden sağlanmış olur.
+Apsiyon Akademi olarak Yönetim Planı Yazarlarına Tavsiyemiz
+Özellikle bağımsız bölüm sayısı fazla olan bina yapılarında ve birden fazla bloktan oluşan toplu yapılarda tüm maliklerin muvafakatını ve rızasını temin etmek güç olacağından yönetim planı yazan profesyonellerin “ortak yerlerin kiraya verilmesine” ilişkin hükümleri yönetim planına eklemelerini Apsiyon Akademi olarak tavsiye etmekteyiz. Yönetici / Yönetim Kurulları tarafından kendilerine yönetim planınca sağlanan bu kolaylığın istismar edilmemesi ve maliklerin mağduriyetine sebep olmaması için de koşulların ve hesap verilebilirlik kriterlerinin de maddeye eklenmesi faydalı olacaktır.
+
