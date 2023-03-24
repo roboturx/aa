@@ -6,6 +6,7 @@
 //#include "hc_hsp.h"
 //#include "cls_dlgt_combobox.h"
 #include "hsap/proxymodel.h"
+#include "main/taskitem.h"
 namespace nSHsp
 {
 class hC_HSPDTY;
@@ -25,6 +26,7 @@ public:
 
 //    hC_hsp* win_hC_hsp;
 
+    TaskItem* currentHesapItem{};
     qint64  *SGNDhesapKod ;
     QString *SGNDhesapAd  ;
 
@@ -63,8 +65,7 @@ protected:
     void closeEvent(QCloseEvent*);
 
 public slots:
-    void slt_tbx_rowChange(quint64 *sgnHspID,
-                           QString *sgnHspAd); //connect selectionmodel change
+    void slt_tbx_rowChange(TaskItem* currHspItem); //connect selectionmodel change
 };
 
 #endif // hC_HSPDTY_H

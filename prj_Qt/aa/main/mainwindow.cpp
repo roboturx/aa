@@ -360,6 +360,10 @@ void MainWindow::createDockWindows()
 
     connect(hesapList, &hC_hesapTree::sgnHesap,
             this, &MainWindow::w_Tabs);
+
+ 77   connect(hesapList, &hC_hesapTree::sgnHesap,
+            hspdty, &hC_HSPDTY::slt_tbx_rowChange);
+
 }
 
 void MainWindow::w_Tabs(TaskItem *hesapItem)
@@ -429,7 +433,7 @@ void MainWindow::createTabs()
     if (h_Turu == "Şahıs")
     {
         integerLabel = new QLabel("h_Turu", w_TABs);
-                       integerLabel->setFrameStyle(frameStyle);
+        integerLabel->setFrameStyle(frameStyle);
         QWidget *page1 = new QWidget(w_TABs);
         QGridLayout *layout = new QGridLayout(page1);
         layout->setColumnStretch(1, 1);

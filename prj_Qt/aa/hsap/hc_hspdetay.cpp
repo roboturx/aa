@@ -1,5 +1,5 @@
 #include "hc_hspdetay.h"
-#include "uniqueproxymodel.h"
+//#include "uniqueproxymodel.h"
 
 
 
@@ -161,6 +161,9 @@ void hC_HSPDTY::tbui()
 
     qDebug() << "   0120 hspdty::tbui ---- begins";
 
+    // yeni dosyada ilk kayıtta ilk yeni kodu verebilmek için
+ //   *m_hesapID= Q_UINT64_C(1);
+
     hC_HSPDTY::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,1200,600);
 
@@ -241,20 +244,23 @@ void hC_HSPDTY::tbkntrl()
         *max_id = maxID.hC_NrMax ( tb_name, tb_flds->value (0,0));
         ////////////////////////////////////////////////
 
+         qDebug() << "   0130 2 ekle içi" ;
+
         QSqlQuery query;
         QString qStr, mesaj("");
      //   QString hesapLR = "";
-
+qDebug() << "   0130 2 ekle içi         1" ;
 
         curIndex = tb_view->table->currentIndex ();
+qDebug() << "   0130 2 ekle içi         2" ;
         reccount=tb_model->rowCount();
-
+qDebug() << "   0130 2 ekle içi         3" ;
         qStr = QString("INSERT INTO "+*tb_name +
                        " ( f_hspdty_hspID) "
                        " values ( '"+
                        QString::number (*m_hesapID)+
                        "' )")  ;
-
+qDebug() << "   0130 2 ekle içi         4" ;
         if ( !query.exec(qStr) )
         {
             mesaj = mesaj + "002x- İlk node e k l e n e m e d i ...\n/n"+
@@ -265,7 +271,7 @@ void hC_HSPDTY::tbkntrl()
             mesaj = mesaj + "Hesap Detay Kaydı eklendi - \n";
         }
 
-
+qDebug() << "   0130 2 ekle içi submitall öncesi" ;
 
         if (tb_model->submitAll())
         {
@@ -283,7 +289,7 @@ void hC_HSPDTY::tbkntrl()
         }
             tb_view->table->setFocus();
         qDebug()<<mesaj ;
-
+qDebug() << "   0130 2 ekle sonu" ;
     });// connect ekle sonu
 
     /////////////////////////////////////////////////////////////////////
@@ -420,15 +426,15 @@ void hC_HSPDTY::closeEvent(QCloseEvent *)
     //win_hC_hsp->close ();
 }
 
-void hC_HSPDTY::slt_tbx_rowChange(quint64 *sgnHspID,
-                                  QString *sgnHspAd)
+void hC_HSPDTY::slt_tbx_rowChange(TaskItem *currHspItem)
 {
+    currentHesapItem = currHspItem;
     qDebug() << "   0150 hspdty::slt_tbx_rowChange ";
-    m_hesapID = sgnHspID;
-    m_hesapAd = sgnHspAd;
+    *m_hesapID = currHspItem->hesapKod ();
+    *m_hesapAd = currHspItem->hesapAd ();
    // tb_model->setFilter("f_hspdty_hspID="+ QString::number(sgnHspID));
     tb_model->setFilter(
-        QString("f_hspdty_hspID = %1").arg (*sgnHspID) );
+        QString("f_hspdty_hspID = %1").arg (*m_hesapID) );
 }
 
 

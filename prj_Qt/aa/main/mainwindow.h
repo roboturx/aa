@@ -30,6 +30,7 @@ public:
     hC_CLSN *clsn;
     hC_FRM  *firma ;
     hC_HSPDTY *hspdty;
+    hC_hesapTree *hesapList;
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
     //QGridLayout *layout1;
@@ -63,7 +64,7 @@ private:
 
     QListWidget *paragraphsList;
 
-    hC_hesapTree *hesapList;
+
 
     QMenu *viewMenu;
 
