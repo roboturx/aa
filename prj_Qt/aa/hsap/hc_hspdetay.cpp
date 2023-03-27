@@ -42,7 +42,7 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     tb_wdgts->append ( lE_alacak = new QLineEdit  ) ;
 
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
-
+//slt_tbx_rowChange();
 }
 
 
@@ -227,6 +227,10 @@ void hC_HSPDTY::tbkntrl()
 
     //////////////// filtering end
     tb_view->table->setFocus();
+
+//    qDebug() << "   rekle öncesid  "
+//             << currentHesapItem->hesapKod ();
+
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked , this,
@@ -430,6 +434,8 @@ void hC_HSPDTY::slt_tbx_rowChange(TaskItem *currHspItem)
 {
     currentHesapItem = currHspItem;
     qDebug() << "   0150 hspdty::slt_tbx_rowChange ";
+
+
     *m_hesapID = currHspItem->hesapKod ();
     *m_hesapAd = currHspItem->hesapAd ();
    // tb_model->setFilter("f_hspdty_hspID="+ QString::number(sgnHspID));

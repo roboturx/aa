@@ -361,7 +361,7 @@ void MainWindow::createDockWindows()
     connect(hesapList, &hC_hesapTree::sgnHesap,
             this, &MainWindow::w_Tabs);
 
- 77   connect(hesapList, &hC_hesapTree::sgnHesap,
+    connect(hesapList, &hC_hesapTree::sgnHesap,
             hspdty, &hC_HSPDTY::slt_tbx_rowChange);
 
 }

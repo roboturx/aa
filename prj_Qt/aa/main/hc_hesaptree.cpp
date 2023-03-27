@@ -449,6 +449,10 @@ void hC_hesapTree::updateUi()
         ///
 
         emit sgnHesap (currentItem );
+        qDebug()<<"-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-";
+        qDebug()<<" hchsaptree update hesapkod: "
+               << currentItem->hesapKod();
+
         ///
         /// hesap değiştiğinde detaylarda değişsin
         ///
