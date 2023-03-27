@@ -42,7 +42,10 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     tb_wdgts->append ( lE_alacak = new QLineEdit  ) ;
 
     tb_wdgts->append ( win_Rsm  = new QLabel    ) ;
-//slt_tbx_rowChange();
+
+//    qDebug() << "111111010010";
+//    slt_tbx_rowChange(currentHesapItem);
+//    qDebug() << "111111010011";
 }
 
 
@@ -416,6 +419,9 @@ qDebug() << "   0130 2 ekle sonu" ;
     //        this , &hC_HSPDTY::slt_tbx_rowChange);
 
 
+  //  connect(MainWindow, &QMainWindow::sg);
+
+
     qDebug() << "   0130 hspdty::tbkntrl ---- end";
 }
 
@@ -436,9 +442,12 @@ void hC_HSPDTY::slt_tbx_rowChange(TaskItem *currHspItem)
     qDebug() << "   0150 hspdty::slt_tbx_rowChange ";
 
 
-    *m_hesapID = currHspItem->hesapKod ();
-    *m_hesapAd = currHspItem->hesapAd ();
+    *m_hesapID = currentHesapItem->hesapKod ();
+    *m_hesapAd = currentHesapItem->hesapAd ();
    // tb_model->setFilter("f_hspdty_hspID="+ QString::number(sgnHspID));
+
+    qDebug() << "  m hesap id = "<< *m_hesapID;
+
     tb_model->setFilter(
         QString("f_hspdty_hspID = %1").arg (*m_hesapID) );
 }

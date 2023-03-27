@@ -41,6 +41,9 @@ public:
 
     TaskItem* currentHesapItem{};
 
+signals:
+    void sgnMwHsp(TaskItem* hCTreeHsp );
+
 private slots:
     void newLetter();
     void save();

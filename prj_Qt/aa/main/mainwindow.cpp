@@ -347,6 +347,7 @@ void MainWindow::createDockWindows()
 
     dock = new QDockWidget(tr("Hesaplar"), this);
     hesapList = new hC_hesapTree(dock);
+   // hesapList->updateUi() ;
     dock->setWidget(hesapList);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
@@ -355,13 +356,17 @@ void MainWindow::createDockWindows()
 
     connect(customerList, &QListWidget::currentTextChanged,
             this, &MainWindow::insertCustomer);
-    connect(paragraphsList, &QListWidget::currentTextChanged,
-            this, &MainWindow::addParagraph);
+    connect(paragraphsList,
+            &QListWidget::currentTextChanged,
+            this,
+            &MainWindow::addParagraph);
 
-    connect(hesapList, &hC_hesapTree::sgnHesap,
-            this, &MainWindow::w_Tabs);
+    connect(hesapList,
+            &hC_hesapTree::sgnHesap,
+            this,
+            &MainWindow::w_Tabs);
 
-    connect(hesapList, &hC_hesapTree::sgnHesap,
+    connect(this, &MainWindow::sgnMwHsp,
             hspdty, &hC_HSPDTY::slt_tbx_rowChange);
 
 }
@@ -369,6 +374,7 @@ void MainWindow::createDockWindows()
 void MainWindow::w_Tabs(TaskItem *hesapItem)
 {
 
+    emit sgnMwHsp(hesapItem);
     currentHesapItem = hesapItem;
 //    qDebug()<< "mw wtabs////////////////////////"
 //            << hesapItem->hesapAd();

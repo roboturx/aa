@@ -70,6 +70,7 @@ signals:
 public slots:
     void stopTiming();
     void hesapdegisti();
+        void updateUi();
 
 private slots:
     void fileNew();
@@ -95,7 +96,7 @@ private slots:
               const QStringList &taskPath=QStringList());
     void timeout();
     void updateIcon(int frame);
-    void updateUi();
+
     void customContextMenuRequested(const QPoint &pos);
     void contextMenuEvent(QContextMenuEvent *event);
 private:

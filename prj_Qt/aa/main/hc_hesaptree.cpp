@@ -438,7 +438,7 @@ void hC_hesapTree::updateUi()
     editPasteAction->setEnabled(modelXML->hasCutItem());
 
 
-
+    qDebug()<<" upt ui taskitem";
 
     TaskItem* currentItem = static_cast<TaskItem*>
             (treeViewXML->currentIndex().internalPointer());
@@ -467,6 +467,7 @@ void hC_hesapTree::updateUi()
                           currentItem->DBFile()
                           );
     }
+    qDebug()<<" upt ui taskitem";
 }
 
 
