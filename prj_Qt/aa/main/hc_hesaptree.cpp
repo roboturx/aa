@@ -106,20 +106,21 @@ hC_hesapTree::~hC_hesapTree()
 //             << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
     stopTiming();
 
-        QSettings settings;
-        settings.setValue(GeometrySetting, saveGeometry());
-        settings.setValue(FilenameSetting, modelXML->filename());
-        settings.setValue(CurrentTaskPathSetting,
+    QSettings settings;
+    settings.setValue(GeometrySetting, saveGeometry());
+    settings.setValue(FilenameSetting, modelXML->filename());
+    settings.setValue(CurrentTaskPathSetting,
                           modelXML->pathForIndex(treeViewXML->currentIndex()));
 
-       qDebug() <<"   ~ trree    close -> settings.filename "<< settings.fileName();
+
+    qDebug() <<"   ~ trree    close -> settings.filename "<< settings.fileName();
 
 }
 
 TaskItem* hC_hesapTree::getCurrentItem()
 {
     qDebug()<<"-----------    ::hChsp getcurrentitem";
-    TaskItem* currentItem = static_cast<TaskItem*>
+    TaskItem* currentHesap = static_cast<TaskItem*>
             (treeViewXML->currentIndex().internalPointer());
     //        if ( currentItem)
     //        {
@@ -131,7 +132,7 @@ TaskItem* hC_hesapTree::getCurrentItem()
     //                     << "               :ust:" << currentItem->ustHesap()
     //                     << "               ui currentItem" ;
     //        }
-    return  currentItem;
+    return  currentHesap;
 
 
 }
@@ -449,9 +450,6 @@ void hC_hesapTree::updateUi()
         ///
 
         emit sgnHesap (currentItem );
-        qDebug()<<"-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-";
-        qDebug()<<" hchsaptree update hesapkod: "
-               << currentItem->hesapKod();
 
         ///
         /// hesap değiştiğinde detaylarda değişsin
@@ -499,8 +497,6 @@ void hC_hesapTree::editAdd()
    hC_hspAdd* ekle = new hC_hspAdd;
    ekle->show ();
 
-
-
    QModelIndex index = treeViewXML->currentIndex();
     if (modelXML->insertRows(0, 1, index))
     {
@@ -510,6 +506,7 @@ void hC_hesapTree::editAdd()
 
         TaskItem * yeniItem = new TaskItem;
         yeniItem = ekle->yeni();
+
         TaskItem * Item = getCurrentItem ();
         Item->setHesapAd (yeniItem->hesapAd ())  ;
         Item->setHesapAcklm (yeniItem->hesapAcklm ())  ;
@@ -519,6 +516,7 @@ void hC_hesapTree::editAdd()
         Item->setDBFile (yeniItem->DBFile ())  ;
         setDirty();
         updateUi();
+   // delete yeniItem;
     }
 
 }

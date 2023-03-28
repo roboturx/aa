@@ -65,12 +65,12 @@ private:
 
 
 signals:
-    void sgnHesap(TaskItem* hesapItem);
+    void sgnHesap(TaskItem* currentHesapItem);
 
 public slots:
     void stopTiming();
     void hesapdegisti();
-        void updateUi();
+    void updateUi();
 
 private slots:
     void fileNew();

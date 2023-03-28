@@ -347,7 +347,7 @@ void MainWindow::createDockWindows()
 
     dock = new QDockWidget(tr("Hesaplar"), this);
     hesapList = new hC_hesapTree(dock);
-   // hesapList->updateUi() ;
+
     dock->setWidget(hesapList);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
@@ -366,37 +366,33 @@ void MainWindow::createDockWindows()
             this,
             &MainWindow::w_Tabs);
 
-    connect(this, &MainWindow::sgnMwHsp,
-            hspdty, &hC_HSPDTY::slt_tbx_rowChange);
+
 
 }
 
 void MainWindow::w_Tabs(TaskItem *hesapItem)
 {
 
-    emit sgnMwHsp(hesapItem);
+  //  emit sgnMwHsp(hesapItem);
     currentHesapItem = hesapItem;
-//    qDebug()<< "mw wtabs////////////////////////"
-//            << hesapItem->hesapAd();
+    qDebug()<< "mw wtabs////////////////////////"
+            << hesapItem->hesapAd();
     createTabs();
-
-
-   // layout1->addWidget(wt    ,  0, 0, 16, 2 );
-   // splitter->addWidget (wt);
-  //  delete hesapItem;
 
 }
 
 
 void MainWindow::createTabs()
 {
-
+    qDebug()<< "mw create tabs  //";
     w_TABs->clear ();
     w_TABs->setIconSize(QSize (28,28));
 
     int frameStyle = QFrame::Sunken | QFrame::Panel;
 
 
+    // hesap listesinden geçerli hesabı al
+    currentHesapItem = hesapList->getCurrentItem ();
 
     QString h_Turu = currentHesapItem->hesapTuru();
 
@@ -476,6 +472,11 @@ void MainWindow::createTabs()
         w_TABs->addTab(page1, h_Turu);
         w_TABs->setTabIcon (0,
                  QIcon(":/rsm/ico/plus-minus-green.ico"));
+
+        connect(hesapList,
+                &hC_hesapTree::sgnHesap,
+                hspdty, &hC_HSPDTY::slt_hesapChanged);
+
     }
     if (h_Turu == "Pasif Hesap")
     {
@@ -497,6 +498,11 @@ void MainWindow::createTabs()
         w_TABs->addTab(page1, h_Turu);
         w_TABs->setTabIcon (0,
                  QIcon(":/rsm/ico/plus-minus-red.ico"));
+
+        connect(hesapList,
+                &hC_hesapTree::sgnHesap,
+                hspdty, &hC_HSPDTY::slt_hesapChanged);
+
     }
     if (h_Turu == "Araç")
     {

@@ -65,7 +65,8 @@ protected:
     void closeEvent(QCloseEvent*);
 
 public slots:
-    void slt_tbx_rowChange(TaskItem* currHspItem); //connect selectionmodel change
+    //connect selectionmodel change
+    void slt_hesapChanged(TaskItem* currHspItem);
 };
 
 #endif // hC_HSPDTY_H

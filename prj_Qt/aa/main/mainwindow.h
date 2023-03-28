@@ -31,6 +31,9 @@ public:
     hC_FRM  *firma ;
     hC_HSPDTY *hspdty;
     hC_hesapTree *hesapList;
+
+    TaskItem* currentHesapItem{};
+
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
     //QGridLayout *layout1;
@@ -39,7 +42,7 @@ public:
     QLabel *colorLabel{} ;
     QPushButton *colorButton{};
 
-    TaskItem* currentHesapItem{};
+
 
 signals:
     void sgnMwHsp(TaskItem* hCTreeHsp );
@@ -52,6 +55,9 @@ private slots:
     void about();
     void insertCustomer(const QString &customer);
     void addParagraph(const QString &paragraph);
+
+    // w tabs hchsptree deki hesaba göre oluşur
+    // hesapitem connect ile geliyor
     void w_Tabs(TaskItem *hesapItem);
     void setColor();
     void setInteger();

@@ -34,6 +34,17 @@ hC_hspAdd::hC_hspAdd(QWidget *parent)
 
 
     cb_hesapTuru = new QComboBox;
+    cb_hesapTuru->addItem ("Konum");
+    cb_hesapTuru->addItem ("Şirket");
+    cb_hesapTuru->addItem ("Şahıs");
+    cb_hesapTuru->addItem ("Aktif Hesap");
+    cb_hesapTuru->addItem ("Pasif Hesap");
+    cb_hesapTuru->addItem ("Araç");
+    cb_hesapTuru->addItem ("Malzeme");
+    cb_hesapTuru->addItem ("Gayrimenkul");
+    cb_hesapTuru->addItem ("Menkul");
+
+
     cb_ustHesap = new QComboBox;
 
     lyt->addWidget (a1,         3, 1, 1, 1);
