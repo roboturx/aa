@@ -374,7 +374,7 @@ void MainWindow::w_Tabs(TaskItem *hesapItem)
 {
 
   //  emit sgnMwHsp(hesapItem);
-    currentHesapItem = hesapItem;
+    mw_currentHesapItem = hesapItem;
     qDebug()<< "mw wtabs////////////////////////"
             << hesapItem->hesapAd();
     createTabs();
@@ -392,9 +392,9 @@ void MainWindow::createTabs()
 
 
     // hesap listesinden geçerli hesabı al
-    currentHesapItem = hesapList->getCurrentItem ();
+    mw_currentHesapItem = hesapList->getCurrentItem ();
 
-    QString h_Turu = currentHesapItem->hesapTuru();
+    QString h_Turu = mw_currentHesapItem->hesapTuru();
 
     if (h_Turu == "Konum")
     {
@@ -462,7 +462,13 @@ void MainWindow::createTabs()
         layout->setColumnMinimumWidth(1, 250);
 
         hspdty = new hC_HSPDTY;
+
+        hspdty->slt_hesapChanged (mw_currentHesapItem);
+        integerLabel->setText (QString::number (mw_currentHesapItem->hesapKod ())) ;
+
         hspdty->tbsetup ();
+    //    hspdty->slt_hesapChanged (mw_currentHesapItem);
+
         statusBar()->showMessage(tr("Aktif Hesap"));
         layout->addWidget(hspdty, 0, 0);
 
@@ -472,6 +478,23 @@ void MainWindow::createTabs()
         w_TABs->addTab(page1, h_Turu);
         w_TABs->setTabIcon (0,
                  QIcon(":/rsm/ico/plus-minus-green.ico"));
+        //filtreleme için proxy oluştur
+        hspProxyModel = new ProxyModel;
+        // proxy için source belirle
+        hspProxyModel->setSourceModel ( hspdty->tb_model );
+        // view için model belirle (proxy)
+        hspdty->tb_view->table->setModel (hspProxyModel);
+
+        QObject::connect(hesapList,
+                         &hC_hesapTree::sgnHesap,
+                         hspProxyModel, &ProxyModel::filtrele);
+                         //hspdty, &hC_HSPDTY::slt_hesapChanged);
+
+           // filterGravitySpinBox, SIGNAL(valueChanged(double)),
+             //            proxyModel, SLOT(setMinGravity(double)));
+        QObject::connect(filterDensitySpinBox, SIGNAL(valueChanged(double)),
+                         proxyModel, SLOT(setMinDensity(double)));
+
 
         connect(hesapList,
                 &hC_hesapTree::sgnHesap,
@@ -480,7 +503,7 @@ void MainWindow::createTabs()
     }
     if (h_Turu == "Pasif Hesap")
     {
-        integerLabel = new QLabel("h_Turu", w_TABs);
+        integerLabel = new QLabel(h_Turu, w_TABs);
         integerLabel->setFrameStyle(frameStyle);
         QWidget *page1 = new QWidget(w_TABs);
         QGridLayout *layout = new QGridLayout(page1);
@@ -489,6 +512,8 @@ void MainWindow::createTabs()
 
         hspdty = new hC_HSPDTY;
         hspdty->tbsetup ();
+       // hspdty->slt_hesapChanged (mw_currentHesapItem);
+
         statusBar()->showMessage(tr("Pasif Hesap"));
         layout->addWidget(hspdty, 0, 0);
 

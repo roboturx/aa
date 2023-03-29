@@ -1,18 +1,18 @@
 #include "proxymodel.h"
-const int InvalidZipcode= -1;
+//const int InvalidHesapcode= -1;
 
 ProxyModel::ProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
-    m_minimumZipcode = m_maximumZipcode = InvalidZipcode;
+  //  m_minimumZipcode = m_maximumZipcode = InvalidHesapcode;
 }
 
 
 void ProxyModel::clearFilters()
 {
-    m_minimumZipcode = m_maximumZipcode = InvalidZipcode;
-    m_county.clear();
-    m_state.clear();
+//    m_minimumZipcode = m_maximumZipcode = InvalidZipcode;
+//    m_county.clear();
+//    m_state.clear();
     invalidateFilter();
 }
 

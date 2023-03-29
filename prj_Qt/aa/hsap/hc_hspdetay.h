@@ -26,7 +26,7 @@ public:
 
 //    hC_hsp* win_hC_hsp;
 
-    TaskItem* currentHesapItem{};
+    TaskItem* hc_hsp_currentHesapItem{};
     qint64  *SGNDhesapKod ;
     QString *SGNDhesapAd  ;
 

@@ -16,7 +16,7 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
 
     tb_flds->setValue ( 0, "f_hspdty_ID"      , "INTEGER", "hspdty_ID","0" ) ;
     // hesaplar ile hesap detay arası key
-    tb_flds->setValue ( 1, "f_hspdty_hspID"   , "INTEGER", "hspdty_HesapID","0" ) ;
+    tb_flds->setValue ( 1, "f_hspdty_hspID"   , "INTEGER", "hspdty_HesapID") ;
     tb_flds->setValue ( 2, "f_hspdty_tarih"   , "TEXT"   , "Tarih" );
     tb_flds->setValue ( 3, "f_hspdty_no"      , "TEXT"   , "Kayıt No" );
     tb_flds->setValue ( 4, "f_hspdty_aciklama", "TEXT"   , "Açıklama");
@@ -213,8 +213,8 @@ void hC_HSPDTY::tbkntrl()
     qDebug() << "   0130 2" ;
     //////////////// filtering
 
-    SGNDhesapKod = new qint64{};
-    SGNDhesapAd  = new QString{};
+  // /// SGNDhesapKod = new qint64{};
+  /// /// SGNDhesapAd  = new QString{};
     //// hesap kodu ve adını bulalım
 //    TaskItem* current_hesap = win_hC_hsp->getCurrentItem();
 
@@ -227,10 +227,10 @@ void hC_HSPDTY::tbkntrl()
 
     //////////////// filtering end
     tb_view->table->setFocus();
-
-    qDebug() << "   rekle öncesid  "
-             << currentHesapItem->hesapKod ();
-
+    qDebug() << "   rekle öncesid  ";
+//    qDebug() << "   rekle öncesid  "
+//             << currentHesapItem->hesapKod ();
+    qDebug() << "   rekle öncesid  ";
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked , this,
@@ -260,7 +260,7 @@ qDebug() << "   0130 2 ekle içi         3" ;
         qStr = QString("INSERT INTO "+*tb_name +
                        " ( f_hspdty_hspID) "
                        " values ( '"+
-                       QString::number (currentHesapItem->hesapKod ())+
+                       QString::number (hc_hsp_currentHesapItem->hesapKod ())+
                        "' )")  ;
 qDebug() << "   0130 2 ekle içi         4" ;
         if ( !query.exec(qStr) )
@@ -427,10 +427,11 @@ void hC_HSPDTY::closeEvent(QCloseEvent *)
 void hC_HSPDTY::slt_hesapChanged(TaskItem *currHspItem)
 {
 
-    qDebug() << "   0150 hc_hspdty::slt_tbx_rowChange ";
-    currentHesapItem = currHspItem;
+    qDebug() << "   0150 hc_hspdty::slt_hesapChanged ";
+    hc_hsp_currentHesapItem = currHspItem;
     tb_model->setFilter(
-        QString("f_hspdty_hspID = %1").arg(currentHesapItem->hesapKod ()) );
+        QString("f_hspdty_hspID = '%1'").arg(hc_hsp_currentHesapItem->hesapKod ()) );
+    tb_model->select ();
 }
 
 

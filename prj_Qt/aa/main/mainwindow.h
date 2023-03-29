@@ -30,9 +30,11 @@ public:
     hC_CLSN *clsn;
     hC_FRM  *firma ;
     hC_HSPDTY *hspdty;
+    ProxyModel *hspProxyModel;
+
     hC_hesapTree *hesapList;
 
-    TaskItem* currentHesapItem{};
+    TaskItem* mw_currentHesapItem{};
 
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
