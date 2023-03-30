@@ -393,6 +393,7 @@ void MainWindow::createTabs()
 
     // hesap listesinden geçerli hesabı al
     mw_currentHesapItem = hesapList->getCurrentItem ();
+    mw_currentHesapKod = mw_currentHesapItem->hesapKod ();
 
     QString h_Turu = mw_currentHesapItem->hesapTuru();
 
@@ -478,27 +479,20 @@ void MainWindow::createTabs()
         w_TABs->addTab(page1, h_Turu);
         w_TABs->setTabIcon (0,
                  QIcon(":/rsm/ico/plus-minus-green.ico"));
-        //filtreleme için proxy oluştur
-        hspProxyModel = new ProxyModel;
-        // proxy için source belirle
-        hspProxyModel->setSourceModel ( hspdty->tb_model );
-        // view için model belirle (proxy)
-        hspdty->tb_view->table->setModel (hspProxyModel);
+//        //filtreleme için proxy oluştur
+//        hspProxyModel = new ProxyModel;
+//        // proxy için source belirle
+//        hspProxyModel->setSourceModel ( hspdty->tb_model );
+//        // view için model belirle (proxy)
+//        hspdty->tb_view->table->setModel (hspProxyModel);
 
-        QObject::connect(hesapList,
-                         &hC_hesapTree::sgnHesap,
-                         hspProxyModel, &ProxyModel::filtrele);
-                         //hspdty, &hC_HSPDTY::slt_hesapChanged);
-
-           // filterGravitySpinBox, SIGNAL(valueChanged(double)),
-             //            proxyModel, SLOT(setMinGravity(double)));
-        QObject::connect(filterDensitySpinBox, SIGNAL(valueChanged(double)),
-                         proxyModel, SLOT(setMinDensity(double)));
-
-
+        hspdty->tb_model->setFilter (QString("f_hspdty_hspID = %1")
+                  .arg (QString::number (mw_currentHesapKod)));
+        hspdty->tb_model->select ();
+        hspdty->tb_view->table->setModel (hspdty->tb_model);
         connect(hesapList,
                 &hC_hesapTree::sgnHesap,
-                hspdty, &hC_HSPDTY::slt_hesapChanged);
+                hspProxyModel, &ProxyModel::setHesapFiltre);
 
     }
     if (h_Turu == "Pasif Hesap")

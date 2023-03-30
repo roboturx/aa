@@ -12,16 +12,19 @@ class ProxyModel : public QSortFilterProxyModel
 public:
     explicit ProxyModel(QObject *parent=0);
 
-    TaskItem* currentHesapItem;
+
     bool filterAcceptsRow(int source_row,
                           const QModelIndex &source_parent) const;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role) const;
 
 public slots:
-    void filtrele(TaskItem* currentHesap);
-    void clearFilters();
 
+    void setHesapFiltre(TaskItem* currentHesap);
+    void clearFilters();
+private:
+    TaskItem* currentHesapItem{};
+    quint64 m_hesapCode{};
 };
 //    int minimumZipcode() const { return m_minimumZipcode; }
 //    int maximumZipcode() const { return m_maximumZipcode; }

@@ -2,17 +2,24 @@
 //const int InvalidHesapcode= -1;
 
 ProxyModel::ProxyModel(QObject *parent)
-    : QSortFilterProxyModel(parent)
-{
-  //  m_minimumZipcode = m_maximumZipcode = InvalidHesapcode;
+    : QSortFilterProxyModel(parent)/*, currentHesapItem ()
+*/{
+  //  m_hesapCode = currentHesapItem->hesapKod ();
 }
 
+
+void ProxyModel::setHesapFiltre(TaskItem *currentHesap)
+{
+  if (m_hesapCode != currentHesap->hesapKod ())
+        m_hesapCode = currentHesap->hesapKod ();
+  invalidateFilter ();
+}
 
 void ProxyModel::clearFilters()
 {
 //    m_minimumZipcode = m_maximumZipcode = InvalidZipcode;
 //    m_county.clear();
-//    m_state.clear();
+    m_hesapCode=5;
     invalidateFilter();
 }
 
@@ -20,64 +27,28 @@ void ProxyModel::clearFilters()
 bool ProxyModel::filterAcceptsRow(int sourceRow,
                                   const QModelIndex &sourceParent) const
 {
-    if (m_minimumZipcode != InvalidZipcode ||
-        m_maximumZipcode != InvalidZipcode) {
-        QModelIndex index = sourceModel()->index(sourceRow, 1 /* Zipcode*/,
-                                                 sourceParent);
-        if (m_minimumZipcode != InvalidZipcode &&
-            sourceModel()->data(index).toInt() < m_minimumZipcode)
-            return false;
-        if (m_maximumZipcode != InvalidZipcode &&
-            sourceModel()->data(index).toInt() > m_maximumZipcode)
-            return false;
-    }
-    if (!m_county.isEmpty()) {
-        QModelIndex index = sourceModel()->index(sourceRow, 0 /*County*/,
-                                                 sourceParent);
-        if (m_county != sourceModel()->data(index).toString())
-            return false;
-    }
-    if (!m_state.isEmpty()) {
-        QModelIndex index = sourceModel()->index(sourceRow, 0 /*State*/,
-                                                 sourceParent);
-        if (m_state != sourceModel()->data(index).toString())
-            return false;
-    }
+    QModelIndex indG = sourceModel()->index(sourceRow, 0, sourceParent);
+    //QModelIndex indD = sourceModel()->index(sourceRow, 2, sourceParent);
+    qDebug() <<"------------------------------";
+    qDebug() <<"hscode-- "<< m_hesapCode;
+    qDebug() <<"ingG---- "<< sourceModel()->data(indG).toUInt ();
+    qDebug() <<"indD---- ";//<</* sourceModel()->data(indD).toUInt ()*/;
+
+    if(sourceModel()->data(indG).toULongLong () != m_hesapCode)
+        return false;
     return true;
+
+
 }
 
-
-void ProxyModel::setMinimumZipcode(int minimumZipcode)
+QVariant ProxyModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (m_minimumZipcode != minimumZipcode) {
-        m_minimumZipcode = minimumZipcode;
-        invalidateFilter();
-    }
+    return sourceModel()->headerData(section, orientation,
+                                     role);
 }
 
 
-void ProxyModel::setMaximumZipcode(int maximumZipcode)
-{
-    if (m_maximumZipcode != maximumZipcode) {
-        m_maximumZipcode = maximumZipcode;
-        invalidateFilter();
-    }
-}
 
 
-void ProxyModel::setCounty(const QString &county)
-{
-    if (m_county != county) {
-        m_county = county;
-        invalidateFilter();
-    }
-}
 
 
-void ProxyModel::setState(const QString &state)
-{
-    if (m_state != state) {
-        m_state = state;
-        invalidateFilter();
-    }
-}

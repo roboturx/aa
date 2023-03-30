@@ -35,6 +35,7 @@ public:
     hC_hesapTree *hesapList;
 
     TaskItem* mw_currentHesapItem{};
+    quint64 mw_currentHesapKod{};
 
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
