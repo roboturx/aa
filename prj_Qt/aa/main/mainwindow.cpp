@@ -489,7 +489,7 @@ void MainWindow::createTabs()
         hspdty->tb_model->setFilter (QString("f_hspdty_hspID = %1")
                   .arg (QString::number (mw_currentHesapKod)));
         hspdty->tb_model->select ();
-        hspdty->tb_view->table->setModel (hspdty->tb_model);
+      //  hspdty->tb_view->table->setModel (hspdty->tb_model);
         connect(hesapList,
                 &hC_hesapTree::sgnHesap,
                 hspProxyModel, &ProxyModel::setHesapFiltre);
