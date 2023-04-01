@@ -379,6 +379,12 @@ void MainWindow::w_Tabs(TaskItem *hesapItem)
             << hesapItem->hesapAd();
     createTabs();
 
+
+    connect(hesapList,
+            &hC_hesapTree::sgnHesap,  [] ()
+            {
+                qDebug () << "-*-*-11111111122222";
+            });
 }
 
 
@@ -465,6 +471,11 @@ void MainWindow::createTabs()
         hspdty = new hC_HSPDTY;
 
         hspdty->slt_hesapChanged (mw_currentHesapItem);
+
+        qDebug () << "-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-"
+                 << mw_currentHesapItem->hesapAd ()
+            <<mw_currentHesapItem->hesapKod ();
+
         integerLabel->setText (QString::number (mw_currentHesapItem->hesapKod ())) ;
 
         hspdty->tbsetup ();
@@ -490,10 +501,14 @@ void MainWindow::createTabs()
                   .arg (QString::number (mw_currentHesapKod)));
         hspdty->tb_model->select ();
       //  hspdty->tb_view->table->setModel (hspdty->tb_model);
-        connect(hesapList,
-                &hC_hesapTree::sgnHesap,
-                hspProxyModel, &ProxyModel::setHesapFiltre);
 
+        qDebug () << "-*-*- 1111";
+
+
+//        connect(hesapList,
+//                &hC_hesapTree::sgnHesap,
+//                hspProxyModel, &ProxyModel::setHesapFiltre);
+        qDebug () << "-*-*-22222";
     }
     if (h_Turu == "Pasif Hesap")
     {

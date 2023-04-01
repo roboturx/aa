@@ -32,7 +32,7 @@ public:
     hC_HSPDTY *hspdty;
     ProxyModel *hspProxyModel;
 
-    hC_hesapTree *hesapList;
+    hC_hesapTree *hesapList{};
 
     TaskItem* mw_currentHesapItem{};
     quint64 mw_currentHesapKod{};
