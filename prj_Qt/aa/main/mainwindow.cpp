@@ -17,7 +17,7 @@ MainWindow::MainWindow()
 {
     qDebug ()<<"   creat gui,";
 
-
+    this->showMaximized();
 
     splitter = new QSplitter(this);
     w_TABs = new QTabWidget(this);
