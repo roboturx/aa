@@ -35,7 +35,7 @@ hC_hesapTree::hC_hesapTree(QWidget * parent)
       #endif
       currentIcon(0)
 {
-    qDebug ()<<"        Constructor MAIN **************************";
+    qDebug ()<<"        Constructor hC_hesapTree **************************";
 
     createModelViewDelegate();
     createGui();
@@ -58,7 +58,7 @@ hC_hesapTree::hC_hesapTree(QWidget * parent)
 
     QCoreApplication::setOrganizationName("aaSoft");
     QCoreApplication::setOrganizationDomain("roboturx@gmail.com");
-    QCoreApplication::setApplicationName("EVREN 23.1.1");
+    QCoreApplication::setApplicationName("EVREN 23.4.1");
 
 
     QSettings settings;
@@ -141,7 +141,7 @@ TaskItem* hC_hesapTree::getCurrentItem()
 ///
 void hC_hesapTree::createModelViewDelegate()
 {
-    qDebug()<<"-----------    ::hChsp cr mdl vwv";
+    qDebug()<<"-----------    ::hChspTree cr mdl vwv";
 
     treeViewXML = new QTreeView;
     modelXML    = new cm_TreeXML(this);
@@ -186,45 +186,45 @@ void hC_hesapTree::createModelViewDelegate()
 void hC_hesapTree::createGui()
 {
 
-    QWidget *page0 = new QWidget;
-    QGridLayout *layout0 = new QGridLayout(page0);
+    QWidget *page0 = new QWidget(this);
+    QVBoxLayout *layout0 = new QVBoxLayout(page0);
 
-    layout0->setColumnStretch(1, 1);
-    layout0->setColumnMinimumWidth(1, 250);
-    layout0->addWidget(treeViewXML , 0, 0, 16, 2 );
-    layout0->addWidget(lB_Hesap, 17, 0, 1, 2 );
+//    layout0->setColumnStretch(1, 1);
+//    layout0->setColumnMinimumWidth(1, 250);
+    layout0->addWidget(treeViewXML);
+    layout0->addWidget(lB_Hesap   );
 
 
-    layout0->addItem(new QSpacerItem(0, 0,
-                                     QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+//    layout0->addItem(new QSpacerItem(0, 0,
+//          QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
 
     /// central widget
     wdgt_central = new QWidget;
-    setCentralWidget(wdgt_central);
-    QGridLayout *lyt_central;
-    if (QGuiApplication::styleHints()->showIsFullScreen()
-            || QGuiApplication::styleHints()->showIsMaximized())
-    {
-        QHBoxLayout *horizontalLayout = new QHBoxLayout(this);
-        QGroupBox *groupBox = new QGroupBox(
-                    QGuiApplication::applicationDisplayName(), this);
-        horizontalLayout->addWidget(groupBox);
-        lyt_central = new QGridLayout(groupBox);
+    setCentralWidget(page0);
+ //   QGridLayout *lyt_central;
+//    if (QGuiApplication::styleHints()->showIsFullScreen()
+//            || QGuiApplication::styleHints()->showIsMaximized())
+//    {
+//        QHBoxLayout *horizontalLayout = new QHBoxLayout(this);
+//        QGroupBox *groupBox = new QGroupBox(
+//                    QGuiApplication::applicationDisplayName(), this);
+//        horizontalLayout->addWidget(groupBox);
+//        lyt_central = new QGridLayout(groupBox);
 
-    }
-    else
-    {
-        lyt_central = new QGridLayout(this);
-    }
-    wdgt_central->setLayout (lyt_central);
+//    }
+//    else
+//    {
+  //      lyt_central = new QGridLayout(this);
+  //  }
+ //   wdgt_central->setLayout (lyt_central);
 
-    QSplitter *splitter = new QSplitter(wdgt_central);
-    splitter->addWidget (page0);
+   // QSplitter *splitter = new QSplitter(wdgt_central);
+  //  splitter->addWidget (page0);
 //    splitter->addWidget (toolbox);
 
-    lyt_central->addWidget(splitter    ,0,1,1,1);
+   // lyt_central->addWidget(page0    ,0,1,1,1);
 
-    setCentralWidget (wdgt_central);
+ //   setCentralWidget (wdgt_central);
 
 
 }

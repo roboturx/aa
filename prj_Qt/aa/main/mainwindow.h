@@ -25,13 +25,10 @@ public:
     explicit MainWindow();
     ~MainWindow();
 
-
     DBase *dbase;
     hC_CLSN *clsn;
     hC_FRM  *firma ;
     hC_HSPDTY *hspdty;
-    ProxyModel *hspProxyModel;
-
     hC_hesapTree *hesapList{};
 
     TaskItem* mw_currentHesapItem{};
@@ -39,7 +36,6 @@ public:
 
     QTabWidget *w_TABs{};
     QSplitter *splitter{};
-    //QGridLayout *layout1;
 
     QLabel *integerLabel{};
     QLabel *colorLabel{} ;
@@ -51,13 +47,8 @@ signals:
     void sgnMwHsp(TaskItem* hCTreeHsp );
 
 private slots:
-    void newLetter();
-    void save();
     void print();
-    void undo();
     void about();
-    void insertCustomer(const QString &customer);
-    void addParagraph(const QString &paragraph);
 
     // w tabs hchsptree deki hesaba göre oluşur
     // hesapitem connect ile geliyor
@@ -66,17 +57,12 @@ private slots:
     void setInteger();
 
 private:
+    void createGui();
+    void createDbase();
     void createActions();
     void createStatusBar();
     void createDockWindows();
     void createTabs();
-
-    QTextEdit *textEdit;
-    QListWidget *customerList;
-
-    QListWidget *paragraphsList;
-
-
 
     QMenu *viewMenu;
 

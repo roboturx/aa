@@ -8,7 +8,7 @@
 cm_dlG_RichTxt::cm_dlG_RichTxt(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    qDebug()<<"-r-xt t construc***************************************";
+    qDebug()<<"dlg-rtxt t construc***************************************";
     checkbox = new QCheckBox;
     checkbox->setFixedSize(
             qRound(1.3 * checkbox->sizeHint().height()),

@@ -109,21 +109,26 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     fR_mn->setGeometry (0,0,40,30);
 */
     auto *widget_buttonz = new QWidget;
-    widget_buttonz->setWindowTitle ("buttonz window");
+  //  widget_buttonz->setWindowTitle ("buttonz window");
     auto *Layout_buttonz = new QVBoxLayout;
     widget_buttonz->setLayout (Layout_buttonz);
 
     Layout_buttonz->addWidget (pB_ekle );
+    Layout_buttonz->addStretch (1);
     Layout_buttonz->addWidget (pB_eklersm );
     // Layout_buttonz->addWidget (pB_camera );
-    //Layout_buttonz->addStretch (1);
+    Layout_buttonz->addStretch (2);
     Layout_buttonz->addWidget (pB_sil  );
+    Layout_buttonz->addStretch (2);
     Layout_buttonz->addWidget (pB_ilk  );
+    Layout_buttonz->addStretch (1);
     Layout_buttonz->addWidget (pB_ncki );
+    Layout_buttonz->addStretch (1);
     Layout_buttonz->addWidget (pB_snrki);
+    Layout_buttonz->addStretch (1);
     Layout_buttonz->addWidget (pB_son  );
-    Layout_buttonz->addWidget (cB_map  );
-    Layout_buttonz->addStretch ();
+ //   Layout_buttonz->addWidget (cB_map  );
+    Layout_buttonz->addStretch (25);
     //  Layout_buttonz->addStretch (1);
     //Layout_buttonz->addWidget (pB_grscks );
     //Layout_buttonz->addStretch (4);
@@ -168,35 +173,35 @@ hC_Tv::hC_Tv (QSqlRelationalTableModel *tb_model,
     auto *t_all = new QHBoxLayout(this);
     t_all->addWidget (widget_buttonz );
     t_all->addWidget (table         );
-    t_all->addWidget (win_Wdgt       );
+   // t_all->addWidget (win_Wdgt       );
  ///   t_all->addStretch (1);
     //win_Wdgt->hide ();
-win_Wdgt->setVisible (false);
-    connect(cB_map  , &QCheckBox ::clicked , this,
-                 [win_Wdgt,this]()
-        {
+//    win_Wdgt->setVisible (false);
+//    connect(cB_map  , &QCheckBox ::clicked , this,
+//                 [win_Wdgt,this]()
+//        {
 
-             // hersey
-            if (cB_map ->checkState () == 1 )
-            {
-              //xxx  win_Wdgt->setVisible (true);
-                table->setVisible (true);
-            }
-            // sadece table
-            else if (cB_map ->checkState () == 0 )
-            {
-                win_Wdgt->setVisible (false);
-                table->setVisible (true);
-            }
-            /// sadece map
-            else if (cB_map ->checkState ()== 2)
-            {
-              //xxx  win_Wdgt->setVisible (true);
-              //xxx  table->setVisible (false);
-            }
+//             // hersey
+//            if (cB_map ->checkState () == 1 )
+//            {
+//              //xxx  win_Wdgt->setVisible (true);
+//                table->setVisible (true);
+//            }
+//            // sadece table
+//            else if (cB_map ->checkState () == 0 )
+//            {
+//                win_Wdgt->setVisible (false);
+//                table->setVisible (true);
+//            }
+//            /// sadece map
+//            else if (cB_map ->checkState ()== 2)
+//            {
+//              //xxx  win_Wdgt->setVisible (true);
+//              //xxx  table->setVisible (false);
+//            }
 
-    });
-    this->adjustSize ();
+//    });
+   // this->adjustSize ();
 
 
     // //////////////////////////////////////////////
