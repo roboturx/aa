@@ -175,10 +175,6 @@ void hC_hesapTree::createModelViewDelegate()
 
     lB_Hesap = new QLabel("Kod-------");
 
-    //pi_Hesap_Kod = new quint64{};
-    //ps_Hesap_Ad = new QString{};
-
-
 }
 
 
@@ -189,43 +185,12 @@ void hC_hesapTree::createGui()
     QWidget *page0 = new QWidget(this);
     QVBoxLayout *layout0 = new QVBoxLayout(page0);
 
-//    layout0->setColumnStretch(1, 1);
-//    layout0->setColumnMinimumWidth(1, 250);
     layout0->addWidget(treeViewXML);
     layout0->addWidget(lB_Hesap   );
-
-
-//    layout0->addItem(new QSpacerItem(0, 0,
-//          QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
 
     /// central widget
     wdgt_central = new QWidget;
     setCentralWidget(page0);
- //   QGridLayout *lyt_central;
-//    if (QGuiApplication::styleHints()->showIsFullScreen()
-//            || QGuiApplication::styleHints()->showIsMaximized())
-//    {
-//        QHBoxLayout *horizontalLayout = new QHBoxLayout(this);
-//        QGroupBox *groupBox = new QGroupBox(
-//                    QGuiApplication::applicationDisplayName(), this);
-//        horizontalLayout->addWidget(groupBox);
-//        lyt_central = new QGridLayout(groupBox);
-
-//    }
-//    else
-//    {
-  //      lyt_central = new QGridLayout(this);
-  //  }
- //   wdgt_central->setLayout (lyt_central);
-
-   // QSplitter *splitter = new QSplitter(wdgt_central);
-  //  splitter->addWidget (page0);
-//    splitter->addWidget (toolbox);
-
-   // lyt_central->addWidget(page0    ,0,1,1,1);
-
- //   setCentralWidget (wdgt_central);
-
 
 }
 
@@ -346,11 +311,11 @@ void hC_hesapTree::createConnections()
             &QItemSelectionModel::currentRowChanged,
             this, &hC_hesapTree::updateUi);
 
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(customContextMenuRequested(const QPoint&)));
+    connect(this, SIGNAL(customContextMenuRequested( QPoint)),
+            this, SLOT(customContextMenuRequested( QPoint)));
 
     connect(modelXML,
-            SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+            SIGNAL(dataChanged(QModelIndex,  QModelIndex)),
             this, SLOT(setDirty()));
 
     connect(modelXML, SIGNAL(stopTiming()), this,
@@ -756,8 +721,8 @@ bool hC_hesapTree::fileSave()
             saved = true;
         } catch (AQP::Error &error) {
             AQP::warning(this, tr("Error"),
-                         tr("Failed to save %1: %2").arg(modelXML->filename())
-                         .arg(QString::fromUtf8(error.what())));
+                         tr("Failed to save %1: %2").arg(modelXML->filename(),/*)
+                         .arg(*/QString::fromUtf8(error.what())));
         }
     }
     updateUi();
@@ -796,7 +761,7 @@ bool hC_hesapTree::fileSaveAs()
 
 void hC_hesapTree::closeEvent(QCloseEvent *event)
 {
-    qDebug()<<"-----------    ::hChsp closeEvent"
+    qDebug()<<"-----------    ::hChsp closeEvent---------------------------"
            << " filename               : " << modelXML->filename()
            << " pathforindex (curindex): " << modelXML->pathForIndex(treeViewXML->currentIndex());
     stopTiming();
@@ -830,10 +795,6 @@ void hC_hesapTree::stopTiming()
         editStartOrStopAction->trigger(); // stop the clock
 }
 
-void hC_hesapTree::hesapdegisti()
-{
-    qDebug()<<"-----------    hC_hesapTree::hesapdegisti() p";
-}
 
 
 void hC_hesapTree::editStartOrStop(bool start)

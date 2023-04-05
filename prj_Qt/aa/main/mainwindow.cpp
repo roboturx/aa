@@ -1,5 +1,6 @@
 
 
+#include "libs/hc_helptree.h"
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>
 #if QT_CONFIG(printdialog)
@@ -38,10 +39,10 @@ void MainWindow::createGui()
     w_TABs->setTabPosition (QTabWidget::North);
 
     QWidget *DBFPage = new QWidget;
-    QGridLayout *layout1 = new QGridLayout(DBFPage);
+    QGridLayout *ayarlayout = new QGridLayout(DBFPage);
 
-    layout1->addWidget(w_TABs             ,  0, 0, 15, 2 );
-    layout1->addWidget(new QLabel("TabLAR") , 16, 0, 1, 1 );
+    ayarlayout->addWidget(w_TABs             ,  0, 0, 15, 2 );
+    ayarlayout->addWidget(new QLabel("TabLAR") , 16, 0, 1, 1 );
 
     setCentralWidget(DBFPage);
 
@@ -122,15 +123,17 @@ void MainWindow::createDockWindows()
 
     dock = new QDockWidget(tr("Hesaplar"), this);
 
-    hesapList = new hC_hesapTree(dock);
+    hesapTree = new hC_hesapTree(dock);
 
-    dock->setWidget(hesapList);
+    helpTree = new hC_helpTree(this);
+
+    dock->setWidget(hesapTree);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
 
 
 
-    connect(hesapList,
+    connect(hesapTree,
             &hC_hesapTree::sgnHesap,
             this,
             &MainWindow::w_Tabs);
@@ -156,6 +159,8 @@ void MainWindow::createTabs()
     integerLabel = new QLabel(h_Turu);
     integerLabel->setFrameStyle(frameStyle);
 
+    //////////////////////////////////////////////////////
+    ///
     /// 00001
     ///
     /// hesapPage
@@ -247,13 +252,15 @@ void MainWindow::createTabs()
 
 
     }
+    //////////////////////////////////////////////////////
+    ///
     /// 00002
     ///
     /// her hesap için Ayarlar TABı
     ///
     ///
-    QWidget *ayarlarPage = new QWidget;
-    QGridLayout *layout1 = new QGridLayout(ayarlarPage);
+    QWidget *ayarlarPage = new QWidget(this);
+    QGridLayout *ayarlayout = new QGridLayout(ayarlarPage);
     QPushButton *integerButton =
          new QPushButton(tr("QInputDialog::get&Int()"));
 
@@ -262,22 +269,57 @@ void MainWindow::createTabs()
     colorButton = new QPushButton(tr("QColorDialog::get&Color()"));
 
 
-    layout1->setColumnStretch(1, 1);
-    layout1->setColumnMinimumWidth(1, 250);
-    layout1->addWidget(integerButton, 0, 0);
-    layout1->addWidget(new QLabel("Ayarlar"), 0, 1);
-    layout1->addWidget(colorButton, 1, 0);
-    layout1->addWidget(colorLabel, 1, 1);
 
-   // layout1->addItem(new QSpacerItem(3, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
+
+    ayarlayout->setColumnStretch(1, 1);
+    ayarlayout->setColumnMinimumWidth(1, 250);
+    ayarlayout->addWidget(integerButton, 0, 0);
+    ayarlayout->addWidget(new QLabel("Ayarlar"), 0, 1);
+    ayarlayout->addWidget(colorButton, 1, 0);
+    ayarlayout->addWidget(colorLabel, 1, 1);
+
+   // ayarlayout->addItem(new QSpacerItem(3, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 5, 0);
     w_TABs->addTab(ayarlarPage, tr("Ayarlar"));
 
+    //////////////////////////////////////////////////////
+    ///
+    /// 00003
+    ///
+    /// her hesap için Help TABı
+    ///
+    ///
+    QWidget *helpPage = new QWidget(this);
+    QGridLayout *helplayout = new QGridLayout(helpPage);
+
+
+
+    helplayout->addWidget (helpTree);
+
+    w_TABs->addTab(helpPage, tr("Yardım"));
+
+        //////////////////////////////////////////////////////
+        /// \brief connect
+        ///
+        ///
     connect(integerButton, &QAbstractButton::clicked,
             this, &MainWindow::setInteger);
     connect(colorButton, &QAbstractButton::clicked,
             this, &MainWindow::setColor);
 //    connect(this, &hC_main::sg_hTurColor,
 //            modelXML, &cm_TreeXML::hTurColor );
+
+}
+
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    qDebug()<<"-----------  MW CLOSE ---------------";
+    qDebug()<<"-----------  MW CLOSE hesap close  ***********************";
+    this->hesapTree->close ();
+    qDebug()<<"-----------  MW CLOSE hesap closed **********************--";
+    qDebug()<<"-----------  MW CLOSE help close--////////////////////////";
+    this->helpTree->close ();
+    qDebug()<<"-----------  MW CLOSE help closed ///////////////////////////////////--";
+    qDebug()<<"-----------  MW CLOSE ---------------";
 
 }
 

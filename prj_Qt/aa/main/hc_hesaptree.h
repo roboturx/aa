@@ -69,7 +69,7 @@ signals:
 
 public slots:
     void stopTiming();
-    void hesapdegisti();
+    //void hesapdegisti();
     void updateUi();
 
 private slots:

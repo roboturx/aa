@@ -186,6 +186,9 @@ DISTFILES += \ libs/mime.types
 
 HEADERS += \
     hsap/hc_hspadd.h \
+    libs/cm_helptreexml.h \
+    libs/hc_helptree.h \
+    libs/helpitem.h \
     main/cm_dlg_le_richtxt.h \
     main/cw_dlg_options.h \
     main/dialog.h \
@@ -199,6 +202,9 @@ HEADERS += \
 
 SOURCES += \
     hsap/hc_hspadd.cpp \
+    libs/cm_helptreexml.cpp \
+    libs/hc_helptree.cpp \
+    libs/helpitem.cpp \
     main/cm_dlg_le_richtxt.cpp \
     main/cw_dlg_options.cpp \
     main/dialog.cpp \

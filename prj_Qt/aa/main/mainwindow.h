@@ -4,6 +4,7 @@
 
 #include "adrs/clsn.h"
 #include "hsap/hc_hspdetay.h"
+#include "libs/hc_helptree.h"
 #include "main/dbase.h"
 #include "adrs/frm.h"
 #include "libs/globals.h"
@@ -29,7 +30,8 @@ public:
     hC_CLSN *clsn;
     hC_FRM  *firma ;
     hC_HSPDTY *hspdty;
-    hC_hesapTree *hesapList{};
+    hC_hesapTree *hesapTree{};
+    hC_helpTree *helpTree{};
 
     TaskItem* mw_currentHesapItem{};
     quint64 mw_currentHesapKod{};
@@ -66,7 +68,8 @@ private:
 
     QMenu *viewMenu;
 
-
+protected:
+    void closeEvent(QCloseEvent*);
 
 };
 
