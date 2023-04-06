@@ -188,6 +188,7 @@ HEADERS += \
     hsap/hc_hspadd.h \
     libs/cm_helptreexml.h \
     libs/hc_helptree.h \
+    libs/hc_textedit.h \
     libs/helpitem.h \
     main/cm_dlg_le_richtxt.h \
     main/cw_dlg_options.h \
@@ -204,6 +205,7 @@ SOURCES += \
     hsap/hc_hspadd.cpp \
     libs/cm_helptreexml.cpp \
     libs/hc_helptree.cpp \
+    libs/hc_textedit.cpp \
     libs/helpitem.cpp \
     main/cm_dlg_le_richtxt.cpp \
     main/cw_dlg_options.cpp \

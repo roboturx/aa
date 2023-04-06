@@ -28,11 +28,11 @@ QAction *createAction(const QString &icon,
 
 hC_helpTree::hC_helpTree(QWidget * parent)
     : QMainWindow()
-    ,
-      #ifndef CUSTOM_MODEL
-      timedItem(0),
-      #endif
-      currentIcon(0)
+//    ,
+//      #ifndef CUSTOM_MODEL
+//      timedItem(0),
+//      #endif
+//      currentIcon(0)
 {
     qDebug ()<<"        Constructor hC_helpTree **************************";
 
@@ -65,12 +65,12 @@ hC_helpTree::hC_helpTree(QWidget * parent)
     //restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString helpFilename = settings.value(helpFilenameSetting).toString();
     QString helpDBFilename = "evren.hlp";
-    qDebug()<<"-----------    ::hChlp  Help dosyası kontrol ediliyor...";
+    qDebug()<<"::hChlp  Help dosyası kontrol ediliyor...";
     if (! QFile::exists(helpDBFilename))
     {
-        qDebug()<<"XXX "<<helpDBFilename<<" :"<<QFile::exists(helpDBFilename);
-        qDebug()<<"-----------    ::hChlp Kayıtlı Yardım DBF Dosyası Diskte bulunamadı !! ";
-        qDebug() << "            Yeni Yardım Dosyası oluşturuluyor...";
+        qDebug()<<"  "<<helpDBFilename<<" :"<<QFile::exists(helpDBFilename);
+        qDebug()<<"::hChlp Kayıtlı Yardım DBF Dosyası Diskte bulunamadı !! ";
+        qDebug() << "                 Yeni Yardım Dosyası oluşturuluyor...";
 
         statusBar()->showMessage(tr("YRDM DBF Dosya Yüklenemedi %1")
                                  .arg(helpDBFilename), StatusTimeout);
@@ -79,9 +79,9 @@ hC_helpTree::hC_helpTree(QWidget * parent)
     }
     if (! QFile::exists(helpFilename))
     {
-        qDebug()<<"XXX "<<helpFilename<<" :"<<QFile::exists(helpFilename);
-        qDebug()<<"-----------    ::hChlp Kayıtlı Yardım XML Dosyası Diskte bulunamadı !! ";
-        qDebug() << "            Yeni Yardım Dosyası oluşturuluyor...";
+        qDebug()<<"  "<<helpFilename<<" :"<<QFile::exists(helpFilename);
+        qDebug()<<"::hChlp Kayıtlı Yardım XML Dosyası Diskte bulunamadı !! ";
+        qDebug() << "                 Yeni Yardım Dosyası oluşturuluyor...";
 
         statusBar()->showMessage(tr("Dosya Yüklenemedi %1")
                                  .arg(helpFilename), StatusTimeout);
@@ -90,15 +90,15 @@ hC_helpTree::hC_helpTree(QWidget * parent)
     }
     if (helpFilename.isEmpty()  )
     {
-        qDebug()<<"-----------    ::hChlp filenew Yardım Dosya Kaydı Yok ... ";
-        qDebug() << "            Yeni Dosya oluşturuluyor...";
+        qDebug()<<  "  ::hChlp filenew Yardım Dosya Kaydı Yok ... ";
+        qDebug() << "                 Yeni Dosya oluşturuluyor...";
 
         QTimer::singleShot(0, this, SLOT(fileNew()));
     }
     else
     {
-        qDebug()<<"-----------    ::hChlp XML Dosyası Diskte bulundu. ";
-        qDebug() << "               Yükleniyor...";
+        qDebug()<<  "  ::hChlp XML Dosyası Diskte bulundu. ";
+        qDebug() << "                        Yükleniyor...";
 
         QMetaObject::invokeMethod(this, "load",
                                   Qt::QueuedConnection,
@@ -111,9 +111,9 @@ hC_helpTree::hC_helpTree(QWidget * parent)
 
 hC_helpTree::~hC_helpTree()
 {
-//    qDebug()<<"----------- ~ trreee"
-//             << " filename               : " << modelHelpXML->filename()
-//             << " pathforindex (curindex): " << modelHelpXML->pathForIndex(treeViewXML->currentIndex());
+    qDebug()<< "~~~~ helptree"
+            << "     filename : " << modelHelpXML->filename()
+            << "     pathindx : " << modelHelpXML->pathForIndex(treeViewXML->currentIndex());
     stopTiming();
 
     QSettings settings;
@@ -121,15 +121,13 @@ hC_helpTree::~hC_helpTree()
     settings.setValue(helpFilenameSetting, modelHelpXML->filename());
     settings.setValue(CurrentHelpPathSetting,
                           modelHelpXML->pathForIndex(treeViewXML->currentIndex()));
-
-
-    qDebug() <<"   ~ trree    close -> settings.helpFilename "<< settings.fileName ();
+    qDebug() <<"~~~~ helptree destrctr -> settings.helpFilename :"<< settings.fileName ();
 
 }
 
 HelpItem* hC_helpTree::getCurrentItem()
 {
-    qDebug()<<"-----------    ::hChlp getcurrentitem";
+    qDebug()<<":: hChlp getcurrentitem";
     HelpItem* currentYardım = static_cast<HelpItem*>
             (treeViewXML->currentIndex().internalPointer());
     return  currentYardım;
@@ -139,10 +137,10 @@ HelpItem* hC_helpTree::getCurrentItem()
 ///
 void hC_helpTree::createModelViewDelegate()
 {
-    qDebug()<<"-----------    ::hChlpTree cr mdl vwv";
+    qDebug()<<":: hChlpTree model view";
 
-    treeViewXML = new QTreeView;
-    modelHelpXML    = new cm_HELPTreeXML(this);
+    treeViewXML  = new QTreeView;
+    modelHelpXML = new cm_HELPTreeXML(this);
 
     treeViewXML->setDragDropMode(QAbstractItemView::InternalMove);
 
@@ -151,28 +149,22 @@ void hC_helpTree::createModelViewDelegate()
 #endif
 
     // kod kolonunu gizle
-    treeViewXML->setColumnHidden(1,true);
+    //treeViewXML->setColumnHidden(1,true);
     treeViewXML->setAllColumnsShowFocus(false);
     treeViewXML->setAnimated (true);
     treeViewXML->setAutoExpandDelay (100);
-    treeViewXML->setIndentation (16);
+    treeViewXML->setIndentation (46);
     treeViewXML->setSelectionBehavior (QAbstractItemView::SelectItems);
     treeViewXML->setSelectionMode (QAbstractItemView::SingleSelection);
 
-
-    // xx ile gönderilen renk kodu column 0 için text rengi olur
-//    int xx= {0x00ff00};
-//    cL_dlG_ColmColor *clmColor =
-//        new cL_dlG_ColmColor(xx,treeViewXML->currentIndex (),this);
-
 //    treeViewXML->setItemDelegateForColumn(0, clmColor);
 
+    treeViewXML->setItemDelegateForColumn(0, new cm_dlG_RichTxt);
     treeViewXML->setItemDelegateForColumn(1, new cm_dlG_RichTxt);
-    treeViewXML->setItemDelegateForColumn(2, new cm_dlG_RichTxt);
    // treeViewXML->setItemDelegateForColumn(2, new cm_dlG_cb_hTur);
     treeViewXML->setModel(modelHelpXML);
 
-    lB_Help = new QLabel("Kod-------");
+
 
 }
 
@@ -184,7 +176,10 @@ void hC_helpTree::createGui()
     QWidget *page0 = new QWidget(this);
     QVBoxLayout *layout0 = new QVBoxLayout(page0);
 
+    lB_Help = new QLabel("Kod-------");
+    tE_yrdm = new hC_TextEdit;
     layout0->addWidget(treeViewXML);
+    layout0->addWidget(tE_yrdm);
     layout0->addWidget(lB_Help   );
 
     /// central widget
@@ -310,11 +305,11 @@ void hC_helpTree::createConnections()
             &QItemSelectionModel::currentRowChanged,
             this, &hC_helpTree::updateUi);
 
-    connect(this, SIGNAL(customContextMenuRequested( QPoint)),
-            this, SLOT(customContextMenuRequested( QPoint)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(customContextMenuRequested(QPoint)));
 
     connect(modelHelpXML,
-            SIGNAL(dataChanged(QModelIndex,  QModelIndex)),
+            SIGNAL(dataChanged(QModelIndex,QModelIndex)),
             this, SLOT(setDirty()));
 
     connect(modelHelpXML, SIGNAL(stopTiming()), this,
@@ -322,8 +317,27 @@ void hC_helpTree::createConnections()
 
 
     connect(modelHelpXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
+    connect (tE_yrdm, &hC_TextEdit::textChanged, this, [this]()
+            {
+                /// mevcut indexi al
+                QModelIndex cindex = treeViewXML->currentIndex() ;
 
-  //  connect(modelHelpXML, &cm_TreeXML::);
+                /// mevcut indexteki yardım içeriği 1. kolonda
+                /// 1 kolon için yeni bir index oluştur.
+                QModelIndex ourindex = modelHelpXML->index
+                                  (cindex.row (), 1, cindex.parent ());
+
+                /// yeni oluşturduğun indexte kolon 1 e te_yrdm içeriğini kaydet
+                ///
+
+                modelHelpXML->setData (ourindex,
+                                       tE_yrdm->getTextEdit ()->toHtml (),
+                                      Qt::EditRole);
+            }
+
+            );
+
+
 
     QHash<QAction*, QString> slotForAction;
     slotForAction[fileNewAction] = SLOT(fileNew());
@@ -420,12 +434,14 @@ void hC_helpTree::updateUi()
         ///
         ///
 
-        lB_Help->setText(QString::number(currentItem->helpKod()) +" : "+
-                          currentItem->parent()->helpAd ()+" - "+
-                          currentItem->helpAd() +" - "+
-                          currentItem->helpAcklm ()+" : "+
-                          currentItem->DBFile()
+        lB_Help->setText(QString::number(currentItem->helpKod()) //+" : "+
+                         // currentItem->parent()->helpAd ()+" - "+
+                         // currentItem->helpAd() +" - "+
+                         // currentItem->helpAcklm ()+" : "+
+                         // currentItem->DBFile()
                           );
+        tE_yrdm->setTextEdit (new QTextEdit(currentItem->helpAcklm () ));
+
     }
     qDebug()<<" upt ui HelpItem";
 }

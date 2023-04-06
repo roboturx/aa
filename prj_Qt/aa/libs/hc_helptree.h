@@ -4,6 +4,7 @@
 //#include "main/cw_dlg_options.h"
 #include "libs/cm_helptreexml.h"
 #include "libs/helpitem.h"
+#include "libs/hc_textedit.h"
 //#include "libs/globals.h"
 
 
@@ -13,7 +14,7 @@ class hC_helpTree : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit hC_helpTree(QWidget *parent=nullptr);
+    explicit hC_helpTree(QWidget *parent);
     ~hC_helpTree();
   //  cm_dlG_cb_hTur *cbdlgt;
 
@@ -22,6 +23,7 @@ public:
     QWidget *wdgt_central;
     QWidget *wdgt_help;
     QLabel *lB_Help;
+    hC_TextEdit *tE_yrdm;
 
     QMenu *fileMenu;
     QToolBar *fileToolBar;

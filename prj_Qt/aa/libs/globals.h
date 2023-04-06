@@ -34,6 +34,7 @@ extern QString GLB_yetki;
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 
+#include <QtDebug>
 #include <QtGui>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
@@ -41,13 +42,16 @@ extern QString GLB_yetki;
 
 #include <QAbstractItemModel>
 #include <QAction>
+#include <QActionGroup>
 #include <QApplication>
 
 //#include <QCamera>
 #include <QChar>
 #include <QCheckBox>
+#include <QClipboard>
 #include <QCloseEvent>
 #include <QColor>
+#include <QColorDialog>
 #include <QComboBox>
 #include <QDataWidgetMapper>
 #include <QDate>
@@ -57,6 +61,10 @@ extern QString GLB_yetki;
 #include <QDir>
 #include <QDockWidget>
 #include <QFile>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QFontComboBox>
+#include <QFontDatabase>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QIcon>
@@ -69,14 +77,17 @@ extern QString GLB_yetki;
 #include <QListWidget>
 #include <QMainWindow>
 #include <QMenu>
+#include <QMenuBar>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QMimeDatabase>
 #include <QModelIndex>
 
 
 #include <QPainter>
 #include <QPixmap>
 #include <QPixmapCache>
+//#include <QPrinter>
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QRect>
@@ -99,14 +110,19 @@ extern QString GLB_yetki;
 #include <QSqlRelationalTableModel>
 
 #include <QStandardItemModel>
+#include <QStatusBar>
+#include <QStringDecoder>
 #include <QStringListModel>
 #include <QStyle>
 #include <QStyleFactory>
 
 #include <QTextBlock>
 #include <QTextCharFormat>
+#include <QTextCursor>
+#include <QTextDocumentWriter>
 #include <QTextEdit>
 #include <QTextFragment>
+#include <QTextList>
 #include <QTableView>
 #include <QTabBar>
 #include <QTabWidget>
