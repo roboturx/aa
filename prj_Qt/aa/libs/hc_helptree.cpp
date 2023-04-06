@@ -64,12 +64,23 @@ hC_helpTree::hC_helpTree(QWidget * parent)
 
     //restoreGeometry(settings.value(GeometrySetting).toByteArray());
     QString helpFilename = settings.value(helpFilenameSetting).toString();
-
+    QString helpDBFilename = "evren.hlp";
     qDebug()<<"-----------    ::hChlp  Help dosyası kontrol ediliyor...";
+    if (! QFile::exists(helpDBFilename))
+    {
+        qDebug()<<"XXX "<<helpDBFilename<<" :"<<QFile::exists(helpDBFilename);
+        qDebug()<<"-----------    ::hChlp Kayıtlı Yardım DBF Dosyası Diskte bulunamadı !! ";
+        qDebug() << "            Yeni Yardım Dosyası oluşturuluyor...";
+
+        statusBar()->showMessage(tr("YRDM DBF Dosya Yüklenemedi %1")
+                                 .arg(helpDBFilename), StatusTimeout);
+
+        QTimer::singleShot(0, this, SLOT(fileDBNew()));
+    }
     if (! QFile::exists(helpFilename))
     {
         qDebug()<<"XXX "<<helpFilename<<" :"<<QFile::exists(helpFilename);
-        qDebug()<<"-----------    ::hChlp Kayıtlı Yardım Dosyası Diskte bulunamadı !! ";
+        qDebug()<<"-----------    ::hChlp Kayıtlı Yardım XML Dosyası Diskte bulunamadı !! ";
         qDebug() << "            Yeni Yardım Dosyası oluşturuluyor...";
 
         statusBar()->showMessage(tr("Dosya Yüklenemedi %1")
@@ -607,6 +618,12 @@ void hC_helpTree::fileNew()
     setWindowTitle(tr("%1 - İsimsiz Yardım dosyası[*]")
                    .arg(QApplication::applicationName()));
     updateUi();
+}
+
+// yardım dbf oluştur
+void hC_helpTree::fileDBNew()
+{
+
 }
 
 

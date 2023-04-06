@@ -43,7 +43,7 @@ const QString HelpKodAttribute("hlPCODE");
 const QString HelpDBFileAttribute("hlPDBFile");
 
 /// fields' count
-const int ColumnCount = 7;
+const int ColumnCount = 4;
 enum Column {HelpAd, HelpAciklama, HelpKod, HelpDBFile };
 
 const int MaxCompression = 9;

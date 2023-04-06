@@ -75,6 +75,7 @@ public slots:
 
 private slots:
     void fileNew();
+    void fileDBNew();
     void fileOpen();
     bool fileSave();
     bool fileSaveAs();
