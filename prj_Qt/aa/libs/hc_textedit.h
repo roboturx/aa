@@ -18,13 +18,16 @@ public:
 public slots:
     void fileNew();
 
-//signals:
-//    void textChanged(QTextEdit);
+signals:
+    void yrdmTextChanged(QTextEdit*);
 
 protected:
     void closeEvent(QCloseEvent *e) override;
 
 private slots:
+
+    void textChanged();
+
     void fileOpen();
     bool fileSave();
     bool fileSaveAs();

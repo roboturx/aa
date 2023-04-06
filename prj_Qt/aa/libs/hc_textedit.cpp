@@ -35,6 +35,8 @@ hC_TextEdit::hC_TextEdit(QWidget *parent)
             this, &hC_TextEdit::currentCharFormatChanged);
     connect(textEdit, &QTextEdit::cursorPositionChanged,
             this, &hC_TextEdit::cursorPositionChanged);
+    connect(textEdit, &QTextEdit::textChanged,
+            this, &hC_TextEdit::textChanged);
     setCentralWidget(textEdit);
 
     setToolButtonStyle(Qt::ToolButtonFollowStyle);
@@ -98,6 +100,11 @@ void hC_TextEdit::closeEvent(QCloseEvent *e)
         e->accept();
     else
         e->ignore();
+}
+
+void hC_TextEdit::textChanged()
+{
+    emit yrdmTextChanged(textEdit);
 }
 
 void hC_TextEdit::setupFileActions()

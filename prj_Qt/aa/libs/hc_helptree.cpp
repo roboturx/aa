@@ -317,8 +317,12 @@ void hC_helpTree::createConnections()
 
 
     connect(modelHelpXML, SIGNAL(modelReset()), this, SLOT(setDirty()));
-    connect (tE_yrdm, &hC_TextEdit::textChanged, this, [this]()
+    connect (tE_yrdm, &hC_TextEdit::yrdmTextChanged,
+             this, [ this]()
             {
+
+        qDebug()<< tE_yrdm->getTextEdit()->toHtml();
+         qDebug()<<"yrdm txt changed************************";
                 /// mevcut indexi al
                 QModelIndex cindex = treeViewXML->currentIndex() ;
 
@@ -331,8 +335,8 @@ void hC_helpTree::createConnections()
                 ///
 
                 modelHelpXML->setData (ourindex,
-                                       tE_yrdm->getTextEdit ()->toHtml (),
-                                      Qt::EditRole);
+                   tE_yrdm->getTextEdit ()->toHtml (),
+                         Qt::EditRole);
             }
 
             );
