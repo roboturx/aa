@@ -43,8 +43,8 @@ public:
     QGridLayout* win_Grid;
     int hspdtyID{};
 
-    quint64* m_hesapID{};
-    QString* m_hesapAd{};
+//    quint64* m_hesapID{};
+ //   QString* m_hesapAd{};
 
     QDate hspdtyTarih = QDate::currentDate();// fromString("1MM12car2003", "d'MM'MMcaryyyy");
     int reccount{};
@@ -56,7 +56,7 @@ private:
     void tbwdgt  () ;
     void tbui    () ;
     void tbkntrl () ;
-    void debugger(QString num) ;
+  //  void debugger(QString num) ;
 
     ProxyModel *proxyModel;
 

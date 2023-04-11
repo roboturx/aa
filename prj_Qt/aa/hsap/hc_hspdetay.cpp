@@ -1,4 +1,5 @@
 #include "hc_hspdetay.h"
+#include "hsap/uniqueproxymodel.h"
 //#include "uniqueproxymodel.h"
 
 
@@ -14,9 +15,11 @@ hC_HSPDTY::hC_HSPDTY() : hC_tBcreator ()
     *tb_ndex  = "hspdty_ad";
     tb_flds = new hC_ArrD (10, 4);
 
+    /// setvalue  sıralama, dosya değişkeni, TYPE, view header, viewda görünür
+
     tb_flds->setValue ( 0, "f_hspdty_ID"      , "INTEGER", "hspdty_ID","0" ) ;
     // hesaplar ile hesap detay arası key
-    tb_flds->setValue ( 1, "f_hspdty_hspID"   , "INTEGER", "hspdty_HesapID") ;
+    tb_flds->setValue ( 1, "f_hspdty_hspID"   , "INTEGER", "hspdty_HesapID",0) ;
     tb_flds->setValue ( 2, "f_hspdty_tarih"   , "TEXT"   , "Tarih" );
     tb_flds->setValue ( 3, "f_hspdty_no"      , "TEXT"   , "Kayıt No" );
     tb_flds->setValue ( 4, "f_hspdty_aciklama", "TEXT"   , "Açıklama");
@@ -161,9 +164,6 @@ void hC_HSPDTY::tbui()
 
     qDebug() << "   0120 hspdty::tbui ---- begins";
 
-    // yeni dosyada ilk kayıtta ilk yeni kodu verebilmek için
- //   *m_hesapID= Q_UINT64_C(1);
-
     hC_HSPDTY::setWindowTitle (win_Label->text ());
     this->setGeometry (20,20,1200,600);
 
@@ -182,25 +182,6 @@ void hC_HSPDTY::tbui()
 
 
 
-void hC_HSPDTY::debugger(QString num)
-{
-    curIndex = tb_view->table->currentIndex ();
-    qDebug() << num+num+num
-             << " rCnt =" <<  tb_model->rowCount()
-             << "  r:" << tb_view->table->rowAt(0)
-             << "  id:"<< tb_model->data(tb_model->index(curIndex.row (),
-                                                         tb_model->fieldIndex ("hspdty_id")),Qt::DisplayRole).toString()
-             << "  pid:"<<  tb_model->data(tb_model->index(curIndex.row (),
-                                                           tb_model->fieldIndex ("hspdty_parentid")),Qt::DisplayRole).toString()
-             << "  ad:"<<  tb_model->data(tb_model->index(curIndex.row (),
-                                                          tb_model->fieldIndex ("hspdty_ad")),Qt::DisplayRole).toString()
-             << "  lft:"<<  tb_model->data(tb_model->index(curIndex.row (),
-                                                           tb_model->fieldIndex ("hspdty_lft")),Qt::DisplayRole).toString()
-             << "  rgt:"<<  tb_model->data(tb_model->index(curIndex.row (),
-                                                           tb_model->fieldIndex ("hspdty_rgt")),Qt::DisplayRole).toString()
-             <<"  *-*\n"   ;
-}
-
 
 void hC_HSPDTY::tbkntrl()
 {
@@ -209,28 +190,32 @@ void hC_HSPDTY::tbkntrl()
 //    cls_dlgt_ComboBox *cb = new cls_dlgt_ComboBox();
 
   //  tb_view->table->setItemDelegateForColumn(5, cb );
+     //////////////// filtering
+    UniqueProxyModel *proxyModel1 = new UniqueProxyModel(1,this);
+    qDebug() << "1";
+    // setting proxymodel1 to view
+    proxyModel1->setSourceModel (tb_model);
+    tb_view->table->setModel (proxyModel1);
+qDebug() << "12";
+    // sorting proxy model1
+    tb_view->table->setSortingEnabled (true);
+qDebug() << "12";
+//proxyModel->sort(0, Qt::AscendingOrder);
+//qDebug() << "13"
+//         << QString::number(hc_hsp_currentHesapItem->hesapKod ());
+//     // filtering proxy model1
+//QRegularExpression arananIfade(QString::number(hc_hsp_currentHesapItem->hesapKod ()));/*"[0-9]");*/
+////QRegularExpressionMatch match = arananIfade.match (hc_hsp_currentHesapItem->hesapKod ());
 
-    qDebug() << "   0130 2" ;
-    //////////////// filtering
+//qint64 xxx = hc_hsp_currentHesapItem->hesapKod ();
+//QString xx = QString::number (xxx);
+//proxyModel->setFilterRegularExpression(arananIfade);
+//qDebug() << "131";
+//proxyModel->setFilterKeyColumn(1);
 
-  // /// SGNDhesapKod = new qint64{};
-  /// /// SGNDhesapAd  = new QString{};
-    //// hesap kodu ve adını bulalım
-//    TaskItem* current_hesap = win_hC_hsp->getCurrentItem();
-
-
-//    if (current_hesap)
-//        {
-//            *SGNDhesapKod = current_hesap->hesapKod();
-//            *SGNDhesapAd  = current_hesap->hesapAd();
-//        }
-
-    //////////////// filtering end
+qDebug() << "14";
+     //////////////// filtering end
     tb_view->table->setFocus();
-    qDebug() << "   rekle öncesid  ";
-//    qDebug() << "   rekle öncesid  "
-//             << currentHesapItem->hesapKod ();
-    qDebug() << "   rekle öncesid  ";
 
     // pB 001 yeni ekle
     connect(tb_view->pB_ekle, &QPushButton::clicked , this,
@@ -252,17 +237,16 @@ void hC_HSPDTY::tbkntrl()
 
         QSqlQuery query;
         QString qStr, mesaj("");
-     //   QString hesapLR = "";
 
         curIndex = tb_view->table->currentIndex ();
         reccount=tb_model->rowCount();
-qDebug() << "   0130 2 ekle içi         3" ;
+
         qStr = QString("INSERT INTO "+*tb_name +
                        " ( f_hspdty_hspID) "
                        " values ( '"+
                        QString::number (hc_hsp_currentHesapItem->hesapKod ())+
                        "' )")  ;
-qDebug() << "   0130 2 ekle içi         4" ;
+
         if ( !query.exec(qStr) )
         {
             mesaj = mesaj + "002x- İlk node e k l e n e m e d i ...\n/n"+
@@ -273,7 +257,7 @@ qDebug() << "   0130 2 ekle içi         4" ;
             mesaj = mesaj + "Hesap Detay Kaydı eklendi - \n";
         }
 
-qDebug() << "   0130 2 ekle içi submitall öncesi" ;
+
 
         if (tb_model->submitAll())
         {
@@ -291,7 +275,7 @@ qDebug() << "   0130 2 ekle içi submitall öncesi" ;
         }
             tb_view->table->setFocus();
         qDebug()<<mesaj ;
-qDebug() << "   0130 2 ekle sonu" ;
+
     });// connect ekle sonu
 
     /////////////////////////////////////////////////////////////////////
@@ -369,12 +353,6 @@ qDebug() << "   0130 2 ekle sonu" ;
                 tb_view->table->scrollTo (indx2);
                 tb_view->table->setSelectionBehavior (QAbstractItemView::SelectItems);
 
-                //                QModelIndex indx2 = tb_view->table->model()->
-                //                        index(tb_view->table->currentIndex().row()  - 1, 0);
-                //                tb_view->table->selectionModel()->select(
-                //                    indx2,QItemSelectionModel::ClearAndSelect);
-                // tb_view->table->setCurrentIndex(indx2);
-                // tb_view->table->edit(indx2);
             }
         }
     });
@@ -389,14 +367,6 @@ qDebug() << "   0130 2 ekle sonu" ;
             qDebug() <<"index is invalid - tb mappper setCurrentModelIndex";
         }
 
-        //    hspdtyID = tb_model->data (tb_model->index (Index.row (),
-        //       tb_model->fieldIndex ("hspdty_id"))).toInt ();
-        //    hesapID = tb_model->data (tb_model->index (Index.row (),
-        //   tb_model->fieldIndex ("hspdty_parentid"))).toInt ();
-
-        // 011-02 hesap row değiştiğinde hesap id yi etrafa yayınlayalım
-        //   emit hC_HSPDTY::sgnHsp(tb_view->table->model()->index( Index.row() ,
-        //         tb_model->fieldIndex (hspdtyid) ).data().toInt() );
     });
 
     // --- 012 kolon değiştiğinde indexte değişsin
@@ -421,24 +391,60 @@ void hC_HSPDTY::showEvent(QShowEvent *)
 
 void hC_HSPDTY::closeEvent(QCloseEvent *)
 {
-    //win_hC_hsp->close ();
+   qDebug() << "hspdty:: close ()";
 }
 
 void hC_HSPDTY::slt_hesapChanged(TaskItem *currHspItem)
 {
-
+    /// hesap değiştiğinde filtre değişsin
     qDebug() << "   0150 hc_hspdty::slt_hesapChanged ";
     hc_hsp_currentHesapItem = currHspItem;
-    tb_model->setFilter(
-        QString("f_hspdty_hspID = '%1'").arg(hc_hsp_currentHesapItem->hesapKod ()) );
-    tb_model->select ();
+ //   tb_model->setFilter(
+  //      QString("f_hspdty_hspID = '%1'")
+     //      .arg(hc_hsp_currentHesapItem->hesapKod ()) );
+   // tb_model->select ();
+
+    qDebug() << "13"
+             << QString::number(hc_hsp_currentHesapItem->hesapKod ());
+    // filtering proxy model1
+    QRegularExpression arananIfade("[0-9]");
+    //QRegularExpressionMatch match = arananIfade.match (hc_hsp_currentHesapItem->hesapKod ());
+
+//    qint64 xxx = hc_hsp_currentHesapItem->hesapKod ();
+//    QString xx = QString::number (xxx);
+    proxyModel->setFilterRegularExpression("1");
+    qDebug() << "131";
+    proxyModel->setFilterKeyColumn(1);
+
+
+
+
 }
 
 
 
 hC_HSPDTY::~hC_HSPDTY()
 {
-    //delete max_id;
-    qDebug() << "   0199 hspdty::     ~ ";
-    //delete
+    qDebug() << "hspdty:: ~ destructor ";
 }
+
+
+
+//void hC_HSPDTY::debugger(QString num)
+//{
+//    curIndex = tb_view->table->currentIndex ();
+//    qDebug() << num+num+num
+//             << " rCnt =" <<  tb_model->rowCount()
+//             << "  r:" << tb_view->table->rowAt(0)
+//             << "  id:"<< tb_model->data(tb_model->index(curIndex.row (),
+//                                                         tb_model->fieldIndex ("hspdty_id")),Qt::DisplayRole).toString()
+//             << "  pid:"<<  tb_model->data(tb_model->index(curIndex.row (),
+//                                                           tb_model->fieldIndex ("hspdty_parentid")),Qt::DisplayRole).toString()
+//             << "  ad:"<<  tb_model->data(tb_model->index(curIndex.row (),
+//                                                          tb_model->fieldIndex ("hspdty_ad")),Qt::DisplayRole).toString()
+//             << "  lft:"<<  tb_model->data(tb_model->index(curIndex.row (),
+//                                                           tb_model->fieldIndex ("hspdty_lft")),Qt::DisplayRole).toString()
+//             << "  rgt:"<<  tb_model->data(tb_model->index(curIndex.row (),
+//                                                           tb_model->fieldIndex ("hspdty_rgt")),Qt::DisplayRole).toString()
+//             <<"  *-*\n"   ;
+//}
